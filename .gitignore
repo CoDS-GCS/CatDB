@@ -41,3 +41,10 @@ target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputF
 target/antrun/build-copy and rename JAR.xml
 target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/createdFiles.lst
 .idea/uiDesigner.xml
+Experiments/data/YELP/Dataset_User_Agreement.pdf
+Experiments/data/YELP/photos.json
+Experiments/data/YELP/yelp_academic_dataset_business.json
+Experiments/data/YELP/yelp_academic_dataset_checkin.json
+Experiments/data/YELP/yelp_academic_dataset_review.json
+Experiments/data/YELP/yelp_academic_dataset_tip.json
+Experiments/data/YELP/yelp_academic_dataset_user.json

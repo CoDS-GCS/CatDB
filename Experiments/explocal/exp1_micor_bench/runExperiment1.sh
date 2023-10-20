@@ -4,5 +4,5 @@
 
 bcmd=./explocal/exp1_micor_bench/runExperiment1_Spark.sh
 
-$bcmd "ca.concordia.ReaderCSV" "IMDB"
+$bcmd "ca.concordia.ReaderCSVBySQL" "YELP" ReaderCSVDataFrame Experiment1.dat
 

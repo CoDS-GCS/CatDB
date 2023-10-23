@@ -47,7 +47,7 @@ public class ReadAndMergeBySQL {
                      "                         where r.stars =2 "; break;
 
              case "Q4": queryString = "select b.name, b.city, b.stars as business_stars,\n" +
-                     "                                u.name as user_name, u.average_star, u.yelping_since,\n" +
+                     "                                u.name as user_name, u.average_stars, u.yelping_since,\n" +
                      "                                r.date, r.funny, r.stars, r.text\n" +
                      "                         from business b inner join review r on b.business_id= r.business_id\n" +
                      "                                         inner join users u on u.user_id = r.user_id\n" +
@@ -64,10 +64,6 @@ public class ReadAndMergeBySQL {
 
          AtomicLong count = new AtomicLong();
         sqlDF.foreach((ForeachFunction<Row>) row -> count.getAndIncrement());
-        System.out.println(">>>>>>>>>>>> COUNT="+count.get());
-
-
-
     }
 
     static  Dataset<Row> runQuery(String query_string,Dataset<Row> business, Dataset<Row> review, Dataset<Row> user, SparkSession spark){

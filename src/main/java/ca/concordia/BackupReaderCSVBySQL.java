@@ -6,7 +6,7 @@ import org.apache.spark.sql.SparkSession;
 
 import java.util.Map;
 
-public class BckupReaderCSVBySQL {
+public class BackupReaderCSVBySQL {
 
     public static void main(String[] args) {
 

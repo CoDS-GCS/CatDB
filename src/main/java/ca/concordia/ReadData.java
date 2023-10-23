@@ -20,36 +20,10 @@ public class ReadData {
         SparkSession spark = SparkSession.builder().appName("csv-by-sql-demo").getOrCreate();
         Map<String, String> yelpTBLName = ds.getYELPDatasets();
 
-        Dataset<Row> business = spark.read().json(yelpTBLName.get("business")).select("business_id" , "name", "city", "stars")
-                .withColumnRenamed("stars", "b_stars")
-                .withColumnRenamed("name","b_name");
-        Dataset<Row> review = spark.read().json(yelpTBLName.get("review")).select("business_id", "user_id", "date", "funny", "stars", "text")
-                .withColumnRenamed("stars", "r_stars");
-        Dataset<Row> user = spark.read().json(yelpTBLName.get("user")).select("user_id", "name", "average_stars", "yelping_since")
-                .withColumnRenamed("name", "u_name");;
+        Dataset<Row> business = spark.read().json(yelpTBLName.get("business"));
+        Dataset<Row> review = spark.read().json(yelpTBLName.get("review"));
+        Dataset<Row> user = spark.read().json(yelpTBLName.get("user"));
 
-        Dataset<Row> df = null;
-        if (query.equals("Q1")){
-            df = doJoin(spark, business, review, user);
-        }
-        else if (query.equals("Q2")){
-            df = doJoin(spark, business, review, user);
-            df = df.filter("r_stars<=5");
-        }
-        else if (query.equals("Q3")){
-            df = doJoin(spark, business, review, user);
-            df = df.filter("r_stars=2");
-        }
-        else if (query.equals("Q4")){
-            df = doJoin(spark, business, review, user);
-            df = df.filter("r_stars =2 or r_stars=5");
-        }
-        else if (query.equals("Q5")){
-            review = review.filter("r_stars =2");
-            df = doJoin(spark, business, review, user);
-        }
-        AtomicLong count = new AtomicLong();
-        df.foreach((ForeachFunction<Row>) row -> count.getAndIncrement());
     }
 
     public static Dataset<Row> doJoin(SparkSession spark,Dataset<Row> business, Dataset<Row> review, Dataset<Row> user){

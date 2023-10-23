@@ -20,43 +20,33 @@ public class ReadAndMergeByDFCatalog {
         SparkSession spark = SparkSession.builder().appName("csv-by-sql-demo").getOrCreate();
         Map<String, String> yelpTBLName = ds.getYELPDatasets();
 
-        Dataset<Row> business = spark.read().json(yelpTBLName.get("business")).select("business_id" , "name", "city", "stars")
+        Dataset<Row> business = spark.read().json(yelpTBLName.get("business"))
                 .withColumnRenamed("stars", "b_stars")
                 .withColumnRenamed("name","b_name");
-        Dataset<Row> review = spark.read().json(yelpTBLName.get("review")).select("business_id", "user_id", "date", "funny", "stars", "text")
+        Dataset<Row> review = spark.read().json(yelpTBLName.get("review"))
                 .withColumnRenamed("stars", "r_stars");
-        Dataset<Row> user = spark.read().json(yelpTBLName.get("user")).select("user_id", "name", "average_stars", "yelping_since")
+        Dataset<Row> user = spark.read().json(yelpTBLName.get("user"))
                 .withColumnRenamed("name", "u_name");;
 
         Dataset<Row> df = null;
         if (query.equals("Q1")){
-            df = doJoin(spark, business, review, user);
+            df = mergeDataFrames(review, user, "user_id");
+            df = mergeDataFrames(df,business,"business_id");
         }
         else if (query.equals("Q2")){
-            df = doJoin(spark, business, review, user);
-            df = df.filter("r_stars<=5");
+            df = mergeDataFrames(review, user, "user_id");
+            df = mergeDataFrames(df,business,"business_id");
         }
         else if (query.equals("Q3")){
-            df = doJoin(spark, business, review, user);
-            df = df.filter("r_stars=2");
-        }
-        else if (query.equals("Q4")){
-            df = doJoin(spark, business, review, user);
-            df = df.filter("r_stars =2 or r_stars=5");
-        }
-        else if (query.equals("Q5")){
-            review = review.filter("r_stars =2");
-            df = doJoin(spark, business, review, user);
+            review = review.filter("stars = 2");
+            df = mergeDataFrames(review, user, "user_id");
+            df = mergeDataFrames(df,business,"business_id");
         }
         AtomicLong count = new AtomicLong();
         df.foreach((ForeachFunction<Row>) row -> count.getAndIncrement());
     }
 
-    public static Dataset<Row> doJoin(SparkSession spark,Dataset<Row> business, Dataset<Row> review, Dataset<Row> user){
-        Dataset<Row> df = mergeDataFrames(business, review, "business_id");
-        df = mergeDataFrames(df, user, "user_id");
-        return df;
-    }
+
 
     public static Dataset<Row> mergeDataFrames(Dataset<Row> df1, Dataset<Row> df2, String col_name) {
         return df1.join(df2, col_name, "left");

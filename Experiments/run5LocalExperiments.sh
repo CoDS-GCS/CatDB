@@ -3,7 +3,7 @@
 # This script runs all local experiments on the specified scale-up machine.
 
 # clean original results
-rm -rf results/*;
+#rm -rf results/*;
 mkdir -p results;
 
 for rp in {1..1}; do  

@@ -14,3 +14,8 @@ source load-had3.3-java11.sh
 #./run4GenerateData.sh;
 ./run5LocalExperiments.sh;
 #./run6PlotResults.sh; 
+
+
+
+#https://aniket02.github.io/Yelp_Reviews/
+#https://medium.com/@a0981639183/use-a-multiple-linear-regression-model-to-investigate-what-factors-most-affect-a-restaurants-yelp-d00b8dd264f0

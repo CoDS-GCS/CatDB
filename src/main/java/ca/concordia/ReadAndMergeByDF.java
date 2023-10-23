@@ -1,10 +1,12 @@
 package ca.concordia;
 
+import org.apache.spark.api.java.function.ForeachFunction;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SparkSession;
 
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicLong;
 
 public class ReadAndMergeByDF {
 
@@ -28,6 +30,10 @@ public class ReadAndMergeByDF {
          //df = mergeDataFrames(df, tip, "business_id");
          df = mergeDataFrames(df, user, "user_id");
          //df = mergeDataFrames(df, photo, "business_id");
+
+        AtomicLong count = new AtomicLong();
+        df.foreach((ForeachFunction<Row>) row -> count.getAndIncrement());
+        System.out.println(">>>>>>>>>>>> COUNT="+count.get());
     }
 
     public static Dataset<Row> mergeDataFrames(Dataset<Row> df1, Dataset<Row> df2, String col_name){

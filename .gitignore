@@ -48,3 +48,6 @@ Experiments/data/YELP/yelp_academic_dataset_checkin.json
 Experiments/data/YELP/yelp_academic_dataset_review.json
 Experiments/data/YELP/yelp_academic_dataset_tip.json
 Experiments/data/YELP/yelp_academic_dataset_user.json
+.idea/dataSources.xml
+Experiments/data/YELP/business_only.csv
+Experiments/data/YELP/orig_yelp_academic_dataset_business.json

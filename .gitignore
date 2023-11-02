@@ -51,3 +51,5 @@ Experiments/data/YELP/yelp_academic_dataset_user.json
 .idea/dataSources.xml
 Experiments/data/YELP/business_only.csv
 Experiments/data/YELP/orig_yelp_academic_dataset_business.json
+/cmake-build-debug/
+/old/Experiments/.venv/

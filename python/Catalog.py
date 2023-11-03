@@ -1,16 +1,18 @@
 import DatasetReader as reader
 import DBDriver as db
 import numpy as np
+import sys
 
 
 class Catalog(object):
-    def __init__(self, dsname, fileformat):
+    def __init__(self, dsname = None, dsroot = None, fileformat = None):
         self.dsname = dsname
         self.fileformat = fileformat
         self.db = db.DBDriver()
         self.nrow = 0
-        self.categorical_ratio = 0.02
+        self.categorical_ratio = 300
         self.tbl_name = None
+        self.dsroot = dsroot
 
     def read_dataset(self):
         dr = reader.DatasetReader(self.dsname)
@@ -29,9 +31,12 @@ class Catalog(object):
         tbl_name = ds_path[len(ds_path) - 1]
         tbl_name = tbl_name[:len(tbl_name) - len(self.fileformat) - 1]
         tbl_name = tbl_name.replace('.', '_')
-        self.tbl_name = tbl_name
+        if self.dsroot !=None and self.dsroot!='':
+            self.tbl_name = f'{self.dsroot}_{tbl_name}'
+        else:
+            self.tbl_name = tbl_name
 
-        tbl_script = self.db.get_table_script(tbl_name=tbl_name)
+        tbl_script = self.db.get_table_script(tbl_name=self.tbl_name)
         status, result = self.db.run_sql_script(tbl_script)
 
         return status
@@ -56,7 +61,7 @@ class Catalog(object):
         unique_values = self.df[colname].unique()
         unique_len = len(unique_values)
         is_unique = unique_len == self.nrow
-        is_categorical = float(unique_len/self.nrow ) <= self.categorical_ratio
+        is_categorical = unique_len <= self.categorical_ratio
         if is_categorical:
             return is_unique, is_categorical, unique_values, unique_len
         else:
@@ -69,6 +74,7 @@ class Catalog(object):
 
         sql_insert = f'INSERT INTO {self.tbl_name}(attribute_name, col_dtype, col_count, col_unique, col_top, col_mean, col_std, col_min, col_max, col_categorical, col_categorical_data, col_categorical_count, col_nullable, col_null_count) VALUES'
         for col_name in ds_cols:
+
             attribute_name = col_name
             col_dtype = self.df.dtypes[col_name]
 
@@ -78,12 +84,28 @@ class Catalog(object):
 
             col_categorical_value = 'null'
             if col_categorical:
-                col_categorical_value = f"'{','.join([str(item) for item in col_categorical_data])}'"
+                col_categorical_value = f"{','.join([str(item) for item in col_categorical_data])}"
+                col_categorical_value = col_categorical_value.replace('"',"")
+                col_categorical_value = col_categorical_value.replace("'", "")
+                col_categorical_value = f"'{col_categorical_value}'"
 
             sql_record = f"{sql_insert}('{attribute_name}','{col_dtype}',{col_count},{col_unique},null,{col_mean},{col_std},{col_min},{col_max},{col_categorical},{col_categorical_value},{col_categorical_count},{col_nullable},{col_null_count});"
             self.db.run_sql_insert_commit(sql_record)
 
 
+
 if __name__ == '__main__':
-    cat = Catalog(dsname='data/TelcoCustomerChurn.csv', fileformat='csv')
-    cat.add_catalog_data()
+    data_path = sys.argv[1]
+    dsroot = sys.argv[2]
+    dsnames = sys.argv[3].split(',')
+    fileformat = sys.argv[4]
+
+    for dn in dsnames:
+        if len(dsroot) >= 1:
+            dp = f'{data_path}/{dsroot}/{dn}'
+            cat = Catalog(dsname=dp, dsroot= dsroot ,fileformat=fileformat)
+        else:
+            dp = f'{data_path}/{dn}'
+            cat = Catalog(dsname=dp, fileformat=fileformat)
+
+        cat.add_catalog_data()

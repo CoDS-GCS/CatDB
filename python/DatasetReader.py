@@ -6,10 +6,10 @@ class DatasetReader(object):
         self.data = None
 
     def reader_CSV (self):
-        df = pd.read_csv(self.filename)
+        df = pd.read_csv(self.filename,  low_memory=False)
         return df
 
     def reader_JSON(self):
-        df = pd.read_json(self.filename)
+        df = pd.read_json(self.filename, lines=True)
         return df
 

@@ -1,0 +1,16 @@
+ReadData,YELP,Q,18296
+ReadAndMergeByDF,YELP,Q1,99910
+ReadAndMergeByDF,YELP,Q2,99741
+ReadAndMergeByDF,YELP,Q3,40348
+
+ReadAndMergeByDFCatalog,YELP,Q1,96383
+ReadAndMergeByDFCatalog,YELP,Q2,96103
+ReadAndMergeByDFCatalog,YELP,Q3,41620
+
+ReadAndMergeBySQL,YELP,Q1,49768
+ReadAndMergeBySQL,YELP,Q2,52223
+ReadAndMergeBySQL,YELP,Q3,32417
+
+ReadAndMergeBySQLCatalog,YELP,Q1,50720
+ReadAndMergeBySQLCatalog,YELP,Q2,50616
+ReadAndMergeBySQLCatalog,YELP,Q3,32061

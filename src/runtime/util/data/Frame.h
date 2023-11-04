@@ -5,11 +5,11 @@
 #ifndef CATDB_FRAME_H
 #define CATDB_FRAME_H
 
-//#include <runtime/local/datastructures/DataObjectFactory.h>
-//#include <runtime/local/datastructures/DenseMatrix.h>
-//#include <runtime/local/datastructures/Structure.h>
-//#include <runtime/local/datastructures/ValueTypeCode.h>
-//#include <runtime/local/datastructures/ValueTypeUtils.h>
+#include "DataObjectFactory.h"
+#include "DenseMatrix.h"
+#include "Structure.h"
+#include "ValueTypeCode.h"
+#include "ValueTypeUtils.h"
 
 #include <iostream>
 #include <memory>

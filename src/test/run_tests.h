@@ -2,13 +2,13 @@
 // Created by saeed on 02.11.23.
 //
 
-#ifndef CATDB_RUN_TESTS_H
-#define CATDB_RUN_TESTS_H
+#pragma once
 
-
-class run_tests {
-
-};
-
-
-#endif //CATDB_RUN_TESTS_H
+#include "DaphneContext.h"
+//#include <runtime/local/context/DaphneContext.h>
+//
+//static DaphneUserConfig user_config{};
+//
+//static std::unique_ptr<DaphneLogger> logger;
+//
+//std::unique_ptr<DaphneContext> setupContextAndLogger();

@@ -1,0 +1,12 @@
+add_library(IO
+        FrameReader.cpp
+        FrameReader.h
+        MatrixReader.cpp
+        MatrixReader.h
+        ReaderCSV.cpp
+        ReaderCSV.h
+        ReaderJSONL.cpp
+        ReaderCSV.h
+        TensorReader.cpp
+        TensorReader.h)
+target_link_libraries(IO)

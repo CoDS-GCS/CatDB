@@ -4,8 +4,8 @@
 
 #pragma once
 
-#include <runtime/local/datastructures/DataObjectFactory.h>
-#include <runtime/local/datastructures/MetaDataObject.h>
+#include "DataObjectFactory.h"
+#include "MetaDataObject.h"
 
 #include <cstddef>
 #include <map>

@@ -1,13 +1,2 @@
 baseline,accuracy,time_left,per_run_time_limit,max_models
-SKLearn_Classifier_AutoML,diabetes_prediction,0.9718,120,10,2
-SKLearn_Classifier_AutoML,diabetes_prediction,0.9146,120,20,1
-SKLearn_Classifier_AutoML,diabetes_prediction,0.9704,120,30,2
-SKLearn_Classifier_AutoML,diabetes_prediction,0.9718,180,10,2
-SKLearn_Classifier_AutoML,diabetes_prediction,0.9718,180,20,2
-SKLearn_Classifier_AutoML,diabetes_prediction,0.97245,180,30,3
-SKLearn_Classifier_AutoML,diabetes_prediction,0.97215,240,10,3
-SKLearn_Classifier_AutoML,diabetes_prediction,0.972,240,20,3
-SKLearn_Classifier_AutoML,diabetes_prediction,0.972,240,30,5
-SKLearn_Classifier_AutoML,diabetes_prediction,0.97265,300,10,2
-SKLearn_Classifier_AutoML,diabetes_prediction,0.9718,300,20,2
-SKLearn_Classifier_AutoML,diabetes_prediction,0.972,300,30,5
+ChatGPT_TelcoCustomerChurn,product_backorders,0.938598792967725,0,0,1

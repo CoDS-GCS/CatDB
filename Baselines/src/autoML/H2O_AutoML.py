@@ -16,10 +16,12 @@ class H2O_AutoML(object):
 
     def split_data(self, fname, target, test_size, random_size):
         data = h2o.import_file(fname)
+        data[target] = data[target].asfactor()
         self.df_train, self.df_test, self.df_valid = data.split_frame(ratios=[float(1-test_size), random_size])
         self.X = self.df_train.columns
         self.X.remove(target)
         self.y = target
+
 
     def runClassifier(self):
         automl = H2OAutoML(max_runtime_secs=self.time_left,
@@ -27,8 +29,15 @@ class H2O_AutoML(object):
 
         automl.train(x=self.X, y=self.y, training_frame=self.df_train, validation_frame=self.df_valid)
         lb = automl.leaderboard
-        print(lb)
-        # titanic_pred = automl.leader.predict(self.df_test)
-        # print(titanic_pred)
-        acu = automl.leader.model_performance(self.df_test).auc()
-        return acu, len(lb)
+
+        # pred = automl.leader.predict(self.df_test)
+        # correct = 0
+        # for i in range(0, len(self.df_test)):
+        #     if self.df_test[i, self.y] == pred[i, 0]:
+        #         correct += 1
+
+        # acu = float(correct / len(self.df_test))
+        # #acu = automl.leader.model_performance(self.df_test).auc()
+        # return acu, len(lb)
+
+        return  0, 0

@@ -1,0 +1,5 @@
+baseline,accuracy,time_left,per_run_time_limit,max_models
+ChatGPT_TelcoCustomerChurn,TelcoCustomerChurn,0.7963094393186657,0,0,1
+ChatGPT_TelcoCustomerChurn,kdd99,0.9996154001862273,0,0,1
+ChatGPT_TelcoCustomerChurn,product_backorders,0.938598792967725,0,0,1
+ChatGPT_TelcoCustomerChurn,titanic,0.8282442748091603,0,0,1

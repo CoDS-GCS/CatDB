@@ -43,6 +43,7 @@ class Catalog(object):
 
     def compute_statistic(self, colname, datatype):
         if isinstance(datatype, str) or isinstance(datatype, bool) or isinstance(datatype, object):
+            print(f'---------- {datatype}')
             return 'null', 'null', 'null', 'null'
         else:
             col_min = np.min(self.df[colname])
@@ -95,17 +96,19 @@ class Catalog(object):
 
 
 if __name__ == '__main__':
-    data_path = sys.argv[1]
-    dsroot = sys.argv[2]
-    dsnames = sys.argv[3].split(',')
-    fileformat = sys.argv[4]
+    data_path = '/home/saeed/Documents/Github/CatDB/Experiments/data/kdd99.csv' #sys.argv[1]
+    dsroot = '' #sys.argv[2]
+    dsnames = 'kdd99'#sys.argv[3].split(',')
+    fileformat = 'csv' #sys.argv[4]
+    cat = Catalog(dsname=data_path, fileformat=fileformat)
 
-    for dn in dsnames:
-        if len(dsroot) >= 1:
-            dp = f'{data_path}/{dsroot}/{dn}'
-            cat = Catalog(dsname=dp, dsroot= dsroot ,fileformat=fileformat)
-        else:
-            dp = f'{data_path}/{dn}'
-            cat = Catalog(dsname=dp, fileformat=fileformat)
 
-        cat.add_catalog_data()
+    # for dn in dsnames:
+    #     if len(dsroot) >= 1:
+    #         dp = f'{data_path}/{dsroot}/{dn}'
+    #         cat = Catalog(dsname=dp, dsroot= dsroot ,fileformat=fileformat)
+    #     else:
+    #         dp = f'{data_path}/{dn}'
+    #         cat = Catalog(dsname=dp, fileformat=fileformat)
+
+    cat.add_catalog_data()

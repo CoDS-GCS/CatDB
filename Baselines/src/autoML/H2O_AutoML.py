@@ -30,14 +30,15 @@ class H2O_AutoML(object):
         automl.train(x=self.X, y=self.y, training_frame=self.df_train, validation_frame=self.df_valid)
         lb = automl.leaderboard
 
-        # pred = automl.leader.predict(self.df_test)
-        # correct = 0
-        # for i in range(0, len(self.df_test)):
-        #     if self.df_test[i, self.y] == pred[i, 0]:
-        #         correct += 1
+        pred = automl.leader.predict(self.df_test)
+        print(f'{len(pred)} --- {len(self.y)}')
+        correct = 0
+        for i in range(0, len(self.df_test)):
+            if self.df_test[i, self.y] == pred[i, 0]:
+                correct += 1
 
-        # acu = float(correct / len(self.df_test))
-        # #acu = automl.leader.model_performance(self.df_test).auc()
-        # return acu, len(lb)
+        acu = float(correct / len(self.df_test))
+        #acu = automl.leader.model_performance(self.df_test).auc()
+        return acu, len(lb)
 
-        return  0, 0
+        # return  0, 0

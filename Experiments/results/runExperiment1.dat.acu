@@ -1,2 +1,2 @@
 baseline,accuracy,time_left,per_run_time_limit,max_models
-ChatGPT_TelcoCustomerChurn,product_backorders,0.938598792967725,0,0,1
+SKLearn_Classifier_AutoML,diabetes_prediction,0.972,240,30,5

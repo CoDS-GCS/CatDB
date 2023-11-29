@@ -1,3 +1,0 @@
-baseline,dataset,time_left,per_run_time_limit,time
-SKLearn_Classifier_AutoML,titanic,240,30,242954
-H2O_Classifier_AutoML,titanic,240,30,255399

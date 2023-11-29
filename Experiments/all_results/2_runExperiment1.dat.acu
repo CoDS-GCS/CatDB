@@ -1,3 +1,0 @@
-baseline,accuracy,time_left,per_run_time_limit,max_models
-SKLearn_Classifier_AutoML,TelcoCustomerChurn,0.8140525195173882,240,30,8
-H2O_Classifier_AutoML,TelcoCustomerChurn,0.7726415094339623,240,30,145

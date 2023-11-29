@@ -96,7 +96,7 @@ class Catalog(object):
 
 
 if __name__ == '__main__':
-    data_path = '/home/saeed/Documents/Github/CatDB/Experiments/data/kdd99.csv' #sys.argv[1]
+    data_path = '/Experiments/data/kdd99.csv'  #sys.argv[1]
     dsroot = '' #sys.argv[2]
     dsnames = 'kdd99'#sys.argv[3].split(',')
     fileformat = 'csv' #sys.argv[4]

@@ -1,3 +1,0 @@
-baseline,dataset,time_left,per_run_time_limit,time
-SKLearn_Classifier_AutoML,TelcoCustomerChurn,240,30,241441
-H2O_Classifier_AutoML,TelcoCustomerChurn,240,30,247832

@@ -1,3 +1,0 @@
-baseline,dataset,time_left,per_run_time_limit,time
-H2O_Classifier_AutoML,TelcoCustomerChurn,240,30,264425
-H2O_Classifier_AutoML,diabetes_prediction,240,30,741667

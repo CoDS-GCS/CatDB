@@ -1,7 +1,5 @@
 import sys
 import openml
-import pandas as pd
-from openml.datasets import edit_dataset, fork_dataset, get_dataset
 
 class DownloadDatasets(object):
     def __init__(self, out_path):
@@ -16,9 +14,7 @@ class DownloadDatasets(object):
                              (self.datalist.NumberOfFeatures >= minNumberOfFeatures) & (self.datalist.NumberOfFeatures <= maxNumberOfFeatures) &
                              (self.datalist.NumberOfClasses >= minNumberOfClasses) & (self.datalist.NumberOfClasses <= maxNumberOfClasses)].sort_values(['NumberOfInstances'], ascending=[False])
 
-        list.to_csv(f'/home/saeed/Documents/list-[{maxNumberOfInstances}-{maxNumberOfFeatures}-{maxNumberOfClasses}].csv', index=False)
         list = list.head(n=NumberOfDatasets)
-
 
         if len(list) > 0:
             names = list['name'].tolist()
@@ -50,24 +46,5 @@ if __name__ == '__main__':
     NumberOfDatasets = 5
 
     for i in range(0, len(maxNumberOfInstances)):
-        print(f'>>>>>>>>>>>>>>>>>>>>>>>>>>>  {i}')
         download_ds.download_dataset(maxNumberOfInstances[i], minNumberOfInstances[i], maxNumberOfFeatures[i],
                                      minNumberOfFeatures[i], maxNumberOfClasses[i], minNumberOfClasses[i], NumberOfDatasets)
-
-
-
-
-
-
-
-# print(datalist)
-# print(f"First 10 of {len(datalist)} datasets...")
-# datalist.head(n=10)
-#
-# # The same can be done with lesser lines of code
-# openml_df = openml.datasets.list_datasets(output_format="dataframe")
-# openml_df.head(n=10)
-#
-# dataset = openml.datasets.get_dataset(45705)
-# eeg, *_ = dataset.get_data()
-# print(eeg)

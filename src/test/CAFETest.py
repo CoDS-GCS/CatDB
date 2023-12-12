@@ -60,7 +60,6 @@ class CAFETest(object):
         return acc
 
     def setupOpenAI(self):
-        openai.api_key = self.openai_key
         caafe_clf = CAAFEClassifier(base_classifier=self.clf_no_feat_eng,
                                     llm_model="gpt-4",
                                     iterations=2)

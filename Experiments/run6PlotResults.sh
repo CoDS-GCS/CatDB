@@ -14,7 +14,7 @@ yelp_root="YELP"
 yelp_format="json"
 
 
-#SCRIPT="python Catalog.py ${data_path} ${imdb_root} ${imdb_data} ${imdb_format}"
+#SCRIPT="python _Catalog.py ${data_path} ${imdb_root} ${imdb_data} ${imdb_format}"
 #echo $SCRIPT
 #start=$(date +%s%N)
 #$SCRIPT

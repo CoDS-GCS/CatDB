@@ -1,40 +1,42 @@
-from utils.utils import get_sql_for_database
-import json
-
-
+from src.main.python.catalog.Catalog import CatalogInfo
 class BasicPrompt(object):
-    def __init__(self, *args, **kwargs):
+    def __init__(self,  *args, **kwargs):
         # used to avoid empty init function in 0-shot prompt
         pass
 
     def format_target(self, example: dict):
         return self.format_question(example) + "\nSELECT "
 
-    def format_question(self, example: dict):
+    def format_question(self, examples: dict):
         raise NotImplementedError()
 
-    def get_extra_info(self, db_id):
+    def get_extra_info(self, examples: dict):
         return None
 
-class SQLPrompt(BasicPrompt):
-    template_info =   "/* Given the following database schema: */\n" \
-                      "{}"
-    template_question =  "/* Answer the following: {} */"
 
-    def format_question(self, example: dict):
-        sqls = get_sql_for_database(example["path_db"])
+class TextPrompt(BasicPrompt):
+    def __init__(self, *args, **kwargs):
+        self.template_info = "The dataframe `df` has been successfully loaded into memory, with columns appropriately named as attributes.\n" \
+                        "Columns in `df` (true feature dtypes listed here):\n" \
+                        "{}"
+        self.template_question = "Answer the following: {}"
 
-        prompt_info = self.template_info.format("\n\n".join(sqls))
-        prompt_extra_info = self.get_extra_info(example["db_id"])
-        prompt_question = self.template_question.format(example["question"])
+    def format_question(self, examples: dict):
+        schema = "\n".join([f"{_}:{self.schema[_]}" for _ in self.schema.keys()])
+        # schemas = "\n".join([f"{_.name}: {', '.join(_.schema)}" for _ in example["tables"]])
+        #
+        prompt_info = self.template_info.format(schema)
+        # prompt_extra_info = self.get_extra_info(example["db_id"])
+        # prompt_question = self.template_question.format(example["question"])
 
-        if prompt_extra_info is None or prompt_extra_info == "":
-            prompt_components = [prompt_info, prompt_question]
-        else:
-            prompt_components = [prompt_info, prompt_extra_info, prompt_question]
-
-        prompt = "\n\n".join(prompt_components)
-        return prompt
+        # if prompt_extra_info is None or prompt_extra_info == "":
+        #     prompt_components = [prompt_info, prompt_question]
+        # else:
+        #     prompt_components = [prompt_info, prompt_extra_info, prompt_question]
+        #
+        # prompt = "\n".join(prompt_components)
+        # return prompt
+        return prompt_info
 
 
 # class SQLPrompt(BasicPrompt):

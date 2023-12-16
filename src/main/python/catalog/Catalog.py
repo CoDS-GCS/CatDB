@@ -17,7 +17,7 @@ class CatalogInfo(object):
         self.nrows = nrows
 
 
-def get_data_catalog(file_path=None, dataset_name=None, file_format='csv'):
+def get_data_catalog(dataset_name=None, file_format='csv'):
     data = read_dataset(dataset_name=dataset_name, file_format=file_format)
     schema_info = get_schema_info(data=data)
     profile_info = get_profile_info(data=data, schema_info=schema_info)

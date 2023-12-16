@@ -3,6 +3,7 @@ from pandas import DataFrame
 from src.main.python.util import StaticValues
 from pandas.api.types import is_numeric_dtype
 from pandas.api.types import is_bool_dtype
+from pandas.api.types import is_string_dtype
 
 
 class ProfileInfo(object):
@@ -40,19 +41,27 @@ class ProfileInfo(object):
 def get_schema_info(data: DataFrame):
     values = dict()
     for column_name in data.columns:
-        values[column_name] = data.dtypes[column_name]
+        is_str = is_string_dtype(data[column_name])
+        if is_str:
+            values[column_name] = 'string'
+        elif is_numeric_dtype(data[column_name]):
+            values[column_name] = data.dtypes[column_name].name
+        else:
+            values[column_name] = 'bool'
+
     return values
 
 
 def get_profile_info(data: DataFrame, schema_info: dict):
     values = dict()
-    for column_name in schema_info.values.keys():
-        pro_info = ProfileInfo.ProfileInfo()
+    nrows = len(data)
+    for column_name in schema_info.keys():
+        pro_info = ProfileInfo()
         pro_info.data_type = schema_info[column_name]
-        pro_info.count, pro_info.number_of_nulls, pro_info.nullable = compute_counts(column_name=column_name)
-        pro_info.is_categorical, pro_info.category_values, pro_info.category_values_len, pro_info.is_unique = compute_groups(
-            column_name=column_name)
-        pro_info.min_value, pro_info.max_value, pro_info.mean_value, pro_info.std_value = compute_statistic(
+        pro_info.count, pro_info.number_of_nulls, pro_info.nullable = compute_counts(data=data, column_name=column_name, nrows=nrows)
+        pro_info.is_categorical, pro_info.category_values, pro_info.category_values_len, pro_info.is_unique = compute_groups(data=data,
+            column_name=column_name, nrows=nrows)
+        pro_info.min_value, pro_info.max_value, pro_info.mean_value, pro_info.std_value = compute_statistic(data=data,
             column_name=column_name)
         pro_info.freq_value = data[column_name].value_counts()[:1].index.tolist()[0]
         values[column_name] = pro_info
@@ -70,7 +79,7 @@ def compute_groups(data: DataFrame, nrows: int, column_name: str):
     unique_values = data[column_name].unique()
     unique_len = len(unique_values)
     is_unique = unique_len == nrows
-    is_categorical = unique_len <= StaticValues.categorical_ratio * nrows
+    is_categorical = unique_len <= StaticValues.CATEGORICAL_RATIO * nrows
 
     if is_categorical:
         return is_categorical, unique_values, unique_len, is_unique

@@ -64,11 +64,12 @@ def get_representation_class(repr_type: str):
 #     return selector_cls
 
 
-def prompt_factory(catalog: CatalogInfo, repr_type: str, k_shot: int):
+def prompt_factory(catalog: CatalogInfo, repr_type: str, k_shot: int, iterative:int, target_attribute:str):
     repr_cls = get_representation_class(repr_type)
 
     schema_info = catalog.schema_info
     profile_info = catalog.profile_info
+
     if k_shot == 0:
         assert repr_cls is not None
         class_name = f"{repr_type}_{k_shot}-SHOT"
@@ -79,6 +80,8 @@ def prompt_factory(catalog: CatalogInfo, repr_type: str, k_shot: int):
                 self.schema = schema_info
                 self.profile = profile_info
                 self.number_example = k_shot
+                self.iterative = iterative
+                self.target_attribute = target_attribute
                 repr_cls.__init__(self,*args, **kwargs)
                 BasicICLPrompt.__init__(self, *args, **kwargs)
 

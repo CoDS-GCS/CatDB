@@ -5,8 +5,9 @@ from src.main.python.prompt.PromptBuilder import prompt_factory
 if __name__ == '__main__':
     a = 11
     cat = get_data_catalog(dataset_name='data/adult.dat', file_format='csv')
-    prompt = prompt_factory(catalog=cat, repr_type='TEXT', k_shot=0)
-    prompt.format(example=None)
+    prompt = prompt_factory(catalog=cat, repr_type='TEXT', k_shot=0, iterative=1, target_attribute='class')
+    p = prompt.format(example=None)
+    print(p)
     # print(prompt.template_info)
     # print(prompt.template_question)
     a = 100

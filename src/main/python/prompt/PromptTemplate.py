@@ -1,6 +1,10 @@
 from src.main.python.catalog.Catalog import CatalogInfo
+from src.main.python.util import StaticValues
+import re
+
+
 class BasicPrompt(object):
-    def __init__(self,  *args, **kwargs):
+    def __init__(self, *args, **kwargs):
         # used to avoid empty init function in 0-shot prompt
         pass
 
@@ -17,27 +21,50 @@ class BasicPrompt(object):
 class TextPrompt(BasicPrompt):
     def __init__(self, *args, **kwargs):
         self.template_info = "The dataframe `df` has been successfully loaded into memory, with columns appropriately named as attributes.\n" \
-                        "Columns in `df` (true feature dtypes listed here):\n" \
-                        "{}"
-        self.template_question = "Answer the following: {}"
+                             "Columns in `df` (true feature dtypes listed here):\n" \
+                             "{}"
+        self.template_question = "\n" + StaticValues.PROMPT_ADDITIONAL_TEXT + "\n Answer the following: {}"
+
+        self.how_many = (
+            "up to 10 useful columns. Generate as many features as useful for downstream classifier, but as few as necessary to reach good performance."
+            if self.iterative == 1
+            else "exactly one useful column"
+        )
 
     def format_question(self, examples: dict):
-        schema = "\n".join([f"{_}:{self.schema[_]}" for _ in self.schema.keys()])
-        # schemas = "\n".join([f"{_.name}: {', '.join(_.schema)}" for _ in example["tables"]])
-        #
-        prompt_info = self.template_info.format(schema)
-        # prompt_extra_info = self.get_extra_info(example["db_id"])
-        # prompt_question = self.template_question.format(example["question"])
+        schema = "\n".join([f"{_} ({self.schema[_]})" for _ in self.schema.keys()])
+        schema_keys = [_ for _ in self.schema.keys()]
+        prompt = f"""
+            The dataframe `df` has been successfully loaded into memory, with columns appropriately named as attributes: \n{schema}
+            
+            This code was written by an expert datascientist working to improve predictions. It is a snippet of code that adds new columns to the dataset.
+       
+        This code generates additional columns that are useful for a downstream classification algorithm (such as XGBoost) predicting \"{self.target_attribute}\".
+        Additional columns add new semantic information, that is they use real world knowledge on the dataset. They can e.g. be feature combinations, transformations, aggregations where the new column is a function of the existing columns.
+        The scale of columns and offset does not matter. Make sure all used columns exist. Follow the above description of columns closely and consider the datatypes and meanings of classes.
+        This code also drops columns, if these may be redundant and hurt the predictive performance of the downstream classifier (Feature selection). Dropping columns may help as the chance of overfitting is lower, especially if the dataset is small.
+        The classifier will be trained on the dataset with the generated columns and evaluated on a holdout set. The evaluation metric is accuracy. The best performing code will be selected.
+        Added columns can be used in other codeblocks, dropped columns are not available anymore.
 
-        # if prompt_extra_info is None or prompt_extra_info == "":
-        #     prompt_components = [prompt_info, prompt_question]
-        # else:
-        #     prompt_components = [prompt_info, prompt_extra_info, prompt_question]
-        #
-        # prompt = "\n".join(prompt_components)
-        # return prompt
-        return prompt_info
+        Code formatting for each added column:
+        ```python
+        # (Feature name and description)
+        # Usefulness: (Description why this adds useful real world knowledge to classify \"{self.target_attribute}\" according to dataset description and attributes.)
+        (Some pandas code using '{schema_keys[0]}', '{schema_keys[1]}', ... to add a new column for each row in df)
+        ```end
 
+        Code formatting for dropping columns:
+        ```python
+        # Explanation why the column XX is dropped
+        df.drop(columns=['XX'], inplace=True)
+        ```end
+
+        Each codeblock generates {self.how_many} and can drop unused columns (Feature selection).
+        Each codeblock ends with ```end and starts with "```python"
+        Codeblock:
+        """
+
+        return re.sub(' +', ' ', prompt)
 
 # class SQLPrompt(BasicPrompt):
 #     template_info =   "/* Given the following database schema: */\n" \

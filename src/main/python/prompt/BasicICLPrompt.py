@@ -44,7 +44,7 @@ class BasicICLPrompt(object):
         # target question
         prompt_target = self.format_target(example)
 
-        return ""
+        return prompt_target
         # sum_tokens = count_tokens(prompt_target, tokenizer=self.tokenizer)
         #
         # if self.NUM_EXAMPLE != 0:

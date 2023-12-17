@@ -9,7 +9,7 @@ class BasicPrompt(object):
         pass
 
     def format_target(self, example: dict):
-        return self.format_question(example) + "\nSELECT "
+        return self.format_question(example)
 
     def format_question(self, examples: dict):
         raise NotImplementedError()
@@ -20,10 +20,8 @@ class BasicPrompt(object):
 
 class TextPrompt(BasicPrompt):
     def __init__(self, *args, **kwargs):
-        self.template_info = "The dataframe `df` has been successfully loaded into memory, with columns appropriately named as attributes.\n" \
-                             "Columns in `df` (true feature dtypes listed here):\n" \
-                             "{}"
-        self.template_question = "\n" + StaticValues.PROMPT_ADDITIONAL_TEXT + "\n Answer the following: {}"
+        self.template_info = "The dataframe `df` has been successfully loaded into memory, with columns appropriately named as attributes:\n{}"
+        self.template_question = "\n{}\n Answer the following: {}"
 
         self.how_many = (
             "up to 10 useful columns. Generate as many features as useful for downstream classifier, but as few as necessary to reach good performance."
@@ -34,18 +32,10 @@ class TextPrompt(BasicPrompt):
     def format_question(self, examples: dict):
         schema = "\n".join([f"{_} ({self.schema[_]})" for _ in self.schema.keys()])
         schema_keys = [_ for _ in self.schema.keys()]
-        prompt = f"""
-            The dataframe `df` has been successfully loaded into memory, with columns appropriately named as attributes: \n{schema}
-            
-            This code was written by an expert datascientist working to improve predictions. It is a snippet of code that adds new columns to the dataset.
-       
-        This code generates additional columns that are useful for a downstream classification algorithm (such as XGBoost) predicting \"{self.target_attribute}\".
-        Additional columns add new semantic information, that is they use real world knowledge on the dataset. They can e.g. be feature combinations, transformations, aggregations where the new column is a function of the existing columns.
-        The scale of columns and offset does not matter. Make sure all used columns exist. Follow the above description of columns closely and consider the datatypes and meanings of classes.
-        This code also drops columns, if these may be redundant and hurt the predictive performance of the downstream classifier (Feature selection). Dropping columns may help as the chance of overfitting is lower, especially if the dataset is small.
-        The classifier will be trained on the dataset with the generated columns and evaluated on a holdout set. The evaluation metric is accuracy. The best performing code will be selected.
-        Added columns can be used in other codeblocks, dropped columns are not available anymore.
 
+        prompt_info = self.template_info.format(schema)
+
+        prompt_question_tmp = f"""
         Code formatting for each added column:
         ```python
         # (Feature name and description)
@@ -63,7 +53,10 @@ class TextPrompt(BasicPrompt):
         Each codeblock ends with ```end and starts with "```python"
         Codeblock:
         """
+        prompt_question = self.template_question.format(StaticValues.PROMPT_ADDITIONAL_TEXT.format(self.target_attribute), prompt_question_tmp)
 
+        prompt_components = [prompt_info, prompt_question]
+        prompt = "\n".join(prompt_components)
         return re.sub(' +', ' ', prompt)
 
 # class SQLPrompt(BasicPrompt):

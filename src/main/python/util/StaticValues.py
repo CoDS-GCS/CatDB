@@ -22,7 +22,7 @@ class REPRESENTATION_TYPE:
     CBR = "CBR"
 
 
-PROMPT_ADDITIONAL_TEXT = "This code generates additional columns that are useful for a downstream classification algorithm (such as XGBoost) predicting \"Class\"." \
+PROMPT_ADDITIONAL_TEXT = "This code generates additional columns that are useful for a downstream classification algorithm (such as XGBoost) predicting \"{}\"." \
                          "Additional columns add new semantic information, that is they use real world knowledge on the dataset. They can e.g. be feature combinations, transformations, aggregations where the new column is a function of the existing columns." \
                          "The scale of columns and offset does not matter. Make sure all used columns exist. Follow the above description of columns closely and consider the datatypes and meanings of classes." \
                          "This code also drops columns, if these may be redundant and hurt the predictive performance of the downstream classifier (Feature selection). Dropping columns may help as the chance of overfitting is lower, especially if the dataset is small." \

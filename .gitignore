@@ -24,3 +24,4 @@ data/*
 Experiments/data/*
 src/main/__pycache__/*
 src/test/data/*
+Experiments/setup/venvAutoMLBenchmark/*

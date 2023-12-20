@@ -12,11 +12,12 @@ cd $path
 # Install AutoML Benchmark is a tool for benchmarking AutoML frameworks on tabular data. 
 # URL: https://github.com/openml/automlbenchmark
 
-#rm -rf automlbenchmark # clean-up
-#git clone https://github.com/openml/automlbenchmark.git --branch stable --depth 1 #clone benchmark
+rm -rf automlbenchmark # clean-up
+git clone https://github.com/openml/automlbenchmark.git --branch stable --depth 1 #clone benchmark
 cd automlbenchmark
 
 # Create a virtual environments to install the dependencies in:
+rm -rf venvAutoMLBenchmark
 python -m venv venvAutoMLBenchmark
 source venvAutoMLBenchmark/bin/activate
 

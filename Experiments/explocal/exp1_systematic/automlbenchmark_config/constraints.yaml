@@ -1,0 +1,83 @@
+---
+
+test:
+  folds: 1
+  max_runtime_seconds: 600
+  cores: 4
+
+2m:
+  folds: 1
+  max_runtime_seconds: 120
+  cores: -1
+  min_vol_size_mb: -1
+  max_mem_size_mb: -1
+
+1h:
+  folds: 1
+  max_runtime_seconds: 3600
+  cores: -1
+  min_vol_size_mb: -1
+  max_mem_size_mb: -1
+
+2h:
+  folds: 1
+  max_runtime_seconds: 7200
+  cores: -1
+  min_vol_size_mb: -1
+  max_mem_size_mb: -1
+
+3h:
+  folds: 1
+  max_runtime_seconds: 10800
+  cores: -1
+  min_vol_size_mb: -1
+  max_mem_size_mb: -1
+
+4h:
+  folds: 1
+  max_runtime_seconds: 14400
+  cores: -1
+  min_vol_size_mb: -1
+  max_mem_size_mb: -1
+
+5h:
+  folds: 1
+  max_runtime_seconds: 18000
+  cores: -1
+  min_vol_size_mb: -1
+  max_mem_size_mb: -1
+
+6h:
+  folds: 1
+  max_runtime_seconds: 21600
+  cores: -1
+  min_vol_size_mb: -1
+  max_mem_size_mb: -1
+
+7h:
+  folds: 1
+  max_runtime_seconds: 25200
+  cores: -1
+  min_vol_size_mb: -1
+  max_mem_size_mb: -1
+
+8h:
+  folds: 1
+  max_runtime_seconds: 28800
+  cores: -1
+  min_vol_size_mb: -1
+  max_mem_size_mb: -1
+
+9h:
+  folds: 1
+  max_runtime_seconds: 32400
+  cores: -1
+  min_vol_size_mb: -1
+  max_mem_size_mb: -1
+
+10h:
+  folds: 1
+  max_runtime_seconds: 36000
+  cores: -1
+  min_vol_size_mb: -1
+  max_mem_size_mb: -1

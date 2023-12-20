@@ -1,0 +1,8 @@
+---
+
+- name: iris_csv   # train file, test files and target set explicitly (no constraint on file names).
+  dataset:
+    train: 'data/iris/IrisTrain.csv'
+    test: 'data/iris/IrisTest.csv'
+    target: species
+  folds: 1

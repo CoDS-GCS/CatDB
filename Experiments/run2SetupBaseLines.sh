@@ -38,12 +38,6 @@ cp -r ${automl_config_path}"/filedatasets.yaml" ${automl_setup_path}"/examples/c
 # a test run with Random Forest
 python runbenchmark.py randomforest 
 
-
-
-
-
-
-
 # cd ..
 
 # build and setup Python baseline

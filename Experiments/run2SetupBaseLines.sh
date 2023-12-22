@@ -35,11 +35,23 @@ automl_setup_path=${path}"/automlbenchmark"
 cp -r ${automl_config_path}"/constraints.yaml" ${automl_setup_path}"/resources/" # update constraints
 cp -r ${automl_config_path}"/catdb.yaml" ${automl_setup_path}"/resources/benchmarks/" # update benchmark onfig
 
-declare -a automl_frameworks=("AutoGluon" "AutoGluon_bestquality" "AutoGluon_hq" "AutoGluon_gq" "lightautoml" "flaml" "H2OAutoML" "mljarsupervised" "mljarsupervised_compete" "constantpredictor" "RandomForest" "TunedRandomForest" "TPOT" "GAMA" "autosklearn" "autosklearn2")
+python runbenchmark.py AutoGluon test 2m --outdir $output_dir
+python runbenchmark.py AutoGluon_bestquality test 2m --outdir $output_dir
+python runbenchmark.py AutoGluon_hq test 2m --outdir $output_dir
+python runbenchmark.py AutoGluon_gq test 2m --outdir $output_dir
+python runbenchmark.py lightautoml test 2m --outdir $output_dir
+python runbenchmark.py flaml test 2m --outdir $output_dir
+python runbenchmark.py H2OAutoML test 2m --outdir $output_dir
+python runbenchmark.py mljarsupervised test 2m --outdir $output_dir
+python runbenchmark.py mljarsupervised_compete test 2m --outdir $output_dir
+python runbenchmark.py constantpredictor test 2m --outdir $output_dir
+python runbenchmark.py RandomForest test 2m --outdir $output_dir
+python runbenchmark.py TunedRandomForest test 2m --outdir $output_dir
+python runbenchmark.py TPOT test 2m --outdir $output_dir
+python runbenchmark.py GAMA test 2m --outdir $output_dir
+python runbenchmark.py autosklearn test 2m --outdir $output_dir
+python runbenchmark.py autosklearn2 test 2m --outdir $output_dir
 
-for framework in "${automl_frameworks[@]}"; do
-    python runbenchmark.py ${framework} test 2m --outdir $output_dir
-done
 
 # cd ..
 

@@ -6,8 +6,11 @@ path="$(pwd)/setup"
 rm -rf "$path/Baselines"
 mkdir -p "$path/Baselines"
 
-echo $path
 cd $path
+
+output_dir="${path}/setup/automl_test"
+rm -rf $output_dir
+mkdir $output_dir
 
 # Install AutoML Benchmark is a tool for benchmarking AutoML frameworks on tabular data. 
 # URL: https://github.com/openml/automlbenchmark
@@ -17,27 +20,26 @@ git clone https://github.com/openml/automlbenchmark.git --branch stable --depth 
 cd automlbenchmark
 
 # Create a virtual environments to install the dependencies in:
-rm -rf venvAutoMLBenchmark
-python -m venv venvAutoMLBenchmark
-source venvAutoMLBenchmark/bin/activate
+rm -rf venv
+python -m venv venv
+source venv/bin/activate
 
 # Then install the dependencies:
 python -m pip install --upgrade pip
 python -m pip install -r requirements.txt
 
 # Update configs
-automl_config_path=${root_path}"/explocal/exp1_systematic/automlbenchmark_config"
+automl_config_path=${root_path}"/explocal/exp1_systematic/automl_config"
 automl_setup_path=${path}"/automlbenchmark"
 
-cp -r ${automl_config_path}"/config.yaml" ${automl_setup_path}"/examples/custom/" # update cutom config
-cp -r ${automl_config_path}"/constraints.yaml" ${automl_setup_path}"/examples/custom/" # update constraints
 cp -r ${automl_config_path}"/constraints.yaml" ${automl_setup_path}"/resources/" # update constraints
-cp -r ${automl_config_path}"/frameworks.yaml" ${automl_setup_path}"/examples/custom/" # update frameworks
-cp -r ${automl_config_path}"/frameworks.yaml" ${automl_setup_path}"/resources/" # update frameworks
-cp -r ${automl_config_path}"/filedatasets.yaml" ${automl_setup_path}"/examples/custom/benchmarks/" # update filedatasets (e.g., dataset path)
+cp -r ${automl_config_path}"/catdb.yaml" ${automl_setup_path}"/resources/benchmarks/" # update benchmark onfig
 
-# a test run with Random Forest
-python runbenchmark.py randomforest 
+declare -a automl_frameworks=("AutoGluon" "AutoGluon_bestquality" "AutoGluon_hq" "AutoGluon_gq" "lightautoml" "flaml" "H2OAutoML" "mljarsupervised" "mljarsupervised_compete" "constantpredictor" "RandomForest" "TunedRandomForest" "TPOT" "GAMA" "autosklearn" "autosklearn2")
+
+for framework in "${automl_frameworks[@]}"; do
+    python runbenchmark.py ${framework} test 2m --outdir $output_dir
+done
 
 # cd ..
 
@@ -47,6 +49,3 @@ python runbenchmark.py randomforest
 # cd ${path}"/Baselines/"
 # pip install -r requirements.txt # install requirements
 #------------------------------------------------------
-
-
-

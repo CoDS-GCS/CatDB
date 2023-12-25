@@ -51,8 +51,8 @@ if __name__ == '__main__':
     experiment_config = "--- \n \n"
     for tid in taskIDs:
         ds_name, target, nrows, ncols, dataset_id, original_data_url, task_type, number_classes= download_ds.download_dataset(taskID=tid)
-        config_str = (f"- name: {ds_name} \n  dataset:\n     train: {{user}}\data\{ds_name}\{ds_name}_train.csv\n\
-     test: {{user}}\data\{ds_name}\{ds_name}_test.csv\n     target: {target}\n  folds: 1\n\n")
+        config_str = (f"- name: {ds_name} \n  dataset:\n     train: \'{{user}}\data\{ds_name}\{ds_name}_train.csv\'\n\
+     test: \'{{user}}\data\{ds_name}\{ds_name}_test.csv\'\n     target: {target}\n  folds: 1\n\n")
         experiment_config += config_str
         dataset_list +=f'{ds_name},{nrows},{ncols},csv,{task_type},{number_classes},{original_data_url},{target}, "OpenML (TaskID={tid}; DatasetID={dataset_id})"\n'
 

@@ -1,3 +1,0 @@
-[submodule "src/main/python/kglids"]
-	path = src/main/python/kglids
-	url = git@github.com:CoDS-GCS/kglids.git

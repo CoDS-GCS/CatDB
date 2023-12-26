@@ -6,11 +6,11 @@ import torch
 
 import chars2vec
 
-from profile_creators.textual_profile_creator import TextualProfileCreator
-from model.table import Table
-from model.column_data_type import ColumnDataType
-from column_embeddings.string_model import StringEmbeddingModel, StringScalingModel
-from column_embeddings.column_embeddings_utils import load_pretrained_model
+from src.main.python.dataprofiling.profilecreator.textual_profile_creator import TextualProfileCreator
+from src.main.python.dataprofiling.model.table import Table
+from src.main.python.dataprofiling.model.column_data_type import ColumnDataType
+from src.main.python.dataprofiling.columnembedding.string_model import StringEmbeddingModel, StringScalingModel
+from src.main.python.dataprofiling.columnembedding.column_embeddings_utils import load_pretrained_model
 
 
 class StringProfileCreator(TextualProfileCreator):

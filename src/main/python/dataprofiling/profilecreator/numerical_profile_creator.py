@@ -1,8 +1,8 @@
 import bitstring
 import torch
 
-from profile_creators.profile_creator import ProfileCreator
-from model.column_profile import ColumnProfile
+from src.main.python.dataprofiling.profilecreator.profile_creator import ProfileCreator
+from src.main.python.dataprofiling.model.column_profile import ColumnProfile
 
 
 class NumericalProfileCreator(ProfileCreator):

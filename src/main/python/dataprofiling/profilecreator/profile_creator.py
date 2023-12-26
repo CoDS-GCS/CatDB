@@ -3,10 +3,10 @@ from abc import ABC, abstractmethod
 import pandas as pd
 import torch
 
-from model.column_data_type import ColumnDataType
-from model.table import Table
-from utils import generate_column_id, generate_table_id, generate_dataset_id
-from column_embeddings.column_embeddings_utils import EMBEDDING_SIZE
+from src.main.python.dataprofiling.model.column_data_type import ColumnDataType
+from src.main.python.dataprofiling.model.table import Table
+from src.main.python.dataprofiling.utils import generate_column_id, generate_table_id, generate_dataset_id
+from src.main.python.dataprofiling.columnembedding.column_embeddings_utils import EMBEDDING_SIZE
 
 
 class ProfileCreator(ABC):
@@ -15,25 +15,25 @@ class ProfileCreator(ABC):
     @staticmethod
     def get_profile_creator(column: pd.Series, data_type: ColumnDataType, table: Table):
         if data_type == ColumnDataType.INT:
-            from profile_creators.int_profile_creator import IntProfileCreator
+            from src.main.python.dataprofiling.profilecreator.int_profile_creator import IntProfileCreator
             return IntProfileCreator(column, table)
         elif data_type == ColumnDataType.FLOAT:
-            from profile_creators.float_profile_creator import FloatProfileCreator
+            from src.main.python.dataprofiling.profilecreator.float_profile_creator import FloatProfileCreator
             return FloatProfileCreator(column, table)
         elif data_type == ColumnDataType.BOOLEAN:
-            from profile_creators.boolean_profile_creator import BooleanProfileCreator
+            from src.main.python.dataprofiling.profilecreator.boolean_profile_creator import BooleanProfileCreator
             return BooleanProfileCreator(column, table)
         elif data_type == ColumnDataType.DATE:
-            from profile_creators.date_profile_creator import DateProfileCreator
+            from src.main.python.dataprofiling.profilecreator.date_profile_creator import DateProfileCreator
             return DateProfileCreator(column, table)
         elif data_type == ColumnDataType.NATURAL_LANGUAGE_NAMED_ENTITY:
-            from profile_creators.named_entity_profile_creator import NamedEntityProfileCreator
+            from src.main.python.dataprofiling.profilecreator.named_entity_profile_creator import NamedEntityProfileCreator
             return NamedEntityProfileCreator(column, table)
         elif data_type == ColumnDataType.NATURAL_LANGUAGE_TEXT:
-            from profile_creators.natural_language_text_profile_creator import NaturalLanguageTextProfileCreator
+            from src.main.python.dataprofiling.profilecreator.natural_language_text_profile_creator import NaturalLanguageTextProfileCreator
             return NaturalLanguageTextProfileCreator(column, table)
         elif data_type == ColumnDataType.STRING:
-            from profile_creators.string_profile_creator import StringProfileCreator
+            from src.main.python.dataprofiling.profilecreator.string_profile_creator import StringProfileCreator
             return StringProfileCreator(column, table)
         else:
             raise ValueError('Unknown column data type: ' + str(data_type))

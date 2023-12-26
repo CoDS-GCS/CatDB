@@ -1,10 +1,10 @@
 import pandas as pd
 
-from profile_creators.numerical_profile_creator import NumericalProfileCreator
-from model.table import Table
-from model.column_data_type import ColumnDataType
-from column_embeddings.numerical_model import NumericalEmbeddingModel, NumericalScalingModel
-from column_embeddings.column_embeddings_utils import load_pretrained_model
+from src.main.python.dataprofiling.profilecreator.numerical_profile_creator import NumericalProfileCreator
+from src.main.python.dataprofiling.model.table import Table
+from src.main.python.dataprofiling.model.column_data_type import ColumnDataType
+from src.main.python.dataprofiling.columnembedding.numerical_model import NumericalEmbeddingModel, NumericalScalingModel
+from src.main.python.dataprofiling.columnembedding.column_embeddings_utils import load_pretrained_model
 
 
 class IntProfileCreator(NumericalProfileCreator):

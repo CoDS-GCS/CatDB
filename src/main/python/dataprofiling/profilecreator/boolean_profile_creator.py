@@ -1,6 +1,6 @@
 import pandas as pd
 
-from profile_creators.profile_creator import ProfileCreator
+from profilecreator.profile_creator import ProfileCreator
 from model.table import Table
 from model.column_profile import ColumnProfile
 from model.column_data_type import ColumnDataType

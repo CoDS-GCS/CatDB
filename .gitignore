@@ -28,3 +28,4 @@ src/test/data/*
 Experiments/setup/venvAutoMLBenchmark/*
 /Experiments/data/venv/
 Experiments/venv/
+/src/main/python/resources/cc.en.50.bin

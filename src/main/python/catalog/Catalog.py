@@ -1,14 +1,10 @@
-import pandas
-
-from src.main.python.util import DatasetReader as reader
-from src.main.python.catalog.Profile import ProfileInfo
-from src.main.python.catalog.Profile import get_profile_info
-from src.main.python.catalog.Profile import get_schema_info
+import os
+from .Profile import load_JSON_profile_info
 
 
 class CatalogInfo(object):
     def __init__(self, nrows: int, ncols: int, dataset_name: str, file_format: str, schema_info: dict,
-                 profile_info: ProfileInfo):
+                 profile_info: dict):
         self.profile_info = profile_info
         self.schema_info = schema_info
         self.file_format = file_format
@@ -17,27 +13,23 @@ class CatalogInfo(object):
         self.nrows = nrows
 
 
-def get_data_catalog(dataset_name=None, file_format='csv'):
-    data = read_dataset(dataset_name=dataset_name, file_format=file_format)
-    schema_info = get_schema_info(data=data)
-    profile_info = get_profile_info(data=data, schema_info=schema_info)
-    if data is not None:
-        nrows = data.shape[0]
-        ncols = data.shape[1]
-    else:
-        nrows = -1
-        ncols = -1
-    return CatalogInfo(nrows=nrows, ncols=ncols, dataset_name=dataset_name, file_format=file_format,
+def load_data_source_profile(data_source_path: str, file_format: str):
+    profile_info = dict()
+    schema_info = dict()
+    ncols = 0
+    nrows = 0
+    dataset_name = None
+    for d in os.listdir(data_source_path):
+        files = [f for f in os.listdir(f'{data_source_path}/{d}/')]
+        for f in files:
+            profile = load_JSON_profile_info(f'{data_source_path}/{d}/{f}')
+            profile_info[profile.column_name] = profile
+            schema_info[profile.column_name] = profile.data_type
+
+            ncols += 1
+            nrows = max(profile.total_values_count, nrows)
+            if dataset_name is None:
+                dataset_name = profile.dataset_name
+
+    return CatalogInfo(nrows=nrows, ncols=ncols, file_format="csv", dataset_name=dataset_name,
                        schema_info=schema_info, profile_info=profile_info)
-
-
-def read_dataset(dataset_name: str, file_format: str):
-    dr = reader.DatasetReader(dataset_name)
-
-    df = pandas.DataFrame
-    if file_format == 'csv':
-        df = dr.reader_CSV()
-
-    elif file_format == 'json':
-        df = dr.reader_JSON()
-    return df

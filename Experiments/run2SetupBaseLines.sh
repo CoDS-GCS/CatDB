@@ -27,7 +27,6 @@ source venv/bin/activate
 # Then install the dependencies:
 python -m pip install --upgrade pip
 python -m pip install -r requirements.txt
-sudo apt-get install python3-dev
 
 # Update configs
 automl_config_path=${root_path}"/explocal/exp1_systematic/automl_config"
@@ -55,12 +54,13 @@ python runbenchmark.py TPOT test 2m --outdir $output_dir
 #-- python runbenchmark.py autosklearn test 2m --outdir $output_dir
 #-- python runbenchmark.py autosklearn2 test 2m --outdir $output_dir
 
-# ----------------------------------------------------
-# cd ..
 
-# build and setup Python baseline
-# cp -r Baselines/src/* ${path}"/Baselines/"
+# Setup kglids
+cd "$path/Baselines"
+git clone git@github.com:CoDS-GCS/kglids.git 
 
-# cd ${path}"/Baselines/"
-# pip install -r requirements.txt # install requirements
-#------------------------------------------------------
+cd kglids
+conda create -n kglids python=3.8 -y
+conda activate kglids
+python -m pip install --upgrade pip
+pip install -r requirements.txt

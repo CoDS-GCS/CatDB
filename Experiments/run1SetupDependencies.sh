@@ -6,6 +6,7 @@ sudo apt-get install -y openjdk-11-jdk-headless
 sudo apt-get install clang++
 sudo apt-get install python3-dev
 sudo apt-get install wget
+sudo apt-get install unzip
 
 root_path="$(pwd)"
 

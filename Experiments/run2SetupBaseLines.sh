@@ -63,4 +63,5 @@ cd kglids
 conda create -n kglids python=3.8 -y
 conda activate kglids
 python -m pip install --upgrade pip
+pip install torch
 pip install -r requirements.txt

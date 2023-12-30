@@ -1,2 +1,0 @@
-baseline,accuracy,time_left,per_run_time_limit,max_models
-SKLearn_Classifier_AutoML,diabetes_prediction,0.972,240,30,5

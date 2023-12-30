@@ -1,6 +1,5 @@
 import sys
 import pandas as pd
-import os.path
 
 
 class RefineDataset(object):
@@ -14,8 +13,9 @@ class RefineDataset(object):
         ds_val = pd.read_csv(val_path, delimiter=' ', header=None, names=col_names)
         ds_target = pd.read_csv(targe_path, delimiter=' ', header=None)
 
-        ds_target.set_axis([f'target_{i}' for i in range(0, ds_target.shape[1])], axis='columns', copy=False)
-        ds_train = pd.concat([ds_train, ds_target], axis=1)
+        target_cols = [f'target_{i}' for i in range(0, ds_target.shape[1])]
+        ds_target.set_axis(target_cols, axis='columns', copy=False)
+        ds_train = pd.concat([ds_train.reset_index(drop=True), ds_target], axis=1)
 
         ds_train.to_csv(f'{self.out_path}/{ds_name}_train.csv', index=False)
         ds_test.to_csv(f'{self.out_path}/{ds_name}_test.csv', index=False)
@@ -59,11 +59,8 @@ if __name__ == '__main__':
                        "\n"]
         config_str = "\n".join(config_strs)
 
-        yaml_file = f'{data_source}/catdb_openml.yaml'
-        if os.path.isfile(yaml_file):
-            f = open(yaml_file, 'a')
-        else:
-            f = open(yaml_file, 'w')
-            f.write("--- \n \n")
+        yaml_file = f'{data_source}/{ds_name}/{ds_name}.yaml'
+        f = open(yaml_file, 'w')
+        f.write("--- \n \n")
         f.write(config_str)
         f.close()

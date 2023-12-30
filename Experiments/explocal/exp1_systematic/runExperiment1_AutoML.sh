@@ -1,5 +1,9 @@
 #!/bin/bash
 
+dataset=$1
+log_file_name=$2
+
+
 exp_path="$(pwd)"
 output_dir="${exp_path}/results/automl_results"
 user_dir=${exp_path}
@@ -16,10 +20,17 @@ declare -a frameworks=("AutoGluon" "H2OAutoML" "mljarsupervised" "constantpredic
 
 for constraint in "${constraints[@]}"; do
     for framework in "${frameworks[@]}"; do
-        for benchmark in "${benchmarks[@]}"; do
-            AMLB="python runbenchmark.py ${framework} ${benchmark} ${constraint} --outdir=${output_dir} --userdir=${user_dir} --logging=${logging}"
-            echo "CATDB_SCRIPT=${AMLB}"
-            $AMLB
-        done           
+        AMLB="python runbenchmark.py ${framework} ${dataset}.yaml ${constraint} --outdir=${output_dir} --userdir=${user_dir} --logging=${logging}"
+        echo "CATDB_SCRIPT=${AMLB}"
+
+        echo 3 >/proc/sys/vm/drop_caches && sync
+        sleep 3
+
+        start=$(date +%s%N)
+        $AMLB
+        end=$(date +%s%N)
+        echo ${dataset}","${framework}","$((($end - $start) / 1000000))","${constraint} >>${exp_path}/$log_file_name
     done
 done
+
+cd ${exp_path}

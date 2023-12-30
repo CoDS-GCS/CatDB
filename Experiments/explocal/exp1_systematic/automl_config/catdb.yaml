@@ -1,8 +1,0 @@
----
-
-- name: iris   
-  dataset:
-    train: '/home/saeed/Documents/Github/CatDB/Experiments/data/iris/Iris_train.csv'
-    test: '/home/saeed/Documents/Github/CatDB/Experiments/data/iris/Iris_test.csv'
-    target: species
-  folds: 1

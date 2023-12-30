@@ -1,9 +1,0 @@
---- 
- 
-- name: dorothea
-  dataset:
-    train: '{user}/data/dorothea/dorothea_train.csv'
-    test: '{user}/data/dorothea/dorothea_test.csv'
-    target: target_0
-  folds: 1
-

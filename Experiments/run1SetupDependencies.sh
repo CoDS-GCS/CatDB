@@ -13,10 +13,13 @@ root_path="$(pwd)"
 mkdir -p "${root_path}/dependencies"
 cd "${root_path}/dependencies"
 
-wget https://www.apache.org/dyn/closer.lua/spark/spark-3.5.0/spark-3.5.0-bin-hadoop3.tgz
+rm -rf spark-3.5.0-bin-hadoop3.tgz # clean-up
+rm -rf spark-3.5.0-bin-hadoop3 # clean-up
+wget https://dlcdn.apache.org/spark/spark-3.5.0/spark-3.5.0-bin-hadoop3.tgz
 tar -xvzf spark-3.5.0-bin-hadoop3.tgz
 
 # setup Anaconda
+rm -rf Anaconda3-2023.09-0-Linux-x86_64 # clean-up
 wget https://repo.anaconda.com/archive/Anaconda3-2023.09-0-Linux-x86_64.sh
 sha256sum Anaconda3-2023.09-0-Linux-x86_64.sh
 bash Anaconda3-2023.09-0-Linux-x86_64.sh

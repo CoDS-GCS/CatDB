@@ -6,25 +6,34 @@ class RefineDataset(object):
     def __init__(self, out_path):
         self.out_path = out_path
 
-    def load_dataset(self, ds_name: str, ncols:int, train_path: str, test_path: str, val_path: str, targe_path: str):
+    def load_dataset(self, ds_name: str, ncols: int, train_path: str, test_path: str, val_path: str, targe_path: str):
         col_names = [f'col_{i}' for i in range(0, ncols)]
-        ds_train = pd.read_csv(train_path, delimiter=' ', header=None, names=col_names, low_memory=False, lineterminator='\n')
-        ds_test = pd.read_csv(test_path, delimiter=' ', header=None, names=col_names, low_memory=False, lineterminator='\n')
-        ds_val = pd.read_csv(val_path, delimiter=' ', header=None, names=col_names, low_memory=False, lineterminator='\n')
+        ds_train = pd.read_csv(train_path, delimiter=' ', header=None, names=col_names, low_memory=False,
+                               lineterminator='\n')
+        ds_test = pd.read_csv(test_path, delimiter=' ', header=None, names=col_names, low_memory=False,
+                              lineterminator='\n')
+        ds_val = pd.read_csv(val_path, delimiter=' ', header=None, names=col_names, low_memory=False,
+                             lineterminator='\n')
         ds_target = pd.read_csv(targe_path, delimiter=' ', header=None)
 
         target_cols = [f'target_{i}' for i in range(0, ds_target.shape[1])]
         ds_target.set_axis(target_cols, axis='columns', copy=False)
-        ds_train = pd.concat([ds_train.reset_index(drop=True), ds_target], axis=1)
+
+        (target_rows, target_cols) = ds_target.shape
+        ds_target_new = pd.DataFrame(columns=['target_0'])
+        for r in range(0, target_rows):
+            for c in range(0, target_cols):
+                class_value = ds_target.iat[r, c]
+                if class_value == 1:
+                    ds_target_new.loc[r] = [c]
+
+        ds_train = pd.concat([ds_train.reset_index(drop=True), ds_target_new], axis=1)
 
         ds_train.to_csv(f'{self.out_path}/{ds_name}_train.csv', index=False)
         ds_test.to_csv(f'{self.out_path}/{ds_name}_test.csv', index=False)
         ds_val.to_csv(f'{self.out_path}/{ds_name}_val.csv', index=False)
 
-        if ds_target.shape[1] == 1:
-            return 'target_0'
-        else:
-            return None
+        return 'target_0'
 
 
 if __name__ == '__main__':
@@ -47,7 +56,8 @@ if __name__ == '__main__':
                 break
 
     rd = RefineDataset(out_path=f'{data_source}/{ds_name}')
-    target = rd.load_dataset(ds_name=ds_name, ncols=ncols, train_path=train_path, test_path=test_path, val_path=val_path, targe_path=target_path)
+    target = rd.load_dataset(ds_name=ds_name, ncols=ncols, train_path=train_path, test_path=test_path,
+                             val_path=val_path, targe_path=target_path)
 
     if target is not None:
         config_strs = [f"- name: {ds_name}",

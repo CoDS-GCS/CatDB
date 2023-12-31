@@ -1,6 +1,7 @@
 #!/bin/bash
 
 dataset=$1
+task_type=$2
 
 # Run Data Profiling Experiments
 log_file_name=results/Experiment1_Data_Profile.dat

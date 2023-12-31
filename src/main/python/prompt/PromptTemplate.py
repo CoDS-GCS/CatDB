@@ -25,7 +25,6 @@ class TextPrompt(BasicPrompt):
         but as few as necessary to reach good performance. and can drop unused columns (Feature selection).\
         \n Each codeblock ends with \"```end-*\" and starts with \"```python-*\" \n Return a full pipeline code."
 
-
     def format_question(self, examples: dict):
         schema = "\n".join([f"{_} (data type:{self.schema[_]})" for _ in self.schema.keys()])
         schema_keys = [_ for _ in self.schema.keys()]
@@ -33,12 +32,12 @@ class TextPrompt(BasicPrompt):
         prompt_info = self.template_info.format(self.data_source_train_path, self.data_source_test_path, schema)
         prompt_description = StaticValues.PROMPT_DESCRIPTION.format(self.task_type, self.target_attribute)
 
-
         prompt_components = [prompt_info,
                              prompt_description,
                              StaticValues.CODE_FORMATTING_IMPORT,
                              StaticValues.CODE_FORMATTING_REQUIREMENTS,
-                             StaticValues.CODE_FORMATTING_ADDING.format(self.target_attribute, schema_keys[0], schema_keys[1]),
+                             StaticValues.CODE_FORMATTING_ADDING.format(self.target_attribute, schema_keys[0],
+                                                                        schema_keys[1]),
                              StaticValues.CODE_FORMATTING_DROPPING,
                              StaticValues.CODE_FORMATTING_TECHNIQUE.format(self.task_type),
                              StaticValues.CODE_FORMATTING_OTHER,

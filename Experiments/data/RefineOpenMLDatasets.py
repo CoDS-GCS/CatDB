@@ -8,9 +8,9 @@ class RefineDataset(object):
 
     def load_dataset(self, ds_name: str, ncols:int, train_path: str, test_path: str, val_path: str, targe_path: str):
         col_names = [f'col_{i}' for i in range(0, ncols)]
-        ds_train = pd.read_csv(train_path, delimiter=' ', header=None, names=col_names)
-        ds_test = pd.read_csv(test_path, delimiter=' ', header=None, names=col_names)
-        ds_val = pd.read_csv(val_path, delimiter=' ', header=None, names=col_names)
+        ds_train = pd.read_csv(train_path, delimiter=' ', header=None, names=col_names, low_memory=False, lineterminator='\n')
+        ds_test = pd.read_csv(test_path, delimiter=' ', header=None, names=col_names, low_memory=False, lineterminator='\n')
+        ds_val = pd.read_csv(val_path, delimiter=' ', header=None, names=col_names, low_memory=False, lineterminator='\n')
         ds_target = pd.read_csv(targe_path, delimiter=' ', header=None)
 
         target_cols = [f'target_{i}' for i in range(0, ds_target.shape[1])]

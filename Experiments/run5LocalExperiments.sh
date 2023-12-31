@@ -17,23 +17,23 @@ echo "dataset,platform,time,constraint" >> results/runExperiment1_AutoML.dat
 ./explocal/exp1_systematic/runExperiment1.sh madeline BinaryClassification
 ./explocal/exp1_systematic/runExperiment1.sh sylvine BinaryClassification
 ./explocal/exp1_systematic/runExperiment1.sh albert BinaryClassification
-./explocal/exp1_systematic/runExperiment1.sh evita BinaryClassification
+#./explocal/exp1_systematic/runExperiment1.sh evita BinaryClassification
 
 # Multiclass classification datasets:
 ####################################
-./explocal/exp1_systematic/runExperiment1.sh digits MulticlassClassification
-./explocal/exp1_systematic/runExperiment1.sh newsgroups MulticlassClassification
-./explocal/exp1_systematic/runExperiment1.sh dilbert MulticlassClassification
-./explocal/exp1_systematic/runExperiment1.sh fabert MulticlassClassification
-./explocal/exp1_systematic/runExperiment1.sh robert MulticlassClassification
-./explocal/exp1_systematic/runExperiment1.sh volkert MulticlassClassification
-./explocal/exp1_systematic/runExperiment1.sh dionis MulticlassClassification
-./explocal/exp1_systematic/runExperiment1.sh jannis MulticlassClassification
-./explocal/exp1_systematic/runExperiment1.sh wallis MulticlassClassification
-./explocal/exp1_systematic/runExperiment1.sh helena MulticlassClassification
+#./explocal/exp1_systematic/runExperiment1.sh digits MulticlassClassification
+#./explocal/exp1_systematic/runExperiment1.sh newsgroups MulticlassClassification
+#./explocal/exp1_systematic/runExperiment1.sh dilbert MulticlassClassification
+#./explocal/exp1_systematic/runExperiment1.sh fabert MulticlassClassification
+#./explocal/exp1_systematic/runExperiment1.sh robert MulticlassClassification
+#./explocal/exp1_systematic/runExperiment1.sh volkert MulticlassClassification
+#./explocal/exp1_systematic/runExperiment1.sh dionis MulticlassClassification
+#./explocal/exp1_systematic/runExperiment1.sh jannis MulticlassClassification
+#./explocal/exp1_systematic/runExperiment1.sh wallis MulticlassClassification
+#./explocal/exp1_systematic/runExperiment1.sh helena MulticlassClassification
 
 # Regression datasets:
 ######################
-./explocal/exp1_systematic/runExperiment1.sh cadata Regression
-./explocal/exp1_systematic/runExperiment1.sh flora Regression
-./explocal/exp1_systematic/runExperiment1.sh yolanda Regression
+#./explocal/exp1_systematic/runExperiment1.sh cadata Regression
+#./explocal/exp1_systematic/runExperiment1.sh flora Regression
+#./explocal/exp1_systematic/runExperiment1.sh yolanda Regression

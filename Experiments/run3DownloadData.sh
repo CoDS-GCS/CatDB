@@ -96,9 +96,11 @@ source venv/bin/activate
 # Binary classification datasets: dorothea, christine, jasmine, philippine, madeline, sylvine, albert, evita
 # Multiclass classification datasets: digits, newsgroups, dilbert, fabert, robert, volkert, dionis, jannis, wallis, helena
 # Regression datasets: cadata, flora, yolanda
+#"evita"
 
-declare -a datasets=("dorothea" "christine" "jasmine" "philippine" "madeline" "sylvine" "albert" "evita" "digits" "newsgroups" "dilbert" "fabert" "robert" "volkert" "dionis" "jannis" "wallis" "helena" "cadata" "flora" "yolanda")
+declare -a datasets=("dorothea" "christine" "jasmine" "philippine" "madeline" "sylvine" "albert" "digits" "newsgroups" "dilbert" "fabert" "robert" "volkert" "dionis" "jannis" "wallis" "helena" "cadata" "flora" "yolanda")
 for dataset in "${datasets[@]}"; do
+    echo ">>> ${dataset}"
     python RefineOpenMLDatasets.py ${data_path} ${dataset}
     cp "${data_path}/${dataset}/${dataset}.yaml" "${root_path}/setup/automlbenchmark/resources/benchmarks/"
 done

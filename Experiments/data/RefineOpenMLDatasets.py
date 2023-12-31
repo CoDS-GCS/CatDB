@@ -28,6 +28,8 @@ class RefineDataset(object):
                     ds_target_new.loc[r] = [c]
 
         ds_train = pd.concat([ds_train.reset_index(drop=True), ds_target_new], axis=1)
+        ds_test = pd.concat([ds_test.reset_index(drop=True), ds_target_new], axis=1)
+        ds_val = pd.concat([ds_val.reset_index(drop=True), ds_target_new], axis=1)
 
         ds_train.to_csv(f'{self.out_path}/{ds_name}_train.csv', index=False)
         ds_test.to_csv(f'{self.out_path}/{ds_name}_test.csv', index=False)

@@ -11,4 +11,5 @@ export PATH="$SPARK_HOME/bin:$PATH"
 export PYTHONPATH=$SPARK_HOME/python:$SPARK_HOME/python/lib/py4j-0.10.9.7-src.zip:$PYTHONPATH
 export PYSPARK_PYTHON="$CONDA_PREFIX/envs/kglids/bin/python3.8"
 export PYSPARK_DRIVER_PYTHON="$CONDA_PREFIX/envs/kglids/bin/python3.8"
+
 cd $root_path

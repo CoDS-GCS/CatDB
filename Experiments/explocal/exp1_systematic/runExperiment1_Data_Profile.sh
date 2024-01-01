@@ -9,9 +9,10 @@ data_profile_path="${exp_path}/setup/Baselines/kglids/kg_governor/data_profiling
 
 conda activate kglids
 
-SCRIPT="python main.py --data-source-name ${dataset} --data-source-path ${data_source} --output-path ${data_source}/${dataset}/data_profile/"
+rm -rf "${data_source}/${dataset}/data_profile/" #clean-up
+SCRIPT="python main.py --data-source-name ${dataset}_train --data-source-path ${data_source}/${dataset} --output-path ${data_source}/${dataset}/data_profile/"
 
-echo 3 >/proc/sys/vm/drop_caches && sync
+sudo echo 3 >/proc/sys/vm/drop_caches && sudo sync
 sleep 3
 
 start=$(date +%s%N)

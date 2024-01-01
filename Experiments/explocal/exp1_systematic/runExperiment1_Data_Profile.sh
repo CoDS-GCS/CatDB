@@ -9,6 +9,7 @@ data_profile_path="${exp_path}/setup/Baselines/kglids/kg_governor/data_profiling
 
 conda activate kglids
 
+cd ${data_profile_path}
 rm -rf "${data_source}/${dataset}/data_profile/" #clean-up
 SCRIPT="python main.py --data-source-name ${dataset}_train --data-source-path ${data_source}/${dataset} --output-path ${data_source}/${dataset}/data_profile/"
 

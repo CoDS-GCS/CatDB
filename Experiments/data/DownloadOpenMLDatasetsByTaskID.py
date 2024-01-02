@@ -18,8 +18,9 @@ class DownloadDatasets(object):
 
         number_classes = 'N/A'
         if task.task_type.lower() != 'regression':
-            number_classes = f'{data[dataset.default_target_attribute].nunique()}'
-            if number_classes == 2:
+            n_classes = data[dataset.default_target_attribute].nunique()
+            number_classes = f'{n_classes}'
+            if n_classes == 2:
                 task_type = "Binary"
             else:
                 task_type = "Multiclass"

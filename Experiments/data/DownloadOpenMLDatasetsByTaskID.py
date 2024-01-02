@@ -80,7 +80,6 @@ if __name__ == '__main__':
 
         dataset_list += f'{ds_name},{nrows},{ncols},csv,{task_type},{number_classes},{original_data_url},{target}, "OpenML (TaskID={tid}; DatasetID={dataset_id})"\n'
         script_list += f'./explocal/exp1_systematic/runExperiment1.sh {ds_name} {task_type} \n'
-        break
 
     f = open(f'{data_out_path}/dataset_list.csv', 'w')
     f.write(dataset_list)

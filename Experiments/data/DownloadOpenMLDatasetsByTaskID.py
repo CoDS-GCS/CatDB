@@ -19,6 +19,12 @@ class DownloadDatasets(object):
         number_classes = 'N/A'
         if task.task_type.lower() != 'regression':
             number_classes = f'{data[dataset.default_target_attribute].nunique()}'
+            if number_classes == 2:
+                task_type = "Binary"
+            else:
+                task_type = "Multiclass"
+        else:
+            task_type = "Regression"
 
         if data is not None and len(data) > 0:
             data_train, data_test = train_test_split(data, test_size=0.3, random_state=42)
@@ -32,13 +38,12 @@ class DownloadDatasets(object):
             f = open(f'{self.out_path}/{ds_name}/description.txt', 'w')
             f.write(description)
 
-
-
-        return ds_name, dataset.default_target_attribute, nrows, ncols, dataset.dataset_id, dataset.original_data_url, task.task_type, number_classes
+        return ds_name, dataset.default_target_attribute, nrows, ncols, dataset.dataset_id, dataset.original_data_url, task_type, number_classes
 
 
 if __name__ == '__main__':
     data_out_path = sys.argv[1]
+    setting_out_path = sys.argv[2]
     download_ds = DownloadDatasets(out_path=data_out_path)
 
     taskIDs = [189354, 189356, 7593, 189355,
@@ -46,20 +51,39 @@ if __name__ == '__main__':
                167120, 168338, 168332, 146212, 168331,
                146818, 10101, 146821, 168908, 9981, 31, 168909, 168910, 168911, 3917, 3, 12, 9952, 146822, 168912, 53]
 
-
     dataset_list = 'dataset_name,nrows,ncols,file_format,task_type,number_classes,original_url,target_feature,description\n'
-    experiment_config = "--- \n \n"
+    script_list =""
     for tid in taskIDs:
-        ds_name, target, nrows, ncols, dataset_id, original_data_url, task_type, number_classes= download_ds.download_dataset(taskID=tid)
-        config_str = (f"- name: {ds_name} \n  dataset:\n     train: \'{{user}}/data/{ds_name}/{ds_name}_train.csv\'\n\
-     test: \'{{user}}/data/{ds_name}/{ds_name}_test.csv\'\n     target: {target}\n  folds: 1\n\n")
-        experiment_config += config_str
-        dataset_list +=f'{ds_name},{nrows},{ncols},csv,{task_type},{number_classes},{original_data_url},{target}, "OpenML (TaskID={tid}; DatasetID={dataset_id})"\n'
+        ds_name, target, nrows, ncols, dataset_id, original_data_url, task_type, number_classes = download_ds.download_dataset(
+            taskID=tid)
 
-    f = open(f'{data_out_path}/catdb_openml.yaml', 'w')
-    f.write(experiment_config)
+        config_strs = [f"- name: {ds_name}",
+                       "  dataset:",
+                       f"    train: \'{{user}}/data/{ds_name}/{ds_name}_train.csv\'",
+                       f"    test: \'{{user}}/data/{ds_name}/{ds_name}_test.csv\'",
+                       f"    target: {target}",
+                       "  folds: 1",
+                       "\n"]
+        config_str = "\n".join(config_strs)
+
+        yaml_file_local = f'{data_out_path}/{ds_name}/{ds_name}.yaml'
+        f_local = open(yaml_file_local, 'w')
+        f_local.write("--- \n \n")
+        f_local.write(config_str)
+        f_local.close()
+
+        yaml_file_benchmark = f'{setting_out_path}/{ds_name}.yaml'
+        f = open(yaml_file_benchmark, 'w')
+        f.write("--- \n \n")
+        f.write(config_str)
+        f.close()
+
+        dataset_list += f'{ds_name},{nrows},{ncols},csv,{task_type},{number_classes},{original_data_url},{target}, "OpenML (TaskID={tid}; DatasetID={dataset_id})"\n'
+        script_list += f'./explocal/exp1_systematic/runExperiment1.sh {ds_name} {task_type} \n'
+        break
 
     f = open(f'{data_out_path}/dataset_list.csv', 'w')
     f.write(dataset_list)
 
-
+    f_script = open(f'{data_out_path}/script_list.sh', 'w')
+    f_script.write(script_list)

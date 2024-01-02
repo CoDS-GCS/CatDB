@@ -4,8 +4,8 @@ root_path="$(pwd)"
 data_path="${root_path}/data"
 cd ${data_path}
 
-mkdir -p tmpdata
-cd tmpdata
+# mkdir -p tmpdata
+# cd tmpdata
 
 #  # Download AutoML Datasets
 #  wget http://www.causality.inf.ethz.ch/AutoML/adult.zip
@@ -85,8 +85,8 @@ cd tmpdata
 #  unzip yolanda.zip -d ../yolanda
 
 cd ${data_path}
-# rm -rf venv
-# python -m venv venv
+rm -rf venv
+python -m venv venv
 source venv/bin/activate
 
 # python -m pip install --upgrade pip
@@ -98,12 +98,14 @@ source venv/bin/activate
 # Regression datasets: cadata, flora, yolanda
 #"evita"
 
-declare -a datasets=("dorothea" "christine" "jasmine" "philippine" "madeline" "sylvine" "albert" "digits" "newsgroups" "dilbert" "fabert" "robert" "volkert" "dionis" "jannis" "wallis" "helena" "cadata" "flora" "yolanda")
-for dataset in "${datasets[@]}"; do
-    echo ">>> ${dataset}"
-    python RefineOpenMLDatasets.py ${data_path} ${dataset}
-    cp "${data_path}/${dataset}/${dataset}.yaml" "${root_path}/setup/automlbenchmark/resources/benchmarks/"
-done
-cd ${root_path}
+#declare -a datasets=("dorothea" "christine" "jasmine" "philippine" "madeline" "sylvine" "albert" "digits" "newsgroups" "dilbert" "fabert" "robert" "volkert" "dionis" "jannis" "wallis" "helena" "cadata" "flora" "yolanda")
+#for dataset in "${datasets[@]}"; do
+#    python RefineOpenMLDatasets.py ${data_path} ${dataset}
+#    cp "${data_path}/${dataset}/${dataset}.yaml" "${root_path}/setup/automlbenchmark/resources/benchmarks/"
+#done
 
-# python DownloadOpenMLDatasetsByTaskID.py ${data_path}
+
+benchmark_path="${root_path}/setup/automlbenchmark/resources/benchmarks"
+python DownloadOpenMLDatasetsByTaskID.py ${data_path} ${benchmark_path}
+
+cd ${root_path}

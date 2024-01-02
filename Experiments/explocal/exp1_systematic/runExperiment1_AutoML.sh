@@ -16,20 +16,20 @@ declare -a benchmarks=("catdb_openml")
 declare -a constraints=("1h") #"2h" "3h" "4h" "5h" "6h" "7h" "8h" "9h" "10h"
 # declare -a frameworks=("AutoGluon" "AutoGluon_bestquality" "AutoGluon_hq" "AutoGluon_gq" "H2OAutoML" "mljarsupervised" "mljarsupervised_compete" "constantpredictor" "RandomForest" "TunedRandomForest" "TPOT")
 
-declare -a frameworks=("AutoGluon" "H2OAutoML" "mljarsupervised" "constantpredictor" "RandomForest" "TPOT")
-
+declare -a frameworks=("AutoGluon") #"H2OAutoML" "mljarsupervised" "constantpredictor" "RandomForest" "TPOT")
+#--logging=${logging}
 for constraint in "${constraints[@]}"; do
     for framework in "${frameworks[@]}"; do
-        AMLB="python runbenchmark.py ${framework} ${dataset} ${constraint} --outdir=${output_dir} --userdir=${user_dir} --logging=${logging}"
+        AMLB="python runbenchmark.py ${framework} ${dataset} ${constraint} --outdir=${output_dir} --userdir=${user_dir}"
         echo "CATDB_SCRIPT=${AMLB}"
 
-        echo 3 >/proc/sys/vm/drop_caches && sync
-        sleep 3
+        # echo 3 >/proc/sys/vm/drop_caches && sync
+        # sleep 3
 
         start=$(date +%s%N)
         $AMLB
         end=$(date +%s%N)
-        echo ${dataset}","${framework}","$((($end - $start) / 1000000))","${constraint} >>${exp_path}/$log_file_name
+        echo ${dataset}","${framework}","$((($end - $start) / 1000000))","${constraint} >>$log_file_name
     done
 done
 

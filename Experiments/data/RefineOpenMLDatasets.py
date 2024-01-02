@@ -8,28 +8,32 @@ class RefineDataset(object):
 
     def load_dataset(self, ds_name: str, ncols: int, train_path: str, test_path: str, val_path: str, targe_path: str):
         col_names = [f'col_{i}' for i in range(0, ncols)]
-        ds_train = pd.read_csv(train_path, delimiter=' ', header=None, names=col_names, low_memory=False,
-                               lineterminator='\n')
-        ds_test = pd.read_csv(test_path, delimiter=' ', header=None, names=col_names, low_memory=False,
-                              lineterminator='\n')
-        ds_val = pd.read_csv(val_path, delimiter=' ', header=None, names=col_names, low_memory=False,
-                             lineterminator='\n')
-        ds_target = pd.read_csv(targe_path, delimiter=' ', header=None)
+        ds_train = pd.read_csv(train_path, sep=' ', header=None, names=col_names, low_memory=False,
+                               lineterminator='\n', index_col=False)
+        ds_test = pd.read_csv(test_path, sep=' ', header=None, names=col_names, low_memory=False,
+                              lineterminator='\n', index_col=False)
+        ds_val = pd.read_csv(val_path, sep=' ', header=None, names=col_names, low_memory=False,
+                             lineterminator='\n', index_col=False)
+        ds_target = pd.read_csv(targe_path, sep=' ', header=None, index_col=False)
 
-        target_cols = [f'target_{i}' for i in range(0, ds_target.shape[1])]
-        ds_target.set_axis(target_cols, axis='columns', copy=False)
+        (target_nrows, target_ncols) = ds_target.shape
+        ds_target.columns = [f'target_{i}' for i in range(0, target_ncols)]
 
-        (target_rows, target_cols) = ds_target.shape
-        ds_target_new = pd.DataFrame(columns=['target_0'])
-        for r in range(0, target_rows):
-            for c in range(0, target_cols):
-                class_value = ds_target.iat[r, c]
-                if class_value == 1:
-                    ds_target_new.loc[r] = [c]
+        if target_ncols == 1:
+            ds_target_new = ds_target
+        else:
+            ds_target_new = pd.DataFrame(columns=['target_0'])
+            for r in range(0, target_nrows):
+                for c in range(0, target_ncols):
+                    class_value = ds_target.iat[r, c]
+                    if class_value == 1:
+                        ds_target_new.loc[r] = [c]
 
-        ds_train = pd.concat([ds_train.reset_index(drop=True), ds_target_new], axis=1)
-        ds_test = pd.concat([ds_test.reset_index(drop=True), ds_target_new], axis=1)
-        ds_val = pd.concat([ds_val.reset_index(drop=True), ds_target_new], axis=1)
+        ds_train = pd.concat([ds_train.reset_index(drop=True), ds_target_new], axis=1).dropna(how= "all", axis=1)
+        ds_test = ds_test.dropna(how= "all", axis=1)
+        ds_test["target_0"] = -99999
+        ds_val = ds_val.dropna(how= "all", axis=1)
+        ds_val["target_0"] = -99999
 
         ds_train.to_csv(f'{self.out_path}/{ds_name}_train.csv', index=False)
         ds_test.to_csv(f'{self.out_path}/{ds_name}_test.csv', index=False)
@@ -39,8 +43,8 @@ class RefineDataset(object):
 
 
 if __name__ == '__main__':
-    data_source = sys.argv[1]
-    ds_name = sys.argv[2]
+    data_source = "/home/saeed/Documents/Github/CatDB/Experiments/data" #sys.argv[1]
+    ds_name = "sylvine" #sys.argv[2]
 
     train_path = f'{data_source}/{ds_name}/{ds_name}_train.data'
     test_path = f'{data_source}/{ds_name}/{ds_name}_test.data'

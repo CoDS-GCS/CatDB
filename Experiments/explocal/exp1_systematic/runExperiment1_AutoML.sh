@@ -21,9 +21,9 @@ declare -a frameworks=("AutoGluon" "H2OAutoML" "mljarsupervised" "constantpredic
 for constraint in "${constraints[@]}"; do
     for framework in "${frameworks[@]}"; do
         AMLB="python runbenchmark.py ${framework} ${dataset} ${constraint} --outdir=${output_dir} --userdir=${user_dir} --logging=${logging}"
-        echo "CATDB_SCRIPT=${AMLB}"
+        echo "AMLB_SCRIPT=${AMLB}"
 
-        echo 3 >/proc/sys/vm/drop_caches && sync
+        sudo echo 3 >/proc/sys/vm/drop_caches && sudo sync
         sleep 3
 
         start=$(date +%s%N)

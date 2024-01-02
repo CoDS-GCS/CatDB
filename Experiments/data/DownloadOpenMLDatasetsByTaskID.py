@@ -21,11 +21,11 @@ class DownloadDatasets(object):
             n_classes = data[dataset.default_target_attribute].nunique()
             number_classes = f'{n_classes}'
             if n_classes == 2:
-                task_type = "Binary"
+                task_type = "binary"
             else:
-                task_type = "Multiclass"
+                task_type = "multiclass"
         else:
-            task_type = "Regression"
+            task_type = "regression"
 
         if data is not None and len(data) > 0:
             data_train, data_test = train_test_split(data, test_size=0.3, random_state=42)
@@ -63,6 +63,7 @@ if __name__ == '__main__':
                        f"    train: \'{{user}}/data/{ds_name}/{ds_name}_train.csv\'",
                        f"    test: \'{{user}}/data/{ds_name}/{ds_name}_test.csv\'",
                        f"    target: {target}",
+                       f"    type: {task_type}",
                        "  folds: 1",
                        "\n"]
         config_str = "\n".join(config_strs)

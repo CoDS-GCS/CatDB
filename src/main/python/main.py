@@ -10,8 +10,8 @@ def parse_arguments():
     parser.add_argument('--data-source-name', type=str, default=None)
     parser.add_argument('--prompt-representation-type', type=str, default=None)
     parser.add_argument('--prompt-example-type', type=str, default=None)
-    parser.add_argument('--prompt-number-example', type=str, default=None)
-    parser.add_argument('--prompt-number-iteration', type=str, default=None)
+    parser.add_argument('--prompt-number-example', type=int, default=None)
+    parser.add_argument('--prompt-number-iteration', type=int, default=None)
     parser.add_argument('--output-path', type=str, default=None)
     args = parser.parse_args()
 
@@ -29,8 +29,8 @@ def parse_arguments():
             args.task_type = config_data[0].get('dataset').get('type')
 
             # TODO: read train and test dataset path from yaml file
-            args.data_source_train = f"{args.data_source_path}/{args.data_source_name}/{args.data_source_name}_train.csv"
-            args.data_source_test = f"{args.data_source_path}/{args.data_source_name}/{args.data_source_name}_test.csv"
+            args.data_source_train_path = f"{args.data_source_path}/{args.data_source_name}/{args.data_source_name}_train.csv"
+            args.data_source_test_path = f"{args.data_source_path}/{args.data_source_name}/{args.data_source_name}_test.csv"
         except yaml.YAMLError as exc:
             raise Exception(exc)
 
@@ -51,16 +51,24 @@ def parse_arguments():
 
 if __name__ == '__main__':
     args = parse_arguments()
+    profile_info_path = f'{args.data_source_path}/{args.data_source_name}/data_profile'
+    catalog = load_data_source_profile(data_source_path=profile_info_path, file_format="JSON")
 
-    # profile_info_path = f'{args.data_source_path}/{args.data_source_name}/'
-    # catalog = load_data_source_profile(data_source_path=profile_info_path, file_format="JSON")
+    prompt = prompt_factory(catalog=catalog,
+                            representation_type=args.prompt_representation_type,
+                            example_type=args.prompt_example_type,
+                            number_example=args.prompt_number_example,
+                            task_type=args.task_type,
+                            number_iteration=args.prompt_number_iteration,
+                            target_attribute=args.target_attribute,
+                            data_source_train_path=args.data_source_train_path,
+                            data_source_test_path=args.data_source_test_path)
 
-    # prompt = prompt_factory(catalog=catalog,
-    #                         representation_type=args.promt_representation_type,
-    #                         example_type=args.prompt_example_type,
-    #                         number_example=args.prompt_number_example,
-    #                         task_type=args.task_type,
-    #                         number_iteration=args.prompt_number_iteration,
-    #                         target_attribute=args.target_attribute)
-    #
-    # prompt_text = prompt.format(example=None)
+    prompt_text = prompt.format(example=None)
+
+    # Save prompt text
+    if args.output_path is not None:
+        prompt_file_name = f'{args.output_path}/{args.data_source_name}-{prompt.class_name}.txt'
+        f = open(prompt_file_name, 'w')
+        f.write(prompt_text)
+        f.close()

@@ -1,6 +1,7 @@
 from argparse import ArgumentParser
 from catalog.Catalog import load_data_source_profile
 from prompt.PromptBuilder import prompt_factory
+from llm.GenerateLLMCode import generate_llm_code
 import yaml
 
 
@@ -13,6 +14,7 @@ def parse_arguments():
     parser.add_argument('--prompt-number-example', type=int, default=None)
     parser.add_argument('--prompt-number-iteration', type=int, default=None)
     parser.add_argument('--output-path', type=str, default=None)
+    parser.add_argument('--llm-model', type=str, default=None)
     args = parser.parse_args()
 
     if args.data_source_path is None:
@@ -43,6 +45,9 @@ def parse_arguments():
     if args.prompt_number_example is None:
         raise Exception("--prompt-number-example is a required parameter!")
 
+    if args.llm_model is None:
+        raise Exception("--llm-model is a required parameter!")
+
     if args.prompt_number_iteration is None:
         args.prompt_number_iteration = 1
 
@@ -66,9 +71,16 @@ if __name__ == '__main__':
 
     prompt_text = prompt.format(example=None)
 
+    # Generate LLM code
+    code = generate_llm_code(model=args.llm_model, prompt=prompt_text)
+
     # Save prompt text
     if args.output_path is not None:
-        prompt_file_name = f'{args.output_path}/{args.data_source_name}-{prompt.class_name}.txt'
-        f = open(prompt_file_name, 'w')
+        prompt_file_name = f'{args.output_path}/{args.data_source_name}-{prompt.class_name}--{args.llm_model}'
+        f = open(f"{prompt_file_name}.txt", 'w')
         f.write(prompt_text)
+        f.close()
+
+        f = open(f"{prompt_file_name}.py", 'w')
+        f.write(code)
         f.close()

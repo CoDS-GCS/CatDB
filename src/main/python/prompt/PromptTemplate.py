@@ -34,14 +34,14 @@ class TextPrompt(BasicPrompt):
         prompt_components = [prompt_info,
                              prompt_description,
                              StaticValues.CODE_FORMATTING_IMPORT,
-                             StaticValues.CODE_FORMATTING_REQUIREMENTS,
+                             StaticValues.CODE_FORMATTING_LOAD_DATASET.format(self.file_format),
                              StaticValues.CODE_FORMATTING_ADDING.format(self.target_attribute,
                                                                         schema_keys[0],
                                                                         schema_keys[1]),
                              StaticValues.CODE_FORMATTING_DROPPING,
                              StaticValues.CODE_FORMATTING_TECHNIQUE.format(self.task_type),
                              StaticValues.CODE_FORMATTING_OTHER,
-                             StaticValues.CODE_FORMATTING_LOAD_DATASET.format(self.file_format),
+                             StaticValues.CODE_FORMATTING_EVALUATION,
                              self.template_question]
         prompt = "\n\n".join(prompt_components)
         return re.sub(' +', ' ', prompt)

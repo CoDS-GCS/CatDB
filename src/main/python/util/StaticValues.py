@@ -71,3 +71,9 @@ CODE_FORMATTING_LOAD_DATASET = "Code formatting for loading datasets: \n \
 ```python-load-dataset \n \
 # load train and test datasets ({} file formats) here \n \
 ```end-load-dataset "
+
+CODE_FORMATTING_EVALUATION = f"""Code formatting for evaluation:
+```python-evaluation
+# Report evaluation based on only test dataset  
+```end-evaluation
+"""

@@ -1,5 +1,6 @@
 from .BasicICLPrompt import BasicICLPrompt
-from ..util.StaticValues import REPRESENTATION_TYPE
+from catalog.Catalog import CatalogInfo
+from util.StaticValues import REPRESENTATION_TYPE
 from .PromptTemplate import *
 
 

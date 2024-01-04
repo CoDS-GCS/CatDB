@@ -30,3 +30,5 @@ Experiments/setup/venvAutoMLBenchmark/*
 Experiments/venv/
 venv/
 Experiments/setup/automl_test/
+Experiments/setup/Baselines/
+src/main/python/.idea/

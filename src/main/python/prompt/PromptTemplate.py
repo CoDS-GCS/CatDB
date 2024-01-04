@@ -1,5 +1,4 @@
-from src.main.python.catalog.Catalog import CatalogInfo
-from src.main.python.util import StaticValues
+from util import StaticValues
 import re
 
 

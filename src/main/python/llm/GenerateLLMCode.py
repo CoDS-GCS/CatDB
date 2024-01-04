@@ -1,5 +1,5 @@
 from openai import OpenAI
-
+import os
 
 def generate_llm_code(model: str, prompt: str):
     if model == "skip":
@@ -11,7 +11,7 @@ def generate_llm_code(model: str, prompt: str):
 
 
 def generate_GPT_LLM_code(model: str, prompt: str):
-    client = OpenAI(api_key="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", )  # os.environ.get("OPENAI_API_KEY")
+    client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"), )
     completion = client.chat.completions.create(
         messages=[
             {

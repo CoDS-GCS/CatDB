@@ -31,8 +31,8 @@ def parse_arguments():
             args.task_type = config_data[0].get('dataset').get('type')
 
             # TODO: read train and test dataset path from yaml file
-            args.data_source_train_path = f"{args.data_source_path}/{args.data_source_name}/{args.data_source_name}_train.csv"
-            args.data_source_test_path = f"{args.data_source_path}/{args.data_source_name}/{args.data_source_name}_test.csv"
+            args.data_source_train_path = f"data/{args.data_source_name}/{args.data_source_name}_train.csv"
+            args.data_source_test_path = f"data/{args.data_source_name}/{args.data_source_name}_test.csv"
         except yaml.YAMLError as exc:
             raise Exception(exc)
 
@@ -76,7 +76,7 @@ if __name__ == '__main__':
 
     # Save prompt text
     if args.output_path is not None:
-        prompt_file_name = f'{args.output_path}/{args.data_source_name}-{prompt.class_name}--{args.llm_model}'
+        prompt_file_name = f'{args.output_path}/{args.data_source_name}-{prompt.class_name}-{args.llm_model}'
         f = open(f"{prompt_file_name}.txt", 'w')
         f.write(prompt_text)
         f.close()

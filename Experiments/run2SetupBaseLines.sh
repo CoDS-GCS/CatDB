@@ -88,3 +88,4 @@ cd ${catdb_path}
 #Then install the dependencies:
 #python -m pip install --upgrade pip
 #python -m pip install -r requirements.txt
+#pip install pipreqs

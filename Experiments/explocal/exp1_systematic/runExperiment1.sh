@@ -10,9 +10,9 @@ exp_path="$(pwd)"
 #./explocal/exp1_systematic/runExperiment1_Data_Profile.sh $dataset $log_file_name
 
 # Run CatDB Experiments
-log_file_name="${exp_path}/results/Experiment1_CatDB.dat"
-./explocal/exp1_systematic/runExperiment1_CatDB.sh ${dataset} TEXT Random 0 1 ${task_type} ${log_file_name} gpt-4
-./explocal/exp1_systematic/runExperiment1_CatDB.sh ${dataset} TEXT Random 0 1 ${task_type} ${log_file_name} gpt-3.5-turbo
+log_file_name="${exp_path}/results/Experiment1_CatDB"
+./explocal/exp1_systematic/runExperiment1_CatDB.sh ${dataset} TEXT Random 0 1 ${task_type} gpt-4 ${log_file_name}
+./explocal/exp1_systematic/runExperiment1_CatDB.sh ${dataset} TEXT Random 0 1 ${task_type} gpt-3.5-turbo ${log_file_name}
 
 # Run AutoML Baseline
 # log_file_name="${exp_path}/results/runExperiment1_AutoML.dat"

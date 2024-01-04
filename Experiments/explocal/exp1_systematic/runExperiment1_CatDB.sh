@@ -8,11 +8,15 @@ prompt_example_type=$3
 prompt_number_example=$4
 prompt_number_iteration=$5
 task_type=$6
-log_file_name=$7
-llm_model=$8
+llm_model=$7
+log_file_name=$8
 
-output_path="${exp_path}/llm-results/${llm_model}"
+output_path="${exp_path}/catdb-results/${data_source_name}"
 mkdir -p ${output_path}
+
+output_path="${exp_path}/catdb-results/${data_source_name}/${llm_model}"
+mkdir -p ${output_path}
+
 
 cd "${exp_path}/setup/Baselines/CatDB/"
 source venv/bin/activate
@@ -35,4 +39,28 @@ start=$(date +%s%N)
 $SCRIPT
 end=$(date +%s%N)
 
-echo "${data_source_name},${llm_model},${prompt_representation_type},${prompt_example_type},${prompt_number_example},${prompt_number_iteration},${task_type},$((($end - $start) / 1000000))" >> $log_file_name
+echo "${data_source_name},${llm_model},${prompt_representation_type},${prompt_example_type},${prompt_number_example},${prompt_number_iteration},${task_type},$((($end - $start) / 1000000))" >> ${log_file_name}.dat
+
+# Run LLM's generated code
+cd ${output_path}
+pipreqs --force --mode no-pin ${output_path}
+
+rm -rf venv
+python -m venv venv
+source venv/bin/activate
+
+#Then install the dependencies:
+python -m pip install --upgrade pip
+python -m pip install -r requirements.txt
+
+cd ${exp_path}
+python_script="${data_source_name}-${prompt_representation_type}-${prompt_example_type}-${prompt_number_example}-SHOT-${llm_model}.py"
+SCRIPT="python ${output_path}/${python_script} > ${output_path}/log.txt"
+
+echo ${SCRIPT}
+
+start=$(date +%s%N)
+bash -c "${SCRIPT}"
+end=$(date +%s%N)
+
+echo "${data_source_name},${llm_model},${prompt_representation_type},${prompt_example_type},${prompt_number_example},${prompt_number_iteration},${task_type},$((($end - $start) / 1000000))," >> ${log_file_name}_LLM_Code.dat

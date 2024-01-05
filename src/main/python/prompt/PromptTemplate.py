@@ -29,7 +29,7 @@ class TextPrompt(BasicPrompt):
         schema_keys = [_ for _ in self.schema.keys()]
 
         prompt_info = self.template_info.format(self.data_source_train_path, self.data_source_test_path, schema)
-        prompt_description = StaticValues.PROMPT_DESCRIPTION.format(self.task_type, self.target_attribute)
+        prompt_description = StaticValues.PROMPT_DESCRIPTION.format(self.task_type, self.task_type, self.target_attribute)
 
         prompt_components = [prompt_info,
                              prompt_description,

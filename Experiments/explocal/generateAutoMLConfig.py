@@ -3,7 +3,7 @@ import pandas as pd
 import numpy as np
 
 def get_automl_contrain_config(max_runtime_seconds: int):
-    list = [f"{max_runtime_seconds}s",
+    list = [f"{max_runtime_seconds}s:",
             "  folds: 1",
             f"  max_runtime_seconds: {max_runtime_seconds}",
             "  cores: -1",

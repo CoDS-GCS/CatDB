@@ -11,7 +11,7 @@ exp_path="$(pwd)"
 echo "dataset,platform,time" >> "${exp_path}/results/Experiment1_Data_Profile.dat"
 echo "dataset,platform,time,constraint" >> "${exp_path}/results/Experiment1_AutoML.dat"
 echo "dataset,llm_model,prompt_representation_type,prompt_example_type,prompt_number_example,prompt_number_iteration,task_type,time" >> "${exp_path}/results/Experiment1_CatDB.dat"
-echo "dataset,llm_model,prompt_representation_type,prompt_example_type,prompt_number_example,prompt_number_iteration,task_type,time, result" >> "${exp_path}/results/Experiment1_CatDB_LLM_Code.dat"
+echo "dataset,llm_model,prompt_representation_type,prompt_example_type,prompt_number_example,prompt_number_iteration,task_type,time,result" >> "${exp_path}/results/Experiment1_CatDB_LLM_Code.dat"
 
 ./explocal/exp1_systematic/runExperiment1.sh airlines binary 0
 ./explocal/exp1_systematic/runExperiment1.sh albert binary 0

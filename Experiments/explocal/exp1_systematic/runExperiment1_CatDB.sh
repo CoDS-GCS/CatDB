@@ -36,7 +36,7 @@ SCRIPT="python main.py --data-source-path ${data_source_path} \
 echo ${SCRIPT}
 
 start=$(date +%s%N)
-#$SCRIPT
+$SCRIPT
 end=$(date +%s%N)
 
 echo "${data_source_name},${llm_model},${prompt_representation_type},${prompt_example_type},${prompt_number_example},${prompt_number_iteration},${task_type},$((($end - $start) / 1000000))" >> ${log_file_name}.dat
@@ -50,19 +50,20 @@ python -m venv venv
 source venv/bin/activate
 
 #Then install the dependencies:
-pipreqs --force --mode no-pin ${output_path}
-python -m pip install --upgrade pip
-python -m pip install -r requirements.txt
+# pip install pipreqs
+# pipreqs --force --mode no-pin ${output_path}
+# python -m pip install --upgrade pip
+# python -m pip install -r requirements.txt
 
-cd ${exp_path}
-python_script="${data_source_name}-${prompt_representation_type}-${prompt_example_type}-${prompt_number_example}-SHOT-${llm_model}"
-rm -rf "${output_path}/${python_script}.log"
-SCRIPT="python ${output_path}/${python_script}.py > ${output_path}/${python_script}.log"
+# cd ${exp_path}
+# python_script="${data_source_name}-${prompt_representation_type}-${prompt_example_type}-${prompt_number_example}-SHOT-${llm_model}"
+# rm -rf "${output_path}/${python_script}.log"
+# SCRIPT="python ${output_path}/${python_script}.py > ${output_path}/${python_script}.log"
 
-echo ${SCRIPT}
+# echo ${SCRIPT}
 
-start=$(date +%s%N)
-bash -c "${SCRIPT}"
-end=$(date +%s%N)
+# start=$(date +%s%N)
+# bash -c "${SCRIPT}"
+# end=$(date +%s%N)
 
-echo "${data_source_name},${llm_model},${prompt_representation_type},${prompt_example_type},${prompt_number_example},${prompt_number_iteration},${task_type},$((($end - $start) / 1000000))," >> ${log_file_name}_LLM_Code.dat
+# echo "${data_source_name},${llm_model},${prompt_representation_type},${prompt_example_type},${prompt_number_example},${prompt_number_iteration},${task_type},$((($end - $start) / 1000000))," >> ${log_file_name}_LLM_Code.dat

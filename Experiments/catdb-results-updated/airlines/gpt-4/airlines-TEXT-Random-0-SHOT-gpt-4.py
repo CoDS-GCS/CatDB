@@ -57,5 +57,5 @@ clf.fit(X_train, y_train)
 # Report evaluation based on only test dataset
 y_pred = clf.predict(X_test)
 accuracy = accuracy_score(y_test, y_pred)
-print(f"Accuracy: {accuracy * 100:.2f}%")
+print(f"Accuracy: {accuracy * 100:.2f}")
 # end-evaluation

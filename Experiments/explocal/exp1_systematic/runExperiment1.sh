@@ -2,6 +2,7 @@
 
 dataset=$1
 task_type=$2
+constraint=$3
 
 exp_path="$(pwd)"
 
@@ -16,4 +17,4 @@ log_file_name="${exp_path}/results/Experiment1_CatDB"
 
 # Run AutoML Baseline
 # log_file_name="${exp_path}/results/runExperiment1_AutoML.dat"
-# ./explocal/exp1_systematic/runExperiment1_AutoML.sh $dataset $log_file_name
+# ./explocal/exp1_systematic/runExperiment1_AutoML.sh $dataset $constraint $log_file_name 

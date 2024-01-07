@@ -1,0 +1,223 @@
+Suppose there is a dataset with training data "data/APSFailure/APSFailure_train.csv" and test data "data/APSFailure/APSFailure_test.csv" on the disk, with columns appropriately named as attributes:
+
+ci_000 (data type:float)
+ck_000 (data type:float)
+cj_000 (data type:float)
+ec_00 (data type:float)
+bt_000 (data type:float)
+class (data type:natural_language_text)
+ee_009 (data type:int)
+az_009 (data type:int)
+aj_000 (data type:int)
+cl_000 (data type:int)
+da_000 (data type:int)
+cs_003 (data type:int)
+cf_000 (data type:int)
+ax_000 (data type:int)
+cs_000 (data type:int)
+dv_000 (data type:int)
+ay_008 (data type:int)
+af_000 (data type:int)
+ar_000 (data type:int)
+de_000 (data type:int)
+dr_000 (data type:int)
+ap_000 (data type:int)
+at_000 (data type:int)
+ee_008 (data type:int)
+ay_003 (data type:int)
+ag_002 (data type:int)
+cs_007 (data type:int)
+aq_000 (data type:int)
+ba_007 (data type:int)
+dz_000 (data type:int)
+ac_000 (data type:int)
+bl_000 (data type:int)
+bz_000 (data type:int)
+df_000 (data type:int)
+cs_005 (data type:int)
+cy_000 (data type:int)
+bu_000 (data type:int)
+dt_000 (data type:int)
+cx_000 (data type:int)
+dl_000 (data type:int)
+be_000 (data type:int)
+eb_000 (data type:int)
+ag_008 (data type:int)
+eg_000 (data type:int)
+ag_003 (data type:int)
+cq_000 (data type:int)
+ba_002 (data type:int)
+dg_000 (data type:int)
+ba_009 (data type:int)
+az_008 (data type:int)
+bs_000 (data type:int)
+dk_000 (data type:int)
+ad_000 (data type:int)
+cd_000 (data type:int)
+do_000 (data type:int)
+bx_000 (data type:int)
+bd_000 (data type:int)
+cs_004 (data type:int)
+ba_003 (data type:int)
+az_006 (data type:int)
+bv_000 (data type:int)
+cn_005 (data type:int)
+cz_000 (data type:int)
+bb_000 (data type:int)
+ba_008 (data type:int)
+dm_000 (data type:int)
+az_003 (data type:int)
+au_000 (data type:int)
+bf_000 (data type:int)
+az_005 (data type:int)
+ai_000 (data type:int)
+cn_008 (data type:int)
+bi_000 (data type:int)
+bp_000 (data type:int)
+cn_002 (data type:int)
+cn_000 (data type:int)
+ee_002 (data type:int)
+du_000 (data type:int)
+dx_000 (data type:int)
+bg_000 (data type:int)
+ab_000 (data type:int)
+ca_000 (data type:int)
+ay_006 (data type:int)
+cm_000 (data type:int)
+dn_000 (data type:int)
+bk_000 (data type:int)
+dq_000 (data type:int)
+ay_007 (data type:int)
+ag_000 (data type:int)
+dc_000 (data type:int)
+cv_000 (data type:int)
+az_000 (data type:int)
+ag_006 (data type:int)
+dy_000 (data type:int)
+cn_006 (data type:int)
+bn_000 (data type:int)
+ee_003 (data type:int)
+ay_001 (data type:int)
+dp_000 (data type:int)
+cs_008 (data type:int)
+cc_000 (data type:int)
+ea_000 (data type:int)
+cr_000 (data type:int)
+az_004 (data type:int)
+ce_000 (data type:int)
+dd_000 (data type:int)
+cs_001 (data type:int)
+dh_000 (data type:int)
+ct_000 (data type:int)
+co_000 (data type:int)
+bc_000 (data type:int)
+cs_006 (data type:int)
+ba_005 (data type:int)
+cp_000 (data type:int)
+as_000 (data type:int)
+cu_000 (data type:int)
+am_0 (data type:int)
+cn_001 (data type:int)
+ah_000 (data type:int)
+ay_004 (data type:int)
+di_000 (data type:int)
+ds_000 (data type:int)
+ef_000 (data type:int)
+cs_009 (data type:int)
+dj_000 (data type:int)
+bq_000 (data type:int)
+cn_009 (data type:int)
+ag_009 (data type:int)
+ed_000 (data type:int)
+ak_000 (data type:int)
+ee_005 (data type:int)
+ba_001 (data type:int)
+az_001 (data type:int)
+az_007 (data type:int)
+br_000 (data type:int)
+cg_000 (data type:int)
+aa_000 (data type:int)
+ag_004 (data type:int)
+av_000 (data type:int)
+ee_004 (data type:int)
+ay_009 (data type:int)
+an_000 (data type:int)
+ay_000 (data type:int)
+cs_002 (data type:int)
+ch_000 (data type:int)
+bm_000 (data type:int)
+ba_000 (data type:int)
+cb_000 (data type:int)
+bj_000 (data type:int)
+ae_000 (data type:int)
+ag_001 (data type:int)
+ba_004 (data type:int)
+ba_006 (data type:int)
+cn_004 (data type:int)
+by_000 (data type:int)
+ag_005 (data type:int)
+cn_003 (data type:int)
+ao_000 (data type:int)
+al_000 (data type:int)
+cn_007 (data type:int)
+ee_007 (data type:int)
+bh_000 (data type:int)
+ee_000 (data type:int)
+ay_002 (data type:int)
+ee_006 (data type:int)
+ag_007 (data type:int)
+bo_000 (data type:int)
+ay_005 (data type:int)
+az_002 (data type:int)
+ee_001 (data type:int)
+db_000 (data type:int)
+
+Create a comprehensive Python 3.10 pipeline (binary classification) using the following format. This pipeline generates additional columns that are useful for a downstream binary classification algorithm predicting "class".Additional columns add new semantic information, that is they use real world knowledge on the dataset. They can e.g. be feature combinations, transformations, aggregations where the new column is a function of the existing columns.The scale of columns and offset does not matter. Make sure all used columns exist. Follow the above description of columns closely and consider the datatypes and meanings of classes.This code also drops columns, if these may be redundant and hurt the predictive performance of the downstream classifier (Feature selection). Dropping columns may help as the chance of overfitting is lower, especially if the dataset is small.The classifier will be trained on the dataset with the generated columns and evaluated on a holdout set. The evaluation metric is accuracy. The best performing code will be selected. Added columns can be used in other codeblocks, dropped columns are not available anymore.
+
+Code formatting for all required packages:
+```python-import
+# Import all required packages
+```end-import
+
+
+Code formatting for loading datasets: 
+ ```python-load-dataset 
+ # load train and test datasets (csv file formats) here 
+ ```end-load-dataset 
+
+Code formatting for each added column:
+ ```python-added-column 
+ # (Feature name and description) 
+ # Usefulness: (Description why this adds useful real world knowledge to classify 'class' according to dataset description and attributes.) 
+ (Some pandas code using 'ci_000', 'ck_000', ... to add a new column for each row in df)
+ ```end-added-column
+
+Code formatting for dropping columns:
+```python-dropping-columns
+# Explanation why the column XX is dropped
+# df.drop(columns=['XX'], inplace=True)
+```end-dropping-columns
+
+
+Code formatting for training technique:
+ ```python-training-technique 
+ # Use a binary classification technique
+ # Explanation why the solution is selected 
+ trn = ... 
+ ```end-training-technique
+
+Code formatting for somthing else:
+```python-other
+# Explanation why this line of code is required
+```end-other
+
+
+Code formatting for evaluation:
+```python-evaluation
+# Report evaluation based on only test dataset 
+```end-evaluation
+
+
+Generate as many features as useful for downstream classifier, but as few as necessary to reach good performance. and can drop unused columns (Feature selection). 
+ Each codeblock ends with "```end-*" and starts with "```python-*" 
+ Return a full pipeline code.

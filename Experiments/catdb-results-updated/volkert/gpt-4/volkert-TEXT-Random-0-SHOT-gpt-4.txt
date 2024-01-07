@@ -1,0 +1,233 @@
+Suppose there is a dataset with training data "data/volkert/volkert_train.csv" and test data "data/volkert/volkert_test.csv" on the disk, with columns appropriately named as attributes:
+
+V107 (data type:float)
+V110 (data type:float)
+V158 (data type:float)
+V150 (data type:float)
+V79 (data type:float)
+V66 (data type:float)
+V130 (data type:float)
+V54 (data type:float)
+V163 (data type:float)
+V49 (data type:float)
+V94 (data type:float)
+V121 (data type:float)
+V93 (data type:float)
+V86 (data type:float)
+V136 (data type:float)
+V148 (data type:float)
+V53 (data type:float)
+V167 (data type:float)
+V111 (data type:float)
+V69 (data type:float)
+V38 (data type:float)
+V102 (data type:float)
+V175 (data type:float)
+V98 (data type:float)
+V164 (data type:float)
+V105 (data type:float)
+V88 (data type:float)
+V116 (data type:float)
+V57 (data type:float)
+V90 (data type:float)
+V45 (data type:float)
+V73 (data type:float)
+V131 (data type:float)
+V60 (data type:float)
+V114 (data type:float)
+V154 (data type:float)
+V75 (data type:float)
+V155 (data type:float)
+V61 (data type:float)
+V1 (data type:float)
+V134 (data type:float)
+V59 (data type:float)
+V149 (data type:float)
+V170 (data type:float)
+V95 (data type:float)
+V139 (data type:float)
+V68 (data type:float)
+V39 (data type:float)
+V138 (data type:float)
+V140 (data type:float)
+V62 (data type:float)
+V153 (data type:float)
+V171 (data type:float)
+V101 (data type:float)
+V85 (data type:float)
+V113 (data type:float)
+V173 (data type:float)
+V91 (data type:float)
+V144 (data type:float)
+V43 (data type:float)
+V115 (data type:float)
+V10 (data type:float)
+V44 (data type:float)
+V125 (data type:float)
+V132 (data type:float)
+V48 (data type:float)
+V56 (data type:float)
+V141 (data type:float)
+V133 (data type:float)
+V52 (data type:float)
+V41 (data type:float)
+V177 (data type:float)
+V129 (data type:float)
+V172 (data type:float)
+V161 (data type:float)
+V179 (data type:float)
+V78 (data type:float)
+V81 (data type:float)
+V77 (data type:float)
+V123 (data type:float)
+V162 (data type:float)
+V176 (data type:float)
+V117 (data type:float)
+V135 (data type:float)
+V70 (data type:float)
+V180 (data type:float)
+V37 (data type:float)
+V58 (data type:float)
+V103 (data type:float)
+V74 (data type:float)
+V40 (data type:float)
+V128 (data type:float)
+V42 (data type:float)
+V104 (data type:float)
+V18 (data type:float)
+V100 (data type:float)
+V160 (data type:float)
+V147 (data type:float)
+V174 (data type:float)
+V72 (data type:float)
+V166 (data type:float)
+V89 (data type:float)
+V120 (data type:float)
+V50 (data type:float)
+V119 (data type:float)
+V168 (data type:float)
+V47 (data type:float)
+V157 (data type:float)
+V142 (data type:float)
+V99 (data type:float)
+V83 (data type:float)
+V145 (data type:float)
+V97 (data type:float)
+V152 (data type:float)
+V169 (data type:float)
+V96 (data type:float)
+V55 (data type:float)
+V64 (data type:float)
+V178 (data type:float)
+V159 (data type:float)
+V109 (data type:float)
+V71 (data type:float)
+V87 (data type:float)
+V126 (data type:float)
+V84 (data type:float)
+V122 (data type:float)
+V165 (data type:float)
+V80 (data type:float)
+V67 (data type:float)
+V65 (data type:float)
+V146 (data type:float)
+V92 (data type:float)
+V46 (data type:float)
+V151 (data type:float)
+V106 (data type:float)
+V127 (data type:float)
+V137 (data type:float)
+V143 (data type:float)
+V118 (data type:float)
+V112 (data type:float)
+V156 (data type:float)
+V108 (data type:float)
+V82 (data type:float)
+V124 (data type:float)
+V76 (data type:float)
+V63 (data type:float)
+V51 (data type:float)
+V16 (data type:int)
+V35 (data type:int)
+V30 (data type:int)
+V29 (data type:int)
+class (data type:int)
+V14 (data type:int)
+V19 (data type:int)
+V33 (data type:int)
+V7 (data type:int)
+V23 (data type:int)
+V25 (data type:int)
+V20 (data type:int)
+V26 (data type:int)
+V12 (data type:int)
+V8 (data type:int)
+V24 (data type:int)
+V22 (data type:int)
+V9 (data type:int)
+V21 (data type:int)
+V5 (data type:int)
+V32 (data type:int)
+V27 (data type:int)
+V31 (data type:int)
+V11 (data type:int)
+V13 (data type:int)
+V3 (data type:int)
+V36 (data type:int)
+V17 (data type:int)
+V2 (data type:int)
+V28 (data type:int)
+V6 (data type:int)
+V34 (data type:int)
+V15 (data type:int)
+V4 (data type:int)
+
+Create a comprehensive Python 3.10 pipeline (multiclass classification) using the following format. This pipeline generates additional columns that are useful for a downstream multiclass classification algorithm predicting "class".Additional columns add new semantic information, that is they use real world knowledge on the dataset. They can e.g. be feature combinations, transformations, aggregations where the new column is a function of the existing columns.The scale of columns and offset does not matter. Make sure all used columns exist. Follow the above description of columns closely and consider the datatypes and meanings of classes.This code also drops columns, if these may be redundant and hurt the predictive performance of the downstream classifier (Feature selection). Dropping columns may help as the chance of overfitting is lower, especially if the dataset is small.The classifier will be trained on the dataset with the generated columns and evaluated on a holdout set. The evaluation metric is accuracy. The best performing code will be selected. Added columns can be used in other codeblocks, dropped columns are not available anymore.
+
+Code formatting for all required packages:
+```python-import
+# Import all required packages
+```end-import
+
+
+Code formatting for loading datasets: 
+ ```python-load-dataset 
+ # load train and test datasets (csv file formats) here 
+ ```end-load-dataset 
+
+Code formatting for each added column:
+ ```python-added-column 
+ # (Feature name and description) 
+ # Usefulness: (Description why this adds useful real world knowledge to classify 'class' according to dataset description and attributes.) 
+ (Some pandas code using 'V107', 'V110', ... to add a new column for each row in df)
+ ```end-added-column
+
+Code formatting for dropping columns:
+```python-dropping-columns
+# Explanation why the column XX is dropped
+# df.drop(columns=['XX'], inplace=True)
+```end-dropping-columns
+
+
+Code formatting for training technique:
+ ```python-training-technique 
+ # Use a multiclass classification technique
+ # Explanation why the solution is selected 
+ trn = ... 
+ ```end-training-technique
+
+Code formatting for somthing else:
+```python-other
+# Explanation why this line of code is required
+```end-other
+
+
+Code formatting for evaluation:
+```python-evaluation
+# Report evaluation based on only test dataset 
+```end-evaluation
+
+
+Generate as many features as useful for downstream classifier, but as few as necessary to reach good performance. and can drop unused columns (Feature selection). 
+ Each codeblock ends with "```end-*" and starts with "```python-*" 
+ Return a full pipeline code.

@@ -1,0 +1,74 @@
+Suppose there is a dataset with training data "data/numerai28.6/numerai28.6_train.csv" and test data "data/numerai28.6/numerai28.6_test.csv" on the disk, with columns appropriately named as attributes:
+
+attribute_14 (data type:float)
+attribute_6 (data type:float)
+attribute_18 (data type:float)
+attribute_10 (data type:float)
+attribute_2 (data type:float)
+attribute_19 (data type:float)
+attribute_16 (data type:float)
+attribute_9 (data type:float)
+attribute_12 (data type:float)
+attribute_17 (data type:float)
+attribute_5 (data type:float)
+attribute_0 (data type:float)
+attribute_4 (data type:float)
+attribute_11 (data type:float)
+attribute_3 (data type:float)
+attribute_15 (data type:float)
+attribute_7 (data type:float)
+attribute_1 (data type:float)
+attribute_8 (data type:float)
+attribute_13 (data type:float)
+attribute_20 (data type:float)
+attribute_21 (data type:boolean)
+
+Create a comprehensive Python 3.10 pipeline (binary classification) using the following format. This pipeline generates additional columns that are useful for a downstream binary classification algorithm predicting "attribute_21".Additional columns add new semantic information, that is they use real world knowledge on the dataset. They can e.g. be feature combinations, transformations, aggregations where the new column is a function of the existing columns.The scale of columns and offset does not matter. Make sure all used columns exist. Follow the above description of columns closely and consider the datatypes and meanings of classes.This code also drops columns, if these may be redundant and hurt the predictive performance of the downstream classifier (Feature selection). Dropping columns may help as the chance of overfitting is lower, especially if the dataset is small.The classifier will be trained on the dataset with the generated columns and evaluated on a holdout set. The evaluation metric is accuracy. The best performing code will be selected. Added columns can be used in other codeblocks, dropped columns are not available anymore.
+
+Code formatting for all required packages:
+```python-import
+# Import all required packages
+```end-import
+
+
+Code formatting for loading datasets: 
+ ```python-load-dataset 
+ # load train and test datasets (csv file formats) here 
+ ```end-load-dataset 
+
+Code formatting for each added column:
+ ```python-added-column 
+ # (Feature name and description) 
+ # Usefulness: (Description why this adds useful real world knowledge to classify 'attribute_21' according to dataset description and attributes.) 
+ (Some pandas code using 'attribute_14', 'attribute_6', ... to add a new column for each row in df)
+ ```end-added-column
+
+Code formatting for dropping columns:
+```python-dropping-columns
+# Explanation why the column XX is dropped
+# df.drop(columns=['XX'], inplace=True)
+```end-dropping-columns
+
+
+Code formatting for training technique:
+ ```python-training-technique 
+ # Use a binary classification technique
+ # Explanation why the solution is selected 
+ trn = ... 
+ ```end-training-technique
+
+Code formatting for somthing else:
+```python-other
+# Explanation why this line of code is required
+```end-other
+
+
+Code formatting for evaluation:
+```python-evaluation
+# Report evaluation based on only test dataset 
+```end-evaluation
+
+
+Generate as many features as useful for downstream classifier, but as few as necessary to reach good performance. and can drop unused columns (Feature selection). 
+ Each codeblock ends with "```end-*" and starts with "```python-*" 
+ Return a full pipeline code.

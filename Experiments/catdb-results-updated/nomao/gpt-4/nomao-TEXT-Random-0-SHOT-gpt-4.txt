@@ -1,0 +1,171 @@
+Suppose there is a dataset with training data "data/nomao/nomao_train.csv" and test data "data/nomao/nomao_test.csv" on the disk, with columns appropriately named as attributes:
+
+V36 (data type:float)
+V2 (data type:float)
+V19 (data type:float)
+V10 (data type:float)
+V30 (data type:float)
+V44 (data type:float)
+V35 (data type:float)
+V50 (data type:float)
+V34 (data type:float)
+V99 (data type:float)
+V12 (data type:float)
+V60 (data type:float)
+V76 (data type:float)
+V22 (data type:float)
+V25 (data type:float)
+V86 (data type:float)
+V37 (data type:float)
+V4 (data type:float)
+V5 (data type:float)
+V110 (data type:float)
+V78 (data type:float)
+V11 (data type:float)
+V75 (data type:float)
+V113 (data type:float)
+V106 (data type:float)
+V61 (data type:float)
+V94 (data type:float)
+V103 (data type:float)
+V26 (data type:float)
+V62 (data type:float)
+V18 (data type:float)
+V117 (data type:float)
+V65 (data type:float)
+V59 (data type:float)
+V38 (data type:float)
+V118 (data type:float)
+V82 (data type:float)
+V114 (data type:float)
+V41 (data type:float)
+V52 (data type:float)
+V54 (data type:float)
+V29 (data type:float)
+V105 (data type:float)
+V20 (data type:float)
+V51 (data type:float)
+V97 (data type:float)
+V69 (data type:float)
+V14 (data type:float)
+V21 (data type:float)
+V89 (data type:float)
+V1 (data type:float)
+V73 (data type:float)
+V107 (data type:float)
+V81 (data type:float)
+V77 (data type:float)
+V111 (data type:float)
+V85 (data type:float)
+V13 (data type:float)
+V42 (data type:float)
+V17 (data type:float)
+V9 (data type:float)
+V84 (data type:float)
+V102 (data type:float)
+V98 (data type:float)
+V95 (data type:float)
+V58 (data type:float)
+V43 (data type:float)
+V93 (data type:float)
+V90 (data type:float)
+V28 (data type:float)
+V91 (data type:float)
+V74 (data type:float)
+V45 (data type:float)
+V53 (data type:float)
+V3 (data type:float)
+V27 (data type:float)
+V83 (data type:float)
+V70 (data type:float)
+V109 (data type:float)
+V6 (data type:float)
+V101 (data type:float)
+V49 (data type:float)
+V33 (data type:float)
+V115 (data type:float)
+V57 (data type:float)
+V46 (data type:float)
+V66 (data type:float)
+V68 (data type:float)
+V67 (data type:float)
+V48 (data type:int)
+V112 (data type:int)
+V47 (data type:int)
+V15 (data type:int)
+V8 (data type:int)
+V96 (data type:int)
+V92 (data type:int)
+V116 (data type:int)
+V24 (data type:int)
+V32 (data type:int)
+V100 (data type:int)
+V63 (data type:int)
+V108 (data type:int)
+V40 (data type:int)
+V16 (data type:int)
+V56 (data type:int)
+V31 (data type:int)
+Class (data type:int)
+V39 (data type:int)
+V64 (data type:int)
+V71 (data type:int)
+V80 (data type:int)
+V104 (data type:int)
+V55 (data type:int)
+V7 (data type:int)
+V23 (data type:int)
+V79 (data type:int)
+V88 (data type:int)
+V72 (data type:int)
+V87 (data type:int)
+
+Create a comprehensive Python 3.10 pipeline (binary classification) using the following format. This pipeline generates additional columns that are useful for a downstream binary classification algorithm predicting "Class".Additional columns add new semantic information, that is they use real world knowledge on the dataset. They can e.g. be feature combinations, transformations, aggregations where the new column is a function of the existing columns.The scale of columns and offset does not matter. Make sure all used columns exist. Follow the above description of columns closely and consider the datatypes and meanings of classes.This code also drops columns, if these may be redundant and hurt the predictive performance of the downstream classifier (Feature selection). Dropping columns may help as the chance of overfitting is lower, especially if the dataset is small.The classifier will be trained on the dataset with the generated columns and evaluated on a holdout set. The evaluation metric is accuracy. The best performing code will be selected. Added columns can be used in other codeblocks, dropped columns are not available anymore.
+
+Code formatting for all required packages:
+```python-import
+# Import all required packages
+```end-import
+
+
+Code formatting for loading datasets: 
+ ```python-load-dataset 
+ # load train and test datasets (csv file formats) here 
+ ```end-load-dataset 
+
+Code formatting for each added column:
+ ```python-added-column 
+ # (Feature name and description) 
+ # Usefulness: (Description why this adds useful real world knowledge to classify 'Class' according to dataset description and attributes.) 
+ (Some pandas code using 'V36', 'V2', ... to add a new column for each row in df)
+ ```end-added-column
+
+Code formatting for dropping columns:
+```python-dropping-columns
+# Explanation why the column XX is dropped
+# df.drop(columns=['XX'], inplace=True)
+```end-dropping-columns
+
+
+Code formatting for training technique:
+ ```python-training-technique 
+ # Use a binary classification technique
+ # Explanation why the solution is selected 
+ trn = ... 
+ ```end-training-technique
+
+Code formatting for somthing else:
+```python-other
+# Explanation why this line of code is required
+```end-other
+
+
+Code formatting for evaluation:
+```python-evaluation
+# Report evaluation based on only test dataset 
+```end-evaluation
+
+
+Generate as many features as useful for downstream classifier, but as few as necessary to reach good performance. and can drop unused columns (Feature selection). 
+ Each codeblock ends with "```end-*" and starts with "```python-*" 
+ Return a full pipeline code.

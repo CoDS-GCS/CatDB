@@ -59,7 +59,7 @@ def generate_GPT_LLM_code(model: str, prompt: str):
             chunk_text = f"[START PART {c}/{len(chunks)}] \n {chunk} \n[END PART {c}/{len(chunks)}]"
             messages=[{"role": "user", "content": chunk_text}]
             # if c == len(chunks):
-            #     messages.append({"role": "user", "content": "ALL PARTS SENT"})               
+            #     messages.append({"role": "user", "content": "ALL PARTS SENT"})
 
             code = send_Message_to_GPT(client=client, messages=messages, model=model)
             c += 1

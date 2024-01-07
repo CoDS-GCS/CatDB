@@ -1,0 +1,67 @@
+Suppose there is a dataset with training data "data/adult/adult_train.csv" and test data "data/adult/adult_test.csv" on the disk, with columns appropriately named as attributes:
+
+native-country (data type:natural_language_text)
+relationship (data type:natural_language_text)
+race (data type:natural_language_text)
+workclass (data type:natural_language_text)
+sex (data type:natural_language_text)
+class (data type:natural_language_text)
+capital-gain (data type:int)
+age (data type:int)
+fnlwgt (data type:int)
+hours-per-week (data type:int)
+education-num (data type:int)
+capital-loss (data type:int)
+marital-status (data type:string)
+occupation (data type:string)
+education (data type:string)
+
+Create a comprehensive Python 3.10 pipeline (binary classification) using the following format. This pipeline generates additional columns that are useful for a downstream binary classification algorithm predicting "class".Additional columns add new semantic information, that is they use real world knowledge on the dataset. They can e.g. be feature combinations, transformations, aggregations where the new column is a function of the existing columns.The scale of columns and offset does not matter. Make sure all used columns exist. Follow the above description of columns closely and consider the datatypes and meanings of classes.This code also drops columns, if these may be redundant and hurt the predictive performance of the downstream classifier (Feature selection). Dropping columns may help as the chance of overfitting is lower, especially if the dataset is small.The classifier will be trained on the dataset with the generated columns and evaluated on a holdout set. The evaluation metric is accuracy. The best performing code will be selected. Added columns can be used in other codeblocks, dropped columns are not available anymore.
+
+Code formatting for all required packages:
+```python-import
+# Import all required packages
+```end-import
+
+
+Code formatting for loading datasets: 
+ ```python-load-dataset 
+ # load train and test datasets (csv file formats) here 
+ ```end-load-dataset 
+
+Code formatting for each added column:
+ ```python-added-column 
+ # (Feature name and description) 
+ # Usefulness: (Description why this adds useful real world knowledge to classify 'class' according to dataset description and attributes.) 
+ (Some pandas code using 'native-country', 'relationship', ... to add a new column for each row in df)
+ ```end-added-column
+
+Code formatting for dropping columns:
+```python-dropping-columns
+# Explanation why the column XX is dropped
+# df.drop(columns=['XX'], inplace=True)
+```end-dropping-columns
+
+
+Code formatting for training technique:
+ ```python-training-technique 
+ # Use a binary classification technique
+ # Explanation why the solution is selected 
+ trn = ... 
+ ```end-training-technique
+
+Code formatting for somthing else:
+```python-other
+# Explanation why this line of code is required
+```end-other
+
+
+Code formatting for evaluation:
+```python-evaluation
+# Report evaluation based on only test dataset 
+```end-evaluation
+
+
+Generate as many features as useful for downstream classifier, but as few as necessary to reach good performance. and can drop unused columns (Feature selection). 
+ Each codeblock ends with "```end-*" and starts with "```python-*" 
+ Return a full pipeline code.

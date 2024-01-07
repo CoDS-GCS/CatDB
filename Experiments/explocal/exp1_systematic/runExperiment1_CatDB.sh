@@ -36,16 +36,18 @@ SCRIPT="python main.py --data-source-path ${data_source_path} \
 echo ${SCRIPT}
 
 start=$(date +%s%N)
-$SCRIPT
+#$SCRIPT
 end=$(date +%s%N)
 
 echo "${data_source_name},${llm_model},${prompt_representation_type},${prompt_example_type},${prompt_number_example},${prompt_number_iteration},${task_type},$((($end - $start) / 1000000))" >> ${log_file_name}.dat
 
-# # Run LLM's generated code
-# cd ${output_path}
+# Run LLM's generated code
+cd ${output_path}
 # pipreqs --force --mode no-pin ${output_path}
 
-# rm -rf venv
+rm -rf venv
+rm -rf requirements.txt
+rm -rf log.txt
 # python -m venv venv
 # source venv/bin/activate
 

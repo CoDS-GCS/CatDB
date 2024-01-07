@@ -1,8 +1,8 @@
 #!/bin/bash
 
 dataset=$1
-log_file_name=$2
-constraint=$3
+constraint=$2
+log_file_name=$3
 
 exp_path="$(pwd)"
 output_dir="${exp_path}/results/automl_results"

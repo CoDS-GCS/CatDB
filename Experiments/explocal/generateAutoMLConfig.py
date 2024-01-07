@@ -90,12 +90,13 @@ if __name__ == '__main__':
         dataset_task = key.split("####")
         d = dataset_task[0]
         task_type = dataset_task[1]
-        constrain = automl_max_runtime[key]
+        constrain = int(automl_max_runtime[key] + 5)
 
-        if int(constrain+5) not in automl_contrains_set:   
-            automl_contrains.append(get_automl_contrain_config(int(constrain+5)))
+        if constrain not in automl_contrains_set:   
+            automl_contrains.append(get_automl_contrain_config(constrain))
+            automl_contrains_set.add(constrain)
         
-        scripts.append(f"./explocal/exp1_systematic/runExperiment1.sh {d} {task_type} {int(constrain+5)}s")
+        scripts.append(f"./explocal/exp1_systematic/runExperiment1.sh {d} {task_type} {constrain}s")
 
     df_llm_code.to_csv(catdb_runtime_path_final, index=False) 
     automl_contrains_result = "\n\n".join(automl_contrains)   

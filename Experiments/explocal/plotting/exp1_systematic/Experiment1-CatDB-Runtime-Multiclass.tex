@@ -1,0 +1,97 @@
+\newcommand{\addplotCatDB}[5]{
+	   \addplot[xshift=#2,draw=black,line width=0.15pt, fill=tugb, discard if singlecatdb={#1},postaction={#5}] 
+	   table[ y=data_profile_time, col sep=comma, x=dataset] {results/Experiment1_CatDB_Final.dat};
+	   \label{legprofile}
+
+     \addplot[xshift=#3,draw=black,line width=0.15pt, fill=color7, discard if singlecatdb={#1},postaction={#5}] 
+	   table[ y=catdb_llm_time, col sep=comma, x=dataset] {results/Experiment1_CatDB_Final.dat};
+	   \label{legcode}
+
+       \addplot[xshift=#4,draw=black,line width=0.15pt, fill=tug, discard if singlecatdb={#1}, postaction={#5}] 
+	   table[ y=pipeline_time, col sep=comma, x=dataset] {results/Experiment1_CatDB_Final.dat};
+	   \label{legpipeline}       
+};
+
+
+\pgfplotsset{
+    discard if singlecatdb/.style n args={1}{
+        x filter/.code={
+            \edef\tempa{\thisrow{llm_model}}
+            \edef\tempb{#1}
+            \ifx\tempa\tempb
+                    \edef\tempe{\thisrow{task_type}}
+                    \edef\tempf{multiclass}
+                    \ifx\tempe\tempf						
+                    \else
+                    \def\pgfmathresult{inf}
+                    \fi      
+            \else
+            \def\pgfmathresult{inf}
+            \fi			
+        }
+    },
+};
+
+\begin{tikzpicture}[
+  %ymode=log,  
+  every axis/.style={
+    ybar stacked,
+    %ymode=log,
+    xtick style={draw=none},		
+    every major tick/.append style={ thick,major tick length=2.5pt, gray},
+    axis line style={gray},
+    ybar,        
+    ybar=0pt,
+    ymin=0,
+    ymax=1400,
+    log ticks with fixed point,
+    y tick label style={/pgf/number format/1000 sep={}},
+    x tick label style={/pgf/number format/1000 sep={}},
+    scaled y ticks=false,
+    enlarge y limits={0.013,upper},
+    enlarge x limits=0.03,
+    ylabel={Execution Time[s]},
+    xlabel={$\#$Dataset},
+    ytick={0,200,400,600,800,1000,1200,1400},
+    %yticklabels={0,10,100,1e3,1e4},
+    ytick align=outside,
+    xtick pos=left,
+    ytick pos=left,
+    yticklabel style = {font=\Large},
+    ylabel style = {font=\Large, yshift=-2pt},
+    xticklabel style = {font=\Large, xshift=0pt},
+    xtick=data,
+    height=0.7\columnwidth,
+    width=1.2\columnwidth,    
+    bar width=6pt,	 
+    ymajorgrids=true,
+    grid style=dotted,   
+    minor grid style={gray!50},  
+    symbolic x coords={covertype,dionis,connect-4,Fashion-MNIST,helena,jannis,jungle_chess_2pcs_raw_endgame_complete,robert,shuttle,volkert,car,cnae-9,dilbert,fabert,mfeat-factors,segment,vehicle,airlines,albert,adult,Amazon_employee_access,APSFailure,bank-marketing,guillermo,higgs,KDDCup09_appetency,MiniBooNE,nomao,numerai28.6,riccardo,Australian,blood-transfusion-service-center,christine,credit-g,jasmine,kc1,kr-vs-kp,phoneme,sylvine},   
+    xticklabels={23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39},    
+    legend image code/.code={\draw [#1] (0cm,-0.1cm) rectangle (0.2cm,0.3cm); },
+  }	 
+]
+	
+\begin{axis}  
+	\addplotCatDB{gpt-3.5-turbo}{12pt}{6pt}{0pt}{pattern=north east lines,pattern color=gray};
+\end{axis}
+
+\begin{axis}[hide axis] %
+    \addplotCatDB{gpt-4}{6}{0pt}{-6pt}{};	  	  
+\end{axis}	
+
+
+
+\node [draw=none,inner sep=0, font=\Large, anchor=west] (leg1) at (rel axis cs: 0.6,0.78) {\shortstack[l]{
+			\ref{legprofile} Data Profiling \\
+      \ref{legcode} Pipeline Generation  \\
+			\ref{legpipeline} Pipeline  Execution 			 			
+	}};
+\draw[draw=black] (4.9,2) rectangle (5.1cm,2.3cm); 
+\node [draw=none,inner sep=0, font=\large, anchor=west] (gpt-4) at (5.2,2.15) {GPT-4};
+
+\draw[pattern=north east lines, pattern color=gray] (4.9,1.6) rectangle (5.1cm,1.9cm);
+\node [draw=none,inner sep=0, font=\large, anchor=west] (gpt-4) at (5.2,1.75) {GPT-3.5-Turbo};
+
+\end{tikzpicture}

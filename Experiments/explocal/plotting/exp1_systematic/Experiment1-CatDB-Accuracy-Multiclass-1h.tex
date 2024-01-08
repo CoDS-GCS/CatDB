@@ -1,0 +1,145 @@
+\newcommand{\addplotCatDB}[3]{
+	   \addplot[xshift=0,draw=#2,line width=0.15pt, fill=#2, discard if singlecatdb={#1}] 
+	   table[ y=result, col sep=comma, x=dataset] {results/Experiment1_CatDB_Final.dat};
+	   \label{#1}       
+};
+
+\newcommand{\addplotAutoML}[3]{
+	   \addplot[xshift=0,draw=#2,line width=0.15pt, fill=#2, discard if singleautoml={#1}] 
+	   table[ y=acc_final, col sep=comma, x=id] {results/Experiment1_AutoML_1H.dat};
+	   \label{#1}       
+};
+
+
+\pgfplotsset{
+    discard if singlecatdb/.style n args={1}{
+        x filter/.code={
+            \edef\tempa{\thisrow{llm_model}}
+            \edef\tempb{#1}
+            \ifx\tempa\tempb
+                    \edef\tempe{\thisrow{task_type}}
+                    \edef\tempf{multiclass}
+                    \ifx\tempe\tempf						
+                    \else
+                    \def\pgfmathresult{inf}
+                    \fi      
+            \else
+            \def\pgfmathresult{inf}
+            \fi			
+        }
+    },
+    discard if singleautoml/.style n args={1}{
+      x filter/.code={
+          \edef\tempa{\thisrow{framework}}
+          \edef\tempb{#1}
+          \ifx\tempa\tempb
+                  \edef\tempe{\thisrow{type}}
+                  \edef\tempf{multiclass}
+                  \ifx\tempe\tempf						
+                  \else
+                  \def\pgfmathresult{inf}
+                  \fi      
+          \else
+          \def\pgfmathresult{inf}
+          \fi			
+      }
+  },
+};
+
+\begin{tikzpicture}[
+  %ymode=log,  
+  every axis/.style={
+    %ybar stacked,
+    %ymode=log,
+    xtick style={draw=none},		
+    every major tick/.append style={ thick,major tick length=2.5pt, gray},
+    axis line style={gray},
+    ybar,        
+    ybar=0pt,
+    ymin=0,
+    ymax=100,
+    log ticks with fixed point,
+    y tick label style={/pgf/number format/1000 sep={}},
+    x tick label style={/pgf/number format/1000 sep={}},
+    scaled y ticks=false,
+    enlarge y limits={0.013,upper},
+    enlarge x limits=0.03,
+    ylabel={Accuracy[\%]},
+    xlabel={$\#$Dataset},
+    %ytick={0,100,200,300,400,500,600,700,800,900,1000,1100,12000,1300},
+    %yticklabels={0,10,100,1e3,1e4},
+    ytick align=outside,
+    xtick align=outside,
+    xtick pos=left,
+    ytick pos=left,
+    yticklabel style = {font=\Large},
+    ylabel style = {font=\Large, yshift=-2pt},
+    xticklabel style = {font=\Large, xshift=-3.5pt},
+    %xtick=data,
+    height=0.7\columnwidth,
+    width=1.7\columnwidth,    
+    bar width=2pt,	 
+    ymajorgrids=true,
+    grid style=dotted,   
+    minor grid style={gray!50},  
+    xtick={airlines,albert,adult,Amazon_employee_access,APSFailure,bank-marketing,guillermo,higgs,KDDCup09Appetency,MiniBooNE,nomao,numerai28.6,riccardo,Australian,blood-transfusion-service-center,christine,credit-g,jasmine,kc1,kr-vs-kp,phoneme,sylvine,covertype,dionis,connect-4,Fashion-MNIST,helena,jannis,jungle_chess_2pcs_raw_endgame_complete,robert,shuttle,volkert,car,cnae-9,dilbert,fabert,mfeat-factors,segment,vehicle}, 
+    % % 
+    symbolic x coords={airlines,albert,adult,Amazon_employee_access,APSFailure,bank-marketing,guillermo,higgs,KDDCup09Appetency,MiniBooNE,nomao,numerai28.6,riccardo,Australian,blood-transfusion-service-center,christine,credit-g,jasmine,kc1,kr-vs-kp,phoneme,sylvine,covertype,dionis,connect-4,Fashion-MNIST,helena,jannis,jungle_chess_2pcs_raw_endgame_complete,robert,shuttle,volkert,car,cnae-9,dilbert,fabert,mfeat-factors,segment,vehicle}, 
+    %     
+    xticklabels={1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39},          
+    legend image code/.code={\draw [#1] (0cm,-0.1cm) rectangle (0.2cm,0.2cm); },
+  }	 
+]
+
+\begin{axis}[bar shift=-7pt] %
+  \addplotCatDB{gpt-4}{tug}{-7pt};	  	  
+\end{axis}
+
+\begin{axis}[bar shift=-5pt,hide axis]  
+	\addplotCatDB{gpt-3.5-turbo}{tugb}{-5pt};
+\end{axis}
+
+\begin{axis}[bar shift=-3pt, hide axis]  
+	\addplotAutoML{AutoGluon}{color2}{-3pt};
+\end{axis}
+
+\begin{axis}[bar shift=-1pt, hide axis]  
+	\addplotAutoML{H2OAutoML}{color3}{-1pt};
+\end{axis}
+
+\begin{axis}[bar shift=1pt, hide axis]  
+	\addplotAutoML{mljarsupervised}{color4}{1pt};
+\end{axis}
+
+\begin{axis}[bar shift=3pt, hide axis]  
+	\addplotAutoML{constantpredictor}{color6}{3pt};
+\end{axis}
+
+\begin{axis}[bar shift=5pt, hide axis]  
+	\addplotAutoML{RandomForest}{color7}{5pt};
+\end{axis}
+
+\begin{axis}[bar shift=7pt, hide axis]  
+	\addplotAutoML{TPOT}{color8}{7pt};
+\end{axis}
+
+	\node [draw=none,inner sep=0, font=\Large, anchor=west] (leg1) at (rel axis cs: 0.01,1.15) {\shortstack[l]{
+			\ref{gpt-4} CatDB+GPTt-4\\
+      \ref{mljarsupervised} Mljar
+	}};
+
+  \node [draw=none,inner sep=0, font=\Large, anchor=west, right=of leg1, xshift=-20pt] (leg2) {\shortstack[l]{			
+      \ref{gpt-3.5-turbo} CatDB+GPT-3.5-turbo\\
+      \ref{constantpredictor} Constantpredictor
+	}};
+
+  \node [draw=none,inner sep=0, font=\Large, anchor=west, right=of leg2, xshift=-20pt] (leg3) {\shortstack[l]{			
+    \ref{AutoGluon} AutoGluon\\
+    \ref{RandomForest} RandomForest
+	}};
+
+  \node [draw=none,inner sep=0, font=\Large, anchor=west, right=of leg3, xshift=-20pt] (leg4) {\shortstack[l]{			
+    \ref{H2OAutoML} H2O\\
+    \ref{TPOT} TPOT
+	}};
+\end{tikzpicture}

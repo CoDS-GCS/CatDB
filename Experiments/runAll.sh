@@ -2,8 +2,6 @@
 
 ./load-spark-java11.sh
 
-mkdir -p setup
-
 # setup, run experiments, plots
 #./run1SetupDependencies.sh;
 #./run2SetupBaseLines.sh;

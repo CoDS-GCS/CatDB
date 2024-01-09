@@ -2,7 +2,10 @@
 
 root_path="$(pwd)"
 data_path="${root_path}/data"
+config_path="${root_path}/setup/config/"
 cd ${data_path}
+
+# TODO: add Kaggle dataset link to download
 
 mkdir -p tmpdata
 cd tmpdata
@@ -11,13 +14,8 @@ unzip USCars.zip -d USCars
 unzip CanadaPricePrediction.zip -d CanadaPricePrediction
 cd ..
 
-cd ${data_path}
-# rm -rf venv
-# python -m venv venv
+cd ${config_path}
 source venv/bin/activate
-
-# python -m pip install --upgrade pip
-# python -m pip install -r requirements.txt
 
 # benchmark_path="${root_path}/setup/automlbenchmark/resources/benchmarks"
 # python DownloadOpenMLDatasetsByTaskID.py ${data_path} ${benchmark_path}

@@ -89,3 +89,14 @@ source venv/bin/activate
 python -m pip install --upgrade pip
 python -m pip install -r requirements.txt
 pip install pipreqs
+
+# Prepare Config
+################
+config_path="${path}/config/"
+cd ${config_path}
+python -m venv venv
+source venv/bin/activate
+
+#Then install the dependencies:
+python -m pip install --upgrade pip
+python -m pip install -r requirements.txt

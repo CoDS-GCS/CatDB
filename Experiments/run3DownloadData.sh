@@ -85,12 +85,12 @@ cd ${data_path}
 #  unzip yolanda.zip -d ../yolanda
 
 cd ${data_path}
-rm -rf venv
-python -m venv venv
+# rm -rf venv
+# python -m venv venv
 source venv/bin/activate
 
-python -m pip install --upgrade pip
-python -m pip install -r requirements.txt
+# python -m pip install --upgrade pip
+# python -m pip install -r requirements.txt
 
 
 # Binary classification datasets: dorothea, christine, jasmine, philippine, madeline, sylvine, albert, evita
@@ -105,7 +105,20 @@ python -m pip install -r requirements.txt
 #done
 
 
+# benchmark_path="${root_path}/setup/automlbenchmark/resources/benchmarks"
+# python DownloadOpenMLDatasetsByTaskID.py ${data_path} ${benchmark_path}
+
 benchmark_path="${root_path}/setup/automlbenchmark/resources/benchmarks"
-python DownloadOpenMLDatasetsByTaskID.py ${data_path} ${benchmark_path}
+python DownloadOpenMLDatasetsByDatasetID.py ${data_path}
 
 cd ${root_path}
+
+
+#Amazon ML Challenge Dataset 2023
+#https://www.kaggle.com/datasets/kushagrathisside/amazon-ml-challenge-dataset-2023
+
+#US Used cars dataset (9.98 GB)
+#https://www.kaggle.com/datasets/ananaymital/us-used-cars-dataset
+
+#Canada Optimal Product Price Prediction Dataset
+#https://www.kaggle.com/datasets/asaniczka/canada-optimal-product-price-prediction

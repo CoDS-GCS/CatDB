@@ -82,6 +82,7 @@ cd ..
 cp -r src/main/python/* ${catdb_path}
 cd ${catdb_path}
 
+rm -rf venv
 python -m venv venv
 source venv/bin/activate
 
@@ -94,6 +95,7 @@ pip install pipreqs
 ################
 config_path="${path}/config/"
 cd ${config_path}
+rm -rf venv
 python -m venv venv
 source venv/bin/activate
 

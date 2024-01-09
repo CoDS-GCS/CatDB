@@ -20,16 +20,16 @@
 *.rar
 
 .idea/*
-data/*
-Experiments/data/*/*
 
 src/main/__pycache__/*
+src/main/python/.idea/
 src/test/data/*
-Experiments/setup/venvAutoMLBenchmark/*
-/Experiments/data/venv/
+
+Experiments/data/*/*
+Experiments/setup/automlbenchmark/*
 Experiments/venv/
-venv/
+Experiments/results/
 Experiments/setup/automl_test/
 Experiments/setup/Baselines/
-src/main/python/.idea/
-Experiments/results/
+
+venv/

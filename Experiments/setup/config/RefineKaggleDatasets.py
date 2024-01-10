@@ -58,7 +58,7 @@ if __name__ == '__main__':
         config_str = NYCDataset(ds_name=data_source_name, ds_path=ds_path, out_path=out_path, target=target_attributed)
     elif data_source_name == "USCars":
         config_str = USCarsDataset(ds_name=data_source_name, ds_path=ds_path, out_path=out_path, target=target_attributed) 
-    elif data_source_name == "CanadaPricePrediction_test":
+    elif data_source_name == "CanadaPricePrediction":
         config_str = CanadaPricePredictionDataset(ds_name=data_source_name, ds_path=ds_path, out_path=out_path, target=target_attributed)       
     
     yaml_file_local = f'{out_path}/{data_source_name}/{data_source_name}.yaml'

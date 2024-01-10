@@ -37,7 +37,7 @@ def USCarsDataset(ds_name: str, ds_path:str, out_path:str, target: str):
     return getConfigStr(ds_name=ds_name, target=target, task_type='regression')
 
 def CanadaPricePredictionDataset(ds_name: str, ds_path:str, out_path:str, target: str):
-    ds = f'{ds_path}/USCars/amz_ca_price_prediction_dataset.csv'
+    ds = f'{ds_path}/CanadaPricePrediction/amz_ca_price_prediction_dataset.csv'
     df = pd.read_csv(ds)
 
     data_train, data_test = train_test_split(df, test_size=0.3, random_state=42)    

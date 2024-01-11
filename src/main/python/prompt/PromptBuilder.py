@@ -26,10 +26,16 @@ def prompt_factory(catalog: CatalogInfo,
     schema_info = catalog.schema_info
     profile_info = catalog.profile_info
     file_format = catalog.file_format
+    evaluation_text = None
     if task_type == "binary" or task_type == "multiclass":
         task_type_str = f"{task_type} classification"
+        if task_type == "binary":
+            evaluation_text = StaticValues.CODE_FORMATTING_BINARY_EVALUATION
+        else:
+            evaluation_text = StaticValues.CODE_FORMATTING_MULTICLASS_EVALUATION
     else:
         task_type_str = task_type
+        evaluation_text = StaticValues.CODE_FORMATTING_REGRESSION_EVALUATION
 
     if number_example == 0:
         assert repr_cls is not None
@@ -47,6 +53,7 @@ def prompt_factory(catalog: CatalogInfo,
                 self.iterative = number_iteration
                 self.target_attribute = target_attribute
                 self.task_type = task_type_str
+                self.evaluation_text = evaluation_text
                 repr_cls.__init__(self, *args, **kwargs)
                 BasicICLPrompt.__init__(self, *args, **kwargs)
 

@@ -69,18 +69,18 @@ if __name__ == '__main__':
                             data_source_train_path=args.data_source_train_path,
                             data_source_test_path=args.data_source_test_path)
 
-    prompt_text = prompt.format(example=None)
+    # prompt_text = prompt.format(example=None)
 
     # Generate LLM code
-    code = generate_llm_code(model=args.llm_model, prompt=prompt_text)
+    code = generate_llm_code(model=args.llm_model, prompt=prompt)
 
     # Save prompt text
-    if args.output_path is not None:
-        prompt_file_name = f'{args.output_path}/{args.data_source_name}-{prompt.class_name}-{args.llm_model}'
-        f = open(f"{prompt_file_name}.txt", 'w')
-        f.write(prompt_text)
-        f.close()
-
-        f = open(f"{prompt_file_name}.py", 'w')
-        f.write(code)
-        f.close()
+    # if args.output_path is not None:
+    #     prompt_file_name = f'{args.output_path}/{args.data_source_name}-{prompt.class_name}-{args.llm_model}'
+    #     f = open(f"{prompt_file_name}.txt", 'w')
+    #     f.write(prompt_text)
+    #     f.close()
+    #
+    #     f = open(f"{prompt_file_name}.py", 'w')
+    #     f.write(code)
+    #     f.close()

@@ -14,34 +14,51 @@ class BasicPrompt(object):
         raise NotImplementedError()
 
     def get_extra_info(self, examples: dict):
-        return None
+        return {"evaluation_text": self.evaluation_text,
+                "sample_attribute_names": [self.schema_keys[0], self.schema_keys[1]],
+                "task_type": self.task_type,
+                "target_attribute": self.target_attribute
+                }
 
 
-class TextPrompt(BasicPrompt):
+# class TextPrompt(BasicPrompt):
+#     def __init__(self, *args, **kwargs):
+#         self.template_info = "Suppose there is a dataset with training data \"{}\" and test data \"{}\" on the disk, with columns appropriately named as attributes:\n\n{}"
+#         self.template_question = "Generate as many features as useful for downstream classifier, \
+#         but as few as necessary to reach good performance. and can drop unused columns (Feature selection).\
+#         \n Each codeblock ends with \"```end-*\" and starts with \"```python-*\" \n Return a full pipeline code."
+#
+#     def format_question(self, examples: dict):
+#         schema = "\n".join([f"{_} (data type:{self.schema[_]})" for _ in self.schema.keys()])
+#         schema_keys = [_ for _ in self.schema.keys()]
+#
+#         prompt_info = self.template_info.format(self.data_source_train_path, self.data_source_test_path, schema)
+#         prompt_description = StaticValues.PROMPT_DESCRIPTION.format(self.task_type, self.task_type,
+#                                                                     self.target_attribute)
+#
+#         prompt_components = [prompt_info,
+#                              prompt_description,
+#                              StaticValues.CODE_FORMATTING_IMPORT,
+#                              StaticValues.CODE_FORMATTING_LOAD_DATASET.format(self.file_format),
+#                              StaticValues.CODE_FORMATTING_ADDING.format(self.target_attribute,
+#                                                                         schema_keys[0],
+#                                                                         schema_keys[1]),
+#                              StaticValues.CODE_FORMATTING_DROPPING,
+#                              StaticValues.CODE_FORMATTING_TECHNIQUE.format(self.task_type),
+#                              StaticValues.CODE_FORMATTING_OTHER,
+#                              StaticValues.CODE_FORMATTING_EVALUATION,
+#                              self.template_question]
+#         prompt = "\n\n".join(prompt_components)
+#         return re.sub(' +', ' ', prompt)
+
+
+class SchemaPrompt(BasicPrompt):
     def __init__(self, *args, **kwargs):
-        self.template_info = "Suppose there is a dataset with training data \"{}\" and test data \"{}\" on the disk, with columns appropriately named as attributes:\n\n{}"
+        self.schema = "\n".join([f"{_} (data type:{self.schema[_]})" for _ in self.schema.keys()])
+        self.schema_keys = [_ for _ in self.schema.keys()]
         self.template_question = "Generate as many features as useful for downstream classifier, \
         but as few as necessary to reach good performance. and can drop unused columns (Feature selection).\
-        \n Each codeblock ends with \"```end-*\" and starts with \"```python-*\" \n Return a full pipeline code."
+        \n Each codeblock ends with \"```end\" and starts with \"```python\" \n Return a full pipeline code."
 
     def format_question(self, examples: dict):
-        schema = "\n".join([f"{_} (data type:{self.schema[_]})" for _ in self.schema.keys()])
-        schema_keys = [_ for _ in self.schema.keys()]
-
-        prompt_info = self.template_info.format(self.data_source_train_path, self.data_source_test_path, schema)
-        prompt_description = StaticValues.PROMPT_DESCRIPTION.format(self.task_type, self.task_type, self.target_attribute)
-
-        prompt_components = [prompt_info,
-                             prompt_description,
-                             StaticValues.CODE_FORMATTING_IMPORT,
-                             StaticValues.CODE_FORMATTING_LOAD_DATASET.format(self.file_format),
-                             StaticValues.CODE_FORMATTING_ADDING.format(self.target_attribute,
-                                                                        schema_keys[0],
-                                                                        schema_keys[1]),
-                             StaticValues.CODE_FORMATTING_DROPPING,
-                             StaticValues.CODE_FORMATTING_TECHNIQUE.format(self.task_type),
-                             StaticValues.CODE_FORMATTING_OTHER,
-                             StaticValues.CODE_FORMATTING_EVALUATION,
-                             self.template_question]
-        prompt = "\n\n".join(prompt_components)
-        return re.sub(' +', ' ', prompt)
+        return {"question": self.template_question, "prompt": self.schema}

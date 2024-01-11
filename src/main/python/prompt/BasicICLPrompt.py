@@ -6,6 +6,7 @@ class BasicICLPrompt(object):
         self.example_qualities = []
 
     def format(self, example: dict):
-        # target question
-        prompt_target = self.format_target(example)
-        return prompt_target
+        return self.format_target(example)
+
+    def extra_info(self, examples: dict):
+        return self.get_extra_info(examples)

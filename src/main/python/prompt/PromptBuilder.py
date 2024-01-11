@@ -1,3 +1,4 @@
+from util import StaticValues
 from .BasicICLPrompt import BasicICLPrompt
 from catalog.Catalog import CatalogInfo
 from util.StaticValues import REPRESENTATION_TYPE

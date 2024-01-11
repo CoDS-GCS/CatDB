@@ -5,8 +5,8 @@ class BasicICLPrompt(object):
     def __init__(self, *args, **kwargs):
         self.example_qualities = []
 
-    def format(self, example: dict):
-        return self.format_target(example)
+    def format(self):
+        return self.format_target()
 
-    def extra_info(self, examples: dict):
-        return self.get_extra_info(examples)
+    def extra_info(self):
+        return self.get_extra_info()

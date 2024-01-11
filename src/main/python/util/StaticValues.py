@@ -2,25 +2,7 @@ CATEGORICAL_RATIO: float = 0.01
 
 
 class REPRESENTATION_TYPE:
-    TEXT = "TEXT"
-    # --------------------
-    NUMBER_SIGN = "NUMBERSIGN"
-    BASELINE = "BASELINE"
-    INSTRUCTION = "INSTRUCTION"
-    NUMBER_SIGN_WFK = "NUMBERSIGNWFK"
-    BASELINE_WOFK = "BASELINEWOFK"
-    TEXT_WFK = "TEXTWFK"
-    INSTRUCTION_WFK = "INSTRUCTIONWFK"
-    NUMBER_SIGN_WORULE = "NUMBERSIGNWORULE"
-    SQL_WRULE = "SQLWRULE"
-    INSTRUCTION_WRULE = "INSTRUCTIONWRULE"
-    TEXT_WRULE = "TEXTWRULE"
-    SQL_COT = "SQLCOT"
-    TEXT_COT = "TEXTCOT"
-    NUMBER_SIGN_COT = "NUMBERSIGNCOT"
-    INSTRUCTION_COT = "INSTRUCTIONCOT"
-    CBR = "CBR"
-
+    SCHEMA = "SCHEMA"
 
 
 PROMPT_DESCRIPTION = "Create a comprehensive Python 3.10 pipeline ({}) using the following format. This pipeline generates additional columns that are useful for a downstream {} algorithm predicting \"{}\"." \
@@ -92,3 +74,7 @@ CODE_FORMATTING_REGRESSION_EVALUATION = f"""Code formatting for regression evalu
 # Print the log loss result: print(f"RMSE:{{RMSE}}") 
 ```end
 """
+
+CODE_FORMATTING_DATASET = 'Load datasets from the following path:\n \
+"""train_data = {}""" \n \
+"""test_data = {}"""'

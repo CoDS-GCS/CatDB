@@ -5,8 +5,8 @@ from .PromptTemplate import *
 
 
 def get_representation_class(repr_type: str):
-    if repr_type == REPRESENTATION_TYPE.TEXT:
-        representation_class = TextPrompt
+    if repr_type == REPRESENTATION_TYPE.SCHEMA:
+        representation_class = SchemaPrompt
     else:
         raise ValueError(f"{repr_type} is not supported yet")
     return representation_class
@@ -54,6 +54,7 @@ def prompt_factory(catalog: CatalogInfo,
                 self.target_attribute = target_attribute
                 self.task_type = task_type_str
                 self.evaluation_text = evaluation_text
+                self.examples = None
                 repr_cls.__init__(self, *args, **kwargs)
                 BasicICLPrompt.__init__(self, *args, **kwargs)
 

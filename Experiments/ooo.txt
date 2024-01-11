@@ -1,1 +1,0 @@
-python main.py --data-source-path /home/saeed/Documents/Github/CatDB/Experiments/data --data-source-name IMDB.drama --prompt-representation-type SCHEMA --prompt-example-type Random --prompt-number-example 0 --prompt-number-iteration 1 --llm-model gpt-3.5-turbo --output-path /home/saeed/Documents/Github/CatDB/Experiments/catdb-results/IMDB.drama/gpt-3.5-turbo

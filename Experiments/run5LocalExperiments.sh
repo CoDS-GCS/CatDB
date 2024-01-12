@@ -16,7 +16,7 @@ echo "dataset,llm_model,prompt_representation_type,prompt_example_type,prompt_nu
 echo "dataset,platform,time,constraint" >> "${exp_path}/results/Experiment2_AutoML_Corresponding.dat"
 echo "dataset,platform,time,constraint" >> "${exp_path}/results/Experiment3_AutoML_1H.dat"
 
-CMD=./explocal/exp1_end_to_end/runExperiment3.sh
+CMD=./explocal/exp3_end_to_end/runExperiment3.sh
 
 # Binary Datasets
 $CMD IMDB.drama binary 

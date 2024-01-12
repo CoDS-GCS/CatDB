@@ -2,11 +2,12 @@
 
 dataset=$1
 constraint=$2
-log_file_name=$3
 
 exp_path="$(pwd)"
 output_dir="${exp_path}/results/automl_results"
 user_dir=${exp_path}
+log_file_name="${exp_path}/results/Experiment3_AutoML_1H.dat"
+
 logging=console:warning,app:info
 
 cd "${exp_path}/setup/automlbenchmark/"

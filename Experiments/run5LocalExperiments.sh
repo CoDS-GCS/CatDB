@@ -14,33 +14,34 @@ echo "dataset,time" >> "${exp_path}/results/Experiment1_CSVDataReader.dat"
 echo "dataset,llm_model,prompt_representation_type,prompt_example_type,prompt_number_example,prompt_number_iteration,task_type,time,result" >> "${exp_path}/results/Experiment1_LLM_Pipe_Gen.dat"
 
 echo "dataset,platform,time,constraint" >> "${exp_path}/results/Experiment2_AutoML_Corresponding.dat"
+echo "dataset,platform,time,constraint" >> "${exp_path}/results/Experiment3_AutoML_1H.dat"
 
-CMD=./explocal/exp1_catalog/runExperiment1.sh
+CMD=./explocal/exp1_end_to_end/runExperiment3.sh
 
 # Binary Datasets
-#$CMD IMDB.drama binary 
+$CMD IMDB.drama binary 
 $CMD 20_newsgroups.drift binary 
-# $CMD Epsilon binary 
-# $CMD prostate binary 
-# $CMD bates_classif_100 binary 
-# $CMD simulated_electricity binary 
-# $CMD sf-police-incidents binary 
-# $CMD KDDCup09-Appetency binary 
-# $CMD Higgs binary 
+$CMD Epsilon binary 
+$CMD prostate binary 
+$CMD bates_classif_100 binary 
+$CMD simulated_electricity binary 
+$CMD sf-police-incidents binary 
+$CMD KDDCup09-Appetency binary 
+$CMD Higgs binary 
 
-# # Multiclass Datasets
-# $CMD STL-10 multiclass 
-# $CMD Microsoft multiclass 
-# $CMD CIFAR-100 multiclass 
-# $CMD GTSRB-HOG03 multiclass 
-# $CMD BNG_solar_flare multiclass 
-# $CMD CovPokElec muliclass 
-# $CMD beer_reviews multiclass 
-# $CMD Traffic_violations muliclass 
+# Multiclass Datasets
+$CMD STL-10 multiclass 
+$CMD Microsoft multiclass 
+$CMD CIFAR-100 multiclass 
+$CMD GTSRB-HOG03 multiclass 
+$CMD BNG_solar_flare multiclass 
+$CMD CovPokElec muliclass 
+$CMD beer_reviews multiclass 
+$CMD Traffic_violations muliclass 
 
-# # Regression Datasets
-# $CMD Buzzinsocialmedia_Twitter regression 
-# $CMD Tallo regression 
-# $CMD NYC regression 
-# $CMD USCars regression 
-# $CMD CanadaPricePrediction regression 
+# Regression Datasets
+$CMD Buzzinsocialmedia_Twitter regression 
+$CMD Tallo regression 
+$CMD NYC regression 
+$CMD USCars regression 
+$CMD CanadaPricePrediction regression 

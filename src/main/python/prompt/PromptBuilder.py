@@ -8,6 +8,8 @@ from .PromptTemplate import *
 def get_representation_class(repr_type: str):
     if repr_type == REPRESENTATION_TYPE.SCHEMA:
         representation_class = SchemaPrompt
+    elif repr_type == REPRESENTATION_TYPE.SCHEMA_STATISTIC:
+        representation_class = SchemaStatisticPrompt
     else:
         raise ValueError(f"{repr_type} is not supported yet")
     return representation_class

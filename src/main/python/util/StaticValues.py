@@ -3,6 +3,11 @@ CATEGORICAL_RATIO: float = 0.01
 
 class REPRESENTATION_TYPE:
     SCHEMA = "SCHEMA"
+    SCHEMA_STATISTIC = "SCHEMA_STATISTIC"
+    SCHEMA_DTYPE_FD = "SCHEMA_FD" # TODO:
+    SCHEMA_ID = "SCHEMA_ID" # TODO:
+    SCHEMA_FD_ID = "SCHEMA_FD_ID" # TODO:
+    SCHEMA_ABSTRACT = "SCHEMA_ABSTRACT" #TODO:
 
 
 PROMPT_DESCRIPTION = "Create a comprehensive Python 3.10 pipeline ({}) using the following format. This pipeline generates additional columns that are useful for a downstream {} algorithm predicting \"{}\"." \

@@ -5,4 +5,4 @@ task_type=$2
 constraint="1h"
 
 # Run AutoML Baseline
-./explocal/exp1_systematic/runExperiment1_AutoML.sh $dataset $constraint
+./explocal/exp3_end_to_end/runExperiment3_AutoML.sh $dataset $constraint

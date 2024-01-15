@@ -28,7 +28,7 @@ mkdir -p "${data_path}/NYC"
 mkdir -p "${data_path}/USCars"
 mkdir -p "${data_path}/CanadaPricePrediction"
 
-python RefineKaggleDatasets.py NYC Total_amount "${data_path}/tmpdata/" regression ${data_path}
+python RefineKaggleDatasets.py NYC total_amount "${data_path}/tmpdata/" regression ${data_path}
 python RefineKaggleDatasets.py USCars price "${data_path}/tmpdata/" regression ${data_path}
 python RefineKaggleDatasets.py CanadaPricePrediction price "${data_path}/tmpdata/" regression ${data_path}
 

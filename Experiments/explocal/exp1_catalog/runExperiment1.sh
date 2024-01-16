@@ -16,11 +16,11 @@ exp_path="$(pwd)"
 #SCHEMA
 #######
 ./explocal/exp1_catalog/runExperiment1_LLM_Pipe_Gen.sh ${dataset} SCHEMA Random 0 1 ${task_type} gpt-4
-./explocal/exp1_catalog/runExperiment1_LLM_Pipe_Gen.sh ${dataset} SCHEMA Random 0 1 ${task_type} gpt-3.5-turbo
+#./explocal/exp1_catalog/runExperiment1_LLM_Pipe_Gen.sh ${dataset} SCHEMA Random 0 1 ${task_type} gpt-3.5-turbo
 
 
 #SCHEMA_STATISTIC
 #################
 ./explocal/exp1_catalog/runExperiment1_LLM_Pipe_Gen.sh ${dataset} SCHEMA_STATISTIC Random 0 1 ${task_type} gpt-4
-./explocal/exp1_catalog/runExperiment1_LLM_Pipe_Gen.sh ${dataset} SCHEMA_STATISTIC Random 0 1 ${task_type} gpt-3.5-turbo
+#./explocal/exp1_catalog/runExperiment1_LLM_Pipe_Gen.sh ${dataset} SCHEMA_STATISTIC Random 0 1 ${task_type} gpt-3.5-turbo
 

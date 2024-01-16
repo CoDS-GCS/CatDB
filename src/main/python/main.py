@@ -72,7 +72,6 @@ if __name__ == '__main__':
     # Generate LLM code
     code, system_message, prompt_text = generate_llm_code(model=args.llm_model, prompt=prompt)
 
-
     # Save prompt text
     if args.output_path is not None:
         prompt_file_name = f'{args.output_path}/{args.data_source_name}-{prompt.class_name}-{args.llm_model}'
@@ -82,6 +81,7 @@ if __name__ == '__main__':
         f.write(f"PROMPT TEXT:\n{prompt_text}\n")
         f.close()
 
-        f = open(f"{prompt_file_name}.py", 'w')
-        f.write(code)
-        f.close()
+        if len(code) > 100:
+            f = open(f"{prompt_file_name}.py", 'w')
+            f.write(code)
+            f.close()

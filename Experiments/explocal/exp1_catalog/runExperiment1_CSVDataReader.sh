@@ -11,8 +11,8 @@ source venv/bin/activate
 
 SCRIPT="python CSVDataReader.py ${data_source} ${dataset}"
 
-sudo sudo echo 3 >/proc/sys/vm/drop_caches && sudo sync
-sleep 3
+# sudo sudo echo 3 >/proc/sys/vm/drop_caches && sudo sync
+# sleep 3
 
 start=$(date +%s%N)
 $SCRIPT

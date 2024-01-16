@@ -85,7 +85,6 @@ def generate_GPT_LLM_code(model: str, prompt: BasicICLPrompt):
         send_Message_to_GPT(client=client, messages=messages, model=model)
 
         c = 1
-        code = ""
         message_text_all = []
         codes = []
         chunk_len = len(chunks)
@@ -107,9 +106,10 @@ def generate_GPT_LLM_code(model: str, prompt: BasicICLPrompt):
             message_text_all.append(message_text)
 
             messages = [{"role": "user", "content": message_text}]
-            codes.append(send_Message_to_GPT(client=client, messages=messages, model=model))
-            codes.append("#===============================================================")
+            #codes.append(send_Message_to_GPT(client=client, messages=messages, model=model))
             c += 1
+        code = "" # TODO: fix large message problem
+        print(f"#### {extra_info['data_source_train_path']} #### DON'T SEND!")
         return code, system_message, "\n".join(message_text_all)
     else:
         #prompt_text = f'[START PART 1/1]\n{prompt_text}\n[END PART 1/1]\n[ALL PARTS SENT]'

@@ -14,8 +14,8 @@ cd ${data_profile_path}
 rm -rf "${data_source}/${dataset}/data_profile/" #clean-up
 SCRIPT="python kglids_main.py --data-source-name ${dataset}_train --data-source-path ${data_source}/${dataset} --output-path ${data_source}/${dataset}/data_profile/"
 
-sudo sudo echo 3 >/proc/sys/vm/drop_caches && sudo sync
-sleep 3
+# sudo sudo echo 3 >/proc/sys/vm/drop_caches && sudo sync
+# sleep 3
 
 start=$(date +%s%N)
 $SCRIPT

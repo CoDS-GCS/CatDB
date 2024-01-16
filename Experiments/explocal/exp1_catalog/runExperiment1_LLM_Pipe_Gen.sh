@@ -30,8 +30,8 @@ SCRIPT="python main.py --data-source-path ${data_source_path} \
         --llm-model ${llm_model} \
         --output-path ${output_path}"
 
-sudo echo 3 >/proc/sys/vm/drop_caches && sudo sync
-sleep 3
+# sudo echo 3 >/proc/sys/vm/drop_caches && sudo sync
+# sleep 3
 
 echo ${SCRIPT}
 

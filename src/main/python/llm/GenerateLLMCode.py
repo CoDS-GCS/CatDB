@@ -45,7 +45,7 @@ def generate_GPT_LLM_code(model: str, prompt: BasicICLPrompt):
 
     system_rules = [
         'You will be given a dataset, a schema of the dataset, some extra information, and a question. Your task is to generate a data science pipeline. You should answer only by generating code. You should follow Steps 1 to 11 to answer the question. You should return a data science pipeline in Python 3.10 programming language. If you do not have a relevant answer to the question, simply write: "Insufficient information."']
-    if num_tokens >= model_token_limit:
+    if num_tokens >= max_token_size:
         system_rules.append(
             'the user will supply text, preceded by the prefix "[START PART 1/10]" and followed by the suffix "[END PART 1/10]" (1: refer to first pat, and 10: is the total parts). For instance, \n[START PART 1/10]\nthis is the content of part 1 out of 10.\n[END PART 1/10].')
         system_rules.append(
@@ -74,7 +74,7 @@ def generate_GPT_LLM_code(model: str, prompt: BasicICLPrompt):
             "content": system_message,
         }
     ]
-    if num_tokens >= model_token_limit:
+    if num_tokens >= max_token_size:
 
         # Split the token integers into chunks based on max_tokens
         chunks = []
@@ -112,7 +112,7 @@ def generate_GPT_LLM_code(model: str, prompt: BasicICLPrompt):
             # codes.append(send_Message_to_GPT(client=client, messages=messages, model=model))
             c += 1
         code = ""  # TODO: fix large message problem
-        print(f"#### {extra_info['data_source_train_path']} #### DON'T SEND!")
+        print(f"####{ prompt_format['prefix_key']} >> {extra_info['data_source_train_path']} #### DON'T SEND!\n")
         return code, system_message, "\n".join(message_text_all)
     else:
         # prompt_text = f'[START PART 1/1]\n{prompt_text}\n[END PART 1/1]\n[ALL PARTS SENT]'

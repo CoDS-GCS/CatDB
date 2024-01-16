@@ -62,7 +62,7 @@ class SchemaStatisticPrompt(BasicPrompt):
         \n Each codeblock ends with \"```end\" and starts with \"```python\" \n Return a full pipeline code."
 
     def format_question(self):
-        prefix_key = "Schema and Statistic Data:"
+        prefix_key = "Schema and Statistical Data:"
         schema_rule = f"the user will provide the schema of the dataset with columns appropriately named as attributes, and statistic data of columns (e.g., \"total values count\":.., \"distinct values count\":.., \"missing values count\":.., \"min value\":.., \"max value\":.., \"mean\":.., \"median\":..), enclosed in triple quotes, and preceded by the prefix \"{prefix_key}\"."
 
         return {"question": re.sub(' +', ' ', self.template_question),

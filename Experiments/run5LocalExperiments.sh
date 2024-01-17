@@ -24,28 +24,28 @@ CMD=./explocal/exp1_catalog/runExperiment1.sh
 
 Binary Datasets
 $CMD IMDB.drama binary 
-$CMD 20_newsgroups.drift binary 
-$CMD Epsilon binary 
-$CMD prostate binary 
-$CMD bates_classif_100 binary 
-$CMD simulated_electricity binary 
-$CMD sf-police-incidents binary 
-$CMD KDDCup09-Appetency binary 
-$CMD Higgs binary 
+# $CMD 20_newsgroups.drift binary 
+# $CMD Epsilon binary 
+# $CMD prostate binary 
+# $CMD bates_classif_100 binary 
+# $CMD simulated_electricity binary 
+# $CMD sf-police-incidents binary 
+# $CMD KDDCup09-Appetency binary 
+# $CMD Higgs binary 
 
-# Multiclass Datasets
-$CMD STL-10 multiclass 
-$CMD Microsoft multiclass 
-$CMD CIFAR-100 multiclass 
-$CMD GTSRB-HOG03 multiclass 
-$CMD BNG_solar_flare multiclass 
-$CMD CovPokElec muliclass 
-$CMD beer_reviews multiclass 
-$CMD Traffic_violations muliclass 
+# # Multiclass Datasets
+# $CMD STL-10 multiclass 
+# $CMD Microsoft multiclass 
+# $CMD CIFAR-100 multiclass 
+# $CMD GTSRB-HOG03 multiclass 
+# $CMD BNG_solar_flare multiclass 
+# $CMD CovPokElec muliclass 
+# $CMD beer_reviews multiclass 
+# $CMD Traffic_violations muliclass 
 
-# Regression Datasets
-$CMD Buzzinsocialmedia_Twitter regression 
-$CMD Tallo regression 
-$CMD NYC regression 
-$CMD USCars regression 
-$CMD CanadaPricePrediction regression 
+# # Regression Datasets
+# $CMD Buzzinsocialmedia_Twitter regression 
+# $CMD Tallo regression 
+# $CMD NYC regression 
+# $CMD USCars regression 
+# $CMD CanadaPricePrediction regression 

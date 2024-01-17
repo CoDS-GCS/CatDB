@@ -53,8 +53,10 @@ def generate_GPT_LLM_code(model: str, prompt: BasicICLPrompt):
 
     system_rules.extend([
         'the user will provide the path of the training and test data enclosed in triple quotes. For the training data, use """train_data=path/to/train/dataset""", and for the test data, use """test_data=path/to/test/dataset""". Load the datasets using pandas\' CSV readers.',
-        "Don't split the train_data into train and test sets. Use only the given datasets.",
-        f'{prompt_format["rule"]}',
+        "Don't split the train_data into train and test sets. Use only the given datasets."])
+    system_rules.extend(prompt_format["rule"])
+
+    system_rules.extend([f'{prompt_format["rule"]}',
         f'{StaticValues.PROMPT_DESCRIPTION.format(extra_info["task_type"], extra_info["task_type"], extra_info["target_attribute"])}',
         f"{StaticValues.CODE_FORMATTING_IMPORT}",
         f'{StaticValues.CODE_FORMATTING_ADDING.format(extra_info["target_attribute"], extra_info["sample_attribute_names"][0], extra_info["sample_attribute_names"][1])}',
@@ -113,7 +115,7 @@ def generate_GPT_LLM_code(model: str, prompt: BasicICLPrompt):
             # codes.append(send_Message_to_GPT(client=client, messages=messages, model=model))
             c += 1
         code = ""  # TODO: fix large message problem
-        print(f"####{ prompt_format['prefix_key']} >> {extra_info['data_source_train_path']} #### DON'T SEND!\n")
+        print(f"####{ prompt_format['prefix_key']} >> {extra_info['data_source_train_path']} #### DON'T SEND (Token Size = {num_tokens})!\n")
         return code, system_message, "\n".join(message_text_all)
     else:
         # prompt_text = f'[START PART 1/1]\n{prompt_text}\n[END PART 1/1]\n[ALL PARTS SENT]'

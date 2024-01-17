@@ -24,7 +24,7 @@ class BasicPrompt(object):
 
 class SchemaPrompt(BasicPrompt):
     def __init__(self, *args, **kwargs):
-        self.schema_str = "\n".join([f"{_} (data type:{self.schema[_]})" for _ in self.schema.keys()])
+        self.schema_str = "\n".join([f"{_} ({self.schema[_]})" for _ in self.schema.keys()])
         self.schema_keys = [_ for _ in self.schema.keys()]
 
         self.template_question = "Generate as many features as useful for downstream classifier, \
@@ -33,7 +33,7 @@ class SchemaPrompt(BasicPrompt):
 
     def format_question(self):
         prefix_key = "Schema:"
-        schema_rule = f"the user will provide the schema of the dataset with columns appropriately named as attributes, enclosed in triple quotes, and preceded by the prefix \"{prefix_key}\"."
+        schema_rule = [f"the user will provide the schema of the dataset with columns appropriately named as attributes, enclosed in triple quotes, and preceded by the prefix \"{prefix_key}\"."]
 
         return {"question": re.sub(' +', ' ', self.template_question),
                 "prompt": re.sub(' +', ' ', self.schema_str),
@@ -43,13 +43,13 @@ class SchemaPrompt(BasicPrompt):
 
 class SchemaStatisticPrompt(BasicPrompt):
     def __init__(self, *args, **kwargs):
-        self.schema_str = "\n".join([f"{_} (data type:{self.schema[_]})" for _ in self.schema.keys()])
+        self.schema_str = "\n".join([f"{_} ({self.schema[_]})" for _ in self.schema.keys()])
         schema_info_list=[]
         for k in self.schema.keys():
             cp = self.profile[k]
-            str_val = f"{k} (data type:{cp.data_type}, total values count:{cp.total_values_count}, distinct values count:{cp.distinct_values_count}, missing values count:{cp.missing_values_count}"
+            str_val = f"{k} ({cp.short_data_type}, TVC:{cp.total_values_count}, DVC:{cp.distinct_values_count}, MVC:{cp.missing_values_count}"
             if cp.data_type in {"int", "float"}:
-                str_val += f", min value={cp.min_value}, max value:{cp.max_value}, mean:{cp.mean}, median:{cp.median}"
+                str_val += f", MIN={cp.min_value}, MAX:{cp.max_value}, mean:{cp.mean}, median:{cp.median}"
             str_val += ")"
             schema_info_list.append(str_val)
 
@@ -63,7 +63,8 @@ class SchemaStatisticPrompt(BasicPrompt):
 
     def format_question(self):
         prefix_key = "Schema and Statistical Data:"
-        schema_rule = f"the user will provide the schema of the dataset with columns appropriately named as attributes, and statistic data of columns (e.g., \"total values count\":.., \"distinct values count\":.., \"missing values count\":.., \"min value\":.., \"max value\":.., \"mean\":.., \"median\":..), enclosed in triple quotes, and preceded by the prefix \"{prefix_key}\"."
+        schema_rule = [f"the user will provide the schema of the dataset with columns appropriately named as attributes, and statistic data of columns (e.g., \"total values count\":.., \"distinct values count\":.., \"missing values count\":.., \"min value\":.., \"max value\":.., \"mean\":.., \"median\":..), enclosed in triple quotes, and preceded by the prefix \"{prefix_key}\".",
+                       'To minimize message size, user employ the use of abbreviated attribute information listed here: "Total Values Count"="TVC", "Distinct Values Count"="DVC", "Missing Values Count"="MVC", "Min Value"="MIN" , "Max Value"="MAX"']
 
         return {"question": re.sub(' +', ' ', self.template_question),
                 "prompt": re.sub(' +', ' ', self.schema_str),

@@ -61,14 +61,19 @@ class ReduceDimension(object):
         #self.run_similarity_reduction_function(task=self.calc_embedding_euclidean_distance_similarity, keys=int_keys)
 
         schema_info = dict()
+        schema_info_group = dict()
         drop_schema_info = dict()
         for k in self.profile_info.keys():
             pi = self.profile_info[k]
             if pi.is_active:
-                schema_info[k] = pi.data_type
+                schema_info[k] = pi.short_data_type
+                if schema_info_group.get(pi.short_data_type) is None:
+                    schema_info_group[pi.short_data_type] = []
+                else:
+                    schema_info_group[pi.short_data_type].append(k)
             else:
-                drop_schema_info[k] = pi.data_type
-        return schema_info, drop_schema_info, self.profile_info
+                drop_schema_info[k] = pi.short_data_type
+        return schema_info, schema_info_group, drop_schema_info, self.profile_info
 
     def run_similarity_reduction_function(self, keys: [], task: str):
 

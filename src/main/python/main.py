@@ -15,6 +15,9 @@ def parse_arguments():
     parser.add_argument('--prompt-number-iteration', type=int, default=None)
     parser.add_argument('--output-path', type=str, default=None)
     parser.add_argument('--llm-model', type=str, default=None)
+    parser.add_argument('--reduction-method', type=str, default=None)
+    parser.add_argument('--reduction-size', type=str, default=None)
+
     args = parser.parse_args()
 
     if args.data_source_path is None:
@@ -51,13 +54,23 @@ def parse_arguments():
     if args.prompt_number_iteration is None:
         args.prompt_number_iteration = 1
 
+    if args.reduction_method is None:
+        args.reduction_method = "Default"
+
+    if args.reduction_size is None:
+        args.reduction_size = 0
+
     return args
 
 
 if __name__ == '__main__':
     args = parse_arguments()
     profile_info_path = f'{args.data_source_path}/{args.data_source_name}/data_profile'
-    catalog = load_data_source_profile(data_source_path=profile_info_path, file_format="JSON")
+    catalog = load_data_source_profile(data_source_path=profile_info_path,
+                                       file_format="JSON",
+                                       reduction_method=args.reduction_method,
+                                       reduce_size=args.reduction_size,
+                                       target_attribute=args.target_attribute)
 
     prompt = prompt_factory(catalog=catalog,
                             representation_type=args.prompt_representation_type,

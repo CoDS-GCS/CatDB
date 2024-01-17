@@ -1,0 +1,17 @@
+dataset,llm_model,prompt_representation_type,prompt_example_type,prompt_number_example,prompt_number_iteration,task_type,time,result
+IMDB.drama,gpt-4,SCHEMA,Random,0,1,binary,15696,
+prostate,gpt-4,SCHEMA,Random,0,1,binary,9266115,
+bates_classif_100,gpt-4,SCHEMA,Random,0,1,binary,17684201,
+simulated_electricity,gpt-4,SCHEMA,Random,0,1,binary,1233837,
+sf-police-incidents,gpt-4,SCHEMA,Random,0,1,binary,348371,
+Higgs,gpt-4,SCHEMA,Random,0,1,binary,8729747,
+Microsoft,gpt-4,SCHEMA,Random,0,1,multiclass,1028383,
+CovPokElec,gpt-4,SCHEMA,Random,0,1,muliclass,261106,
+Buzzinsocialmedia_Twitter,gpt-4,SCHEMA,Random,0,1,regression,8512,
+simulated_electricity,gpt-4,SCHEMA_STATISTIC,Random,0,1,binary,1237167,
+sf-police-incidents,gpt-4,SCHEMA_STATISTIC,Random,0,1,binary,336455,
+Higgs,gpt-4,SCHEMA_STATISTIC,Random,0,1,binary,8369169,
+BNG_solar_flare,gpt-4,SCHEMA_STATISTIC,Random,0,1,multiclass,37338,
+CovPokElec,gpt-4,SCHEMA_STATISTIC,Random,0,1,muliclass,11214,
+Buzzinsocialmedia_Twitter,gpt-4,SCHEMA_STATISTIC,Random,0,1,regression,7280,
+

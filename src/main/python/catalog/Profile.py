@@ -23,7 +23,7 @@ class ProfileInfo(object):
                  iqr: float,
                  embedding_scaling_factor: float,
                  embedding=None
-                ):
+                 ):
         self.distinct_values_count = distinct_values_count
         self.data_source = data_source
         self.embedding_scaling_factor = embedding_scaling_factor
@@ -46,6 +46,10 @@ class ProfileInfo(object):
         self.dataset_id = dataset_id
         self.dataset_name = dataset_name
         self.column_id = column_id
+        self.is_active = True
+
+    def deactivate(self):
+        self.is_active = False
 
 
 def load_JSON_profile_info(file_name: str):

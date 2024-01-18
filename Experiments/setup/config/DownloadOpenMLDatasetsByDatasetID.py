@@ -47,28 +47,45 @@ class DownloadDatasets(object):
 
 if __name__ == '__main__':
     data_out_path = sys.argv[1]
-    #setting_out_path = sys.argv[2]
+    setting_out_path = sys.argv[2]
     download_ds = DownloadDatasets(out_path=data_out_path)
 
-    datasetIDs = [(273,'IMDB.drama','binary'),
-                  (40517,'20_newsgroups.drift','binary'),
-                  (45575,'Epsilon','binary'),
-                  (45672,'prostate','binary'),
-                  (45668,'bates_classif_100','binary'),
-                  (45693,'simulated_electricity','binary'),
-                  (42732,'sf-police-incidents','binary'),
-                  (42757,'KDDCup09-Appetency','binary'),
+    # datasetIDs = [(273,'IMDB.drama','binary'),
+    #               (40517,'20_newsgroups.drift','binary'),
+    #               (45575,'Epsilon','binary'),
+    #               (45672,'prostate','binary'),
+    #               (45668,'bates_classif_100','binary'),
+    #               (45693,'simulated_electricity','binary'),
+    #               (42732,'sf-police-incidents','binary'),
+    #               (42757,'KDDCup09-Appetency','binary'),
+    #               (45570,'Higgs','binary'),
+    #               (41103,'STL-10','multiclass'),
+    #               (45579,'Microsoft','multiclass'),
+    #               (41983,'CIFAR-100','multiclass'),
+    #               (41989,'GTSRB-HOG03','multiclass'),
+    #               (1179,'BNG(solar-flare)','multiclass'),
+    #               (149,'CovPokElec','muliclass'),
+    #               (42088,'beer_reviews','multiclass'),
+    #               (42132,'Traffic_violations','muliclass'),
+    #               (4549,'Buzzinsocialmedia_Twitter','regression'),
+    #               (45081,'Tallo','regression')]
+    
+    datasetIDs = [(45693,'simulated_electricity','binary'),
+                  (23513,'KDD98','binary'),                  
                   (45570,'Higgs','binary'),
-                  (41103,'STL-10','multiclass'),
+                  (45072,'airlines','binary'),
+                  (40514,'BNG_credit_g','binary'),
                   (45579,'Microsoft','multiclass'),
-                  (41983,'CIFAR-100','multiclass'),
-                  (41989,'GTSRB-HOG03','multiclass'),
-                  (1179,'BNG(solar-flare)','multiclass'),
-                  (149,'CovPokElec','muliclass'),
-                  (42088,'beer_reviews','multiclass'),
-                  (42132,'Traffic_violations','muliclass'),
+                  (45056,'cmc','multiclass'),
+                  (42608,'diabetes','multiclass'),
+                  (43476,'3-million-Sudoku-puzzles-with-ratings','multiclass'),
+                  (155,'pokerhand','multiclass'),
                   (4549,'Buzzinsocialmedia_Twitter','regression'),
-                  (45081,'Tallo','regression')]
+                  (45045,'delays_zurich_transport','regression'),
+                  (44065,'nyc-taxi-green-dec-2016','regression'),
+                  (44057,'black_friday','regression'),
+                  (42080,'federal_election','regression'),
+                  ]
     
 
     dataset_list = 'dataset_name,nrows,ncols,file_format,task_type,number_classes,original_url,target_feature,description\n'
@@ -92,11 +109,11 @@ if __name__ == '__main__':
         f_local.write(config_str)
         f_local.close()
 
-        # yaml_file_benchmark = f'{setting_out_path}/{ds_name}.yaml'
-        # f = open(yaml_file_benchmark, 'w')
-        # f.write("--- \n \n")
-        # f.write(config_str)
-        # f.close()
+        yaml_file_benchmark = f'{setting_out_path}/{ds_name}.yaml'
+        f = open(yaml_file_benchmark, 'w')
+        f.write("--- \n \n")
+        f.write(config_str)
+        f.close()
 
         dataset_list += f'{ds_name},{nrows},{ncols},csv,{task_type},{number_classes},{original_data_url},{target}, "OpenML (DatasetID={dataset_id})"\n'
         script_list += f'./explocal/exp1_systematic/runExperiment1.sh {ds_name} {task_type} \n'

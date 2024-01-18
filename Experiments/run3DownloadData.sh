@@ -9,9 +9,9 @@ cd ${data_path}
 
 mkdir -p tmpdata
 cd tmpdata
-unzip NYC.zip -d NYC
-unzip USCars.zip -d USCars
-unzip CanadaPricePrediction.zip -d CanadaPricePrediction
+# unzip NYC.zip -d NYC
+# unzip USCars.zip -d USCars
+# unzip CanadaPricePrediction.zip -d CanadaPricePrediction
 cd ..
 
 cd ${config_path}
@@ -20,17 +20,17 @@ source venv/bin/activate
 # benchmark_path="${root_path}/setup/automlbenchmark/resources/benchmarks"
 # python DownloadOpenMLDatasetsByTaskID.py ${data_path} ${benchmark_path}
 
-# benchmark_path="${root_path}/setup/automlbenchmark/resources/benchmarks"
-# python DownloadOpenMLDatasetsByDatasetID.py ${data_path}
+benchmark_path="${root_path}/setup/automlbenchmark/resources/benchmarks"
+python DownloadOpenMLDatasetsByDatasetID.py ${data_path} ${benchmark_path}
 
 # Refine kaggle datasets
-mkdir -p "${data_path}/NYC"
-mkdir -p "${data_path}/USCars"
-mkdir -p "${data_path}/CanadaPricePrediction"
+# mkdir -p "${data_path}/NYC"
+# mkdir -p "${data_path}/USCars"
+# mkdir -p "${data_path}/CanadaPricePrediction"
 
-python RefineKaggleDatasets.py NYC total_amount "${data_path}/tmpdata/" regression ${data_path}
-python RefineKaggleDatasets.py USCars price "${data_path}/tmpdata/" regression ${data_path}
-python RefineKaggleDatasets.py CanadaPricePrediction price "${data_path}/tmpdata/" regression ${data_path}
+# python RefineKaggleDatasets.py NYC total_amount "${data_path}/tmpdata/" regression ${data_path}
+# python RefineKaggleDatasets.py USCars price "${data_path}/tmpdata/" regression ${data_path}
+# python RefineKaggleDatasets.py CanadaPricePrediction price "${data_path}/tmpdata/" regression ${data_path}
 
 cd ${root_path}
 

@@ -20,7 +20,8 @@ class CatalogInfo(object):
         self.schema_info_group = schema_info_group
 
 
-def load_data_source_profile(data_source_path: str, file_format: str, target_attribute: str, reduction_method: str, reduce_size: int):
+def load_data_source_profile(data_source_path: str, file_format: str, target_attribute: str, reduction_method: str,
+                             reduce_size: int):
     profile_info = dict()
     schema_info = dict()
     ncols = 0
@@ -51,14 +52,13 @@ def load_data_source_profile(data_source_path: str, file_format: str, target_att
     drop_schema_info = []
     if reduction_method is not None:
         rd = ReduceDimension(profile_info=profile_info, reduction_method=reduction_method, reduce_size=reduce_size,
-                             target_attribute= target_attribute)
+                             target_attribute=target_attribute)
 
         schema_info, schema_info_group, drop_schema_info, profile_info = rd.get_new_profile_info()
         new_profile_size = len(schema_info)
 
-        print(len(schema_info_group))
-        print(f"[{data_source_path}]  --- orig_size = {orig_profile_size}, new_size = {new_profile_size} >> r= {orig_profile_size-new_profile_size}")
-
+        print(
+            f"[{data_source_path}]  --- orig_size = {orig_profile_size}, new_size = {new_profile_size} >> r= {orig_profile_size - new_profile_size}")
 
     return CatalogInfo(nrows=nrows, ncols=ncols, file_format="csv", dataset_name=dataset_name,
                        schema_info=schema_info, profile_info=profile_info, data_source_path=source_path,

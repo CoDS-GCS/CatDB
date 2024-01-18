@@ -125,13 +125,12 @@ def generate_GPT_LLM_code(model: str, prompt: BasicICLPrompt):
 
 
 def send_Message_to_GPT(messages, client, model):
-    # completion = client.chat.completions.create(
-    #     messages=messages,
-    #     model=model,
-    #     temperature=0.2,
-    #     top_p=0.1,
-    # )
-    # code = completion.choices[0].message.content
-    # code = code.replace("```", "# ```")
-    code = ""
+    completion = client.chat.completions.create(
+        messages=messages,
+        model=model,
+        temperature=0.2,
+        top_p=0.1,
+    )
+    code = completion.choices[0].message.content
+    code = code.replace("```", "# ```")
     return code

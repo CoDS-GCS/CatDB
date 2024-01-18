@@ -24,7 +24,7 @@ def generate_GPT_LLM_code(model: str, prompt: BasicICLPrompt):
     else:
         model_token_limit = -1
 
-    max_token_size = int(model_token_limit * 0.8)
+    max_token_size = int(model_token_limit * 0.95)
     enc = tiktoken.get_encoding("cl100k_base")
     enc = tiktoken.encoding_for_model(model)
     prompt_format = prompt.format()

@@ -76,7 +76,7 @@ if __name__ == '__main__':
                   (40514,'BNG_credit_g','binary'),
                   (45579,'Microsoft','multiclass'),
                   (45056,'cmc','multiclass'),
-                  (42608,'diabetes','multiclass'),
+                  (37,'diabetes','multiclass'),
                   (43476,'3-million-Sudoku-puzzles-with-ratings','multiclass'),
                   (155,'pokerhand','multiclass'),
                   (4549,'Buzzinsocialmedia_Twitter','regression'),

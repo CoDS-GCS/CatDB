@@ -18,13 +18,14 @@ class BasicPrompt(object):
                 "task_type": self.task_type,
                 "target_attribute": self.target_attribute,
                 "data_source_train_path": self.data_source_train_path,
-                "data_source_test_path": self.data_source_test_path
+                "data_source_test_path": self.data_source_test_path,
+                "nrows": self.profile_info.nrows
                 }
 
 
 class SchemaPrompt(BasicPrompt):
     def __init__(self, *args, **kwargs):
-        self.schema_str = "\n".join([f"{_} (Data type:{self.schema[_]})" for _ in self.schema.keys()])
+        self.schema_str = "\n".join([f"{_} (dtype:{self.schema[_]})" for _ in self.schema.keys()])
         self.schema_keys = [_ for _ in self.schema.keys()]
 
         self.template_question = "Generate as many features as useful for downstream classifier, \
@@ -48,7 +49,7 @@ class SchemaStatisticPrompt(BasicPrompt):
         schema_info_list = []
         for k in self.schema.keys():
             cp = self.profile[k]
-            str_val = f"{k} (data type:{cp.short_data_type}, Total Values Count:{cp.total_values_count}, Distinct Values Count:{cp.distinct_values_count}, Missing Values Count:{cp.missing_values_count}"
+            str_val = f"{k} (dtype:{cp.short_data_type}, Distinct Values Count:{cp.distinct_values_count}, Missing Values Count:{cp.missing_values_count}"
             if cp.data_type in {"int", "float"}:
                 str_val += f", Min Value={cp.min_value}, Max Value:{cp.max_value}, mean:{cp.mean}, median:{cp.median}"
             str_val += ")"
@@ -64,7 +65,7 @@ class SchemaStatisticPrompt(BasicPrompt):
     def format_question(self):
         prefix_key = "Schema and Statistical Data:"
         schema_rule = [
-            f"the user will provide the schema of the dataset with columns appropriately named as attributes, and statistic data of columns (e.g., \"total values count\":.., \"distinct values count\":.., \"missing values count\":.., \"min value\":.., \"max value\":.., \"mean\":.., \"median\":..), enclosed in triple quotes, and preceded by the prefix \"{prefix_key}\"."]
+            f"the user will provide the schema of the dataset with columns appropriately named as attributes, and statistic data of columns (e.g., \"distinct values count\":.., \"missing values count\":.., \"min value\":.., \"max value\":.., \"mean\":.., \"median\":..), enclosed in triple quotes, and preceded by the prefix \"{prefix_key}\"."]
 
         return {"question": re.sub(' +', ' ', self.template_question),
                 "prompt": re.sub(' +', ' ', self.schema_str),

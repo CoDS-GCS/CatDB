@@ -55,7 +55,7 @@ def parse_arguments():
         args.prompt_number_iteration = 1
 
     if args.reduction_method is None:
-        args.reduction_method = "Default"
+        args.reduction_method = None
 
     if args.reduction_size is None:
         args.reduction_size = 0

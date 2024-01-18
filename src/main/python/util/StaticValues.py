@@ -15,7 +15,7 @@ PROMPT_DESCRIPTION = "Create a comprehensive Python 3.10 pipeline ({}) using the
                          "The scale of columns and offset does not matter. Make sure all used columns exist. Follow the above description of columns closely and consider the datatypes and meanings of classes." \
                          "This code also drops columns, if these may be redundant and hurt the predictive performance of the downstream classifier (Feature selection). Dropping columns may help as the chance of overfitting is lower, especially if the dataset is small." \
                          "The classifier will be trained on the dataset with the generated columns and evaluated on a holdout set. The evaluation metric is accuracy. The best performing code will be selected. " \
-                         "Added columns can be used in other codeblocks, dropped columns are not available anymore."
+                         "Added columns can be used in other codeblocks, dropped columns are not available anymore.\n\nNumber of samples (rows) in training dataset: {}"
 
 CODE_FORMATTING_IMPORT = f"""Code formatting for all required packages:
 ```python

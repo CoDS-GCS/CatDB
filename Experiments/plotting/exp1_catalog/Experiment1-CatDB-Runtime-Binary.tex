@@ -1,0 +1,121 @@
+\newcommand{\addplotCatDB}[5]{
+	   \addplot[xshift=#1,draw=black,line width=0.15pt, fill=tugb, discard if singlecatdb={#2}{#3}{#4},postaction={#5}] 
+	   table[ y=time, col sep=comma, x=dataset] {results/Experiment1_LLM_Pipe_Gen.dat};
+	   \label{leg_pip_gen}
+
+    %  \addplot[xshift=#3,draw=black,line width=0.15pt, fill=tug, discard if singlecatdb={#1},postaction={#5}] 
+	  %  table[ y=catdb_llm_time, col sep=comma, x=dataset] {results/Experiment1_CatDB_Final.dat};
+	  %  \label{leg_pip_exec}       
+};
+
+\newcommand{\addplotDataProfilling}[2]{
+	   \addplot[xshift=#1, draw=black,line width=0.15pt, fill=black, discard if profile={#2}] 
+	   table[ y=time, col sep=comma, x=dataset] {results/Experiment1_Data_Profile.dat};
+     \label{leg_dataprofile} 
+};
+
+
+\pgfplotsset{
+    discard if singlecatdb/.style n args={3}{
+        x filter/.code={
+            \edef\tempa{\thisrow{llm_model}}
+            \edef\tempb{#1}
+            \ifx\tempa\tempb
+                    \edef\tempc{\thisrow{task_type}}
+                    \edef\tempd{#2}
+                    \ifx\tempc\tempd
+                      \edef\tempe{\thisrow{prompt_representation_type}}
+                      \edef\tempf{#3}
+                      \ifx\tempe\tempf                        	
+                      \else
+                      \def\pgfmathresult{inf}
+                      \fi
+                    \else
+                    \def\pgfmathresult{inf}
+                    \fi      
+            \else
+            \def\pgfmathresult{inf}
+            \fi			
+        }
+    },
+    discard if profile/.style n args={1}{
+      x filter/.code={
+          \edef\tempa{\thisrow{task_type}}
+          \edef\tempb{#1}
+          \ifx\tempa\tempb
+          \else
+          \def\pgfmathresult{inf}
+          \fi			
+      }
+  },
+};
+
+\begin{tikzpicture}[
+  %ymode=log,  
+  every axis/.style={
+    ybar stacked,
+    %ymode=log,
+    xtick style={draw=none},		
+    every major tick/.append style={ thick,major tick length=2.5pt, gray},
+    axis line style={gray},
+    ybar,        
+    ybar=0pt,
+    ymin=0,
+    %ymax=1000,
+    log ticks with fixed point,
+    y tick label style={/pgf/number format/1000 sep={}},
+    x tick label style={/pgf/number format/1000 sep={}},
+    scaled y ticks=false,
+    enlarge y limits={0.013,upper},
+    enlarge x limits=0.1,
+    ylabel={Execution Time[s]},
+    xlabel={$\#$Dataset},
+    %ytick={0,100,200,300,400,500,600,700,800,900,1000,1100,12000,1300},
+    %yticklabels={0,10,100,1e3,1e4},
+    ytick align=outside,
+    xtick pos=left,
+    ytick pos=left,
+    yticklabel style = {font=\Large},
+    ylabel style = {font=\Large, yshift=-2pt},
+    xticklabel style = {font=\Large, xshift=0pt},
+    xtick=data,
+    height=0.7\columnwidth,
+    width=1.5\columnwidth,    
+    bar width=8pt,	 
+    ymajorgrids=true,
+    grid style=dotted,   
+    minor grid style={gray!50},  
+    symbolic x coords={simulated_electricity,KDD98,Higgs,airlines,BNG_credit_g,Microsoft,cmc,diabetes,3-million-Sudoku-puzzles-with-ratings,pokerhand,Buzzinsocialmedia_Twitter,delays_zurich_transport,nyc-taxi-green-dec-2016,black_friday,federal_election},   
+    xticklabels={1,2,3,4,5,6,7,8,9,10,11,12,13,14,15},    
+    legend image code/.code={\draw [#1] (0cm,-0.1cm) rectangle (0.2cm,0.3cm); },
+  }	 
+]
+	
+
+
+\begin{axis}%[hide axis]
+    \addplotDataProfilling{-12pt}{binary};	  	  
+\end{axis}	
+
+\begin{axis}[hide axis]  
+  \addplotCatDB{-4}{gpt-4}{binary}{SCHEMA}{};
+\end{axis}
+
+\begin{axis}[hide axis]  
+	\addplotCatDB{4}{gpt-4}{binary}{SCHEMA_STATISTIC}{pattern=north east lines,pattern color=gray!130};
+\end{axis}
+
+
+
+\node [draw=none,inner sep=0, font=\Large, anchor=west] (leg1) at (rel axis cs: 0.1,0.86) {\shortstack[l]{
+			\ref{leg_dataprofile} Data Profiling 
+      \ref{leg_pip_gen} Pipeline Generation  
+			\ref{leg_pip_gen} Pipeline  Execution 			 			
+	}};
+% \draw[draw=black] (7.5,2) rectangle (7.7cm,2.3cm); 
+% \node [draw=none,inner sep=0, font=\large, anchor=west] (gpt-4) at (7.8,2.15) {GPT-4};
+
+% \draw[pattern=north east lines, pattern color=gray] (7.5,1.6) rectangle (7.7cm,1.9cm);
+% \node [draw=none,inner sep=0, font=\large, anchor=west] (gpt-4) at (7.8,1.75) {GPT-3.5-Turbo};
+
+\end{tikzpicture}

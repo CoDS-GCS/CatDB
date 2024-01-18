@@ -1,6 +1,7 @@
 #!/bin/bash
 
 dataset=$1
+task_type=$2
 
 exp_path="$(pwd)"
 log_file_name="${exp_path}/results/Experiment1_Data_Profile.dat"
@@ -21,4 +22,4 @@ start=$(date +%s%N)
 $SCRIPT
 end=$(date +%s%N)
 
-echo ${dataset}",kglids,"$((($end - $start) / 1000000)) >>$log_file_name
+echo ${dataset}","${task_type}",kglids,"$((($end - $start) / 1000000)) >>$log_file_name

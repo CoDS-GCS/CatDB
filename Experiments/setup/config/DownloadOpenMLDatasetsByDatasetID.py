@@ -8,10 +8,9 @@ class DownloadDatasets(object):
     def __init__(self, out_path):
         self.out_path = out_path
 
-    def download_dataset(self, datasetID):
+    def download_dataset(self, datasetID, ds_name):
         dataset = openml.datasets.get_dataset(datasetID, download_qualities=False)
         data, y, categorical_indicator, attribute_names = dataset.get_data()
-        ds_name = dataset.name
 
         (nrows, ncols) = data.shape
 
@@ -91,7 +90,8 @@ if __name__ == '__main__':
     dataset_list = 'dataset_name,nrows,ncols,file_format,task_type,number_classes,original_url,target_feature,description\n'
     script_list =""
     for (dataset_id,ds_name,task_type) in datasetIDs:
-        target, nrows, ncols, original_data_url, number_classes = download_ds.download_dataset(datasetID=dataset_id)
+        print(f" Downloading Dataset: dataset name={ds_name}, dataset ID={dataset_id} \n")
+        target, nrows, ncols, original_data_url, number_classes = download_ds.download_dataset(datasetID=dataset_id, ds_name=ds_name)
 
         config_strs = [f"- name: {ds_name}",
                        "  dataset:",

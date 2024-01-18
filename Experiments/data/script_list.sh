@@ -1,0 +1,15 @@
+./explocal/exp1_systematic/runExperiment1.sh simulated_electricity binary 
+./explocal/exp1_systematic/runExperiment1.sh KDD98 binary 
+./explocal/exp1_systematic/runExperiment1.sh Higgs binary 
+./explocal/exp1_systematic/runExperiment1.sh airlines binary 
+./explocal/exp1_systematic/runExperiment1.sh BNG_credit_g binary 
+./explocal/exp1_systematic/runExperiment1.sh Microsoft multiclass 
+./explocal/exp1_systematic/runExperiment1.sh cmc multiclass 
+./explocal/exp1_systematic/runExperiment1.sh diabetes multiclass 
+./explocal/exp1_systematic/runExperiment1.sh 3-million-Sudoku-puzzles-with-ratings multiclass 
+./explocal/exp1_systematic/runExperiment1.sh pokerhand multiclass 
+./explocal/exp1_systematic/runExperiment1.sh Buzzinsocialmedia_Twitter regression 
+./explocal/exp1_systematic/runExperiment1.sh delays_zurich_transport regression 
+./explocal/exp1_systematic/runExperiment1.sh nyc-taxi-green-dec-2016 regression 
+./explocal/exp1_systematic/runExperiment1.sh black_friday regression 
+./explocal/exp1_systematic/runExperiment1.sh federal_election regression 

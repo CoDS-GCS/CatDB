@@ -19,7 +19,7 @@ class BasicPrompt(object):
                 "target_attribute": self.target_attribute,
                 "data_source_train_path": self.data_source_train_path,
                 "data_source_test_path": self.data_source_test_path,
-                "nrows": self.profile_info.nrows
+                "nrows": self.nrows
                 }
 
 
@@ -51,7 +51,7 @@ class SchemaStatisticPrompt(BasicPrompt):
             cp = self.profile[k]
             str_val = f"{k} (dtype:{cp.short_data_type}, Distinct Values Count:{cp.distinct_values_count}, Missing Values Count:{cp.missing_values_count}"
             if cp.data_type in {"int", "float"}:
-                str_val += f", Min Value={cp.min_value}, Max Value:{cp.max_value}, mean:{cp.mean}, median:{cp.median}"
+                str_val += f", Min Value={cp.min_value}, Max Value:{cp.max_value}, mean:{cp.mean:0.2f}, median:{cp.median:0.2f}"
             str_val += ")"
             schema_info_list.append(str_val)
 

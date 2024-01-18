@@ -28,6 +28,7 @@ def prompt_factory(catalog: CatalogInfo,
     repr_cls = get_representation_class(representation_type)
     schema_info = catalog.schema_info
     profile_info = catalog.profile_info
+    nrows = catalog.nrows
     file_format = catalog.file_format
     evaluation_text = None
     if task_type == "binary" or task_type == "multiclass":
@@ -49,6 +50,7 @@ def prompt_factory(catalog: CatalogInfo,
                 self.class_name = class_name
                 self.schema = schema_info
                 self.profile = profile_info
+                self.nrows = nrows
                 self.data_source_train_path = data_source_train_path
                 self.data_source_test_path = data_source_test_path
                 self.file_format = file_format

@@ -57,7 +57,7 @@ def generate_GPT_LLM_code(model: str, prompt: BasicICLPrompt):
     system_rules.extend(prompt_format["rule"])
 
     system_rules.extend([f'{prompt_format["rule"]}',
-        f'{StaticValues.PROMPT_DESCRIPTION.format(extra_info["task_type"], extra_info["task_type"], extra_info["target_attribute"]), extra_info["nrows"]}',
+        f'{StaticValues.PROMPT_DESCRIPTION.format(extra_info["task_type"], extra_info["task_type"], extra_info["target_attribute"], extra_info["nrows"])}',
         f"{StaticValues.CODE_FORMATTING_IMPORT}",
         f'{StaticValues.CODE_FORMATTING_ADDING.format(extra_info["target_attribute"], extra_info["sample_attribute_names"][0], extra_info["sample_attribute_names"][1])}',
         f"{StaticValues.CODE_FORMATTING_DROPPING}",

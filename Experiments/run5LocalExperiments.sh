@@ -30,8 +30,8 @@ $CMD BNG_credit_g binary
 $CMD Microsoft multiclass 
 $CMD cmc multiclass 
 $CMD diabetes multiclass 
-$CMD 3-million-Sudoku-puzzles-with-ratings multiclass 
-$CMD pokerhand multiclass 
+#$CMD 3-million-Sudoku-puzzles-with-ratings multiclass 
+#$CMD pokerhand multiclass 
 $CMD Buzzinsocialmedia_Twitter regression 
 $CMD delays_zurich_transport regression 
 $CMD nyc-taxi-green-dec-2016 regression 

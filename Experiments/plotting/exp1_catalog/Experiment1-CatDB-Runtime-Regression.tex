@@ -55,24 +55,24 @@
   every axis/.style={
     major x tick style = {draw=none},
     ybar stacked,
-    ymode=log,
+    %ymode=log,
     xtick style={draw=none},		
     every major tick/.append style={ thick,major tick length=2.5pt, gray},
     axis line style={gray},
     ybar,        
     ybar=0pt,
-    ymin=15,
-    ymax=10000,
+    ymin=0,
+    ymax=260,
     log ticks with fixed point,
     y tick label style={/pgf/number format/1000 sep={}},
     x tick label style={/pgf/number format/1000 sep={}},
     scaled y ticks=false,
     enlarge y limits={0.013,upper},
-    enlarge x limits=0.11,
+    enlarge x limits=0.1,
     ylabel={Execution Time[s]},
     %xlabel={$\#$Dataset},
-    ytick={0.0001,100,1000, 10000},
-    yticklabels={0,1e2, 1e3,1e4},
+    ytick={0,50,100, 150,200,250},
+    %yticklabels={0,1e2, 1e3,1e4},
     ytick align=outside,
     xtick pos=left,
     ytick pos=left,
@@ -80,13 +80,13 @@
     ylabel style = {font=\Large, yshift=-2pt},
     xticklabel style = {font=\normalsize, xshift=0pt},
     height=0.7\columnwidth,
-    width=1.4\columnwidth,    
+    width=1.45\columnwidth,    
     bar width=8pt,	 
     ymajorgrids=true,
     grid style=dotted,   
     minor grid style={gray!50}, 
     xtick = data,
-    symbolic x coords={Higgs,Simulated Electricity,Credit g,Airlines,KDD98,Microsoft,Zurich Transport,Diabetes,NYC,Black Friday,CMC,Buzzinsocialmedia,Federal Election, Pokerhand,Sudoku Puzzles}, 
+    symbolic x coords={Microsoft,CMC,Diabetes,Pokerhand,Sudoku Puzzles,Higgs,Simulated Electricity,Credit g,Airlines,KDD98,Zurich Transport,Federal Election,Black Friday,Buzzinsocialmedia,NYC}, 
     %xtickmin=simulated_electricity,
     %xtickmax=federal_election,
     %xticklabels={Simulated Electricity,Higgs,KDD98,Airlines,Credit g},   
@@ -95,19 +95,19 @@
 ]
 	
 \begin{axis}%[hide axis]
-  \addplotDataProfilling{-16pt}{binary};	  	  
+  \addplotDataProfilling{-16pt}{regression};	  	  
 \end{axis}
 
 \begin{axis}[hide axis]  
-  \addplotCatDB{-4}{gpt-4}{binary}{SCHEMA}{}{-12};
+  \addplotCatDB{-4}{gpt-4}{regression}{SCHEMA}{}{-12};
 \end{axis}
 
 \begin{axis}[hide axis]  
-	\addplotCatDB{4}{gpt-4}{binary}{SCHEMA_STATISTIC}{pattern=north east lines,pattern color=gray!130}{-4};
+	\addplotCatDB{4}{gpt-4}{regression}{SCHEMA_STATISTIC}{pattern=north east lines,pattern color=gray!130}{-4};
 \end{axis}
 
 	
-\node [draw=none,inner sep=0, font=\Large, anchor=west] (leg1) at (rel axis cs: 0.45,0.4) {\shortstack[l]{
+\node [draw=none,inner sep=0, font=\Large, anchor=west] (leg1) at (rel axis cs: 0.15,0.80) {\shortstack[l]{
 			\ref{leg_dataprofile} Data Profiling \\
       \ref{leg_pip_gen_SCHEMA} Pipeline Generation  \\
 			\ref{leg_pip_runtime_SCHEMA} Pipeline Execution 			 			

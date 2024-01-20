@@ -7,8 +7,8 @@
 #./run2SetupBaseLines.sh;
 #./run3DownloadData.sh;
 #./run4GenerateData.sh;
-./run5LocalExperiments.sh;
+#./run5LocalExperiments.sh;
 # ./run6PlotResults.sh; 
 
 
-# ./explocal/runMergeResults.sh
+./explocal/runMergeResults.sh

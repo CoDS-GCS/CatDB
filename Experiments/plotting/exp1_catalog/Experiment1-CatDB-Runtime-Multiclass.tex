@@ -61,8 +61,8 @@
     axis line style={gray},
     ybar,        
     ybar=0pt,
-    ymin=15,
-    ymax=10000,
+    ymin=10,
+    ymax=1050,
     log ticks with fixed point,
     y tick label style={/pgf/number format/1000 sep={}},
     x tick label style={/pgf/number format/1000 sep={}},
@@ -86,7 +86,7 @@
     grid style=dotted,   
     minor grid style={gray!50}, 
     xtick = data,
-    symbolic x coords={Higgs,Simulated Electricity,Credit g,Airlines,KDD98,Microsoft,Zurich Transport,Diabetes,NYC,Black Friday,CMC,Buzzinsocialmedia,Federal Election, Pokerhand,Sudoku Puzzles}, 
+    symbolic x coords={Microsoft,CMC,Diabetes,Pokerhand,Sudoku Puzzles,Higgs,Simulated Electricity,Credit g,Airlines,KDD98,Zurich Transport,NYC,Black Friday,Buzzinsocialmedia,Federal Election}, 
     %xtickmin=simulated_electricity,
     %xtickmax=federal_election,
     %xticklabels={Simulated Electricity,Higgs,KDD98,Airlines,Credit g},   
@@ -95,19 +95,19 @@
 ]
 	
 \begin{axis}%[hide axis]
-  \addplotDataProfilling{-16pt}{binary};	  	  
+  \addplotDataProfilling{-16pt}{multiclass};	  	  
 \end{axis}
 
 \begin{axis}[hide axis]  
-  \addplotCatDB{-4}{gpt-4}{binary}{SCHEMA}{}{-12};
+  \addplotCatDB{-4}{gpt-4}{multiclass}{SCHEMA}{}{-12};
 \end{axis}
 
 \begin{axis}[hide axis]  
-	\addplotCatDB{4}{gpt-4}{binary}{SCHEMA_STATISTIC}{pattern=north east lines,pattern color=gray!130}{-4};
+	\addplotCatDB{4}{gpt-4}{multiclass}{SCHEMA_STATISTIC}{pattern=north east lines,pattern color=gray!130}{-4};
 \end{axis}
 
 	
-\node [draw=none,inner sep=0, font=\Large, anchor=west] (leg1) at (rel axis cs: 0.45,0.4) {\shortstack[l]{
+\node [draw=none,inner sep=0, font=\Large, anchor=west] (leg1) at (rel axis cs: 0.35,0.32) {\shortstack[l]{
 			\ref{leg_dataprofile} Data Profiling \\
       \ref{leg_pip_gen_SCHEMA} Pipeline Generation  \\
 			\ref{leg_pip_runtime_SCHEMA} Pipeline Execution 			 			

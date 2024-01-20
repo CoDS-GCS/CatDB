@@ -40,7 +40,6 @@ if __name__ == '__main__':
     df_llm_pipe_gen = create_df_index(df = pd.read_csv(llm_pipe_gen_result_path, dtype=str))
     df_llm_pipe_run = create_df_index(df = pd.read_csv(llm_pipe_run_result_path, dtype=str))
 
-    print(df_llm_pipe_gen)
 
     df_csv_data_read = pd.read_csv(csv_data_read_result_path)
     df_csv_data_read.set_index(df_data_profile['dataset'], inplace=True)
@@ -54,10 +53,12 @@ if __name__ == '__main__':
     elapsed_time = ["dataset,time"]
 
     llms = ['gpt-3.5-turbo', 'gpt-4']
+
+    ds_names={"airlines":"Airlines", "Microsoft":"Microsoft", "KDD98":"KDD98", "delays_zurich_transport":"Zurich Transport", "diabetes":"Diabetes", "federal_election":"Federal Election", "BNG_credit_g":"Credit g", "nyc-taxi-green-dec-2016":"NYC", "black_friday":"Black Friday", "Higgs":"Higgs", "cmc":"CMC", "Buzzinsocialmedia_Twitter":"Buzzinsocialmedia", "simulated_electricity":"Simulated Electricity", "3-million-Sudoku-puzzles-with-ratings":"Sudoku Puzzles"
+              , "pokerhand":"Pokerhand"}
     
     df_final = pd.DataFrame(columns=["dataset","llm_model","prompt_representation_type","prompt_example_type","prompt_number_example","prompt_number_iteration","task_type", "data_profile_time", "llm_pipe_gen_time", "llm_pipe_run_time", "csv_data_read_time", "total_time", "Accuracy", "F1_score", "Log_loss", "R_Squared", "RMSE"])
 
-    print(df_final.shape)
 
     automl_max_runtime = dict()
     index = 0
@@ -93,10 +94,11 @@ if __name__ == '__main__':
                         prompt_example_type = log_names[1]
                         prompt_number_example = log_names[2]    
 
-                        new_row = [d, llm, prompt_representation_type, prompt_example_type, prompt_number_example,1, task_type, profile_time, llm_pipe_gen_time, llm_pipe_run_time, csv_data_read_time, total_time, results["Accuracy"], results["F1_score"], results["Log_loss"], results["R_Squared"], results["RMSE"]]
+                        new_row = [ds_names[d], llm, prompt_representation_type, prompt_example_type, prompt_number_example,1, task_type, profile_time, llm_pipe_gen_time, llm_pipe_run_time, csv_data_read_time, total_time, results["Accuracy"], results["F1_score"], results["Log_loss"], results["R_Squared"], results["RMSE"]]
 
                         df_final.loc[index] = new_row
                         index +=1
+                       
                  
                     key = f"{d}####{task_type}"
                     if key in automl_max_runtime:
@@ -116,6 +118,7 @@ if __name__ == '__main__':
         
         elapsed_time.append(f"{d},{constrain}")
 
+    print(catdb_merge_path)
     df_final.to_csv(catdb_merge_path, index=False) 
     automl_contrains_result = "\n\n".join(automl_contrains)   
     contrains_result = "\n".join(elapsed_time)

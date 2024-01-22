@@ -25,7 +25,7 @@ source venv/bin/activate
 declare -a frameworks=("AutoGluon" "H2OAutoML" "mljarsupervised" "TPOT")
 
 for framework in "${frameworks[@]}"; do
-    AMLB="python runbenchmark.py ${framework} ${dataset} ${constraint} --outdir=${output_dir} --userdir=${user_dir} --logging=${logging}"
+    AMLB="python runbenchmark.py ${framework} ${datasource_name} ${constraint} --outdir=${output_dir} --userdir=${user_dir} --logging=${logging}"
     echo "AMLB_SCRIPT=${AMLB}"
 
     # sudo echo 3 >/proc/sys/vm/drop_caches && sudo sync
@@ -34,7 +34,7 @@ for framework in "${frameworks[@]}"; do
     start=$(date +%s%N)
     $AMLB
     end=$(date +%s%N)
-    echo ${dataset}","${framework}","$((($end - $start) / 1000000))","${constraint} >>$log_file_name
+    echo ${datasource_name}","${framework}","$((($end - $start) / 1000000))","${constraint} >>$log_file_name
 done
 
 cd ${exp_path}

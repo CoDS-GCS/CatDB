@@ -37,21 +37,10 @@
             \def\pgfmathresult{inf}
             \fi			
         }
-    },
-    discard if profile/.style n args={1}{
-      x filter/.code={
-          \edef\tempa{\thisrow{task_type}}
-          \edef\tempb{#1}
-          \ifx\tempa\tempb
-          \else
-          \def\pgfmathresult{inf}
-          \fi			
-      }
-  },
+    }
 };
 
 \begin{tikzpicture}[
-  %ymode=log,  
   every axis/.style={
     major x tick style = {draw=none},
     ybar stacked,
@@ -70,7 +59,6 @@
     enlarge y limits={0.013,upper},
     enlarge x limits=0.11,
     ylabel={Execution Time[s]},
-    %xlabel={$\#$Dataset},
     ytick={0.0001,100,1000, 10000},
     yticklabels={0,1e2, 1e3,1e4},
     ytick align=outside,
@@ -87,9 +75,6 @@
     minor grid style={gray!50}, 
     xtick = data,
     symbolic x coords={Higgs,Simulated Electricity,Credit g,Airlines,KDD98,Microsoft,Zurich Transport,Diabetes,NYC,Black Friday,CMC,Buzzinsocialmedia,Federal Election, Pokerhand,Sudoku Puzzles}, 
-    %xtickmin=simulated_electricity,
-    %xtickmax=federal_election,
-    %xticklabels={Simulated Electricity,Higgs,KDD98,Airlines,Credit g},   
     legend image code/.code={\draw [#1] (0cm,-0.1cm) rectangle (0.3cm,0.2cm); },
   }	 
 ]

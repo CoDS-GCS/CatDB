@@ -19,24 +19,24 @@ echo "dataset,platform,time,constraint" >> "${exp_path}/results/Experiment3_Auto
 
 cd ${exp_path}
 
-CMD=./explocal/exp1_catalog/runExperiment1.sh
-#CMD=./explocal/exp2_micro_benchmark/runExperiment2.sh 
+#CMD=./explocal/exp1_catalog/runExperiment1.sh
+CMD=./explocal/exp2_micro_benchmark/runExperiment2.sh 
 
-$CMD simulated_electricity binary 
-$CMD KDD98 binary 
-$CMD Higgs binary 
+# $CMD simulated_electricity binary 
+# $CMD KDD98 binary 
+# $CMD Higgs binary 
 $CMD airlines binary 
-$CMD BNG_credit_g binary 
-$CMD Microsoft multiclass 
-$CMD cmc multiclass 
-$CMD diabetes multiclass 
-#$CMD 3-million-Sudoku-puzzles-with-ratings multiclass 
-#$CMD pokerhand multiclass 
-$CMD Buzzinsocialmedia_Twitter regression 
-$CMD delays_zurich_transport regression 
-$CMD nyc-taxi-green-dec-2016 regression 
-$CMD black_friday regression 
-$CMD federal_election regression 
+# $CMD BNG_credit_g binary 
+# $CMD Microsoft multiclass 
+# $CMD cmc multiclass 
+# $CMD diabetes multiclass 
+# #$CMD 3-million-Sudoku-puzzles-with-ratings multiclass 
+# #$CMD pokerhand multiclass 
+# $CMD Buzzinsocialmedia_Twitter regression 
+# $CMD delays_zurich_transport regression 
+# $CMD nyc-taxi-green-dec-2016 regression 
+# $CMD black_friday regression 
+# $CMD federal_election regression 
 
 
 ## Large Datasets 

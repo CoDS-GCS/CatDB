@@ -45,7 +45,7 @@ if __name__ == '__main__':
     df_csv_data_read.set_index(df_data_profile['dataset'], inplace=True)
     
 
-    configs = set(df_llm_pipe_gen.index)
+    configs = set(df_llm_pipe_run.index)
     
     automl_contrains = ["---"]
     automl_contrains_set = set()

@@ -37,21 +37,10 @@
             \def\pgfmathresult{inf}
             \fi			
         }
-    },
-    discard if profile/.style n args={1}{
-      x filter/.code={
-          \edef\tempa{\thisrow{task_type}}
-          \edef\tempb{#1}
-          \ifx\tempa\tempb
-          \else
-          \def\pgfmathresult{inf}
-          \fi			
-      }
-  },
+    }
 };
 
 \begin{tikzpicture}[
-  %ymode=log,  
   every axis/.style={
     major x tick style = {draw=none},
     ybar stacked,
@@ -70,9 +59,7 @@
     enlarge y limits={0.013,upper},
     enlarge x limits=0.1,
     ylabel={Execution Time[s]},
-    %xlabel={$\#$Dataset},
     ytick={0,50,100, 150,200,250},
-    %yticklabels={0,1e2, 1e3,1e4},
     ytick align=outside,
     xtick pos=left,
     ytick pos=left,
@@ -86,10 +73,7 @@
     grid style=dotted,   
     minor grid style={gray!50}, 
     xtick = data,
-    symbolic x coords={Microsoft,CMC,Diabetes,Pokerhand,Sudoku Puzzles,Higgs,Simulated Electricity,Credit g,Airlines,KDD98,Zurich Transport,Federal Election,Black Friday,Buzzinsocialmedia,NYC}, 
-    %xtickmin=simulated_electricity,
-    %xtickmax=federal_election,
-    %xticklabels={Simulated Electricity,Higgs,KDD98,Airlines,Credit g},   
+    symbolic x coords={Microsoft,CMC,Diabetes,Pokerhand,Sudoku Puzzles,Higgs,Simulated Electricity,Credit g,Airlines,KDD98,Zurich Transport,Federal Election,Black Friday,Buzzinsocialmedia,NYC},   
     legend image code/.code={\draw [#1] (0cm,-0.1cm) rectangle (0.3cm,0.2cm); },
   }	 
 ]

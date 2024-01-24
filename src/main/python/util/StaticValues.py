@@ -1,32 +1,55 @@
-CATEGORICAL_RATIO: float = 0.01
-
-
 class REPRESENTATION_TYPE:
     SCHEMA = "SCHEMA"
-    SCHEMA_STATISTIC = "SCHEMA_STATISTIC"
-    SCHEMA_DTYPE_FD = "SCHEMA_FD" # TODO:
-    SCHEMA_ID = "SCHEMA_ID" # TODO:
-    SCHEMA_FD_ID = "SCHEMA_FD_ID" # TODO:
-    SCHEMA_ABSTRACT = "SCHEMA_ABSTRACT" #TODO:
+    DISTINCT = "DISTINCT"
+    MISSING_VALUE = "MISSING_VALUE"
+    NUMERIC_STATISTIC = "NUMERIC_STATISTIC"
+    CATEGORICAL_VALUE = "CATEGORICAL_VALUE"
+
+    DISTINCT_MISSING_VALUE = "DISTINCT_MISSING_VALUE"
+    DISTINCT_NUMERIC_STATISTIC = "DISTINCT_NUMERIC_STATISTIC"
+    MISSING_VALUE_NUMERIC_STATISTIC = "MISSING_VALUE_NUMERIC_STATISTIC"
+    MISSING_VALUE_CATEGORICAL_VALUE = "MISSING_VALUE_CATEGORICAL_VALUE"
+    NUMERIC_STATISTIC_CATEGORICAL_VALUE= "NUMERIC_STATISTIC_CATEGORICAL_VALUE"
+
+    FULL = "FULL"
 
 
-PROMPT_DESCRIPTION = "Create a comprehensive Python 3.10 pipeline ({}) using the following format. This pipeline generates additional columns that are useful for a downstream {} algorithm predicting \"{}\"." \
-                         "Additional columns add new semantic information, that is they use real world knowledge on the dataset. They can e.g. be feature combinations, transformations, aggregations where the new column is a function of the existing columns." \
-                         "The scale of columns and offset does not matter. Make sure all used columns exist. Follow the above description of columns closely and consider the datatypes and meanings of classes." \
-                         "This code also drops columns, if these may be redundant and hurt the predictive performance of the downstream classifier (Feature selection). Dropping columns may help as the chance of overfitting is lower, especially if the dataset is small." \
-                         "The classifier will be trained on the dataset with the generated columns and evaluated on a holdout set. The evaluation metric is accuracy. The best performing code will be selected. " \
-                         "Added columns can be used in other codeblocks, dropped columns are not available anymore.\n\nNumber of samples (rows) in training dataset: {}"
+# Rule 1: need 2 parameters. 1) type of info, e.g., statistical info, min-max values,... 2)  total number of steps
+Rule_1 = ('You will be given a dataset, a {} of the dataset, and a question. Your task is to generate a data '
+          'science pipeline. You should answer only by generating code. You should follow Steps 1 to 11 to answer '
+          'the question. You should return a data science pipeline in Python 3.10 programming language. If you do not '
+          'have a relevant answer to the question, simply write: "Insufficient information."')
+
+# Rule 2: need 2 parameters. 1) path to train data 2) path to test data
+Rule_2 = ('Load the raining and test datasets. For the training data, utilize the variable """train_data={}""", '
+          'and for the test data, employ the variable """test_data={}""". Utilize pandas\' CSV readers to load the '
+          'datasets.')
+
+# Rule 3: without extra parameter
+Rule_3 = "Don't split the train_data into train and test sets. Use only the given datasets."
+
+# Rule 4: need 2 parameters. 2) name of metadata 2) prefix label
+Rule_4 = ('The user will provide the {} of the dataset with columns appropriately named as attributes, enclosed in '
+          'triple quotes, and preceded by the prefix "{}".')
+
+# Rule_5: 1) target column name 2) specific algorithm 3) prefix label 4) classifier/regressor 5) same as 4
+Rule_5 = ('This pipeline generates additional columns that are useful for a downstream {} algorithm predicting "{}".'
+          'Additional columns add new semantic information, that is they use real world knowledge on the dataset '
+          'mentioned in """{}""". They can e.g. be feature combinations, transformations, aggregations where the new column '
+          'is a function of the existing columns. The scale of columns and offset does not matter. Make sure all used '
+          'columns exist. Follow the above description of columns closely and consider the datatypes and meanings of '
+          'classes. This code also drops columns, if these may be redundant and hurt the predictive performance of '
+          'the downstream {} (Feature selection). Dropping columns may help as the chance of overfitting is lower, '
+          'especially if the dataset is small. The {} will be trained on the dataset with the generated columns and '
+          'evaluated on a holdout set.')
+
+# Rule 6:
+Rule_6 = "Remove low ration, static, and unique columns by getting statistic values."
 
 CODE_FORMATTING_IMPORT = f"""Code formatting for all required packages:
 ```python
 # Import all required packages
 ```end
-"""
-
-CODE_FORMATTING_REQUIREMENTS = f"""Code formatting for requirements.txt file:
-```python-requirements.txt
-# list all required packages here
-```end-requirements.txt
 """
 
 CODE_FORMATTING_ADDING = "Code formatting for each added column:\n \
@@ -79,7 +102,3 @@ CODE_FORMATTING_REGRESSION_EVALUATION = f"""Code formatting for regression evalu
 # Print the log loss result: print(f"RMSE:{{RMSE}}") 
 ```end
 """
-
-CODE_FORMATTING_DATASET = 'Load datasets from the following path:\n \
-"""train_data = {}""" \n \
-"""test_data = {}"""'

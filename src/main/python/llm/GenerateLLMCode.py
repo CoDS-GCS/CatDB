@@ -1,136 +1,93 @@
 from openai import OpenAI
 import os
 import tiktoken
-from util import StaticValues
-from prompt import BasicICLPrompt
+from util.Config import LLMSetting
 
 
-def generate_llm_code(model: str, prompt: BasicICLPrompt):
-    if model == "skip":
-        return ""
-    elif model == "gpt-3.5-turbo" or model == "gpt-4":
-        return generate_GPT_LLM_code(model=model, prompt=prompt)
-    else:
-        raise Exception(f"Model {model} is not implemented yet!")
+class GenerateLLMCode(object):
+    def __init__(self, model: str):
+        setting = LLMSetting()
+        self.model = model
+        self.model_token_limit = setting.get_limit(model=model)
 
+    def generate_llm_code(self, prompt_message: str, prompt_rules: str):
+        if self.model == "skip":
+            return ""
+        elif (self.model == "gpt-3.5-turbo" or
+              self.model == "gpt-4" or
+              self.model == "gpt-4-1106-preview"):
+            return self.generate_code_OpenAI_LLM(prompt_message=prompt_message, prompt_rules=prompt_rules)
+        else:
+            raise Exception(f"Model {self.model} is not implemented yet!")
 
-def generate_GPT_LLM_code(model: str, prompt: BasicICLPrompt):
-    client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"), )
+    def generate_code_OpenAI_LLM(self, prompt_message: str, prompt_rules: str):
+        client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"), )
+        max_token_size = int(self.model_token_limit * 0.95)
+        enc = tiktoken.get_encoding("cl100k_base")
+        enc = tiktoken.encoding_for_model(self.model)
+        all_msg = prompt_message + prompt_rules
+        token_integers = enc.encode(all_msg)
+        num_tokens = len(token_integers)
+        messages = [
+            {
+                "role": "system",
+                "content": prompt_rules,
+            }
+        ]
+        if num_tokens >= max_token_size:
 
-    if model == "gpt-4":
-        model_token_limit = 8192
-    elif model == "gpt-3.5-turbo":
-        model_token_limit = 4096
-    else:
-        model_token_limit = -1
+            # Split the token integers into chunks based on max_tokens
+            chunks = []
+            for i in range(0, num_tokens, max_token_size):
+                chunks.append(token_integers[i: min(i + max_token_size, num_tokens)])
 
-    max_token_size = int(model_token_limit * 0.95)
-    enc = tiktoken.get_encoding("cl100k_base")
-    enc = tiktoken.encoding_for_model(model)
-    prompt_format = prompt.format()
+            # Decode token chunks back to strings
+            chunks = [enc.decode(chunk) for chunk in chunks]
+            self.submit_Request_OpenAI_LLM(client=client, messages=messages)
 
-    extra_info = prompt.extra_info()
-    prompt_items = [StaticValues.CODE_FORMATTING_DATASET.format(extra_info["data_source_train_path"],
-                                                                extra_info["data_source_test_path"]),
-                    "\n",
-                    prompt_format["prefix_key"],
-                    '"""',
-                    prompt_format["prompt"],
-                    '"""\n',
-                    f'Question: {prompt_format["question"]}']
+            c = 1
+            message_text_all = []
+            codes = []
+            chunk_len = len(chunks)
+            for chunk in chunks:
+                message_text = []
+                if c < chunk_len:
+                    message_text.append(
+                        f'Do not answer yet. This is just another part of the text I want to send you. Just recive and acknowledge a "Part {c}/{chunk_len} received" and wait for the next part.')
 
-    prompt_text = "\n".join(prompt_items)
-    token_integers = enc.encode(prompt_text)
-    num_tokens = len(token_integers)
+                message_text.append(f'[START PART {c}/{len(chunks)}]')
+                message_text.append(f'{chunk}')
+                message_text.append(f'[END PART {c}/{len(chunks)}]\n')
 
-    system_rules = [
-        'You will be given a dataset, a schema of the dataset, some extra information, and a question. Your task is to generate a data science pipeline. You should answer only by generating code. You should follow Steps 1 to 11 to answer the question. You should return a data science pipeline in Python 3.10 programming language. If you do not have a relevant answer to the question, simply write: "Insufficient information."']
-    # if num_tokens >= max_token_size:
-    #     system_rules.append(
-    #         'the user will supply text, preceded by the prefix "[START PART 1/10]" and followed by the suffix "[END PART 1/10]" (1: refer to first pat, and 10: is the total parts). For instance, \n[START PART 1/10]\nthis is the content of part 1 out of 10.\n[END PART 1/10].')
-    #     system_rules.append(
-    #         'when user tell you "ALL PARTS SENT", then you can continue processing the data and answering user\'s requests.')
+                if c < chunk_len:
+                    message_text.append(
+                        f'Remember not answer yet. Just acknowledge you recived this part with the message "Part {c}/{chunk_len} received" and wait for the next part.')
+                if c == chunk_len:
+                    message_text.append("ALL PARTS SENT. Now you can continue processing the rquest.")
 
-    system_rules.extend([
-        'the user will provide the path of the training and test data enclosed in triple quotes. For the training data, use """train_data=path/to/train/dataset""", and for the test data, use """test_data=path/to/test/dataset""". Load the datasets using pandas\' CSV readers.',
-        "Don't split the train_data into train and test sets. Use only the given datasets."])
-    system_rules.extend(prompt_format["rule"])
+                message_text = "\n".join(message_text)
+                message_text_all.append(message_text)
 
-    system_rules.extend([f'{prompt_format["rule"]}',
-        f'{StaticValues.PROMPT_DESCRIPTION.format(extra_info["task_type"], extra_info["task_type"], extra_info["target_attribute"], extra_info["nrows"])}',
-        f"{StaticValues.CODE_FORMATTING_IMPORT}",
-        f'{StaticValues.CODE_FORMATTING_ADDING.format(extra_info["target_attribute"], extra_info["sample_attribute_names"][0], extra_info["sample_attribute_names"][1])}',
-        f"{StaticValues.CODE_FORMATTING_DROPPING}",
-        f'{extra_info["evaluation_text"]}',
-        "Don't report validation evaluation. We don't need it."])
+                messages = [{"role": "user", "content": message_text}]
+                # codes.append(send_Message_to_GPT(client=client, messages=messages, model=model))
+                c += 1
+            code = ""  # TODO: fix large message problem
+            print(f" DON'T SEND (Token Size = {num_tokens})!\n")
+            return code
+        else:
+            # prompt_text = f'[START PART 1/1]\n{prompt_text}\n[END PART 1/1]\n[ALL PARTS SENT]'
+            messages.append({"role": "user", "content": prompt_message, })
+            code = self.submit_Request_OpenAI_LLM(messages=messages, client=client)
+            return code
 
-    system_message = system_rules[0] + "\n\n"
-    step_index = 1
-
-    for m in system_rules[1: len(system_rules)]:
-        system_message += f"Step {step_index}: {m} \n\n"
-        step_index += 1
-
-    messages = [
-        {
-            "role": "system",
-            "content": system_message,
-        }
-    ]
-    if num_tokens >= max_token_size:
-
-        # Split the token integers into chunks based on max_tokens
-        chunks = []
-        for i in range(0, num_tokens, max_token_size):
-            chunks.append(token_integers[i: min(i + max_token_size, num_tokens)])
-
-        # Decode token chunks back to strings
-        chunks = [enc.decode(chunk) for chunk in chunks]
-        send_Message_to_GPT(client=client, messages=messages, model=model)
-
-        c = 1
-        message_text_all = []
-        codes = []
-        chunk_len = len(chunks)
-        for chunk in chunks:
-            message_text = []
-            if c < chunk_len:
-                message_text.append(
-                    f'Do not answer yet. This is just another part of the text I want to send you. Just recive and acknowledge a "Part {c}/{chunk_len} received" and wait for the next part.')
-
-            message_text.append(f'[START PART {c}/{len(chunks)}]')
-            message_text.append(f'{chunk}')
-            message_text.append(f'[END PART {c}/{len(chunks)}]\n')
-
-            if c < chunk_len:
-                message_text.append(
-                    f'Remember not answer yet. Just acknowledge you recived this part with the message "Part {c}/{chunk_len} received" and wait for the next part.')
-            if c == chunk_len:
-                message_text.append("ALL PARTS SENT. Now you can continue processing the rquest.")
-
-            message_text = "\n".join(message_text)
-            message_text_all.append(message_text)
-
-            messages = [{"role": "user", "content": message_text}]
-            # codes.append(send_Message_to_GPT(client=client, messages=messages, model=model))
-            c += 1
-        code = ""  # TODO: fix large message problem
-        print(f"####{ prompt_format['prefix_key']} >> {extra_info['data_source_train_path']} #### DON'T SEND (Token Size = {num_tokens})!\n")
-        return code, system_message, "\n".join(message_text_all)
-    else:
-        # prompt_text = f'[START PART 1/1]\n{prompt_text}\n[END PART 1/1]\n[ALL PARTS SENT]'
-        messages.append({"role": "user", "content": prompt_text, })
-        code = send_Message_to_GPT(messages=messages, client=client, model=model)
-        return code, system_message, prompt_text
-
-
-def send_Message_to_GPT(messages, client, model):
-    completion = client.chat.completions.create(
-        messages=messages,
-        model=model,
-        temperature=0.2,
-        top_p=0.1,
-    )
-    code = completion.choices[0].message.content
-    code = code.replace("```", "# ```")
-    return code
+    def submit_Request_OpenAI_LLM(self, messages, client):
+        # completion = client.chat.completions.create(
+        #              messages=messages,
+        #              model=self.model,
+        #              temperature=0,
+        #              top_p=0.1,
+        #             )
+        # code = completion.choices[0].message.content
+        # code = code.replace("```", "# ```")
+        code = ""
+        return code

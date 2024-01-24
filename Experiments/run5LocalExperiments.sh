@@ -19,8 +19,8 @@ echo "dataset,platform,time,constraint" >> "${exp_path}/results/Experiment3_Auto
 
 cd ${exp_path}
 
-#CMD=./explocal/exp1_catalog/runExperiment1.sh
-CMD=./explocal/exp2_micro_benchmark/runExperiment2.sh 
+CMD=./explocal/exp1_catalog/runExperiment1.sh
+#CMD=./explocal/exp2_micro_benchmark/runExperiment2.sh 
 
 # $CMD simulated_electricity binary 
 # $CMD KDD98 binary 

@@ -1,7 +1,7 @@
 from argparse import ArgumentParser
 from catalog.Catalog import load_data_source_profile
 from prompt.PromptBuilder import prompt_factory
-from llm.GenerateLLMCode import generate_llm_code
+from llm.GenerateLLMCode import GenerateLLMCode
 import yaml
 
 
@@ -17,6 +17,7 @@ def parse_arguments():
     parser.add_argument('--llm-model', type=str, default=None)
     parser.add_argument('--reduction-method', type=str, default=None)
     parser.add_argument('--reduction-size', type=str, default=None)
+    parser.add_argument('--suggested-model', type=str, default=None)
 
     args = parser.parse_args()
 
@@ -39,9 +40,6 @@ def parse_arguments():
         except yaml.YAMLError as exc:
             raise Exception(exc)
 
-    if args.prompt_representation_type is None:
-        raise Exception("--prompt-representation-type is a required parameter!")
-
     if args.prompt_example_type is None:
         raise Exception("--prompt-example-type is a required parameter!")
 
@@ -60,6 +58,13 @@ def parse_arguments():
     if args.reduction_size is None:
         args.reduction_size = 0
 
+    if args.prompt_representation_type is None:
+        raise Exception("--prompt-representation-type is a required parameter!")
+
+    if args.suggested_model is not None and args.suggested_model!="NA":
+        args.suggested_model = f"(such as {args.suggested_model})"
+    else:
+        args.suggested_model = ""
     return args
 
 
@@ -80,18 +85,23 @@ if __name__ == '__main__':
                             number_iteration=args.prompt_number_iteration,
                             target_attribute=args.target_attribute,
                             data_source_train_path=args.data_source_train_path,
-                            data_source_test_path=args.data_source_test_path)
+                            data_source_test_path=args.data_source_test_path,
+                            suggested_model=args.suggested_model)
 
     # Generate LLM code
-    code, system_message, prompt_text = generate_llm_code(model=args.llm_model, prompt=prompt)
+    llm = GenerateLLMCode(model=args.llm_model)
+    prompt_format = prompt.format(examples=None)
+    prompt_rule = prompt_format["rules"]
+    prompt_msg = prompt_format["question"]
+    code = llm.generate_llm_code( prompt_rules=prompt_rule, prompt_message=prompt_msg)
 
     # Save prompt text
     if args.output_path is not None:
         prompt_file_name = f'{args.output_path}/{args.data_source_name}-{prompt.class_name}-{args.llm_model}'
         f = open(f"{prompt_file_name}.txt", 'w')
-        f.write(f"SYSTEM MESSAGE: \n {system_message} \n")
+        f.write(f"SYSTEM MESSAGE: \n {prompt_rule} \n")
         f.write("----------------------------------------------------------------------------\n")
-        f.write(f"PROMPT TEXT:\n{prompt_text}\n")
+        f.write(f"PROMPT TEXT:\n{prompt_msg}\n")
         f.close()
 
         if len(code) > 100:

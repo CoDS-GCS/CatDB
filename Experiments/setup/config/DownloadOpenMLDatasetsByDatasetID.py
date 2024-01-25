@@ -90,7 +90,7 @@ if __name__ == '__main__':
     dataset_list = 'row,orig_dataset_name,dataset_name,nrows,ncols,file_format,task_type,number_classes,original_url,target_feature,description\n'
     script_list =""
     for (dataset_id,orig_ds_name,task_type, dataset_index) in datasetIDs:        
-        print(f" Downloading Dataset: dataset name={ds_name}, dataset ID={dataset_id} \n")
+        print(f" Downloading Dataset: dataset name={orig_ds_name}, dataset ID={dataset_id} \n")
         ds_name=f"dataset_{dataset_index}"
         target, nrows, ncols, original_data_url, number_classes = download_ds.download_dataset(datasetID=dataset_id, ds_name=ds_name)
 

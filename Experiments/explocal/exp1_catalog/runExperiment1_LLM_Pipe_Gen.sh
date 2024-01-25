@@ -40,12 +40,12 @@ start=$(date +%s%N)
 $SCRIPT
 end=$(date +%s%N)
 
-echo "${data_source_name},${llm_model},${prompt_representation_type},${prompt_example_type},${prompt_number_example},${prompt_number_iteration},${task_type},$((($end - $start) / 1000000))" >> ${log_file_name}      
+echo "${data_source_name},${llm_model},${prompt_representation_type},${prompt_example_type},${prompt_number_example},${task_type},$((($end - $start) / 1000000))" >> ${log_file_name}      
 
 
 if [[ "$test" == "test" ]]; then
-    for itr in {1..2}; do 
+    for itr in {1..10}; do 
         cd ${exp_path}
-        ./explocal/exp1_catalog/runExperiment1_CatDB_LLM_Pipe_Test.sh $data_source_name $prompt_representation_type $prompt_example_type $prompt_number_example $llm_model $itr
-      done
+        ./explocal/exp1_catalog/runExperiment1_CatDB_LLM_Pipe_Test.sh $data_source_name $prompt_representation_type $prompt_example_type $prompt_number_example $task_type $llm_model $itr
+    done
 fi

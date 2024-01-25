@@ -5,8 +5,10 @@ data_source_name=$1
 prompt_representation_type=$2
 prompt_example_type=$3
 prompt_number_example=$4
-llm_model=$5
-itr=$6
+task_type=$5
+llm_model=$6
+itr=$7
+log_file_name="${exp_path}/results/Experiment1_LLM_Pipe_Test.dat"
 
 cd ${exp_path}
 pipeline_path="${exp_path}/catdb-results/${data_source_name}/${llm_model}"
@@ -15,9 +17,7 @@ python_script="${data_source_name}-${prompt_representation_type}-${prompt_exampl
 file_path="${pipeline_path}/${python_script}.py"
 error_path="${pipeline_path}/${python_script}.error"
 
-cp ${file_path} "${pipeline_path}/${python_script}.py.iteration_${itr}"
-
-  if test -f "$file_path"; then
+if test -f "$file_path"; then
 
     cd ${pipeline_path}
 
@@ -42,6 +42,9 @@ cp ${file_path} "${pipeline_path}/${python_script}.py.iteration_${itr}"
     if test -f "$error_path"; then
         nrows=$(sed -n '$=' $error_path)
         if [ "$nrows" -gt "0" ]; then
+            cp ${file_path} "${pipeline_path}/${python_script}.py.iteration_${itr}"
+            cp ${error_path} "${error_path}.iteration_${itr}"
+
             cd "${exp_path}/setup/Baselines/CatDB/"
             source venv/bin/activate
             SCRIPT="python main_fix.py --pipeline-in-path ${file_path} \
@@ -50,11 +53,18 @@ cp ${file_path} "${pipeline_path}/${python_script}.py.iteration_${itr}"
                                        --error-message-path ${error_path} \
                                        --llm-model ${llm_model}"
             echo $SCRIPT
-            $SCRIPT                           
+            start=$(date +%s%N)
+            $SCRIPT
+            end=$(date +%s%N)
+            echo "${data_source_name},${itr},${llm_model},${prompt_representation_type},${prompt_example_type},${prompt_number_example},${task_type},$((($end - $start) / 1000000))" >> ${log_file_name}                            
         else
             break
         fi
     else
         break
     fi
-  fi    
+fi    
+
+# clean-up
+cd ${pipeline_path}
+rm -rf venv  

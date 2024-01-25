@@ -10,9 +10,10 @@ exp_path="$(pwd)"
 # Add headers to log files
 echo "dataset,platform,time" >> "${exp_path}/results/Experiment1_Data_Profile.dat"
 echo "dataset,time" >> "${exp_path}/results/Experiment1_CSVDataReader.dat"
-echo "dataset,llm_model,prompt_representation_type,prompt_example_type,prompt_number_example,prompt_number_iteration,task_type,time" >> "${exp_path}/results/Experiment1_LLM_Pipe_Gen.dat"
+echo "dataset,llm_model,prompt_representation_type,prompt_example_type,prompt_number_example,task_type,time" >> "${exp_path}/results/Experiment1_LLM_Pipe_Gen.dat"
+echo "dataset,iteration,llm_model,prompt_representation_type,prompt_example_type,prompt_number_example,task_type,time" >> "${exp_path}/results/Experiment1_LLM_Pipe_Test.dat"
 
-echo "dataset,llm_model,prompt_representation_type,prompt_example_type,prompt_number_example,prompt_number_iteration,task_type,time,result" >> "${exp_path}/results/Experiment2_CatDB_LLM_Pipe_Run.dat"
+echo "dataset,llm_model,prompt_representation_type,prompt_example_type,prompt_number_example,task_type,time,result" >> "${exp_path}/results/Experiment2_CatDB_LLM_Pipe_Run.dat"
 echo "dataset,platform,time,constraint" >> "${exp_path}/results/Experiment2_AutoML_Corresponding.dat"
 
 echo "dataset,platform,time,constraint" >> "${exp_path}/results/Experiment3_AutoML_1H.dat"
@@ -22,8 +23,8 @@ cd ${exp_path}
 CMD=./explocal/exp1_catalog/runExperiment1.sh
 #CMD=./explocal/exp2_micro_benchmark/runExperiment2.sh 
 
-$CMD dataset_4 binary
-$CMD dataset_12 regression 
+$CMD dataset_4 binary test
+$CMD dataset_12 regression test
 
 # $CMD simulated_electricity binary 
 # $CMD KDD98 binary 

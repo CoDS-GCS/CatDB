@@ -6,9 +6,8 @@ data_source_name=$1
 prompt_representation_type=$2
 prompt_example_type=$3
 prompt_number_example=$4
-prompt_number_iteration=$5
-task_type=$6
-llm_model=$7
+task_type=$5
+llm_model=$6
 log_file_name="${exp_path}/results/Experiment2_CatDB_LLM_Pipe_Run.dat"
 
 # Run LLM's generated code
@@ -42,5 +41,9 @@ if test -f "$file_path"; then
     bash -c "${SCRIPT}"
     end=$(date +%s%N)
 
-    echo "${data_source_name},${llm_model},${prompt_representation_type},${prompt_example_type},${prompt_number_example},${prompt_number_iteration},${task_type},$((($end - $start) / 1000000))," >> $log_file_name
+    echo "${data_source_name},${llm_model},${prompt_representation_type},${prompt_example_type},${prompt_number_example},${task_type},$((($end - $start) / 1000000))," >> $log_file_name
 fi    
+
+# clean-up
+cd ${pipeline_path}
+rm -rf venv

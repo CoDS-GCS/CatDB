@@ -69,28 +69,29 @@ if __name__ == '__main__':
     #               (4549,'Buzzinsocialmedia_Twitter','regression'),
     #               (45081,'Tallo','regression')]
     
-    datasetIDs = [(45693,'simulated_electricity','binary'),
-                  (23513,'KDD98','binary'),                  
-                  (45570,'Higgs','binary'),
-                  (45072,'airlines','binary'),
-                  (40514,'BNG_credit_g','binary'),
-                  (45579,'Microsoft','multiclass'),
-                  (45056,'cmc','multiclass'),
-                  (37,'diabetes','multiclass'),
-                  (43476,'3-million-Sudoku-puzzles-with-ratings','multiclass'),
-                  (155,'pokerhand','multiclass'),
-                  (4549,'Buzzinsocialmedia_Twitter','regression'),
-                  (45045,'delays_zurich_transport','regression'),
-                  (44065,'nyc-taxi-green-dec-2016','regression'),
-                  (44057,'black_friday','regression'),
-                  (42080,'federal_election','regression'),
+    datasetIDs = [(45693,'simulated_electricity','binary', 1),
+                  (23513,'KDD98','binary', 2),                  
+                  (45570,'Higgs','binary', 3),
+                  (45072,'airlines','binary', 4),
+                  (40514,'BNG_credit_g','binary', 5),
+                  (45579,'Microsoft','multiclass', 6),
+                  (45056,'cmc','multiclass', 7),
+                  (37,'diabetes','multiclass', 8),
+                  (43476,'3-million-Sudoku-puzzles-with-ratings','multiclass', 9),
+                  (155,'pokerhand','multiclass', 10),
+                  (4549,'Buzzinsocialmedia_Twitter','regression', 11),
+                  (45045,'delays_zurich_transport','regression', 12),
+                  (44065,'nyc-taxi-green-dec-2016','regression', 13),
+                  (44057,'black_friday','regression', 14),
+                  (42080,'federal_election','regression', 15),
                   ]
     
 
     dataset_list = 'dataset_name,nrows,ncols,file_format,task_type,number_classes,original_url,target_feature,description\n'
     script_list =""
-    for (dataset_id,ds_name,task_type) in datasetIDs:
+    for (dataset_id,ds_name,task_type, dataset_index) in datasetIDs:        
         print(f" Downloading Dataset: dataset name={ds_name}, dataset ID={dataset_id} \n")
+        ds_name=f"dataset_{dataset_index}"
         target, nrows, ncols, original_data_url, number_classes = download_ds.download_dataset(datasetID=dataset_id, ds_name=ds_name)
 
         config_strs = [f"- name: {ds_name}",

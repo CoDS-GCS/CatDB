@@ -22,10 +22,13 @@ cd ${exp_path}
 CMD=./explocal/exp1_catalog/runExperiment1.sh
 #CMD=./explocal/exp2_micro_benchmark/runExperiment2.sh 
 
+$CMD dataset_4 binary
+$CMD dataset_12 regression 
+
 # $CMD simulated_electricity binary 
 # $CMD KDD98 binary 
 # $CMD Higgs binary 
-$CMD airlines binary 
+# $CMD airlines binary 
 # $CMD BNG_credit_g binary 
 # $CMD Microsoft multiclass 
 # $CMD cmc multiclass 

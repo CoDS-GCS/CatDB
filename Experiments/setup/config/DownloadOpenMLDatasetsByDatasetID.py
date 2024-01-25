@@ -87,9 +87,9 @@ if __name__ == '__main__':
                   ]
     
 
-    dataset_list = 'dataset_name,nrows,ncols,file_format,task_type,number_classes,original_url,target_feature,description\n'
+    dataset_list = 'row,orig_dataset_name,dataset_name,nrows,ncols,file_format,task_type,number_classes,original_url,target_feature,description\n'
     script_list =""
-    for (dataset_id,ds_name,task_type, dataset_index) in datasetIDs:        
+    for (dataset_id,orig_ds_name,task_type, dataset_index) in datasetIDs:        
         print(f" Downloading Dataset: dataset name={ds_name}, dataset ID={dataset_id} \n")
         ds_name=f"dataset_{dataset_index}"
         target, nrows, ncols, original_data_url, number_classes = download_ds.download_dataset(datasetID=dataset_id, ds_name=ds_name)
@@ -116,7 +116,7 @@ if __name__ == '__main__':
         f.write(config_str)
         f.close()
 
-        dataset_list += f'{ds_name},{nrows},{ncols},csv,{task_type},{number_classes},{original_data_url},{target}, "OpenML (DatasetID={dataset_id})"\n'
+        dataset_list += f'{dataset_index},{orig_ds_name},{ds_name},{nrows},{ncols},csv,{task_type},{number_classes},{original_data_url},{target}, "OpenML (DatasetID={dataset_id})"\n'
         script_list += f'./explocal/exp1_systematic/runExperiment1.sh {ds_name} {task_type} \n'
 
     f = open(f'{data_out_path}/dataset_list.csv', 'w')

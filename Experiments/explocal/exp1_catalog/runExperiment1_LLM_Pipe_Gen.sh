@@ -7,9 +7,9 @@ prompt_representation_type=$2
 suggested_model=$3
 prompt_example_type=$4
 prompt_number_example=$5
-prompt_number_iteration=$6
-task_type=$7
-llm_model=$8
+task_type=$6
+llm_model=$7
+test=$8
 log_file_name="${exp_path}/results/Experiment1_LLM_Pipe_Gen.dat"
 
 output_path="${exp_path}/catdb-results/${data_source_name}"
@@ -28,7 +28,6 @@ SCRIPT="python main.py --data-source-path ${data_source_path} \
         --suggested-model ${suggested_model} \
         --prompt-example-type ${prompt_example_type} \
         --prompt-number-example ${prompt_number_example} \
-        --prompt-number-iteration ${prompt_number_iteration} \
         --llm-model ${llm_model} \
         --output-path ${output_path}"
 
@@ -41,4 +40,12 @@ start=$(date +%s%N)
 $SCRIPT
 end=$(date +%s%N)
 
-echo "${data_source_name},${llm_model},${prompt_representation_type},${prompt_example_type},${prompt_number_example},${prompt_number_iteration},${task_type},$((($end - $start) / 1000000))" >> ${log_file_name}
+echo "${data_source_name},${llm_model},${prompt_representation_type},${prompt_example_type},${prompt_number_example},${prompt_number_iteration},${task_type},$((($end - $start) / 1000000))" >> ${log_file_name}      
+
+
+if [[ "$test" == "test" ]]; then
+    for itr in {1..2}; do 
+        cd ${exp_path}
+        ./explocal/exp1_catalog/runExperiment1_CatDB_LLM_Pipe_Test.sh $data_source_name $prompt_representation_type $prompt_example_type $prompt_number_example $llm_model $itr
+      done
+fi

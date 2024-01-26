@@ -241,3 +241,28 @@ class SchemaNumericStatisticCategoricalValuePrompt(BasicPrompt):
             schema_info_list.append(str_val)
 
         self.content = "\n".join(schema_info_list)
+
+
+class AllPrompt(BasicPrompt):
+    def __init__(self, *args, **kwargs):
+        self.ds_attribute_prefix = "Schema, and Data Profiling Info"
+        self.ds_attribute_prefix_label = "Schema, and Data Profiling Info:"
+        self.question = ("Provide a complete pipeline code that can be executed in a multi-threaded environment "
+                         "with various CPU configurations, such as PyTorch or other relevant frameworks.\n"
+                         "Each codeblock ends with \"```end\" and starts with \"```python\".")
+
+        schema_info_list = []
+        for k in self.schema.keys():
+            cp = self.profile[k]
+            r = cp.distinct_values_count / self.nrows
+            str_val = (f"{k} ({cp.short_data_type}): distinct-count [{cp.distinct_values_count}], "
+                       f"distinct-count [{cp.distinct_values_count}]")
+
+            if r <= 0.01:
+                str_val += f", categorical column"
+
+            if cp.data_type in {"int", "float"}:
+                str_val += f", min-max values [{cp.min_value}, {cp.max_value}], mean [{cp.mean:0.2f}], median [{cp.median:0.2f}]"
+            schema_info_list.append(str_val)
+
+        self.content = "\n".join(schema_info_list)

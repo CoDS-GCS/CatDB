@@ -26,6 +26,8 @@ def get_representation_class(repr_type: str):
         representation_class = SchemaMissingCategoricalValuePrompt
     elif repr_type == REPRESENTATION_TYPE.NUMERIC_STATISTIC_CATEGORICAL_VALUE:
         representation_class = SchemaNumericStatisticCategoricalValuePrompt
+    elif repr_type == REPRESENTATION_TYPE.ALL:
+        representation_class = AllPrompt
     else:
         raise ValueError(f"{repr_type} is not supported yet")
     return representation_class

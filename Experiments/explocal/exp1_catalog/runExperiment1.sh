@@ -22,4 +22,4 @@ exp_path="$(pwd)"
 ./explocal/exp1_catalog/runExperiment1_LLM_Pipe_Gen.sh ${dataset} MISSING_VALUE_NUMERIC_STATISTIC NA Random 0 ${task_type} gpt-4 $test
 ./explocal/exp1_catalog/runExperiment1_LLM_Pipe_Gen.sh ${dataset} MISSING_VALUE_CATEGORICAL_VALUE NA Random 0 ${task_type} gpt-4 $test
 ./explocal/exp1_catalog/runExperiment1_LLM_Pipe_Gen.sh ${dataset} NUMERIC_STATISTIC_CATEGORICAL_VALUE NA Random 0 ${task_type} gpt-4 $test
-
+./explocal/exp1_catalog/runExperiment1_LLM_Pipe_Gen.sh ${dataset} All NA Random 0 ${task_type} gpt-4 $test

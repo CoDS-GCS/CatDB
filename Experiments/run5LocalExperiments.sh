@@ -23,8 +23,22 @@ cd ${exp_path}
 CMD=./explocal/exp1_catalog/runExperiment1.sh
 #CMD=./explocal/exp2_micro_benchmark/runExperiment2.sh 
 
-#$CMD dataset_4 binary test
-$CMD dataset_12 regression test
+$CMD dataset_1 binary 
+$CMD dataset_2 binary 
+$CMD dataset_3 binary 
+$CMD dataset_4 binary 
+$CMD dataset_5 binary 
+$CMD dataset_6 multiclass 
+$CMD dataset_7 multiclass 
+$CMD dataset_8 multiclass 
+$CMD dataset_9 multiclass 
+$CMD dataset_10 multiclass 
+$CMD dataset_11 regression 
+$CMD dataset_12 regression 
+$CMD dataset_13 regression 
+$CMD dataset_14 regression 
+$CMD dataset_15 regression 
+
 
 # $CMD simulated_electricity binary 
 # $CMD KDD98 binary 

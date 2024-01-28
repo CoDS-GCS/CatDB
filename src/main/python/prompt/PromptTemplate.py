@@ -256,7 +256,7 @@ class AllPrompt(BasicPrompt):
             cp = self.profile[k]
             r = cp.distinct_values_count / self.nrows
             str_val = (f"{k} ({cp.short_data_type}): distinct-count [{cp.distinct_values_count}], "
-                       f"distinct-count [{cp.distinct_values_count}]")
+                       f"NaN-freq[{cp.missing_values_count / self.nrows:0.2f}%")
 
             if r <= 0.01:
                 str_val += f", categorical column"

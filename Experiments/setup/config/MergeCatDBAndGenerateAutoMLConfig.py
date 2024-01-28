@@ -54,10 +54,13 @@ if __name__ == '__main__':
 
     llms = ['gpt-3.5-turbo', 'gpt-4']
 
-    ds_names={"airlines":"Airlines", "Microsoft":"Microsoft", "KDD98":"KDD98", "delays_zurich_transport":"Zurich Transport", "diabetes":"Diabetes", "federal_election":"Federal Election", "BNG_credit_g":"Credit g", "nyc-taxi-green-dec-2016":"NYC", "black_friday":"Black Friday", "Higgs":"Higgs", "cmc":"CMC", "Buzzinsocialmedia_Twitter":"Buzzinsocialmedia", "simulated_electricity":"Simulated Electricity", "3-million-Sudoku-puzzles-with-ratings":"Sudoku Puzzles"
+    # ds_names={"airlines":"Airlines", "Microsoft":"Microsoft", "KDD98":"KDD98", "delays_zurich_transport":"Zurich Transport", "diabetes":"Diabetes", "federal_election":"Federal Election", "BNG_credit_g":"Credit g", "nyc-taxi-green-dec-2016":"NYC", "black_friday":"Black Friday", "Higgs":"Higgs", "cmc":"CMC", "Buzzinsocialmedia_Twitter":"Buzzinsocialmedia", "simulated_electricity":"Simulated Electricity", "3-million-Sudoku-puzzles-with-ratings":"Sudoku Puzzles"
+    #           , "pokerhand":"Pokerhand"}
+    
+    ds_names={"dataset_4":"Airlines", "Microsoft":"Microsoft", "KDD98":"KDD98", "delays_zurich_transport":"Zurich Transport", "diabetes":"Diabetes", "federal_election":"Federal Election", "BNG_credit_g":"Credit g", "nyc-taxi-green-dec-2016":"NYC", "black_friday":"Black Friday", "Higgs":"Higgs", "cmc":"CMC", "Buzzinsocialmedia_Twitter":"Buzzinsocialmedia", "simulated_electricity":"Simulated Electricity", "3-million-Sudoku-puzzles-with-ratings":"Sudoku Puzzles"
               , "pokerhand":"Pokerhand"}
     
-    df_final = pd.DataFrame(columns=["dataset","llm_model","prompt_representation_type","prompt_example_type","prompt_number_example","prompt_number_iteration","task_type", "data_profile_time", "llm_pipe_gen_time", "llm_pipe_run_time", "csv_data_read_time", "total_time", "Accuracy", "F1_score", "Log_loss", "R_Squared", "RMSE"])
+    df_final = pd.DataFrame(columns=["dataset","llm_model","prompt_representation_type","prompt_example_type","prompt_number_example","number_iteration","task_type", "data_profile_time", "llm_pipe_gen_time", "llm_pipe_run_time", "csv_data_read_time", "total_time", "Accuracy", "F1_score", "Log_loss", "R_Squared", "RMSE"])
 
 
     automl_max_runtime = dict()
@@ -77,6 +80,7 @@ if __name__ == '__main__':
                         results ={"Accuracy":-1, "F1_score": -1, "Log_loss":-1, "R_Squared":-1, "RMSE": -1} 
                         with open(fnmae) as fi:
                             lines = fi.readlines()
+                            print(lines)
                             for l in lines:
                                 row = l.strip().split(":")
                                 if row[0] in results.keys():

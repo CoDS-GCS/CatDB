@@ -37,6 +37,12 @@ def parse_arguments():
             # TODO: read train and test dataset path from yaml file
             args.data_source_train_path = f"data/{args.data_source_name}/{args.data_source_name}_train.csv"
             args.data_source_test_path = f"data/{args.data_source_name}/{args.data_source_name}_test.csv"
+
+            try:
+                args.number_folds = int(config_data[0].get('folds'))
+            except yaml.YAMLError as excfold:
+                args.number_folds = 1
+
         except yaml.YAMLError as exc:
             raise Exception(exc)
 
@@ -86,7 +92,8 @@ if __name__ == '__main__':
                             target_attribute=args.target_attribute,
                             data_source_train_path=args.data_source_train_path,
                             data_source_test_path=args.data_source_test_path,
-                            suggested_model=args.suggested_model)
+                            suggested_model=args.suggested_model,
+                            number_folds = args.number_folds)
 
     # Generate LLM code
     llm = GenerateLLMCode(model=args.llm_model)

@@ -39,6 +39,7 @@ class BasicPrompt(object):
                  StaticValues.CODE_FORMATTING_IMPORT,
                  StaticValues.CODE_FORMATTING_ADDING.format(self.target_attribute, self.schema_keys[0],
                                                             self.schema_keys[1]),
+                 StaticValues.Rule_7.format(self.number_folds,self.task_type),
                  StaticValues.CODE_FORMATTING_DROPPING,
                  StaticValues.CODE_FORMATTING_TECHNIQUE,
                  self.evaluation_text,
@@ -256,7 +257,7 @@ class AllPrompt(BasicPrompt):
             cp = self.profile[k]
             r = cp.distinct_values_count / self.nrows
             str_val = (f"{k} ({cp.short_data_type}): distinct-count [{cp.distinct_values_count}], "
-                       f"NaN-freq[{cp.missing_values_count / self.nrows:0.2f}%")
+                       f"NaN-freq[{cp.missing_values_count / self.nrows:0.2f}%]")
 
             if r <= 0.01:
                 str_val += f", categorical column"

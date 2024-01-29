@@ -1,0 +1,16 @@
+---
+
+test:
+  folds: 1
+  max_runtime_seconds: 120
+  cores: -1
+  min_vol_size_mb: -1
+  max_mem_size_mb: -1
+
+
+120s:
+  folds: 1
+  max_runtime_seconds: 120
+  cores: -1
+  min_vol_size_mb: -1
+  max_mem_size_mb: -1

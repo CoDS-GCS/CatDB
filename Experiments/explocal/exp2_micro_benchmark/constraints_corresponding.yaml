@@ -1,8 +1,36 @@
 ---
 
-135s:
+40s:
   folds: 1
-  max_runtime_seconds: 135
+  max_runtime_seconds: 40
+  cores: -1
+  min_vol_size_mb: -1
+  max_mem_size_mb: -1
+
+30s:
+  folds: 1
+  max_runtime_seconds: 30
+  cores: -1
+  min_vol_size_mb: -1
+  max_mem_size_mb: -1
+
+-14s:
+  folds: 1
+  max_runtime_seconds: -14
+  cores: -1
+  min_vol_size_mb: -1
+  max_mem_size_mb: -1
+
+37s:
+  folds: 1
+  max_runtime_seconds: 37
+  cores: -1
+  min_vol_size_mb: -1
+  max_mem_size_mb: -1
+
+23s:
+  folds: 1
+  max_runtime_seconds: 23
   cores: -1
   min_vol_size_mb: -1
   max_mem_size_mb: -1

@@ -42,7 +42,8 @@ def prompt_factory(catalog: CatalogInfo,
                    target_attribute: str,
                    data_source_train_path: str,
                    data_source_test_path: str,
-                   suggested_model: str):
+                   suggested_model: str,
+                   number_folds: int):
     repr_cls = get_representation_class(representation_type)
     schema_info = catalog.schema_info
     profile_info = catalog.profile_info
@@ -80,6 +81,7 @@ def prompt_factory(catalog: CatalogInfo,
                 self.evaluation_text = evaluation_text
                 self.examples = None
                 self.suggested_model = suggested_model
+                self.number_folds = number_folds
                 repr_cls.__init__(self, *args, **kwargs)
                 BasicICLPrompt.__init__(self, *args, **kwargs)
 

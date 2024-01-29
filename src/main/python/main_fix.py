@@ -47,19 +47,19 @@ if __name__ == '__main__':
                     'and an error message enclosed in "<ERROR> error message will be here. </ERROR>".',
                     'Fix the code error provided and return only the corrected pipeline without additional explanations'
                     ' regarding the resolved error.']
-    prompt_contents = ["<CODE>",
+    prompt_contents = ["<CODE>\n",
                        pipeline_code,
-                       "</CODE>",
+                       "</CODE>\n",
                        "\n",
-                       "<ERROR>",
+                       "<ERROR>\n",
                        pipeline_error,
-                       "</ERROR>",
-                       "Question: Fix the code error provided and return only the corrected pipeline without additional"
-                       " explanations regarding the resolved error."]
+                       "</ERROR>\n",
+                       "Question: Fix the code error provided and return only the corrected pipeline without additional\n"
+                       " explanations regarding the resolved error.\n"]
 
     llm = GenerateLLMCode(model=args.llm_model)
     prompt_rule = "\n\n".join(prompt_rules)
-    prompt_msg = "\n".join(prompt_contents)
+    prompt_msg = "".join(prompt_contents)
     code = llm.generate_llm_code(prompt_rules=prompt_rule, prompt_message=prompt_msg)
 
     # Save prompt text

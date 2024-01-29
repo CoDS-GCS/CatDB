@@ -69,10 +69,10 @@ if __name__ == '__main__':
     #               (4549,'Buzzinsocialmedia_Twitter','regression'),
     #               (45081,'Tallo','regression')]
     
-    datasetIDs = [(45693,'simulated_electricity','binary', 1),
-                  (23513,'KDD98','binary', 2),                  
-                  (45570,'Higgs','binary', 3),
-                  (45072,'airlines','binary', 4),
+    datasetIDs = [ (45693,'simulated_electricity','binary', 1),
+                   (23513,'KDD98','binary', 2),                  
+                   (45570,'Higgs','binary', 3),
+                   (45072,'airlines','binary', 4),
                   (40514,'BNG_credit_g','binary', 5),
                   (45579,'Microsoft','multiclass', 6),
                   (45056,'cmc','multiclass', 7),
@@ -100,7 +100,7 @@ if __name__ == '__main__':
                        f"    test: \'{{user}}/data/{ds_name}/{ds_name}_test.csv\'",
                        f"    target: {target}",
                        f"    type: {task_type}",
-                       "  folds: 1",
+                       "  folds: 10",
                        "\n"]
         config_str = "\n".join(config_strs)
 

@@ -16,7 +16,7 @@ class REPRESENTATION_TYPE:
 
 # Rule 1: need 2 parameters. 1) type of info, e.g., statistical info, min-max values,... 2)  total number of steps
 Rule_1 = ('You will be given a dataset, a {} of the dataset, and a question. Your task is to generate a data '
-          'science pipeline. You should answer only by generating code. You should follow Steps 1 to 11 to answer '
+          'science pipeline. You should answer only by generating code. You should follow Steps 1 to 12 to answer '
           'the question. You should return a data science pipeline in Python 3.10 programming language. If you do not '
           'have a relevant answer to the question, simply write: "Insufficient information."')
 
@@ -45,6 +45,9 @@ Rule_5 = ('This pipeline generates additional columns that are useful for a down
 
 # Rule 6:
 Rule_6 = "Remove low ration, static, and unique columns by getting statistic values."
+
+# Rule 7:
+Rule_7 = "Utilize the {}-folds {} technique for constructing the model."
 
 CODE_FORMATTING_IMPORT = f"""Code formatting for all required packages:
 ```python

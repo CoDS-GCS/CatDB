@@ -38,14 +38,14 @@ if __name__ == '__main__':
 
     
     df_llm_pipe_gen = create_df_index(df = pd.read_csv(llm_pipe_gen_result_path, dtype=str))
-    #df_llm_pipe_run = create_df_index(df = pd.read_csv(llm_pipe_run_result_path, dtype=str))
+    df_llm_pipe_run = create_df_index(df = pd.read_csv(llm_pipe_run_result_path, dtype=str))
 
 
     df_csv_data_read = pd.read_csv(csv_data_read_result_path)
     df_csv_data_read.set_index(df_data_profile['dataset'], inplace=True)
     
 
-    configs = set(df_llm_pipe_gen.index)
+    configs = set(df_llm_pipe_run.index)
     
     automl_contrains = ["---"]
     automl_contrains_set = set()
@@ -54,22 +54,11 @@ if __name__ == '__main__':
 
     llms = ['gpt-3.5-turbo', 'gpt-4']
 
-    ds_names={"dataset_1":"Simulated Electricity",
-              "dataset_2":"KDD98",
-              "dataset_3":"Higgs",
-              "dataset_4":"Airlines", 
-              "dataset_5":"Credit g",               
-              "dataset_6":"Microsoft",
-              "dataset_7":"CMC", 
-              "dataset_8":"Diabetes",
-              "dataset_9":"Sudoku Puzzles",
-              "dataset_10":"Pokerhand",
-              "dataset_11":"Buzzinsocialmedia", 
-              "dataset_12":"Zurich Transport",
-              "dataset_13":"NYC",
-              "dataset_14":"Black Friday",
-              "dataset_15":"Federal Election"
-              }
+    # ds_names={"airlines":"Airlines", "Microsoft":"Microsoft", "KDD98":"KDD98", "delays_zurich_transport":"Zurich Transport", "diabetes":"Diabetes", "federal_election":"Federal Election", "BNG_credit_g":"Credit g", "nyc-taxi-green-dec-2016":"NYC", "black_friday":"Black Friday", "Higgs":"Higgs", "cmc":"CMC", "Buzzinsocialmedia_Twitter":"Buzzinsocialmedia", "simulated_electricity":"Simulated Electricity", "3-million-Sudoku-puzzles-with-ratings":"Sudoku Puzzles"
+    #           , "pokerhand":"Pokerhand"}
+    
+    ds_names={"dataset_4":"Airlines", "Microsoft":"Microsoft", "KDD98":"KDD98", "delays_zurich_transport":"Zurich Transport", "diabetes":"Diabetes", "federal_election":"Federal Election", "BNG_credit_g":"Credit g", "nyc-taxi-green-dec-2016":"NYC", "black_friday":"Black Friday", "Higgs":"Higgs", "cmc":"CMC", "Buzzinsocialmedia_Twitter":"Buzzinsocialmedia", "simulated_electricity":"Simulated Electricity", "3-million-Sudoku-puzzles-with-ratings":"Sudoku Puzzles"
+              , "pokerhand":"Pokerhand"}
     
     df_final = pd.DataFrame(columns=["dataset","llm_model","prompt_representation_type","prompt_example_type","prompt_number_example","number_iteration","task_type", "data_profile_time", "llm_pipe_gen_time", "llm_pipe_run_time", "csv_data_read_time", "total_time", "Accuracy", "F1_score", "Log_loss", "R_Squared", "RMSE"])
 
@@ -77,7 +66,6 @@ if __name__ == '__main__':
     automl_max_runtime = dict()
     index = 0
     for d in os.listdir(catdb_results_path):
-        print(f"------------{d}------------------ ")
         for llm in llms:
             p = f'{catdb_results_path}/{d}/{llm}/'
             if os.path.exists(p) == False:
@@ -92,7 +80,7 @@ if __name__ == '__main__':
                         results ={"Accuracy":-1, "F1_score": -1, "Log_loss":-1, "R_Squared":-1, "RMSE": -1} 
                         with open(fnmae) as fi:
                             lines = fi.readlines()
-                            print(f"{f} >> {lines}")
+                            print(lines)
                             for l in lines:
                                 row = l.strip().split(":")
                                 if row[0] in results.keys():
@@ -100,7 +88,7 @@ if __name__ == '__main__':
 
                         profile_time = int(df_data_profile.at[d,"time"]) / 1000                      
                         llm_pipe_gen_time = int(df_llm_pipe_gen.at[f,"time"]) / 1000
-                        llm_pipe_run_time = 0 #int(df_llm_pipe_run.at[f, "time"]) / 1000
+                        llm_pipe_run_time = int(df_llm_pipe_run.at[f, "time"]) / 1000
                         csv_data_read_time = df_csv_data_read.at[d, "time"] / 1000
                         total_time = llm_pipe_gen_time + llm_pipe_run_time - csv_data_read_time
                         task_type = df_llm_pipe_gen.at[f, "task_type"]
@@ -114,8 +102,7 @@ if __name__ == '__main__':
 
                         df_final.loc[index] = new_row
                         index +=1
-                    else:
-                        print(f)   
+                       
                  
                     key = f"{d}####{task_type}"
                     if key in automl_max_runtime:

@@ -77,7 +77,7 @@ if __name__ == '__main__':
     automl_max_runtime = dict()
     index = 0
     for d in os.listdir(catdb_results_path):
-        print(f"------------{d}------------------ ")
+        print(f"------------<< {d}  >>------------------ ")
         for llm in llms:
             p = f'{catdb_results_path}/{d}/{llm}/'
             if os.path.exists(p) == False:
@@ -91,11 +91,12 @@ if __name__ == '__main__':
                     if os.stat(fnmae).st_size > 0: 
                         results ={"Accuracy":-1, "F1_score": -1, "Log_loss":-1, "R_Squared":-1, "RMSE": -1} 
                         with open(fnmae) as fi:
-                            lines = fi.readlines()
+                            lines = fi.readlines()                            
                             print(f"{f} >> {lines}")
                             for l in lines:
-                                row = l.strip().split(":")
-                                if row[0] in results.keys():
+
+                                row = l.replace("Log loss", "Log_loss").strip().split(":")
+                                if row[0] in results.keys():                                    
                                     results[row[0]] = row[1].strip()                      
 
                         profile_time = int(df_data_profile.at[d,"time"]) / 1000                      

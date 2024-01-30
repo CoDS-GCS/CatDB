@@ -22,11 +22,10 @@ done < "${exp_path}/explocal/exp2_micro_benchmark/corresponding_times.csv"
 cd "${exp_path}/setup/automlbenchmark/"
 source venv/bin/activate
 
-declare -a frameworks=("lightautoml" "flaml" "GAMA" "autosklearn" "autosklearn2") #("AutoGluon" "H2OAutoML" "mljarsupervised" "TPOT")
+declare -a frameworks=("AutoGluon" "H2OAutoML" "mljarsupervised" "TPOT")
 
 for framework in "${frameworks[@]}"; do 
     AMLB="python runbenchmark.py ${framework} ${datasource_name} ${constraint} --outdir=${output_dir} --userdir=${user_dir} --logging=${logging}"
-    echo "AMLB_SCRIPT=${AMLB}"
 
     # sudo echo 3 >/proc/sys/vm/drop_caches && sudo sync
     # sleep 3

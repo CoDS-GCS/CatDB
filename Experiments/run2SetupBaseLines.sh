@@ -7,10 +7,6 @@ mkdir -p "$path/Baselines"
 
 cd $path
 
-output_dir="${path}/automl_test"
-rm -rf $output_dir
-mkdir $output_dir
-
 ## Install AutoML Benchmark is a tool for benchmarking AutoML frameworks on tabular data. 
 ## URL: https://github.com/openml/automlbenchmark
 
@@ -31,24 +27,24 @@ cp -r ${path}"/config/automl/constraints.yaml" ${path}"/automlbenchmark/resource
 cp -r ${path}"/config/automl/frameworks.yaml" ${path}"/automlbenchmark/resources/" # update frameworks
 cp -r ${path}"/config/automl/config.yaml" ${path}"/automlbenchmark/resources/" # update config
 
-# python runbenchmark.py AutoGluon --setup=only
-# python runbenchmark.py AutoGluon_bestquality --setup=only
-# python runbenchmark.py AutoGluon_hq --setup=only
-# python runbenchmark.py AutoGluon_gq --setup=only
-# python runbenchmark.py H2OAutoML --setup=only
-# python runbenchmark.py mljarsupervised --setup=only
-# python runbenchmark.py mljarsupervised_compete --setup=only
-# python runbenchmark.py constantpredictor --setup=only
-# python runbenchmark.py RandomForest --setup=only
-# python runbenchmark.py TunedRandomForest --setup=only
-# python runbenchmark.py TPOT --setup=only
+python runbenchmark.py AutoGluon --setup=only
+python runbenchmark.py AutoGluon_bestquality --setup=only
+python runbenchmark.py AutoGluon_hq --setup=only
+python runbenchmark.py AutoGluon_gq --setup=only
+python runbenchmark.py H2OAutoML --setup=only
+python runbenchmark.py mljarsupervised --setup=only
+python runbenchmark.py mljarsupervised_compete --setup=only
+python runbenchmark.py constantpredictor --setup=only
+python runbenchmark.py RandomForest --setup=only
+python runbenchmark.py TunedRandomForest --setup=only
+python runbenchmark.py TPOT --setup=only
 
-#TODO: fix the following frameworks error
-# python runbenchmark.py lightautoml --setup=only
-# python runbenchmark.py flaml --setup=only
-# python runbenchmark.py GAMA --setup=only
-# python runbenchmark.py autosklearn --setup=only
-# python runbenchmark.py autosklearn2 --setup=only
+## TODO: fix the following frameworks error
+python runbenchmark.py lightautoml --setup=only
+python runbenchmark.py flaml --setup=only
+python runbenchmark.py GAMA --setup=only
+python runbenchmark.py autosklearn --setup=only
+python runbenchmark.py autosklearn2 --setup=only
 
 
 # Setup kglids

@@ -1,0 +1,182 @@
+\newcommand{\addplotCatDB}[7]{
+	   \addplot[xshift=#1,draw=black,line width=0.15pt, fill=#6, discard if singlecatdb={#2}{#3}{#4},postaction={#5}] 
+	   table[ y=#7, col sep=comma, x=prompt_representation_type] {results/Experiment_CatDB_Micro_Benchmark.dat};
+	   \label{leg_pip_#7}         
+};
+
+
+\pgfplotsset{
+    discard if singlecatdb/.style n args={3}{
+        x filter/.code={
+            \edef\tempa{\thisrow{llm_model}}
+            \edef\tempb{#1}
+            \ifx\tempa\tempb
+                    \edef\tempc{\thisrow{task_type}}
+                    \edef\tempd{#2}
+                    \ifx\tempc\tempd
+                      \edef\tempe{\thisrow{dataset}}
+                      \edef\tempf{#3}
+                      \ifx\tempe\tempf                        	
+                      \else
+                      \def\pgfmathresult{inf}
+                      \fi
+                    \else
+                    \def\pgfmathresult{inf}
+                    \fi      
+            \else
+            \def\pgfmathresult{inf}
+            \fi			
+        }
+    },
+    discard if singleautoml/.style n args={2}{
+      x filter/.code={
+          \edef\tempa{\thisrow{framework}}
+          \edef\tempb{#1}
+          \ifx\tempa\tempb
+                  \edef\tempc{\thisrow{type}}
+                  \edef\tempd{#2}
+                  \ifx\tempc\tempd   
+                  \else                
+                  \def\pgfmathresult{inf}
+                  \fi      
+          \else
+          \def\pgfmathresult{inf}
+          \fi			
+      }
+  }
+};
+\begin{tikzpicture}
+  \pgfplotsset{set layers}
+  \begin{axis}[
+    every major tick/.append style={ thick,major tick length=2.5pt, gray},
+    axis line style={gray},
+    ybar,        
+    ybar=0pt,
+    ymin=0,
+    ymax=1,
+    log ticks with fixed point,
+    y tick label style={/pgf/number format/1000 sep={}},
+    x tick label style={/pgf/number format/1000 sep={}},
+    scaled y ticks=false,
+    enlarge y limits={0.013,upper},
+    enlarge x limits=0.07,
+    ylabel={Accuracy [\%]},
+    xlabel={$\#$Cobmination},
+    ytick={0,0.2,0.4,0.6,0.8,1.0},
+    yticklabels={0,20,40,60,80,100},
+    ytick align=outside,
+    xtick pos=left,
+    ytick pos=left,
+    yticklabel style = {font=\Large},
+    ylabel style = {font=\Large, yshift=-2pt},
+    xticklabel style = {font=\normalsize, xshift=-16pt, yshift=5pt, rotate=25},
+    height=0.7\columnwidth,
+    width=1\columnwidth,    
+    bar width=5pt,	 
+    ymajorgrids=true,
+    grid style=dotted,   
+    minor grid style={gray!50}, 
+    xtick = data,
+    symbolic x coords={Conf-1,Conf-2,Conf-3,Conf-4,Conf-5,Conf-6,Conf-7,Conf-8,Conf-9,Conf-10,AutoML-1H,AutoML-2H},
+    legend image code/.code={\draw [#1] (0cm,-0.1cm) rectangle (0.2cm,0.3cm); },
+    ]
+    \addplotCatDB{0}{gpt-4}{multiclass}{Microsoft}{}{tug}{Accuracy};  
+\end{axis}
+%
+\begin{axis}[
+  every major tick/.append style={ thick,major tick length=2.5pt, gray},
+  axis line style={gray},
+  ybar,        
+  ybar=0pt,
+  ymin=0,
+  %ymax=1,
+  log ticks with fixed point,
+  y tick label style={/pgf/number format/1000 sep={}},
+  x tick label style={/pgf/number format/1000 sep={}},
+  scaled y ticks=false,
+  enlarge y limits={0.013,upper},
+  enlarge x limits=0.07,
+  ylabel={Log-loss},
+  %xlabel={$\#$Cobmination},
+  % ytick={0,0.2,0.4,0.6,0.8,1.0},
+  % yticklabels={0,20,40,60,80,100},
+  yticklabel pos=right,
+  ytick align=outside,
+  xtick pos=left,
+  ytick pos=left,
+  yticklabel style = {font=\Large},
+  ylabel style = {font=\Large, yshift=-2pt},
+  xticklabel style = {font=\normalsize, xshift=-14pt, yshift=5pt, rotate=25},
+  height=0.7\columnwidth,
+  width=1\columnwidth,    
+  bar width=5pt,	 
+  ymajorgrids=true,
+  grid style=dotted,   
+  minor grid style={gray!50}, 
+  xtick = data,
+  symbolic x coords={Conf-1,Conf-2,Conf-3,Conf-4,Conf-5,Conf-6,Conf-7,Conf-8,Conf-9,Conf-10,AutoML-1H,AutoML-2H},
+  xticklabels={},
+  legend image code/.code={\draw [#1] (0cm,-0.1cm) rectangle (0.2cm,0.3cm); },
+  ]
+  \addplotCatDB{6pt}{gpt-4}{multiclass}{Microsoft}{}{tugb}{Log_loss};  
+\end{axis}
+
+\node [draw=none,inner sep=0, font=\Large, anchor=west] (leg1) at (rel axis cs: 0.10,0.9) {\shortstack[l]{
+			\ref{leg_pip_Accuracy} Accuracy 
+      \ref{leg_pip_Log_loss} Log-loss 			 			
+	}};
+
+\end{tikzpicture}
+
+
+% \begin{tikzpicture}[
+%   %ymode=log,  
+%   every axis/.style={
+%     major x tick style = {draw=none},
+%     %ybar stacked,
+%     %ymode=log,
+%     xtick style={draw=none},		
+%     every major tick/.append style={ thick,major tick length=2.5pt, gray},
+%     axis line style={gray},
+%     ybar,        
+%     ybar=0pt,
+%     ymin=0,
+%     ymax=1,
+%     log ticks with fixed point,
+%     y tick label style={/pgf/number format/1000 sep={}},
+%     x tick label style={/pgf/number format/1000 sep={}},
+%     scaled y ticks=false,
+%     enlarge y limits={0.013,upper},
+%     enlarge x limits=0.07,
+%     ylabel={Accuracy/Log-loss},
+%     xlabel={$\#$Cobmination},
+%     ytick={0,0.2,0.4,0.6,0.8,1.0},
+%     yticklabels={0,20,40,60,80,100},
+%     ytick align=outside,
+%     xtick pos=left,
+%     ytick pos=left,
+%     yticklabel style = {font=\Large},
+%     ylabel style = {font=\Large, yshift=-2pt},
+%     xticklabel style = {font=\normalsize, xshift=-10pt, yshift=5pt, rotate=25},
+%     height=0.7\columnwidth,
+%     width=1\columnwidth,    
+%     bar width=6pt,	 
+%     ymajorgrids=true,
+%     grid style=dotted,   
+%     minor grid style={gray!50}, 
+%     xtick = data,
+%     symbolic x coords={Conf-1,Conf-2,Conf-3,Conf-4,Conf-5,Conf-6,Conf-7,Conf-8,Conf-9,Conf-10},
+%     legend image code/.code={\draw [#1] (0cm,-0.1cm) rectangle (0.2cm,0.3cm); },
+%   }	 ]
+	
+% \begin{axis}%[hide axis]  
+%   \addplotCatDB{0}{gpt-4}{multiclass}{Microsoft}{}{tug}{Accuracy};
+% \end{axis}
+
+
+% \node [draw=none,inner sep=0, font=\Large, anchor=west] (leg1) at (rel axis cs: 0.10,0.9) {\shortstack[l]{
+% 			\ref{leg_pip_accuracy} Accuracy 
+%       \ref{leg_pip_logloss} Log-loss 			 			
+% 	}};
+
+% \end{tikzpicture}

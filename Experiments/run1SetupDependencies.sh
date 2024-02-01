@@ -3,10 +3,12 @@
 sudo apt update
 sudo apt-get install -y openjdk-11-jdk-headless
 
-sudo apt-get install clang++
-sudo apt-get install python3-dev
-sudo apt-get install wget
-sudo apt-get install unzip
+sudo apt-get install -y clang++
+sudo apt-get install -y python3-dev
+sudo apt install -y python3-pip
+sudo pip install virtualenv
+sudo apt-get install -y wget
+sudo apt-get install -y unzip
 
 root_path="$(pwd)"
 

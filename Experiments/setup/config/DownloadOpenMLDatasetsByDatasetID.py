@@ -16,19 +16,18 @@ class DownloadDatasets(object):
 
         number_classes = 'N/A'
         n_classes = data[dataset.default_target_attribute].nunique()
-        number_classes = f'{n_classes}'
-
-        # if task.task_type.lower() != 'regression':
-        #     n_classes = data[dataset.default_target_attribute].nunique()
-        #     number_classes = f'{n_classes}'
-        #     if n_classes == 2:
-        #         task_type = "binary"
-        #     else:
-        #         task_type = "multiclass"
-        # else:
-        #     task_type = "regression"
-
+        number_classes = f'{n_classes}'   
+        target_attribute = dataset.default_target_attribute     
+        
         if data is not None and len(data) > 0:
+            colnams = data.columns
+            new_colnams=dict()
+            i = 1
+            for col in colnams:
+                new_colnams[col]= f"c_{i}"
+                i +=1
+            data = data.rename(columns=new_colnams)   
+            target_attribute = new_colnams[target_attribute] 
             data_train, data_test = train_test_split(data, test_size=0.3, random_state=42)
             Path(f"{self.out_path}/{ds_name}").mkdir(parents=True, exist_ok=True)
 
@@ -40,8 +39,7 @@ class DownloadDatasets(object):
             f = open(f'{self.out_path}/{ds_name}/description.txt', 'w')
             f.write(description)
 
-        # print (dataset.task_type)
-        return dataset.default_target_attribute, nrows, ncols, dataset.original_data_url, number_classes
+        return target_attribute, nrows, ncols, dataset.original_data_url, number_classes
 
 
 if __name__ == '__main__':
@@ -73,20 +71,19 @@ if __name__ == '__main__':
                    (23513,'KDD98','binary', 2),                  
                    (45570,'Higgs','binary', 3),
                    (45072,'airlines','binary', 4),
-                  (40514,'BNG_credit_g','binary', 5),
-                  (45579,'Microsoft','multiclass', 6),
-                  (45056,'cmc','multiclass', 7),
-                  (37,'diabetes','multiclass', 8),
-                  (43476,'3-million-Sudoku-puzzles-with-ratings','multiclass', 9),
-                  (155,'pokerhand','multiclass', 10),
-                  (4549,'Buzzinsocialmedia_Twitter','regression', 11),
-                  (45045,'delays_zurich_transport','regression', 12),
-                  (44065,'nyc-taxi-green-dec-2016','regression', 13),
-                  (44057,'black_friday','regression', 14),
-                  (42080,'federal_election','regression', 15),
+                   (40514,'BNG_credit_g','binary', 5),
+                   (45579,'Microsoft','multiclass', 6),
+                   (45056,'cmc','multiclass', 7),
+                   (37,'diabetes','multiclass', 8),
+                   (43476,'3-million-Sudoku-puzzles-with-ratings','multiclass', 9),
+                   (155,'pokerhand','multiclass', 10),
+                   (4549,'Buzzinsocialmedia_Twitter','regression', 11),
+                   (45045,'delays_zurich_transport','regression', 12),
+                   (44065,'nyc-taxi-green-dec-2016','regression', 13),
+                   (44057,'black_friday','regression', 14),
+                   (42080,'federal_election','regression', 15),
                   ]
     
-
     dataset_list = 'row,orig_dataset_name,dataset_name,nrows,ncols,file_format,task_type,number_classes,original_url,target_feature,description\n'
     script_list =""
     for (dataset_id,orig_ds_name,task_type, dataset_index) in datasetIDs:        
@@ -100,7 +97,7 @@ if __name__ == '__main__':
                        f"    test: \'{{user}}/data/{ds_name}/{ds_name}_test.csv\'",
                        f"    target: {target}",
                        f"    type: {task_type}",
-                       "  folds: 10",
+                       "  folds: 1",
                        "\n"]
         config_str = "\n".join(config_strs)
 
@@ -121,6 +118,3 @@ if __name__ == '__main__':
 
     f = open(f'{data_out_path}/dataset_list.csv', 'w')
     f.write(dataset_list)
-
-    f_script = open(f'{data_out_path}/script_list.sh', 'w')
-    f_script.write(script_list)

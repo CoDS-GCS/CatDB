@@ -78,12 +78,12 @@ if __name__ == '__main__':
     args = parse_arguments()
     profile_info_path = f'{args.data_source_path}/{args.data_source_name}/data_profile'
     catalog = load_data_source_profile(data_source_path=profile_info_path,
-                                       file_format="JSON",
-                                       reduction_method=args.reduction_method,
-                                       reduce_size=args.reduction_size,
-                                       target_attribute=args.target_attribute)
+                                               file_format="JSON",
+                                               reduction_method=args.reduction_method,
+                                               reduce_size=args.reduction_size,
+                                               target_attribute=args.target_attribute)
 
-    prompt = prompt_factory(catalog=catalog,
+    prompt =  prompt_factory(catalog=catalog,
                             representation_type=args.prompt_representation_type,
                             example_type=args.prompt_example_type,
                             number_example=args.prompt_number_example,

@@ -10,41 +10,41 @@ cd $path
 ## Install AutoML Benchmark is a tool for benchmarking AutoML frameworks on tabular data. 
 ## URL: https://github.com/openml/automlbenchmark
 
-rm -rf automlbenchmark # clean-up
-git clone https://github.com/openml/automlbenchmark.git --branch stable --depth 1 #clone benchmark
-cd automlbenchmark
+# rm -rf automlbenchmark # clean-up
+# git clone https://github.com/openml/automlbenchmark.git --branch stable --depth 1 #clone benchmark
+# cd automlbenchmark
 
-## Create a virtual environments to install the dependencies in:
-rm -rf venv
-python -m venv venv
-source venv/bin/activate
+# ## Create a virtual environments to install the dependencies in:
+# rm -rf venv
+# python -m venv venv
+# source venv/bin/activate
 
-## Then install the dependencies:
-python -m pip install --upgrade pip
-python -m pip install -r requirements.txt
+# ## Then install the dependencies:
+# python -m pip install --upgrade pip
+# python -m pip install -r requirements.txt
 
-cp -r ${path}"/config/automl/constraints.yaml" ${path}"/automlbenchmark/resources/" # update constraints
-cp -r ${path}"/config/automl/frameworks.yaml" ${path}"/automlbenchmark/resources/" # update frameworks
-cp -r ${path}"/config/automl/config.yaml" ${path}"/automlbenchmark/resources/" # update config
+# cp -r ${path}"/config/automl/constraints.yaml" ${path}"/automlbenchmark/resources/" # update constraints
+# cp -r ${path}"/config/automl/frameworks.yaml" ${path}"/automlbenchmark/resources/" # update frameworks
+# cp -r ${path}"/config/automl/config.yaml" ${path}"/automlbenchmark/resources/" # update config
 
-python runbenchmark.py AutoGluon --setup=only
-python runbenchmark.py AutoGluon_bestquality --setup=only
-python runbenchmark.py AutoGluon_hq --setup=only
-python runbenchmark.py AutoGluon_gq --setup=only
-python runbenchmark.py H2OAutoML --setup=only
-python runbenchmark.py mljarsupervised --setup=only
-python runbenchmark.py mljarsupervised_compete --setup=only
-python runbenchmark.py constantpredictor --setup=only
-python runbenchmark.py RandomForest --setup=only
-python runbenchmark.py TunedRandomForest --setup=only
-python runbenchmark.py TPOT --setup=only
+# python runbenchmark.py AutoGluon --setup=only
+# python runbenchmark.py AutoGluon_bestquality --setup=only
+# python runbenchmark.py AutoGluon_hq --setup=only
+# python runbenchmark.py AutoGluon_gq --setup=only
+# python runbenchmark.py H2OAutoML --setup=only
+# python runbenchmark.py mljarsupervised --setup=only
+# python runbenchmark.py mljarsupervised_compete --setup=only
+# python runbenchmark.py constantpredictor --setup=only
+# python runbenchmark.py RandomForest --setup=only
+# python runbenchmark.py TunedRandomForest --setup=only
+# python runbenchmark.py TPOT --setup=only
 
-## TODO: fix the following frameworks error
-python runbenchmark.py lightautoml --setup=only
-python runbenchmark.py flaml --setup=only
-python runbenchmark.py GAMA --setup=only
-python runbenchmark.py autosklearn --setup=only
-python runbenchmark.py autosklearn2 --setup=only
+# ## TODO: fix the following frameworks error
+# python runbenchmark.py lightautoml --setup=only
+# python runbenchmark.py flaml --setup=only
+# python runbenchmark.py GAMA --setup=only
+# python runbenchmark.py autosklearn --setup=only
+# python runbenchmark.py autosklearn2 --setup=only
 
 
 # Setup kglids
@@ -66,20 +66,20 @@ python runbenchmark.py autosklearn2 --setup=only
 
 # Setup CatDB
 #############
-# catdb_path="${path}/Baselines/CatDB/"
+catdb_path="${path}/Baselines/CatDB/"
 # rm -rf ${catdb_path}
-# mkdir -p ${catdb_path}
+mkdir -p ${catdb_path}
 
-# cd ${root_path}
-# cd ..
-# cp -r src/main/python/* ${catdb_path}
-# cd ${catdb_path}
+cd ${root_path}
+cd ..
+cp -r src/python/main/* ${catdb_path}
+cd ${catdb_path}
 
 # rm -rf venv
 # python -m venv venv
-# source venv/bin/activate
+source venv/bin/activate
 
-# Then install the dependencies:
+# ## Then install the dependencies:
 # python -m pip install --upgrade pip
 # python -m pip install -r requirements.txt
 # pip install pipreqs

@@ -40,16 +40,16 @@ class GenerateReader(object):
         self.src_code.append("".join(src))
 
     def load_train_test_dataset(self, train_fname: str, test_fname: str, header=None, cols_dtypes: dict = None):
-        self.generate_reader(target_name="train_data", fname=train_fname, header=header, cols_dtypes=cols_dtypes)
-        self.generate_reader(target_name="test_data", fname=test_fname, header=header, cols_dtypes=cols_dtypes)
+        self.generate_reader(target_name="df_train", fname=train_fname, header=header, cols_dtypes=cols_dtypes)
+        self.generate_reader(target_name="df_test", fname=test_fname, header=header, cols_dtypes=cols_dtypes)
 
     def load_dataset(self, fname: str, header=None, cols_dtypes: dict = None):
         self.generate_reader(target_name="data", fname=fname, header=header, cols_dtypes=cols_dtypes)
         self.src_package.append("from sklearn.model_selection import train_test_split")
-        self.src_code.append(" data_train, data_test = train_test_split(data, test_size=0.3, random_state=42)")
+        self.src_code.append(" df_train, df_test = train_test_split(data, test_size=0.3, random_state=42)")
 
     def load_train_test_validation_dataset(self, train_fname: str, test_fname: str, validation_fname: str, header=None,
                                            cols_dtypes: dict = None):
-        self.generate_reader(target_name="train_data", fname=train_fname, header=header, cols_dtypes=cols_dtypes)
-        self.generate_reader(target_name="test_data", fname=test_fname, header=header, cols_dtypes=cols_dtypes)
-        self.generate_reader(target_name="val_data", fname=validation_fname, header=header, cols_dtypes=cols_dtypes)
+        self.generate_reader(target_name="df_train", fname=train_fname, header=header, cols_dtypes=cols_dtypes)
+        self.generate_reader(target_name="df_test", fname=test_fname, header=header, cols_dtypes=cols_dtypes)
+        self.generate_reader(target_name="df_val", fname=validation_fname, header=header, cols_dtypes=cols_dtypes)

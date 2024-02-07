@@ -21,9 +21,9 @@ echo "dataset,source,time" >> "${exp_path}/results/Experiment3_Hand-craft.dat"
 
 cd ${exp_path}
 
-#CMD=./explocal/exp1_catalog/runExperiment1.sh
+CMD=./explocal/exp1_catalog/runExperiment1.sh
 #CMD=./explocal/exp2_micro_benchmark/runExperiment2.sh 
-CMD=./explocal/exp3_end_to_end/runExperiment3.sh 
+#CMD=./explocal/exp3_end_to_end/runExperiment3.sh 
 
 ## Run End-to-End Hand-craft pipelines
 #CMD_HAND_CRAFT=./explocal/exp3_end_to_end/runExperiment3-Hand-craft.sh 

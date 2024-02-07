@@ -20,13 +20,36 @@ echo "dataset,platform,time,constraint" >> "${exp_path}/results/Experiment3_Auto
 
 cd ${exp_path}
 
-CMD=./explocal/exp1_catalog/runExperiment1.sh
-# CMD=./explocal/exp2_micro_benchmark/runExperiment2.sh 
+#CMD=./explocal/exp1_catalog/runExperiment1.sh
+#CMD=./explocal/exp2_micro_benchmark/runExperiment2.sh 
+CMD=./explocal/exp3_end_to_end/runExperiment3.sh 
+
+$CMD dataset_1 binary test
+$CMD dataset_2 binary test
+$CMD dataset_3 binary test
+$CMD dataset_4 binary test
+$CMD dataset_5 binary test
+$CMD dataset_6 binary test
+
+$CMD dataset_1_rnc binary test
+$CMD dataset_2_rnc binary test
+$CMD dataset_3_rnc binary test
+$CMD dataset_4_rc binary test
+$CMD dataset_5_rnc binary test
+$CMD dataset_6_rc binary test
+
+$CMD horsecolic binary test
+$CMD credit binary test
+$CMD albert binary test
+$CMD Sonar binary test
+$CMD abalone binary test
+$CMD poker binary test
+
 
 # $CMD dataset_1 binary test
 # $CMD dataset_2 binary test
 # $CMD dataset_3 binary test
-$CMD dataset_4 binary test
+# $CMD dataset_4 binary test
 # $CMD dataset_5 binary test
 # $CMD dataset_6 multiclass test
 # $CMD dataset_7 multiclass test

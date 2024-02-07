@@ -11,7 +11,8 @@ declare -a datasets_info=("${data_path}/horsecolic/horsecolic,horsecolic,dataset
                           "${data_path}/albert/albert,albert,dataset_3,class,binary" \
                           "${data_path}/Sonar/Sonar,Sonar,dataset_4,Class,binary" \
                           "${data_path}/abalone/abalone,abalone,dataset_5,Rings,binary" \
-                          "${data_path}/poker/poker,poker,dataset_6,CLASS,binary") 
+                          "${data_path}/poker/poker,poker,dataset_6,CLASS,binary" \
+                          "${data_out_path}/diabetes/diabetes,diabetes,dataset_7,diabetes,binary") 
 
 cd ${config_path}
 source venv/bin/activate

@@ -24,9 +24,15 @@ cd ${exp_path}
 #CMD=./explocal/exp1_catalog/runExperiment1.sh
 #CMD=./explocal/exp2_micro_benchmark/runExperiment2.sh 
 CMD=./explocal/exp3_end_to_end/runExperiment3.sh 
-CMD_HAND_CRAFT=./explocal/exp3_end_to_end/runExperiment3-Hand-craft.sh 
 
-$CMD_HAND_CRAFT
+## Run End-to-End Hand-craft pipelines
+#CMD_HAND_CRAFT=./explocal/exp3_end_to_end/runExperiment3-Hand-craft.sh 
+#$CMD_HAND_CRAFT
+
+# Run Demo
+$CMD dataset_7 binary test
+$CMD dataset_7_rnc binary test
+$CMD diabetes binary test
 
 # $CMD dataset_1 binary test
 # $CMD dataset_2 binary test

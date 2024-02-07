@@ -1,0 +1,11 @@
+Model Accuracy:  0.9514199521481327
+              precision    recall  f1-score   support
+
+           0       0.98      0.97      0.97     26266
+           1       0.70      0.80      0.75      2573
+
+    accuracy                           0.95     28839
+   macro avg       0.84      0.88      0.86     28839
+weighted avg       0.95      0.95      0.95     28839
+
+./explocal/exp3_end_to_end/runExperiment3-Hand-craft.sh: line 17: /results/Experiment3_Hand-craft.dat: No such file or directory

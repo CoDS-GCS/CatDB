@@ -3,7 +3,7 @@
 
 root_path="$(pwd)"
 baselines_path="${root_path}/baselines"
-log_file_name="${exp_path}/results/Experiment3_Hand-craft.dat"
+log_file_name="${root_path}/results/Experiment3_Hand-craft.dat"
 
 cd ${baselines_path}
 

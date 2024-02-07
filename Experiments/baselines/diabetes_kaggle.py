@@ -28,7 +28,7 @@ from imblearn.pipeline import Pipeline as imbPipeline
 # Set the decimal format
 pd.options.display.float_format = "{:.2f}".format
 
-df = pd.read_csv("../data/diabetes_prediction_dataset.csv")
+df = pd.read_csv("../data/diabetes.csv")
 
 # Handle duplicates
 duplicate_rows_data = df[df.duplicated()]

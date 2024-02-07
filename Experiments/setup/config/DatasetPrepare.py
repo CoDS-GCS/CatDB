@@ -28,8 +28,6 @@ def parse_arguments():
     if args.setting_out_path is None:
         raise Exception("--setting-out-path is a required parameter!")
     
-
-    
     return args
 
 
@@ -37,6 +35,7 @@ def split_data_save(data, ds_name, out_path):
     data_train, data_test = train_test_split(data, test_size=0.3, random_state=42)
     Path(f"{out_path}/{ds_name}").mkdir(parents=True, exist_ok=True)
 
+    data.to_csv(f'{out_path}/{ds_name}/{ds_name}.csv', index=False)
     data_train.to_csv(f'{out_path}/{ds_name}/{ds_name}_train.csv', index=False)
     data_test.to_csv(f'{out_path}/{ds_name}/{ds_name}_test.csv', index=False)
 

@@ -77,7 +77,7 @@ cd ${catdb_path}
 
 # rm -rf venv
 # python -m venv venv
-source venv/bin/activate
+# source venv/bin/activate
 
 # ## Then install the dependencies:
 # python -m pip install --upgrade pip
@@ -86,12 +86,27 @@ source venv/bin/activate
 
 # Prepare Config
 ################
-config_path="${path}/config/"
-cd ${config_path}
+# config_path="${path}/config/"
+# cd ${config_path}
+# rm -rf venv
+# python -m venv venv
+# source venv/bin/activate
+
+# #Then install the dependencies:
+# python -m pip install --upgrade pip
+# python -m pip install -r requirements.txt
+
+
+# Setup Hand-craft baseline
+################
+baselines_path="${root_path}/baselines/"
+cd ${baselines_path}
 rm -rf venv
 python -m venv venv
 source venv/bin/activate
 
-#Then install the dependencies:
+# Then install the dependencies:
+pip install pipreqs
+pipreqs --force --mode no-pin ${baselines_path}
 python -m pip install --upgrade pip
 python -m pip install -r requirements.txt

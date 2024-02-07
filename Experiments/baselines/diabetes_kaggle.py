@@ -1,3 +1,6 @@
+
+# Source code: https://www.kaggle.com/code/tumpanjawat/diabetes-eda-random-forest-hp
+
 import warnings
 warnings.filterwarnings('ignore')
 
@@ -25,27 +28,24 @@ from imblearn.pipeline import Pipeline as imbPipeline
 # Set the decimal format
 pd.options.display.float_format = "{:.2f}".format
 
-df = pd.read_csv("/kaggle/input/diabetes-prediction-dataset/diabetes_prediction_dataset.csv")
+df = pd.read_csv("../data/diabetes_prediction_dataset.csv")
 
 # Handle duplicates
 duplicate_rows_data = df[df.duplicated()]
-print("number of duplicate rows: ", duplicate_rows_data.shape)
+# print("number of duplicate rows: ", duplicate_rows_data.shape)
 
 df = df.drop_duplicates()
 
 # Loop through each column and count the number of distinct values
-for column in df.columns:
-    num_distinct_values = len(df[column].unique())
-    print(f"{column}: {num_distinct_values} distinct values")
+# for column in df.columns:
+#     num_distinct_values = len(df[column].unique())
+#     print(f"{column}: {num_distinct_values} distinct values")
 
 # Checking null values
-print(df.isnull().sum())
+# print(df.isnull().sum())
 
 # Remove Unneccessary value [0.00195%]
 df = df[df['gender'] != 'Other']
-
-df.describe().style.format("{:.2f}")
-
 
 # Define a function to map the existing categories to new ones
 def recategorize_smoking(smoking_status):
@@ -60,7 +60,7 @@ def recategorize_smoking(smoking_status):
 df['smoking_history'] = df['smoking_history'].apply(recategorize_smoking)
 
 # Check the new value counts
-print(df['smoking_history'].value_counts())
+# print(df['smoking_history'].value_counts())
 
 data = df.copy()
 
@@ -121,7 +121,7 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_
 grid_search.fit(X_train, y_train)
 
 # Print the best parameters
-print("Best Parameters: ", grid_search.best_params_)
+# print("Best Parameters: ", grid_search.best_params_)
 
 
 # Predict on the test set using the best model
@@ -132,10 +132,10 @@ print("Model Accuracy: ", accuracy_score(y_test, y_pred))
 print(classification_report(y_test, y_pred))
 
 # Plot confusion matrix
-cm = confusion_matrix(y_test, y_pred)
-plt.figure(figsize=(8, 6))
-sns.heatmap(cm, annot=True, fmt='d', cmap='Blues')
-plt.title('Confusion Matrix')
-plt.xlabel('Predicted')
-plt.ylabel('True')
-plt.show()
+# cm = confusion_matrix(y_test, y_pred)
+# plt.figure(figsize=(8, 6))
+# sns.heatmap(cm, annot=True, fmt='d', cmap='Blues')
+# plt.title('Confusion Matrix')
+# plt.xlabel('Predicted')
+# plt.ylabel('True')
+# plt.show()

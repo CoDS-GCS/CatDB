@@ -34,26 +34,26 @@ CMD=./explocal/exp1_catalog/runExperiment1.sh
 # $CMD dataset_7_rnc binary test
 # $CMD diabetes binary test
 
-$CMD dataset_1 binary test
-$CMD dataset_2 binary test
-$CMD dataset_3 binary test
-$CMD dataset_4 binary test
-$CMD dataset_5 binary test
-$CMD dataset_6 binary test
+# $CMD dataset_1 binary test
+# $CMD dataset_2 binary test
+# $CMD dataset_3 binary test
+# $CMD dataset_4 binary test
+# $CMD dataset_5 binary test
+# $CMD dataset_6 binary test
 
-$CMD dataset_1_rnc binary test
-$CMD dataset_2_rnc binary test
-$CMD dataset_3_rnc binary test
-$CMD dataset_4_rc binary test
-$CMD dataset_5_rnc binary test
-$CMD dataset_6_rc binary test
+# $CMD dataset_1_rnc binary test
+# $CMD dataset_2_rnc binary test
+# $CMD dataset_3_rnc binary test
+# $CMD dataset_4_rc binary test
+# $CMD dataset_5_rnc binary test
+# $CMD dataset_6_rc binary test
 
-$CMD horsecolic binary test
-$CMD credit binary test
-$CMD albert binary test
-$CMD Sonar binary test
-$CMD abalone binary test
-$CMD poker binary test
+# $CMD horsecolic binary test
+# $CMD credit binary test
+# $CMD albert binary test
+# $CMD Sonar binary test
+# $CMD abalone binary test
+# $CMD poker binary test
 
 
 # $CMD dataset_1 binary test
@@ -73,21 +73,21 @@ $CMD poker binary test
 # $CMD dataset_15 regression test
 
 
-# $CMD simulated_electricity binary 
-# $CMD KDD98 binary 
-# $CMD Higgs binary 
-# $CMD airlines binary 
-# $CMD BNG_credit_g binary 
-# $CMD Microsoft multiclass 
-# $CMD cmc multiclass 
-# $CMD diabetes multiclass 
-# #$CMD 3-million-Sudoku-puzzles-with-ratings multiclass 
-# #$CMD pokerhand multiclass 
-# $CMD Buzzinsocialmedia_Twitter regression 
-# $CMD delays_zurich_transport regression 
-# $CMD nyc-taxi-green-dec-2016 regression 
-# $CMD black_friday regression 
-# $CMD federal_election regression 
+$CMD simulated_electricity binary 
+$CMD KDD98 binary 
+$CMD Higgs binary 
+$CMD airlines binary 
+$CMD BNG_credit_g binary 
+$CMD Microsoft multiclass 
+$CMD cmc multiclass 
+$CMD diabetes multiclass 
+$CMD 3-million-Sudoku-puzzles-with-ratings multiclass 
+$CMD pokerhand multiclass 
+$CMD Buzzinsocialmedia_Twitter regression 
+$CMD delays_zurich_transport regression 
+$CMD nyc-taxi-green-dec-2016 regression 
+$CMD black_friday regression 
+$CMD federal_election regression 
 
 
 ## Large Datasets 

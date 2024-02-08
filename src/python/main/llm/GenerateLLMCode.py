@@ -90,3 +90,11 @@ class GenerateLLMCode(object):
         code = completion.choices[0].message.content
         code = code.replace("```", "# ```")
         return code
+
+    def get_number_tokens(self, prompt_rules: str, prompt_message: str):
+        enc = tiktoken.get_encoding("cl100k_base")
+        enc = tiktoken.encoding_for_model(self.model)
+        token_integers = enc.encode(prompt_rules + prompt_message)
+        num_tokens = len(token_integers)
+
+        return num_tokens

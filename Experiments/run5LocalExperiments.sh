@@ -30,30 +30,30 @@ CMD=./explocal/exp1_catalog/runExperiment1.sh
 #$CMD_HAND_CRAFT
 
 # Run Demo
-$CMD dataset_7 binary test
-$CMD dataset_7_rnc binary test
-$CMD diabetes binary test
+# $CMD dataset_7 binary test
+# $CMD dataset_7_rnc binary test
+# $CMD diabetes binary test
 
-# $CMD dataset_1 binary test
-# $CMD dataset_2 binary test
-# $CMD dataset_3 binary test
-# $CMD dataset_4 binary test
-# $CMD dataset_5 binary test
-# $CMD dataset_6 binary test
+$CMD dataset_1 binary test
+$CMD dataset_2 binary test
+$CMD dataset_3 binary test
+$CMD dataset_4 binary test
+$CMD dataset_5 binary test
+$CMD dataset_6 binary test
 
-# $CMD dataset_1_rnc binary test
-# $CMD dataset_2_rnc binary test
-# $CMD dataset_3_rnc binary test
-# $CMD dataset_4_rc binary test
-# $CMD dataset_5_rnc binary test
-# $CMD dataset_6_rc binary test
+$CMD dataset_1_rnc binary test
+$CMD dataset_2_rnc binary test
+$CMD dataset_3_rnc binary test
+$CMD dataset_4_rc binary test
+$CMD dataset_5_rnc binary test
+$CMD dataset_6_rc binary test
 
-# $CMD horsecolic binary test
-# $CMD credit binary test
-# $CMD albert binary test
-# $CMD Sonar binary test
-# $CMD abalone binary test
-# $CMD poker binary test
+$CMD horsecolic binary test
+$CMD credit binary test
+$CMD albert binary test
+$CMD Sonar binary test
+$CMD abalone binary test
+$CMD poker binary test
 
 
 # $CMD dataset_1 binary test

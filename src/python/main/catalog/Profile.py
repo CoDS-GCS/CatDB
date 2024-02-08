@@ -49,7 +49,7 @@ class ProfileInfo(object):
         self.is_active = True
         if self.data_type == "boolean":
             self.short_data_type = "bool"
-        elif self.data_type == "string" or self.data_type == "natural_language_text":
+        elif self.data_type == "string" or self.data_type == "natural_language_text" or self.data_type == "named_entity":
             self.short_data_type = "str"
         else:
             self.short_data_type = self.data_type

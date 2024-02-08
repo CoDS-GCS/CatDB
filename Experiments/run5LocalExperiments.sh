@@ -21,16 +21,18 @@ echo "dataset,source,time" >> "${exp_path}/results/Experiment3_Hand-craft.dat"
 
 cd ${exp_path}
 
-CMD=./explocal/exp1_catalog/runExperiment1.sh
+CMD=./explocal/exp0_statistics/runExperiment0.sh
+#CMD=./explocal/exp1_catalog/runExperiment1.sh
 #CMD=./explocal/exp2_micro_benchmark/runExperiment2.sh 
 #CMD=./explocal/exp3_end_to_end/runExperiment3.sh 
+
 
 ## Run End-to-End Hand-craft pipelines
 #CMD_HAND_CRAFT=./explocal/exp3_end_to_end/runExperiment3-Hand-craft.sh 
 #$CMD_HAND_CRAFT
 
 # Run Demo
-# $CMD dataset_7 binary test
+$CMD dataset_7 binary test
 # $CMD dataset_7_rnc binary test
 # $CMD diabetes binary test
 
@@ -73,21 +75,21 @@ CMD=./explocal/exp1_catalog/runExperiment1.sh
 # $CMD dataset_15 regression test
 
 
-$CMD simulated_electricity binary 
-$CMD KDD98 binary 
-$CMD Higgs binary 
-$CMD airlines binary 
-$CMD BNG_credit_g binary 
-$CMD Microsoft multiclass 
-$CMD cmc multiclass 
-$CMD diabetes multiclass 
-$CMD 3-million-Sudoku-puzzles-with-ratings multiclass 
-$CMD pokerhand multiclass 
-$CMD Buzzinsocialmedia_Twitter regression 
-$CMD delays_zurich_transport regression 
-$CMD nyc-taxi-green-dec-2016 regression 
-$CMD black_friday regression 
-$CMD federal_election regression 
+# $CMD simulated_electricity binary 
+# $CMD KDD98 binary 
+# $CMD Higgs binary 
+# $CMD airlines binary 
+# $CMD BNG_credit_g binary 
+# $CMD Microsoft multiclass 
+# $CMD cmc multiclass 
+# $CMD diabetes multiclass 
+# $CMD 3-million-Sudoku-puzzles-with-ratings multiclass 
+# $CMD pokerhand multiclass 
+# $CMD Buzzinsocialmedia_Twitter regression 
+# $CMD delays_zurich_transport regression 
+# $CMD nyc-taxi-green-dec-2016 regression 
+# $CMD black_friday regression 
+# $CMD federal_election regression 
 
 
 ## Large Datasets 

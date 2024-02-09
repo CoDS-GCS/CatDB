@@ -54,21 +54,29 @@ if __name__ == '__main__':
 
     llms = ['gpt-3.5-turbo', 'gpt-4']
 
-    ds_names={"dataset_1":"Simulated Electricity",
-              "dataset_2":"KDD98",
-              "dataset_3":"Higgs",
-              "dataset_4":"Airlines", 
-              "dataset_5":"Credit g",               
-              "dataset_6":"Microsoft",
-              "dataset_7":"CMC", 
-              "dataset_8":"Diabetes",
-              "dataset_9":"Sudoku Puzzles",
-              "dataset_10":"Pokerhand",
-              "dataset_11":"Buzzinsocialmedia", 
-              "dataset_12":"Zurich Transport",
-              "dataset_13":"NYC",
-              "dataset_14":"Black Friday",
-              "dataset_15":"Federal Election"
+    # ds_names={"dataset_1":"Simulated Electricity",
+    #           "dataset_2":"KDD98",
+    #           "dataset_3":"Higgs",
+    #           "dataset_4":"Airlines", 
+    #           "dataset_5":"Credit g",               
+    #           "dataset_6":"Microsoft",
+    #           "dataset_7":"CMC", 
+    #           "dataset_8":"Diabetes",
+    #           "dataset_9":"Sudoku Puzzles",
+    #           "dataset_10":"Pokerhand",
+    #           "dataset_11":"Buzzinsocialmedia", 
+    #           "dataset_12":"Zurich Transport",
+    #           "dataset_13":"NYC",
+    #           "dataset_14":"Black Friday",
+    #           "dataset_15":"Federal Election"
+    #           }
+
+    ds_names={"dataset_1_rnc":"Horsecolic",
+              "dataset_2_rnc":"Credit-g",
+              "dataset_3_rnc":"Albert",
+              "dataset_4_rnc":"Sonar", 
+              "dataset_5_rnc":"Abalone",               
+              "dataset_6":"Poker"
               }
     
     df_final = pd.DataFrame(columns=["dataset","llm_model","prompt_representation_type_orig","prompt_representation_type","prompt_example_type","prompt_number_example","number_iteration","task_type", "data_profile_time", "llm_pipe_gen_time", "llm_pipe_run_time", "csv_data_read_time", "total_time", "Accuracy", "F1_score", "Log_loss", "R_Squared", "RMSE"])
@@ -102,6 +110,7 @@ if __name__ == '__main__':
                     fnmae = f"{catdb_results_path}/{d}/{llm}/{f}"
                     
                     if os.stat(fnmae).st_size > 0: 
+                        print(f)
                         results ={"Accuracy":-1, "F1_score": -1, "Log_loss":-1, "R_Squared":-1, "RMSE": -1} 
                         with open(fnmae) as fi:
                             lines = fi.readlines()                            

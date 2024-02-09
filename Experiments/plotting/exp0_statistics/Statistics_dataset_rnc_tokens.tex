@@ -1,0 +1,49 @@
+\newcommand{\addplotStatistics}[2]{
+	   \addplot[draw=black,line width=0.15pt, fill=black]
+	   table[ y=number_tokens, col sep=comma, x=dataset] {results/statistics/all.csv};     
+};
+
+\begin{tikzpicture}[
+  every axis/.style={
+    major x tick style = {draw=none},
+    ybar stacked,
+    % ymode=log,
+    xtick style={draw=none},		
+    every major tick/.append style={ thick,major tick length=2.5pt, gray},
+    axis line style={gray},
+    ybar,        
+    ybar=0pt,
+    ymin=0,
+    % ymax=10000,
+    log ticks with fixed point,
+    y tick label style={/pgf/number format/1000 sep={}},
+    x tick label style={/pgf/number format/1000 sep={}},
+    scaled y ticks=false,
+    enlarge y limits={0.013,upper},
+    enlarge x limits=0.05,
+    ylabel={Count},
+    % ytick={0.0001,100,1000, 10000},
+    % yticklabels={0,1e2, 1e3,1e4},
+    ytick align=outside,
+    xtick pos=left,
+    ytick pos=left,
+    yticklabel style = {font=\Large},
+    ylabel style = {font=\Large, yshift=-2pt},
+    %xticklabel style = {font=\normalsize, xshift=0pt},
+    height=0.7\columnwidth,
+    width=\columnwidth,    
+    bar width=10pt,	 
+    ymajorgrids=true,
+    grid style=dotted,   
+    minor grid style={gray!50}, 
+    xtick = data,
+    symbolic x coords={Horsecolic,Credit-g,Albert,Sonar,Abalone,Poker}, 
+    legend image code/.code={\draw [#1] (0cm,-0.1cm) rectangle (0.3cm,0.2cm); },
+  }	 
+]
+\begin{axis}
+  \addplotStatistics{}{};	  	  
+\end{axis}
+
+
+\end{tikzpicture}

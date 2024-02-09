@@ -1,0 +1,7 @@
+dataset,prompt_representation_type,prompt_example_type,prompt_number_example,number_tokens,number_bool,number_int,number_float,number_string
+Horsecolic,Conf-10,Random,0,2150,1,22,5,0
+Credit-g,Conf-10,Random,0,1527,0,7,0,14
+Albert,Conf-10,Random,0,4707,1,70,8,0
+Sonar,Conf-10,Random,0,3679,1,0,60,0
+Abalone,Conf-10,Random,0,1291,0,2,7,0
+Poker,Conf-10,Random,0,1404,0,11,0,0

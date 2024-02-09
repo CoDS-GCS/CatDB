@@ -1,0 +1,53 @@
+# Import all required packages
+import pandas as pd
+import numpy as np
+from sklearn.model_selection import cross_val_score
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import accuracy_score, f1_score
+from sklearn.impute import SimpleImputer
+
+# Load the training and test datasets
+train_data = pd.read_csv("data/albert/albert_train.csv")
+test_data = pd.read_csv("data/albert/albert_test.csv")
+
+# Fill missing values with median of the column
+imputer = SimpleImputer(strategy='median')
+train_data = pd.DataFrame(imputer.fit_transform(train_data), columns = train_data.columns)
+test_data = pd.DataFrame(imputer.transform(test_data), columns = test_data.columns)
+
+# Drop columns with low variance
+low_variance_cols = [col for col in train_data.columns if train_data[col].std() < 0.1]
+train_data.drop(columns=low_variance_cols, inplace=True)
+test_data.drop(columns=low_variance_cols, inplace=True)
+
+# Drop columns with high correlation
+corr_matrix = train_data.corr().abs()
+upper = corr_matrix.where(np.triu(np.ones(corr_matrix.shape), k=1).astype(bool))
+to_drop = [column for column in upper.columns if any(upper[column] > 0.95)]
+train_data.drop(columns=to_drop, inplace=True)
+test_data.drop(columns=to_drop, inplace=True)
+
+# Split the data into features and target label
+y_train = train_data['class']
+X_train = train_data.drop('class', axis=1)
+y_test = test_data['class']
+X_test = test_data.drop('class', axis=1)
+
+# Use a RandomForestClassifier technique
+clf = RandomForestClassifier(n_estimators=100, random_state=42, n_jobs=-1)
+clf.fit(X_train, y_train)
+
+# Report evaluation based on only test dataset
+y_pred = clf.predict(X_test)
+
+# Calculate the model accuracy
+Accuracy = accuracy_score(y_test, y_pred)
+
+# Calculate the model f1 score
+F1_score = f1_score(y_test, y_pred)
+
+# Print the accuracy result
+print(f"Accuracy:{Accuracy}")
+
+# Print the f1 score result
+print(f"F1_score:{F1_score}")

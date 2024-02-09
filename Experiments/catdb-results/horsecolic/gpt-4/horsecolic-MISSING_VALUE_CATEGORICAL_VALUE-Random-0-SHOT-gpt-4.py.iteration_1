@@ -1,0 +1,65 @@
+# ```python
+# Import all required packages
+import pandas as pd
+import numpy as np
+from sklearn.model_selection import cross_val_score
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import accuracy_score, f1_score
+from sklearn.impute import SimpleImputer
+# ```end
+
+# ```python
+# Load the training and test datasets
+train_data = pd.read_csv("data/horsecolic/horsecolic_train.csv")
+test_data = pd.read_csv("data/horsecolic/horsecolic_test.csv")
+# ```end
+
+# ```python
+# Fill missing values with median for numeric columns and mode for categorical columns
+imputer = SimpleImputer(strategy='median')
+train_data[['RespiratoryRate', 'AbdominalDistension', 'CapillaryRefillTime', 'Temperature of extermities', 'Pulse', 'Pain', 'NasogastricTube', 'Abdomen', 'AbdominocentesisAppearance', 'MucousMembranes', 'Peristalsis', 'PeripheralPulse', 'RectalExamination', 'NasogastricReflux', 'AbdomcentesisTotalProtein', 'RectalTemperature', 'NasogastricRefluxPH', 'PackedCellVolumne', 'TotalPRotein']] = imputer.fit_transform(train_data[['RespiratoryRate', 'AbdominalDistension', 'CapillaryRefillTime', 'Temperature of extermities', 'Pulse', 'Pain', 'NasogastricTube', 'Abdomen', 'AbdominocentesisAppearance', 'MucousMembranes', 'Peristalsis', 'PeripheralPulse', 'RectalExamination', 'NasogastricReflux', 'AbdomcentesisTotalProtein', 'RectalTemperature', 'NasogastricRefluxPH', 'PackedCellVolumne', 'TotalPRotein']])
+imputer = SimpleImputer(strategy='most_frequent')
+train_data[['cp_data', 'Surgery', 'Age', 'SiteofLesion', 'HospitalNumber', 'LesionType', 'LesionSubtype', 'SurgicalLesion']] = imputer.fit_transform(train_data[['cp_data', 'Surgery', 'Age', 'SiteofLesion', 'HospitalNumber', 'LesionType', 'LesionSubtype', 'SurgicalLesion']])
+# ```end
+
+# ```python
+# Drop columns with unique values as they do not contribute to the model
+# LesionSubtype is dropped because it has only one unique value
+train_data.drop(columns=['LesionSubtype'], inplace=True)
+# ```end
+
+# ```python
+# Feature: Pain and AbdominalDistension interaction
+# Usefulness: Pain and AbdominalDistension are two important factors that can indicate the presence of a surgical lesion. Their interaction can provide additional information to the model.
+train_data['Pain_AbdominalDistension'] = train_data['Pain'] * train_data['AbdominalDistension']
+# ```end
+
+# ```python
+# Use a RandomForestClassifier technique
+# RandomForestClassifier is selected because it can handle both categorical and numerical features, it is robust to outliers, and it can model complex interactions between features.
+X_train = train_data.drop(columns=['SurgicalLesion'])
+y_train = train_data['SurgicalLesion']
+clf = RandomForestClassifier(n_estimators=100, random_state=42)
+clf.fit(X_train, y_train)
+# ```end
+
+# ```python
+# Report evaluation based on only test dataset
+# Fill missing values in test data
+imputer = SimpleImputer(strategy='median')
+test_data[['RespiratoryRate', 'AbdominalDistension', 'CapillaryRefillTime', 'Temperature of extermities', 'Pulse', 'Pain', 'NasogastricTube', 'Abdomen', 'AbdominocentesisAppearance', 'MucousMembranes', 'Peristalsis', 'PeripheralPulse', 'RectalExamination', 'NasogastricReflux', 'AbdomcentesisTotalProtein', 'RectalTemperature', 'NasogastricRefluxPH', 'PackedCellVolumne', 'TotalPRotein']] = imputer.transform(test_data[['RespiratoryRate', 'AbdominalDistension', 'CapillaryRefillTime', 'Temperature of extermities', 'Pulse', 'Pain', 'NasogastricTube', 'Abdomen', 'AbdominocentesisAppearance', 'MucousMembranes', 'Peristalsis', 'PeripheralPulse', 'RectalExamination', 'NasogastricReflux', 'AbdomcentesisTotalProtein', 'RectalTemperature', 'NasogastricRefluxPH', 'PackedCellVolumne', 'TotalPRotein']])
+imputer = SimpleImputer(strategy='most_frequent')
+test_data[['cp_data', 'Surgery', 'Age', 'SiteofLesion', 'HospitalNumber', 'LesionType', 'LesionSubtype', 'SurgicalLesion']] = imputer.transform(test_data[['cp_data', 'Surgery', 'Age', 'SiteofLesion', 'HospitalNumber', 'LesionType', 'LesionSubtype', 'SurgicalLesion']])
+# Add interaction feature to test data
+test_data['Pain_AbdominalDistension'] = test_data['Pain'] * test_data['AbdominalDistension']
+# Drop unique column from test data
+test_data.drop(columns=['LesionSubtype'], inplace=True)
+# Predict and evaluate
+X_test = test_data.drop(columns=['SurgicalLesion'])
+y_test = test_data['SurgicalLesion']
+y_pred = clf.predict(X_test)
+Accuracy = accuracy_score(y_test, y_pred)
+F1_score = f1_score(y_test, y_pred)
+print(f"Accuracy:{Accuracy}")
+print(f"F1_score:{F1_score}")
+# ```end

@@ -1,0 +1,10 @@
+dataset,col_index,data_type,missing_values_count,distinct_values_count
+abalone,1,float,0,51
+abalone,2,float,0,1515
+abalone,3,float,0,111
+abalone,4,float,0,134
+abalone,5,float,0,880
+abalone,6,float,0,2429
+abalone,7,float,0,926
+abalone,8,int,0,28
+abalone,9,int,0,3

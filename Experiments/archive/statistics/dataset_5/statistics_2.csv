@@ -1,0 +1,10 @@
+dataset,col_index,data_type,missing_values_count,distinct_values_count
+dataset_5,1,float,0,51
+dataset_5,2,float,0,926
+dataset_5,3,float,0,2429
+dataset_5,4,float,0,134
+dataset_5,5,float,0,880
+dataset_5,6,float,0,1515
+dataset_5,7,float,0,111
+dataset_5,8,int,0,28
+dataset_5,9,int,0,3

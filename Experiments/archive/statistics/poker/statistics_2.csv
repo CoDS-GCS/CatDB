@@ -1,0 +1,12 @@
+dataset,col_index,data_type,missing_values_count,distinct_values_count
+poker,1,int,0,13
+poker,2,int,0,4
+poker,3,int,0,13
+poker,4,int,0,4
+poker,5,int,0,13
+poker,6,int,0,13
+poker,7,int,0,13
+poker,8,int,0,4
+poker,9,int,0,10
+poker,10,int,0,4
+poker,11,int,0,4

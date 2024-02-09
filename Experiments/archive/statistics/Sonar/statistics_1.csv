@@ -1,0 +1,11 @@
+dataset,prompt_representation_type,prompt_example_type,prompt_number_example,number_tokens,number_bool,number_int,number_float,number_string
+Sonar,Conf-1,Random,0,1130,1,0,60,0
+Sonar,Conf-2,Random,0,1460,1,0,60,0
+Sonar,Conf-3,Random,0,1699,1,0,60,0
+Sonar,Conf-4,Random,0,2732,1,0,60,0
+Sonar,Conf-5,Random,0,1158,1,0,60,0
+Sonar,Conf-6,Random,0,2095,1,0,60,0
+Sonar,Conf-7,Random,0,3306,1,0,60,0
+Sonar,Conf-8,Random,0,1732,1,0,60,0
+Sonar,Conf-9,Random,0,2765,1,0,60,0
+Sonar,Conf-10,Random,0,3599,1,0,60,0

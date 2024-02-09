@@ -1,0 +1,11 @@
+dataset,prompt_representation_type,prompt_example_type,prompt_number_example,number_tokens,number_bool,number_int,number_float,number_string
+dataset_6_rnc,Conf-1,Random,0,912,0,11,0,0
+dataset_6_rnc,Conf-2,Random,0,992,0,11,0,0
+dataset_6_rnc,Conf-3,Random,0,1031,0,11,0,0
+dataset_6_rnc,Conf-4,Random,0,1207,0,11,0,0
+dataset_6_rnc,Conf-5,Random,0,1020,0,11,0,0
+dataset_6_rnc,Conf-6,Random,0,1127,0,11,0,0
+dataset_6_rnc,Conf-7,Random,0,1331,0,11,0,0
+dataset_6_rnc,Conf-8,Random,0,1144,0,11,0,0
+dataset_6_rnc,Conf-9,Random,0,1320,0,11,0,0
+dataset_6_rnc,Conf-10,Random,0,1404,0,11,0,0

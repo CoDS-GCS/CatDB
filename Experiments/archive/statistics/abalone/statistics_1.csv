@@ -1,0 +1,11 @@
+dataset,prompt_representation_type,prompt_example_type,prompt_number_example,number_tokens,number_bool,number_int,number_float,number_string
+abalone,Conf-1,Random,0,869,0,2,7,0
+abalone,Conf-2,Random,0,941,0,2,7,0
+abalone,Conf-3,Random,0,970,0,2,7,0
+abalone,Conf-4,Random,0,1117,0,2,7,0
+abalone,Conf-5,Random,0,905,0,2,7,0
+abalone,Conf-6,Random,0,1056,0,2,7,0
+abalone,Conf-7,Random,0,1223,0,2,7,0
+abalone,Conf-8,Random,0,1011,0,2,7,0
+abalone,Conf-9,Random,0,1158,0,2,7,0
+abalone,Conf-10,Random,0,1261,0,2,7,0

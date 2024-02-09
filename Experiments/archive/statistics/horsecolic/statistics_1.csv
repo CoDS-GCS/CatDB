@@ -1,0 +1,11 @@
+dataset,prompt_representation_type,prompt_example_type,prompt_number_example,number_tokens,number_bool,number_int,number_float,number_string
+horsecolic,Conf-1,Random,0,1043,1,22,5,0
+horsecolic,Conf-2,Random,0,1208,1,22,5,0
+horsecolic,Conf-3,Random,0,1315,1,22,5,0
+horsecolic,Conf-4,Random,0,1749,1,22,5,0
+horsecolic,Conf-5,Random,0,1143,1,22,5,0
+horsecolic,Conf-6,Random,0,1513,1,22,5,0
+horsecolic,Conf-7,Random,0,2026,1,22,5,0
+horsecolic,Conf-8,Random,0,1420,1,22,5,0
+horsecolic,Conf-9,Random,0,1854,1,22,5,0
+horsecolic,Conf-10,Random,0,2181,1,22,5,0

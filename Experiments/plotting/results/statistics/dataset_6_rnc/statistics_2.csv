@@ -1,0 +1,12 @@
+dataset,col_index,data_type,missing_values_count,total_values_count,distinct_values_count,number_rows
+dataset_6_rnc,1,int,0,1025010,13,1025010
+dataset_6_rnc,2,int,0,1025010,4,1025010
+dataset_6_rnc,3,int,0,1025010,13,1025010
+dataset_6_rnc,4,int,0,1025010,10,1025010
+dataset_6_rnc,5,int,0,1025010,13,1025010
+dataset_6_rnc,6,int,0,1025010,4,1025010
+dataset_6_rnc,7,int,0,1025010,4,1025010
+dataset_6_rnc,8,int,0,1025010,4,1025010
+dataset_6_rnc,9,int,0,1025010,13,1025010
+dataset_6_rnc,10,int,0,1025010,13,1025010
+dataset_6_rnc,11,int,0,1025010,4,1025010

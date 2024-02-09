@@ -152,13 +152,14 @@ if __name__ == '__main__':
     flag_exist = os.path.isfile(log_path)
     if not flag_exist:
         df_2 = pd.DataFrame(
-            columns=["dataset", "col_index", "data_type", "missing_values_count", "distinct_values_count"])
+            columns=["dataset", "col_index", "data_type", "missing_values_count","total_values_count",
+                     "distinct_values_count","number_rows"])
 
         index = 0
         for k in profile_info.keys():
             pi = profile_info[k]
             df_2.loc[index] = [args.data_source_name, index + 1, pi.short_data_type, pi.missing_values_count,
-                               pi.distinct_values_count]
+                               pi.total_values_count - pi.missing_values_count, pi.distinct_values_count, catalog.nrows]
             index += 1
 
         df_2.to_csv(log_path, index=False)

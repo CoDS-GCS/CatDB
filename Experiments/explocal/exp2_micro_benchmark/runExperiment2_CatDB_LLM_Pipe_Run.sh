@@ -33,7 +33,10 @@ if test -f "$file_path"; then
     cd ${exp_path}
     rm -rf "${pipeline_path}/${python_script}.log"
 
-    SCRIPT="python ${file_path} > ${pipeline_path}/${python_script}.log"
+    error_path="${pipeline_path}/${python_script}.error"
+    rm -rf $error_path
+
+    SCRIPT="python -Wignore ${file_path} > ${pipeline_path}/${python_script}.log 2>${error_path} < /dev/null"
 
     echo ${SCRIPT}
 

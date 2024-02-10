@@ -14,48 +14,51 @@ test_data = pd.read_csv("data/credit-g/credit-g_test.csv")
 # ```end
 
 # ```python
-# Drop the column 'c_19' as it has only one distinct value and hence does not contribute to the model
-train_data.drop(columns=['c_19'], inplace=True)
-test_data.drop(columns=['c_19'], inplace=True)
-# ```end-dropping-columns
-
-# ```python
-# Fill missing values in 'c_14' and 'c_10' with the most frequent value in the respective column
-train_data['c_14'].fillna(train_data['c_14'].mode()[0], inplace=True)
-train_data['c_10'].fillna(train_data['c_10'].mode()[0], inplace=True)
-test_data['c_14'].fillna(test_data['c_14'].mode()[0], inplace=True)
-test_data['c_10'].fillna(test_data['c_10'].mode()[0], inplace=True)
+# Fill missing values with mode
+for column in train_data.columns:
+    train_data[column].fillna(train_data[column].mode()[0], inplace=True)
+for column in test_data.columns:
+    test_data[column].fillna(test_data[column].mode()[0], inplace=True)
 # ```end
 
 # ```python
-# Convert categorical variables into numerical variables using LabelEncoder
+# Drop the 'own_telephone' column as it has only one distinct value and hence does not contribute to the model
+train_data.drop(columns=['own_telephone'], inplace=True)
+test_data.drop(columns=['own_telephone'], inplace=True)
+# ```end-dropping-columns
+
+# ```python
+# Label encoding for categorical columns
 le = LabelEncoder()
-categorical_features = train_data.select_dtypes(include=['object']).columns
-for feature in categorical_features:
-    train_data[feature] = le.fit_transform(train_data[feature])
-    test_data[feature] = le.transform(test_data[feature])
+for column in train_data.columns:
+    if train_data[column].dtype == 'object':
+        train_data[column] = le.fit_transform(train_data[column])
+for column in test_data.columns:
+    if test_data[column].dtype == 'object':
+        test_data[column] = le.fit_transform(test_data[column])
+# ```end
+
+# ```python
+# Split the data into features and target
+X_train = train_data.drop('class', axis=1)
+y_train = train_data['class']
+X_test = test_data.drop('class', axis=1)
+y_test = test_data['class']
 # ```end
 
 # ```python
 # Use a RandomForestClassifier technique
-# RandomForestClassifier is selected because it is a versatile algorithm that can handle both categorical and numerical features. It also handles overfitting.
+# RandomForestClassifier is selected because it is a versatile and widely used algorithm that can handle both categorical and numerical features.
 clf = RandomForestClassifier(n_estimators=100, random_state=42, n_jobs=-1)
-X_train = train_data.drop('c_21', axis=1)
-y_train = train_data['c_21']
 clf.fit(X_train, y_train)
 # ```end
 
 # ```python
 # Report evaluation based on only test dataset
-X_test = test_data.drop('c_21', axis=1)
-y_test = test_data['c_21']
 y_pred = clf.predict(X_test)
-
-# Calculate the model accuracy
 Accuracy = accuracy_score(y_test, y_pred)
-print(f"Accuracy:{Accuracy}")
-
-# Calculate the model f1 score
 F1_score = f1_score(y_test, y_pred)
+
+print(f"Accuracy:{Accuracy}")
 print(f"F1_score:{F1_score}")
 # ```end

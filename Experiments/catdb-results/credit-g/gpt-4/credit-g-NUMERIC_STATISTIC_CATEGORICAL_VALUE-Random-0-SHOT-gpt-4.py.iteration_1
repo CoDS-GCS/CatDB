@@ -1,0 +1,54 @@
+# ```python
+# Import all required packages
+import pandas as pd
+from sklearn.model_selection import cross_val_score
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import accuracy_score, f1_score
+from sklearn.preprocessing import LabelEncoder
+# ```end
+
+# ```python
+# Load the training and test datasets
+train_data = pd.read_csv('data/credit-g/credit-g_train.csv')
+test_data = pd.read_csv('data/credit-g/credit-g_test.csv')
+# ```end
+
+# ```python
+# Add new columns
+# Feature name and description: Age Group
+# Usefulness: This adds useful real world knowledge to classify 'class' as different age groups may have different credit behaviors.
+train_data['age_group'] = pd.cut(train_data['age'], bins=[0, 20, 30, 40, 50, 60, 70, 80], labels=['0-20', '20-30', '30-40', '40-50', '50-60', '60-70', '70-80'])
+test_data['age_group'] = pd.cut(test_data['age'], bins=[0, 20, 30, 40, 50, 60, 70, 80], labels=['0-20', '20-30', '30-40', '40-50', '50-60', '60-70', '70-80'])
+# ```end
+
+# ```python-dropping-columns
+# Explanation why the column own_telephone is dropped: The column 'own_telephone' has only one distinct value, which does not provide any useful information for the classification.
+train_data.drop(columns=['own_telephone'], inplace=True)
+test_data.drop(columns=['own_telephone'], inplace=True)
+# ```end-dropping-columns
+
+# ```python
+# Convert categorical columns to numeric
+le = LabelEncoder()
+categorical_columns = train_data.select_dtypes(include=['object']).columns.tolist()
+for column in categorical_columns:
+    train_data[column] = le.fit_transform(train_data[column])
+    test_data[column] = le.transform(test_data[column])
+# ```end
+
+# ```python 
+# Use a RandomForestClassifier technique
+# Explanation why the solution is selected: RandomForestClassifier is a robust and versatile classifier that can handle both numerical and categorical data. It also has the ability to handle large datasets with high dimensionality.
+clf = RandomForestClassifier(n_estimators=100, random_state=42)
+clf.fit(train_data.drop('class', axis=1), train_data['class'])
+# ```end
+
+# ```python
+# Report evaluation based on only test dataset
+predictions = clf.predict(test_data.drop('class', axis=1))
+Accuracy = accuracy_score(test_data['class'], predictions)
+F1_score = f1_score(test_data['class'], predictions, average='weighted')
+
+print(f"Accuracy:{Accuracy}")   
+print(f"F1_score:{F1_score}") 
+# ```end

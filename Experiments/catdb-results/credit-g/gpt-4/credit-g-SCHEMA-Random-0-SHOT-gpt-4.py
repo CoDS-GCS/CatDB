@@ -9,59 +9,62 @@ from sklearn.preprocessing import LabelEncoder
 
 # ```python
 # Load the training and test datasets
-train_data = pd.read_csv("data/credit-g/credit-g_train.csv")
-test_data = pd.read_csv("data/credit-g/credit-g_test.csv")
+train_data = pd.read_csv('data/credit-g/credit-g_train.csv')
+test_data = pd.read_csv('data/credit-g/credit-g_test.csv')
 # ```end
 
 # ```python
-# Convert string columns to numerical values using LabelEncoder
+# Feature name and description: Age/Residence Ratio
+# Usefulness: This ratio could provide information about the stability of the person. A higher ratio might indicate a more stable person which could be less likely to default.
+train_data['age_residence_ratio'] = train_data['age'] / train_data['residence_since']
+test_data['age_residence_ratio'] = test_data['age'] / test_data['residence_since']
+# ```end
+
+# ```python
+# Feature name and description: Credit/Duration Ratio
+# Usefulness: This ratio could provide information about the person's ability to repay the loan. A higher ratio might indicate a higher risk of default.
+train_data['credit_duration_ratio'] = train_data['credit_amount'] / train_data['duration']
+test_data['credit_duration_ratio'] = test_data['credit_amount'] / test_data['duration']
+# ```end
+
+# ```python
+# Explanation why the column 'other_payment_plans' is dropped
+# The 'other_payment_plans' column is dropped because it might not be directly related to the person's ability to repay the loan and could lead to overfitting.
+train_data.drop(columns=['other_payment_plans'], inplace=True)
+test_data.drop(columns=['other_payment_plans'], inplace=True)
+# ```end-dropping-columns
+
+# ```python
+# Convert categorical columns to numerical values using LabelEncoder
 le = LabelEncoder()
-for column in train_data.columns:
-    if train_data[column].dtype == 'object':
-        train_data[column] = le.fit_transform(train_data[column])
-for column in test_data.columns:
-    if test_data[column].dtype == 'object':
-        test_data[column] = le.fit_transform(test_data[column])
-# ```end
-
-# ```python
-# Remove low ration, static, and unique columns by getting statistic values
-for column in train_data.columns:
-    if len(train_data[column].unique()) == 1:
-        train_data.drop(columns=[column], inplace=True)
-        test_data.drop(columns=[column], inplace=True)
+categorical_cols = train_data.select_dtypes(include=['object']).columns
+for col in categorical_cols:
+    train_data[col] = le.fit_transform(train_data[col])
+    test_data[col] = le.transform(test_data[col])
 # ```end
 
 # ```python
 # Use a RandomForestClassifier technique
-# RandomForestClassifier is selected because it is a versatile and widely used algorithm that can handle both categorical and numerical features. It also has the advantage of being able to handle large datasets with high dimensionality, and can estimate which variables are important in the classification.
-clf = RandomForestClassifier(n_estimators=100, random_state=0, n_jobs=-1)
-# ```end
-
-# ```python
-# Train the model using the training data
-X_train = train_data.drop('c_21', axis=1)
-y_train = train_data['c_21']
+# RandomForestClassifier is selected because it is a robust and versatile classifier that can handle both numerical and categorical data.
+clf = RandomForestClassifier(n_estimators=100, random_state=42)
+X_train = train_data.drop(columns=['class'])
+y_train = train_data['class']
 clf.fit(X_train, y_train)
 # ```end
 
 # ```python
-# Predict the test data
-X_test = test_data.drop('c_21', axis=1)
-y_test = test_data['c_21']
-y_pred = clf.predict(X_test)
-# ```end
-
-# ```python
 # Report evaluation based on only test dataset
-# Calculate the model accuracy, represented by a value between 0 and 1, where 0 indicates low accuracy and 1 signifies higher accuracy. Store the accuracy value in a variable labeled as "Accuracy=...".
-# Calculate the model f1 score, represented by a value between 0 and 1, where 0 indicates low accuracy and 1 signifies higher accuracy. Store the f1 score value in a variable labeled as "F1_score=...".
+X_test = test_data.drop(columns=['class'])
+y_test = test_data['class']
+y_pred = clf.predict(X_test)
+
+# Calculate the model accuracy
 Accuracy = accuracy_score(y_test, y_pred)
+# Calculate the model f1 score
 F1_score = f1_score(y_test, y_pred, average='weighted')
 
 # Print the accuracy result
-print(f"Accuracy:{Accuracy}")   
-
+print(f"Accuracy:{Accuracy}")
 # Print the f1 score result
-print(f"F1_score:{F1_score}") 
+print(f"F1_score:{F1_score}")
 # ```end

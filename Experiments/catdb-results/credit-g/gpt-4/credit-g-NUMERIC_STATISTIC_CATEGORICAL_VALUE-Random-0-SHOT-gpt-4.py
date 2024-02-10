@@ -1,61 +1,40 @@
-# ```python
 # Import all required packages
 import pandas as pd
 from sklearn.model_selection import cross_val_score
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score, f1_score
 from sklearn.preprocessing import LabelEncoder
-# ```end
 
-# ```python
 # Load the training and test datasets
-train_data = pd.read_csv("data/credit-g/credit-g_train.csv")
-test_data = pd.read_csv("data/credit-g/credit-g_test.csv")
-# ```end
+train_data = pd.read_csv('data/credit-g/credit-g_train.csv')
+test_data = pd.read_csv('data/credit-g/credit-g_test.csv')
 
-# ```python
-# Feature: c_8_c_11_interaction
-# Usefulness: This feature captures the interaction between c_8 and c_11, which might be useful for predicting 'c_21'.
-train_data['c_8_c_11_interaction'] = train_data['c_8'] * train_data['c_11']
-test_data['c_8_c_11_interaction'] = test_data['c_8'] * test_data['c_11']
-# ```end
+# Add new columns
+# Feature name and description: Age Group
+# Usefulness: This adds useful real world knowledge to classify 'class' as different age groups may have different credit behaviors.
+train_data['age_group'] = pd.cut(train_data['age'], bins=[0, 20, 30, 40, 50, 60, 70, 80], labels=False)
+test_data['age_group'] = pd.cut(test_data['age'], bins=[0, 20, 30, 40, 50, 60, 70, 80], labels=False)
 
-# ```python
-# Feature: c_2_c_5_ratio
-# Usefulness: This feature captures the ratio between c_2 and c_5, which might be useful for predicting 'c_21'.
-train_data['c_2_c_5_ratio'] = train_data['c_2'] / train_data['c_5']
-test_data['c_2_c_5_ratio'] = test_data['c_2'] / test_data['c_5']
-# ```end
+# Explanation why the column own_telephone is dropped: The column 'own_telephone' has only one distinct value, which does not provide any useful information for the classification.
+train_data.drop(columns=['own_telephone'], inplace=True)
+test_data.drop(columns=['own_telephone'], inplace=True)
 
-# ```python
-# Explanation why the column c_19 is dropped
-# c_19 is a categorical column with only one distinct value, which means it does not provide any useful information for the model.
-train_data.drop(columns=['c_19'], inplace=True)
-test_data.drop(columns=['c_19'], inplace=True)
-# ```end-dropping-columns
-
-# ```python
-# Convert categorical columns to numerical using LabelEncoder
+# Convert categorical columns to numeric
 le = LabelEncoder()
-for col in train_data.columns:
-    if train_data[col].dtype == 'object':
-        train_data[col] = le.fit_transform(train_data[col])
-        test_data[col] = le.transform(test_data[col])
-# ```end
+categorical_columns = train_data.select_dtypes(include=['object']).columns.tolist()
+for column in categorical_columns:
+    train_data[column] = le.fit_transform(train_data[column])
+    test_data[column] = le.transform(test_data[column])
 
-# ```python
 # Use a RandomForestClassifier technique
-# RandomForestClassifier is selected because it can handle both categorical and numerical features, and it is robust to overfitting.
+# Explanation why the solution is selected: RandomForestClassifier is a robust and versatile classifier that can handle both numerical and categorical data. It also has the ability to handle large datasets with high dimensionality.
 clf = RandomForestClassifier(n_estimators=100, random_state=42)
-clf.fit(train_data.drop('c_21', axis=1), train_data['c_21'])
-# ```end
+clf.fit(train_data.drop('class', axis=1), train_data['class'])
 
-# ```python
 # Report evaluation based on only test dataset
-predictions = clf.predict(test_data.drop('c_21', axis=1))
-Accuracy = accuracy_score(test_data['c_21'], predictions)
-F1_score = f1_score(test_data['c_21'], predictions)
+predictions = clf.predict(test_data.drop('class', axis=1))
+Accuracy = accuracy_score(test_data['class'], predictions)
+F1_score = f1_score(test_data['class'], predictions, average='weighted')
 
 print(f"Accuracy:{Accuracy}")   
-print(f"F1_score:{F1_score}") 
-# ```end
+print(f"F1_score:{F1_score}")

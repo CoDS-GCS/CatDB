@@ -14,58 +14,41 @@ test_data = pd.read_csv("data/credit-g/credit-g_test.csv")
 # ```end
 
 # ```python
-# Fill missing values with the most frequent value in each column
+# Fill missing values in categorical columns with the most frequent value in the column
 for column in train_data.columns:
-    train_data[column].fillna(train_data[column].mode()[0], inplace=True)
-for column in test_data.columns:
-    test_data[column].fillna(test_data[column].mode()[0], inplace=True)
+    if train_data[column].dtype == 'object':
+        train_data[column].fillna(train_data[column].mode()[0], inplace=True)
+        test_data[column].fillna(test_data[column].mode()[0], inplace=True)
 # ```end
 
 # ```python
-# Convert categorical columns to numerical values
+# Label encoding for categorical columns
 le = LabelEncoder()
 for column in train_data.columns:
     if train_data[column].dtype == 'object':
         train_data[column] = le.fit_transform(train_data[column])
-for column in test_data.columns:
-    if test_data[column].dtype == 'object':
-        test_data[column] = le.fit_transform(test_data[column])
+        test_data[column] = le.transform(test_data[column])
 # ```end
 
-# ```python
-# Drop the column 'c_19' as it has only one distinct value and hence, does not contribute to the model
-train_data.drop(columns=['c_19'], inplace=True)
-test_data.drop(columns=['c_19'], inplace=True)
-# ```end
+# ```python-dropping-columns
+# Drop 'own_telephone' column as it has only one distinct value and hence, doesn't contribute to the model
+train_data.drop(columns=['own_telephone'], inplace=True)
+test_data.drop(columns=['own_telephone'], inplace=True)
+# ```end-dropping-columns
 
-# ```python
-# Define the target variable and the feature variables
-X_train = train_data.drop('c_21', axis=1)
-y_train = train_data['c_21']
-X_test = test_data.drop('c_21', axis=1)
-y_test = test_data['c_21']
-# ```end
-
-# ```python
+# ```python 
 # Use a RandomForestClassifier technique
-# RandomForestClassifier is selected because it is a versatile and widely used algorithm that can handle both categorical and numerical features
-clf = RandomForestClassifier(n_estimators=100, random_state=42)
-clf.fit(X_train, y_train)
-# ```end
-
-# ```python
-# Predict the target variable for the test dataset
-y_pred = clf.predict(X_test)
+# RandomForestClassifier is selected because it is a versatile algorithm that can handle both categorical and numerical features. It also handles overfitting.
+clf = RandomForestClassifier(n_estimators=100, random_state=42, n_jobs=-1)
+clf.fit(train_data.drop(columns=['class']), train_data['class'])
 # ```end
 
 # ```python
 # Report evaluation based on only test dataset
-# Calculate the model accuracy
-Accuracy = accuracy_score(y_test, y_pred)
-# Calculate the model f1 score
-F1_score = f1_score(y_test, y_pred)
-# Print the accuracy result
-print(f"Accuracy:{Accuracy}")
-# Print the f1 score result
-print(f"F1_score:{F1_score}")
+predictions = clf.predict(test_data.drop(columns=['class']))
+Accuracy = accuracy_score(test_data['class'], predictions)
+F1_score = f1_score(test_data['class'], predictions)
+
+print(f"Accuracy:{Accuracy}")   
+print(f"F1_score:{F1_score}") 
 # ```end

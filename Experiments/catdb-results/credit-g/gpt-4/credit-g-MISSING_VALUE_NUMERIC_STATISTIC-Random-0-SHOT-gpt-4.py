@@ -9,39 +9,36 @@ from sklearn.preprocessing import LabelEncoder
 train_data = pd.read_csv("data/credit-g/credit-g_train.csv")
 test_data = pd.read_csv("data/credit-g/credit-g_test.csv")
 
-# Fill missing values in the dataset
-train_data.fillna(train_data.select_dtypes(include=['float64','int64']).median(), inplace=True)
-test_data.fillna(test_data.select_dtypes(include=['float64','int64']).median(), inplace=True)
+# Fill missing values in 'other_payment_plans', 'own_telephone', and 'other_parties' with the most frequent value
+for column in ['other_payment_plans', 'own_telephone', 'other_parties']:
+    train_data[column].fillna(train_data[column].mode()[0], inplace=True)
+    test_data[column].fillna(test_data[column].mode()[0], inplace=True)
 
-# Feature: c_8_c_11_ratio
-train_data['c_8_c_11_ratio'] = train_data['c_8'] / train_data['c_11']
-test_data['c_8_c_11_ratio'] = test_data['c_8'] / test_data['c_11']
+# Feature: 'age_group' 
+# Usefulness: This feature categorizes 'age' into different groups, which can provide more detailed information about the age distribution of the customers.
+train_data['age_group'] = pd.cut(train_data['age'], bins=[0, 20, 30, 40, 50, 60, 70, 80], labels=False)
+test_data['age_group'] = pd.cut(test_data['age'], bins=[0, 20, 30, 40, 50, 60, 70, 80], labels=False)
 
-# Drop columns with high frequency of missing values
-train_data.drop(columns=['c_14', 'c_10', 'c_19'], inplace=True)
-test_data.drop(columns=['c_14', 'c_10', 'c_19'], inplace=True)
+# Explanation why the column 'residence_since' is dropped: The 'residence_since' column is dropped because it has a low correlation with the target variable 'class'.
+train_data.drop(columns=['residence_since'], inplace=True)
+test_data.drop(columns=['residence_since'], inplace=True)
 
-# Use a LabelEncoder technique
+# Encode categorical features
 le = LabelEncoder()
 for column in train_data.columns:
     if train_data[column].dtype == 'object':
-        train_data[column] = le.fit_transform(train_data[column].astype(str))
-
-for column in test_data.columns:
-    if test_data[column].dtype == 'object':
-        if column in le.classes_:
-            test_data[column] = le.transform(test_data[column].astype(str))
-        else:
-            test_data[column] = le.fit_transform(test_data[column].astype(str))
+        train_data[column] = le.fit_transform(train_data[column])
+        test_data[column] = le.transform(test_data[column])
 
 # Use a RandomForestClassifier technique
-clf = RandomForestClassifier(n_estimators=100, random_state=0, n_jobs=-1)
-clf.fit(train_data.drop('c_21', axis=1), train_data['c_21'])
+# Explanation why the solution is selected: RandomForestClassifier is a robust and versatile classifier that can handle both numerical and categorical features. It also has a good performance on imbalanced datasets.
+clf = RandomForestClassifier(n_estimators=100, random_state=42)
+clf.fit(train_data.drop('class', axis=1), train_data['class'])
 
 # Report evaluation based on only test dataset
-predictions = clf.predict(test_data.drop('c_21', axis=1))
-Accuracy = accuracy_score(test_data['c_21'], predictions)
-F1_score = f1_score(test_data['c_21'], predictions, average='weighted')
+predictions = clf.predict(test_data.drop('class', axis=1))
+Accuracy = accuracy_score(test_data['class'], predictions)
+F1_score = f1_score(test_data['class'], predictions)
 
-print(f"Accuracy:{Accuracy}")
+print(f"Accuracy:{Accuracy}")   
 print(f"F1_score:{F1_score}")

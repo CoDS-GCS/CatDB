@@ -1,0 +1,11 @@
+dataset,prompt_representation_type,prompt_example_type,prompt_number_example,number_tokens,number_bool,number_int,number_float,number_string
+delays_zurich_transport,Conf-1,Random,0,916,1,5,6,0
+delays_zurich_transport,Conf-2,Random,0,1002,1,5,6,0
+delays_zurich_transport,Conf-3,Random,0,1044,1,5,6,0
+delays_zurich_transport,Conf-4,Random,0,1220,1,5,6,0
+delays_zurich_transport,Conf-5,Random,0,1033,1,5,6,0
+delays_zurich_transport,Conf-6,Random,0,1147,1,5,6,0
+delays_zurich_transport,Conf-7,Random,0,1353,1,5,6,0
+delays_zurich_transport,Conf-8,Random,0,1166,1,5,6,0
+delays_zurich_transport,Conf-9,Random,0,1342,1,5,6,0
+delays_zurich_transport,Conf-10,Random,0,1435,1,5,6,0

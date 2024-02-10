@@ -1,7 +1,7 @@
 dataset,time
-dataset_5_rnc,44s
-dataset_2_rnc,28s
-dataset_1_rnc,51s
-dataset_4_rnc,44s
-dataset_3_rnc,41s
-dataset_6,43s
+poker,59s
+albert,63s
+horsecolic,58s
+abalone,47s
+Sonar,45s
+credit-g,46s

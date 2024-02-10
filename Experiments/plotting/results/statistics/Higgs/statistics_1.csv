@@ -1,0 +1,11 @@
+dataset,prompt_representation_type,prompt_example_type,prompt_number_example,number_tokens,number_bool,number_int,number_float,number_string
+Higgs,Conf-1,Random,0,1019,1,0,28,0
+Higgs,Conf-2,Random,0,1217,1,0,28,0
+Higgs,Conf-3,Random,0,1300,1,0,28,0
+Higgs,Conf-4,Random,0,1976,1,0,28,0
+Higgs,Conf-5,Random,0,1214,1,0,28,0
+Higgs,Conf-6,Random,0,1532,1,0,28,0
+Higgs,Conf-7,Random,0,2262,1,0,28,0
+Higgs,Conf-8,Random,0,1500,1,0,28,0
+Higgs,Conf-9,Random,0,2176,1,0,28,0
+Higgs,Conf-10,Random,0,2480,1,0,28,0

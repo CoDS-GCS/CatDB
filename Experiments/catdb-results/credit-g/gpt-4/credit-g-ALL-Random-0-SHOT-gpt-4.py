@@ -14,49 +14,49 @@ test_data = pd.read_csv("data/credit-g/credit-g_test.csv")
 # ```end
 
 # ```python
-# Feature: c_8_c_11_interaction
-# Usefulness: This feature captures the interaction between c_8 and c_11, which might be useful for predicting 'c_21'.
-train_data['c_8_c_11_interaction'] = train_data['c_8'] * train_data['c_11']
-test_data['c_8_c_11_interaction'] = test_data['c_8'] * test_data['c_11']
-# ```end
-
-# ```python
-# Feature: c_2_c_5_ratio
-# Usefulness: This feature captures the ratio between c_2 and c_5, which might be useful for predicting 'c_21'.
-train_data['c_2_c_5_ratio'] = train_data['c_2'] / train_data['c_5']
-test_data['c_2_c_5_ratio'] = test_data['c_2'] / test_data['c_5']
-# ```end
-
-# ```python-dropping-columns
-# Explanation why the column c_19 is dropped
-# c_19 is dropped because it has only one distinct value, which means it does not provide any useful information for the prediction.
-train_data.drop(columns=['c_19'], inplace=True)
-test_data.drop(columns=['c_19'], inplace=True)
+# Drop the 'own_telephone' column as it has only one distinct value and hence does not contribute to the model
+train_data.drop(columns=['own_telephone'], inplace=True)
+test_data.drop(columns=['own_telephone'], inplace=True)
 # ```end-dropping-columns
 
 # ```python
-# Convert categorical columns to numerical using LabelEncoder
-for col in train_data.columns:
-    if train_data[col].dtype == 'object':
-        le = LabelEncoder()
-        le.fit(list(train_data[col].astype(str).values) + list(test_data[col].astype(str).values))
-        train_data[col] = le.transform(list(train_data[col].astype(str).values))
-        test_data[col] = le.transform(list(test_data[col].astype(str).values))
+# Convert categorical columns to numerical values using LabelEncoder
+le = LabelEncoder()
+categorical_columns = train_data.select_dtypes(include=['object']).columns.tolist()
+for column in categorical_columns:
+    train_data[column] = le.fit_transform(train_data[column])
+    test_data[column] = le.transform(test_data[column])
 # ```end
 
-# ```python 
+# ```python
+# Define the target variable and the feature variables
+X_train = train_data.drop('class', axis=1)
+y_train = train_data['class']
+X_test = test_data.drop('class', axis=1)
+y_test = test_data['class']
+# ```end
+
+# ```python
 # Use a RandomForestClassifier technique
-# RandomForestClassifier is selected because it is a versatile and widely used machine learning algorithm that can handle both categorical and numerical features.
-clf = RandomForestClassifier(n_estimators=100, random_state=42)
-clf.fit(train_data.drop('c_21', axis=1), train_data['c_21'])
+# RandomForestClassifier is selected because it is a versatile and widely used algorithm that can handle both categorical and numerical features.
+clf = RandomForestClassifier(n_estimators=100, random_state=42, n_jobs=-1)
+clf.fit(X_train, y_train)
+# ```end
+
+# ```python
+# Predict the class for the test dataset
+y_pred = clf.predict(X_test)
 # ```end
 
 # ```python
 # Report evaluation based on only test dataset
-predictions = clf.predict(test_data.drop('c_21', axis=1))
-Accuracy = accuracy_score(test_data['c_21'], predictions)
-F1_score = f1_score(test_data['c_21'], predictions)
+# Calculate the model accuracy
+Accuracy = accuracy_score(y_test, y_pred)
+# Calculate the model f1 score
+F1_score = f1_score(y_test, y_pred)
 
-print(f"Accuracy:{Accuracy}")   
-print(f"F1_score:{F1_score}") 
+# Print the accuracy result
+print(f"Accuracy:{Accuracy}")
+# Print the f1 score result
+print(f"F1_score:{F1_score}")
 # ```end

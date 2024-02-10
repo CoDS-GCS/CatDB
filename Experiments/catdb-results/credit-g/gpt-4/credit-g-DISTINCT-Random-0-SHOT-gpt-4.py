@@ -9,44 +9,54 @@ from sklearn.preprocessing import LabelEncoder
 
 # ```python
 # Load the training and test datasets
-train_data = pd.read_csv("data/credit-g/credit-g_train.csv")
-test_data = pd.read_csv("data/credit-g/credit-g_test.csv")
+train_data = pd.read_csv('data/credit-g/credit-g_train.csv')
+test_data = pd.read_csv('data/credit-g/credit-g_test.csv')
 # ```end
 
 # ```python
-# Feature name and description: c_8_c_11_interaction
-# Usefulness: This feature captures the interaction between c_8 and c_11, which might be useful for predicting 'c_21'.
-train_data['c_8_c_11_interaction'] = train_data['c_8'] * train_data['c_11']
-test_data['c_8_c_11_interaction'] = test_data['c_8'] * test_data['c_11']
-# ```end
-
-# ```python-dropping-columns
-# Explanation why the column c_19 is dropped: c_19 has only one distinct value, which means it does not provide any useful information for the prediction.
-train_data.drop(columns=['c_19'], inplace=True)
-test_data.drop(columns=['c_19'], inplace=True)
+# Drop the 'own_telephone' column as it has only one distinct value and hence, does not contribute to the model
+train_data.drop(columns=['own_telephone'], inplace=True)
+test_data.drop(columns=['own_telephone'], inplace=True)
 # ```end-dropping-columns
 
 # ```python
-# Convert categorical columns to numerical using LabelEncoder
+# Convert categorical columns to numerical values using LabelEncoder
 le = LabelEncoder()
-for col in train_data.columns:
-    if train_data[col].dtype == 'object':
-        train_data[col] = le.fit_transform(train_data[col])
-        test_data[col] = le.transform(test_data[col])
+categorical_cols = train_data.select_dtypes(include=['object']).columns
+for col in categorical_cols:
+    train_data[col] = le.fit_transform(train_data[col])
+    test_data[col] = le.transform(test_data[col])
 # ```end
 
-# ```python 
+# ```python
+# Add a new feature 'credit_to_age' which is the ratio of 'credit_amount' to 'age'
+# Usefulness: This feature can provide information about the credit amount with respect to the age of the person. 
+# It can be useful in determining the creditworthiness of a person.
+train_data['credit_to_age'] = train_data['credit_amount'] / train_data['age']
+test_data['credit_to_age'] = test_data['credit_amount'] / test_data['age']
+# ```end
+
+# ```python
 # Use a RandomForestClassifier technique
-# Explanation why the solution is selected: RandomForestClassifier is a robust and versatile classifier that can handle both numerical and categorical features. It also has built-in feature importance, which can be useful for feature selection.
-clf = RandomForestClassifier(n_estimators=100, random_state=42)
-clf.fit(train_data.drop('c_21', axis=1), train_data['c_21'])
+# Explanation: RandomForestClassifier is a robust and versatile classifier that can handle both categorical and numerical features. 
+# It also has the ability to handle large datasets and can run efficiently on multiple processors.
+clf = RandomForestClassifier(n_estimators=100, random_state=42, n_jobs=-1)
+X_train = train_data.drop(columns=['class'])
+y_train = train_data['class']
+clf.fit(X_train, y_train)
 # ```end
 
 # ```python
 # Report evaluation based on only test dataset
-predictions = clf.predict(test_data.drop('c_21', axis=1))
-Accuracy = accuracy_score(test_data['c_21'], predictions)
-F1_score = f1_score(test_data['c_21'], predictions)
-print(f"Accuracy:{Accuracy}")   
-print(f"F1_score:{F1_score}") 
+X_test = test_data.drop(columns=['class'])
+y_test = test_data['class']
+y_pred = clf.predict(X_test)
+
+# Calculate the model accuracy
+Accuracy = accuracy_score(y_test, y_pred)
+print(f"Accuracy: {Accuracy}")
+
+# Calculate the model f1 score
+F1_score = f1_score(y_test, y_pred)
+print(f"F1_score: {F1_score}")
 # ```end

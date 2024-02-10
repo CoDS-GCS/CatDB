@@ -1,0 +1,11 @@
+dataset,prompt_representation_type,prompt_example_type,prompt_number_example,number_tokens,number_bool,number_int,number_float,number_string
+nyc-taxi-green-dec-2016,Conf-1,Random,0,991,3,11,3,0
+nyc-taxi-green-dec-2016,Conf-2,Random,0,1103,3,11,3,0
+nyc-taxi-green-dec-2016,Conf-3,Random,0,1164,3,11,3,0
+nyc-taxi-green-dec-2016,Conf-4,Random,0,1370,3,11,3,0
+nyc-taxi-green-dec-2016,Conf-5,Random,0,1149,3,11,3,0
+nyc-taxi-green-dec-2016,Conf-6,Random,0,1298,3,11,3,0
+nyc-taxi-green-dec-2016,Conf-7,Random,0,1548,3,11,3,0
+nyc-taxi-green-dec-2016,Conf-8,Random,0,1327,3,11,3,0
+nyc-taxi-green-dec-2016,Conf-9,Random,0,1533,3,11,3,0
+nyc-taxi-green-dec-2016,Conf-10,Random,0,1671,3,11,3,0

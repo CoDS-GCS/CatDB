@@ -6,41 +6,51 @@ from sklearn.metrics import accuracy_score, f1_score
 from sklearn.preprocessing import LabelEncoder
 
 # Load the training and test datasets
-train_data = pd.read_csv("data/credit-g/credit-g_train.csv")
-test_data = pd.read_csv("data/credit-g/credit-g_test.csv")
+train_data = pd.read_csv('data/credit-g/credit-g_train.csv')
+test_data = pd.read_csv('data/credit-g/credit-g_test.csv')
 
-# Convert categorical columns to numerical values
+# Feature: Age Group
+bins = [0, 25, 35, 60, 120]
+labels = ['Youth', 'YoungAdult', 'MiddleAged', 'Senior']
+train_data['age_group'] = pd.cut(train_data['age'], bins=bins, labels=labels)
+test_data['age_group'] = pd.cut(test_data['age'], bins=bins, labels=labels)
+
+# Feature: Credit to Income Ratio
+train_data['credit_to_income'] = train_data['credit_amount'] / train_data['duration']
+test_data['credit_to_income'] = test_data['credit_amount'] / test_data['duration']
+
+# Dropping columns
+train_data.drop(columns=['own_telephone'], inplace=True)
+test_data.drop(columns=['own_telephone'], inplace=True)
+
+# Use a LabelEncoder technique
 le = LabelEncoder()
-categorical_columns = ['c_8', 'c_11', 'c_18', 'c_16', 'c_17', 'c_14', 'c_21', 'c_20', 'c_9', 'c_7', 'c_10', 'c_6', 'c_12', 'c_19', 'c_15', 'c_3', 'c_1']
+for col in train_data.columns:
+    if train_data[col].dtype == 'object':
+        train_data[col] = le.fit_transform(train_data[col])
+        test_data[col] = le.transform(test_data[col])
 
-for column in categorical_columns:
-    train_data[column] = train_data[column].astype(str)
-    test_data[column] = test_data[column].astype(str)
-    train_data[column] = le.fit_transform(train_data[column])
-    test_data[column] = le.transform(test_data[column])
-
-# Remove low ration, static, and unique columns by getting statistic values
-for column in train_data.columns:
-    if len(train_data[column].unique()) == 1:
-        train_data.drop(columns=[column], inplace=True)
-        test_data.drop(columns=[column], inplace=True)
+# Convert age_group from string to int
+train_data['age_group'] = le.fit_transform(train_data['age_group'])
+test_data['age_group'] = le.transform(test_data['age_group'])
 
 # Use a RandomForestClassifier technique
-# RandomForestClassifier is selected because it can handle both categorical and numerical data, and it performs well on large datasets.
 clf = RandomForestClassifier(n_estimators=100, random_state=0, n_jobs=-1)
-
-# Train the model
-X_train = train_data.drop('c_21', axis=1)
-y_train = train_data['c_21']
+X_train = train_data.drop('class', axis=1)
+y_train = train_data['class']
 clf.fit(X_train, y_train)
 
-# Test the model
-X_test = test_data.drop('c_21', axis=1)
-y_test = test_data['c_21']
+# Report evaluation based on only test dataset
+X_test = test_data.drop('class', axis=1)
+y_test = test_data['class']
 y_pred = clf.predict(X_test)
 
-# Report evaluation based on only test dataset
+# Calculate the model accuracy
 Accuracy = accuracy_score(y_test, y_pred)
+# Calculate the model f1 score
 F1_score = f1_score(y_test, y_pred)
-print(f"Accuracy:{Accuracy}")
+
+# Print the accuracy result
+print(f"Accuracy:{Accuracy}")   
+# Print the f1 score result
 print(f"F1_score:{F1_score}")

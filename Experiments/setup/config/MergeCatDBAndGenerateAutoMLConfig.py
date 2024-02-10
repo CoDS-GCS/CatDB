@@ -71,12 +71,12 @@ if __name__ == '__main__':
     #           "dataset_15":"Federal Election"
     #           }
 
-    ds_names={"dataset_1_rnc":"Horsecolic",
-              "dataset_2_rnc":"Credit-g",
-              "dataset_3_rnc":"Albert",
-              "dataset_4_rnc":"Sonar", 
-              "dataset_5_rnc":"Abalone",               
-              "dataset_6":"Poker"
+    ds_names={"horsecolic":"Horsecolic",
+              "credit-g":"Credit-g",
+              "albert":"Albert",
+              "Sonar":"Sonar", 
+              "abalone":"Abalone",               
+              "poker":"Poker"
               }
     
     df_final = pd.DataFrame(columns=["dataset","llm_model","prompt_representation_type_orig","prompt_representation_type","prompt_example_type","prompt_number_example","number_iteration","task_type", "data_profile_time", "llm_pipe_gen_time", "llm_pipe_run_time", "csv_data_read_time", "total_time", "Accuracy", "F1_score", "Log_loss", "R_Squared", "RMSE"])

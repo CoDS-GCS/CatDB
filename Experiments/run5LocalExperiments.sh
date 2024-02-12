@@ -22,8 +22,8 @@ echo "dataset,source,time" >> "${exp_path}/results/Experiment3_Hand-craft.dat"
 cd ${exp_path}
 
 #CMD=./explocal/exp0_statistics/runExperiment0.sh
-#CMD=./explocal/exp1_catalog/runExperiment1.sh
-CMD=./explocal/exp2_micro_benchmark/runExperiment2.sh 
+CMD=./explocal/exp1_catalog/runExperiment1.sh
+#CMD=./explocal/exp2_micro_benchmark/runExperiment2.sh 
 #CMD=./explocal/exp3_end_to_end/runExperiment3.sh 
 
 
@@ -43,19 +43,19 @@ CMD=./explocal/exp2_micro_benchmark/runExperiment2.sh
 # $CMD dataset_5 binary test
 # $CMD dataset_6 binary test
 
-# $CMD dataset_1_rnc binary test
-# $CMD dataset_2_rnc binary test
-# $CMD dataset_3_rnc binary test
-# $CMD dataset_4_rnc binary test
-# $CMD dataset_5_rnc binary test
-# $CMD dataset_6_rnc binary test
+$CMD dataset_1_rnc binary test
+$CMD dataset_2_rnc binary test
+$CMD dataset_3_rnc binary test
+$CMD dataset_4_rnc binary test
+$CMD dataset_5_rnc binary test
+$CMD dataset_6_rnc binary test
 
-$CMD horsecolic binary test
-$CMD credit-g binary test
-$CMD albert binary test
-$CMD Sonar binary test
-$CMD abalone binary test
-$CMD poker binary test
+# $CMD horsecolic binary test
+# $CMD credit-g binary test
+# $CMD albert binary test
+# $CMD Sonar binary test
+# $CMD abalone binary test
+# $CMD poker binary test
 
 
 # $CMD dataset_1 binary test

@@ -1,0 +1,41 @@
+Traceback (most recent call last):
+  File "/home/ubuntu/CatDB/Experiments/catdb-results/dataset_2_rnc/gpt-4/dataset_2_rnc-MISSING_VALUE_NUMERIC_STATISTIC-Random-0-SHOT-gpt-4.py", line 18, in <module>
+    train_data.fillna(train_data.median(), inplace=True)
+                      ^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/CatDB/Experiments/catdb-results/dataset_2_rnc/gpt-4/venv/lib/python3.11/site-packages/pandas/core/frame.py", line 11679, in median
+    result = super().median(axis, skipna, numeric_only, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/CatDB/Experiments/catdb-results/dataset_2_rnc/gpt-4/venv/lib/python3.11/site-packages/pandas/core/generic.py", line 12424, in median
+    return self._stat_function(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/CatDB/Experiments/catdb-results/dataset_2_rnc/gpt-4/venv/lib/python3.11/site-packages/pandas/core/generic.py", line 12370, in _stat_function
+    return self._reduce(
+           ^^^^^^^^^^^^^
+  File "/home/ubuntu/CatDB/Experiments/catdb-results/dataset_2_rnc/gpt-4/venv/lib/python3.11/site-packages/pandas/core/frame.py", line 11535, in _reduce
+    res = df._mgr.reduce(blk_func)
+          ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/CatDB/Experiments/catdb-results/dataset_2_rnc/gpt-4/venv/lib/python3.11/site-packages/pandas/core/internals/managers.py", line 1501, in reduce
+    nbs = blk.reduce(func)
+          ^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/CatDB/Experiments/catdb-results/dataset_2_rnc/gpt-4/venv/lib/python3.11/site-packages/pandas/core/internals/blocks.py", line 404, in reduce
+    result = func(self.values)
+             ^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/CatDB/Experiments/catdb-results/dataset_2_rnc/gpt-4/venv/lib/python3.11/site-packages/pandas/core/frame.py", line 11454, in blk_func
+    return op(values, axis=axis, skipna=skipna, **kwds)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/CatDB/Experiments/catdb-results/dataset_2_rnc/gpt-4/venv/lib/python3.11/site-packages/pandas/core/nanops.py", line 147, in f
+    result = alt(values, axis=axis, skipna=skipna, **kwds)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/CatDB/Experiments/catdb-results/dataset_2_rnc/gpt-4/venv/lib/python3.11/site-packages/pandas/core/nanops.py", line 787, in nanmedian
+    raise TypeError(f"Cannot convert {values} to numeric")
+TypeError: Cannot convert [["'no checking'" "'no checking'" "'<0'" ... "'no checking'" "'0<=X<200'"
+  "'no checking'"]
+ ["'delayed previously'" "'existing paid'" "'existing paid'" ...
+  "'critical/other existing credit'" "'existing paid'"
+  "'delayed previously'"]
+ ["'new car'" "'new car'" 'furniture/equipment' ... "'used car'"
+  'radio/tv' 'radio/tv']
+ ...
+ ['yes' 'yes' 'yes' ... nan 'yes' nan]
+ ['yes' 'yes' 'yes' ... 'yes' 'yes' 'yes']
+ ['good' 'good' 'good' ... 'good' 'bad' 'good']] to numeric

@@ -1,7 +1,6 @@
 dataset,time
-poker,59s
-albert,63s
-horsecolic,58s
-abalone,47s
-Sonar,45s
-credit-g,46s
+dataset_5_rnc,47s
+dataset_2_rnc,46s
+dataset_1_rnc,58s
+dataset_4_rnc,45s
+dataset_3_rnc,63s

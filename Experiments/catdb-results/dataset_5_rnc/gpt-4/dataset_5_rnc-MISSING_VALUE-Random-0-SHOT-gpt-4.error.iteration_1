@@ -1,0 +1,13 @@
+Traceback (most recent call last):
+  File "/home/ubuntu/CatDB/Experiments/catdb-results/dataset_5_rnc/gpt-4/dataset_5_rnc-MISSING_VALUE-Random-0-SHOT-gpt-4.py", line 35, in <module>
+    clf.fit(X_train, y_train)
+  File "/home/ubuntu/CatDB/Experiments/catdb-results/dataset_5_rnc/gpt-4/venv/lib/python3.11/site-packages/sklearn/base.py", line 1351, in wrapper
+    return fit_method(estimator, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/CatDB/Experiments/catdb-results/dataset_5_rnc/gpt-4/venv/lib/python3.11/site-packages/sklearn/ensemble/_forest.py", line 377, in fit
+    estimator._compute_missing_values_in_feature_mask(
+  File "/home/ubuntu/CatDB/Experiments/catdb-results/dataset_5_rnc/gpt-4/venv/lib/python3.11/site-packages/sklearn/tree/_classes.py", line 222, in _compute_missing_values_in_feature_mask
+    _assert_all_finite_element_wise(X, xp=np, allow_nan=True, **common_kwargs)
+  File "/home/ubuntu/CatDB/Experiments/catdb-results/dataset_5_rnc/gpt-4/venv/lib/python3.11/site-packages/sklearn/utils/validation.py", line 175, in _assert_all_finite_element_wise
+    raise ValueError(msg_err)
+ValueError: Input X contains infinity or a value too large for dtype('float32').

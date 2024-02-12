@@ -92,8 +92,8 @@ if __name__ == '__main__':
     root = "../results"
     out = "../exp_plots"
 
-    #extract_incremental_plots(root=root, out=out)
-    extract_dataset_propertis_mv(root=root, out=out)
+    extract_incremental_plots(root=root, out=out)
+    #extract_dataset_propertis_mv(root=root, out=out)
 
     
     

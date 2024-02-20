@@ -1,34 +1,12 @@
 from .BasicICLPrompt import BasicICLPrompt
 from catalog.Catalog import CatalogInfo
-from util.StaticValues import REPRESENTATION_TYPE
 from .PromptTemplate import *
+from util.Config import PROMPT_FUNC
 
 
 def get_representation_class(repr_type: str):
-    if repr_type == REPRESENTATION_TYPE.SCHEMA:
-        representation_class = SchemaPrompt
-    elif repr_type == REPRESENTATION_TYPE.DISTINCT:
-        representation_class = SchemaDistinctPrompt
-    elif repr_type == REPRESENTATION_TYPE.MISSING_VALUE:
-        representation_class = SchemaMissingValuePrompt
-    elif repr_type == StaticValues.REPRESENTATION_TYPE.NUMERIC_STATISTIC:
-        representation_class = SchemaNumericStatisticPrompt
-    elif repr_type == REPRESENTATION_TYPE.CATEGORICAL_VALUE:
-        representation_class = SchemaCategoricalValuePrompt
-
-    elif repr_type == REPRESENTATION_TYPE.DISTINCT_MISSING_VALUE:
-        representation_class = SchemaDistinctMissingValuePrompt
-    elif repr_type == REPRESENTATION_TYPE.DISTINCT_NUMERIC_STATISTIC:
-        representation_class = SchemaDistinctNumericStatisticPrompt
-    elif repr_type == REPRESENTATION_TYPE.MISSING_VALUE_NUMERIC_STATISTIC:
-        representation_class = SchemaMissingValueNumericStatisticPrompt
-    elif repr_type == REPRESENTATION_TYPE.MISSING_VALUE_CATEGORICAL_VALUE:
-        representation_class = SchemaMissingCategoricalValuePrompt
-    elif repr_type == REPRESENTATION_TYPE.NUMERIC_STATISTIC_CATEGORICAL_VALUE:
-        representation_class = SchemaNumericStatisticCategoricalValuePrompt
-    elif repr_type == REPRESENTATION_TYPE.ALL:
-        representation_class = AllPrompt
-    else:
+    representation_class = PROMPT_FUNC[repr_type]
+    if representation_class is None:
         raise ValueError(f"{repr_type} is not supported yet")
     return representation_class
 
@@ -42,7 +20,6 @@ def prompt_factory(catalog: CatalogInfo,
                    target_attribute: str,
                    data_source_train_path: str,
                    data_source_test_path: str,
-                   suggested_model: str,
                    number_folds: int):
     repr_cls = get_representation_class(representation_type)
     schema_info = catalog.schema_info
@@ -80,7 +57,6 @@ def prompt_factory(catalog: CatalogInfo,
                 self.task_type = task_type_str
                 self.evaluation_text = evaluation_text
                 self.examples = None
-                self.suggested_model = suggested_model
                 self.number_folds = number_folds
                 repr_cls.__init__(self, *args, **kwargs)
                 BasicICLPrompt.__init__(self, *args, **kwargs)

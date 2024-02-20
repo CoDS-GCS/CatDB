@@ -3,7 +3,9 @@ from util import StaticValues
 
 class BasicPrompt(object):
     def __init__(self, *args, **kwargs):
-        # used to avoid empty init function in 0-shot prompt
+        self.question = ("Provide a complete pipeline code that can be executed in a multi-threaded environment "
+                         "with various CPU configurations, such as PyTorch or other relevant frameworks.\n"
+                         "Each codeblock ends with \"```end\" and starts with \"```python\".")
         pass
 
     def format_target(self, examples: dict):
@@ -29,27 +31,28 @@ class BasicPrompt(object):
             r54 = "classifier"
         else:
             r54 = "regressor"
-        rules = [StaticValues.Rule_1.format(self.ds_attribute_prefix),
-                 StaticValues.Rule_2.format(self.data_source_train_path, self.data_source_test_path),
-                 StaticValues.Rule_3,
-                 StaticValues.Rule_4.format(self.ds_attribute_prefix, self.ds_attribute_prefix_label),
-                 StaticValues.Rule_5.format(f"{self.task_type}{self.suggested_model}", self.target_attribute,
-                                            self.ds_attribute_prefix_label, r54, r54),
-                 StaticValues.Rule_6,
-                 StaticValues.CODE_FORMATTING_IMPORT,
-                 StaticValues.CODE_FORMATTING_ADDING.format(self.target_attribute, self.schema_keys[0],
-                                                            self.schema_keys[1]),
-                 StaticValues.Rule_7.format(self.number_folds,self.task_type),
-                 StaticValues.CODE_FORMATTING_DROPPING,
-                 StaticValues.CODE_FORMATTING_TECHNIQUE,
-                 self.evaluation_text,
-                 "Don't report validation evaluation. We don't need it."
+        rules = [StaticValues.Rule_task.format(self.ds_attribute_prefix),
+                 StaticValues.Rule_input,
+                 StaticValues.Rule_output,
+                 f"\t 1. {StaticValues.Rule_1}",
+                 f"\t 2. {StaticValues.Rule_1}",
+                 f"\t 3. {StaticValues.Rule_1}",
+                 f"\t 4. {StaticValues.Rule_1}",
+                 f"\t 5. {StaticValues.Rule_1}",
+                 f"\t 6. {StaticValues.Rule_1}",
+                 f"\t 7. {StaticValues.Rule_1}",
+                 f"\t 8. {StaticValues.Rule_1}",
+                 f"\t 9. {StaticValues.Rule_1}",
+                 f"\t 10. {StaticValues.CODE_FORMATTING_IMPORT}",
+                 f"\t 11. {StaticValues.CODE_FORMATTING_ADDING.format(self.target_attribute, self.schema_keys[0], self.schema_keys[1])}",
+                 f"\t 12. {StaticValues.CODE_FORMATTING_DROPPING}",
+                 f"\t 13. {StaticValues.CODE_FORMATTING_TECHNIQUE}",
+                 f"\t 14. { self.evaluation_text}",
+                 f"\t 15. {StaticValues.Rule_10}",
+                 f"\t 16. . {StaticValues.Rule_11}",
                  ]
 
-        rule_msg = rules[0] + "\n\n"
-        for i in range(1, len(rules)):
-            rule_msg += f"Step {i}: {rules[i]}\n\n"
-
+        rule_msg = "\n".join(rules)
         return rule_msg
 
 
@@ -57,10 +60,6 @@ class SchemaPrompt(BasicPrompt):
     def __init__(self, *args, **kwargs):
         self.ds_attribute_prefix = "Schema"
         self.ds_attribute_prefix_label = "Schema:"
-        self.question = ("Provide a complete pipeline code that can be executed in a multi-threaded environment "
-                         "with various CPU configurations, such as PyTorch or other relevant frameworks.\n"
-                         "Each codeblock ends with \"```end\" and starts with \"```python\".")
-
         self.content = "\n".join([f"{_} ({self.schema[_]})" for _ in self.schema.keys()])
 
 
@@ -68,10 +67,6 @@ class SchemaDistinctPrompt(BasicPrompt):
     def __init__(self, *args, **kwargs):
         self.ds_attribute_prefix = "Schema and Distinct Value Count"
         self.ds_attribute_prefix_label = "Schema and Distinct Value Count:"
-        self.question = ("Provide a complete pipeline code that can be executed in a multi-threaded environment "
-                         "with various CPU configurations, such as PyTorch or other relevant frameworks.\n"
-                         "Each codeblock ends with \"```end\" and starts with \"```python\".")
-
         schema_info_list = []
         for k in self.schema.keys():
             cp = self.profile[k]
@@ -85,10 +80,6 @@ class SchemaMissingValuePrompt(BasicPrompt):
     def __init__(self, *args, **kwargs):
         self.ds_attribute_prefix = "Schema and Missing Value Frequency"
         self.ds_attribute_prefix_label = "Schema and Missing Value Frequency:"
-        self.question = ("Provide a complete pipeline code that can be executed in a multi-threaded environment "
-                         "with various CPU configurations, such as PyTorch or other relevant frameworks.\n"
-                         "Each codeblock ends with \"```end\" and starts with \"```python\".")
-
         schema_info_list = []
         for k in self.schema.keys():
             cp = self.profile[k]
@@ -102,9 +93,6 @@ class SchemaNumericStatisticPrompt(BasicPrompt):
     def __init__(self, *args, **kwargs):
         self.ds_attribute_prefix = "Schema and Numeric Statistical Values"
         self.ds_attribute_prefix_label = "Schema and Numeric Statistical Values:"
-        self.question = ("Provide a complete pipeline code that can be executed in a multi-threaded environment "
-                         "with various CPU configurations, such as PyTorch or other relevant frameworks.\n"
-                         "Each codeblock ends with \"```end\" and starts with \"```python\".")
 
         schema_info_list = []
         for k in self.schema.keys():
@@ -121,9 +109,6 @@ class SchemaCategoricalValuePrompt(BasicPrompt):
     def __init__(self, *args, **kwargs):
         self.ds_attribute_prefix = "Schema and Categorical Data"
         self.ds_attribute_prefix_label = "Schema and Categorical Data:"
-        self.question = ("Provide a complete pipeline code that can be executed in a multi-threaded environment "
-                         "with various CPU configurations, such as PyTorch or other relevant frameworks.\n"
-                         "Each codeblock ends with \"```end\" and starts with \"```python\".")
 
         schema_info_list = []
         for k in self.schema.keys():
@@ -142,9 +127,6 @@ class SchemaDistinctMissingValuePrompt(BasicPrompt):
     def __init__(self, *args, **kwargs):
         self.ds_attribute_prefix = "Schema, Distinct Value Count, and Missing Value Frequency"
         self.ds_attribute_prefix_label = "Schema, Distinct Value Count, and Missing Value Frequency:"
-        self.question = ("Provide a complete pipeline code that can be executed in a multi-threaded environment "
-                         "with various CPU configurations, such as PyTorch or other relevant frameworks.\n"
-                         "Each codeblock ends with \"```end\" and starts with \"```python\".")
 
         schema_info_list = []
         for k in self.schema.keys():
@@ -160,9 +142,6 @@ class SchemaDistinctNumericStatisticPrompt(BasicPrompt):
     def __init__(self, *args, **kwargs):
         self.ds_attribute_prefix = "Schema, Distinct Value Count, and Numeric Statistical Values"
         self.ds_attribute_prefix_label = "Schema, Distinct Value Count, and Numeric Statistical Values:"
-        self.question = ("Provide a complete pipeline code that can be executed in a multi-threaded environment "
-                         "with various CPU configurations, such as PyTorch or other relevant frameworks.\n"
-                         "Each codeblock ends with \"```end\" and starts with \"```python\".")
 
         schema_info_list = []
         for k in self.schema.keys():
@@ -179,10 +158,6 @@ class SchemaDistinctNumericStatisticPrompt(BasicPrompt):
 class SchemaMissingValueNumericStatisticPrompt(BasicPrompt):
     def __init__(self, *args, **kwargs):
         self.ds_attribute_prefix = "Schema, Missing Value Frequency, and Numeric Statistical Values"
-        self.ds_attribute_prefix_label = "Schema, Missing Value Frequency, and Numeric Statistical Values:"
-        self.question = ("Provide a complete pipeline code that can be executed in a multi-threaded environment "
-                         "with various CPU configurations, such as PyTorch or other relevant frameworks.\n"
-                         "Each codeblock ends with \"```end\" and starts with \"```python\".")
 
         schema_info_list = []
         for k in self.schema.keys():
@@ -199,10 +174,6 @@ class SchemaMissingValueNumericStatisticPrompt(BasicPrompt):
 class SchemaMissingCategoricalValuePrompt(BasicPrompt):
     def __init__(self, *args, **kwargs):
         self.ds_attribute_prefix = "Schema, Missing Value Frequency, and Categorical Data"
-        self.ds_attribute_prefix_label = "Schema, Missing Value Frequency, and Numeric Statistical Data:"
-        self.question = ("Provide a complete pipeline code that can be executed in a multi-threaded environment "
-                         "with various CPU configurations, such as PyTorch or other relevant frameworks.\n"
-                         "Each codeblock ends with \"```end\" and starts with \"```python\".")
 
         schema_info_list = []
         for k in self.schema.keys():
@@ -220,9 +191,6 @@ class SchemaNumericStatisticCategoricalValuePrompt(BasicPrompt):
     def __init__(self, *args, **kwargs):
         self.ds_attribute_prefix = "Schema, Numeric Statistical Values, and Categorical Data"
         self.ds_attribute_prefix_label = "Schema, Numeric Statistical Values, and Categorical Data:"
-        self.question = ("Provide a complete pipeline code that can be executed in a multi-threaded environment "
-                         "with various CPU configurations, such as PyTorch or other relevant frameworks.\n"
-                         "Each codeblock ends with \"```end\" and starts with \"```python\".")
 
         schema_info_list = []
         for k in self.schema.keys():
@@ -248,9 +216,6 @@ class AllPrompt(BasicPrompt):
     def __init__(self, *args, **kwargs):
         self.ds_attribute_prefix = "Schema, and Data Profiling Info"
         self.ds_attribute_prefix_label = "Schema, and Data Profiling Info:"
-        self.question = ("Provide a complete pipeline code that can be executed in a multi-threaded environment "
-                         "with various CPU configurations, such as PyTorch or other relevant frameworks.\n"
-                         "Each codeblock ends with \"```end\" and starts with \"```python\".")
 
         schema_info_list = []
         for k in self.schema.keys():

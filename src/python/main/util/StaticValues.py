@@ -1,53 +1,34 @@
-class REPRESENTATION_TYPE:
-    SCHEMA = "SCHEMA"
-    DISTINCT = "DISTINCT"
-    MISSING_VALUE = "MISSING_VALUE"
-    NUMERIC_STATISTIC = "NUMERIC_STATISTIC"
-    CATEGORICAL_VALUE = "CATEGORICAL_VALUE"
+Rule_task = ("Task: Generate a data science pipeline in Python 3.11 that answers a question based on a "
+             "given dataset, {}.")
 
-    DISTINCT_MISSING_VALUE = "DISTINCT_MISSING_VALUE"
-    DISTINCT_NUMERIC_STATISTIC = "DISTINCT_NUMERIC_STATISTIC"
-    MISSING_VALUE_NUMERIC_STATISTIC = "MISSING_VALUE_NUMERIC_STATISTIC"
-    MISSING_VALUE_CATEGORICAL_VALUE = "MISSING_VALUE_CATEGORICAL_VALUE"
-    NUMERIC_STATISTIC_CATEGORICAL_VALUE = "NUMERIC_STATISTIC_CATEGORICAL_VALUE"
+Rule_input = ("Input: A dataset in CSV format, a schema that describes the columns and data types of the dataset, "
+              "and a data profiling info that summarizes the statistics and quality of the dataset. A question that "
+              "requires data analysis or modeling to answer.")
 
-    ALL = "ALL"
-
-
-# Rule 1: need 2 parameters. 1) type of info, e.g., statistical info, min-max values,... 2)  total number of steps
-Rule_1 = ('You will be given a dataset, a {} of the dataset, and a question. Your task is to generate a data '
-          'science pipeline. You should answer only by generating code. You should follow Steps 1 to 12 to answer '
-          'the question. You should return a data science pipeline in Python 3.10 programming language. If you do not '
-          'have a relevant answer to the question, simply write: "Insufficient information."')
-
-# Rule 2: need 2 parameters. 1) path to train data 2) path to test data
+Rule_output = "Output: A Python 3.10 code that performs the following steps:"
+Rule_1 = "Import the necessary libraries and modules"
 Rule_2 = ('Load the raining and test datasets. For the training data, utilize the variable """train_data={}""", '
           'and for the test data, employ the variable """test_data={}""". Utilize pandas\' CSV readers to load the '
           'datasets.')
-
-# Rule 3: without extra parameter
 Rule_3 = "Don't split the train_data into train and test sets. Use only the given datasets."
-
-# Rule 4: need 2 parameters. 2) name of metadata 2) prefix label
 Rule_4 = ('The user will provide the {} of the dataset with columns appropriately named as attributes, enclosed in '
           'triple quotes, and preceded by the prefix "{}".')
+Rule_5 = "Perform data cleaning and preprocessing"
+Rule_6 = "Perform feature processing (e.g., encode categorical values by dummyEncode)"
+Rule_7 = ('Select the appropriate features and target variables for the question. '
+          'Additional columns add new semantic information, that is they use real world knowledge on the dataset'
+          'mentioned in """{}""". They can e.g. be feature combinations, transformations, aggregations where the '
+          'new column is a function of the existing columns. Use appropriate scale factor for columns are need'
+          'to transfer.')
+Rule_8 = (" Perform drops columns, if these may be redundant and hurt the predictive performance of the downstream {} "
+          "(Feature selection). Dropping columns may help as the chance of overfitting is lower, especially if the "
+          "dataset is small. The {} will be trained on the dataset with the generated columns and evaluated on a "
+          "holdout set.")
 
-# Rule_5: 1) target column name 2) specific algorithm 3) prefix label 4) classifier/regressor 5) same as 4
-Rule_5 = ('This pipeline generates additional columns that are useful for a downstream {} algorithm predicting "{}".'
-          'Additional columns add new semantic information, that is they use real world knowledge on the dataset '
-          'mentioned in """{}""". They can e.g. be feature combinations, transformations, aggregations where the new column '
-          'is a function of the existing columns. The scale of columns and offset does not matter. Make sure all used '
-          'columns exist. Follow the above description of columns closely and consider the datatypes and meanings of '
-          'classes. This code also drops columns, if these may be redundant and hurt the predictive performance of '
-          'the downstream {} (Feature selection). Dropping columns may help as the chance of overfitting is lower, '
-          'especially if the dataset is small. The {} will be trained on the dataset with the generated columns and '
-          'evaluated on a holdout set.')
-
-# Rule 6:
-Rule_6 = "Remove low ration, static, and unique columns by getting statistic values."
-
-# Rule 7:
-Rule_7 = "Utilize the {}-folds {} technique for constructing the model."
+Rule_9 = ("In order to avoid runtime error for unseen value on the target feature, do preprocessing based on union of "
+          "train and test dataset")
+Rule_10 = 'If the question is not relevant to the dataset or the task, the output should be: "Insufficient information."'
+Rule_11 = "Don't report validation evaluation. We don't need it."
 
 CODE_FORMATTING_IMPORT = f"""Code formatting for all required packages:
 ```python
@@ -71,7 +52,7 @@ CODE_FORMATTING_DROPPING = f"""Code formatting for dropping columns:
 
 CODE_FORMATTING_TECHNIQUE = "Code formatting for training technique:\n \
 ```python \n \
-# Use a {} technique\n \
+# Choose the suitable machine learning algorithm or technique ({}).\n \
 # Explanation why the solution is selected \n \
 trn = ... \n \
 ```end"

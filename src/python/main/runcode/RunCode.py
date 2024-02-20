@@ -25,7 +25,6 @@ class RunCode(object):
 
     def execute_code(self, src: str):
         result = CodeResultTemplate()
-        exception = None
         try:
             loc = {}
             parse = ast.parse(src)

@@ -17,11 +17,11 @@ cd ..
 cd ${config_path}
 source venv/bin/activate
 
-# benchmark_path="${root_path}/setup/automlbenchmark/resources/benchmarks"
-# python DownloadOpenMLDatasetsByDatasetID.py --data-out-path ${data_path} --setting-out-path ${benchmark_path}
+benchmark_path="${root_path}/setup/automlbenchmark/resources/benchmarks"
+python DownloadOpenMLDatasetsByDatasetID.py --data-out-path ${data_path} --setting-out-path ${benchmark_path}
 
-mkdir "${root_path}/binary_data"
-python DownloadOpenMLDatasets.py "${root_path}/binary_data"
+# mkdir "${root_path}/binary_data"
+# python DownloadOpenMLDatasets.py "${root_path}/binary_data"
 
 # Refine kaggle datasets
 # mkdir -p "${data_path}/NYC"

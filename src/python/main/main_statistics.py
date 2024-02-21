@@ -88,8 +88,7 @@ if __name__ == '__main__':
         prompt_rule = prompt_format["rules"]
         prompt_msg = prompt_format["question"]
         ntokens = llm.get_number_tokens(prompt_rules=prompt_rule, prompt_message=prompt_msg)
-        df_1.loc[len(df_1)] = [args.dataset_name, rt, args.prompt_example_type,
-                           args.prompt_number_example, ntokens, nbools, nints, nfloats, nstrings]
+        df_1.loc[len(df_1)] = [args.dataset_name, rt, "Random", 0, ntokens, nbools, nints, nfloats, nstrings]
 
 
     df_1.to_csv(f"{args.output_path}/statistics_1.csv", index=False)

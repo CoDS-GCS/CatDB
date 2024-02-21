@@ -1,3 +1,15 @@
+from prompt.PromptTemplate import SchemaPrompt
+from prompt.PromptTemplate import SchemaDistinctValuePrompt
+from prompt.PromptTemplate import SchemaMissingValueFrequencyPrompt
+from prompt.PromptTemplate import SchemaStatisticNumericPrompt
+from prompt.PromptTemplate import SchemaCategoricalValuesPrompt
+from prompt.PromptTemplate import SchemaDistinctValueCountMissingValueFrequencyPrompt
+from prompt.PromptTemplate import SchemaDistinctValueCountStatisticNumericPrompt
+from prompt.PromptTemplate import SchemaMissingValueFrequencyStatisticNumericPrompt
+from prompt.PromptTemplate import SchemaMissingValueFrequencyCategoricalValuesPrompt
+from prompt.PromptTemplate import SchemaStatisticNumericCategoricalValuesPrompt
+from prompt.PromptTemplate import AllPrompt
+
 class LLMSetting:
     def __init__(self):
         self.GPT_4_Token_Limit = 8192
@@ -35,22 +47,25 @@ REP_TYPE = {10000: "S",
             10100: "SMVF",
             10010: "SSN",
             10001:"SCV",
-            11100: "SDVMVF",
+            11100: "SDVCMVF",
+            11010: "SDVCSN",
             10110:"SMVFSN",
             10101:"SMVFCV",
             10011:"SSNCV",
             11111:"ALL"}
 
-PROMPT_FUNC = {"S": "SchemaPrompt",
-               "SDVC": "SchemaDistinctValuePrompt",
-               "SMVF": "SchemaMissingValueFrequencyPrompt",
-               "SSN": "SchemaStatisticNumericPrompt",
-               "SCV": "SchemaCategoricalValuesPrompt",
-               "SDVCMVF": "SchemaDistinctValueCountMissingValueFrequencyPrompt",
-               "SMVFSN":"SchemaMissingValueFrequencyStatisticNumericPrompt",
-               "SMVFCV": "SchemaMissingValueFrequencyCategoricalValuesPrompt",
-               "SSNCV": "SchemaStatisticNumericCategoricalValuesPrompt",
-               "ALL": "AllPrompt"}
+PROMPT_FUNC = {"S": SchemaPrompt,
+               "SDVC": SchemaDistinctValuePrompt,
+               "SMVF": SchemaMissingValueFrequencyPrompt,
+               "SSN": SchemaStatisticNumericPrompt,
+               "SCV": SchemaCategoricalValuesPrompt,
+               "SDVCMVF": SchemaDistinctValueCountMissingValueFrequencyPrompt,
+               "SDVCSN": SchemaDistinctValueCountStatisticNumericPrompt,
+               "SMVFSN": SchemaMissingValueFrequencyStatisticNumericPrompt,
+               "SMVFCV": SchemaMissingValueFrequencyCategoricalValuesPrompt,
+               "SSNCV": SchemaStatisticNumericCategoricalValuesPrompt,
+               "ALL": AllPrompt
+               }
 
 
 

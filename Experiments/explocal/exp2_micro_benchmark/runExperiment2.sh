@@ -3,6 +3,9 @@
 dataset=$1
 task_type=$2
 
+
+
+
 # Run CatDB Generated piplines
 CMD=./explocal/exp2_micro_benchmark/runExperiment2_CatDB_LLM_Pipe_Run.sh
 
@@ -19,3 +22,5 @@ $CMD ${dataset} ALL Random 0 ${task_type} gpt-4
 
 # Run AutoML Framework
 #./explocal/exp2_micro_benchmark/runExperiment2_AutoML.sh ${dataset}
+
+

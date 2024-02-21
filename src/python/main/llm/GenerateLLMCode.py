@@ -84,8 +84,7 @@ class GenerateLLMCode(object):
         completion = client.chat.completions.create(
                      messages=messages,
                      model=self.model,
-                     temperature=0,
-                     top_p=0.1,
+                     temperature=0
                     )
         code = completion.choices[0].message.content
         code = code.replace("```", "# ```")

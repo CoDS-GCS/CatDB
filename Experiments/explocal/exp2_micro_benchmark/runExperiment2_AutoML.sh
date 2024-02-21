@@ -3,7 +3,6 @@
 datasource_name=$1
 exp_path="$(pwd)"
 constraint=0
-exp_path="$(pwd)"
 log_file_name="${exp_path}/results/Experiment2_AutoML_Corresponding.dat"
 output_dir="${exp_path}/results/automl_results"
 user_dir=${exp_path}

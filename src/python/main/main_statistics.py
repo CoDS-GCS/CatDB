@@ -79,30 +79,29 @@ def parse_arguments():
 if __name__ == '__main__':
     args = parse_arguments()
     profile_info_path = f'{args.data_source_path}/{args.data_source_name}/data_profile_full'
-    catalog = load_data_source_profile(data_source_path=profile_info_path,
+    catalog = load_data_source_profile(data_source_path=args.data_profile_path,
                                        file_format="JSON",
-                                       reduction_method=args.reduction_method,
-                                       reduce_size=args.reduction_size,
                                        target_attribute=args.target_attribute)
 
-    prompt = prompt_factory(catalog=catalog,
-                            representation_type=args.prompt_representation_type,
-                            example_type=args.prompt_example_type,
-                            number_example=args.prompt_number_example,
-                            task_type=args.task_type,
-                            number_iteration=args.prompt_number_iteration,
-                            target_attribute=args.target_attribute,
-                            data_source_train_path=args.data_source_train_path,
-                            data_source_test_path=args.data_source_test_path,
-                            suggested_model=args.suggested_model,
-                            number_folds=args.number_folds)
-
-    # Generate LLM code
-    llm = GenerateLLMCode(model=args.llm_model)
-    prompt_format = prompt.format(examples=None)
-    prompt_rule = prompt_format["rules"]
-    prompt_msg = prompt_format["question"]
-    ntokens = llm.get_number_tokens(prompt_rules=prompt_rule, prompt_message=prompt_msg)
+    # prompt = prompt_factory(catalog=catalog,
+    #                         representation_type=args.prompt_representation_type,
+    #                         example_type=args.prompt_example_type,
+    #                         number_example=args.prompt_number_example,
+    #                         task_type=args.task_type,
+    #                         number_iteration=args.prompt_number_iteration,
+    #                         target_attribute=args.target_attribute,
+    #                         data_source_train_path=args.data_source_train_path,
+    #                         data_source_test_path=args.data_source_test_path,
+    #                         suggested_model=args.suggested_model,
+    #                         number_folds=args.number_folds)
+    #
+    # # Generate LLM code
+    # llm = GenerateLLMCode(model=args.llm_model)
+    # prompt_format = prompt.format(examples=None)
+    # prompt_rule = prompt_format["rules"]
+    # prompt_msg = prompt_format["question"]
+    # ntokens = llm.get_number_tokens(prompt_rules=prompt_rule, prompt_message=prompt_msg)
+    ntokens = 0
 
     schema_info = catalog.schema_info
     profile_info = catalog.profile_info
@@ -162,4 +161,5 @@ if __name__ == '__main__':
                                pi.total_values_count - pi.missing_values_count, pi.distinct_values_count, catalog.nrows]
             index += 1
 
+        df_2 = df_2.sort_values(by='missing_values_count', ascending=False)
         df_2.to_csv(log_path, index=False)

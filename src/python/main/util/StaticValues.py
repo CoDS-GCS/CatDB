@@ -6,27 +6,28 @@ Rule_input = ("Input: A dataset in CSV format, a schema that describes the colum
               "requires data analysis or modeling to answer.")
 
 Rule_output = "Output: A Python 3.10 code that performs the following steps:"
-Rule_1 = "Import the necessary libraries and modules"
+Rule_1 = "Import the necessary libraries and modules."
 Rule_2 = ('Load the raining and test datasets. For the training data, utilize the variable """train_data={}""", '
           'and for the test data, employ the variable """test_data={}""". Utilize pandas\' CSV readers to load the '
           'datasets.')
 Rule_3 = "Don't split the train_data into train and test sets. Use only the given datasets."
 Rule_4 = ('The user will provide the {} of the dataset with columns appropriately named as attributes, enclosed in '
           'triple quotes, and preceded by the prefix "{}".')
-Rule_5 = "Perform data cleaning and preprocessing"
-Rule_6 = "Perform feature processing (e.g., encode categorical values by dummyEncode)"
+Rule_5 = "Perform data cleaning and preprocessing."
+Rule_6 = "Perform feature processing (e.g., encode categorical values by dummyEncode)."
 Rule_7 = ('Select the appropriate features and target variables for the question. '
-          'Additional columns add new semantic information, that is they use real world knowledge on the dataset'
-          'mentioned in """{}""". They can e.g. be feature combinations, transformations, aggregations where the '
+          'Additional columns add new semantic information, additional columns that are useful for a downstream algorithm'
+          'predicting "{}". They can e.g. be feature combinations, transformations, aggregations where the '
           'new column is a function of the existing columns. Use appropriate scale factor for columns are need'
           'to transfer.')
+
 Rule_8 = (" Perform drops columns, if these may be redundant and hurt the predictive performance of the downstream {} "
           "(Feature selection). Dropping columns may help as the chance of overfitting is lower, especially if the "
           "dataset is small. The {} will be trained on the dataset with the generated columns and evaluated on a "
           "holdout set.")
 
 Rule_9 = ("In order to avoid runtime error for unseen value on the target feature, do preprocessing based on union of "
-          "train and test dataset")
+          "train and test dataset.")
 Rule_10 = 'If the question is not relevant to the dataset or the task, the output should be: "Insufficient information."'
 Rule_11 = "Don't report validation evaluation. We don't need it."
 
@@ -52,7 +53,7 @@ CODE_FORMATTING_DROPPING = f"""Code formatting for dropping columns:
 
 CODE_FORMATTING_TECHNIQUE = "Code formatting for training technique:\n \
 ```python \n \
-# Choose the suitable machine learning algorithm or technique ({}).\n \
+# Choose the suitable machine learning algorithm or technique ({}). Don't used Random forest Classification algorithm.\n \
 # Explanation why the solution is selected \n \
 trn = ... \n \
 ```end"

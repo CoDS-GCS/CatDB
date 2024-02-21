@@ -43,12 +43,12 @@ CMD=./explocal/exp1_catalog/runExperiment1.sh
 # $CMD dataset_5 binary test
 # $CMD dataset_6 binary test
 
-$CMD dataset_1_rnc binary test
-$CMD dataset_2_rnc binary test
-$CMD dataset_3_rnc binary test
-$CMD dataset_4_rnc binary test
-$CMD dataset_5_rnc binary test
-$CMD dataset_6_rnc binary test
+$CMD dataset_1_rnc binary
+# $CMD dataset_2_rnc binary test
+# $CMD dataset_3_rnc binary test
+# $CMD dataset_4_rnc binary test
+# $CMD dataset_5_rnc binary test
+# $CMD dataset_6_rnc binary test
 
 # $CMD horsecolic binary test
 # $CMD credit-g binary test

@@ -7,7 +7,7 @@ class CodeResultTemplate(object):
     def set_status(self, status: bool = True):
         self.status = status
 
-    def set_result(self, result: None):
+    def set_result(self, result = None):
         self.result = result
 
     def set_exception(self, exception: Exception = None):

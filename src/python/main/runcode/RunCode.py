@@ -23,11 +23,12 @@ class RunCode(object):
 
         return result
 
-    def execute_code(self, src: str):
+    def execute_code(self, src: str, parse=None):
         result = CodeResultTemplate()
         try:
             loc = {}
-            parse = ast.parse(src)
+            if parse is None:
+                parse = ast.parse(src)
             tmp = sys.stdout
             pipeline_result = StringIO()
             sys.stdout = pipeline_result

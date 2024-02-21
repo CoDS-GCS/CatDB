@@ -3,10 +3,10 @@ from util import StaticValues
 
 class BasicPrompt(object):
     def __init__(self, *args, **kwargs):
+        self.schema_keys = None
         self.question = ("Provide a complete pipeline code that can be executed in a multi-threaded environment "
                          "with various CPU configurations, such as PyTorch or other relevant frameworks.\n"
                          "Each codeblock ends with \"```end\" and starts with \"```python\".")
-        pass
 
     def format_target(self, examples: dict):
         return {
@@ -28,28 +28,28 @@ class BasicPrompt(object):
     def format_rules(self):
         self.schema_keys = [_ for _ in self.schema.keys()]
         if self.task_type == "binary classification" or self.task_type == "multiclass classification":
-            r54 = "classifier"
+            algorithm = "classifier"
         else:
-            r54 = "regressor"
+            algorithm = "regressor"
         rules = [StaticValues.Rule_task.format(self.ds_attribute_prefix),
                  StaticValues.Rule_input,
                  StaticValues.Rule_output,
                  f"\t 1. {StaticValues.Rule_1}",
-                 f"\t 2. {StaticValues.Rule_1}",
-                 f"\t 3. {StaticValues.Rule_1}",
-                 f"\t 4. {StaticValues.Rule_1}",
-                 f"\t 5. {StaticValues.Rule_1}",
-                 f"\t 6. {StaticValues.Rule_1}",
-                 f"\t 7. {StaticValues.Rule_1}",
-                 f"\t 8. {StaticValues.Rule_1}",
-                 f"\t 9. {StaticValues.Rule_1}",
+                 f"\t 2. {StaticValues.Rule_2.format(self.data_source_train_path, self.data_source_test_path)}",
+                 f"\t 3. {StaticValues.Rule_3}",
+                 f"\t 4. {StaticValues.Rule_4.format(self.ds_attribute_prefix, self.ds_attribute_prefix_label)}",
+                 f"\t 5. {StaticValues.Rule_5}",
+                 f"\t 6. {StaticValues.Rule_6}",
+                 f"\t 7. {StaticValues.Rule_7.format(self.target_attribute)}",
+                 f"\t 8. {StaticValues.Rule_8.format(algorithm, self.target_attribute)}",
+                 f"\t 9. {StaticValues.Rule_9}",
                  f"\t 10. {StaticValues.CODE_FORMATTING_IMPORT}",
                  f"\t 11. {StaticValues.CODE_FORMATTING_ADDING.format(self.target_attribute, self.schema_keys[0], self.schema_keys[1])}",
                  f"\t 12. {StaticValues.CODE_FORMATTING_DROPPING}",
-                 f"\t 13. {StaticValues.CODE_FORMATTING_TECHNIQUE}",
-                 f"\t 14. { self.evaluation_text}",
+                 f"\t 13. {StaticValues.CODE_FORMATTING_TECHNIQUE.format(algorithm)}",
+                 f"\t 14. {self.evaluation_text}",
                  f"\t 15. {StaticValues.Rule_10}",
-                 f"\t 16. . {StaticValues.Rule_11}",
+                 f"\t 16. {StaticValues.Rule_11}",
                  ]
 
         rule_msg = "\n".join(rules)
@@ -58,13 +58,15 @@ class BasicPrompt(object):
 
 class SchemaPrompt(BasicPrompt):
     def __init__(self, *args, **kwargs):
+        BasicPrompt.__init__(self, *args, **kwargs)
         self.ds_attribute_prefix = "Schema"
         self.ds_attribute_prefix_label = "Schema:"
         self.content = "\n".join([f"{_} ({self.schema[_]})" for _ in self.schema.keys()])
 
 
-class SchemaDistinctPrompt(BasicPrompt):
+class SchemaDistinctValuePrompt(BasicPrompt):
     def __init__(self, *args, **kwargs):
+        BasicPrompt.__init__(self, *args, **kwargs)
         self.ds_attribute_prefix = "Schema and Distinct Value Count"
         self.ds_attribute_prefix_label = "Schema and Distinct Value Count:"
         schema_info_list = []
@@ -76,8 +78,9 @@ class SchemaDistinctPrompt(BasicPrompt):
         self.content = "\n".join(schema_info_list)
 
 
-class SchemaMissingValuePrompt(BasicPrompt):
+class SchemaMissingValueFrequencyPrompt(BasicPrompt):
     def __init__(self, *args, **kwargs):
+        BasicPrompt.__init__(self, *args, **kwargs)
         self.ds_attribute_prefix = "Schema and Missing Value Frequency"
         self.ds_attribute_prefix_label = "Schema and Missing Value Frequency:"
         schema_info_list = []
@@ -89,8 +92,9 @@ class SchemaMissingValuePrompt(BasicPrompt):
         self.content = "\n".join(schema_info_list)
 
 
-class SchemaNumericStatisticPrompt(BasicPrompt):
+class SchemaStatisticNumericPrompt(BasicPrompt):
     def __init__(self, *args, **kwargs):
+        BasicPrompt.__init__(self, *args, **kwargs)
         self.ds_attribute_prefix = "Schema and Numeric Statistical Values"
         self.ds_attribute_prefix_label = "Schema and Numeric Statistical Values:"
 
@@ -105,8 +109,9 @@ class SchemaNumericStatisticPrompt(BasicPrompt):
         self.content = "\n".join(schema_info_list)
 
 
-class SchemaCategoricalValuePrompt(BasicPrompt):
+class SchemaCategoricalValuesPrompt(BasicPrompt):
     def __init__(self, *args, **kwargs):
+        BasicPrompt.__init__(self, *args, **kwargs)
         self.ds_attribute_prefix = "Schema and Categorical Data"
         self.ds_attribute_prefix_label = "Schema and Categorical Data:"
 
@@ -123,8 +128,9 @@ class SchemaCategoricalValuePrompt(BasicPrompt):
         self.content = "\n".join(schema_info_list)
 
 
-class SchemaDistinctMissingValuePrompt(BasicPrompt):
+class SchemaDistinctValueCountMissingValueFrequencyPrompt(BasicPrompt):
     def __init__(self, *args, **kwargs):
+        BasicPrompt.__init__(self, *args, **kwargs)
         self.ds_attribute_prefix = "Schema, Distinct Value Count, and Missing Value Frequency"
         self.ds_attribute_prefix_label = "Schema, Distinct Value Count, and Missing Value Frequency:"
 
@@ -138,8 +144,9 @@ class SchemaDistinctMissingValuePrompt(BasicPrompt):
         self.content = "\n".join(schema_info_list)
 
 
-class SchemaDistinctNumericStatisticPrompt(BasicPrompt):
+class SchemaDistinctValueCountStatisticNumericPrompt(BasicPrompt):
     def __init__(self, *args, **kwargs):
+        BasicPrompt.__init__(self, *args, **kwargs)
         self.ds_attribute_prefix = "Schema, Distinct Value Count, and Numeric Statistical Values"
         self.ds_attribute_prefix_label = "Schema, Distinct Value Count, and Numeric Statistical Values:"
 
@@ -155,10 +162,11 @@ class SchemaDistinctNumericStatisticPrompt(BasicPrompt):
         self.content = "\n".join(schema_info_list)
 
 
-class SchemaMissingValueNumericStatisticPrompt(BasicPrompt):
+class SchemaMissingValueFrequencyStatisticNumericPrompt(BasicPrompt):
     def __init__(self, *args, **kwargs):
+        BasicPrompt.__init__(self, *args, **kwargs)
         self.ds_attribute_prefix = "Schema, Missing Value Frequency, and Numeric Statistical Values"
-
+        self.ds_attribute_prefix_label = "Schema, Missing Value Frequency, and Numeric Statistical Values"
         schema_info_list = []
         for k in self.schema.keys():
             cp = self.profile[k]
@@ -171,9 +179,11 @@ class SchemaMissingValueNumericStatisticPrompt(BasicPrompt):
         self.content = "\n".join(schema_info_list)
 
 
-class SchemaMissingCategoricalValuePrompt(BasicPrompt):
+class SchemaMissingValueFrequencyCategoricalValuesPrompt(BasicPrompt):
     def __init__(self, *args, **kwargs):
+        BasicPrompt.__init__(self, *args, **kwargs)
         self.ds_attribute_prefix = "Schema, Missing Value Frequency, and Categorical Data"
+        self.ds_attribute_prefix_label = "Schema, Missing Value Frequency, and Categorical Data"
 
         schema_info_list = []
         for k in self.schema.keys():
@@ -187,8 +197,9 @@ class SchemaMissingCategoricalValuePrompt(BasicPrompt):
         self.content = "\n".join(schema_info_list)
 
 
-class SchemaNumericStatisticCategoricalValuePrompt(BasicPrompt):
+class SchemaStatisticNumericCategoricalValuesPrompt(BasicPrompt):
     def __init__(self, *args, **kwargs):
+        BasicPrompt.__init__(self, *args, **kwargs)
         self.ds_attribute_prefix = "Schema, Numeric Statistical Values, and Categorical Data"
         self.ds_attribute_prefix_label = "Schema, Numeric Statistical Values, and Categorical Data:"
 
@@ -205,7 +216,7 @@ class SchemaNumericStatisticCategoricalValuePrompt(BasicPrompt):
                 if not colon_flag:
                     str_val += ": "
                 else:
-                    str_val +=", "
+                    str_val += ", "
                 str_val += f"min-max values [{cp.min_value}, {cp.max_value}], mean [{cp.mean:0.2f}], median [{cp.median:0.2f}]"
             schema_info_list.append(str_val)
 
@@ -214,6 +225,7 @@ class SchemaNumericStatisticCategoricalValuePrompt(BasicPrompt):
 
 class AllPrompt(BasicPrompt):
     def __init__(self, *args, **kwargs):
+        BasicPrompt.__init__(self, *args, **kwargs)
         self.ds_attribute_prefix = "Schema, and Data Profiling Info"
         self.ds_attribute_prefix_label = "Schema, and Data Profiling Info:"
 

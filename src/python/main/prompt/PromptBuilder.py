@@ -1,6 +1,8 @@
 from .BasicICLPrompt import BasicICLPrompt
 from catalog.Catalog import CatalogInfo
-from .PromptTemplate import *
+from util.StaticValues import CODE_FORMATTING_BINARY_EVALUATION
+from util.StaticValues import CODE_FORMATTING_MULTICLASS_EVALUATION
+from util.StaticValues import CODE_FORMATTING_REGRESSION_EVALUATION
 from util.Config import PROMPT_FUNC
 
 
@@ -30,12 +32,12 @@ def prompt_factory(catalog: CatalogInfo,
     if task_type == "binary" or task_type == "multiclass":
         task_type_str = f"{task_type} classification"
         if task_type == "binary":
-            evaluation_text = StaticValues.CODE_FORMATTING_BINARY_EVALUATION
+            evaluation_text = CODE_FORMATTING_BINARY_EVALUATION
         else:
-            evaluation_text = StaticValues.CODE_FORMATTING_MULTICLASS_EVALUATION
+            evaluation_text = CODE_FORMATTING_MULTICLASS_EVALUATION
     else:
         task_type_str = task_type
-        evaluation_text = StaticValues.CODE_FORMATTING_REGRESSION_EVALUATION
+        evaluation_text = CODE_FORMATTING_REGRESSION_EVALUATION
 
     class_name = f"{representation_type}-{example_type}-{number_example}-SHOT"
 

@@ -104,5 +104,5 @@ if __name__ == '__main__':
                                pi.total_values_count - pi.missing_values_count, pi.distinct_values_count, catalog.nrows]
         index += 1
 
-    df_2 = df_2.sort_values(by='missing_values_count', ascending=False)
+    df_2 = df_2.sort_values(by='missing_values_count', ascending=True)
     df_2.to_csv(log_path, index=False)

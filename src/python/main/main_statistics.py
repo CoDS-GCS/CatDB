@@ -105,4 +105,5 @@ if __name__ == '__main__':
         index += 1
 
     df_2 = df_2.sort_values(by=['missing_values_count'], ascending=True)
+    df_2["col_index"] = [i for i in range(1, index+1)]
     df_2.to_csv(log_path, index=False)

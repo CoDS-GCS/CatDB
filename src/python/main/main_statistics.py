@@ -25,6 +25,7 @@ def parse_arguments():
     with open(args.metadata_path, "r") as f:
         try:
             config_data = yaml.load(f, Loader=yaml.FullLoader)
+            args.dataset_name = config_data[0].get('name')
             args.target_attribute = config_data[0].get('dataset').get('target')
             args.task_type = config_data[0].get('dataset').get('type')
             try:
@@ -87,7 +88,7 @@ if __name__ == '__main__':
         prompt_rule = prompt_format["rules"]
         prompt_msg = prompt_format["question"]
         ntokens = llm.get_number_tokens(prompt_rules=prompt_rule, prompt_message=prompt_msg)
-        df_1.loc[len(df_1)] = [args.data_source_name, rt, args.prompt_example_type,
+        df_1.loc[len(df_1)] = [args.dataset_name, rt, args.prompt_example_type,
                            args.prompt_number_example, ntokens, nbools, nints, nfloats, nstrings]
 
 
@@ -100,7 +101,7 @@ if __name__ == '__main__':
     index = 0
     for k in profile_info.keys():
         pi = profile_info[k]
-        df_2.loc[index] = [args.data_source_name, index + 1, pi.short_data_type, pi.missing_values_count,
+        df_2.loc[index] = [args.dataset_name, index + 1, pi.short_data_type, pi.missing_values_count,
                                pi.total_values_count - pi.missing_values_count, pi.distinct_values_count, catalog.nrows]
         index += 1
 

@@ -58,7 +58,8 @@ def extract_incremental_plots(root, out):
     save_template(inc_plots,f"../exp_incremental.tex")
 
 def extract_dataset_propertis_mv(root, out):
-    datasets = ["dataset_1_rnc", "dataset_2_rnc", "dataset_3_rnc", "dataset_4_rnc", "dataset_5_rnc", "dataset_6_rnc"]
+    #datasets = ["dataset_1_rnc", "dataset_2_rnc", "dataset_3_rnc", "dataset_4_rnc", "dataset_5_rnc", "dataset_6_rnc"]
+    datasets = [f"oml_dataset_{i}_rnc" for i in range(1,137)]
     #datasets = ["Microsoft", "delays_zurich_transport", "federal_election"]
     miss_value_template = read_template("Missing_Values_Template.tex")
     distinct_value_template = read_template("Distinct_Values_Template.tex")
@@ -92,8 +93,8 @@ if __name__ == '__main__':
     root = "../results"
     out = "../exp_plots"
 
-    extract_incremental_plots(root=root, out=out)
-    #extract_dataset_propertis_mv(root=root, out=out)
+    #extract_incremental_plots(root=root, out=out)
+    extract_dataset_propertis_mv(root=root, out=out)
 
     
     

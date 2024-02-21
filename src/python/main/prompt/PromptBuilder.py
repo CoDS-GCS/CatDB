@@ -16,7 +16,7 @@ def get_representation_class(repr_type: str):
 def prompt_factory(catalog: CatalogInfo,
                    representation_type: str,
                    example_type: str,
-                   number_example: str,
+                   number_example: int,
                    task_type: str,
                    number_iteration: int,
                    target_attribute: str,

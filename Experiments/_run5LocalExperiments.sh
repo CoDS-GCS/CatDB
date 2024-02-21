@@ -1,0 +1,122 @@
+#!/bin/bash
+
+# clean original results
+rm -rf results/*;
+mkdir -p results;
+mkdir -p catdb-results;
+
+exp_path="$(pwd)"
+
+# Add headers to log files
+echo "dataset,task_type,platform,time" >> "${exp_path}/results/Experiment1_Data_Profile.dat"
+echo "dataset,time" >> "${exp_path}/results/Experiment1_CSVDataReader.dat"
+echo "dataset,llm_model,prompt_representation_type,prompt_example_type,prompt_number_example,task_type,time" >> "${exp_path}/results/Experiment1_LLM_Pipe_Gen.dat"
+echo "dataset,iteration,llm_model,prompt_representation_type,prompt_example_type,prompt_number_example,task_type,time" >> "${exp_path}/results/Experiment1_LLM_Pipe_Test.dat"
+
+echo "dataset,llm_model,prompt_representation_type,prompt_example_type,prompt_number_example,task_type,time,result" >> "${exp_path}/results/Experiment2_CatDB_LLM_Pipe_Run.dat"
+echo "dataset,platform,time,constraint" >> "${exp_path}/results/Experiment2_AutoML_Corresponding.dat"
+
+echo "dataset,platform,time,constraint" >> "${exp_path}/results/Experiment3_AutoML_1H.dat"
+echo "dataset,source,time" >> "${exp_path}/results/Experiment3_Hand-craft.dat"
+
+cd ${exp_path}
+
+CMD=./explocal/exp0_statistics/runExperiment0.sh
+#CMD=./explocal/exp1_catalog/runExperiment1.sh
+#CMD=./explocal/exp2_micro_benchmark/runExperiment2.sh 
+#CMD=./explocal/exp3_end_to_end/runExperiment3.sh 
+
+
+## Run End-to-End Hand-craft pipelines
+#CMD_HAND_CRAFT=./explocal/exp3_end_to_end/runExperiment3-Hand-craft.sh 
+#$CMD_HAND_CRAFT
+
+# Run Demo
+# $CMD dataset_7 binary test
+# $CMD dataset_7_rnc binary test
+# $CMD diabetes binary test
+
+# $CMD dataset_1 binary test
+# $CMD dataset_2 binary test
+# $CMD dataset_3 binary test
+# $CMD dataset_4 binary test
+# $CMD dataset_5 binary test
+# $CMD dataset_6 binary test
+
+$CMD dataset_1_rnc binary
+# $CMD dataset_2_rnc binary test
+# $CMD dataset_3_rnc binary test
+# $CMD dataset_4_rnc binary test
+# $CMD dataset_5_rnc binary test
+# $CMD dataset_6_rnc binary test
+
+# $CMD horsecolic binary test
+# $CMD credit-g binary test
+# $CMD albert binary test
+# $CMD Sonar binary test
+# $CMD abalone binary test
+# $CMD poker binary test
+
+
+# $CMD dataset_1 binary test
+# $CMD dataset_2 binary test
+# $CMD dataset_3 binary test
+# $CMD dataset_4 binary test
+# $CMD dataset_5 binary test
+# $CMD dataset_6 multiclass test
+# $CMD dataset_7 multiclass test
+# $CMD dataset_8 multiclass test
+# $CMD dataset_9 multiclass test
+# $CMD dataset_10 multiclass test
+# $CMD dataset_11 regression test
+# $CMD dataset_12 regression test
+# $CMD dataset_13 regression test
+# $CMD dataset_14 regression test
+# $CMD dataset_15 regression test
+
+
+# $CMD simulated_electricity binary 
+# $CMD KDD98 binary 
+# $CMD Higgs binary 
+# $CMD airlines binary 
+# $CMD BNG_credit_g binary 
+# $CMD Microsoft multiclass 
+# $CMD cmc multiclass 
+# $CMD diabetes multiclass 
+# $CMD 3-million-Sudoku-puzzles-with-ratings multiclass 
+# $CMD pokerhand multiclass 
+# $CMD Buzzinsocialmedia_Twitter regression 
+# $CMD delays_zurich_transport regression 
+# $CMD nyc-taxi-green-dec-2016 regression 
+# $CMD black_friday regression 
+# $CMD federal_election regression 
+
+
+## Large Datasets 
+## Binary Datasets
+# $CMD IMDB.drama binary 
+# $CMD 20_newsgroups.drift binary 
+# $CMD Epsilon binary 
+# $CMD prostate binary 
+# $CMD bates_classif_100 binary 
+# $CMD simulated_electricity binary 
+# $CMD sf-police-incidents binary 
+# $CMD KDDCup09-Appetency binary 
+# $CMD Higgs binary 
+
+# # Multiclass Datasets
+# $CMD STL-10 multiclass 
+# $CMD Microsoft multiclass 
+# $CMD CIFAR-100 multiclass 
+# $CMD GTSRB-HOG03 multiclass 
+# $CMD BNG_solar_flare multiclass 
+# $CMD CovPokElec muliclass 
+# $CMD beer_reviews multiclass 
+# $CMD Traffic_violations muliclass 
+
+# # Regression Datasets
+# $CMD Buzzinsocialmedia_Twitter regression 
+# $CMD Tallo regression 
+# $CMD NYC regression 
+# $CMD USCars regression 
+# $CMD CanadaPricePrediction regression 

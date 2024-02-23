@@ -1,6 +1,7 @@
 from util import StaticValues
 from util import Config
 
+
 class BasicPrompt(object):
     def __init__(self, *args, **kwargs):
         self.schema_keys = None
@@ -170,7 +171,7 @@ class SchemaMissingValueFrequencyStatisticNumericPrompt(BasicPrompt):
         schema_info_list = []
         for k in self.schema.keys():
             cp = self.profile[k]
-            str_val = f"{k} ({cp.short_data_type}): NaN-freq[{(cp.missing_values_count / self.nrows)* 100:0.2f}%]"
+            str_val = f"{k} ({cp.short_data_type}): NaN-freq[{(cp.missing_values_count / self.nrows) * 100:0.2f}%]"
 
             if cp.data_type in {"int", "float"} and cp.distinct_values_count > 0:
                 str_val += f", min-max values [{cp.min_value}, {cp.max_value}], mean [{cp.mean:0.2f}], median [{cp.median:0.2f}]"

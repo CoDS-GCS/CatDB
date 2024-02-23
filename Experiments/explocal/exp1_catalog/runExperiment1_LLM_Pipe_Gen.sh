@@ -20,11 +20,12 @@ log_file_name="${exp_path}/results/Experiment1_LLM_Pipe_Gen.dat"
 output_path="${exp_path}/catdb-results/${dataset}"
 mkdir -p ${output_path}
 
+result_output_path="${exp_path}/results/Experiment1_LLM_Pipe_Gen_${dataset}.dat"
 
 cd "${exp_path}/setup/Baselines/CatDB/"
 source venv/bin/activate
 
-SCRIPT="python main.py --metadata-path ${metadata_path} \
+SCRIPT="python -Wignore main.py --metadata-path ${metadata_path} \
         --data-profile-path ${data_profile_path} \
         --prompt-representation-type ${prompt_representation_type} \
         --prompt-example-type ${prompt_example_type} \
@@ -33,7 +34,8 @@ SCRIPT="python main.py --metadata-path ${metadata_path} \
         --llm-model ${llm_model} \
         --output-path ${output_path} \
         --parse-pipeline ${parse_pipeline} \
-        --run-pipeline ${run_pipeline}"
+        --run-pipeline ${run_pipeline} \
+        --result-output-path ${result_output_path}"
 
 # sudo echo 3 >/proc/sys/vm/drop_caches && sudo sync
 # sleep 3

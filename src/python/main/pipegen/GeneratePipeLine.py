@@ -5,16 +5,16 @@ from .GenerateReader import GenerateReader
 class GeneratePipeLine(object):
     def __init__(self, catalog: CatalogInfo,
                  target_attribute: str,
-                 fname:str=None,
-                 train_fname: str=None,
-                 test_fname: str=None,
-                 validation_fname: str=None):
+                 fname: str = None,
+                 train_fname: str = None,
+                 test_fname: str = None,
+                 validation_fname: str = None):
         self.schema_info = catalog.schema_info
         self.profile_info = catalog.profile_info
         self.nrows = catalog.nrows
         self.file_format = catalog.file_format
         self.target_attribute = target_attribute
-        self.fname= fname
+        self.fname = fname
         self.train_fname = train_fname
         self.test_fname = test_fname
         self.validation_fname = validation_fname

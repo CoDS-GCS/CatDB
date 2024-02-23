@@ -10,6 +10,7 @@ from prompt.PromptTemplate import SchemaMissingValueFrequencyCategoricalValuesPr
 from prompt.PromptTemplate import SchemaStatisticNumericCategoricalValuesPrompt
 from prompt.PromptTemplate import AllPrompt
 
+
 class LLMSetting:
     def __init__(self):
         self.GPT_4_Token_Limit = 8192
@@ -42,17 +43,18 @@ CATEGORICAL_RATIO: float = 0.01
 # 11111 : Schema + Distinct Value Count + Missing Value Frequency + Statistical Number + Categorical Values = ALL
 
 PROFILE_TYPE = {"S": 10000, "DVC": 1000, "MVF": 100, "SN": 10, "CV": 1}
+PROFILE_TYPE_VAL = [10000, 1000, 100, 10, 1]
 REP_TYPE = {10000: "S",
             11000: "SDVC",
             10100: "SMVF",
             10010: "SSN",
-            10001:"SCV",
+            10001: "SCV",
             11100: "SDVCMVF",
             11010: "SDVCSN",
-            10110:"SMVFSN",
-            10101:"SMVFCV",
-            10011:"SSNCV",
-            11111:"ALL"}
+            10110: "SMVFSN",
+            10101: "SMVFCV",
+            10011: "SSNCV",
+            11111: "ALL"}
 
 PROMPT_FUNC = {"S": SchemaPrompt,
                "SDVC": SchemaDistinctValuePrompt,
@@ -66,6 +68,3 @@ PROMPT_FUNC = {"S": SchemaPrompt,
                "SSNCV": SchemaStatisticNumericCategoricalValuesPrompt,
                "ALL": AllPrompt
                }
-
-
-

@@ -1,5 +1,0 @@
-Traceback (most recent call last):
-  File "/home/ubuntu/CatDB/Experiments/catdb-results/dataset_3_rnc/gpt-4/dataset_3_rnc-NUMERIC_STATISTIC-Random-0-SHOT-gpt-4.py", line 23, in <module>
-    train_data = train_data.replace([np.inf, -np.inf], np.nan).fillna(0)
-                                     ^^
-NameError: name 'np' is not defined

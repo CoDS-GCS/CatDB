@@ -17,17 +17,19 @@ data_profile_path="${data_path}/${dataset}/data_profile"
 # Run Prompt and LLM Pipeline Generation Experiments
 CMD=./explocal/exp1_catalog/runExperiment1_LLM_Pipe_Gen.sh
 
-$CMD ${dataset} ${data_profile_path} S Random 0 ${task_type} gpt-4 
-$CMD ${dataset} ${data_profile_path} SDVC Random 0 ${task_type} gpt-4 
-$CMD ${dataset} ${data_profile_path} SMVF Random 0 ${task_type} gpt-4 
-$CMD ${dataset} ${data_profile_path} SSN Random 0 ${task_type} gpt-4 
-$CMD ${dataset} ${data_profile_path} SCV Random 0 ${task_type} gpt-4 
-$CMD ${dataset} ${data_profile_path} SDVCMVF Random 0 ${task_type} gpt-4 
-$CMD ${dataset} ${data_profile_path} SDVCSN Random 0 ${task_type} gpt-4 
-$CMD ${dataset} ${data_profile_path} SMVFSN Random 0 ${task_type} gpt-4 
-$CMD ${dataset} ${data_profile_path} SMVFCV Random 0 ${task_type} gpt-4 
-$CMD ${dataset} ${data_profile_path} SSNCV Random 0 ${task_type} gpt-4 
-$CMD ${dataset} ${data_profile_path} ALL Random 0 ${task_type} gpt-4 
+$CMD ${dataset} ${data_profile_path} AUTO Random 0 ${task_type} gpt-4 
+
+# $CMD ${dataset} ${data_profile_path} S Random 0 ${task_type} gpt-4 
+# $CMD ${dataset} ${data_profile_path} SDVC Random 0 ${task_type} gpt-4 
+# $CMD ${dataset} ${data_profile_path} SMVF Random 0 ${task_type} gpt-4 
+# $CMD ${dataset} ${data_profile_path} SSN Random 0 ${task_type} gpt-4 
+# $CMD ${dataset} ${data_profile_path} SCV Random 0 ${task_type} gpt-4 
+# $CMD ${dataset} ${data_profile_path} SDVCMVF Random 0 ${task_type} gpt-4 
+# $CMD ${dataset} ${data_profile_path} SDVCSN Random 0 ${task_type} gpt-4 
+# $CMD ${dataset} ${data_profile_path} SMVFSN Random 0 ${task_type} gpt-4 
+# $CMD ${dataset} ${data_profile_path} SMVFCV Random 0 ${task_type} gpt-4 
+# $CMD ${dataset} ${data_profile_path} SSNCV Random 0 ${task_type} gpt-4 
+# $CMD ${dataset} ${data_profile_path} ALL Random 0 ${task_type} gpt-4 
 
 
 # PROMPT_FUNC = {"S": SchemaPrompt,

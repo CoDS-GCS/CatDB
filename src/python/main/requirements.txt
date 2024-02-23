@@ -2,3 +2,4 @@ openai==1.6.1
 pandas==2.1.4
 PyYAML==6.0.1
 tiktoken==0.5.2
+scikit-learn

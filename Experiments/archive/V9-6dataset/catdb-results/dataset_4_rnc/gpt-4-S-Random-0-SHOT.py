@@ -1,0 +1,43 @@
+# Import all required packages
+import pandas as pd
+from sklearn.preprocessing import StandardScaler
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import accuracy_score, f1_score
+
+# Load the training and test datasets
+train_data = pd.read_csv('../../../data/dataset_4_rnc/dataset_4_rnc_train.csv')
+test_data = pd.read_csv('../../../data/dataset_4_rnc/dataset_4_rnc_test.csv')
+
+# Perform data cleaning and preprocessing
+# Fill missing values with the mean of the column
+train_data.fillna(train_data.mean(), inplace=True)
+test_data.fillna(test_data.mean(), inplace=True)
+
+# Perform feature processing
+# Standardize the features to have mean=0 and variance=1
+scaler = StandardScaler()
+train_data = pd.DataFrame(scaler.fit_transform(train_data), columns=train_data.columns)
+test_data = pd.DataFrame(scaler.transform(test_data), columns=test_data.columns)
+
+# Select the appropriate features and target variables for the question
+# The target variable is 'c_61' and the rest are features
+X_train = train_data.drop('c_61', axis=1)
+y_train = train_data['c_61'].astype('int')
+X_test = test_data.drop('c_61', axis=1)
+y_test = test_data['c_61'].astype('int')
+
+# Perform drops columns, if these may be redundant and hurt the predictive performance of the downstream classifier
+# Here we assume that all columns are important and do not drop any
+
+# Choose the suitable machine learning algorithm or technique (classifier)
+# We choose Logistic Regression as it is a simple and effective algorithm for binary classification problems
+# It is also less prone to overfitting compared to more complex models
+clf = LogisticRegression()
+clf.fit(X_train, y_train)
+
+# Report evaluation based on only test dataset
+y_pred = clf.predict(X_test)
+Accuracy = accuracy_score(y_test, y_pred)
+F1_score = f1_score(y_test, y_pred)
+print(f"Accuracy: {Accuracy}")
+print(f"F1_score: {F1_score}")

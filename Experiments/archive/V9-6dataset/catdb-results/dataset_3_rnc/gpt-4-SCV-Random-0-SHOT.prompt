@@ -1,0 +1,137 @@
+SYSTEM MESSAGE:
+Task: Generate a data science pipeline in Python 3.11 that answers a question based on a given dataset, Schema and Categorical Data.
+Input: A dataset in CSV format, a schema that describes the columns and data types of the dataset, and a data profiling info that summarizes the statistics and quality of the dataset. A question that requires data analysis or modeling to answer.
+Output: A Python 3.10 code that performs the following steps:
+	 1. Import the necessary libraries and modules.
+	 2. Load the raining and test datasets. For the training data, utilize the variable """train_data=../../../data/dataset_3_rnc/dataset_3_rnc_train.csv""", and for the test data, employ the variable """test_data=../../../data/dataset_3_rnc/dataset_3_rnc_test.csv""". Utilize pandas' CSV readers to load the datasets.
+	 3. Don't split the train_data into train and test sets. Use only the given datasets.
+	 4. The user will provide the Schema and Categorical Data of the dataset with columns appropriately named as attributes, enclosed in triple quotes, and preceded by the prefix "Schema and Categorical Data:".
+	 5. Perform data cleaning and preprocessing.
+	 6. Perform feature processing (e.g., encode categorical values by dummyEncode).
+	 7. Select the appropriate features and target variables for the question. Additional columns add new semantic information, additional columns that are useful for a downstream algorithmpredicting "c_1". They can e.g. be feature combinations, transformations, aggregations where the new column is a function of the existing columns. Use appropriate scale factor for columns are needto transfer.
+	 8.  Perform drops columns, if these may be redundant and hurt the predictive performance of the downstream classifier (Feature selection). Dropping columns may help as the chance of overfitting is lower, especially if the dataset is small. The c_1 will be trained on the dataset with the generated columns and evaluated on a holdout set.
+	 9. In order to avoid runtime error for unseen value on the target feature, do preprocessing based on union of train and test dataset.
+	 10. Code formatting for all required packages:
+```python
+# Import all required packages
+```end
+
+	 11. Code formatting for each added column:
+ ```python 
+ # (Feature name and description) 
+ # Usefulness: (Description why this adds useful real world knowledge to classify 'c_1' according to dataset description and attributes.) 
+ (Some pandas code using 'c_9', 'c_27', ... to add a new column for each row in df)
+ ```end
+	 12. Code formatting for dropping columns:
+```python-dropping-columns
+# Explanation why the column XX is dropped
+# df.drop(columns=['XX'], inplace=True)
+```end-dropping-columns
+
+	 13. Code formatting for training technique:
+ ```python 
+ # Choose the suitable machine learning algorithm or technique (classifier). Don't used Random forest Classification algorithm.
+ # Explanation why the solution is selected 
+ trn = ... 
+ ```end
+	 14. Code formatting for binary classification evaluation:
+```python
+# Report evaluation based on only test dataset
+# Calculate the model accuracy, represented by a value between 0 and 1, where 0 indicates low accuracy and 1 signifies higher accuracy. Store the accuracy value in a variable labeled as "Accuracy=...".
+# Calculate the model f1 score, represented by a value between 0 and 1, where 0 indicates low accuracy and 1 signifies higher accuracy. Store the f1 score value in a variable labeled as "F1_score=...".
+# Print the accuracy result: print(f"Accuracy:{Accuracy}")   
+# Print the f1 score result: print(f"F1_score:{F1_score}") 
+```end
+
+	 15. If the question is not relevant to the dataset or the task, the output should be: "Insufficient information."
+	 16. Don't report validation evaluation. We don't need it.
+---------------------------------------
+PROMPT TEXT:
+Schema and Categorical Data:
+"""
+c_9 (int): categorical column and distinct-count [142]
+c_27 (int)
+c_74 (int): categorical column and distinct-count [210]
+c_75 (int): categorical column and distinct-count [203]
+c_52 (int): categorical column and distinct-count [114]
+c_37 (int): categorical column and distinct-count [14]
+c_76 (int): categorical column and distinct-count [112]
+c_32 (int)
+c_15 (int): categorical column and distinct-count [841]
+c_22 (int): categorical column and distinct-count [394]
+c_29 (int)
+c_48 (int): categorical column and distinct-count [13]
+c_59 (int)
+c_55 (int): categorical column and distinct-count [540]
+c_68 (int): categorical column and distinct-count [124]
+c_30 (int)
+c_31 (int): categorical column and distinct-count [10]
+c_21 (int)
+c_34 (int): categorical column and distinct-count [3]
+c_71 (int): categorical column and distinct-count [57]
+c_54 (int): categorical column and distinct-count [121]
+c_78 (int)
+c_35 (int)
+c_40 (int)
+c_62 (int)
+c_18 (int)
+c_66 (int): categorical column and distinct-count [26]
+c_6 (int)
+c_10 (int): categorical column and distinct-count [2269]
+c_17 (int)
+c_79 (int)
+c_58 (int)
+c_73 (int): categorical column and distinct-count [114]
+c_4 (int): categorical column and distinct-count [1026]
+c_33 (int): categorical column and distinct-count [1563]
+c_56 (int)
+c_77 (int): categorical column and distinct-count [204]
+c_16 (int): categorical column and distinct-count [542]
+c_20 (int): categorical column and distinct-count [13]
+c_46 (int): categorical column and distinct-count [10]
+c_47 (int)
+c_26 (int)
+c_43 (int): categorical column and distinct-count [146]
+c_7 (int): categorical column and distinct-count [2465]
+c_3 (int)
+c_42 (int): categorical column and distinct-count [3]
+c_70 (int): categorical column and distinct-count [120]
+c_24 (int)
+c_49 (int): categorical column and distinct-count [200]
+c_44 (int): categorical column and distinct-count [2459]
+c_45 (int)
+c_72 (int): categorical column and distinct-count [57]
+c_61 (int): categorical column and distinct-count [544]
+c_12 (int): categorical column and distinct-count [112]
+c_13 (int): categorical column and distinct-count [119]
+c_19 (int): categorical column and distinct-count [209]
+c_23 (int): categorical column and distinct-count [3]
+c_57 (int)
+c_63 (int)
+c_65 (int): categorical column and distinct-count [122]
+c_25 (int)
+c_39 (int): categorical column and distinct-count [58]
+c_64 (int): categorical column and distinct-count [14]
+c_36 (int): categorical column and distinct-count [10]
+c_2 (int): categorical column and distinct-count [217]
+c_14 (int): categorical column and distinct-count [217]
+c_67 (int)
+c_53 (int): categorical column and distinct-count [9]
+c_38 (int)
+c_28 (int): categorical column and distinct-count [26]
+c_50 (int): categorical column and distinct-count [537]
+c_69 (int): categorical column and distinct-count [26]
+c_1 (bool): categorical column and distinct-count [2]
+c_8 (float): categorical column and distinct-count [1022]
+c_51 (float): categorical column and distinct-count [1037]
+c_5 (float): categorical column and distinct-count [114]
+c_11 (float): categorical column and distinct-count [10]
+c_60 (float): categorical column and distinct-count [1022]
+c_41 (float): categorical column and distinct-count [1015]
+"""
+
+Dataset Attribute:
+Number of samples (rows) in training dataset: 297668
+
+Question: Provide a complete pipeline code that can be executed in a multi-threaded environment with various CPU configurations, such as PyTorch or other relevant frameworks.
+Each codeblock ends with "```end" and starts with "```python".

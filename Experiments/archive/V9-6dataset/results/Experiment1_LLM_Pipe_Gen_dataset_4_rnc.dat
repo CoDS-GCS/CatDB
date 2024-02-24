@@ -1,0 +1,3 @@
+dataset_name,config,status,number_iteration,pipeline_gen_time,execution_time,accuracy,f1_score,log_loss,r_squared,rmse
+dataset_4_rnc,S,True,2,16.854373455047607,0.049131155014038086,0.7619047619047619,0.7368421052631579,-1,-1,-1
+dataset_4_rnc,SSN,True,2,19.212018489837646,0.018637418746948242,0.7619047619047619,0.7368421052631579,-1,-1,-1

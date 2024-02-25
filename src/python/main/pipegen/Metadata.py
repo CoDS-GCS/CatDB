@@ -20,10 +20,10 @@ class Metadata(object):
         for col in range(self.ncols):
             s = 0
             for row in range(self.nrows):
-                s += self.config_matrix[row][col]* PROFILE_TYPE_VAL[row]
-
-            if REP_TYPE.get(s) is not None:
-                combinations.add(REP_TYPE[s])
+                s += self.config_matrix[row][col] * PROFILE_TYPE_VAL[row]
+            if s == 11000 or s == 11100 or s == 11010:
+                if REP_TYPE.get(s) is not None:
+                    combinations.add(REP_TYPE[s])
         return combinations
 
     def set_config(self, row, cols):
@@ -35,7 +35,7 @@ class Metadata(object):
         nrows = self.catalog.nrows
         for k in self.catalog.profile_info.keys():
             pi = self.catalog.profile_info[k]
-            if pi.total_values_count != nrows:
+            if pi.distinct_values_count != nrows:
                 flag = True
                 break
         if flag:

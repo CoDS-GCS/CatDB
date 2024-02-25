@@ -38,20 +38,46 @@ def get_figure(name:str, caption:str):
     return figure.replace("@NAME", name).replace("@CAPTION", caption)
 
 def extract_incremental_plots(root, out):
-    inc_binary = f'{root}/Experiment_CatDB_Micro_Benchmark.dat'
     inc_template = read_template("Incremental-Binary_Template.tex")
     exp_template = read_template("Exp_Incremental_Template.tex")
+    datasets = ["dataset_1_rnc", "dataset_2_rnc", "dataset_3_rnc", "dataset_4_rnc", "dataset_5_rnc", "dataset_6_rnc"] 
 
-    df_micro = read_dataset(inc_binary)
-    datasets = df_micro['dataset'].unique()
+    REP_TYPE = {"S":"Conf-1",
+                "SDVC":"Conf-2",
+                "SMVF":"Conf-3",
+                "SSN":"Conf-4",
+                "SCV":"Conf-5",
+                "SDVCMVF":"Conf-6",
+                "SDVCSN":"Conf-7",
+                "SMVFSN":"Conf-8",
+                "SMVFCV":"Conf-9",
+                "SSNCV":"Conf-10",
+                "ALL":"Conf-11"}
+    
 
     plots = []
+    width_ratio = 0.117
     for ds in datasets:
-        plot = inc_template.replace("@DATASET",ds)
+        path = f"results/Experiment1_LLM_Pipe_Gen_{ds}.dat"
+        df = read_dataset(f"../{path}")
+        rps = set(df['config'].unique())
+        configs = []
+        config_label = []
+        for rp in REP_TYPE:
+            if rp in rps:
+                configs.append(rp)
+                config_label.append(REP_TYPE[rp]) 
+
+        if len(configs) >6:
+            R = 25
+        configs = ",".join(configs)
+        config_label = ",".join(config_label)
+
+        plot = inc_template.replace("@DATASET",path).replace("@CONFIGS", configs).replace("@CONFIGLABELS", config_label).replace("@ROTATE",f"{R}")
         plot_name = f"CatDB-Incremental-Binary_{ds}"
         save_template(plot,f"{out}/{plot_name}.tex")
 
-        plots.append(get_figure(plot_name))
+        plots.append(get_figure(name=plot_name, caption = ds.replace("_","\\_")))
     
     plots_tex = "\n".join(plots)
     inc_plots = exp_template.replace("@PLOT", plots_tex)
@@ -105,8 +131,8 @@ if __name__ == '__main__':
     root = "../results"
     out = "../exp_plots"
 
-    #extract_incremental_plots(root=root, out=out)
-    extract_dataset_propertis_mv(root=root, out=out)
+    extract_incremental_plots(root=root, out=out)
+    #extract_dataset_propertis_mv(root=root, out=out)
 
     
     

@@ -21,9 +21,8 @@ class Metadata(object):
             s = 0
             for row in range(self.nrows):
                 s += self.config_matrix[row][col] * PROFILE_TYPE_VAL[row]
-            if s == 11000 or s == 11100 or s == 11010:
-                if REP_TYPE.get(s) is not None:
-                    combinations.add(REP_TYPE[s])
+            if REP_TYPE.get(s) is not None:
+                combinations.add(REP_TYPE[s])
         return combinations
 
     def set_config(self, row, cols):

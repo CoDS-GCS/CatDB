@@ -22,8 +22,8 @@
     axis line style={gray},
     ymin=0,
     xmin=1,
-    xmax=@XMAX,
-    ymax=@YMAX,
+    xmax=79,
+    ymax=425240,
     tick label style={/pgf/number format/fixed},
     %y tick label style={/pgf/number format/1000 sep={}},
     %x tick label style={/pgf/number format/1000 sep={}},
@@ -33,6 +33,8 @@
     x tick label as interval=false,
     enlarge y limits=false,
     ylabel={Count},
+    ytick={0,100000,200000,300000,400000},
+    yticklabels={0,1e5, 2e5, 4e5, 4e5},
     xlabel={\# Column},
     %xtick={@XTICK},
     ytick align=outside,
@@ -44,7 +46,7 @@
     xticklabel style = {font=\normalsize, xshift=0pt},
     height=0.6\columnwidth,
     width=0.5\columnwidth,    
-    bar width=@BARWIDTH\columnwidth,	 
+    bar width=0.004219409282700422\columnwidth,	 
     %ymajorgrids=true,
     %grid style=dotted,   
     %minor grid style={gray!50}, 
@@ -53,11 +55,11 @@
 ]
 
 \begin{axis}
-  \addplotStatistics{@DATASET};	  	  
+  \addplotStatistics{results/statistics/dataset_3_rnc/statistics_2.csv};	  	  
 \end{axis}
 
 \begin{axis} [hide axis]
-  \addplotDistinct{@DATASET};	  	  
+  \addplotDistinct{results/statistics/dataset_3_rnc/statistics_2.csv};	  	  
 \end{axis}
 
 \node [draw=none,inner sep=0, font=\normalsize, anchor=west] (leg1) at (rel axis cs: -0.3,1.15) {\shortstack[l]{

@@ -53,7 +53,7 @@ CODE_FORMATTING_DROPPING = f"""Code formatting for dropping columns:
 
 CODE_FORMATTING_TECHNIQUE = "Code formatting for training technique:\n \
 ```python \n \
-# Choose the suitable machine learning algorithm or technique ({}). Don't used Random forest Classification algorithm.\n \
+# Choose the suitable machine learning algorithm or technique ({}).\n \
 # Explanation why the solution is selected \n \
 trn = ... \n \
 ```end"

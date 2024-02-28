@@ -1,0 +1,137 @@
+SYSTEM MESSAGE:
+Task: Generate a data science pipeline in Python 3.11 that answers a question based on a given dataset, Schema, Distinct Value Count, and Missing Value Frequency.
+Input: A dataset in CSV format, a schema that describes the columns and data types of the dataset, and a data profiling info that summarizes the statistics and quality of the dataset. A question that requires data analysis or modeling to answer.
+Output: A Python 3.10 code that performs the following steps:
+	 1. Import the necessary libraries and modules.
+	 2. Load the raining and test datasets. For the training data, utilize the variable """train_data=../../../data/dataset_3_rnc/dataset_3_rnc_train.csv""", and for the test data, employ the variable """test_data=../../../data/dataset_3_rnc/dataset_3_rnc_test.csv""". Utilize pandas' CSV readers to load the datasets.
+	 3. Don't split the train_data into train and test sets. Use only the given datasets.
+	 4. The user will provide the Schema, Distinct Value Count, and Missing Value Frequency of the dataset with columns appropriately named as attributes, enclosed in triple quotes, and preceded by the prefix "Schema, Distinct Value Count, and Missing Value Frequency:".
+	 5. Perform data cleaning and preprocessing.
+	 6. Perform feature processing (e.g., encode categorical values by dummyEncode).
+	 7. Select the appropriate features and target variables for the question. Additional columns add new semantic information, additional columns that are useful for a downstream algorithmpredicting "c_1". They can e.g. be feature combinations, transformations, aggregations where the new column is a function of the existing columns. Use appropriate scale factor for columns are needto transfer.
+	 8.  Perform drops columns, if these may be redundant and hurt the predictive performance of the downstream classifier (Feature selection). Dropping columns may help as the chance of overfitting is lower, especially if the dataset is small. The c_1 will be trained on the dataset with the generated columns and evaluated on a holdout set.
+	 9. In order to avoid runtime error for unseen value on the target feature, do preprocessing based on union of train and test dataset.
+	 10. Code formatting for all required packages:
+```python
+# Import all required packages
+```end
+
+	 11. Code formatting for each added column:
+ ```python 
+ # (Feature name and description) 
+ # Usefulness: (Description why this adds useful real world knowledge to classify 'c_1' according to dataset description and attributes.) 
+ (Some pandas code using 'c_9', 'c_27', ... to add a new column for each row in df)
+ ```end
+	 12. Code formatting for dropping columns:
+```python-dropping-columns
+# Explanation why the column XX is dropped
+# df.drop(columns=['XX'], inplace=True)
+```end-dropping-columns
+
+	 13. Code formatting for training technique:
+ ```python 
+ # Choose the suitable machine learning algorithm or technique (classifier). Don't used Random forest Classification algorithm.
+ # Explanation why the solution is selected 
+ trn = ... 
+ ```end
+	 14. Code formatting for binary classification evaluation:
+```python
+# Report evaluation based on only test dataset
+# Calculate the model accuracy, represented by a value between 0 and 1, where 0 indicates low accuracy and 1 signifies higher accuracy. Store the accuracy value in a variable labeled as "Accuracy=...".
+# Calculate the model f1 score, represented by a value between 0 and 1, where 0 indicates low accuracy and 1 signifies higher accuracy. Store the f1 score value in a variable labeled as "F1_score=...".
+# Print the accuracy result: print(f"Accuracy:{Accuracy}")   
+# Print the f1 score result: print(f"F1_score:{F1_score}") 
+```end
+
+	 15. If the question is not relevant to the dataset or the task, the output should be: "Insufficient information."
+	 16. Don't report validation evaluation. We don't need it.
+---------------------------------------
+PROMPT TEXT:
+Schema, Distinct Value Count, and Missing Value Frequency:
+"""
+c_9 (int): distinct-count [142],  NaN-freq[0.04%]
+c_27 (int): distinct-count [3062],  NaN-freq[0.00%]
+c_74 (int): distinct-count [210],  NaN-freq[0.00%]
+c_75 (int): distinct-count [203],  NaN-freq[0.00%]
+c_52 (int): distinct-count [114],  NaN-freq[3.74%]
+c_37 (int): distinct-count [14],  NaN-freq[0.00%]
+c_76 (int): distinct-count [112],  NaN-freq[3.70%]
+c_32 (int): distinct-count [3328],  NaN-freq[0.00%]
+c_15 (int): distinct-count [841],  NaN-freq[0.00%]
+c_22 (int): distinct-count [394],  NaN-freq[0.00%]
+c_29 (int): distinct-count [7153],  NaN-freq[0.00%]
+c_48 (int): distinct-count [13],  NaN-freq[11.78%]
+c_59 (int): distinct-count [22300],  NaN-freq[3.57%]
+c_55 (int): distinct-count [540],  NaN-freq[0.00%]
+c_68 (int): distinct-count [124],  NaN-freq[75.55%]
+c_30 (int): distinct-count [90123],  NaN-freq[3.53%]
+c_31 (int): distinct-count [10],  NaN-freq[0.00%]
+c_21 (int): distinct-count [9754],  NaN-freq[0.00%]
+c_34 (int): distinct-count [3],  NaN-freq[45.34%]
+c_71 (int): distinct-count [57],  NaN-freq[45.31%]
+c_54 (int): distinct-count [121],  NaN-freq[75.50%]
+c_78 (int): distinct-count [7139],  NaN-freq[0.00%]
+c_35 (int): distinct-count [102928],  NaN-freq[3.53%]
+c_40 (int): distinct-count [21523],  NaN-freq[9.20%]
+c_62 (int): distinct-count [3067],  NaN-freq[0.00%]
+c_18 (int): distinct-count [57253],  NaN-freq[3.53%]
+c_66 (int): distinct-count [26],  NaN-freq[0.00%]
+c_6 (int): distinct-count [39363],  NaN-freq[1.98%]
+c_10 (int): distinct-count [2269],  NaN-freq[3.72%]
+c_17 (int): distinct-count [124726],  NaN-freq[3.53%]
+c_79 (int): distinct-count [3070],  NaN-freq[0.00%]
+c_58 (int): distinct-count [21661],  NaN-freq[9.19%]
+c_73 (int): distinct-count [114],  NaN-freq[3.67%]
+c_4 (int): distinct-count [1026],  NaN-freq[23.16%]
+c_33 (int): distinct-count [1563],  NaN-freq[45.34%]
+c_56 (int): distinct-count [124572],  NaN-freq[3.54%]
+c_77 (int): distinct-count [204],  NaN-freq[0.00%]
+c_16 (int): distinct-count [542],  NaN-freq[0.00%]
+c_20 (int): distinct-count [13],  NaN-freq[11.80%]
+c_46 (int): distinct-count [10],  NaN-freq[0.00%]
+c_47 (int): distinct-count [9750],  NaN-freq[0.00%]
+c_26 (int): distinct-count [112737],  NaN-freq[3.53%]
+c_43 (int): distinct-count [146],  NaN-freq[0.05%]
+c_7 (int): distinct-count [2465],  NaN-freq[18.65%]
+c_3 (int): distinct-count [3722],  NaN-freq[0.00%]
+c_42 (int): distinct-count [3],  NaN-freq[45.30%]
+c_70 (int): distinct-count [120],  NaN-freq[75.47%]
+c_24 (int): distinct-count [19356],  NaN-freq[0.00%]
+c_49 (int): distinct-count [200],  NaN-freq[0.00%]
+c_44 (int): distinct-count [2459],  NaN-freq[18.61%]
+c_45 (int): distinct-count [90304],  NaN-freq[3.55%]
+c_72 (int): distinct-count [57],  NaN-freq[45.35%]
+c_61 (int): distinct-count [544],  NaN-freq[0.00%]
+c_12 (int): distinct-count [112],  NaN-freq[3.72%]
+c_13 (int): distinct-count [119],  NaN-freq[75.48%]
+c_19 (int): distinct-count [209],  NaN-freq[0.00%]
+c_23 (int): distinct-count [3],  NaN-freq[0.00%]
+c_57 (int): distinct-count [19368],  NaN-freq[0.00%]
+c_63 (int): distinct-count [3071],  NaN-freq[0.00%]
+c_65 (int): distinct-count [122],  NaN-freq[75.47%]
+c_25 (int): distinct-count [4421],  NaN-freq[0.00%]
+c_39 (int): distinct-count [58],  NaN-freq[45.34%]
+c_64 (int): distinct-count [14],  NaN-freq[0.00%]
+c_36 (int): distinct-count [10],  NaN-freq[75.02%]
+c_2 (int): distinct-count [217],  NaN-freq[41.45%]
+c_14 (int): distinct-count [217],  NaN-freq[22.55%]
+c_67 (int): distinct-count [9716],  NaN-freq[0.00%]
+c_53 (int): distinct-count [9],  NaN-freq[41.46%]
+c_38 (int): distinct-count [22362],  NaN-freq[3.53%]
+c_28 (int): distinct-count [26],  NaN-freq[0.00%]
+c_50 (int): distinct-count [537],  NaN-freq[0.00%]
+c_69 (int): distinct-count [26],  NaN-freq[0.00%]
+c_1 (bool): distinct-count [2],  NaN-freq[0.00%]
+c_8 (float): distinct-count [1022],  NaN-freq[3.72%]
+c_51 (float): distinct-count [1037],  NaN-freq[3.74%]
+c_5 (float): distinct-count [114],  NaN-freq[22.55%]
+c_11 (float): distinct-count [10],  NaN-freq[41.45%]
+c_60 (float): distinct-count [1022],  NaN-freq[3.68%]
+c_41 (float): distinct-count [1015],  NaN-freq[3.71%]
+"""
+
+Dataset Attribute:
+Number of samples (rows) in training dataset: 297668
+
+Question: Provide a complete pipeline code that can be executed in a multi-threaded environment with various CPU configurations, such as PyTorch or other relevant frameworks.
+Each codeblock ends with "```end" and starts with "```python".

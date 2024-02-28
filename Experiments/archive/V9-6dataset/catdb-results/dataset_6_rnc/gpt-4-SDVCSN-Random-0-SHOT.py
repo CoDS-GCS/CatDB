@@ -1,0 +1,50 @@
+# Import all required packages
+import pandas as pd
+from sklearn.preprocessing import StandardScaler
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import accuracy_score, f1_score
+
+# Load the training and test datasets
+train_data = pd.read_csv('../../../data/dataset_6_rnc/dataset_6_rnc_train.csv')
+test_data = pd.read_csv('../../../data/dataset_6_rnc/dataset_6_rnc_test.csv')
+
+# Perform data cleaning and preprocessing
+# In this case, no missing values or outliers are mentioned, so we assume the data is clean
+
+# Perform feature processing
+# In this case, all features are numerical, so no encoding is needed
+
+# Select the appropriate features and target variables for the question
+# The target variable is 'c_11' and the rest are features
+features = train_data.drop('c_11', axis=1)
+target = train_data['c_11']
+
+# Perform feature scaling
+scaler = StandardScaler()
+features = scaler.fit_transform(features)
+
+# Perform drops columns, if these may be redundant and hurt the predictive performance of the downstream classifier
+# In this case, no specific columns are mentioned to be dropped, so we assume all features are relevant
+
+# Choose the suitable machine learning algorithm or technique (classifier)
+# We choose Logistic Regression as it is a simple and effective algorithm for binary classification problems
+# It is also suitable for multi-threaded environments and can be used with various CPU configurations
+clf = LogisticRegression(random_state=0, max_iter=1000)
+clf.fit(features, target)
+
+# Report evaluation based on only test dataset
+# Prepare test data
+test_features = test_data.drop('c_11', axis=1)
+test_target = test_data['c_11']
+test_features = scaler.transform(test_features)
+
+# Make predictions
+predictions = clf.predict(test_features)
+
+# Calculate accuracy and f1 score
+Accuracy = accuracy_score(test_target, predictions)
+F1_score = f1_score(test_target, predictions, average='macro')
+
+# Print results
+print(f"Accuracy: {Accuracy}")
+print(f"F1_score: {F1_score}")

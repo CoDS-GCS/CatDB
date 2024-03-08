@@ -25,3 +25,16 @@ def save_prompt(fname: str, prompt_rule: str, prompt_msg):
                     prompt_msg]
     prompt_data = "".join(prompt_items)
     save_text_file(fname=fname, data=prompt_data)
+
+
+def save_config(fname: str, dataset_name: str, target: str, task_type: str):
+    config_strs = [f"- name: {dataset_name}",
+                       "  dataset:",
+                       f"    train: \'{{user}}/data/{dataset_name}/{dataset_name}_train.csv\'",
+                       f"    test: \'{{user}}/data/{dataset_name}/{dataset_name}_test.csv\'",
+                       f"    target: {target}",
+                       f"    type: {task_type}",
+                       "  folds: 1",
+                       "\n"]
+    config_str = "\n".join(config_strs)
+    save_text_file(fname=fname, data=config_str)

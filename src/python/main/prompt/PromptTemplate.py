@@ -34,6 +34,7 @@ class BasicPrompt(object):
             algorithm = "classifier"
         else:
             algorithm = "regressor"
+
         rules = [StaticValues.Rule_task.format(self.ds_attribute_prefix),
                  StaticValues.Rule_input,
                  StaticValues.Rule_output,
@@ -52,7 +53,7 @@ class BasicPrompt(object):
                  f"\t 13. {StaticValues.CODE_FORMATTING_TECHNIQUE.format(algorithm)}",
                  f"\t 14. {self.evaluation_text}",
                  f"\t 15. {StaticValues.Rule_10}",
-                 f"\t 16. {StaticValues.Rule_11}",
+                 f"\t 16. {StaticValues.Rule_11}"
                  ]
 
         rule_msg = "\n".join(rules)
@@ -273,7 +274,7 @@ class CatDBPrompt(BasicPrompt):
 
         # Find missing value, categorical, and numerical columns and do missing value imputation:
         for k in self.schema.keys():
-            if k in dropped_columns_names:
+            if k in dropped_columns_names or k == self.target_attribute:
                 continue
 
             cp = self.profile[k]
@@ -301,10 +302,11 @@ class CatDBPrompt(BasicPrompt):
 
         # Add data scaler
         if len(numerical_columns) > 0:
-            numerical_column_prompt = (f"# Select an appropriate scaler for the following numerical columns "
+            numerical_column_prompt = (f"# Select an appropriate scaler for each following numerical columns independently"
                                        f"(do it only base of the statistical values are in the schema):\n\t"
                                        f"Columns: {','.join(numerical_columns)}\n")
             extra_info_items.append(numerical_column_prompt)
+
 
         for k in self.schema.keys():
             if k in dropped_columns_names:

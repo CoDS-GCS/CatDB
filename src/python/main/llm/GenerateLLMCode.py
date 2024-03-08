@@ -81,14 +81,14 @@ class GenerateLLMCode(object):
             return code
 
     def submit_Request_OpenAI_LLM(self, messages, client):
-        # completion = client.chat.completions.create(
-        #              messages=messages,
-        #              model=self.model,
-        #              temperature=0
-        #             )
-        # code = completion.choices[0].message.content
-        # code = code.replace("```", "# ```")
-        code = ""
+        completion = client.chat.completions.create(
+                     messages=messages,
+                     model=self.model,
+                     temperature=0
+                    )
+        code = completion.choices[0].message.content
+        code = code.replace("```", "# ```")
+        # code = ""
         return code
 
     def get_number_tokens(self, prompt_rules: str, prompt_message: str):

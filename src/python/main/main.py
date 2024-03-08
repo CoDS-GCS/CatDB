@@ -3,7 +3,6 @@ from catalog.Catalog import load_data_source_profile, CatalogInfo
 from prompt.PromptBuilder import prompt_factory
 from llm.GenerateLLMCode import GenerateLLMCode
 from runcode.RunCode import RunCode
-from runcode.CodeResultTemplate import CodeResultTemplate
 from util.FileHandler import save_prompt
 from util.FileHandler import save_text_file
 from pipegen.Metadata import Metadata
@@ -43,8 +42,10 @@ def parse_arguments():
             args.target_attribute = config_data[0].get('dataset').get('target')
             args.task_type = config_data[0].get('dataset').get('type')
             try:
-                args.data_source_train_path = "../../../"+config_data[0].get('dataset').get('train').replace("{user}/", "")
-                args.data_source_test_path = "../../../"+config_data[0].get('dataset').get('test').replace("{user}/", "")
+                args.data_source_train_path = "../../../" + config_data[0].get('dataset').get('train').replace(
+                    "{user}/", "")
+                args.data_source_test_path = "../../../" + config_data[0].get('dataset').get('test').replace("{user}/",
+                                                                                                             "")
             except Exception as ex:
                 raise Exception(ex)
 
@@ -71,7 +72,7 @@ def parse_arguments():
     if args.prompt_representation_type is None:
         args.prompt_representation_type = "AUTO"
 
-    if  args.prompt_representation_type == "CatDB":
+    if args.prompt_representation_type == "CatDB":
         args.enable_reduction = True
 
     return args
@@ -181,23 +182,30 @@ if __name__ == '__main__':
     start = time.time()
     catalog = load_data_source_profile(data_source_path=args.data_profile_path,
                                        file_format="JSON",
-                                       target_attribute=args.target_attribute)
+                                       target_attribute=args.target_attribute,
+                                       enable_reduction=args.enable_reduction)
 
     end = time.time()
     catalog_time = end - start
 
-    combinations = Metadata(catalog=catalog).get_combinations()
+    if args.prompt_representation_type == "All":
+        combinations = Metadata(catalog=catalog).get_combinations()
+    else:
+        combinations = [args.prompt_representation_type]
 
-    df_result = pd.DataFrame(columns=["dataset_name", "config", "status","number_iteration","pipeline_gen_time",
+    df_result = pd.DataFrame(columns=["dataset_name", "config", "status", "number_iteration", "pipeline_gen_time",
                                       "execution_time", "accuracy", "f1_score", "log_loss", "r_squared", "rmse"])
     for rep_type in combinations:
         try:
             status, number_iteration, gen_time, execute_time, result = generate_and_run_pipeline(catalog=catalog,
-                                                                                     prompt_representation_type=rep_type,
-                                                                                     args=args)
-            df_result.loc[len(df_result)] = [args.dataset_name, rep_type, status, number_iteration, catalog_time+gen_time,
-                                             execute_time, result["Accuracy"], result["F1_score"], result["Log_loss"],
+                                                                                                 prompt_representation_type=rep_type,
+                                                                                                 args=args)
+            df_result.loc[len(df_result)] = [args.dataset_name, rep_type, status, number_iteration,
+                                             catalog_time + gen_time, execute_time, result["Accuracy"],
+                                             result["F1_score"], result["Log_loss"],
                                              result["R_Squared"], result["RMSE"]]
+
+
         except Exception as err:
             print("*******************************************")
             print(args.dataset_name)

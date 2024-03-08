@@ -41,7 +41,6 @@ def prompt_factory(catalog: CatalogInfo,
         evaluation_text = CODE_FORMATTING_REGRESSION_EVALUATION
 
     class_name = f"{representation_type}-{example_type}-{number_example}-SHOT"
-
     if number_example == 0:
         assert repr_cls is not None
 

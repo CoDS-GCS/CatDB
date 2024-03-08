@@ -285,7 +285,7 @@ class CatDBPrompt(BasicPrompt):
             if r <= Config.CATEGORICAL_RATIO:
                 categorical_columns.append(k)
 
-            if cp.data_type in {"int", "float"} and cp.distinct_values_count > 0 and k not in categorical_columns:
+            if cp.data_type in {"int", "float"} and cp.distinct_values_count > 0:
                 numerical_columns.append(k)
 
         # Missing value imputation:

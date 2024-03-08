@@ -8,6 +8,7 @@ from prompt.PromptTemplate import SchemaDistinctValueCountStatisticNumericPrompt
 from prompt.PromptTemplate import SchemaMissingValueFrequencyStatisticNumericPrompt
 from prompt.PromptTemplate import SchemaMissingValueFrequencyCategoricalValuesPrompt
 from prompt.PromptTemplate import SchemaStatisticNumericCategoricalValuesPrompt
+from prompt.PromptTemplate import CatDBPrompt
 from prompt.PromptTemplate import AllPrompt
 
 
@@ -30,6 +31,8 @@ class LLMSetting:
 
 
 CATEGORICAL_RATIO: float = 0.01
+LOW_RATIO_THRESHOLD = 0.1
+DISTINCT_THRESHOLD = 0.5
 
 # 10000 : Schema = S
 # 11000 : Schema + Distinct Value Count = S + DVC = SDVC
@@ -66,5 +69,6 @@ PROMPT_FUNC = {"S": SchemaPrompt,
                "SMVFSN": SchemaMissingValueFrequencyStatisticNumericPrompt,
                "SMVFCV": SchemaMissingValueFrequencyCategoricalValuesPrompt,
                "SSNCV": SchemaStatisticNumericCategoricalValuesPrompt,
-               "ALL": AllPrompt
+               "ALL": AllPrompt,
+               "CatDB": CatDBPrompt
                }

@@ -13,14 +13,14 @@ class CatalogInfo(object):
         self.data_source_path = data_source_path
         self.nrows = nrows
         self.ncols = ncols
+        self.drop_schema_info = dict()
         if drop_schema_info is not None:
             self.ncols -= len(drop_schema_info)
             self.drop_schema_info = drop_schema_info
-        self.drop_schema_info = dict()
         self.schema_info_group = schema_info_group
 
 
-def load_data_source_profile(data_source_path: str, file_format: str, target_attribute: str):
+def load_data_source_profile(data_source_path: str, file_format: str, target_attribute: str, enable_reduction: bool):
     profile_info = dict()
     schema_info = dict()
     ncols = 0
@@ -49,15 +49,14 @@ def load_data_source_profile(data_source_path: str, file_format: str, target_att
 
     orig_profile_size = len(schema_info)
     drop_schema_info = dict()
-    # if reduction_method is not None:
-    #     rd = ReduceDimension(profile_info=profile_info, reduction_method=reduction_method, reduce_size=reduce_size,
-    #                          target_attribute=target_attribute)
-    #
-    #     schema_info, schema_info_group, drop_schema_info, profile_info = rd.get_new_profile_info()
-    #     new_profile_size = len(schema_info)
-    #
-    #     print(
-    #         f"[{data_source_path}]  --- orig_size = {orig_profile_size}, new_size = {new_profile_size} >> r= {orig_profile_size - new_profile_size}")
+    if enable_reduction:
+        rd = ReduceDimension(profile_info=profile_info, target_attribute=target_attribute)
+
+        schema_info, schema_info_group, drop_schema_info, profile_info = rd.get_new_profile_info()
+        new_profile_size = len(schema_info)
+
+        print(
+            f"[{data_source_path}]  --- orig_size = {orig_profile_size}, new_size = {new_profile_size} >> r= {orig_profile_size - new_profile_size}")
 
     return CatalogInfo(nrows=nrows, ncols=ncols, file_format="csv", dataset_name=dataset_name,
                        schema_info=schema_info, profile_info=profile_info, data_source_path=source_path,

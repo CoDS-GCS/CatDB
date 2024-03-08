@@ -24,6 +24,7 @@ def parse_arguments():
     parser.add_argument('--llm-model', type=str, default=None)
     parser.add_argument('--parse-pipeline', type=bool, default=True)
     parser.add_argument('--run-pipeline', type=bool, default=True)
+    parser.add_argument('--enable-reduction', type=bool, default=False)
     parser.add_argument('--result-output-path', type=str, default="/tmp/results.csv")
 
     args = parser.parse_args()
@@ -69,6 +70,9 @@ def parse_arguments():
 
     if args.prompt_representation_type is None:
         args.prompt_representation_type = "AUTO"
+
+    if  args.prompt_representation_type == "CatDB":
+        args.enable_reduction = True
 
     return args
 

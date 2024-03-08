@@ -57,16 +57,24 @@ def extract_incremental_plots(root, out):
 
     plots = []
     width_ratio = 0.117
+    h = 0
     for ds in datasets:
         path = f"results/Experiment1_LLM_Pipe_Gen_{ds}.dat"
         df = read_dataset(f"../{path}")
-        rps = set(df['config'].unique())
+
+        df = df.sort_values(by=['accuracy'], ascending=False)
+        rps = df['config'].tolist() #set(df['config'].unique())
+ 
+
         configs = []
         config_label = []
-        for rp in REP_TYPE:
-            if rp in rps:
-                configs.append(rp)
-                config_label.append(REP_TYPE[rp]) 
+        for rp in rps:
+            configs.append(rp)
+            config_label.append(REP_TYPE[rp]) 
+        # for rp in REP_TYPE:
+        #     if rp in rps:
+        #         configs.append(rp)
+        #         config_label.append(REP_TYPE[rp]) 
 
         if len(configs) >6:
             R = 25
@@ -85,7 +93,7 @@ def extract_incremental_plots(root, out):
 
 def extract_dataset_propertis_mv(root, out):
     #datasets = ["dataset_1_rnc", "dataset_2_rnc", "dataset_3_rnc", "dataset_4_rnc", "dataset_5_rnc", "dataset_6_rnc"]
-    datasets = [f"dataset_{i}_rnc" for i in range(1,7)]
+    datasets = [f"oml_dataset_{i}_rnc" for i in range(1,10)]
     #datasets = ["Microsoft", "delays_zurich_transport", "federal_election"]
     miss_value_template = read_template("Missing_Distinct_Values_Template.tex")
     distinct_value_template = read_template("Distinct_Values_Template.tex")
@@ -131,8 +139,8 @@ if __name__ == '__main__':
     root = "../results"
     out = "../exp_plots"
 
-    #extract_incremental_plots(root=root, out=out)
-    extract_dataset_propertis_mv(root=root, out=out)
+    extract_incremental_plots(root=root, out=out)
+    #extract_dataset_propertis_mv(root=root, out=out)
 
     
     

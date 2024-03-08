@@ -26,6 +26,7 @@ def prompt_factory(catalog: CatalogInfo,
     repr_cls = get_representation_class(representation_type)
     schema_info = catalog.schema_info
     profile_info = catalog.profile_info
+    dropped_columns = catalog.drop_schema_info
     nrows = catalog.nrows
     file_format = catalog.file_format
     evaluation_text = None
@@ -59,6 +60,7 @@ def prompt_factory(catalog: CatalogInfo,
                 self.task_type = task_type_str
                 self.evaluation_text = evaluation_text
                 self.examples = None
+                self.dropped_columns = dropped_columns
                 self.number_folds = number_folds
                 repr_cls.__init__(self, *args, **kwargs)
                 BasicICLPrompt.__init__(self, *args, **kwargs)

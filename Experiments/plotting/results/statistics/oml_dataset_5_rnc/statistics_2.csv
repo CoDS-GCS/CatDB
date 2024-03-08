@@ -1,0 +1,5 @@
+dataset,col_index,data_type,missing_values_count,total_values_count,distinct_values_count,number_rows
+oml_dataset_5_rnc,1,str,0,3000000,3000000,3000000
+oml_dataset_5_rnc,2,int,0,3000000,13,3000000
+oml_dataset_5_rnc,3,str,0,3000000,3000000,3000000
+oml_dataset_5_rnc,4,float,0,3000000,76,3000000

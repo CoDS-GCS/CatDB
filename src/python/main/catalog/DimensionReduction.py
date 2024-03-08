@@ -2,6 +2,7 @@ import multiprocessing
 import threading
 import math
 import concurrent.futures
+from util.Config import LOW_RATIO_THRESHOLD
 
 class SortItem(object):
     def __init__(self, i: int, j: int, value: float):
@@ -11,13 +12,10 @@ class SortItem(object):
 
 
 class ReduceDimension(object):
-    def __init__(self, profile_info: dict, reduction_method: str, reduce_size: int, target_attribute: str):
+    def __init__(self, profile_info: dict, target_attribute: str):
         self.profile_info = profile_info
-        self.reduction_method = reduction_method
-        self.reduce_size = reduce_size
         self.number_threads = multiprocessing.cpu_count()
         self.target_attribute = target_attribute
-        self.ration_threshold = 0.1
 
     def get_new_profile_info(self):
         target = self.profile_info.pop(self.target_attribute)
@@ -125,13 +123,13 @@ class ReduceDimension(object):
     def remove_constant_and_unique_columns(self, keys: []):
         for k in keys:
             pi = self.profile_info[k]
-            if pi.distinct_values_count == 1 or pi.distinct_values_count == pi.total_values_count:
+            if pi.distinct_values_count == 1:  # or pi.distinct_values_count == pi.total_values_count
                 pi.deactivate()
 
     def remove_low_ratio_columns(self, keys: []):
         for k in keys:
             pi = self.profile_info[k]
-            if pi.missing_values_count / pi.total_values_count > 1 - self.ration_threshold:
+            if pi.missing_values_count / pi.total_values_count > 1 - LOW_RATIO_THRESHOLD:
                 pi.deactivate()
 
     def calc_embedding_euclidean_distance_similarity(self, keys: [], indexi: int, indexj: int, indexj_end: int):

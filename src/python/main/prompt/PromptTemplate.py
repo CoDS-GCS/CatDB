@@ -8,6 +8,7 @@ class BasicPrompt(object):
         self.question = ("Provide a complete pipeline code that can be executed in a multi-threaded environment "
                          "with various CPU configurations, such as PyTorch or other relevant frameworks.\n"
                          "Each codeblock ends with \"```end\" and starts with \"```python\".")
+        self.extra_info = ""
 
     def format_target(self, examples: dict):
         return {
@@ -21,6 +22,7 @@ class BasicPrompt(object):
                         self.content,
                         '"""\n',
                         f"Dataset Attribute:\nNumber of samples (rows) in training dataset: {self.nrows}\n",
+                        self.extra_info,
                         f'Question: {self.question}']
 
         prompt = "\n".join(prompt_items)
@@ -245,3 +247,80 @@ class AllPrompt(BasicPrompt):
             schema_info_list.append(str_val)
 
         self.content = "\n".join(schema_info_list)
+
+
+class CatDBPrompt(BasicPrompt):
+    def __init__(self, *args, **kwargs):
+        BasicPrompt.__init__(self, *args, **kwargs)
+        self.ds_attribute_prefix = "Schema, and Data Profiling Info"
+        self.ds_attribute_prefix_label = "Schema, and Data Profiling Info:"
+        extra_info_items =[]
+
+        schema_info_list = []
+        dropped_columns_names = self.dropped_columns.keys()
+        missing_values_columns = []
+        categorical_columns = []
+        numerical_columns = []
+
+        # Drop unnecessary columns:
+        if len(dropped_columns_names) > 0:
+            drop_column_prompt = "# Drop the following column(s) from the train and test datasets:\n\tColumn(s): "
+            names = []
+            for k in dropped_columns_names:
+                names.append(k)
+            drop_column_prompt = f"{drop_column_prompt}{','.join(names)}\n"
+            extra_info_items.append(drop_column_prompt)
+
+        # Find missing value, categorical, and numerical columns and do missing value imputation:
+        for k in self.schema.keys():
+            if k in dropped_columns_names:
+                continue
+
+            cp = self.profile[k]
+            if 0 < cp.missing_values_count < self.nrows:
+                missing_values_columns.append(k)
+
+            r = cp.distinct_values_count / self.nrows
+            if r <= Config.CATEGORICAL_RATIO:
+                categorical_columns.append(k)
+
+            if cp.data_type in {"int", "float"} and cp.distinct_values_count > 0:
+                numerical_columns.append(k)
+
+        # Missing value imputation:
+        if len(missing_values_columns) > 0:
+            missing_values_prompt = (f"# Do missing values imputation for the following columns:\n\tColumns: "
+                                     f"{','.join(missing_values_columns)}\n")
+            extra_info_items.append(missing_values_prompt)
+
+        # Encode categorical values:
+        if len(categorical_columns) > 0:
+            categorical_column_prompt = (f"# Encode categorical values by dummyEncode for the following columns:"
+                                         f"\n\tColumns: {','.join(categorical_columns)}\n")
+            extra_info_items.append(categorical_column_prompt)
+
+        # Add data scaler
+        if len(numerical_columns) > 0:
+            numerical_column_prompt = (f"# Select an appropriate scaler for the following numerical columns "
+                                       f"(do it only base of the statistical values are in the schema):\n\t"
+                                       f"Columns: {','.join(numerical_columns)}\n")
+            extra_info_items.append(numerical_column_prompt)
+
+        for k in self.schema.keys():
+            if k in dropped_columns_names:
+                continue
+
+            cp = self.profile[k]
+            str_val = f"{k} ({cp.short_data_type}): distinct-count [{cp.distinct_values_count}]"
+
+            if k in numerical_columns:
+                str_val += f", min-max values [{cp.min_value}, {cp.max_value}], mean [{cp.mean:0.2f}], median [{cp.median:0.2f}]"
+
+            schema_info_list.append(str_val)
+
+        self.content = "\n".join(schema_info_list)
+
+        if len(extra_info_items) > 0:
+            self.extra_info = "".join(extra_info_items)
+        else:
+            self.extra_info = ""

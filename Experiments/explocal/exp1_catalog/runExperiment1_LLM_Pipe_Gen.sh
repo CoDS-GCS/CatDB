@@ -20,7 +20,7 @@ log_file_name="${exp_path}/results/Experiment1_LLM_Pipe_Gen.dat"
 output_path="${exp_path}/catdb-results/${dataset}"
 mkdir -p ${output_path}
 
-result_output_path="${exp_path}/results/Experiment1_LLM_Pipe_Gen_${dataset}.dat"
+result_output_path="${exp_path}/results/Experiment1_LLM_Pipe_Gen_${dataset}_${prompt_representation_type}.dat"
 
 cd "${exp_path}/setup/Baselines/CatDB/"
 source venv/bin/activate

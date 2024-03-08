@@ -260,6 +260,8 @@ class CatDBPrompt(BasicPrompt):
         schema_info_list = []
         dropped_columns_names = self.dropped_columns.keys()
         missing_values_columns = []
+        none_numerical_missing_values_columns = []
+        categorical_missing_values_column = []
         categorical_columns = []
         numerical_columns = []
 
@@ -278,10 +280,18 @@ class CatDBPrompt(BasicPrompt):
                 continue
 
             cp = self.profile[k]
-            if 0 < cp.missing_values_count < self.nrows:
-                missing_values_columns.append(k)
-
             r = cp.distinct_values_count / self.nrows
+
+            if 0 < cp.missing_values_count < self.nrows:
+
+                if r > Config.CATEGORICAL_RATIO :
+                    if cp.data_type in {"int", "float"}:
+                        missing_values_columns.append(k)
+                    else:
+                        none_numerical_missing_values_columns.append(k)
+                else:
+                    categorical_missing_values_column.append(k)
+
             if r <= Config.CATEGORICAL_RATIO:
                 categorical_columns.append(k)
 
@@ -290,8 +300,19 @@ class CatDBPrompt(BasicPrompt):
 
         # Missing value imputation:
         if len(missing_values_columns) > 0:
-            missing_values_prompt = (f"# Do missing values imputation for the following columns:\n\tColumns: "
+            missing_values_prompt = (f"# Do missing values imputation for the following numerical columns:\n\tColumns: "
                                      f"{','.join(missing_values_columns)}\n")
+            extra_info_items.append(missing_values_prompt)
+
+        if len(none_numerical_missing_values_columns) > 0:
+            missing_values_prompt = (f"# Predict the missing values for the following none-numerical columns:\n\tColumns: "
+                                     f"{','.join(none_numerical_missing_values_columns)}\n")
+            extra_info_items.append(missing_values_prompt)
+
+
+        if len(categorical_missing_values_column) > 0:
+            missing_values_prompt = (f"# Predict the missing values for the following categorical columns:\n\tColumns: "
+                                     f"{','.join(categorical_missing_values_column)}\n")
             extra_info_items.append(missing_values_prompt)
 
         # Encode categorical values:

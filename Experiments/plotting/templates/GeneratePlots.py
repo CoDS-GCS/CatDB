@@ -52,7 +52,8 @@ def extract_incremental_plots(root, out):
                 "SMVFSN":"Conf-8",
                 "SMVFCV":"Conf-9",
                 "SSNCV":"Conf-10",
-                "ALL":"Conf-11"}
+                "ALL":"Conf-11",
+                "CatDB":"CatDB"}
     
 
     plots = []

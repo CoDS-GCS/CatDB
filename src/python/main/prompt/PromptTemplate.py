@@ -285,7 +285,7 @@ class CatDBPrompt(BasicPrompt):
             if r <= Config.CATEGORICAL_RATIO:
                 categorical_columns.append(k)
 
-            if cp.data_type in {"int", "float"} and cp.distinct_values_count > 0:
+            if cp.data_type in {"int", "float"} and cp.distinct_values_count > 0 and k not in categorical_columns:
                 numerical_columns.append(k)
 
         # Missing value imputation:
@@ -302,7 +302,7 @@ class CatDBPrompt(BasicPrompt):
 
         # Add data scaler
         if len(numerical_columns) > 0:
-            numerical_column_prompt = (f"# Select an appropriate scaler for each following numerical columns independently"
+            numerical_column_prompt = (f"# Select an appropriate scaler the following numerical columns "
                                        f"(do it only base of the statistical values are in the schema):\n\t"
                                        f"Columns: {','.join(numerical_columns)}\n")
             extra_info_items.append(numerical_column_prompt)

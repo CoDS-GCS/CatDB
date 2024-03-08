@@ -187,8 +187,7 @@ if __name__ == '__main__':
 
     end = time.time()
     catalog_time = end - start
-
-    if args.prompt_representation_type == "All":
+    if args.prompt_representation_type == "AUTO":
         combinations = Metadata(catalog=catalog).get_combinations()
     else:
         combinations = [args.prompt_representation_type]
@@ -204,7 +203,6 @@ if __name__ == '__main__':
                                              catalog_time + gen_time, execute_time, result["Accuracy"],
                                              result["F1_score"], result["Log_loss"],
                                              result["R_Squared"], result["RMSE"]]
-
 
         except Exception as err:
             print("*******************************************")

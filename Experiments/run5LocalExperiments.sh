@@ -34,12 +34,12 @@ $CMD dataset_4_rnc binary test
 $CMD dataset_5_rnc binary test
 $CMD dataset_6_rnc binary test
 
-$CMD oml_dataset_1_rnc binary test
-$CMD oml_dataset_2_rnc binary test
-$CMD oml_dataset_3_rnc binary test
-$CMD oml_dataset_4_rnc binary test
-$CMD oml_dataset_5_rnc multiclass test
-$CMD oml_dataset_6_rnc multiclass test
-$CMD oml_dataset_7_rnc regression test
-$CMD oml_dataset_8_rnc regression test
-$CMD oml_dataset_9_rnc regression test
+# $CMD oml_dataset_1_rnc binary test
+# $CMD oml_dataset_2_rnc binary test
+# $CMD oml_dataset_3_rnc binary test
+# $CMD oml_dataset_4_rnc binary test
+# $CMD oml_dataset_5_rnc multiclass test
+# $CMD oml_dataset_6_rnc multiclass test
+# $CMD oml_dataset_7_rnc regression test
+# $CMD oml_dataset_8_rnc regression test
+# $CMD oml_dataset_9_rnc regression test

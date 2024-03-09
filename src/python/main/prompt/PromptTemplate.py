@@ -291,7 +291,7 @@ class CatDBPrompt(BasicPrompt):
                 else:
                     categorical_missing_values_column.append(k)
 
-            if r <= Config.CATEGORICAL_RATIO or cp.data_type == "named_entity" or cp.data_type == "string":
+            if r <= Config.CATEGORICAL_RATIO or cp.data_type == "named_entity":
                 categorical_columns.append(k)
 
             if cp.data_type in {"int", "float"} and cp.distinct_values_count > 0:

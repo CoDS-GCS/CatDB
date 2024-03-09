@@ -11,7 +11,7 @@ task_type=$6
 llm_model=$7
 
 metadata_path="${data_path}/${dataset}/${dataset}.yaml"
-number_iteration=10
+number_iteration=20
 parse_pipeline=True
 run_pipeline=True
 

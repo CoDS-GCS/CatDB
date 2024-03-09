@@ -328,7 +328,7 @@ class CatDBPrompt(BasicPrompt):
                                          f"\n\tColumns: {','.join(categorical_columns)}\n")
             extra_info_items.append(categorical_column_prompt)
 
-        extra_info_items.append('Encode all "object" columns by dummyEncode.')
+        extra_info_items.append('# Encode all "object" columns by dummyEncode.\n\n')
 
 
         for k in self.schema.keys():

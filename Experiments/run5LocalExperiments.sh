@@ -27,7 +27,7 @@ CMD=./explocal/exp1_catalog/runExperiment1.sh
 #CMD=./explocal/exp3_end_to_end/runExperiment3.sh 
 
 
-$CMD dataset_1_rnc binary test
+#$CMD dataset_1_rnc binary test
 $CMD dataset_2_rnc binary test
 # $CMD dataset_3_rnc binary test
 # $CMD dataset_4_rnc binary test

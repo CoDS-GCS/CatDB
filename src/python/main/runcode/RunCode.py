@@ -49,8 +49,8 @@ class RunCode(object):
             error_class = err.__class__.__name__
             cl, exc, tb = sys.exc_info()
             line_number = traceback.extract_tb(tb)[-1][1]
-            detail = f"{err.args[0]}\n{exc}\n{cl}\n{tb}"
-            exception = err
+            detail = err.args[0]
+            exception = traceback.format_exc()
 
         ie = InterpreterError("%s at line %d of %s: %s" % (error_class, line_number, "source string", detail))
         result.set_status(status=False)

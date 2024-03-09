@@ -167,7 +167,7 @@ def generate_and_run_pipeline(catalog: CatalogInfo, prompt_representation_type: 
                 error_fname = f"{file_name}_{i}.error"
                 pipeline_fname = f"{file_name}_{i}.python"
 
-                save_text_file(error_fname, f"{result.get_results()}")
+                save_text_file(error_fname, f"{result.get_exception()}")
                 save_text_file(fname=pipeline_fname, data=code)
 
                 prompt_rule, prompt_msg = get_error_prompt(code, f"{result.get_exception()}")

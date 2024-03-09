@@ -324,9 +324,11 @@ class CatDBPrompt(BasicPrompt):
 
         # Encode categorical values:
         if len(categorical_columns) > 0:
-            categorical_column_prompt = (f"# Encode categorical values by dummyEncode for the following columns:"
+            categorical_column_prompt = (f'# Encode categorical values by "on-hot-encoder" for the following columns:'
                                          f"\n\tColumns: {','.join(categorical_columns)}\n")
             extra_info_items.append(categorical_column_prompt)
+
+        extra_info_items.append('Encode all "object" columns by dummyEncode.')
 
 
         for k in self.schema.keys():

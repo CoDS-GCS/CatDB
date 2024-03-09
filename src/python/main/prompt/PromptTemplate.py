@@ -314,18 +314,19 @@ class CatDBPrompt(BasicPrompt):
                                      f"{','.join(categorical_missing_values_column)}\n")
             extra_info_items.append(missing_values_prompt)
 
+        # Add data scaler
+        if len(numerical_columns) > 0:
+            numerical_column_prompt = (f"# Select an appropriate scaler the following numerical columns "
+                                       f'(do it base on the min-max, mean, and median values are in the '
+                                       f'"Schema, and Data Profiling Info"):\n\t'
+                                       f"Columns: {','.join(numerical_columns)}\n")
+            extra_info_items.append(numerical_column_prompt)
+
         # Encode categorical values:
         if len(categorical_columns) > 0:
             categorical_column_prompt = (f"# Encode categorical values by dummyEncode for the following columns:"
                                          f"\n\tColumns: {','.join(categorical_columns)}\n")
             extra_info_items.append(categorical_column_prompt)
-
-        # Add data scaler
-        if len(numerical_columns) > 0:
-            numerical_column_prompt = (f"# Select an appropriate scaler the following numerical columns "
-                                       f"(do it only base of the statistical values are in the schema):\n\t"
-                                       f"Columns: {','.join(numerical_columns)}\n")
-            extra_info_items.append(numerical_column_prompt)
 
 
         for k in self.schema.keys():

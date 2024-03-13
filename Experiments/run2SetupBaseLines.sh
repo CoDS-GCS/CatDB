@@ -111,3 +111,16 @@ cd ${catdb_path}
 # pipreqs --force --mode no-pin ${baselines_path}
 # python -m pip install --upgrade pip
 # python -m pip install -r requirements.txt
+
+
+# Setup CAFFE
+baselines_path="$path/Baselines"
+cd ${baselines_path}
+rm -rf CAAFE
+git clone https://github.com/automl/CAAFE.git
+
+cd CAAFE
+rm -rf venv
+python -m venv venv
+source venv/bin/activate
+python setup.py install

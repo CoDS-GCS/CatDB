@@ -121,6 +121,6 @@ git clone https://github.com/automl/CAAFE.git
 
 cd CAAFE
 rm -rf venv
-python -m venv venv
+python3.9 -m venv venv
 source venv/bin/activate
 python setup.py install

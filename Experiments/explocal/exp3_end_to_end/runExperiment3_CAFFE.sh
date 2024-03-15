@@ -18,7 +18,7 @@ echo "${SCRIPT}"
 # sleep 3
 
 start=$(date +%s%N)
-$SCRIPT
+bash -c "nohup ${SCRIPT}" 
 end=$(date +%s%N)
 echo ${dataset}","CAFFE","$((($end - $start) / 1000000)) >>$log_file_name
 

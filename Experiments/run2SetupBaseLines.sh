@@ -123,4 +123,12 @@ cd CAAFE
 rm -rf venv
 python3.9 -m venv venv
 source venv/bin/activate
-python setup.py install
+python3.9 -m pip install --upgrade pip
+cp "${path}/config/CAAFE/setup.py" "${baselines_path}/CAAFE/"
+python3.9 setup.py install
+
+echo "-----------------------------------------------------------------------"
+pip --version
+pip install lightgbm
+
+

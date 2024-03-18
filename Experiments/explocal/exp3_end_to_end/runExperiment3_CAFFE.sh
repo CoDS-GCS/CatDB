@@ -11,7 +11,9 @@ error_file_name="${exp_path}/results/Experiment3_CAAFE_ERROR_${dataset}.dat"
 cd "${exp_path}/setup/Baselines/CAAFE"
 source venv/bin/activate
 
-SCRIPT="python scripts/generate_features_script.py --dataset_id=${dataset} > ${log_file_name_dataset} 2>${error_file_name} < /dev/null"
+SCRIPT1="python scripts/generate_features_script.py --dataset_id=${dataset} --prompt_id=v4> ${log_file_name_dataset} 2>${error_file_name} < /dev/null"
+SCRIPT="python scripts/run_classifiers_script.py --dataset_id=${dataset} --prompt_id=v4> ${log_file_name_dataset} 2>${error_file_name} < /dev/null"
+
 echo "${SCRIPT}"
 
 # sudo echo 3 >/proc/sys/vm/drop_caches && sudo sync

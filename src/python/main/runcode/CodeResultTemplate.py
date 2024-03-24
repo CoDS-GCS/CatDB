@@ -23,7 +23,8 @@ class CodeResultTemplate(object):
         return self.exception
 
     def parse_results(self):
-        pipeline_evl = {"Accuracy": -1, "F1_score": -1, "Log_loss": -1, "R_Squared": -1, "RMSE": -1}
+        pipeline_evl = {"Train_Accuracy": -1, "Train_F1_score": -1, "Train_Log_loss": -1, "Train_R_Squared": -1, "Train_RMSE": -1,
+                        "Test_Accuracy": -1, "Test_F1_score": -1, "Test_Log_loss": -1, "Test_R_Squared": -1, "Test_RMSE": -1}
         if self.status and self.result is not None:
             raw_results = self.result.splitlines()
             for rr in raw_results:

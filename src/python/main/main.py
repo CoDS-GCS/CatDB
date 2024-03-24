@@ -145,7 +145,8 @@ def generate_and_run_pipeline(catalog: CatalogInfo, prompt_representation_type: 
     save_prompt(fname=prompt_fname, prompt_rule=prompt_rule, prompt_msg=prompt_msg)
 
     # Parse LLM Code
-    result = {"Accuracy": -1, "F1_score": -1, "Log_loss": -1, "R_Squared": -1, "RMSE": -1}
+    result = {"Train_Accuracy": -1, "Train_F1_score": -1, "Train_Log_loss": -1, "Train_R_Squared": -1, "Train_RMSE": -1,
+              "Test_Accuracy": -1, "Test_F1_score": -1, "Test_Log_loss": -1, "Test_R_Squared": -1, "Test_RMSE": -1}
     iteration = 0
     if args.parse_pipeline or args.run_pipeline:
         rc = RunCode()
@@ -193,16 +194,22 @@ if __name__ == '__main__':
         combinations = [args.prompt_representation_type]
 
     df_result = pd.DataFrame(columns=["dataset_name", "config", "status", "number_iteration", "pipeline_gen_time",
-                                      "execution_time", "accuracy", "f1_score", "log_loss", "r_squared", "rmse"])
+                                      "execution_time",
+                                      "train_accuracy", "train_f1_score", "train_log_loss", "train_r_squared", "train_rmse",
+                                      "test_accuracy", "test_f1_score", "test_log_loss", "test_r_squared", "test_rmse"])
     for rep_type in combinations:
         try:
             status, number_iteration, gen_time, execute_time, result = generate_and_run_pipeline(catalog=catalog,
                                                                                                  prompt_representation_type=rep_type,
                                                                                                  args=args)
             df_result.loc[len(df_result)] = [args.dataset_name, rep_type, status, number_iteration,
-                                             catalog_time + gen_time, execute_time, result["Accuracy"],
-                                             result["F1_score"], result["Log_loss"],
-                                             result["R_Squared"], result["RMSE"]]
+                                             catalog_time + gen_time, execute_time,
+                                             result["Train_Accuracy"], result["Train_F1_score"], result["Train_Log_loss"],
+                                             result["Train_R_Squared"], result["Train_RMSE"],
+                                             result["Test_Accuracy"], result["Test_F1_score"],
+                                             result["Test_Log_loss"],
+                                             result["Test_R_Squared"], result["Test_RMSE"]
+                                             ]
 
         except Exception as err:
             print("*******************************************")

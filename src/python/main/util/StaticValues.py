@@ -61,30 +61,36 @@ trn = ... \n \
 
 CODE_FORMATTING_BINARY_EVALUATION = f"""Code formatting for binary classification evaluation:
 ```python
-# Report evaluation based on only test dataset
-# Calculate the model accuracy, represented by a value between 0 and 1, where 0 indicates low accuracy and 1 signifies higher accuracy. Store the accuracy value in a variable labeled as "Accuracy=...".
-# Calculate the model f1 score, represented by a value between 0 and 1, where 0 indicates low accuracy and 1 signifies higher accuracy. Store the f1 score value in a variable labeled as "F1_score=...".
-# Print the accuracy result: print(f"Accuracy:{{Accuracy}}")   
-# Print the f1 score result: print(f"F1_score:{{F1_score}}") 
+# Report evaluation based on train and test dataset
+# Calculate the model accuracy, represented by a value between 0 and 1, where 0 indicates low accuracy and 1 signifies higher accuracy. Store the accuracy value in a variable labeled as "Train_Accuracy=..." and "Test_Accuracy=...".
+# Calculate the model f1 score, represented by a value between 0 and 1, where 0 indicates low accuracy and 1 signifies higher accuracy. Store the f1 score value in a variable labeled as "Train_F1_score=..." and "Test_F1_score=...".
+# Print the train accuracy result: print(f"Train_Accuracy:{{Train_Accuracy}}")   
+# Print the train f1 score result: print(f"Train_F1_score:{{Train_F1_score}}")
+# Print the test accuracy result: print(f"Test_Accuracy:{{Test_Accuracy}}")   
+# Print the test f1 score result: print(f"Test_F1_score:{{Test_F1_score}}") 
 ```end
 """
 
 CODE_FORMATTING_MULTICLASS_EVALUATION = f"""Code formatting for multiclass classification evaluation:
 ```python
-# Report evaluation based on only test dataset
-# Calculate the model accuracy, represented by a value between 0 and 1, where 0 indicates low accuracy and 1 signifies higher accuracy. Store the accuracy value in a variable labeled as "Accuracy=...".
-# Calculate the model log loss, a lower log-loss value means better predictions. Store the  log loss value in a variable labeled as "Log_loss=...".
-# Print the accuracy result: print(f"Accuracy:{{Accuracy}}")   
-# Print the log loss result: print(f"Log_loss:{{Log_loss}}") 
+# Report evaluation based on train and test dataset
+# Calculate the model accuracy, represented by a value between 0 and 1, where 0 indicates low accuracy and 1 signifies higher accuracy. Store the accuracy value in a variable labeled as "Train_Accuracy=..." and "Test_Accuracy=...".
+# Calculate the model log loss, a lower log-loss value means better predictions. Store the  log loss value in a variable labeled as "Train_Log_loss=..." and "Test_Log_loss=...".
+# Print the train accuracy result: print(f"Train_Accuracy:{{Train_Accuracy}}")   
+# Print the train log loss result: print(f"Train_Log_loss:{{Train_Log_loss}}") 
+# Print the test accuracy result: print(f"Test_Accuracy:{{Test_Accuracy}}")   
+# Print the test log loss result: print(f"Test_Log_loss:{{Test_Log_loss}}")
 ```end
 """
 
 CODE_FORMATTING_REGRESSION_EVALUATION = f"""Code formatting for regression evaluation:
 ```python
-# Report evaluation based on only test dataset
-# Calculate the model R-Squared, represented by a value between 0 and 1, where 0 indicates low and 1 ndicates more variability is explained by the model. Store the R-Squared value in a variable labeled as "R_Squared=...".
-# Calculate the model Root Mean Squared Error, where the lower the value of the Root Mean Squared Error, the better the model is.. Store the model Root Mean Squared Error value in a variable labeled as "RMSE=...".
-# Print the accuracy result: print(f"R_Squared:{{R_Squared}}")   
-# Print the log loss result: print(f"RMSE:{{RMSE}}") 
+# Report evaluation based on train and test dataset
+# Calculate the model R-Squared, represented by a value between 0 and 1, where 0 indicates low and 1 ndicates more variability is explained by the model. Store the R-Squared value in a variable labeled as "Train_R_Squared=..." and "Test_R_Squared=...".
+# Calculate the model Root Mean Squared Error, where the lower the value of the Root Mean Squared Error, the better the model is.. Store the model Root Mean Squared Error value in a variable labeled as "Train_RMSE=..." and "Test_RMSE=...".
+# Print the train accuracy result: print(f"Train_R_Squared:{{Train_R_Squared}}")   
+# Print the train log loss result: print(f"Train_RMSE:{{Train_RMSE}}") 
+# Print the test accuracy result: print(f"Test_R_Squared:{{Test_R_Squared}}")   
+# Print the test log loss result: print(f"Test_RMSE:{{Test_RMSE}}") 
 ```end
 """

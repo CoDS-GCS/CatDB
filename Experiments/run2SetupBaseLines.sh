@@ -67,7 +67,7 @@ cd $path
 # Setup CatDB
 #############
 catdb_path="${path}/Baselines/CatDB/"
-#rm -rf ${catdb_path}
+rm -rf ${catdb_path}
 mkdir -p ${catdb_path}
 
 cd ${root_path}
@@ -75,27 +75,27 @@ cd ..
 cp -r src/python/main/* ${catdb_path}
 cd ${catdb_path}
 
-# rm -rf venv
-# python -m venv venv
-# source venv/bin/activate
+rm -rf venv
+python -m venv venv
+source venv/bin/activate
 
-# # Then install the dependencies:
-# python -m pip install --upgrade pip
-# pip install torchvision 
-# python -m pip install -r requirements.txt
-# pip install pipreqs
+# Then install the dependencies:
+python -m pip install --upgrade pip
+pip install torchvision 
+python -m pip install -r requirements.txt
+pip install pipreqs
 
 # Prepare Config
 ################
-# config_path="${path}/config/"
-# cd ${config_path}
-# rm -rf venv
-# python -m venv venv
-# source venv/bin/activate
+config_path="${path}/config/"
+cd ${config_path}
+rm -rf venv
+python -m venv venv
+source venv/bin/activate
 
-# #Then install the dependencies:
-# python -m pip install --upgrade pip
-# python -m pip install -r requirements.txt
+#Then install the dependencies:
+python -m pip install --upgrade pip
+python -m pip install -r requirements.txt
 
 
 # Setup Hand-craft baseline
@@ -113,22 +113,22 @@ cd ${catdb_path}
 # python -m pip install -r requirements.txt
 
 
-# Setup CAFFE
-baselines_path="$path/Baselines"
-cd ${baselines_path}
-rm -rf CAAFE
-git clone https://github.com/automl/CAAFE.git
+# # Setup CAFFE
+# baselines_path="$path/Baselines"
+# cd ${baselines_path}
+# rm -rf CAAFE
+# git clone https://github.com/automl/CAAFE.git
 
-cd CAAFE
-rm -rf venv
-python3.9 -m venv venv
-source venv/bin/activate
-python3.9 -m pip install --upgrade pip
-cp "${path}/config/CAAFE/setup.py" "${baselines_path}/CAAFE/"
-python3.9 setup.py install
+# cd CAAFE
+# rm -rf venv
+# python3.9 -m venv venv
+# source venv/bin/activate
+# python3.9 -m pip install --upgrade pip
+# cp "${path}/config/CAAFE/setup.py" "${baselines_path}/CAAFE/"
+# python3.9 setup.py install
 
-echo "-----------------------------------------------------------------------"
-pip --version
-pip install lightgbm
+# echo "-----------------------------------------------------------------------"
+# pip --version
+# pip install lightgbm
 
 

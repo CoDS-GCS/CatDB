@@ -22,9 +22,17 @@ echo "dataset,source,time" >> "${exp_path}/results/Experiment3_Hand-craft.dat"
 cd ${exp_path}
 
 #CMD=./explocal/exp0_statistics/runExperiment0.sh
-#CMD=./explocal/exp1_catalog/runExperiment1.sh
+CMD=./explocal/exp1_catalog/runExperiment1.sh
 #CMD=./explocal/exp2_micro_benchmark/runExperiment2.sh 
-CMD=./explocal/exp3_end_to_end/runExperiment3.sh 
+#CMD=./explocal/exp3_end_to_end/runExperiment3.sh 
+
+$CMD breast-w binary test
+$CMD credit-g binary test
+$CMD diabetes binary test
+$CMD heart-h binary test
+
+$CMD balance-scale multiclass test
+$CMD cmc binary test
 
 
 # $CMD dataset_1_rnc binary test
@@ -45,4 +53,4 @@ CMD=./explocal/exp3_end_to_end/runExperiment3.sh
 # $CMD oml_dataset_9_rnc regression test
 
 
-$CMD 11 # balance-scale
+# $CMD 11 # balance-scale

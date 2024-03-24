@@ -2,19 +2,41 @@ import sys
 import openml
 from sklearn.model_selection import train_test_split
 from pathlib import Path
+from argparse import ArgumentParser
+from DatasetPrepare import split_data_save
+from DatasetPrepare import get_metadata
+from DatasetPrepare import rename_col_names
+from DatasetPrepare import save_config
+import pandas as pd
 
 
-class DownloadDatasets(object):
-    def __init__(self, out_path):
-        self.out_path = out_path
+def parse_arguments():
+    parser = ArgumentParser()
+    parser.add_argument('--data-out-path', type=str, default=None)
+    parser.add_argument('--setting-out-path', type=str, default=None)
+    
+    args = parser.parse_args()
+    
+    if args.data_out_path is None:
+        raise Exception("--data-out-path is a required parameter!")    
+    
+    if args.setting_out_path is None:
+        raise Exception("--setting-out-path is a required parameter!")
+    
+    return args
 
-    def download_dataset(self, taskID):
-        task = openml.tasks.get_task(taskID, download_qualities=False)
+
+if __name__ == '__main__':
+    args = parse_arguments()    
+
+    taskIDs = [11, 15, 23, 31, 37, 50] # 188, 1068,,  1169, 41027
+    datasetIDs = []
+
+    dataset_index = 1
+    for tid in taskIDs:
+        task = openml.tasks.get_task(tid, download_qualities=False)
         dataset = openml.datasets.get_dataset(task.dataset_id, download_qualities=False)
         data, y, categorical_indicator, attribute_names = dataset.get_data()
-        ds_name = dataset.name
-
-        (nrows, ncols) = data.shape
 
         number_classes = 'N/A'
         if task.task_type.lower() != 'regression':
@@ -27,64 +49,40 @@ class DownloadDatasets(object):
         else:
             task_type = "regression"
 
-        if data is not None and len(data) > 0:
-            data_train, data_test = train_test_split(data, test_size=0.3, random_state=42)
-            Path(f"{self.out_path}/{ds_name}").mkdir(parents=True, exist_ok=True)
+        datasetIDs.append((task.dataset_id, dataset.name,task_type, dataset_index))
+        dataset_index +=1  
+    
+   
+    #dataset_list = 'row,orig_dataset_name,dataset_name,nrows,ncols,file_format,task_type,number_classes,original_url,target_feature,description\n'
+    dataset_list =  pd.DataFrame(columns=["Row","ID","dataset_name", "orig_name","nrows","ncols","nclasses","target"])
+    
 
-            data_train.to_csv(f'{self.out_path}/{ds_name}/{ds_name}_train.csv', index=False)
-            data_test.to_csv(f'{self.out_path}/{ds_name}/{ds_name}_test.csv', index=False)
-            description = dataset.description
-            if description is None:
-                description = ''
-            f = open(f'{self.out_path}/{ds_name}/description.txt', 'w')
-            f.write(description)
+    for (dataset_id,dataset_name,task_type, dataset_index) in datasetIDs:        
+        print(f" Downloading Dataset: dataset name={dataset_name}, dataset ID={dataset_id} \n")
 
-        return ds_name, dataset.default_target_attribute, nrows, ncols, dataset.dataset_id, dataset.original_data_url, task_type, number_classes
+        dataset = openml.datasets.get_dataset(dataset_id, download_qualities=False)
+        data, y, categorical_indicator, attribute_names = dataset.get_data()
+        target_attribute = dataset.default_target_attribute        
 
 
-if __name__ == '__main__':
-    data_out_path = sys.argv[1]
-    setting_out_path = sys.argv[2]
-    download_ds = DownloadDatasets(out_path=data_out_path)
 
-    taskIDs = [189354, 189356, 7593, 189355,
-               7592, 34539, 168868, 14965, 146195, 146825, 168337, 168329, 146606, 168330, 167119, 3945, 168335, 9977,
-               167120, 168338, 168332, 146212, 168331,
-               146818, 10101, 146821, 168908, 9981, 31, 168909, 168910, 168911, 3917, 3, 12, 9952, 146822, 168912, 53]
+         # Split and save original dataset
+        nrows, ncols, number_classes = get_metadata(data=data, target_attribute=target_attribute)
+        split_data_save(data=data, ds_name=dataset_name,out_path= args.data_out_path)
+        save_config(dataset_name=dataset_name, target=target_attribute, task_type=task_type, data_out_path=args.data_out_path, setting_out_path=args.setting_out_path)
+        dataset_out_name = dataset_name
 
-    dataset_list = 'dataset_name,nrows,ncols,file_format,task_type,number_classes,original_url,target_feature,description\n'
-    script_list =""
-    for tid in taskIDs:
-        ds_name, target, nrows, ncols, dataset_id, original_data_url, task_type, number_classes = download_ds.download_dataset(
-            taskID=tid)
+        # # Split and rename dataset-name, then save  
+        # dataset_out_name = f"oml_dataset_{dataset_index}"
+        # split_data_save(data=data, ds_name=dataset_out_name, out_path= args.data_out_path)
+        # save_config(dataset_name=dataset_out_name, target=target_attribute, task_type=task_type, data_out_path=args.data_out_path, setting_out_path=args.setting_out_path)
 
-        config_strs = [f"- name: {ds_name}",
-                       "  dataset:",
-                       f"    train: \'{{user}}/data/{ds_name}/{ds_name}_train.csv\'",
-                       f"    test: \'{{user}}/data/{ds_name}/{ds_name}_test.csv\'",
-                       f"    target: {target}",
-                       f"    type: {task_type}",
-                       "  folds: 1",
-                       "\n"]
-        config_str = "\n".join(config_strs)
+        # # Rename cols and dataset name, then split and save it
+        # dataset_out_name = f"oml_dataset_{dataset_index}_rnc"
+        # target_attribute, nrows, ncols, number_classes = rename_col_names(data=data, ds_name=dataset_out_name, target_attribute=target_attribute, out_path=args.data_out_path)
+        # save_config(dataset_name=dataset_out_name, target=target_attribute, task_type=task_type, data_out_path=args.data_out_path, setting_out_path=args.setting_out_path) 
 
-        yaml_file_local = f'{data_out_path}/{ds_name}/{ds_name}.yaml'
-        f_local = open(yaml_file_local, 'w')
-        f_local.write("--- \n \n")
-        f_local.write(config_str)
-        f_local.close()
+        # "Row","ID","dataset_name", "orig_name","nrows","ncols","nclasses","target"
+        dataset_list.loc[len(dataset_list)] = [dataset_index, dataset_id, dataset_out_name, dataset_name, nrows, ncols, number_classes, target_attribute]
 
-        yaml_file_benchmark = f'{setting_out_path}/{ds_name}.yaml'
-        f = open(yaml_file_benchmark, 'w')
-        f.write("--- \n \n")
-        f.write(config_str)
-        f.close()
-
-        dataset_list += f'{ds_name},{nrows},{ncols},csv,{task_type},{number_classes},{original_data_url},{target}, "OpenML (TaskID={tid}; DatasetID={dataset_id})"\n'
-        script_list += f'./explocal/exp1_systematic/runExperiment1.sh {ds_name} {task_type} \n'
-
-    f = open(f'{data_out_path}/dataset_list.csv', 'w')
-    f.write(dataset_list)
-
-    f_script = open(f'{data_out_path}/script_list.sh', 'w')
-    f_script.write(script_list)
+        dataset_list.to_csv(f"{args.data_out_path}/dataset_list.csv", index=False) 

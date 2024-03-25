@@ -135,11 +135,11 @@ rm -rf CAAFE
 cp -r ${path}"/config/CAAFE" ${baselines_path}
 cd CAAFE
 
-rm -rf venv
-python -m venv venv
-source venv/bin/activate
-python -m pip install --upgrade pip
-python -m pip install -r requirements.txt
+# rm -rf venv
+# python -m venv venv
+# source venv/bin/activate
+# python -m pip install --upgrade pip
+# python -m pip install -r requirements.txt
 
 # echo "-----------------------------------------------------------------------"
 # pip --version

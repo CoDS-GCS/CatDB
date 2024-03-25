@@ -127,6 +127,19 @@ python -m pip install -r requirements.txt
 # cp "${path}/config/CAAFE/setup.py" "${baselines_path}/CAAFE/"
 # python3.9 setup.py install
 
+# ==============================================================================
+# Setup CAFFE
+baselines_path="$path/Baselines"
+cd ${baselines_path}
+rm -rf CAAFE
+cp -r ${path}"/config/CAAFE" ${baselines_path}
+
+rm -rf venv
+python -m venv venv
+source venv/bin/activate
+python -m pip install --upgrade pip
+python -m pip install -r requirements.txt
+
 # echo "-----------------------------------------------------------------------"
 # pip --version
 # pip install lightgbm

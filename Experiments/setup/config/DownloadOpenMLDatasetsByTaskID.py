@@ -29,7 +29,7 @@ def parse_arguments():
 if __name__ == '__main__':
     args = parse_arguments()    
 
-    taskIDs = [11, 15, 23, 31, 37, 50] # 188, 1068,,  1169, 41027
+    taskIDs = [188, 1068,1169,41027] # [11, 15, 23, 31, 37, 50] # 188, 1068,1169,41027
     datasetIDs = []
 
     dataset_index = 1

@@ -1,0 +1,13 @@
+dataset,prompt_representation_type,prompt_example_type,prompt_number_example,number_tokens,number_bool,number_int,number_float,number_string
+cmc,S,Random,0,1010,3,7,0,0
+cmc,SDVC,Random,0,1080,3,7,0,0
+cmc,SMVF,Random,0,1116,3,7,0,0
+cmc,SSN,Random,0,1201,3,7,0,0
+cmc,SCV,Random,0,1090,3,7,0,0
+cmc,SDVCMVF,Random,0,1200,3,7,0,0
+cmc,SDVCSN,Random,0,1275,3,7,0,0
+cmc,SMVFSN,Random,0,1310,3,7,0,0
+cmc,SMVFCV,Random,0,1199,3,7,0,0
+cmc,SSNCV,Random,0,1285,3,7,0,0
+cmc,ALL,Random,0,1373,3,7,0,0
+cmc,CatDB,Random,0,1371,3,7,0,0

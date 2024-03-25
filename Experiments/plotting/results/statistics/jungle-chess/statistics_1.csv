@@ -1,0 +1,13 @@
+dataset,prompt_representation_type,prompt_example_type,prompt_number_example,number_tokens,number_bool,number_int,number_float,number_string
+jungle_chess_2pcs_raw_endgame_complete,S,Random,0,999,0,7,0,0
+jungle_chess_2pcs_raw_endgame_complete,SDVC,Random,0,1054,0,7,0,0
+jungle_chess_2pcs_raw_endgame_complete,SMVF,Random,0,1078,0,7,0,0
+jungle_chess_2pcs_raw_endgame_complete,SSN,Random,0,1190,0,7,0,0
+jungle_chess_2pcs_raw_endgame_complete,SCV,Random,0,1071,0,7,0,0
+jungle_chess_2pcs_raw_endgame_complete,SDVCMVF,Random,0,1144,0,7,0,0
+jungle_chess_2pcs_raw_endgame_complete,SDVCSN,Random,0,1249,0,7,0,0
+jungle_chess_2pcs_raw_endgame_complete,SMVFSN,Random,0,1272,0,7,0,0
+jungle_chess_2pcs_raw_endgame_complete,SMVFCV,Random,0,1153,0,7,0,0
+jungle_chess_2pcs_raw_endgame_complete,SSNCV,Random,0,1266,0,7,0,0
+jungle_chess_2pcs_raw_endgame_complete,ALL,Random,0,1317,0,7,0,0
+jungle_chess_2pcs_raw_endgame_complete,CatDB,Random,0,1336,0,7,0,0

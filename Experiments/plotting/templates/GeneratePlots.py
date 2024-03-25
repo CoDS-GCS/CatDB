@@ -94,8 +94,9 @@ def extract_incremental_plots(root, out):
 
 def extract_dataset_propertis_mv(root, out):
     #datasets = ["dataset_1_rnc", "dataset_2_rnc", "dataset_3_rnc", "dataset_4_rnc", "dataset_5_rnc", "dataset_6_rnc"]
-    datasets = [f"oml_dataset_{i}_rnc" for i in range(1,10)]
-    #datasets = ["Microsoft", "delays_zurich_transport", "federal_election"]
+    #datasets = [f"oml_dataset_{i}_rnc" for i in range(1,10)]
+    datasets = ["cmc","credit-g","diabetes","tic-tac-toe","eucalyptus","pc1","airlines","jungle-chess","balance-scale","breast-w"]
+
     miss_value_template = read_template("Missing_Distinct_Values_Template.tex")
     distinct_value_template = read_template("Distinct_Values_Template.tex")
     exp_statistics = read_template("Exp_Dataset_Attribute_Template.tex")
@@ -103,6 +104,7 @@ def extract_dataset_propertis_mv(root, out):
     plots = []
     pindex = 0
     for ds in datasets:
+        print(ds)
         path = f"results/statistics/{ds}/statistics_2.csv"
         df = read_dataset(f"../{path}")
         ncols = len(df)
@@ -119,7 +121,7 @@ def extract_dataset_propertis_mv(root, out):
 
         ds_title = ds.replace("_", "\_")
         pindex +=1
-        if pindex % 10 == 0:
+        if pindex % 11 == 0:
             plots_tex = "\n".join(plots)
             si = pindex / 10
             inc_plots = exp_statistics.replace("@PLOT", plots_tex)
@@ -140,8 +142,8 @@ if __name__ == '__main__':
     root = "../results"
     out = "../exp_plots"
 
-    extract_incremental_plots(root=root, out=out)
-    #extract_dataset_propertis_mv(root=root, out=out)
+    #extract_incremental_plots(root=root, out=out)
+    extract_dataset_propertis_mv(root=root, out=out)
 
     
     

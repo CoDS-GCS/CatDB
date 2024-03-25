@@ -1,0 +1,13 @@
+dataset,prompt_representation_type,prompt_example_type,prompt_number_example,number_tokens,number_bool,number_int,number_float,number_string
+airlines,S,Random,0,976,1,7,0,0
+airlines,SDVC,Random,0,1037,1,7,0,0
+airlines,SMVF,Random,0,1064,1,7,0,0
+airlines,SSN,Random,0,1171,1,7,0,0
+airlines,SCV,Random,0,1016,1,7,0,0
+airlines,SDVCMVF,Random,0,1137,1,7,0,0
+airlines,SDVCSN,Random,0,1236,1,7,0,0
+airlines,SMVFSN,Random,0,1262,1,7,0,0
+airlines,SMVFCV,Random,0,1107,1,7,0,0
+airlines,SSNCV,Random,0,1215,1,7,0,0
+airlines,ALL,Random,0,1301,1,7,0,0
+airlines,CatDB,Random,0,1313,1,7,0,0

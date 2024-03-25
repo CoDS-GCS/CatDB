@@ -27,7 +27,7 @@ cd ${exp_path}
 CMD=./explocal/exp3_end_to_end/runExperiment3.sh 
 
 $CMD balance-scale multiclass test
-# $CMD breast-w binary test
+$CMD breast-w binary test
 $CMD cmc multiclass test
 $CMD credit-g binary test
 $CMD diabetes binary test

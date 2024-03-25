@@ -1,0 +1,13 @@
+dataset,prompt_representation_type,prompt_example_type,prompt_number_example,number_tokens,number_bool,number_int,number_float,number_string
+eucalyptus,S,Random,0,1027,0,12,8,0
+eucalyptus,SDVC,Random,0,1147,0,12,8,0
+eucalyptus,SMVF,Random,0,1223,0,12,8,0
+eucalyptus,SSN,Random,0,1568,0,12,8,0
+eucalyptus,SCV,Random,0,1075,0,12,8,0
+eucalyptus,SDVCMVF,Random,0,1367,0,12,8,0
+eucalyptus,SDVCSN,Random,0,1692,0,12,8,0
+eucalyptus,SMVFSN,Random,0,1767,0,12,8,0
+eucalyptus,SMVFCV,Random,0,1274,0,12,8,0
+eucalyptus,SSNCV,Random,0,1620,0,12,8,0
+eucalyptus,ALL,Random,0,1868,0,12,8,0
+eucalyptus,CatDB,Random,0,1825,0,12,8,0

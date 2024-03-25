@@ -26,19 +26,22 @@ CMD=./explocal/exp1_catalog/runExperiment1.sh
 #CMD=./explocal/exp2_micro_benchmark/runExperiment2.sh 
 #CMD=./explocal/exp3_end_to_end/runExperiment3.sh 
 
-# $CMD breast-w binary test
-# $CMD credit-g binary test
-# $CMD diabetes binary test
-# $CMD heart-h binary test
-
-# $CMD balance-scale multiclass test
-# $CMD cmc binary test
+$CMD balance-scale multiclass test
+$CMD breast-w binary test
+$CMD cmc multiclass test
+$CMD credit-g binary test
+$CMD diabetes binary test
+$CMD tic-tac-toe binary test
+$CMD eucalyptus multiclass test
+$CMD pc1 binary test
+$CMD airlines binary test
+$CMD jungle_chess_2pcs_raw_endgame_complete multiclass test
 
 # CAAFE datasets by Kaggle
-$CMD health-insurance binary test
-$CMD pharyngitis binary test
-$CMD playground-series-s3e12 binary test
-$CMD spaceship-titanic binary test
+# $CMD health-insurance binary test
+# $CMD pharyngitis binary test
+# $CMD playground-series-s3e12 binary test
+# $CMD spaceship-titanic binary test
 
 
 

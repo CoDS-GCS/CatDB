@@ -29,7 +29,7 @@ def parse_arguments():
 if __name__ == '__main__':
     args = parse_arguments()    
 
-    taskIDs = [188, 1068,1169,41027] # [11, 15, 23, 31, 37, 50] # 188, 1068,1169,41027
+    taskIDs = [50] # [11, 15, 23, 31, 37, 50] # 188, 1068,1169,41027
     datasetIDs = []
 
     dataset_index = 1
@@ -37,6 +37,7 @@ if __name__ == '__main__':
         task = openml.tasks.get_task(tid, download_qualities=False)
         dataset = openml.datasets.get_dataset(task.dataset_id, download_qualities=False)
         data, y, categorical_indicator, attribute_names = dataset.get_data()
+        print(data)
 
         number_classes = 'N/A'
         if task.task_type.lower() != 'regression':

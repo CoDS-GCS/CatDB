@@ -193,7 +193,7 @@ if __name__ == '__main__':
     else:
         combinations = [args.prompt_representation_type]
 
-    df_result = pd.DataFrame(columns=["dataset_name", "config", "status", "number_iteration", "pipeline_gen_time",
+    df_result = pd.DataFrame(columns=["dataset_name", "config", "task_type", "status", "number_iteration", "pipeline_gen_time",
                                       "execution_time",
                                       "train_accuracy", "train_f1_score", "train_log_loss", "train_r_squared", "train_rmse",
                                       "test_accuracy", "test_f1_score", "test_log_loss", "test_r_squared", "test_rmse"])
@@ -202,7 +202,7 @@ if __name__ == '__main__':
             status, number_iteration, gen_time, execute_time, result = generate_and_run_pipeline(catalog=catalog,
                                                                                                  prompt_representation_type=rep_type,
                                                                                                  args=args)
-            df_result.loc[len(df_result)] = [args.dataset_name, rep_type, status, number_iteration,
+            df_result.loc[len(df_result)] = [args.dataset_name, rep_type, args.task_type, status, number_iteration,
                                              catalog_time + gen_time, execute_time,
                                              result["Train_Accuracy"], result["Train_F1_score"], result["Train_Log_loss"],
                                              result["Train_R_Squared"], result["Train_RMSE"],

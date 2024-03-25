@@ -1,1 +1,5 @@
 dataset,task_type,platform,time
+health-insurance,binary,kglids,41020
+pharyngitis,binary,kglids,30891
+playground-series-s3e12,binary,kglids,29586
+spaceship-titanic,binary,kglids,38626

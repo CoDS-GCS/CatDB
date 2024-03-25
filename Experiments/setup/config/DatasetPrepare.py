@@ -32,7 +32,7 @@ def parse_arguments():
 
 
 def split_data_save(data, ds_name, out_path):
-    data_train, data_test = train_test_split(data, test_size=0.5, random_state=42)
+    data_train, data_test = train_test_split(data, test_size=0.3, random_state=42)
     Path(f"{out_path}/{ds_name}").mkdir(parents=True, exist_ok=True)
 
     data.to_csv(f'{out_path}/{ds_name}/{ds_name}.csv', index=False)

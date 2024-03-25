@@ -29,21 +29,33 @@ def parse_arguments():
 if __name__ == '__main__':
     args = parse_arguments()    
     
-    datasetIDs = [(45570,"Higgs","binary",1),                
-                (1218,"Click_prediction_small","binary",13),                
-                (267,"BNG_heart-statlog","binary",19),                
-                (43489,"Census-Augmented","binary",25),               
-                (162,"SEA_50000","binary",30),
-                (246,"BNG_labor","binary",31),               
-                (41147,"albert","binary",45),                
-                (45567,"hcdr_main","binary",48),                
-                (1110,"KDDCup99_full","multiclass",51),                
-                (45274,"PASS","multiclass",58),
-                (42803,"road-safety","multiclass",75),                
-                (43044,"drug-directory","multiclass",82),                
-                (42734,"okcupid-stem","multiclass",97),
-                (45049,"MD_MIX_Mini_Copy","multiclass",109)        
-                  ]
+    # datasetIDs = [ (45693,'simulated_electricity','binary', 1),
+    #                (23513,'KDD98','binary', 2),                  
+    #                (45570,'Higgs','binary', 3),
+    #                (45072,'airlines','binary', 4),
+    #                (40514,'BNG_credit_g','binary', 5),
+    #                (45579,'Microsoft','multiclass', 6),
+    #                (45056,'cmc','multiclass', 7),
+    #                (37,'diabetes','multiclass', 8),
+    #                (43476,'3-million-Sudoku-puzzles-with-ratings','multiclass', 9),
+    #                (155,'pokerhand','multiclass', 10),
+    #                (4549,'Buzzinsocialmedia_Twitter','regression', 11),
+    #                (45045,'delays_zurich_transport','regression', 12),
+    #                (44065,'nyc-taxi-green-dec-2016','regression', 13),
+    #                (44057,'black_friday','regression', 14),
+    #                (42080,'federal_election','regression', 15),
+    #               ]    
+
+    datasetIDs = [ (45693,'Simulated_Electricity','binary', 1),                                    
+                   (45570,'Higgs','binary', 2),
+                   (45072,'airlines','binary', 3),
+                   (40514,'BNG_credit_g','binary', 4),                 
+                   (43476,'Sudoku_Puzzles','multiclass', 5),                  
+                   (45045,'Zurich_Transport','regression', 6),
+                   (44065,'NYC','regression', 7),
+                   (44057,'black_friday','regression', 8),
+                   (42080,'Federal_Election','regression', 9)
+                  ]  
        
    
     #dataset_list = 'row,orig_dataset_name,dataset_name,nrows,ncols,file_format,task_type,number_classes,original_url,target_feature,description\n'
@@ -82,4 +94,4 @@ if __name__ == '__main__':
 
         # "Row","ID","dataset_name", "orig_name","nrows","ncols","nclasses","target"
         dataset_list.loc[len(dataset_list)] = [dataset_index, dataset_id, dataset_out_name, dataset_name, nrows, ncols, number_classes, target_attribute]
-        dataset_list.to_csv(f"{args.data_out_path}/dataset_list.csv") 
+        dataset_list.to_csv(f"{args.setting_out_path}/dataset_list.csv") 

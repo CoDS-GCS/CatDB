@@ -1,0 +1,2 @@
+dataset_name,config,status,number_iteration,pipeline_gen_time,execution_time,train_accuracy,train_f1_score,train_log_loss,train_r_squared,train_rmse,test_accuracy,test_f1_score,test_log_loss,test_r_squared,test_rmse
+health-insurance,CatDB,True,1,22.904377460479736,2.3728015422821045,1.0,1.0,-1,-1,-1,0.7552376085845682,0.04332462743893071,-1,-1,-1

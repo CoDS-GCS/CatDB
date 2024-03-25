@@ -1,0 +1,2 @@
+dataset_name,config,status,number_iteration,pipeline_gen_time,execution_time,train_accuracy,train_f1_score,train_log_loss,train_r_squared,train_rmse,test_accuracy,test_f1_score,test_log_loss,test_r_squared,test_rmse
+balance-scale,CatDB,True,1,13.225181818008423,1.006814956665039,1.0,-1,0.09749814378995607,-1,-1,0.8178913738019169,-1,0.7081358800780354,-1,-1

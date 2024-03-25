@@ -1,0 +1,2 @@
+dataset_name,config,status,number_iteration,pipeline_gen_time,execution_time,accuracy,f1_score,log_loss,r_squared,rmse
+balance-scale,CatDB,True,1,15.263872385025024,0.891348123550415,0.8210862619808307,-1,0.8972157995931389,-1,-1

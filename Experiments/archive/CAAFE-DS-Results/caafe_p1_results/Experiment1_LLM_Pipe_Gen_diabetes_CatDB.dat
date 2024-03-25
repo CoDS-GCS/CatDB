@@ -1,0 +1,2 @@
+dataset_name,config,status,number_iteration,pipeline_gen_time,execution_time,accuracy,f1_score,log_loss,r_squared,rmse
+diabetes,CatDB,True,1,13.006603717803955,0.9055607318878174,0.7604166666666666,0.6434108527131783,-1,-1,-1

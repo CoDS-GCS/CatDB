@@ -1,0 +1,65 @@
+# Import all required packages
+import pandas as pd
+from sklearn.preprocessing import MinMaxScaler, OneHotEncoder
+from sklearn.compose import ColumnTransformer
+from sklearn.pipeline import Pipeline
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import accuracy_score, f1_score
+
+# Load the training and test datasets
+train_data = pd.read_csv('../../../data/credit-g/credit-g_train.csv')
+test_data = pd.read_csv('../../../data/credit-g/credit-g_test.csv')
+
+# Perform feature processing
+# Define the columns to be scaled and encoded
+scale_cols = ['num_dependents', 'credit_amount', 'residence_since', 'age', 'installment_commitment', 'duration', 'existing_credits']
+encode_cols = ['num_dependents', 'residence_since', 'installment_commitment', 'existing_credits', 'credit_history', 'job', 'housing', 'own_telephone', 'personal_status', 'property_magnitude', 'foreign_worker', 'other_parties', 'other_payment_plans', 'savings_status', 'checking_status', 'employment']
+
+# Define the transformers
+scaler = MinMaxScaler()
+encoder = OneHotEncoder()
+
+# Define the preprocessor
+preprocessor = ColumnTransformer(
+    transformers=[
+        ('num', scaler, scale_cols),
+        ('cat', encoder, encode_cols)])
+
+# Select the appropriate features and target variables
+X_train = train_data.drop(columns=['class'])
+y_train = train_data['class']
+
+X_test = test_data.drop(columns=['class'])
+y_test = test_data['class']
+
+# Fit and transform the training data
+X_train = preprocessor.fit_transform(X_train)
+
+# Transform the test data
+X_test = preprocessor.transform(X_test)
+
+# Choose the suitable machine learning algorithm or technique (classifier)
+# We choose RandomForestClassifier because it is a versatile and widely used classifier that can handle both numerical and categorical data.
+clf = RandomForestClassifier()
+
+# Define the pipeline
+pipeline = Pipeline(steps=[('classifier', clf)])
+
+# Fit the model
+pipeline.fit(X_train, y_train)
+
+# Report evaluation based on only test dataset
+# Predict the test data
+y_pred = pipeline.predict(X_test)
+
+# Calculate the model accuracy
+Accuracy = accuracy_score(y_test, y_pred)
+
+# Calculate the model f1 score
+F1_score = f1_score(y_test, y_pred)
+
+# Print the accuracy result
+print(f"Accuracy: {Accuracy}")
+
+# Print the f1 score result
+print(f"F1_score: {F1_score}")

@@ -1,0 +1,74 @@
+# Import all required packages
+import pandas as pd
+from sklearn.preprocessing import MinMaxScaler, LabelEncoder
+from sklearn.impute import SimpleImputer
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import accuracy_score, f1_score
+from sklearn.pipeline import Pipeline
+from sklearn.compose import ColumnTransformer
+from sklearn.base import BaseEstimator, TransformerMixin
+
+# Load the training and test datasets
+train_data = pd.read_csv('../../../data/heart-h/heart-h_train.csv')
+test_data = pd.read_csv('../../../data/heart-h/heart-h_test.csv')
+
+# Drop the 'ca' column as it is not present in the schema
+train_data.drop(columns=['ca'], inplace=True)
+test_data.drop(columns=['ca'], inplace=True)
+
+# Define a class for dummy encoding
+class DummyEncoder(BaseEstimator, TransformerMixin):
+    def fit(self, X, y=None):
+        self.columns_ = pd.get_dummies(X, drop_first=True).columns
+        return self
+
+    def transform(self, X):
+        X = pd.get_dummies(X, drop_first=True)
+        missing_cols = set(self.columns_) - set(X.columns)
+        for c in missing_cols:
+            X[c] = 0
+        return X[self.columns_]
+
+# Define preprocessing steps
+num_cols = ['thalach', 'age', 'trestbps', 'chol', 'oldpeak']
+cat_cols = ['chest_pain', 'thal', 'exang', 'fbs', 'sex', 'slope', 'restecg']
+
+num_transformer = Pipeline(steps=[
+    ('imputer', SimpleImputer(strategy='median')),
+    ('scaler', MinMaxScaler())
+])
+
+cat_transformer = Pipeline(steps=[
+    ('imputer', SimpleImputer(strategy='most_frequent')),
+    ('encoder', DummyEncoder())
+])
+
+preprocessor = ColumnTransformer(
+    transformers=[
+        ('num', num_transformer, num_cols),
+        ('cat', cat_transformer, cat_cols)
+    ])
+
+# Define the classifier
+clf = RandomForestClassifier(n_estimators=100, random_state=42)
+
+# Combine preprocessing and classifier into a pipeline
+pipeline = Pipeline(steps=[('preprocessor', preprocessor),
+                           ('classifier', clf)])
+
+# Train the model
+X_train = train_data.drop('num', axis=1)
+y_train = train_data['num']
+pipeline.fit(X_train, y_train)
+
+# Evaluate the model
+X_test = test_data.drop('num', axis=1)
+y_test = test_data['num']
+
+y_pred = pipeline.predict(X_test)
+
+Accuracy = accuracy_score(y_test, y_pred)
+F1_score = f1_score(y_test, y_pred, average='weighted')
+
+print(f"Accuracy: {Accuracy}")
+print(f"F1_score: {F1_score}")

@@ -1,0 +1,2 @@
+dataset_name,config,status,number_iteration,pipeline_gen_time,execution_time,accuracy,f1_score,log_loss,r_squared,rmse
+heart-h,CatDB,True,4,20.87477135658264,0.1569840908050537,0.7687074829931972,0.7717273954116058,-1,-1,-1

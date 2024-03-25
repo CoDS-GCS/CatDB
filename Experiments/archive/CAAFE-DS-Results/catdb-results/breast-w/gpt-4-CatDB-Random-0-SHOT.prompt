@@ -20,7 +20,7 @@ Output: A Python 3.10 code that performs the following steps:
  ```python 
  # (Feature name and description) 
  # Usefulness: (Description why this adds useful real world knowledge to classify 'Class' according to dataset description and attributes.) 
- (Some pandas code using 'Clump_Thickness', 'Mitoses', ... to add a new column for each row in df)
+ (Some pandas code using 'Single_Epi_Cell_Size', 'Marginal_Adhesion', ... to add a new column for each row in df)
  ```end
 	 12. Code formatting for dropping columns:
 ```python-dropping-columns
@@ -51,25 +51,23 @@ Output: A Python 3.10 code that performs the following steps:
 PROMPT TEXT:
 Schema, and Data Profiling Info:
 """
-Clump_Thickness (int): distinct-count [10], min-max values [1.0, 10.0], mean [4.53], median [4.00]
-Mitoses (int): distinct-count [9], min-max values [1.0, 10.0], mean [1.44], median [1.00]
-Single_Epi_Cell_Size (int): distinct-count [9], min-max values [1.0, 10.0], mean [3.15], median [2.00]
-Normal_Nucleoli (int): distinct-count [10], min-max values [1.0, 10.0], mean [2.68], median [1.00]
-Cell_Shape_Uniformity (int): distinct-count [10], min-max values [1.0, 10.0], mean [3.22], median [2.00]
-Cell_Size_Uniformity (int): distinct-count [10], min-max values [1.0, 10.0], mean [3.07], median [1.00]
-Bare_Nuclei (int): distinct-count [10], min-max values [1.0, 10.0], mean [3.56], median [1.00]
-Marginal_Adhesion (int): distinct-count [10], min-max values [1.0, 10.0], mean [2.72], median [1.00]
-Bland_Chromatin (int): distinct-count [10], min-max values [1.0, 10.0], mean [3.32], median [3.00]
-Class (str): distinct-count [2]
+Single_Epi_Cell_Size (int): distinct-count [9], min-max values [1.0, 10.0], mean [3.71], median [2.00]
+Marginal_Adhesion (int): distinct-count [9], min-max values [1.0, 10.0], mean [3.24], median [1.00]
+Bare_Nuclei (int): distinct-count [9], min-max values [1.0, 10.0], mean [3.41], median [1.00]
+Mitoses (int): distinct-count [7], min-max values [1.0, 10.0], mean [1.84], median [1.00]
+Bland_Chromatin (int): distinct-count [9], min-max values [1.0, 10.0], mean [3.27], median [3.00]
+Normal_Nucleoli (int): distinct-count [8], min-max values [1.0, 10.0], mean [3.29], median [1.00]
+Clump_Thickness (int): distinct-count [9], min-max values [1.0, 10.0], mean [5.10], median [5.00]
+Cell_Size_Uniformity (int): distinct-count [9], min-max values [1.0, 10.0], mean [3.22], median [2.00]
+Cell_Shape_Uniformity (int): distinct-count [8], min-max values [1.0, 10.0], mean [3.27], median [2.00]
+Class (bool): distinct-count [2]
 """
 
 Dataset Attribute:
-Number of samples (rows) in training dataset: 349
+Number of samples (rows) in training dataset: 51
 
-# Do missing values imputation for the following numerical columns:
-	Columns: Bare_Nuclei
 # Select an appropriate scaler the following numerical columns (do it base on the min-max, mean, and median values are in the "Schema, and Data Profiling Info"):
-	Columns: Clump_Thickness,Mitoses,Single_Epi_Cell_Size,Normal_Nucleoli,Cell_Shape_Uniformity,Cell_Size_Uniformity,Bare_Nuclei,Marginal_Adhesion,Bland_Chromatin
+	Columns: Single_Epi_Cell_Size,Marginal_Adhesion,Bare_Nuclei,Mitoses,Bland_Chromatin,Normal_Nucleoli,Clump_Thickness,Cell_Size_Uniformity,Cell_Shape_Uniformity
 # Encode all "object" columns by dummyEncode.
 
 

@@ -3,13 +3,13 @@ Task: Generate a data science pipeline in Python 3.11 that answers a question ba
 Input: A dataset in CSV format, a schema that describes the columns and data types of the dataset, and a data profiling info that summarizes the statistics and quality of the dataset. A question that requires data analysis or modeling to answer.
 Output: A Python 3.10 code that performs the following steps:
 	 1. Import the necessary libraries and modules.
-	 2. Load the raining and test datasets. For the training data, utilize the variable """train_data=../../../data/diabetes/diabetes_train.csv""", and for the test data, employ the variable """test_data=../../../data/diabetes/diabetes_test.csv""". Utilize pandas' CSV readers to load the datasets.
+	 2. Load the raining and test datasets. For the training data, utilize the variable """train_data=../../../data/tic-tac-toe/tic-tac-toe_train.csv""", and for the test data, employ the variable """test_data=../../../data/tic-tac-toe/tic-tac-toe_test.csv""". Utilize pandas' CSV readers to load the datasets.
 	 3. Don't split the train_data into train and test sets. Use only the given datasets.
 	 4. The user will provide the Schema, and Data Profiling Info of the dataset with columns appropriately named as attributes, enclosed in triple quotes, and preceded by the prefix "Schema, and Data Profiling Info:".
 	 5. Perform data cleaning and preprocessing.
 	 6. Perform feature processing (e.g., encode categorical values by dummyEncode).
-	 7. Select the appropriate features and target variables for the question. Additional columns add new semantic information, additional columns that are useful for a downstream algorithmpredicting "class". They can e.g. be feature combinations, transformations, aggregations where the new column is a function of the existing columns. Use appropriate scale factor for columns are needto transfer.
-	 8.  Perform drops columns, if these may be redundant and hurt the predictive performance of the downstream classifier (Feature selection). Dropping columns may help as the chance of overfitting is lower, especially if the dataset is small. The class will be trained on the dataset with the generated columns and evaluated on a holdout set.
+	 7. Select the appropriate features and target variables for the question. Additional columns add new semantic information, additional columns that are useful for a downstream algorithmpredicting "Class". They can e.g. be feature combinations, transformations, aggregations where the new column is a function of the existing columns. Use appropriate scale factor for columns are needto transfer.
+	 8.  Perform drops columns, if these may be redundant and hurt the predictive performance of the downstream classifier (Feature selection). Dropping columns may help as the chance of overfitting is lower, especially if the dataset is small. The Class will be trained on the dataset with the generated columns and evaluated on a holdout set.
 	 9. In order to avoid runtime error for unseen value on the target feature, do preprocessing based on union of train and test dataset.
 	 10. Code formatting for all required packages:
 ```python
@@ -19,8 +19,8 @@ Output: A Python 3.10 code that performs the following steps:
 	 11. Code formatting for each added column:
  ```python 
  # (Feature name and description) 
- # Usefulness: (Description why this adds useful real world knowledge to classify 'class' according to dataset description and attributes.) 
- (Some pandas code using 'preg', 'age', ... to add a new column for each row in df)
+ # Usefulness: (Description why this adds useful real world knowledge to classify 'Class' according to dataset description and attributes.) 
+ (Some pandas code using 'middle-left-square', 'top-right-square', ... to add a new column for each row in df)
  ```end
 	 12. Code formatting for dropping columns:
 ```python-dropping-columns
@@ -51,22 +51,23 @@ Output: A Python 3.10 code that performs the following steps:
 PROMPT TEXT:
 Schema, and Data Profiling Info:
 """
-preg (int): distinct-count [15], min-max values [0.0, 14.0], mean [3.82], median [3.00]
-age (int): distinct-count [52], min-max values [21.0, 81.0], mean [33.37], median [29.00]
-plas (int): distinct-count [130], min-max values [0.0, 199.0], mean [121.81], median [119.00]
-insu (int): distinct-count [161], min-max values [0.0, 846.0], mean [83.05], median [41.50]
-skin (int): distinct-count [50], min-max values [0.0, 99.0], mean [20.75], median [23.00]
-pres (int): distinct-count [44], min-max values [0.0, 122.0], mean [69.90], median [72.00]
-mass (float): distinct-count [229], min-max values [0.0, 67.0999984741211], mean [32.16], median [32.40]
-pedi (float): distinct-count [425], min-max values [0.0780000016093254, 2.3289999961853027], mean [0.46], median [0.38]
-class (bool): distinct-count [2]
+middle-left-square (int): distinct-count [3], min-max values [0.0, 2.0], mean [1.21], median [1.00]
+top-right-square (int): distinct-count [3], min-max values [0.0, 2.0], mean [1.20], median [1.00]
+bottom-middle-square (int): distinct-count [3], min-max values [0.0, 2.0], mean [0.97], median [1.00]
+bottom-left-square (int): distinct-count [3], min-max values [0.0, 2.0], mean [1.20], median [1.00]
+middle-right-square (int): distinct-count [3], min-max values [0.0, 2.0], mean [1.14], median [1.00]
+top-middle-square (int): distinct-count [3], min-max values [0.0, 2.0], mean [1.08], median [1.00]
+bottom-right-square (int): distinct-count [3], min-max values [0.0, 2.0], mean [1.25], median [1.00]
+middle-middle-square (int): distinct-count [3], min-max values [0.0, 2.0], mean [1.38], median [2.00]
+top-left-square (int): distinct-count [3], min-max values [0.0, 2.0], mean [1.38], median [2.00]
+Class (bool): distinct-count [2]
 """
 
 Dataset Attribute:
-Number of samples (rows) in training dataset: 576
+Number of samples (rows) in training dataset: 71
 
 # Select an appropriate scaler the following numerical columns (do it base on the min-max, mean, and median values are in the "Schema, and Data Profiling Info"):
-	Columns: preg,age,plas,insu,skin,pres,mass,pedi
+	Columns: middle-left-square,top-right-square,bottom-middle-square,bottom-left-square,middle-right-square,top-middle-square,bottom-right-square,middle-middle-square,top-left-square
 # Encode all "object" columns by dummyEncode.
 
 

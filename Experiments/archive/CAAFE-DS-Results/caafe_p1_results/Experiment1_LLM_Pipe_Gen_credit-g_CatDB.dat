@@ -1,2 +1,0 @@
-dataset_name,config,status,number_iteration,pipeline_gen_time,execution_time,accuracy,f1_score,log_loss,r_squared,rmse
-credit-g,CatDB,True,3,15.176491022109985,0.2052781581878662,0.75,0.8391248391248392,-1,-1,-1

@@ -3,7 +3,7 @@ Task: Generate a data science pipeline in Python 3.11 that answers a question ba
 Input: A dataset in CSV format, a schema that describes the columns and data types of the dataset, and a data profiling info that summarizes the statistics and quality of the dataset. A question that requires data analysis or modeling to answer.
 Output: A Python 3.10 code that performs the following steps:
 	 1. Import the necessary libraries and modules.
-	 2. Load the raining and test datasets. For the training data, utilize the variable """train_data=../../../data/credit-g/credit-g_train.csv""", and for the test data, employ the variable """test_data=../../../data/credit-g/credit-g_test.csv""". Utilize pandas' CSV readers to load the datasets.
+	 2. Load the raining and test datasets. For the training data, utilize the variable """train_data=../../../data/jungle_chess_2pcs_raw_endgame_complete/jungle_chess_2pcs_raw_endgame_complete_train.csv""", and for the test data, employ the variable """test_data=../../../data/jungle_chess_2pcs_raw_endgame_complete/jungle_chess_2pcs_raw_endgame_complete_test.csv""". Utilize pandas' CSV readers to load the datasets.
 	 3. Don't split the train_data into train and test sets. Use only the given datasets.
 	 4. The user will provide the Schema, and Data Profiling Info of the dataset with columns appropriately named as attributes, enclosed in triple quotes, and preceded by the prefix "Schema, and Data Profiling Info:".
 	 5. Perform data cleaning and preprocessing.
@@ -20,7 +20,7 @@ Output: A Python 3.10 code that performs the following steps:
  ```python 
  # (Feature name and description) 
  # Usefulness: (Description why this adds useful real world knowledge to classify 'class' according to dataset description and attributes.) 
- (Some pandas code using 'residence_since', 'job', ... to add a new column for each row in df)
+ (Some pandas code using 'black_piece0_file', 'white_piece0_rank', ... to add a new column for each row in df)
  ```end
 	 12. Code formatting for dropping columns:
 ```python-dropping-columns
@@ -34,15 +34,15 @@ Output: A Python 3.10 code that performs the following steps:
  # Explanation why the solution is selected 
  trn = ... 
  ```end
-	 14. Code formatting for binary classification evaluation:
+	 14. Code formatting for multiclass classification evaluation:
 ```python
 # Report evaluation based on train and test dataset
 # Calculate the model accuracy, represented by a value between 0 and 1, where 0 indicates low accuracy and 1 signifies higher accuracy. Store the accuracy value in a variable labeled as "Train_Accuracy=..." and "Test_Accuracy=...".
-# Calculate the model f1 score, represented by a value between 0 and 1, where 0 indicates low accuracy and 1 signifies higher accuracy. Store the f1 score value in a variable labeled as "Train_F1_score=..." and "Test_F1_score=...".
+# Calculate the model log loss, a lower log-loss value means better predictions. Store the  log loss value in a variable labeled as "Train_Log_loss=..." and "Test_Log_loss=...".
 # Print the train accuracy result: print(f"Train_Accuracy:{Train_Accuracy}")   
-# Print the train f1 score result: print(f"Train_F1_score:{Train_F1_score}")
+# Print the train log loss result: print(f"Train_Log_loss:{Train_Log_loss}") 
 # Print the test accuracy result: print(f"Test_Accuracy:{Test_Accuracy}")   
-# Print the test f1 score result: print(f"Test_F1_score:{Test_F1_score}") 
+# Print the test log loss result: print(f"Test_Log_loss:{Test_Log_loss}")
 ```end
 
 	 15. If the question is not relevant to the dataset or the task, the output should be: "Insufficient information."
@@ -51,36 +51,22 @@ Output: A Python 3.10 code that performs the following steps:
 PROMPT TEXT:
 Schema, and Data Profiling Info:
 """
-residence_since (int): distinct-count [4], min-max values [1.0, 4.0], mean [2.85], median [3.00]
-job (int): distinct-count [4], min-max values [0.0, 3.0], mean [1.88], median [2.00]
-other_parties (int): distinct-count [3], min-max values [0.0, 2.0], mean [0.15], median [0.00]
-duration (int): distinct-count [31], min-max values [4.0, 72.0], mean [20.73], median [18.00]
-employment (int): distinct-count [5], min-max values [0.0, 4.0], mean [2.41], median [2.00]
-housing (int): distinct-count [3], min-max values [0.0, 2.0], mean [0.93], median [1.00]
-checking_status (int): distinct-count [4], min-max values [0.0, 3.0], mean [1.61], median [1.00]
-savings_status (int): distinct-count [5], min-max values [0.0, 4.0], mean [1.14], median [0.00]
-property_magnitude (int): distinct-count [4], min-max values [0.0, 3.0], mean [1.34], median [1.00]
-credit_amount (int): distinct-count [705], min-max values [250.0, 18424.0], mean [3297.92], median [2281.00]
-credit_history (int): distinct-count [5], min-max values [0.0, 4.0], mean [2.53], median [2.00]
-age (int): distinct-count [53], min-max values [19.0, 75.0], mean [36.16], median [33.00]
-other_payment_plans (int): distinct-count [3], min-max values [0.0, 2.0], mean [1.68], median [2.00]
-existing_credits (int): distinct-count [4], min-max values [1.0, 4.0], mean [1.41], median [1.00]
-personal_status (int): distinct-count [4], min-max values [0.0, 3.0], mean [1.67], median [2.00]
-purpose (int): distinct-count [10], min-max values [0.0, 10.0], mean [2.82], median [2.00]
-installment_commitment (int): distinct-count [4], min-max values [1.0, 4.0], mean [2.99], median [3.00]
-num_dependents (int): distinct-count [2], min-max values [1.0, 2.0], mean [1.16], median [1.00]
-own_telephone (bool): distinct-count [2]
-foreign_worker (bool): distinct-count [2]
-class (bool): distinct-count [2]
+black_piece0_file (int): distinct-count [7], min-max values [0.0, 6.0], mean [3.02], median [3.00]
+white_piece0_rank (int): distinct-count [9], min-max values [0.0, 8.0], mean [3.88], median [4.00]
+white_piece0_strength (int): distinct-count [5], min-max values [0.0, 7.0], mean [4.17], median [6.00]
+black_piece0_strength (int): distinct-count [5], min-max values [0.0, 7.0], mean [4.03], median [5.00]
+black_piece0_rank (int): distinct-count [9], min-max values [0.0, 8.0], mean [4.09], median [4.00]
+white_piece0_file (int): distinct-count [7], min-max values [0.0, 6.0], mean [2.91], median [3.00]
+class (int): distinct-count [3]
 """
 
 Dataset Attribute:
-Number of samples (rows) in training dataset: 750
+Number of samples (rows) in training dataset: 1500
 
 # Select an appropriate scaler the following numerical columns (do it base on the min-max, mean, and median values are in the "Schema, and Data Profiling Info"):
-	Columns: residence_since,job,other_parties,duration,employment,housing,checking_status,savings_status,property_magnitude,credit_amount,credit_history,age,other_payment_plans,existing_credits,personal_status,purpose,installment_commitment,num_dependents
+	Columns: black_piece0_file,white_piece0_rank,white_piece0_strength,black_piece0_strength,black_piece0_rank,white_piece0_file
 # Encode categorical values by "on-hot-encoder" for the following columns:
-	Columns: residence_since,job,other_parties,employment,housing,checking_status,savings_status,property_magnitude,credit_history,other_payment_plans,existing_credits,personal_status,installment_commitment,num_dependents,own_telephone,foreign_worker
+	Columns: black_piece0_file,white_piece0_rank,white_piece0_strength,black_piece0_strength,black_piece0_rank,white_piece0_file
 # Encode all "object" columns by dummyEncode.
 
 

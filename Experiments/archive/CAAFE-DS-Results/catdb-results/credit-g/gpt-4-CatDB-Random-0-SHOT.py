@@ -1,4 +1,3 @@
-# ```python
 # Import all required packages
 import pandas as pd
 from sklearn.preprocessing import StandardScaler, OneHotEncoder
@@ -6,67 +5,50 @@ from sklearn.compose import ColumnTransformer
 from sklearn.pipeline import Pipeline
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score, f1_score
-# ```end
 
-# ```python
 # Load the training and test datasets
 train_data = pd.read_csv('../../../data/credit-g/credit-g_train.csv')
 test_data = pd.read_csv('../../../data/credit-g/credit-g_test.csv')
-# ```end
 
-# ```python
-# Perform data cleaning and preprocessing
-# As per the given schema and data profiling info, there is no missing data. So, no data cleaning is required.
-# ```end
-
-# ```python
 # Perform feature processing
-# Define preprocessor
+# Define the columns to be scaled and encoded
+scale_cols = ['residence_since', 'job', 'other_parties', 'duration', 'employment', 'housing', 'checking_status', 'savings_status', 'property_magnitude', 'credit_amount', 'credit_history', 'age', 'other_payment_plans', 'existing_credits', 'personal_status', 'purpose', 'installment_commitment', 'num_dependents']
+encode_cols = ['residence_since', 'job', 'other_parties', 'employment', 'housing', 'checking_status', 'savings_status', 'property_magnitude', 'credit_history', 'other_payment_plans', 'existing_credits', 'personal_status', 'installment_commitment', 'num_dependents', 'own_telephone', 'foreign_worker']
+
+# Define the preprocessing steps
 preprocessor = ColumnTransformer(
     transformers=[
-        ('num', StandardScaler(), ['num_dependents', 'credit_amount', 'residence_since', 'age', 'installment_commitment', 'duration', 'existing_credits']),
-        ('cat', OneHotEncoder(), ['num_dependents', 'residence_since', 'installment_commitment', 'existing_credits', 'credit_history', 'job', 'housing', 'own_telephone', 'personal_status', 'property_magnitude', 'foreign_worker', 'other_parties', 'other_payment_plans', 'savings_status', 'checking_status', 'employment'])
-    ])
-# ```end
+        ('num', StandardScaler(), scale_cols),
+        ('cat', OneHotEncoder(), encode_cols)])
 
-# ```python
-# Select the appropriate features and target variables for the question
-X_train = train_data.drop('class', axis=1)
+# Select the appropriate features and target variables
+X_train = train_data.drop(columns=['class'])
 y_train = train_data['class']
-X_test = test_data.drop('class', axis=1)
+
+X_test = test_data.drop(columns=['class'])
 y_test = test_data['class']
-# ```end
 
-# ```python
-# Perform drops columns, if these may be redundant and hurt the predictive performance of the downstream classifier
-# As per the given schema and data profiling info, there is no redundant column. So, no column is dropped.
-# ```end
-
-# ```python
 # Choose the suitable machine learning algorithm or technique (classifier)
-# RandomForestClassifier is chosen because it is a versatile and widely used algorithm that can handle both numerical and categorical data, and it also has methods for balancing error in class populations.
-clf = Pipeline(steps=[('preprocessor', preprocessor),
-                      ('classifier', RandomForestClassifier())])
-# ```end
+clf = RandomForestClassifier(n_estimators=100, random_state=42)
 
-# ```python
-# Train the model
-clf.fit(X_train, y_train)
-# ```end
+# Create a pipeline that preprocesses the data and then fits the classifier
+pipeline = Pipeline(steps=[('preprocessor', preprocessor),
+                           ('classifier', clf)])
 
-# ```python
+# Fit the pipeline to the training data
+pipeline.fit(X_train, y_train)
+
 # Report evaluation based on train and test dataset
-y_train_pred = clf.predict(X_train)
-y_test_pred = clf.predict(X_test)
+y_train_pred = pipeline.predict(X_train)
+y_test_pred = pipeline.predict(X_test)
 
 Train_Accuracy = accuracy_score(y_train, y_train_pred)
 Test_Accuracy = accuracy_score(y_test, y_test_pred)
 
-Train_F1_score = f1_score(y_train, y_train_pred, average='weighted')
-Test_F1_score = f1_score(y_test, y_test_pred, average='weighted')
+Train_F1_score = f1_score(y_train, y_train_pred)
+Test_F1_score = f1_score(y_test, y_test_pred)
 
 print(f"Train_Accuracy:{Train_Accuracy}")
 print(f"Train_F1_score:{Train_F1_score}")
 print(f"Test_Accuracy:{Test_Accuracy}")
 print(f"Test_F1_score:{Test_F1_score}")
-# ```end

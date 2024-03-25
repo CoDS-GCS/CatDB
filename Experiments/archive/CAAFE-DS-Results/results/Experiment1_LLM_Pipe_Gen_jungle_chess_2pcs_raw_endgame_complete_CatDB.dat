@@ -1,2 +1,2 @@
 dataset_name,config,status,number_iteration,pipeline_gen_time,execution_time,train_accuracy,train_f1_score,train_log_loss,train_r_squared,train_rmse,test_accuracy,test_f1_score,test_log_loss,test_r_squared,test_rmse
-breast-w,CatDB,True,1,24.914202451705933,0.835188627243042,1.0,1.0,-1,-1,-1,1.0,1.0,-1,-1,-1
+jungle_chess_2pcs_raw_endgame_complete,CatDB,True,1,15.652003765106201,1.111283302307129,1.0,-1,0.1395517512704871,-1,-1,0.862,-1,0.4332246964154301,-1,-1

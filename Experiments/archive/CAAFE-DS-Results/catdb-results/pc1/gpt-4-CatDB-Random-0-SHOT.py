@@ -8,8 +8,8 @@ from sklearn.metrics import accuracy_score, f1_score
 
 # ```python
 # Load the training and test datasets
-train_data = pd.read_csv("../../../data/diabetes/diabetes_train.csv")
-test_data = pd.read_csv("../../../data/diabetes/diabetes_test.csv")
+train_data = pd.read_csv('../../../data/pc1/pc1_train.csv')
+test_data = pd.read_csv('../../../data/pc1/pc1_test.csv')
 # ```end
 
 # ```python
@@ -24,15 +24,15 @@ test_data.fillna(test_data.median(), inplace=True)
 # Encode categorical values by dummyEncode
 le = LabelEncoder()
 for column in train_data.columns:
-    if train_data[column].dtype == type(object):
+    if train_data[column].dtype == 'object':
         train_data[column] = le.fit_transform(train_data[column])
         test_data[column] = le.transform(test_data[column])
 # ```end
 
 # ```python
-# Select the appropriate features and target variables
-features = ['preg', 'age', 'plas', 'insu', 'skin', 'pres', 'mass', 'pedi']
-target = 'class'
+# Select the appropriate features and target variables for the question
+features = ['lOCode', 'locCodeAndComment', 'lOComment', 'lOBlank', 'N', 'uniq_Op', 'D', 'branchCount', 'V', 'T', 'E', 'total_Opnd', 'v(g)', 'ev(g)', 'I', 'loc', 'B', 'L', 'total_Op', 'uniq_Opnd', 'iv(G)']
+target = 'defects'
 
 X_train = train_data[features]
 y_train = train_data[target]
@@ -50,7 +50,7 @@ X_test = scaler.transform(X_test)
 # ```python
 # Choose the suitable machine learning algorithm or technique (classifier)
 # RandomForestClassifier is selected because it is a versatile and widely used algorithm that can handle both categorical and numerical features.
-clf = RandomForestClassifier(n_estimators=100, random_state=42)
+clf = RandomForestClassifier(n_jobs=-1)
 clf.fit(X_train, y_train)
 # ```end
 

@@ -20,7 +20,7 @@ Output: A Python 3.10 code that performs the following steps:
  ```python 
  # (Feature name and description) 
  # Usefulness: (Description why this adds useful real world knowledge to classify 'class' according to dataset description and attributes.) 
- (Some pandas code using 'left-distance', 'left-weight', ... to add a new column for each row in df)
+ (Some pandas code using 'right-distance', 'left-distance', ... to add a new column for each row in df)
  ```end
 	 12. Code formatting for dropping columns:
 ```python-dropping-columns
@@ -51,18 +51,18 @@ Output: A Python 3.10 code that performs the following steps:
 PROMPT TEXT:
 Schema, and Data Profiling Info:
 """
-left-distance (int): distinct-count [5], min-max values [1.0, 5.0], mean [3.00], median [3.00]
-left-weight (int): distinct-count [5], min-max values [1.0, 5.0], mean [3.03], median [3.00]
-right-distance (int): distinct-count [5], min-max values [1.0, 5.0], mean [2.96], median [3.00]
-right-weight (int): distinct-count [5], min-max values [1.0, 5.0], mean [2.94], median [3.00]
-class (str): distinct-count [3]
+right-distance (int): distinct-count [5], min-max values [1.0, 5.0], mean [3.06], median [3.00]
+left-distance (int): distinct-count [5], min-max values [1.0, 5.0], mean [3.25], median [3.00]
+right-weight (int): distinct-count [5], min-max values [1.0, 5.0], mean [3.34], median [4.00]
+left-weight (int): distinct-count [5], min-max values [1.0, 5.0], mean [3.01], median [3.00]
+class (int): distinct-count [3]
 """
 
 Dataset Attribute:
-Number of samples (rows) in training dataset: 312
+Number of samples (rows) in training dataset: 93
 
 # Select an appropriate scaler the following numerical columns (do it base on the min-max, mean, and median values are in the "Schema, and Data Profiling Info"):
-	Columns: left-distance,left-weight,right-distance,right-weight
+	Columns: right-distance,left-distance,right-weight,left-weight
 # Encode all "object" columns by dummyEncode.
 
 

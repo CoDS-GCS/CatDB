@@ -49,7 +49,8 @@ if __name__ == '__main__':
     args = parse_arguments()
     catalog = load_data_source_profile(data_source_path=args.data_profile_path,
                                        file_format="JSON",
-                                       target_attribute=args.target_attribute)
+                                       target_attribute=args.target_attribute,
+                                       enable_reduction=False)
     schema_info = catalog.schema_info
     profile_info = catalog.profile_info
     nbools = 0

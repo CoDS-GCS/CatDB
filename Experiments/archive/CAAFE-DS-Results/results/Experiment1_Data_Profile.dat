@@ -1,5 +1,11 @@
 dataset,task_type,platform,time
-health-insurance,binary,kglids,41020
-pharyngitis,binary,kglids,30891
-playground-series-s3e12,binary,kglids,29586
-spaceship-titanic,binary,kglids,38626
+balance-scale,multiclass,kglids,34210
+breast-w,binary,kglids,30456
+cmc,multiclass,kglids,29818
+credit-g,binary,kglids,30716
+diabetes,binary,kglids,30015
+tic-tac-toe,binary,kglids,30056
+eucalyptus,multiclass,kglids,30667
+pc1,binary,kglids,31331
+airlines,binary,kglids,30136
+jungle_chess_2pcs_raw_endgame_complete,multiclass,kglids,31591

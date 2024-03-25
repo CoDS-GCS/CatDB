@@ -1,2 +1,0 @@
-dataset_name,config,status,number_iteration,pipeline_gen_time,execution_time,train_accuracy,train_f1_score,train_log_loss,train_r_squared,train_rmse,test_accuracy,test_f1_score,test_log_loss,test_r_squared,test_rmse
-pharyngitis,CatDB,True,1,35.54183006286621,0.8639049530029297,1.0,1.0,-1,-1,-1,0.6745562130177515,0.5925925925925926,-1,-1,-1

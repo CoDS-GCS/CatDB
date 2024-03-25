@@ -1,2 +1,2 @@
 dataset_name,config,status,number_iteration,pipeline_gen_time,execution_time,train_accuracy,train_f1_score,train_log_loss,train_r_squared,train_rmse,test_accuracy,test_f1_score,test_log_loss,test_r_squared,test_rmse
-breast-w,CatDB,True,1,24.914202451705933,0.835188627243042,1.0,1.0,-1,-1,-1,1.0,1.0,-1,-1,-1
+eucalyptus,CatDB,True,3,32.40241289138794,0.26907968521118164,1.0,-1,0.1964474813808487,-1,-1,0.6467391304347826,-1,0.8016427362655835,-1,-1

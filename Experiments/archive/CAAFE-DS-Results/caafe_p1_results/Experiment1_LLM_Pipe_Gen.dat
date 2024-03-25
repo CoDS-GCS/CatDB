@@ -1,7 +1,0 @@
-dataset,llm_model,prompt_representation_type,prompt_example_type,prompt_number_example,task_type,time
-,gpt-4,CatDB,Random,0,binary,19816
-,gpt-4,CatDB,Random,0,binary,46287
-,gpt-4,CatDB,Random,0,binary,15223
-,gpt-4,CatDB,Random,0,binary,73033
-,gpt-4,CatDB,Random,0,multiclass,17287
-,gpt-4,CatDB,Random,0,binary,19617

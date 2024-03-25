@@ -1,7 +1,0 @@
-dataset,task_type,platform,time
-breast-w,binary,kglids,37954
-credit-g,binary,kglids,37522
-diabetes,binary,kglids,32434
-heart-h,binary,kglids,33938
-balance-scale,multiclass,kglids,32915
-cmc,binary,kglids,29691

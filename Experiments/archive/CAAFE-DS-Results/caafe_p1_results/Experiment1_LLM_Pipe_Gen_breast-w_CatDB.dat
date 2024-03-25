@@ -1,2 +1,0 @@
-dataset_name,config,status,number_iteration,pipeline_gen_time,execution_time,accuracy,f1_score,log_loss,r_squared,rmse
-breast-w,CatDB,True,1,17.583237648010254,0.9584770202636719,0.9457142857142857,0.921161825726141,-1,-1,-1

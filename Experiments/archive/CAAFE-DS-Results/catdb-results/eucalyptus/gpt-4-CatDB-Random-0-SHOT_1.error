@@ -1,5 +1,5 @@
 Traceback (most recent call last):
   File "/home/ubuntu/CatDB/Experiments/setup/Baselines/CatDB/runcode/RunCode.py", line 36, in execute_code
     exec(compile(parse, filename="<ast>", mode="exec"), loc)
-  File "<ast>", line 43, in <module>
-AttributeError: 'numpy.ndarray' object has no attribute 'drop'
+  File "<ast>", line 32, in <module>
+AttributeError: 'OneHotEncoder' object has no attribute 'get_feature_names'

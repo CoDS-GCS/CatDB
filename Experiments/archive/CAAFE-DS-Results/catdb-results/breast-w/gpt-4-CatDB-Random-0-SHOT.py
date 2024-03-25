@@ -2,7 +2,6 @@
 # Import all required packages
 import pandas as pd
 from sklearn.preprocessing import MinMaxScaler, LabelEncoder
-from sklearn.impute import SimpleImputer
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score, f1_score
 # ```end
@@ -15,38 +14,42 @@ test_data = pd.read_csv('../../../data/breast-w/breast-w_test.csv')
 
 # ```python
 # Perform data cleaning and preprocessing
-# Impute missing values in 'Bare_Nuclei' column with median
-imputer = SimpleImputer(strategy='median')
-train_data['Bare_Nuclei'] = imputer.fit_transform(train_data['Bare_Nuclei'].values.reshape(-1,1))
-test_data['Bare_Nuclei'] = imputer.transform(test_data['Bare_Nuclei'].values.reshape(-1,1))
+# Here we assume that the data is clean and does not contain any missing or erroneous values.
+# If there were any, we would need to handle them appropriately (e.g., by removing rows with missing values or filling them with mean/median/mode, etc.)
 # ```end
 
 # ```python
 # Perform feature processing
-# Scale numerical columns
-scaler = MinMaxScaler()
-numerical_cols = ['Clump_Thickness', 'Mitoses', 'Single_Epi_Cell_Size', 'Normal_Nucleoli', 'Cell_Shape_Uniformity', 'Cell_Size_Uniformity', 'Bare_Nuclei', 'Marginal_Adhesion', 'Bland_Chromatin']
-train_data[numerical_cols] = scaler.fit_transform(train_data[numerical_cols])
-test_data[numerical_cols] = scaler.transform(test_data[numerical_cols])
-
-# Encode categorical columns
-encoder = LabelEncoder()
-train_data['Class'] = encoder.fit_transform(train_data['Class'])
-test_data['Class'] = encoder.transform(test_data['Class'])
+# Encode categorical values by dummyEncode
+# Here we assume that all the columns are numerical and do not need encoding.
+# If there were any categorical columns, we would need to encode them using one-hot encoding or label encoding, etc.
 # ```end
 
 # ```python
-# Select the appropriate features and target variables
-X_train = train_data.drop('Class', axis=1)
-y_train = train_data['Class']
-X_test = test_data.drop('Class', axis=1)
-y_test = test_data['Class']
+# Select the appropriate features and target variables for the question
+features = ['Single_Epi_Cell_Size', 'Marginal_Adhesion', 'Bare_Nuclei', 'Mitoses', 'Bland_Chromatin', 'Normal_Nucleoli', 'Clump_Thickness', 'Cell_Size_Uniformity', 'Cell_Shape_Uniformity']
+target = 'Class'
+
+X_train = train_data[features]
+y_train = train_data[target]
+
+X_test = test_data[features]
+y_test = test_data[target]
+# ```end
+
+# ```python
+# Scale the features using MinMaxScaler
+scaler = MinMaxScaler()
+X_train = scaler.fit_transform(X_train)
+X_test = scaler.transform(X_test)
 # ```end
 
 # ```python
 # Choose the suitable machine learning algorithm or technique (classifier)
-# RandomForestClassifier is chosen because it is a versatile and widely used algorithm that can handle both numerical and categorical data, and it also has a good performance in general.
-clf = RandomForestClassifier(n_jobs=-1, random_state=42)
+# Here we use RandomForestClassifier as it is a powerful and versatile machine learning algorithm capable of performing both regression and classification tasks. 
+# It is also one of the most used algorithms, because of its simplicity and the fact that it can be used for both classification and regression tasks. 
+# In this case, we are using it for classification.
+clf = RandomForestClassifier(n_jobs=-1)
 clf.fit(X_train, y_train)
 # ```end
 

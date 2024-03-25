@@ -14,34 +14,35 @@ test_data = pd.read_csv('../../../data/balance-scale/balance-scale_test.csv')
 
 # ```python
 # Perform data cleaning and preprocessing
-# Based on the Schema, and Data Profiling Info, there is no missing values and all the columns are appropriately named. So, no data cleaning is required.
+# As per the given schema, there are no missing values and all the columns are of integer type. So, no data cleaning is required.
 # ```end
 
 # ```python
 # Perform feature processing
 # Scale the numerical columns
 scaler = MinMaxScaler()
-train_data[['left-distance', 'left-weight', 'right-distance', 'right-weight']] = scaler.fit_transform(train_data[['left-distance', 'left-weight', 'right-distance', 'right-weight']])
-test_data[['left-distance', 'left-weight', 'right-distance', 'right-weight']] = scaler.transform(test_data[['left-distance', 'left-weight', 'right-distance', 'right-weight']])
-
-# Encode the categorical columns
-le = LabelEncoder()
-train_data['class'] = le.fit_transform(train_data['class'])
-test_data['class'] = le.transform(test_data['class'])
+train_data[['right-distance', 'left-distance', 'right-weight', 'left-weight']] = scaler.fit_transform(train_data[['right-distance', 'left-distance', 'right-weight', 'left-weight']])
+test_data[['right-distance', 'left-distance', 'right-weight', 'left-weight']] = scaler.transform(test_data[['right-distance', 'left-distance', 'right-weight', 'left-weight']])
 # ```end
 
 # ```python
-# Select the appropriate features and target variables for the question
-X_train = train_data.drop('class', axis=1)
-y_train = train_data['class']
-X_test = test_data.drop('class', axis=1)
-y_test = test_data['class']
+# Select the appropriate features and target variables
+features = ['right-distance', 'left-distance', 'right-weight', 'left-weight']
+target = 'class'
+X_train = train_data[features]
+y_train = train_data[target]
+X_test = test_data[features]
+y_test = test_data[target]
+# ```end
+
+# ```python
+# No columns are dropped as all the columns are necessary for the prediction of the class
 # ```end
 
 # ```python
 # Choose the suitable machine learning algorithm or technique (classifier)
-# RandomForestClassifier is selected because it is a versatile and widely used algorithm that can handle both categorical and numerical features.
-clf = RandomForestClassifier(n_jobs=-1)  # n_jobs=-1 means that the computation will be dispatched on all the CPUs of the computer.
+# RandomForestClassifier is chosen because it is a versatile algorithm that can handle both categorical and numerical features. It also handles overfitting.
+clf = RandomForestClassifier(n_jobs=-1)
 clf.fit(X_train, y_train)
 # ```end
 

@@ -69,21 +69,16 @@ def run_caafe(dataset_name):
   pred = clf_no_feat_eng.predict(test_x)
   acc_before = accuracy_score(pred, test_y)
 
-  # print(f'Accuracy before CAAFE {acc}')
+  caafe_clf = CAAFEClassifier(base_classifier=clf_no_feat_eng,
+                            llm_model="gpt-4",
+                            iterations=10)
 
-  # caafe_clf = CAAFEClassifier(base_classifier=clf_no_feat_eng,
-  #                           llm_model="gpt-4",
-  #                           iterations=10)
+  caafe_clf.fit_pandas(df_train,
+                      target_column_name=target_column_name,
+                      dataset_description=dataset_description)
 
-  # caafe_clf.fit_pandas(df_train,
-  #                     target_column_name=target_column_name,
-  #                     dataset_description=dataset_description)
-
-  # pred = caafe_clf.predict(df_test)
-  # acc_after = accuracy_score(pred, test_y)
-  # # print(f'Accuracy after CAAFE {acc}')
-
-  acc_after = 0
+  pred = caafe_clf.predict(df_test)
+  acc_after = accuracy_score(pred, test_y)
 
   log = [ds_name,task_type,acc_before,acc_after]
   

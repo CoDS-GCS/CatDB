@@ -22,9 +22,9 @@ echo "dataset,source,time" >> "${exp_path}/results/Experiment3_Hand-craft.dat"
 cd ${exp_path}
 
 #CMD=./explocal/exp0_statistics/runExperiment0.sh
-CMD=./explocal/exp1_catalog/runExperiment1.sh
+#CMD=./explocal/exp1_catalog/runExperiment1.sh
 #CMD=./explocal/exp2_micro_benchmark/runExperiment2.sh 
-#CMD=./explocal/exp3_end_to_end/runExperiment3.sh 
+CMD=./explocal/exp3_end_to_end/runExperiment3.sh 
 
 $CMD balance-scale multiclass test
 $CMD breast-w binary test

@@ -14,4 +14,4 @@ dataset=$1
 # ./explocal/exp3_end_to_end/runExperiment3_AutoML.sh $dataset $constraint
 
 
-./explocal/exp3_end_to_end/runExperiment3_CAFFE.sh $dataset
+./explocal/exp3_end_to_end/runExperiment3_CAAFE.sh $dataset

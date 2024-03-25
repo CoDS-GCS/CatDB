@@ -6,13 +6,13 @@ dataset=$1
 exp_path="$(pwd)"
 log_file_name="${exp_path}/results/Experiment3_CAAFE.dat"
 log_file_name_dataset="${exp_path}/results/Experiment3_CAAFE_${dataset}.dat"
-log_file_name_nohub="${exp_path}/results/Experiment3_CAAFE_${dataset}.dat"
+log_file_name_nohup="${exp_path}/results/Experiment3_CAAFE_nohup_${dataset}.dat"
 error_file_name="${exp_path}/results/Experiment3_CAAFE_ERROR_${dataset}.dat"
 
 cd "${exp_path}/setup/Baselines/CAAFE"
 source venv/bin/activate
 
-SCRIPT="python CAAFE.py --dataset_name=${dataset}  --log_file_name=${log_file_name_dataset} > ${log_file_name_nohub} 2>${error_file_name} < /dev/null"
+SCRIPT="python CAAFE.py --dataset-name ${dataset}  --log-file-name ${log_file_name_dataset} > ${log_file_name_nohup} 2>${error_file_name} < /dev/null"
 
 echo "${SCRIPT}"
 

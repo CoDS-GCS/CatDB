@@ -87,15 +87,15 @@ cd $path
 
 # Prepare Config
 ################
-config_path="${path}/config/"
-cd ${config_path}
-rm -rf venv
-python -m venv venv
-source venv/bin/activate
+# config_path="${path}/config/"
+# cd ${config_path}
+# rm -rf venv
+# python -m venv venv
+# source venv/bin/activate
 
-#Then install the dependencies:
-python -m pip install --upgrade pip
-python -m pip install -r requirements.txt
+# #Then install the dependencies:
+# python -m pip install --upgrade pip
+# python -m pip install -r requirements.txt
 
 
 # Setup Hand-craft baseline
@@ -133,6 +133,7 @@ baselines_path="$path/Baselines"
 cd ${baselines_path}
 rm -rf CAAFE
 cp -r ${path}"/config/CAAFE" ${baselines_path}
+cd CAAFE
 
 rm -rf venv
 python -m venv venv

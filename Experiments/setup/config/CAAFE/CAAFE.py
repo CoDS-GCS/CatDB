@@ -18,15 +18,15 @@ import pandas as pd
 def parse_arguments():
     parser = ArgumentParser()
     parser.add_argument('--dataset-name', type=str, default=None)
-    parser.add_argument('--result-path', type=str, default=None)
+    parser.add_argument('--log-file-name', type=str, default=None)
 
     args = parser.parse_args()
 
-    if args.dataset_id is None:
-        raise Exception("--dataset-id is a required parameter!")
+    if args.dataset_name is None:
+        raise Exception("--dataset-name is a required parameter!")
     
-    if args.result_path is None:
-        raise Exception("--result-path is a required parameter!")
+    if args.log_file_name is None:
+        raise Exception("--log-file-name is a required parameter!")
 
     return args
 
@@ -38,7 +38,7 @@ def run_caafe(dataset_name):
 
   ds = None
   for d in cc_test_datasets_multiclass:
-     if d in d[0]:
+     if dataset_name in d[0]:
         ds = d
         break
   if ds is None:
@@ -96,4 +96,4 @@ if __name__ == '__main__':
    if log is not None:
     df_result = pd.DataFrame(columns=["dataset_name","task_type", "accuracy_before", "accuracy_after"])
     df_result.loc[len(df_result)] = log
-    df_result.to_csv(args.result_path, index=False)   
+    df_result.to_csv(args.log_file_name, index=False)   

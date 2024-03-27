@@ -71,19 +71,19 @@ def run_caafe(args):
   acc_test_before = accuracy_score(pred_test, test_y)
   acc_train_before = accuracy_score(pred_train, train_y)
 
-#   caafe_clf = CAAFEClassifier(base_classifier=clf_no_feat_eng,
-#                             llm_model="gpt-4",
-#                             iterations=2)
+  caafe_clf = CAAFEClassifier(base_classifier=clf_no_feat_eng,
+                            llm_model="gpt-4",
+                            iterations=2)
 
-#   caafe_clf.fit_pandas(df_train,
-#                       target_column_name=args.target_attribute,
-#                       dataset_description="")
+  caafe_clf.fit_pandas(df_train,
+                      target_column_name=args.target_attribute,
+                      dataset_description="")
 
-#   pred_test = caafe_clf.predict(df_test)
-#   pred_train = caafe_clf.predict(df_train)
+  pred_test = caafe_clf.predict(df_test)
+  pred_train = caafe_clf.predict(df_train)
 
-#   acc_test_after = accuracy_score(pred_test, test_y)
-#   acc_train_after = accuracy_score(pred_train, train_y)
+  acc_test_after = accuracy_score(pred_test, test_y)
+  acc_train_after = accuracy_score(pred_train, train_y)
 
   acc_train_after = 0
   acc_test_after = 0

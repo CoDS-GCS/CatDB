@@ -56,8 +56,6 @@ def run_caafe(args):
   df_train = pd.read_csv(args.data_source_train_path)
   df_test = pd.read_csv(args.data_source_test_path)
 
-  print(df_train)
-
   df_train, df_test = make_datasets_numeric(df_train, df_test, args.target_attribute)
   train_x, train_y = data.get_X_y(df_train, args.target_attribute)
   test_x, test_y = data.get_X_y(df_test, args.target_attribute)
@@ -78,7 +76,7 @@ def run_caafe(args):
 
   caafe_clf.fit_pandas(df_train,
                       target_column_name=args.target_attribute,
-                      dataset_description="")
+                      dataset_description="There is no description for this dataset.")
 
   pred_test = caafe_clf.predict(df_test)
   pred_train = caafe_clf.predict(df_train)
@@ -86,8 +84,6 @@ def run_caafe(args):
   acc_test_after = accuracy_score(pred_test, test_y)
   acc_train_after = accuracy_score(pred_train, train_y)
 
-  acc_train_after = 0
-  acc_test_after = 0
   log = [args.dataset_name, args.task_type, acc_train_before, acc_test_before, acc_train_after, acc_test_after]
   
   return log    

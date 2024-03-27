@@ -20,6 +20,7 @@ def parse_arguments():
     parser = ArgumentParser()
     parser.add_argument('--metadata-path', type=str, default=None)
     parser.add_argument('--log-file-name', type=str, default=None)
+    parser.add_argument('--number-iteration', type=int, default=1)
 
     args = parser.parse_args()
 
@@ -73,7 +74,7 @@ def run_caafe(args):
 
   caafe_clf = CAAFEClassifier(base_classifier=clf_no_feat_eng,
                             llm_model="gpt-4",
-                            iterations=2)
+                            iterations=args.number_iteration)
 
   caafe_clf.fit_pandas(df_train,
                       target_column_name=args.target_attribute,

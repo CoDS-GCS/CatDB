@@ -193,7 +193,10 @@ if __name__ == '__main__':
     else:
         combinations = [args.prompt_representation_type]
 
-    df_result = pd.DataFrame(columns=["dataset_name", "config", "task_type", "status", "number_iteration", "pipeline_gen_time",
+    try:
+        df_result = pd.read_csv(args.result_output_path)
+    except Exception as err:
+        df_result = pd.DataFrame(columns=["dataset_name", "config", "task_type", "status", "number_iteration", "pipeline_gen_time",
                                       "execution_time",
                                       "train_accuracy", "train_f1_score", "train_log_loss", "train_r_squared", "train_rmse",
                                       "test_accuracy", "test_f1_score", "test_log_loss", "test_r_squared", "test_rmse"])

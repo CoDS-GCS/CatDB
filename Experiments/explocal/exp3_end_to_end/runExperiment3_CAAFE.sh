@@ -2,6 +2,7 @@
 
 exp_path="$(pwd)"
 dataset=$1
+task_type=$2
 data_path="${exp_path}/data"
 metadata_path="${data_path}/${dataset}/${dataset}.yaml"
 
@@ -24,6 +25,6 @@ echo "${SCRIPT}"
 start=$(date +%s%N)
 bash -c "nohup ${SCRIPT}" 
 end=$(date +%s%N)
-echo ${dataset}","CAFFE","$((($end - $start) / 1000000)) >>$log_file_name_execution
+echo ${dataset}",CAFFE,"${task_type}","$((($end - $start) / 1000000)) >>$log_file_name_execution
 
 cd ${exp_path}

@@ -27,15 +27,15 @@ cd ${exp_path}
 CMD=./explocal/exp3_end_to_end/runExperiment3.sh 
 
 $CMD balance-scale multiclass test
-# $CMD breast-w binary test
-# $CMD cmc multiclass test
-# $CMD credit-g binary test
-# $CMD diabetes binary test
-# $CMD tic-tac-toe binary test
-# $CMD eucalyptus multiclass test
-# $CMD pc1 binary test
-# $CMD airlines binary test
-# $CMD jungle_chess_2pcs_raw_endgame_complete multiclass test
+$CMD breast-w binary test
+$CMD cmc multiclass test
+$CMD credit-g binary test
+$CMD diabetes binary test
+$CMD tic-tac-toe binary test
+$CMD eucalyptus multiclass test
+$CMD pc1 binary test
+$CMD airlines binary test
+$CMD jungle_chess_2pcs_raw_endgame_complete multiclass test
 
 # CAAFE datasets by Kaggle
 # $CMD health-insurance binary test

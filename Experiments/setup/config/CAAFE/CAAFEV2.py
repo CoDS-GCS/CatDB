@@ -12,8 +12,6 @@ from tabpfn.scripts import tabular_metrics
 from functools import partial
 from caafe.preprocessing import make_datasets_numeric
 import yaml
-
-
 import pandas as pd
 
 def parse_arguments():
@@ -77,13 +75,15 @@ def run_caafe(args):
   caafe_clf.fit_pandas(df_train,
                       target_column_name=args.target_attribute,
                       dataset_description="There is no description for this dataset.")
+  
 
   pred_test = caafe_clf.predict(df_test)
   pred_train = caafe_clf.predict(df_train)
 
   acc_test_after = accuracy_score(pred_test, test_y)
   acc_train_after = accuracy_score(pred_train, train_y)
-
+  
+  
   log = [args.dataset_name, args.task_type, acc_train_before, acc_test_before, acc_train_after, acc_test_after]
   
   return log    
@@ -92,6 +92,10 @@ if __name__ == '__main__':
    args = parse_arguments()
    log = run_caafe(args)
 
-   df_result = pd.DataFrame(columns=["dataset_name","task_type", "accuracy_train_before", "accuracy_test_before", "accuracy_train_after", "accuracy_test_after"])
+   try:
+       df_result = pd.read_csv(args.log_file_name)
+   except Exception as err:  
+       df_result = pd.DataFrame(columns=["dataset_name","task_type", "accuracy_train_before", "accuracy_test_before", "accuracy_train_after", "accuracy_test_after"])
+
    df_result.loc[len(df_result)] = log
    df_result.to_csv(args.log_file_name, index=False)   

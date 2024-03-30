@@ -43,17 +43,18 @@ class BasicPrompt(object):
                  f"\t 3. {StaticValues.Rule_3}",
                  f"\t 4. {StaticValues.Rule_4.format(self.ds_attribute_prefix, self.ds_attribute_prefix_label)}",
                  f"\t 5. {StaticValues.Rule_5}",
-                 f"\t 6. {StaticValues.Rule_6}",
-                 f"\t 7. {StaticValues.Rule_7.format(self.target_attribute)}",
-                 f"\t 8. {StaticValues.Rule_8.format(algorithm, self.target_attribute)}",
-                 f"\t 9. {StaticValues.Rule_9}",
-                 f"\t 10. {StaticValues.CODE_FORMATTING_IMPORT}",
-                 f"\t 11. {StaticValues.CODE_FORMATTING_ADDING.format(self.target_attribute, self.schema_keys[0], self.schema_keys[1])}",
-                 f"\t 12. {StaticValues.CODE_FORMATTING_DROPPING}",
-                 f"\t 13. {StaticValues.CODE_FORMATTING_TECHNIQUE.format(algorithm)}",
-                 f"\t 14. {self.evaluation_text}",
-                 f"\t 15. {StaticValues.Rule_10}",
-                 f"\t 16. {StaticValues.Rule_11}"
+                 f"\t 6. {StaticValues.Rule_12}",
+                 f"\t 7. {StaticValues.Rule_6}",
+                 f"\t 8. {StaticValues.Rule_7.format(self.target_attribute)}",
+                 f"\t 9. {StaticValues.Rule_8.format(algorithm, self.target_attribute)}",
+                 f"\t 10. {StaticValues.Rule_9}",
+                 f"\t 11. {StaticValues.CODE_FORMATTING_IMPORT}",
+                 f"\t 12. {StaticValues.CODE_FORMATTING_ADDING.format(self.target_attribute, self.schema_keys[0], self.schema_keys[1])}",
+                 f"\t 13. {StaticValues.CODE_FORMATTING_DROPPING}",
+                 f"\t 14. {StaticValues.CODE_FORMATTING_TECHNIQUE.format(algorithm)}",
+                 f"\t 15. {self.evaluation_text}",
+                 f"\t 16. {StaticValues.Rule_10}",
+                 f"\t 17. {StaticValues.Rule_11}"
                  ]
 
         rule_msg = "\n".join(rules)

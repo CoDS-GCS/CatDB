@@ -46,6 +46,4 @@ start=$(date +%s%N)
 $SCRIPT
 end=$(date +%s%N)
 
-echo "${data_source_name},${llm_model},${prompt_representation_type},${prompt_example_type},${prompt_number_example},${task_type},$((($end - $start) / 1000000))" >> ${log_file_name}  
-
-echo "-----------------------------------------------------------------"
+echo "${dataset},${llm_model},${prompt_representation_type},${prompt_example_type},${prompt_number_example},${task_type},$((($end - $start) / 1000000))" >> ${log_file_name}  

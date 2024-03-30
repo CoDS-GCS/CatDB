@@ -39,11 +39,11 @@
     xtick align=outside,
     xtick pos=left,
     ytick pos=left,
-    yticklabel style = {font=\Large},
-    ylabel style = {font=\Large, yshift=-2pt},
+    yticklabel style = {font=\normalsize},
+    ylabel style = {yshift=-2pt},
     xticklabel style = {font=\normalsize, xshift=0pt},
-    height=0.6\columnwidth,
-    width=0.5\columnwidth,    
+    height=0.45\columnwidth,
+    width=0.38\columnwidth,    
     bar width=@BARWIDTH\columnwidth,	 
     %ymajorgrids=true,
     %grid style=dotted,   
@@ -60,7 +60,7 @@
   \addplotDistinct{@DATASET};	  	  
 \end{axis}
 
-\node [draw=none,inner sep=0, font=\normalsize, anchor=west] (leg1) at (rel axis cs: -0.3,1.15) {\shortstack[l]{
+\node [draw=none,inner sep=0, font=\footnotesize, anchor=west] (leg1) at (rel axis cs: -0.7,1.16) {\shortstack[l]{
   \ref{filled} Value 
   \ref{missed} Missed 
   \ref{distinct} Distinct		 			

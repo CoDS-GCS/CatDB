@@ -1,4 +1,4 @@
-Rule_task = ("Task: Generate a data science pipeline in Python 3.11 that answers a question based on a "
+Rule_task = ("Task: Generate a data science pipeline in Python 3.10 that answers a question based on a "
              "given dataset, {}.")
 
 Rule_input = ("Input: A dataset in CSV format, a schema that describes the columns and data types of the dataset, "
@@ -7,7 +7,7 @@ Rule_input = ("Input: A dataset in CSV format, a schema that describes the colum
 
 Rule_output = "Output: A Python 3.10 code that performs the following steps:"
 Rule_1 = "Import the necessary libraries and modules."
-Rule_2 = ('Load the raining and test datasets. For the training data, utilize the variable """train_data={}""", '
+Rule_2 = ('Load the training and test datasets. For the training data, utilize the variable """train_data={}""", '
           'and for the test data, employ the variable """test_data={}""". Utilize pandas\' CSV readers to load the '
           'datasets.')
 Rule_3 = "Don't split the train_data into train and test sets. Use only the given datasets."

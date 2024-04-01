@@ -22,38 +22,38 @@ echo "dataset,source,time" >> "${exp_path}/results/Experiment3_Hand-craft.dat"
 cd ${exp_path}
 
 #CMD=./explocal/exp0_statistics/runExperiment0.sh
-CMD=./explocal/exp1_catalog/runExperiment1.sh
+#CMD=./explocal/exp1_catalog/runExperiment1.sh
 #CMD=./explocal/exp2_micro_benchmark/runExperiment2.sh 
-#CMD=./explocal/exp3_end_to_end/runExperiment3.sh 
+CMD=./explocal/exp3_end_to_end/runExperiment3.sh 
 
 
-$CMD Higgs binary
-$CMD albert binary
-$CMD Click_prediction_small binary
-$CMD Census-Augmented binary
-$CMD BNG_heart-statlog binary
-$CMD KDDCup99_full multiclass
-$CMD road-safety multiclass
-$CMD drug-directory multiclass
-$CMD okcupid-stem multiclass
-$CMD walking-activity multiclass
-$CMD PASS regression
-$CMD aloi regression
-$CMD MD_MIX_Mini_Copy regression
-$CMD dionis regression
-$CMD Meta_Album_BRD_Extended regression
+# $CMD Higgs binary
+# $CMD albert binary
+# $CMD Click_prediction_small binary
+# $CMD Census-Augmented binary
+# $CMD BNG_heart-statlog binary
+# $CMD KDDCup99_full multiclass
+# $CMD road-safety multiclass
+# $CMD drug-directory multiclass
+# $CMD okcupid-stem multiclass
+# $CMD walking-activity multiclass
+# $CMD PASS regression
+# $CMD aloi regression
+# $CMD MD_MIX_Mini_Copy regression
+# $CMD dionis regression
+# $CMD Meta_Album_BRD_Extended regression
 
 
-# $CMD balance-scale multiclass test
-# $CMD breast-w binary test
-# $CMD cmc multiclass test
-# $CMD credit-g binary test
-# $CMD diabetes binary test
-# $CMD tic-tac-toe binary test
-# $CMD eucalyptus multiclass test
-# $CMD pc1 binary test
-# $CMD airlines binary test
-# $CMD jungle_chess_2pcs_raw_endgame_complete multiclass test
+$CMD balance-scale multiclass
+$CMD breast-w binary
+$CMD cmc multiclass
+$CMD credit-g binary
+$CMD diabetes binary
+$CMD tic-tac-toe binary
+$CMD eucalyptus multiclass
+$CMD pc1 binary
+$CMD airlines binary
+$CMD jungle_chess_2pcs_raw_endgame_complete multiclass
 
 # CAAFE datasets by Kaggle
 # $CMD health-insurance binary test

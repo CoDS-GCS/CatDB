@@ -14,10 +14,20 @@ from caafe.preprocessing import make_datasets_numeric
 import yaml
 import pandas as pd
 
+def read_text_file_line_by_line(fname:str):
+    try:
+        with open(fname) as f:
+            lines = f.readlines()
+            raw = "".join(lines)
+            return raw
+    except Exception as ex:
+        raise Exception (f"Error in reading file:\n {ex}")
+
 def parse_arguments():
     parser = ArgumentParser()
     parser.add_argument('--metadata-path', type=str, default=None)
     parser.add_argument('--log-file-name', type=str, default=None)
+    parser.add_argument('--description-file-name', type=str, default=None)
     parser.add_argument('--number-iteration', type=int, default=1)
 
     args = parser.parse_args()
@@ -44,7 +54,14 @@ def parse_arguments():
             raise Exception(ex)
     
     if args.log_file_name is None:
-        raise Exception("--log-file-name is a required parameter!")
+        raise Exception("--log-file-name is a required parameter!") 
+    
+    if args.description_file_name is None:
+        args.description = "There is no description for this dataset."
+        args.has_description = False
+    else:
+        args.description = read_text_file_line_by_line(args.description_file_name)
+        args.has_description = True
 
     return args
 
@@ -74,7 +91,7 @@ def run_caafe(args):
 
   caafe_clf.fit_pandas(df_train,
                       target_column_name=args.target_attribute,
-                      dataset_description="There is no description for this dataset.")
+                      dataset_description=args.description)
   
 
   pred_test = caafe_clf.predict(df_test)
@@ -84,7 +101,7 @@ def run_caafe(args):
   acc_train_after = accuracy_score(pred_train, train_y)
   
   
-  log = [args.dataset_name, args.task_type, acc_train_before, acc_test_before, acc_train_after, acc_test_after]
+  log = [args.dataset_name, args.has_description, args.task_type, acc_train_before, acc_test_before, acc_train_after, acc_test_after]
   
   return log    
 
@@ -95,7 +112,7 @@ if __name__ == '__main__':
    try:
        df_result = pd.read_csv(args.log_file_name)
    except Exception as err:  
-       df_result = pd.DataFrame(columns=["dataset_name","task_type", "accuracy_train_before", "accuracy_test_before", "accuracy_train_after", "accuracy_test_after"])
+       df_result = pd.DataFrame(columns=["dataset_name","has_description","task_type", "accuracy_train_before", "accuracy_test_before", "accuracy_train_after", "accuracy_test_after"])
 
    df_result.loc[len(df_result)] = log
    df_result.to_csv(args.log_file_name, index=False)   

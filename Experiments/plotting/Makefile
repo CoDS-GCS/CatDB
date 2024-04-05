@@ -3,6 +3,7 @@ all: create clean
 create:	
 	 #pdflatex -shell-escape exp1_catalog.tex
 	 #pdflatex -shell-escape exp1_micorbenchmark
+	 #pdflatex -shell-escape exp_statistics1
 	 pdflatex -shell-escape exp_statistics2
 	 #pdflatex -shell-escape exp_tmp
 	 #pdflatex -shell-escape exp_incremental

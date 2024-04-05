@@ -7,7 +7,7 @@ data_path="${exp_path}/data"
 metadata_path="${data_path}/${dataset}/${dataset}.yaml"
 description_path="${data_path}/${dataset}/${dataset}.txt"
 
-number_iteration=2
+number_iteration=10
 log_file_name_execution="${exp_path}/results/Experiment3_CAAFE.dat"
 log_file_name_resultst="${exp_path}/results/Experiment3_CAAFE_Results.dat"
 log_file_name_nohup="${exp_path}/results/Experiment3_CAAFE_nohup_${dataset}.dat"

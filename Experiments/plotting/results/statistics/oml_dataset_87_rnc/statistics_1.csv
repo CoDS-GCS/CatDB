@@ -1,0 +1,12 @@
+dataset,prompt_representation_type,prompt_example_type,prompt_number_example,number_tokens,number_bool,number_int,number_float,number_string
+oml_dataset_87_rnc,S,Random,0,1063,0,30,0,0
+oml_dataset_87_rnc,SDVC,Random,0,1233,0,30,0,0
+oml_dataset_87_rnc,SMVF,Random,0,1349,0,30,0,0
+oml_dataset_87_rnc,SSN,Random,0,1829,0,30,0,0
+oml_dataset_87_rnc,SCV,Random,0,1319,0,30,0,0
+oml_dataset_87_rnc,SDVCMVF,Random,0,1553,0,30,0,0
+oml_dataset_87_rnc,SDVCSN,Random,0,2003,0,30,0,0
+oml_dataset_87_rnc,SMVFSN,Random,0,2118,0,30,0,0
+oml_dataset_87_rnc,SMVFCV,Random,0,1608,0,30,0,0
+oml_dataset_87_rnc,SSNCV,Random,0,2089,0,30,0,0
+oml_dataset_87_rnc,ALL,Random,0,2347,0,30,0,0

@@ -1,0 +1,11 @@
+dataset,col_index,data_type,missing_values_count,total_values_count,distinct_values_count,number_rows
+oml_dataset_53_rnc,1,float,0,2916697,784911,2916697
+oml_dataset_53_rnc,2,str,0,2916697,29,2916697
+oml_dataset_53_rnc,3,str,0,2916697,2631095,2916697
+oml_dataset_53_rnc,4,int,0,2916697,11572,2916697
+oml_dataset_53_rnc,5,int,0,2916697,814,2916697
+oml_dataset_53_rnc,6,int,0,2916697,8,2916697
+oml_dataset_53_rnc,7,int,0,2916697,1866365,2916697
+oml_dataset_53_rnc,8,int,0,2916697,10168,2916697
+oml_dataset_53_rnc,9,int,0,2916697,365,2916697
+oml_dataset_53_rnc,10,int,0,2916697,73,2916697

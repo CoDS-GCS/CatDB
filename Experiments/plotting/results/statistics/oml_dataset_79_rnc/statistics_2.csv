@@ -1,0 +1,6 @@
+dataset,col_index,data_type,missing_values_count,total_values_count,distinct_values_count,number_rows
+oml_dataset_79_rnc,1,float,0,149332,756,149332
+oml_dataset_79_rnc,2,float,0,149332,72087,149332
+oml_dataset_79_rnc,3,float,0,149332,733,149332
+oml_dataset_79_rnc,4,float,0,149332,665,149332
+oml_dataset_79_rnc,5,int,0,149332,22,149332

@@ -1,0 +1,58 @@
+# Import all required packages
+import pandas as pd
+import numpy as np
+from sklearn.preprocessing import OneHotEncoder, MinMaxScaler
+from sklearn.impute import SimpleImputer
+from sklearn.compose import ColumnTransformer
+from sklearn.pipeline import Pipeline
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import accuracy_score, log_loss
+
+# Load the datasets
+train_data = pd.read_csv('../../../data/road-safety/road-safety_train.csv')
+test_data = pd.read_csv('../../../data/road-safety/road-safety_test.csv')
+
+# Define preprocessing steps
+num_cols = ['Location_Northing_OSGR', '2nd_Road_Number', '1st_Road_Number', 'Location_Easting_OSGR', 'Longitude', 'Latitude']
+cat_cols = ['Local_Authority_(Highway)', 'Time', 'Skidding_and_Overturning', 'Journey_Purpose_of_Driver', 'Casualty_Home_Area_Type', 'Light_Conditions', 'Local_Authority_(District)', 'Weather_Conditions', 'Vehicle_Type', 'Bus_or_Coach_Passenger', 'Pedestrian_Location', 'Sex_of_Casualty', 'Number_of_Vehicles', 'Vehicle_Location-Restricted_Lane', 'Junction_Control', 'Pedestrian_Road_Maintenance_Worker', '1st_Road_Class', 'Car_Passenger', 'Pedestrian_Crossing-Physical_Facilities', 'Age_of_Driver', 'Propulsion_Code', 'Hit_Object_off_Carriageway', 'Junction_Detail', 'Towing_and_Articulation', 'Vehicle_Leaving_Carriageway', 'Carriageway_Hazards', 'Did_Police_Officer_Attend_Scene_of_Accident', 'Road_Surface_Conditions', 'Age_of_Vehicle', 'Vehicle_Manoeuvre', '1st_Point_of_Impact', 'Speed_limit', 'Police_Force', 'Pedestrian_Crossing-Human_Control', 'Pedestrian_Movement', 'Number_of_Casualties', 'Urban_or_Rural_Area', '2nd_Road_Class', 'Junction_Location', 'Day_of_Week', 'Road_Type', 'Driver_Home_Area_Type', 'Accident_Severity', 'Was_Vehicle_Left_Hand_Drive?', 'Age_Band_of_Driver', 'Engine_Capacity_(CC)', 'Special_Conditions_at_Site', 'Hit_Object_in_Carriageway', 'Casualty_IMD_Decile', 'Age_of_Casualty', 'Age_Band_of_Casualty', 'Date']
+
+# Impute missing values and scale numerical columns
+num_transformer = Pipeline(steps=[
+    ('imputer', SimpleImputer(strategy='median')),
+    ('scaler', MinMaxScaler())])
+
+# Impute missing values and one-hot encode categorical columns
+cat_transformer = Pipeline(steps=[
+    ('imputer', SimpleImputer(strategy='most_frequent')),
+    ('onehot', OneHotEncoder(handle_unknown='ignore'))])
+
+# Combine preprocessing steps
+preprocessor = ColumnTransformer(
+    transformers=[
+        ('num', num_transformer, num_cols),
+        ('cat', cat_transformer, cat_cols)])
+
+# Define the model
+model = RandomForestClassifier(n_estimators=100, random_state=0, n_jobs=-1)
+
+# Combine preprocessing and modeling steps
+clf = Pipeline(steps=[('preprocessor', preprocessor),
+                      ('classifier', model)])
+
+# Fit the model
+X_train = train_data.drop('Sex_of_Driver', axis=1)
+y_train = train_data['Sex_of_Driver']
+clf.fit(X_train, y_train)
+
+# Predict on train data
+y_train_pred = clf.predict(X_train)
+
+# Calculate accuracy
+Train_Accuracy = accuracy_score(y_train, y_train_pred)
+
+# Calculate log loss
+Train_Log_loss = log_loss(y_train, y_train_pred)
+
+# Print the results
+print(f"Train_Accuracy:{Train_Accuracy}")   
+print(f"Train_Log_loss:{Train_Log_loss}")

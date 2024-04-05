@@ -1,0 +1,7 @@
+dataset,col_index,data_type,missing_values_count,total_values_count,distinct_values_count,number_rows
+oml_dataset_106_rnc,1,str,0,35300,12841,35300
+oml_dataset_106_rnc,2,str,0,35300,30982,35300
+oml_dataset_106_rnc,3,str,0,35300,10,35300
+oml_dataset_106_rnc,4,int,0,35300,306,35300
+oml_dataset_106_rnc,5,int,0,35300,13225,35300
+oml_dataset_106_rnc,6,int,0,35300,10,35300

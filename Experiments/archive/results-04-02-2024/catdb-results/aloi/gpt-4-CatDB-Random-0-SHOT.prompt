@@ -1,0 +1,196 @@
+SYSTEM MESSAGE:
+Task: Generate a data science pipeline in Python 3.11 that answers a question based on a given dataset, Schema, and Data Profiling Info.
+Input: A dataset in CSV format, a schema that describes the columns and data types of the dataset, and a data profiling info that summarizes the statistics and quality of the dataset. A question that requires data analysis or modeling to answer.
+Output: A Python 3.10 code that performs the following steps:
+	 1. Import the necessary libraries and modules.
+	 2. Load the raining and test datasets. For the training data, utilize the variable """train_data=../../../data/aloi/aloi_train.csv""", and for the test data, employ the variable """test_data=../../../data/aloi/aloi_test.csv""". Utilize pandas' CSV readers to load the datasets.
+	 3. Don't split the train_data into train and test sets. Use only the given datasets.
+	 4. The user will provide the Schema, and Data Profiling Info of the dataset with columns appropriately named as attributes, enclosed in triple quotes, and preceded by the prefix "Schema, and Data Profiling Info:".
+	 5. Perform data cleaning and preprocessing.
+	 6. Perform feature processing (e.g., encode categorical values by dummyEncode).
+	 7. Select the appropriate features and target variables for the question. Additional columns add new semantic information, additional columns that are useful for a downstream algorithmpredicting "target". They can e.g. be feature combinations, transformations, aggregations where the new column is a function of the existing columns. Use appropriate scale factor for columns are needto transfer.
+	 8.  Perform drops columns, if these may be redundant and hurt the predictive performance of the downstream regressor (Feature selection). Dropping columns may help as the chance of overfitting is lower, especially if the dataset is small. The target will be trained on the dataset with the generated columns and evaluated on a holdout set.
+	 9. In order to avoid runtime error for unseen value on the target feature, do preprocessing based on union of train and test dataset.
+	 10. Code formatting for all required packages:
+```python
+# Import all required packages
+```end
+
+	 11. Code formatting for each added column:
+ ```python 
+ # (Feature name and description) 
+ # Usefulness: (Description why this adds useful real world knowledge to classify 'target' according to dataset description and attributes.) 
+ (Some pandas code using '109', '45', ... to add a new column for each row in df)
+ ```end
+	 12. Code formatting for dropping columns:
+```python-dropping-columns
+# Explanation why the column XX is dropped
+# df.drop(columns=['XX'], inplace=True)
+```end-dropping-columns
+
+	 13. Code formatting for training technique:
+ ```python 
+ # Choose the suitable machine learning algorithm or technique (regressor).
+ # Explanation why the solution is selected 
+ trn = ... 
+ ```end
+	 14. Code formatting for regression evaluation:
+```python
+# Report evaluation based on train and test dataset
+# Calculate the model R-Squared, represented by a value between 0 and 1, where 0 indicates low and 1 ndicates more variability is explained by the model. Store the R-Squared value in a variable labeled as "Train_R_Squared=..." and "Test_R_Squared=...".
+# Calculate the model Root Mean Squared Error, where the lower the value of the Root Mean Squared Error, the better the model is.. Store the model Root Mean Squared Error value in a variable labeled as "Train_RMSE=..." and "Test_RMSE=...".
+# Print the train accuracy result: print(f"Train_R_Squared:{Train_R_Squared}")   
+# Print the train log loss result: print(f"Train_RMSE:{Train_RMSE}") 
+# Print the test accuracy result: print(f"Test_R_Squared:{Test_R_Squared}")   
+# Print the test log loss result: print(f"Test_RMSE:{Test_RMSE}") 
+```end
+
+	 15. If the question is not relevant to the dataset or the task, the output should be: "Insufficient information."
+	 16. Don't report validation evaluation. We don't need it.
+---------------------------------------
+PROMPT TEXT:
+Schema, and Data Profiling Info:
+"""
+109 (int): distinct-count [9], min-max values [0.0, 9.0], mean [0.08], median [0.00]
+45 (int): distinct-count [10], min-max values [0.0, 9.0], mean [0.03], median [0.00]
+37 (int): distinct-count [10], min-max values [0.0, 9.0], mean [0.17], median [0.00]
+116 (int): distinct-count [9], min-max values [0.0, 9.0], mean [0.09], median [0.00]
+61 (int): distinct-count [10], min-max values [0.0, 9.0], mean [0.07], median [0.00]
+31 (int): distinct-count [10], min-max values [0.0, 9.0], mean [0.75], median [0.00]
+62 (int): distinct-count [10], min-max values [0.0, 9.0], mean [0.12], median [0.00]
+19 (int): distinct-count [10], min-max values [0.0, 9.0], mean [0.05], median [0.00]
+98 (int): distinct-count [7], min-max values [0.0, 9.0], mean [0.02], median [0.00]
+7 (int): distinct-count [10], min-max values [0.0, 9.0], mean [0.60], median [0.00]
+123 (int): distinct-count [8], min-max values [0.0, 9.0], mean [0.34], median [0.00]
+41 (int): distinct-count [10], min-max values [0.0, 9.0], mean [0.21], median [0.00]
+44 (int): distinct-count [9], min-max values [0.0, 9.0], mean [0.01], median [0.00]
+54 (int): distinct-count [8], min-max values [0.0, 9.0], mean [0.01], median [0.00]
+27 (int): distinct-count [10], min-max values [0.0, 9.0], mean [1.02], median [0.00]
+88 (int): distinct-count [9], min-max values [0.0, 9.0], mean [0.10], median [0.00]
+0 (int): distinct-count [10], min-max values [0.0, 9.0], mean [6.81], median [7.00]
+82 (int): distinct-count [9], min-max values [0.0, 9.0], mean [0.24], median [0.00]
+48 (int): distinct-count [8], min-max values [0.0, 9.0], mean [0.02], median [0.00]
+106 (int): distinct-count [10], min-max values [0.0, 9.0], mean [2.11], median [1.00]
+51 (int): distinct-count [3], min-max values [0.0, 9.0], mean [0.01], median [0.00]
+114 (int): distinct-count [7], min-max values [0.0, 9.0], mean [0.01], median [0.00]
+40 (int): distinct-count [10], min-max values [0.0, 9.0], mean [0.05], median [0.00]
+24 (int): distinct-count [10], min-max values [0.0, 9.0], mean [0.05], median [0.00]
+2 (int): distinct-count [10], min-max values [0.0, 9.0], mean [1.39], median [0.00]
+127 (int): distinct-count [9], min-max values [0.0, 9.0], mean [2.21], median [1.00]
+47 (int): distinct-count [10], min-max values [0.0, 9.0], mean [1.74], median [1.00]
+46 (int): distinct-count [10], min-max values [0.0, 9.0], mean [0.10], median [0.00]
+83 (int): distinct-count [9], min-max values [0.0, 9.0], mean [0.18], median [0.00]
+1 (int): distinct-count [10], min-max values [0.0, 9.0], mean [3.14], median [3.00]
+110 (int): distinct-count [9], min-max values [0.0, 9.0], mean [0.65], median [0.00]
+93 (int): distinct-count [9], min-max values [0.0, 9.0], mean [0.08], median [0.00]
+3 (int): distinct-count [10], min-max values [0.0, 9.0], mean [0.65], median [0.00]
+75 (int): distinct-count [9], min-max values [0.0, 9.0], mean [1.10], median [0.00]
+56 (int): distinct-count [9], min-max values [0.0, 9.0], mean [0.04], median [0.00]
+16 (int): distinct-count [10], min-max values [0.0, 9.0], mean [0.71], median [0.00]
+21 (int): distinct-count [10], min-max values [0.0, 9.0], mean [1.83], median [1.00]
+99 (int): distinct-count [8], min-max values [0.0, 9.0], mean [0.02], median [0.00]
+43 (int): distinct-count [10], min-max values [0.0, 9.0], mean [0.48], median [0.00]
+34 (int): distinct-count [8], min-max values [0.0, 9.0], mean [0.01], median [0.00]
+67 (int): distinct-count [9], min-max values [0.0, 9.0], mean [0.75], median [0.00]
+14 (int): distinct-count [10], min-max values [0.0, 9.0], mean [0.05], median [0.00]
+100 (int): distinct-count [9], min-max values [0.0, 9.0], mean [0.35], median [0.00]
+95 (int): distinct-count [10], min-max values [0.0, 9.0], mean [1.25], median [1.00]
+77 (int): distinct-count [9], min-max values [0.0, 9.0], mean [0.05], median [0.00]
+49 (int): distinct-count [4], min-max values [0.0, 9.0], mean [0.01], median [0.00]
+64 (int): distinct-count [10], min-max values [0.0, 9.0], mean [5.36], median [5.00]
+79 (int): distinct-count [9], min-max values [0.0, 9.0], mean [0.62], median [0.00]
+103 (int): distinct-count [8], min-max values [0.0, 9.0], mean [0.20], median [0.00]
+59 (int): distinct-count [10], min-max values [0.0, 9.0], mean [0.03], median [0.00]
+87 (int): distinct-count [9], min-max values [0.0, 9.0], mean [0.86], median [0.00]
+68 (int): distinct-count [10], min-max values [0.0, 9.0], mean [1.43], median [1.00]
+50 (int): distinct-count [5], min-max values [0.0, 9.0], mean [0.01], median [0.00]
+92 (int): distinct-count [9], min-max values [0.0, 9.0], mean [0.02], median [0.00]
+113 (int): distinct-count [7], min-max values [0.0, 9.0], mean [0.01], median [0.00]
+58 (int): distinct-count [10], min-max values [0.0, 9.0], mean [0.06], median [0.00]
+33 (int): distinct-count [10], min-max values [0.0, 9.0], mean [0.02], median [0.00]
+120 (int): distinct-count [8], min-max values [0.0, 9.0], mean [0.07], median [0.00]
+30 (int): distinct-count [10], min-max values [0.0, 9.0], mean [0.07], median [0.00]
+105 (int): distinct-count [9], min-max values [0.0, 9.0], mean [0.68], median [0.00]
+26 (int): distinct-count [10], min-max values [0.0, 9.0], mean [1.40], median [1.00]
+25 (int): distinct-count [10], min-max values [0.0, 9.0], mean [0.19], median [0.00]
+111 (int): distinct-count [10], min-max values [0.0, 9.0], mean [2.55], median [2.00]
+63 (int): distinct-count [10], min-max values [0.0, 9.0], mean [2.27], median [1.00]
+122 (int): distinct-count [9], min-max values [0.0, 9.0], mean [0.38], median [0.00]
+65 (int): distinct-count [10], min-max values [0.0, 9.0], mean [4.16], median [5.00]
+15 (int): distinct-count [10], min-max values [0.0, 9.0], mean [0.56], median [0.00]
+94 (int): distinct-count [9], min-max values [0.0, 9.0], mean [0.22], median [0.00]
+78 (int): distinct-count [9], min-max values [0.0, 9.0], mean [0.10], median [0.00]
+71 (int): distinct-count [9], min-max values [0.0, 9.0], mean [1.03], median [0.00]
+121 (int): distinct-count [9], min-max values [0.0, 9.0], mean [0.22], median [0.00]
+38 (int): distinct-count [9], min-max values [0.0, 9.0], mean [0.04], median [0.00]
+90 (int): distinct-count [10], min-max values [0.0, 9.0], mean [2.82], median [3.00]
+73 (int): distinct-count [9], min-max values [0.0, 9.0], mean [0.34], median [0.00]
+101 (int): distinct-count [9], min-max values [0.0, 9.0], mean [0.66], median [0.00]
+81 (int): distinct-count [9], min-max values [0.0, 9.0], mean [0.58], median [0.00]
+52 (int): distinct-count [10], min-max values [0.0, 9.0], mean [0.06], median [0.00]
+74 (int): distinct-count [9], min-max values [0.0, 9.0], mean [0.95], median [0.00]
+53 (int): distinct-count [8], min-max values [0.0, 9.0], mean [0.03], median [0.00]
+57 (int): distinct-count [10], min-max values [0.0, 9.0], mean [0.10], median [0.00]
+29 (int): distinct-count [9], min-max values [0.0, 9.0], mean [0.03], median [0.00]
+20 (int): distinct-count [10], min-max values [0.0, 9.0], mean [0.45], median [0.00]
+42 (int): distinct-count [10], min-max values [0.0, 9.0], mean [1.08], median [0.00]
+102 (int): distinct-count [8], min-max values [0.0, 9.0], mean [0.42], median [0.00]
+125 (int): distinct-count [8], min-max values [0.0, 9.0], mean [0.11], median [0.00]
+36 (int): distinct-count [10], min-max values [0.0, 9.0], mean [0.23], median [0.00]
+76 (int): distinct-count [9], min-max values [0.0, 9.0], mean [0.02], median [0.00]
+11 (int): distinct-count [10], min-max values [0.0, 9.0], mean [0.87], median [0.00]
+108 (int): distinct-count [7], min-max values [0.0, 9.0], mean [0.02], median [0.00]
+8 (int): distinct-count [10], min-max values [0.0, 9.0], mean [0.06], median [0.00]
+12 (int): distinct-count [8], min-max values [0.0, 9.0], mean [0.01], median [0.00]
+97 (int): distinct-count [8], min-max values [0.0, 9.0], mean [0.04], median [0.00]
+13 (int): distinct-count [10], min-max values [0.0, 9.0], mean [0.04], median [0.00]
+72 (int): distinct-count [10], min-max values [0.0, 9.0], mean [0.11], median [0.00]
+124 (int): distinct-count [8], min-max values [0.0, 9.0], mean [0.02], median [0.00]
+69 (int): distinct-count [10], min-max values [0.0, 9.0], mean [3.98], median [4.00]
+70 (int): distinct-count [10], min-max values [0.0, 9.0], mean [2.44], median [2.00]
+5 (int): distinct-count [10], min-max values [0.0, 9.0], mean [2.26], median [1.00]
+107 (int): distinct-count [9], min-max values [0.0, 9.0], mean [1.65], median [1.00]
+117 (int): distinct-count [9], min-max values [0.0, 9.0], mean [0.09], median [0.00]
+55 (int): distinct-count [9], min-max values [0.0, 9.0], mean [0.02], median [0.00]
+89 (int): distinct-count [9], min-max values [0.0, 9.0], mean [0.94], median [1.00]
+112 (int): distinct-count [7], min-max values [0.0, 9.0], mean [0.02], median [0.00]
+6 (int): distinct-count [10], min-max values [0.0, 9.0], mean [1.56], median [0.00]
+10 (int): distinct-count [10], min-max values [0.0, 9.0], mean [0.45], median [0.00]
+35 (int): distinct-count [8], min-max values [0.0, 9.0], mean [0.01], median [0.00]
+86 (int): distinct-count [9], min-max values [0.0, 9.0], mean [2.48], median [2.00]
+126 (int): distinct-count [9], min-max values [0.0, 9.0], mean [0.44], median [0.00]
+23 (int): distinct-count [10], min-max values [0.0, 9.0], mean [0.28], median [0.00]
+17 (int): distinct-count [10], min-max values [0.0, 9.0], mean [0.10], median [0.00]
+115 (int): distinct-count [4], min-max values [0.0, 9.0], mean [0.01], median [0.00]
+39 (int): distinct-count [10], min-max values [0.0, 9.0], mean [0.04], median [0.00]
+9 (int): distinct-count [10], min-max values [0.0, 9.0], mean [0.15], median [0.00]
+60 (int): distinct-count [9], min-max values [0.0, 9.0], mean [0.01], median [0.00]
+104 (int): distinct-count [9], min-max values [0.0, 9.0], mean [0.09], median [0.00]
+4 (int): distinct-count [10], min-max values [0.0, 9.0], mean [0.60], median [0.00]
+118 (int): distinct-count [8], min-max values [0.0, 9.0], mean [0.04], median [0.00]
+119 (int): distinct-count [7], min-max values [0.0, 9.0], mean [0.03], median [0.00]
+85 (int): distinct-count [10], min-max values [0.0, 9.0], mean [3.23], median [4.00]
+80 (int): distinct-count [10], min-max values [0.0, 9.0], mean [1.09], median [0.00]
+32 (int): distinct-count [10], min-max values [0.0, 9.0], mean [0.09], median [0.00]
+22 (int): distinct-count [10], min-max values [0.0, 9.0], mean [0.89], median [0.00]
+66 (int): distinct-count [9], min-max values [0.0, 9.0], mean [1.61], median [0.00]
+18 (int): distinct-count [10], min-max values [0.0, 9.0], mean [0.07], median [0.00]
+84 (int): distinct-count [9], min-max values [0.0, 9.0], mean [1.04], median [1.00]
+28 (int): distinct-count [9], min-max values [0.0, 9.0], mean [0.01], median [0.00]
+91 (int): distinct-count [10], min-max values [0.0, 9.0], mean [1.88], median [1.00]
+96 (int): distinct-count [9], min-max values [0.0, 9.0], mean [0.15], median [0.00]
+target (int): distinct-count [1000]
+"""
+
+Dataset Attribute:
+Number of samples (rows) in training dataset: 75600
+
+# Select an appropriate scaler the following numerical columns (do it base on the min-max, mean, and median values are in the "Schema, and Data Profiling Info"):
+	Columns: 109,45,37,116,61,31,62,19,98,7,123,41,44,54,27,88,0,82,48,106,51,114,40,24,2,127,47,46,83,1,110,93,3,75,56,16,21,99,43,34,67,14,100,95,77,49,64,79,103,59,87,68,50,92,113,58,33,120,30,105,26,25,111,63,122,65,15,94,78,71,121,38,90,73,101,81,52,74,53,57,29,20,42,102,125,36,76,11,108,8,12,97,13,72,124,69,70,5,107,117,55,89,112,6,10,35,86,126,23,17,115,39,9,60,104,4,118,119,85,80,32,22,66,18,84,28,91,96
+# Encode categorical values by "on-hot-encoder" for the following columns:
+	Columns: 109,45,37,116,61,31,62,19,98,7,123,41,44,54,27,88,0,82,48,106,51,114,40,24,2,127,47,46,83,1,110,93,3,75,56,16,21,99,43,34,67,14,100,95,77,49,64,79,103,59,87,68,50,92,113,58,33,120,30,105,26,25,111,63,122,65,15,94,78,71,121,38,90,73,101,81,52,74,53,57,29,20,42,102,125,36,76,11,108,8,12,97,13,72,124,69,70,5,107,117,55,89,112,6,10,35,86,126,23,17,115,39,9,60,104,4,118,119,85,80,32,22,66,18,84,28,91,96
+# Encode all "object" columns by dummyEncode.
+
+
+Question: Provide a complete pipeline code that can be executed in a multi-threaded environment with various CPU configurations, such as PyTorch or other relevant frameworks.
+Each codeblock ends with "```end" and starts with "```python".

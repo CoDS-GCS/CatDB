@@ -1,0 +1,124 @@
+SYSTEM MESSAGE:
+Task: Generate a data science pipeline in Python 3.11 that answers a question based on a given dataset, Schema, and Data Profiling Info.
+Input: A dataset in CSV format, a schema that describes the columns and data types of the dataset, and a data profiling info that summarizes the statistics and quality of the dataset. A question that requires data analysis or modeling to answer.
+Output: A Python 3.10 code that performs the following steps:
+	 1. Import the necessary libraries and modules.
+	 2. Load the raining and test datasets. For the training data, utilize the variable """train_data=../../../data/dionis/dionis_train.csv""", and for the test data, employ the variable """test_data=../../../data/dionis/dionis_test.csv""". Utilize pandas' CSV readers to load the datasets.
+	 3. Don't split the train_data into train and test sets. Use only the given datasets.
+	 4. The user will provide the Schema, and Data Profiling Info of the dataset with columns appropriately named as attributes, enclosed in triple quotes, and preceded by the prefix "Schema, and Data Profiling Info:".
+	 5. Perform data cleaning and preprocessing.
+	 6. Perform feature processing (e.g., encode categorical values by dummyEncode).
+	 7. Select the appropriate features and target variables for the question. Additional columns add new semantic information, additional columns that are useful for a downstream algorithmpredicting "class". They can e.g. be feature combinations, transformations, aggregations where the new column is a function of the existing columns. Use appropriate scale factor for columns are needto transfer.
+	 8.  Perform drops columns, if these may be redundant and hurt the predictive performance of the downstream regressor (Feature selection). Dropping columns may help as the chance of overfitting is lower, especially if the dataset is small. The class will be trained on the dataset with the generated columns and evaluated on a holdout set.
+	 9. In order to avoid runtime error for unseen value on the target feature, do preprocessing based on union of train and test dataset.
+	 10. Code formatting for all required packages:
+```python
+# Import all required packages
+```end
+
+	 11. Code formatting for each added column:
+ ```python 
+ # (Feature name and description) 
+ # Usefulness: (Description why this adds useful real world knowledge to classify 'class' according to dataset description and attributes.) 
+ (Some pandas code using 'V44', 'V17', ... to add a new column for each row in df)
+ ```end
+	 12. Code formatting for dropping columns:
+```python-dropping-columns
+# Explanation why the column XX is dropped
+# df.drop(columns=['XX'], inplace=True)
+```end-dropping-columns
+
+	 13. Code formatting for training technique:
+ ```python 
+ # Choose the suitable machine learning algorithm or technique (regressor).
+ # Explanation why the solution is selected 
+ trn = ... 
+ ```end
+	 14. Code formatting for regression evaluation:
+```python
+# Report evaluation based on train and test dataset
+# Calculate the model R-Squared, represented by a value between 0 and 1, where 0 indicates low and 1 ndicates more variability is explained by the model. Store the R-Squared value in a variable labeled as "Train_R_Squared=..." and "Test_R_Squared=...".
+# Calculate the model Root Mean Squared Error, where the lower the value of the Root Mean Squared Error, the better the model is.. Store the model Root Mean Squared Error value in a variable labeled as "Train_RMSE=..." and "Test_RMSE=...".
+# Print the train accuracy result: print(f"Train_R_Squared:{Train_R_Squared}")   
+# Print the train log loss result: print(f"Train_RMSE:{Train_RMSE}") 
+# Print the test accuracy result: print(f"Test_R_Squared:{Test_R_Squared}")   
+# Print the test log loss result: print(f"Test_RMSE:{Test_RMSE}") 
+```end
+
+	 15. If the question is not relevant to the dataset or the task, the output should be: "Insufficient information."
+	 16. Don't report validation evaluation. We don't need it.
+---------------------------------------
+PROMPT TEXT:
+Schema, and Data Profiling Info:
+"""
+V44 (int): distinct-count [4327], min-max values [-3229.0, 3458.0], mean [-714.83], median [-733.00]
+V17 (int): distinct-count [8911], min-max values [0.0, 10000.0], mean [7031.72], median [6917.00]
+V51 (int): distinct-count [7892], min-max values [0.0, 10000.0], mean [7533.85], median [7507.00]
+V12 (int): distinct-count [28976], min-max values [-226626000.0, 828050000.0], mean [3811.91], median [106.00]
+V31 (int): distinct-count [6699], min-max values [-4471.0, 4219.0], mean [126.90], median [155.00]
+V47 (int): distinct-count [6518], min-max values [0.0, 10000.0], mean [9243.28], median [10000.00]
+V22 (int): distinct-count [7051], min-max values [0.0, 10000.0], mean [8880.13], median [9835.00]
+V40 (int): distinct-count [25604], min-max values [-70917400.0, 409796000.0], mean [1612.09], median [223.00]
+V1 (int): distinct-count [4906], min-max values [5003.0, 9961.0], mean [8305.23], median [8581.00]
+V24 (int): distinct-count [33892], min-max values [-1643070000.0, 248453000.0], mean [-3689.00], median [-2.00]
+V36 (int): distinct-count [4906], min-max values [39.0, 4997.0], mean [1694.77], median [1419.00]
+V52 (int): distinct-count [4306], min-max values [-5528.0, 3008.0], mean [401.48], median [322.00]
+V5 (int): distinct-count [3882], min-max values [-2624.0, 2677.0], mean [79.60], median [63.00]
+V9 (int): distinct-count [4802], min-max values [-2732.0, 3390.0], mean [131.03], median [91.00]
+V11 (int): distinct-count [9111], min-max values [0.0, 10000.0], mean [6054.27], median [6098.00]
+V3 (int): distinct-count [963], min-max values [-61367.0, 72073.0], mean [10015.64], median [10000.00]
+V13 (int): distinct-count [16754], min-max values [-10000.0, 7071.0], mean [-5850.15], median [-6803.00]
+V32 (int): distinct-count [7155], min-max values [0.0, 10000.0], mean [8664.47], median [8979.00]
+V34 (int): distinct-count [8115], min-max values [-5532.0, 7937.0], mean [343.81], median [286.00]
+V41 (int): distinct-count [54990], min-max values [-2147480000.0, 685646000.0], mean [-2933.39], median [454.00]
+V26 (int): distinct-count [2482], min-max values [-2131.0, 2137.0], mean [84.12], median [67.00]
+V6 (int): distinct-count [885], min-max values [0.0, 31168.0], mean [10070.22], median [10000.00]
+V25 (int): distinct-count [1421], min-max values [-788.0, 963.0], mean [29.75], median [23.00]
+V42 (int): distinct-count [44430], min-max values [-1857070000.0, 878593000.0], mean [-3471.50], median [0.00]
+V50 (int): distinct-count [52254], min-max values [-297637000.0, 247275000.0], mean [616.56], median [104.00]
+V2 (int): distinct-count [7731], min-max values [-8623.0, 8469.0], mean [-116.77], median [-82.00]
+V18 (int): distinct-count [34360], min-max values [-1587230000.0, 294947000.0], mean [-5370.37], median [14.00]
+V21 (int): distinct-count [2861], min-max values [-2201.0, 2299.0], mean [72.17], median [64.00]
+V4 (int): distinct-count [48832], min-max values [-1265290000.0, 295765000.0], mean [-10310.02], median [12.00]
+V10 (int): distinct-count [1823], min-max values [-1179.0, 1500.0], mean [38.74], median [31.00]
+V43 (int): distinct-count [29243], min-max values [-170505000.0, 336228000.0], mean [1478.40], median [-63.00]
+V56 (int): distinct-count [52714], min-max values [-2147480000.0, 371403000.0], mean [-6957.85], median [-68.00]
+V48 (int): distinct-count [49694], min-max values [-67918800.0, 2147480000.0], mean [9877.83], median [-2321.00]
+V57 (int): distinct-count [46413], min-max values [-461056000.0, 305813000.0], mean [-1613.20], median [-65.00]
+V15 (int): distinct-count [49248], min-max values [-1268740000.0, 68537400.0], mean [-8617.04], median [27.00]
+V29 (int): distinct-count [9472], min-max values [0.0, 10000.0], mean [7132.78], median [7190.00]
+V23 (int): distinct-count [67744], min-max values [-2147480000.0, 488854000.0], mean [-5905.20], median [-370.00]
+V49 (int): distinct-count [1636], min-max values [-1264.0, 1040.0], mean [42.72], median [41.00]
+V19 (int): distinct-count [7575], min-max values [-7270.0, 7156.0], mean [78.00], median [196.00]
+V16 (int): distinct-count [8309], min-max values [0.0, 10000.0], mean [8179.19], median [8456.00]
+V45 (int): distinct-count [2171], min-max values [-1598.0, 1693.0], mean [54.36], median [53.00]
+V8 (int): distinct-count [51532], min-max values [-1383240000.0, 214161000.0], mean [-4738.85], median [42.00]
+V7 (int): distinct-count [17510], min-max values [-21197100.0, 224206000.0], mean [1294.99], median [31.00]
+V58 (int): distinct-count [4839], min-max values [-4742.0, 3178.0], mean [135.97], median [124.00]
+V55 (int): distinct-count [8264], min-max values [0.0, 10000.0], mean [7789.09], median [8016.00]
+V59 (int): distinct-count [19021], min-max values [-48467600.0, 393974000.0], mean [1651.79], median [-57.00]
+V60 (int): distinct-count [1518], min-max values [-1457.0, 1618.0], mean [33.84], median [23.00]
+V20 (int): distinct-count [3636], min-max values [-2630.0, 2623.0], mean [168.41], median [157.00]
+V38 (int): distinct-count [16527], min-max values [-7071.0, 10000.0], mean [6394.68], median [7307.00]
+V28 (int): distinct-count [10999], min-max values [-11299.0, 12546.0], mean [2234.27], median [2621.00]
+V46 (int): distinct-count [49238], min-max values [-2071170000.0, 233666000.0], mean [-6404.78], median [-178.00]
+V30 (int): distinct-count [41028], min-max values [-112485000.0, 172864000.0], mean [2166.36], median [18.00]
+V39 (int): distinct-count [6052], min-max values [-3814.0, 5128.0], mean [107.93], median [150.00]
+V53 (int): distinct-count [37], min-max values [7.0, 71.0], mean [9.31], median [9.00]
+class (int): distinct-count [355]
+"""
+
+Dataset Attribute:
+Number of samples (rows) in training dataset: 291331
+
+# Drop the following column(s) from the train and test datasets:
+	Column(s): V33,V27,V54,V37,V35,V14
+# Select an appropriate scaler the following numerical columns (do it base on the min-max, mean, and median values are in the "Schema, and Data Profiling Info"):
+	Columns: V44,V17,V51,V12,V31,V47,V22,V40,V1,V24,V36,V52,V5,V9,V11,V3,V13,V32,V34,V41,V26,V6,V25,V42,V50,V2,V18,V21,V4,V10,V43,V56,V48,V57,V15,V29,V23,V49,V19,V16,V45,V8,V7,V58,V55,V59,V60,V20,V38,V28,V46,V30,V39,V53
+# Encode categorical values by "on-hot-encoder" for the following columns:
+	Columns: V3,V26,V6,V25,V21,V10,V49,V45,V60,V53
+# Encode all "object" columns by dummyEncode.
+
+
+Question: Provide a complete pipeline code that can be executed in a multi-threaded environment with various CPU configurations, such as PyTorch or other relevant frameworks.
+Each codeblock ends with "```end" and starts with "```python".

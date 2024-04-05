@@ -1,0 +1,110 @@
+SYSTEM MESSAGE:
+Task: Generate a data science pipeline in Python 3.11 that answers a question based on a given dataset, Schema, and Data Profiling Info.
+Input: A dataset in CSV format, a schema that describes the columns and data types of the dataset, and a data profiling info that summarizes the statistics and quality of the dataset. A question that requires data analysis or modeling to answer.
+Output: A Python 3.10 code that performs the following steps:
+	 1. Import the necessary libraries and modules.
+	 2. Load the raining and test datasets. For the training data, utilize the variable """train_data=../../../data/KDDCup99_full/KDDCup99_full_train.csv""", and for the test data, employ the variable """test_data=../../../data/KDDCup99_full/KDDCup99_full_test.csv""". Utilize pandas' CSV readers to load the datasets.
+	 3. Don't split the train_data into train and test sets. Use only the given datasets.
+	 4. The user will provide the Schema, and Data Profiling Info of the dataset with columns appropriately named as attributes, enclosed in triple quotes, and preceded by the prefix "Schema, and Data Profiling Info:".
+	 5. Perform data cleaning and preprocessing.
+	 6. Perform feature processing (e.g., encode categorical values by dummyEncode).
+	 7. Select the appropriate features and target variables for the question. Additional columns add new semantic information, additional columns that are useful for a downstream algorithmpredicting "label". They can e.g. be feature combinations, transformations, aggregations where the new column is a function of the existing columns. Use appropriate scale factor for columns are needto transfer.
+	 8.  Perform drops columns, if these may be redundant and hurt the predictive performance of the downstream classifier (Feature selection). Dropping columns may help as the chance of overfitting is lower, especially if the dataset is small. The label will be trained on the dataset with the generated columns and evaluated on a holdout set.
+	 9. In order to avoid runtime error for unseen value on the target feature, do preprocessing based on union of train and test dataset.
+	 10. Code formatting for all required packages:
+```python
+# Import all required packages
+```end
+
+	 11. Code formatting for each added column:
+ ```python 
+ # (Feature name and description) 
+ # Usefulness: (Description why this adds useful real world knowledge to classify 'label' according to dataset description and attributes.) 
+ (Some pandas code using 'service', 'wrong_fragment', ... to add a new column for each row in df)
+ ```end
+	 12. Code formatting for dropping columns:
+```python-dropping-columns
+# Explanation why the column XX is dropped
+# df.drop(columns=['XX'], inplace=True)
+```end-dropping-columns
+
+	 13. Code formatting for training technique:
+ ```python 
+ # Choose the suitable machine learning algorithm or technique (classifier).
+ # Explanation why the solution is selected 
+ trn = ... 
+ ```end
+	 14. Code formatting for multiclass classification evaluation:
+```python
+# Report evaluation based on train and test dataset
+# Calculate the model accuracy, represented by a value between 0 and 1, where 0 indicates low accuracy and 1 signifies higher accuracy. Store the accuracy value in a variable labeled as "Train_Accuracy=..." and "Test_Accuracy=...".
+# Calculate the model log loss, a lower log-loss value means better predictions. Store the  log loss value in a variable labeled as "Train_Log_loss=..." and "Test_Log_loss=...".
+# Print the train accuracy result: print(f"Train_Accuracy:{Train_Accuracy}")   
+# Print the train log loss result: print(f"Train_Log_loss:{Train_Log_loss}") 
+# Print the test accuracy result: print(f"Test_Accuracy:{Test_Accuracy}")   
+# Print the test log loss result: print(f"Test_Log_loss:{Test_Log_loss}")
+```end
+
+	 15. If the question is not relevant to the dataset or the task, the output should be: "Insufficient information."
+	 16. Don't report validation evaluation. We don't need it.
+---------------------------------------
+PROMPT TEXT:
+Schema, and Data Profiling Info:
+"""
+service (str): distinct-count [70]
+wrong_fragment (int): distinct-count [3], min-max values [0.0, 3.0], mean [0.00], median [0.00]
+lnum_shells (int): distinct-count [3], min-max values [0.0, 2.0], mean [0.00], median [0.00]
+num_failed_logins (int): distinct-count [6], min-max values [0.0, 5.0], mean [0.00], median [0.00]
+urgent (int): distinct-count [5], min-max values [0.0, 14.0], mean [0.00], median [0.00]
+duration (int): distinct-count [8289], min-max values [0.0, 58329.0], mean [48.24], median [0.00]
+src_bytes (int): distinct-count [6336], min-max values [0.0, 693375640.0], mean [1302.44], median [520.00]
+lnum_access_files (int): distinct-count [10], min-max values [0.0, 9.0], mean [0.00], median [0.00]
+lsu_attempted (int): distinct-count [3], min-max values [0.0, 2.0], mean [0.00], median [0.00]
+dst_host_srv_count (int): distinct-count [256], min-max values [0.0, 255.0], mean [189.23], median [255.00]
+hot (int): distinct-count [29], min-max values [0.0, 44.0], mean [0.01], median [0.00]
+srv_count (int): distinct-count [512], min-max values [0.0, 511.0], mean [295.31], median [510.00]
+dst_host_count (int): distinct-count [256], min-max values [0.0, 255.0], mean [232.98], median [255.00]
+count (int): distinct-count [512], min-max values [0.0, 511.0], mean [335.00], median [510.00]
+lnum_root (int): distinct-count [74], min-max values [0.0, 1743.0], mean [0.01], median [0.00]
+lnum_compromised (int): distinct-count [80], min-max values [0.0, 1739.0], mean [0.01], median [0.00]
+lnum_file_creations (int): distinct-count [41], min-max values [0.0, 43.0], mean [0.00], median [0.00]
+dst_bytes (int): distinct-count [19845], min-max values [0.0, 1309937401.0], mean [1274.97], median [0.00]
+protocol_type (str): distinct-count [3]
+flag (str): distinct-count [11]
+lroot_shell (bool): distinct-count [2]
+logged_in (bool): distinct-count [2]
+land (bool): distinct-count [2]
+is_guest_login (bool): distinct-count [2]
+is_host_login (bool): distinct-count [2]
+diff_srv_rate (float): distinct-count [92], min-max values [0.0, 1.0], mean [0.02], median [0.00]
+dst_host_serror_rate (float): distinct-count [101], min-max values [0.0, 1.0], mean [0.18], median [0.00]
+dst_host_diff_srv_rate (float): distinct-count [101], min-max values [0.0, 1.0], mean [0.03], median [0.00]
+dst_host_rerror_rate (float): distinct-count [101], min-max values [0.0, 1.0], mean [0.06], median [0.00]
+srv_serror_rate (float): distinct-count [80], min-max values [0.0, 1.0], mean [0.18], median [0.00]
+serror_rate (float): distinct-count [96], min-max values [0.0, 1.0], mean [0.18], median [0.00]
+srv_diff_host_rate (float): distinct-count [72], min-max values [0.0, 1.0], mean [0.03], median [0.00]
+rerror_rate (float): distinct-count [89], min-max values [0.0, 1.0], mean [0.06], median [0.00]
+dst_host_srv_serror_rate (float): distinct-count [100], min-max values [0.0, 1.0], mean [0.18], median [0.00]
+srv_rerror_rate (float): distinct-count [75], min-max values [0.0, 1.0], mean [0.06], median [0.00]
+same_srv_rate (float): distinct-count [101], min-max values [0.0, 1.0], mean [0.79], median [1.00]
+dst_host_same_src_port_rate (float): distinct-count [101], min-max values [0.0, 1.0], mean [0.61], median [1.00]
+dst_host_srv_diff_host_rate (float): distinct-count [76], min-max values [0.0, 1.0], mean [0.01], median [0.00]
+dst_host_same_srv_rate (float): distinct-count [101], min-max values [0.0, 1.0], mean [0.75], median [1.00]
+dst_host_srv_rerror_rate (float): distinct-count [101], min-max values [0.0, 1.0], mean [0.06], median [0.00]
+label (str): distinct-count [23]
+"""
+
+Dataset Attribute:
+Number of samples (rows) in training dataset: 3428901
+
+# Drop the following column(s) from the train and test datasets:
+	Column(s): lnum_outbound_cmds
+# Select an appropriate scaler the following numerical columns (do it base on the min-max, mean, and median values are in the "Schema, and Data Profiling Info"):
+	Columns: wrong_fragment,lnum_shells,num_failed_logins,urgent,duration,src_bytes,lnum_access_files,lsu_attempted,dst_host_srv_count,hot,srv_count,dst_host_count,count,lnum_root,lnum_compromised,lnum_file_creations,dst_bytes,diff_srv_rate,dst_host_serror_rate,dst_host_diff_srv_rate,dst_host_rerror_rate,srv_serror_rate,serror_rate,srv_diff_host_rate,rerror_rate,dst_host_srv_serror_rate,srv_rerror_rate,same_srv_rate,dst_host_same_src_port_rate,dst_host_srv_diff_host_rate,dst_host_same_srv_rate,dst_host_srv_rerror_rate
+# Encode categorical values by "on-hot-encoder" for the following columns:
+	Columns: service,wrong_fragment,lnum_shells,num_failed_logins,urgent,duration,src_bytes,lnum_access_files,lsu_attempted,dst_host_srv_count,hot,srv_count,dst_host_count,count,lnum_root,lnum_compromised,lnum_file_creations,dst_bytes,protocol_type,flag,lroot_shell,logged_in,land,is_guest_login,is_host_login,diff_srv_rate,dst_host_serror_rate,dst_host_diff_srv_rate,dst_host_rerror_rate,srv_serror_rate,serror_rate,srv_diff_host_rate,rerror_rate,dst_host_srv_serror_rate,srv_rerror_rate,same_srv_rate,dst_host_same_src_port_rate,dst_host_srv_diff_host_rate,dst_host_same_srv_rate,dst_host_srv_rerror_rate
+# Encode all "object" columns by dummyEncode.
+
+
+Question: Provide a complete pipeline code that can be executed in a multi-threaded environment with various CPU configurations, such as PyTorch or other relevant frameworks.
+Each codeblock ends with "```end" and starts with "```python".

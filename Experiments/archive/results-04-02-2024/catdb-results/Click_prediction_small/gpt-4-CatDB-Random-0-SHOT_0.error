@@ -1,0 +1,40 @@
+Traceback (most recent call last):
+  File "/home/ubuntu/CatDB/Experiments/setup/Baselines/CatDB/runcode/RunCode.py", line 36, in execute_code
+    exec(compile(parse, filename="<ast>", mode="exec"), loc)
+  File "<ast>", line 60, in <module>
+  File "/home/ubuntu/CatDB/Experiments/setup/Baselines/CatDB/venv/lib/python3.11/site-packages/sklearn/pipeline.py", line 602, in predict
+    Xt = transform.transform(Xt)
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/CatDB/Experiments/setup/Baselines/CatDB/venv/lib/python3.11/site-packages/sklearn/utils/_set_output.py", line 295, in wrapped
+    data_to_wrap = f(self, X, *args, **kwargs)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/CatDB/Experiments/setup/Baselines/CatDB/venv/lib/python3.11/site-packages/sklearn/compose/_column_transformer.py", line 1014, in transform
+    Xs = self._call_func_on_transformers(
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/CatDB/Experiments/setup/Baselines/CatDB/venv/lib/python3.11/site-packages/sklearn/compose/_column_transformer.py", line 823, in _call_func_on_transformers
+    return Parallel(n_jobs=self.n_jobs)(jobs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/CatDB/Experiments/setup/Baselines/CatDB/venv/lib/python3.11/site-packages/sklearn/utils/parallel.py", line 67, in __call__
+    return super().__call__(iterable_with_config)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/CatDB/Experiments/setup/Baselines/CatDB/venv/lib/python3.11/site-packages/joblib/parallel.py", line 1863, in __call__
+    return output if self.return_generator else list(output)
+                                                ^^^^^^^^^^^^
+  File "/home/ubuntu/CatDB/Experiments/setup/Baselines/CatDB/venv/lib/python3.11/site-packages/joblib/parallel.py", line 1792, in _get_sequential_output
+    res = func(*args, **kwargs)
+          ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/CatDB/Experiments/setup/Baselines/CatDB/venv/lib/python3.11/site-packages/sklearn/utils/parallel.py", line 129, in __call__
+    return self.function(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/CatDB/Experiments/setup/Baselines/CatDB/venv/lib/python3.11/site-packages/sklearn/pipeline.py", line 1283, in _transform_one
+    res = transformer.transform(X, **params.transform)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/CatDB/Experiments/setup/Baselines/CatDB/venv/lib/python3.11/site-packages/sklearn/utils/_set_output.py", line 295, in wrapped
+    data_to_wrap = f(self, X, *args, **kwargs)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/CatDB/Experiments/setup/Baselines/CatDB/venv/lib/python3.11/site-packages/sklearn/preprocessing/_encoders.py", line 1023, in transform
+    X_int, X_mask = self._transform(
+                    ^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/CatDB/Experiments/setup/Baselines/CatDB/venv/lib/python3.11/site-packages/sklearn/preprocessing/_encoders.py", line 213, in _transform
+    raise ValueError(msg)
+ValueError: Found unknown categories [208.0, 213.0, 247.0, 267.0, 275.0, 276.0, 283.0, 289.0, 305.0, 316.0, 321.0, 324.0, 331.0, 335.0, 351.0, 357.0, 374.0, 375.0, 379.0, 399.0, 414.0, 425.0, 429.0, 431.0, 438.0, 440.0, 446.0, 467.0, 475.0, 480.0, 503.0, 510.0, 517.0, 524.0, 527.0, 537.0, 547.0, 551.0, 555.0, 561.0, 584.0, 591.0, 603.0, 610.0, 635.0, 644.0, 653.0, 661.0, 667.0, 671.0, 699.0, 701.0, 711.0, 712.0, 713.0, 732.0, 749.0, 767.0, 775.0, 785.0, 820.0, 839.0, 840.0, 891.0, 907.0, 955.0, 1003.0, 1004.0, 1010.0, 1015.0, 1038.0, 1051.0, 1062.0, 1090.0, 1166.0, 1180.0, 1181.0, 1188.0, 1201.0, 1245.0, 1306.0, 1379.0, 1436.0, 1489.0, 1497.0, 1541.0, 1555.0, 1584.0, 1727.0, 1891.0, 2027.0, 2152.0, 2343.0, 2433.0, 2545.0, 2855.0, 3162.0, 3469.0, 3601.0, 4218.0, 5112.0, 5674.0, 7349.0, 8745.0, 11820.0] in column 2 during transform

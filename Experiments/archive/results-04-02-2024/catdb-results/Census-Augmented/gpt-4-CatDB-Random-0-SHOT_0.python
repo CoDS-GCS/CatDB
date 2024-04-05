@@ -1,0 +1,88 @@
+# ```python
+# Import all required packages
+import pandas as pd
+from sklearn.preprocessing import StandardScaler, OneHotEncoder
+from sklearn.compose import ColumnTransformer
+from sklearn.pipeline import Pipeline
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import accuracy_score, f1_score
+# ```end
+
+# ```python
+# Load the training and test datasets
+train_data = pd.read_csv('../../../data/Census-Augmented/Census-Augmented_train.csv')
+test_data = pd.read_csv('../../../data/Census-Augmented/Census-Augmented_test.csv')
+# ```end
+
+# ```python
+# Perform data cleaning and preprocessing
+# Here we assume that the data is clean and does not contain any missing or incorrect values.
+# If this is not the case, appropriate data cleaning steps should be added here.
+# ```end
+
+# ```python
+# Perform feature processing
+# Define the columns to be scaled and encoded
+scale_cols = ['age', 'education-num', 'capital-loss', 'capital-gain', 'hours-per-week', 'fnlwgt']
+encode_cols = ['education', 'occupation', 'marital-status', 'native-country', 'workclass', 'relationship', 'race', 'sex']
+
+# Define the preprocessing steps
+preprocessor = ColumnTransformer(
+    transformers=[
+        ('num', StandardScaler(), scale_cols),
+        ('cat', OneHotEncoder(), encode_cols)])
+
+# Fit and transform the training data
+train_data = preprocessor.fit_transform(train_data)
+
+# Transform the test data
+test_data = preprocessor.transform(test_data)
+# ```end
+
+# ```python
+# Select the appropriate features and target variables
+X_train = train_data.drop(columns=['income'])
+y_train = train_data['income']
+
+X_test = test_data.drop(columns=['income'])
+y_test = test_data['income']
+# ```end
+
+# ```python
+# Perform feature selection
+# Here we assume that all features are relevant for the prediction of the income.
+# If this is not the case, appropriate feature selection steps should be added here.
+# ```end
+
+# ```python
+# Choose the suitable machine learning algorithm or technique (classifier)
+# We choose the RandomForestClassifier because it is a powerful and versatile model that performs well on a wide range of tasks.
+# It also handles categorical features well, which is important for this dataset.
+clf = RandomForestClassifier(n_jobs=-1)
+
+# Fit the model
+clf.fit(X_train, y_train)
+# ```end
+
+# ```python
+# Report evaluation based on train and test dataset
+# Calculate the model accuracy
+Train_Accuracy = clf.score(X_train, y_train)
+Test_Accuracy = clf.score(X_test, y_test)
+
+# Calculate the model f1 score
+Train_F1_score = f1_score(y_train, clf.predict(X_train))
+Test_F1_score = f1_score(y_test, clf.predict(X_test))
+
+# Print the train accuracy result
+print(f"Train_Accuracy:{Train_Accuracy}")   
+
+# Print the train f1 score result
+print(f"Train_F1_score:{Train_F1_score}")
+
+# Print the test accuracy result
+print(f"Test_Accuracy:{Test_Accuracy}")   
+
+# Print the test f1 score result
+print(f"Test_F1_score:{Test_F1_score}") 
+# ```end

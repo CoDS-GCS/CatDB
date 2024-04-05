@@ -1,0 +1,87 @@
+# # ```python
+# Import all required packages
+import pandas as pd
+from sklearn.preprocessing import MinMaxScaler, LabelEncoder
+from sklearn.impute import SimpleImputer
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.metrics import r2_score, mean_squared_error
+import numpy as np
+import torch
+from torch.utils.data import Dataset, DataLoader
+# # ```end
+
+# # ```python
+# Load the datasets
+train_data = pd.read_csv('../../../data/PASS/PASS_train.csv')
+test_data = pd.read_csv('../../../data/PASS/PASS_test.csv')
+# # ```end
+
+# # ```python
+# Drop the 'licensename' column
+train_data.drop(columns=['licensename'], inplace=True)
+test_data.drop(columns=['licensename'], inplace=True)
+# # ```end-dropping-columns
+
+# # ```python
+# Impute missing values for 'longitude' and 'latitude' columns
+imputer = SimpleImputer(strategy='mean')
+train_data[['longitude', 'latitude']] = imputer.fit_transform(train_data[['longitude', 'latitude']])
+test_data[['longitude', 'latitude']] = imputer.transform(test_data[['longitude', 'latitude']])
+# # ```end
+
+# # ```python
+# Predict the missing values for 'datetaken' column
+# As 'datetaken' is a date column, we can fill the missing values with the most frequent date
+train_data['datetaken'].fillna(train_data['datetaken'].mode()[0], inplace=True)
+test_data['datetaken'].fillna(test_data['datetaken'].mode()[0], inplace=True)
+# # ```end
+
+# # ```python
+# Scale 'longitude' and 'latitude' columns
+scaler = MinMaxScaler()
+train_data[['longitude', 'latitude']] = scaler.fit_transform(train_data[['longitude', 'latitude']])
+test_data[['longitude', 'latitude']] = scaler.transform(test_data[['longitude', 'latitude']])
+# # ```end
+
+# # ```python
+# Encode all "object" columns by dummyEncode
+le = LabelEncoder()
+for col in train_data.columns:
+    if train_data[col].dtype == 'object':
+        le.fit(train_data[col])
+        train_data[col] = le.transform(train_data[col])
+        if col in test_data.columns:
+            test_data[col] = test_data[col].map(lambda s: '<unknown>' if s not in le.classes_ else s)
+            le.classes_ = np.append(le.classes_, '<unknown>')
+            test_data[col] = le.transform(test_data[col])
+# # ```end
+
+# # ```python
+# Select the appropriate features and target variables for the question
+features = train_data.drop('unickname', axis=1)
+target = train_data['unickname']
+# # ```end
+
+# # ```python
+# Choose the suitable machine learning algorithm or technique (regressor).
+# RandomForestRegressor is selected because it can handle both numerical and categorical features, and it also prevents overfitting by creating random subsets of the features and building smaller trees using these subsets.
+regressor = RandomForestRegressor(n_estimators=100, random_state=42)
+regressor.fit(features, target)
+# # ```end
+
+# # ```python
+# Report evaluation based on train and test dataset
+train_predictions = regressor.predict(features)
+test_predictions = regressor.predict(test_data.drop('unickname', axis=1))
+
+Train_R_Squared = r2_score(target, train_predictions)
+Test_R_Squared = r2_score(test_data['unickname'], test_predictions)
+
+Train_RMSE = np.sqrt(mean_squared_error(target, train_predictions))
+Test_RMSE = np.sqrt(mean_squared_error(test_data['unickname'], test_predictions))
+
+print(f"Train_R_Squared:{Train_R_Squared}")   
+print(f"Train_RMSE:{Train_RMSE}") 
+print(f"Test_R_Squared:{Test_R_squared}")   
+print(f"Test_RMSE:{Test_RMSE}") 
+# # ```end

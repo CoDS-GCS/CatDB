@@ -1,0 +1,62 @@
+# Import all required packages
+import pandas as pd
+from sklearn.preprocessing import StandardScaler, OneHotEncoder
+from sklearn.compose import ColumnTransformer
+from sklearn.pipeline import Pipeline
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import accuracy_score, f1_score
+
+# Load the training and test datasets
+train_data = pd.read_csv('../../../data/Census-Augmented/Census-Augmented_train.csv')
+test_data = pd.read_csv('../../../data/Census-Augmented/Census-Augmented_test.csv')
+
+# Perform feature processing
+# Define the columns to be scaled and encoded
+scale_cols = ['age', 'education-num', 'capital-loss', 'capital-gain', 'hours-per-week', 'fnlwgt']
+encode_cols = ['education', 'occupation', 'marital-status', 'native-country', 'workclass', 'relationship', 'race', 'sex']
+
+# Define the preprocessing steps
+preprocessor = ColumnTransformer(
+    transformers=[
+        ('num', StandardScaler(), scale_cols),
+        ('cat', OneHotEncoder(), encode_cols)])
+
+# Select the appropriate features and target variables
+X_train = train_data.drop(columns=['income'])
+y_train = train_data['income']
+
+X_test = test_data.drop(columns=['income'])
+y_test = test_data['income']
+
+# Fit and transform the training data
+X_train = preprocessor.fit_transform(X_train)
+
+# Transform the test data
+X_test = preprocessor.transform(X_test)
+
+# Choose the suitable machine learning algorithm or technique (classifier)
+clf = RandomForestClassifier(n_jobs=-1)
+
+# Fit the model
+clf.fit(X_train, y_train)
+
+# Report evaluation based on train and test dataset
+# Calculate the model accuracy
+Train_Accuracy = clf.score(X_train, y_train)
+Test_Accuracy = clf.score(X_test, y_test)
+
+# Calculate the model f1 score
+Train_F1_score = f1_score(y_train, clf.predict(X_train), pos_label=' 50K')
+Test_F1_score = f1_score(y_test, clf.predict(X_test), pos_label=' 50K')
+
+# Print the train accuracy result
+print(f"Train_Accuracy:{Train_Accuracy}")   
+
+# Print the train f1 score result
+print(f"Train_F1_score:{Train_F1_score}")
+
+# Print the test accuracy result
+print(f"Test_Accuracy:{Test_Accuracy}")   
+
+# Print the test f1 score result
+print(f"Test_F1_score:{Test_F1_score}")

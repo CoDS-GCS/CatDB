@@ -45,7 +45,7 @@ def parse_arguments():
             raise Exception(ex)
 
     if args.dataset_description.lower() == "yes":
-        dataset_description_path = args.metadata_path.replace(".yml", ".txt")
+        dataset_description_path = args.metadata_path.replace(".yaml", ".txt")
         args.description = read_text_file_line_by_line(fname=dataset_description_path)
     else:
         args.description = None

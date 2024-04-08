@@ -14,7 +14,7 @@ def parse_arguments():
     parser.add_argument('--data-profile-path', type=str, default=None)
     parser.add_argument('--output-path', type=str, default=None)
     parser.add_argument('--llm-model', type=str, default=None)
-    parser.add_argument('--dataset-description', type=bool, default=False)
+    parser.add_argument('--dataset-description', type=str, default="False")
     args = parser.parse_args()
 
     if args.metadata_path is None:
@@ -44,17 +44,19 @@ def parse_arguments():
         except yaml.YAMLError as ex:
             raise Exception(ex)
 
-    if args.dataset_description:
+    if args.dataset_description.lower() == "True":
         dataset_description_path = args.metadata_path.replace(".yml", ".txt")
         args.description = read_text_file_line_by_line(fname=dataset_description_path)
     else:
         args.description = None
 
+    print(args.description)
     return args
 
 
 if __name__ == '__main__':
     args = parse_arguments()
+    print(args)
     catalog = load_data_source_profile(data_source_path=args.data_profile_path,
                                        file_format="JSON",
                                        target_attribute=args.target_attribute,
@@ -110,7 +112,7 @@ if __name__ == '__main__':
     log_path = f"{args.output_path}/statistics_2.csv"
     try:
         df_2 = pd.read_csv(log_path)
-        
+
     except Exception as err:
         df_2 = pd.DataFrame(columns=["dataset", "col_index", "data_type", "with_dataset_description", "missing_values_count","total_values_count",
                          "distinct_values_count","number_rows"])

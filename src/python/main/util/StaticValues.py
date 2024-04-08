@@ -31,6 +31,7 @@ Rule_9 = ("In order to avoid runtime error for unseen value on the target featur
 Rule_10 = 'If the question is not relevant to the dataset or the task, the output should be: "Insufficient information."'
 Rule_11 = "Don't report validation evaluation. We don't need it."
 Rule_12 = 'Utilize data augmentation techniques (sophisticated techniques) on the dataset to enhance accuracy and mitigate overfitting.'
+Rule_13 = 'If the algorithm is RandomForestClassifier then pass max_leaf_nodes={} as parameter.'
 dataset_description = "Description of the dataset:\n{}\n"
 
 CODE_FORMATTING_IMPORT = f"""Code formatting for all required packages:
@@ -55,7 +56,7 @@ CODE_FORMATTING_DROPPING = f"""Code formatting for dropping columns:
 
 CODE_FORMATTING_TECHNIQUE = ("Code formatting for training technique:\n \
 ```python \n \
-# Choose the suitable machine learning algorithm or technique ({}). If the algorithm is RandomForestClassifier, set max_leaf_nodes to 10 percent of the maximum total number of unique values.\n \
+# Choose the suitable machine learning algorithm or technique ({}).\n \
 # Explanation why the solution is selected \n \
 trn = ... \n \
 ```end")

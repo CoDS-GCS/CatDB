@@ -39,6 +39,9 @@ class BasicPrompt(object):
         else:
             algorithm = "regressor"
 
+        randomforest_param = int (self.nrows * 0.1)
+        if randomforest_param < 3000:
+            randomforest_param = self.nrows
         rules = [StaticValues.Rule_task.format(self.ds_attribute_prefix),
                  StaticValues.Rule_input,
                  StaticValues.Rule_output,
@@ -59,6 +62,7 @@ class BasicPrompt(object):
                  f"\t 15. {self.evaluation_text}",
                  f"\t 16. {StaticValues.Rule_10}",
                  f"\t 17. {StaticValues.Rule_11}"
+                 f"\t 18. {StaticValues.Rule_12.format(randomforest_param)}"
                  ]
 
         rule_msg = "\n".join(rules)

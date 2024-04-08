@@ -75,10 +75,15 @@ if __name__ == '__main__':
         elif schema_info[k] == "int":
             nints += 1
 
-    df_1 = pd.DataFrame(
-        columns=["dataset", "with_dataset_description", "prompt_representation_type", "prompt_example_type", "prompt_number_example"
-            , "number_tokens", "number_bool", "number_int", "number_float", "number_string"])
     log_path = f"{args.output_path}/statistics_1.csv"
+    try:
+        df_1 = pd.read_csv(log_path)
+    except Exception as err:
+        df_1 = pd.DataFrame(
+            columns=["dataset", "with_dataset_description", "prompt_representation_type", "prompt_example_type", "prompt_number_example"
+                , "number_tokens", "number_bool", "number_int", "number_float", "number_string"])
+
+
     llm = GenerateLLMCode(model=args.llm_model)
     for rt in PROMPT_FUNC.keys():
         prompt = prompt_factory(catalog=catalog,
@@ -100,11 +105,15 @@ if __name__ == '__main__':
         ntokens = llm.get_number_tokens(prompt_rules=prompt_rule, prompt_message=prompt_msg)
         df_1.loc[len(df_1)] = [args.dataset_name, args.dataset_description, rt, "Random", 0, ntokens, nbools, nints, nfloats, nstrings]
 
-    df_1.to_csv(f"{args.output_path}/statistics_1_dataset_description_{args.dataset_description}.csv", index=False)
+    df_1.to_csv(f"{args.output_path}/statistics_1.csv", index=False)
 
-    log_path = f"{args.output_path}/statistics_2_dataset_description_{args.dataset_description}.csv"
-    df_2 = pd.DataFrame(columns=["dataset", "col_index", "data_type", "with_dataset_description", "missing_values_count","total_values_count",
-                     "distinct_values_count","number_rows"])
+    log_path = f"{args.output_path}/statistics_2.csv"
+    try:
+        df_2 = pd.read_csv(log_path)
+        
+    except Exception as err:
+        df_2 = pd.DataFrame(columns=["dataset", "col_index", "data_type", "with_dataset_description", "missing_values_count","total_values_count",
+                         "distinct_values_count","number_rows"])
 
     index = 0
     for k in profile_info.keys():

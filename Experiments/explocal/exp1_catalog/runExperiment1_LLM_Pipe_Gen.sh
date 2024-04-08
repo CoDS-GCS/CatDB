@@ -9,6 +9,7 @@ prompt_example_type=$4
 prompt_number_example=$5
 task_type=$6
 llm_model=$7
+with_dataset_description=$8
 
 metadata_path="${data_path}/${dataset}/${dataset}.yaml"
 number_iteration=20
@@ -35,7 +36,8 @@ SCRIPT="python -Wignore main.py --metadata-path ${metadata_path} \
         --output-path ${output_path} \
         --parse-pipeline ${parse_pipeline} \
         --run-pipeline ${run_pipeline} \
-        --result-output-path ${result_output_path}"
+        --result-output-path ${result_output_path} \
+        --data-description ${with_dataset_description}"
 
 # sudo echo 3 >/proc/sys/vm/drop_caches && sudo sync
 # sleep 3

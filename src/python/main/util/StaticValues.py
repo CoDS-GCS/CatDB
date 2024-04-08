@@ -31,6 +31,7 @@ Rule_9 = ("In order to avoid runtime error for unseen value on the target featur
 Rule_10 = 'If the question is not relevant to the dataset or the task, the output should be: "Insufficient information."'
 Rule_11 = "Don't report validation evaluation. We don't need it."
 Rule_12 = 'Utilize data augmentation techniques (sophisticated techniques) on the dataset to enhance accuracy and mitigate overfitting.'
+dataset_description = "Description of the dataset:\n{}\n"
 
 CODE_FORMATTING_IMPORT = f"""Code formatting for all required packages:
 ```python

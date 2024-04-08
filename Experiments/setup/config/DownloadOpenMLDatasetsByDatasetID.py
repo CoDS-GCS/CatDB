@@ -54,11 +54,8 @@ if __name__ == '__main__':
 
         dataset = openml.datasets.get_dataset(dataset_id, download_qualities=False)
         dataset_description = dataset.description
-        # data, y, categorical_indicator, attribute_names = dataset.get_data()
-        # target_attribute = dataset.default_target_attribute
-
-        target_attribute = "MMM"
-        data = pd.DataFrame(columns=["MMM"])
+        data, y, categorical_indicator, attribute_names = dataset.get_data()
+        target_attribute = dataset.default_target_attribute
 
         n_classes = data[dataset.default_target_attribute].nunique()
         # if n_classes == 2:

@@ -17,13 +17,17 @@ class BasicPrompt(object):
         }
 
     def format_question(self, examples: dict):
-        prompt_items = [self.ds_attribute_prefix_label,
+        prompt_items = []
+        if self.dataset_description is not None:
+            prompt_items.append(StaticValues.dataset_description.format(self.dataset_description))
+
+        prompt_items.extend([self.ds_attribute_prefix_label,
                         '"""',
                         self.content,
                         '"""\n',
                         f"Dataset Attribute:\nNumber of samples (rows) in training dataset: {self.nrows}\n",
                         self.extra_info,
-                        f'Question: {self.question}']
+                        f'Question: {self.question}'])
 
         prompt = "\n".join(prompt_items)
         return prompt
@@ -256,7 +260,7 @@ class CatDBPrompt(BasicPrompt):
         BasicPrompt.__init__(self, *args, **kwargs)
         self.ds_attribute_prefix = "Schema, and Data Profiling Info"
         self.ds_attribute_prefix_label = "Schema, and Data Profiling Info:"
-        extra_info_items =[]
+        extra_info_items = []
 
         schema_info_list = []
         dropped_columns_names = self.dropped_columns.keys()
@@ -305,10 +309,10 @@ class CatDBPrompt(BasicPrompt):
             extra_info_items.append(missing_values_prompt)
 
         if len(none_numerical_missing_values_columns) > 0:
-            missing_values_prompt = (f"# Predict the missing values for the following none-numerical columns:\n\tColumns: "
-                                     f"{','.join(none_numerical_missing_values_columns)}\n")
+            missing_values_prompt = (
+                f"# Predict the missing values for the following none-numerical columns:\n\tColumns: "
+                f"{','.join(none_numerical_missing_values_columns)}\n")
             extra_info_items.append(missing_values_prompt)
-
 
         if len(categorical_missing_values_column) > 0:
             missing_values_prompt = (f"# Predict the missing values for the following categorical columns:\n\tColumns: "
@@ -330,7 +334,6 @@ class CatDBPrompt(BasicPrompt):
             extra_info_items.append(categorical_column_prompt)
 
         extra_info_items.append('# Encode all "object" columns by dummyEncode.\n\n')
-
 
         for k in self.schema.keys():
             if k in dropped_columns_names:

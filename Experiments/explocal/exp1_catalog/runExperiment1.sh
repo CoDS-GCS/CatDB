@@ -19,4 +19,6 @@ CMD=./explocal/exp1_catalog/runExperiment1_LLM_Pipe_Gen.sh
 #$CMD ${dataset} ${data_profile_path} SCV Random 0 ${task_type} gpt-4 
 
 #$CMD ${dataset} ${data_profile_path} AUTO Random 0 ${task_type} gpt-4 
-$CMD ${dataset} ${data_profile_path} CatDB Random 0 ${task_type} gpt-4 
+
+$CMD ${dataset} ${data_profile_path} CatDB Random 0 ${task_type} gpt-4 False
+$CMD ${dataset} ${data_profile_path} CatDB Random 0 ${task_type} gpt-4 True

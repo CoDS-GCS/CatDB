@@ -11,40 +11,40 @@ exp_path="$(pwd)"
 echo "dataset,task_type,platform,time" >> "${exp_path}/results/Experiment1_Data_Profile.dat"
 echo "dataset,time" >> "${exp_path}/results/Experiment1_CSVDataReader.dat"
 echo "dataset,llm_model,prompt_representation_type,prompt_example_type,prompt_number_example,task_type,time" >> "${exp_path}/results/Experiment1_LLM_Pipe_Gen.dat"
-echo "dataset,iteration,llm_model,prompt_representation_type,prompt_example_type,prompt_number_example,task_type,time" >> "${exp_path}/results/Experiment1_LLM_Pipe_Test.dat"
+# echo "dataset,iteration,llm_model,prompt_representation_type,prompt_example_type,prompt_number_example,task_type,time" >> "${exp_path}/results/Experiment1_LLM_Pipe_Test.dat"
 
 echo "dataset,llm_model,prompt_representation_type,prompt_example_type,prompt_number_example,task_type,time,result" >> "${exp_path}/results/Experiment2_CatDB_LLM_Pipe_Run.dat"
-echo "dataset,platform,time,constraint" >> "${exp_path}/results/Experiment2_AutoML_Corresponding.dat"
+# echo "dataset,platform,time,constraint" >> "${exp_path}/results/Experiment2_AutoML_Corresponding.dat"
 
-echo "dataset,platform,time,constraint" >> "${exp_path}/results/Experiment3_AutoML_1H.dat"
-echo "dataset,source,time" >> "${exp_path}/results/Experiment3_Hand-craft.dat"
+# echo "dataset,platform,time,constraint" >> "${exp_path}/results/Experiment3_AutoML_1H.dat"
+# echo "dataset,source,time" >> "${exp_path}/results/Experiment3_Hand-craft.dat"
 
 cd ${exp_path}
 
-#CMD=./explocal/exp0_statistics/runExperiment0.sh
+CMD=./explocal/exp0_statistics/runExperiment0.sh
 #CMD=./explocal/exp1_catalog/runExperiment1.sh
 #CMD=./explocal/exp2_micro_benchmark/runExperiment2.sh 
-CMD=./explocal/exp3_end_to_end/runExperiment3.sh 
+#CMD=./explocal/exp3_end_to_end/runExperiment3.sh 
 
 
-$CMD Higgs binary
-$CMD albert binary
-$CMD Click_prediction_small binary
-$CMD Census-Augmented binary
-$CMD BNG_heart-statlog binary
-$CMD KDDCup99_full multiclass
-$CMD road-safety multiclass
-$CMD drug-directory multiclass
-$CMD okcupid-stem multiclass
-$CMD walking-activity multiclass
-$CMD PASS regression
-$CMD aloi regression
-$CMD MD_MIX_Mini_Copy regression
-$CMD dionis regression
-$CMD Meta_Album_BRD_Extended regression
+# $CMD Higgs binary
+# $CMD albert binary
+# $CMD Click_prediction_small binary
+# $CMD Census-Augmented binary
+# $CMD BNG_heart-statlog binary
+# $CMD KDDCup99_full multiclass
+# $CMD road-safety multiclass
+# $CMD drug-directory multiclass
+# $CMD okcupid-stem multiclass
+# $CMD walking-activity multiclass
+# $CMD PASS regression
+# $CMD aloi regression
+# $CMD MD_MIX_Mini_Copy regression
+# $CMD dionis regression
+# $CMD Meta_Album_BRD_Extended regression
 
 
-# $CMD balance-scale multiclass
+$CMD balance-scale multiclass
 # $CMD breast-w binary
 # $CMD cmc multiclass
 # $CMD credit-g binary
@@ -54,31 +54,3 @@ $CMD Meta_Album_BRD_Extended regression
 # $CMD pc1 binary
 # $CMD airlines binary
 # $CMD jungle_chess_2pcs_raw_endgame_complete multiclass
-
-# CAAFE datasets by Kaggle
-# $CMD health-insurance binary test
-# $CMD pharyngitis binary test
-# $CMD playground-series-s3e12 binary test
-# $CMD spaceship-titanic binary test
-
-
-
-# $CMD dataset_1_rnc binary test
-# $CMD dataset_2_rnc binary test
-# $CMD dataset_3_rnc binary test
-# $CMD dataset_4_rnc binary test
-# $CMD dataset_5_rnc binary test
-# $CMD dataset_6_rnc binary test
-
-# $CMD oml_dataset_1_rnc binary test
-# $CMD oml_dataset_2_rnc binary test
-# $CMD oml_dataset_3_rnc binary test
-# $CMD oml_dataset_4_rnc binary test
-# $CMD oml_dataset_5_rnc multiclass test
-# $CMD oml_dataset_6_rnc multiclass test
-# $CMD oml_dataset_7_rnc regression test
-# $CMD oml_dataset_8_rnc regression test
-# $CMD oml_dataset_9_rnc regression test
-
-
-# $CMD 11 # balance-scale

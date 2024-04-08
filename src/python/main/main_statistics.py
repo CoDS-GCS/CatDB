@@ -3,6 +3,7 @@ from catalog.Catalog import load_data_source_profile
 from prompt.PromptBuilder import prompt_factory
 from llm.GenerateLLMCode import GenerateLLMCode
 from util.Config import PROMPT_FUNC
+from util.FileHandler import read_text_file_line_by_line
 import pandas as pd
 import yaml
 
@@ -13,6 +14,7 @@ def parse_arguments():
     parser.add_argument('--data-profile-path', type=str, default=None)
     parser.add_argument('--output-path', type=str, default=None)
     parser.add_argument('--llm-model', type=str, default=None)
+    parser.add_argument('--data-description', type=bool, default=False)
     args = parser.parse_args()
 
     if args.metadata_path is None:
@@ -41,6 +43,12 @@ def parse_arguments():
 
         except yaml.YAMLError as ex:
             raise Exception(ex)
+
+    if args.description_path:
+        dataset_description_path = args.metadata_path.replace(".yml", ".txt")
+        args.dataset_description = read_text_file_line_by_line(fname=dataset_description_path)
+    else:
+        args.dataset_description = None
 
     return args
 
@@ -82,7 +90,8 @@ if __name__ == '__main__':
                                 target_attribute=args.target_attribute,
                                 data_source_train_path=args.data_source_train_path,
                                 data_source_test_path=args.data_source_test_path,
-                                number_folds=args.number_folds)
+                                number_folds=args.number_folds,
+                                dataset_description=args.dataset_description)
 
         # Generate LLM code
         prompt_format = prompt.format(examples=None)
@@ -95,13 +104,13 @@ if __name__ == '__main__':
     df_1.to_csv(f"{args.output_path}/statistics_1.csv", index=False)
 
     log_path = f"{args.output_path}/statistics_2.csv"
-    df_2 = pd.DataFrame(columns=["dataset", "col_index", "data_type", "missing_values_count","total_values_count",
+    df_2 = pd.DataFrame(columns=["dataset", "col_index", "data_type", "with_dataset_description", "missing_values_count","total_values_count",
                      "distinct_values_count","number_rows"])
 
     index = 0
     for k in profile_info.keys():
         pi = profile_info[k]
-        df_2.loc[index] = [args.dataset_name, index + 1, pi.short_data_type, pi.missing_values_count,
+        df_2.loc[index] = [args.dataset_name, index + 1, pi.short_data_type, args.dataset_description, pi.missing_values_count,
                                pi.total_values_count - pi.missing_values_count, pi.distinct_values_count, catalog.nrows]
         index += 1
 

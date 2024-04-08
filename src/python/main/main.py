@@ -4,7 +4,7 @@ from prompt.PromptBuilder import prompt_factory
 from llm.GenerateLLMCode import GenerateLLMCode
 from runcode.RunCode import RunCode
 from util.FileHandler import save_prompt
-from util.FileHandler import save_text_file
+from util.FileHandler import save_text_file, read_text_file_line_by_line
 from pipegen.Metadata import Metadata
 import pandas as pd
 import time
@@ -15,6 +15,7 @@ def parse_arguments():
     parser = ArgumentParser()
     parser.add_argument('--metadata-path', type=str, default=None)
     parser.add_argument('--data-profile-path', type=str, default=None)
+    parser.add_argument('--data-description', type=bool, default=False)
     parser.add_argument('--prompt-representation-type', type=str, default=None)
     parser.add_argument('--prompt-example-type', type=str, default=None)
     parser.add_argument('--prompt-number-example', type=int, default=None)
@@ -75,6 +76,11 @@ def parse_arguments():
     if args.prompt_representation_type == "CatDB":
         args.enable_reduction = True
 
+    if args.description_path:
+        dataset_description_path = args.metadata_path.replace(".yml",".txt")
+        args.dataset_description = read_text_file_line_by_line(fname=dataset_description_path)
+    else:
+        args.dataset_description = None
     return args
 
 
@@ -114,7 +120,8 @@ def generate_and_run_pipeline(catalog: CatalogInfo, prompt_representation_type: 
                             target_attribute=args.target_attribute,
                             data_source_train_path=args.data_source_train_path,
                             data_source_test_path=args.data_source_test_path,
-                            number_folds=args.number_folds)
+                            number_folds=args.number_folds,
+                            dataset_description=args.dataset_description)
 
     end = time.time()
     gen_time += end - start
@@ -153,9 +160,13 @@ def generate_and_run_pipeline(catalog: CatalogInfo, prompt_representation_type: 
         parse = None
         for i in range(iteration, args.prompt_number_iteration):
 
+            pipeline_fname = f"{file_name}_draft.py"
+            save_text_file(fname=pipeline_fname, data=code)
+
             start = time.time()
             result = rc.execute_code(src=code, parse=parse)
             end = time.time()
+            save_text_file(fname=pipeline_fname, data=code)
             if result.get_status():
                 pipeline_fname = f"{file_name}.py"
                 save_text_file(fname=pipeline_fname, data=code)
@@ -196,7 +207,7 @@ if __name__ == '__main__':
     try:
         df_result = pd.read_csv(args.result_output_path)
     except Exception as err:
-        df_result = pd.DataFrame(columns=["dataset_name", "config", "task_type", "status", "number_iteration", "pipeline_gen_time",
+        df_result = pd.DataFrame(columns=["dataset_name", "config", "task_type", "with_dataset_description", "status", "number_iteration", "pipeline_gen_time",
                                       "execution_time",
                                       "train_accuracy", "train_f1_score", "train_log_loss", "train_r_squared", "train_rmse",
                                       "test_accuracy", "test_f1_score", "test_log_loss", "test_r_squared", "test_rmse"])
@@ -205,7 +216,7 @@ if __name__ == '__main__':
             status, number_iteration, gen_time, execute_time, result = generate_and_run_pipeline(catalog=catalog,
                                                                                                  prompt_representation_type=rep_type,
                                                                                                  args=args)
-            df_result.loc[len(df_result)] = [args.dataset_name, rep_type, args.task_type, status, number_iteration,
+            df_result.loc[len(df_result)] = [args.dataset_name, rep_type, args.task_type, args.dataset_description, status, number_iteration,
                                              catalog_time + gen_time, execute_time,
                                              result["Train_Accuracy"], result["Train_F1_score"], result["Train_Log_loss"],
                                              result["Train_R_Squared"], result["Train_RMSE"],

@@ -1,8 +1,0 @@
-dataset,col_index,data_type,missing_values_count,total_values_count,distinct_values_count,number_rows
-jungle_chess_2pcs_raw_endgame_complete,1,int,0,2000,7,2000
-jungle_chess_2pcs_raw_endgame_complete,2,int,0,2000,5,2000
-jungle_chess_2pcs_raw_endgame_complete,3,int,0,2000,5,2000
-jungle_chess_2pcs_raw_endgame_complete,4,int,0,2000,9,2000
-jungle_chess_2pcs_raw_endgame_complete,5,int,0,2000,7,2000
-jungle_chess_2pcs_raw_endgame_complete,6,int,0,2000,3,2000
-jungle_chess_2pcs_raw_endgame_complete,7,int,0,2000,9,2000

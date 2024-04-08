@@ -1,5 +1,0 @@
-dataset,col_index,data_type,missing_values_count,total_values_count,distinct_values_count,number_rows
-oml_dataset_108_rnc,1,float,0,28626,25705,28626
-oml_dataset_108_rnc,2,int,0,28626,993,28626
-oml_dataset_108_rnc,3,int,0,28626,5,28626
-oml_dataset_108_rnc,4,int,0,28626,993,28626

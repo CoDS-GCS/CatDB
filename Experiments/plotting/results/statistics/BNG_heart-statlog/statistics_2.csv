@@ -1,0 +1,15 @@
+dataset,col_index,data_type,with_dataset_description,missing_values_count,total_values_count,distinct_values_count,number_rows
+BNG_heart-statlog,1,int,NO,0,1000000,4,1000000
+BNG_heart-statlog,2,int,NO,0,1000000,3,1000000
+BNG_heart-statlog,3,int,NO,0,1000000,3,1000000
+BNG_heart-statlog,4,int,NO,0,1000000,3,1000000
+BNG_heart-statlog,5,str,NO,0,1000000,2,1000000
+BNG_heart-statlog,6,bool,NO,0,1000000,2,1000000
+BNG_heart-statlog,7,bool,NO,0,1000000,2,1000000
+BNG_heart-statlog,8,bool,NO,0,1000000,2,1000000
+BNG_heart-statlog,9,float,NO,0,1000000,983895,1000000
+BNG_heart-statlog,10,float,NO,0,1000000,989437,1000000
+BNG_heart-statlog,11,float,NO,0,1000000,216199,1000000
+BNG_heart-statlog,12,float,NO,0,1000000,993224,1000000
+BNG_heart-statlog,13,float,NO,0,1000000,612925,1000000
+BNG_heart-statlog,14,float,NO,0,1000000,996678,1000000

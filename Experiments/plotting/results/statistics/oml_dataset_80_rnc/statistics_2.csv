@@ -1,4 +1,0 @@
-dataset,col_index,data_type,missing_values_count,total_values_count,distinct_values_count,number_rows
-oml_dataset_80_rnc,1,str,0,138367,138367,138367
-oml_dataset_80_rnc,2,str,0,138367,26,138367
-oml_dataset_80_rnc,3,int,138367,0,0,138367

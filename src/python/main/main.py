@@ -77,9 +77,9 @@ def parse_arguments():
         args.enable_reduction = True
 
     if args.dataset_description.lower() == "yes":
-        dataset_description_path = args.metadata_path.replace(".yaml",".txt")
+        dataset_description_path = args.metadata_path.replace(".yaml" , ".txt")
         args.description = read_text_file_line_by_line(fname=dataset_description_path)
-        args.dataset_description = args.dataset_description.lower()
+        args.dataset_description = 'yes'
     else:
         args.description = None
         args.dataset_description = 'no'
@@ -150,7 +150,7 @@ def generate_and_run_pipeline(catalog: CatalogInfo, prompt_representation_type: 
     file_name = f'{args.output_path}/{args.llm_model}-{prompt.class_name}-{args.dataset_description}'
 
     # Save prompt:
-    prompt_fname = f"{file_name}_{args.da}.prompt"
+    prompt_fname = f"{file_name}_{args}.prompt"
     save_prompt(fname=prompt_fname, prompt_rule=prompt_rule, prompt_msg=prompt_msg)
 
     # Parse LLM Code

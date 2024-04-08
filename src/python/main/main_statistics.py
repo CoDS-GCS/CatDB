@@ -44,7 +44,7 @@ def parse_arguments():
         except yaml.YAMLError as ex:
             raise Exception(ex)
 
-    if args.data_description:
+    if args.dataset_description:
         dataset_description_path = args.metadata_path.replace(".yml", ".txt")
         args.description = read_text_file_line_by_line(fname=dataset_description_path)
     else:

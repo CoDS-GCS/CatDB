@@ -15,7 +15,7 @@ def parse_arguments():
     parser = ArgumentParser()
     parser.add_argument('--metadata-path', type=str, default=None)
     parser.add_argument('--data-profile-path', type=str, default=None)
-    parser.add_argument('--data-description', type=bool, default=False)
+    parser.add_argument('--dataset-description', type=bool, default=False)
     parser.add_argument('--prompt-representation-type', type=str, default=None)
     parser.add_argument('--prompt-example-type', type=str, default=None)
     parser.add_argument('--prompt-number-example', type=int, default=None)

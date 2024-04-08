@@ -14,7 +14,7 @@ def parse_arguments():
     parser.add_argument('--data-profile-path', type=str, default=None)
     parser.add_argument('--output-path', type=str, default=None)
     parser.add_argument('--llm-model', type=str, default=None)
-    parser.add_argument('--data-description', type=bool, default=False)
+    parser.add_argument('--dataset-description', type=bool, default=False)
     args = parser.parse_args()
 
     if args.metadata_path is None:

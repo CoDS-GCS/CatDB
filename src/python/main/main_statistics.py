@@ -100,10 +100,9 @@ if __name__ == '__main__':
         ntokens = llm.get_number_tokens(prompt_rules=prompt_rule, prompt_message=prompt_msg)
         df_1.loc[len(df_1)] = [args.dataset_name, args.dataset_description, rt, "Random", 0, ntokens, nbools, nints, nfloats, nstrings]
 
+    df_1.to_csv(f"{args.output_path}/statistics_1_dataset_description_{args.dataset_description}.csv", index=False)
 
-    df_1.to_csv(f"{args.output_path}/statistics_1.csv", index=False)
-
-    log_path = f"{args.output_path}/statistics_2.csv"
+    log_path = f"{args.output_path}/statistics_2_dataset_description_{args.dataset_description}.csv"
     df_2 = pd.DataFrame(columns=["dataset", "col_index", "data_type", "with_dataset_description", "missing_values_count","total_values_count",
                      "distinct_values_count","number_rows"])
 

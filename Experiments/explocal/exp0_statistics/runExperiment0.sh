@@ -25,8 +25,7 @@ source venv/bin/activate
 SCRIPT_base="python main_statistics.py --metadata-path ${metadata_path} \
         --data-profile-path ${data_profile_path} \
         --llm-model gpt-4 \
-        --output-path ${output_path} \
-        --data-description ${with_dataset_description}"
+        --output-path ${output_path}"
 
 SCRIPT_with_description="${SCRIPT_base} --data-description True" 
 SCRIPT_without_description="${SCRIPT_base} --data-description False"        

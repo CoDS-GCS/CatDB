@@ -50,13 +50,11 @@ def parse_arguments():
     else:
         args.description = None
 
-    print(args.description)
     return args
 
 
 if __name__ == '__main__':
     args = parse_arguments()
-    print(args)
     catalog = load_data_source_profile(data_source_path=args.data_profile_path,
                                        file_format="JSON",
                                        target_attribute=args.target_attribute,

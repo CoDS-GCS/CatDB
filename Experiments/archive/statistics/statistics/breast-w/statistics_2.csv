@@ -1,0 +1,11 @@
+dataset,col_index,data_type,with_dataset_description,missing_values_count,total_values_count,distinct_values_count,number_rows
+breast-w,1,int,NO,0,69,8,69
+breast-w,2,int,NO,0,69,9,69
+breast-w,3,int,NO,0,69,9,69
+breast-w,4,int,NO,0,69,9,69
+breast-w,5,int,NO,0,69,9,69
+breast-w,6,int,NO,0,69,9,69
+breast-w,7,int,NO,0,69,9,69
+breast-w,8,int,NO,0,69,10,69
+breast-w,9,int,NO,0,69,9,69
+breast-w,10,bool,NO,0,69,2,69

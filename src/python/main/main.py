@@ -150,7 +150,7 @@ def generate_and_run_pipeline(catalog: CatalogInfo, prompt_representation_type: 
     file_name = f'{args.output_path}/{args.llm_model}-{prompt.class_name}-{args.dataset_description}'
 
     # Save prompt:
-    prompt_fname = f"{file_name}_{args}.prompt"
+    prompt_fname = f"{file_name}.prompt"
     save_prompt(fname=prompt_fname, prompt_rule=prompt_rule, prompt_msg=prompt_msg)
 
     # Parse LLM Code

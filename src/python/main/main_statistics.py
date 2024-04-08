@@ -44,11 +44,11 @@ def parse_arguments():
         except yaml.YAMLError as ex:
             raise Exception(ex)
 
-    if args.description_path:
+    if args.data_description:
         dataset_description_path = args.metadata_path.replace(".yml", ".txt")
-        args.dataset_description = read_text_file_line_by_line(fname=dataset_description_path)
+        args.description = read_text_file_line_by_line(fname=dataset_description_path)
     else:
-        args.dataset_description = None
+        args.description = None
 
     return args
 
@@ -91,7 +91,7 @@ if __name__ == '__main__':
                                 data_source_train_path=args.data_source_train_path,
                                 data_source_test_path=args.data_source_test_path,
                                 number_folds=args.number_folds,
-                                dataset_description=args.dataset_description)
+                                dataset_description=args.description)
 
         # Generate LLM code
         prompt_format = prompt.format(examples=None)

@@ -76,11 +76,11 @@ def parse_arguments():
     if args.prompt_representation_type == "CatDB":
         args.enable_reduction = True
 
-    if args.description_path:
+    if args.dataset_description:
         dataset_description_path = args.metadata_path.replace(".yml",".txt")
-        args.dataset_description = read_text_file_line_by_line(fname=dataset_description_path)
+        args.description = read_text_file_line_by_line(fname=dataset_description_path)
     else:
-        args.dataset_description = None
+        args.description = None
     return args
 
 
@@ -121,7 +121,7 @@ def generate_and_run_pipeline(catalog: CatalogInfo, prompt_representation_type: 
                             data_source_train_path=args.data_source_train_path,
                             data_source_test_path=args.data_source_test_path,
                             number_folds=args.number_folds,
-                            dataset_description=args.dataset_description)
+                            dataset_description=args.description)
 
     end = time.time()
     gen_time += end - start

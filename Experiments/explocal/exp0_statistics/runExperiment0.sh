@@ -27,8 +27,8 @@ SCRIPT_base="python main_statistics.py --metadata-path ${metadata_path} \
         --llm-model gpt-4 \
         --output-path ${output_path}"
 
-SCRIPT_with_description="${SCRIPT_base} --dataset-description True" 
-SCRIPT_without_description="${SCRIPT_base} --dataset-description False"        
+SCRIPT_with_description="${SCRIPT_base} --dataset-description YES" 
+SCRIPT_without_description="${SCRIPT_base} --dataset-description NO"        
 
 echo ${SCRIPT_with_description}
 $SCRIPT_with_description

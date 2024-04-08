@@ -62,7 +62,7 @@ class BasicPrompt(object):
                  f"\t 15. {self.evaluation_text}",
                  f"\t 16. {StaticValues.Rule_10}",
                  f"\t 17. {StaticValues.Rule_11}",
-                 f"\t 18. {StaticValues.Rule_12.format(randomforest_param)}"
+                 f"\t 18. {StaticValues.Rule_13.format(randomforest_param)}"
                  ]
 
         rule_msg = "\n".join(rules)

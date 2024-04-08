@@ -55,8 +55,7 @@ CODE_FORMATTING_DROPPING = f"""Code formatting for dropping columns:
 
 CODE_FORMATTING_TECHNIQUE = ("Code formatting for training technique:\n \
 ```python \n \
-# Choose the suitable machine learning algorithm or technique ({}). If the algorithm is a tree based algorithm,"
-" the max_leaf_nodes set to 10 percent of max total number of unique values.\n \
+# Choose the suitable machine learning algorithm or technique ({}). If the algorithm is RandomForestClassifier, set max_leaf_nodes to 10 percent of the maximum total number of unique values.\n \
 # Explanation why the solution is selected \n \
 trn = ... \n \
 ```end")

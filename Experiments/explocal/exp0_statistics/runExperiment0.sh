@@ -7,7 +7,7 @@ data_path="${exp_path}/data"
 data_profile_path="${data_path}/${dataset}/data_profile_full"
 
 # Run Data Profiling
-./explocal/exp0_statistics/runExperiment0_Data_Profile.sh ${dataset} ${data_profile_path}
+#./explocal/exp0_statistics/runExperiment0_Data_Profile.sh ${dataset} ${data_profile_path}
 
 statistics_path="${exp_path}/results/statistics"
 mkdir -p ${statistics_path}
@@ -22,11 +22,17 @@ output_path="${exp_path}/results/statistics/${dataset}"
 cd "${exp_path}/setup/Baselines/CatDB/"
 source venv/bin/activate
 
-SCRIPT="python main_statistics.py --metadata-path ${metadata_path} \
+SCRIPT_base="python main_statistics.py --metadata-path ${metadata_path} \
         --data-profile-path ${data_profile_path} \
         --llm-model gpt-4 \
-        --output-path ${output_path}"
+        --output-path ${output_path} \
+        --data-description ${with_dataset_description}"
 
-echo ${SCRIPT}
+SCRIPT_with_description="${SCRIPT_base} --data-description True" 
+SCRIPT_without_description="${SCRIPT_base} --data-description False"        
 
-$SCRIPT
+echo ${SCRIPT_with_description}
+$SCRIPT_with_description
+
+echo ${SCRIPT_without_description}
+$SCRIPT_without_description

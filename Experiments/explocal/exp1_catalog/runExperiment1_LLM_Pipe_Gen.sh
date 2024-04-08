@@ -37,7 +37,7 @@ SCRIPT="python -Wignore main.py --metadata-path ${metadata_path} \
         --parse-pipeline ${parse_pipeline} \
         --run-pipeline ${run_pipeline} \
         --result-output-path ${result_output_path} \
-        --data-description ${with_dataset_description}"
+        --dataset-description ${with_dataset_description}"
 
 # sudo echo 3 >/proc/sys/vm/drop_caches && sudo sync
 # sleep 3

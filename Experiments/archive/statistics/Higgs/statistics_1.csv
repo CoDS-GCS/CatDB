@@ -1,0 +1,13 @@
+dataset,prompt_representation_type,prompt_example_type,prompt_number_example,number_tokens,number_bool,number_int,number_float,number_string
+Higgs,S,Random,0,1130,1,0,28,0
+Higgs,SDVC,Random,0,1323,1,0,28,0
+Higgs,SMVF,Random,0,1407,1,0,28,0
+Higgs,SSN,Random,0,2083,1,0,28,0
+Higgs,SCV,Random,0,1321,1,0,28,0
+Higgs,SDVCMVF,Random,0,1633,1,0,28,0
+Higgs,SDVCSN,Random,0,2280,1,0,28,0
+Higgs,SMVFSN,Random,0,2363,1,0,28,0
+Higgs,SMVFCV,Random,0,1601,1,0,28,0
+Higgs,SSNCV,Random,0,2278,1,0,28,0
+Higgs,ALL,Random,0,2585,1,0,28,0
+Higgs,CatDB,Random,0,2554,1,0,28,0

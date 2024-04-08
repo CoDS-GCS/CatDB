@@ -1,7 +1,0 @@
-Row,ID,dataset_name,orig_name,nrows,ncols,nclasses,target
-1,11,balance-scale,balance-scale,625,5,3,class
-2,15,breast-w,breast-w,699,10,2,Class
-3,23,cmc,cmc,1473,10,3,Contraceptive_method_used
-4,31,credit-g,credit-g,1000,21,2,class
-5,37,diabetes,diabetes,768,9,2,class
-6,51,heart-h,heart-h,294,14,2,num

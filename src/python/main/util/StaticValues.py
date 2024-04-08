@@ -52,12 +52,13 @@ CODE_FORMATTING_DROPPING = f"""Code formatting for dropping columns:
 ```end-dropping-columns
 """
 
-CODE_FORMATTING_TECHNIQUE = "Code formatting for training technique:\n \
+CODE_FORMATTING_TECHNIQUE = ("Code formatting for training technique:\n \
 ```python \n \
-# Choose the suitable machine learning algorithm or technique ({}).\n \
+# Choose the suitable machine learning algorithm or technique ({}). If the algorithm is a tree based algorithm,"
+" the max_leaf_nodes set to 10 percent of max total number of unique values.\n \
 # Explanation why the solution is selected \n \
 trn = ... \n \
-```end"
+```end")
 
 CODE_FORMATTING_BINARY_EVALUATION = f"""Code formatting for binary classification evaluation:
 ```python

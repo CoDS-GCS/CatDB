@@ -1,0 +1,13 @@
+dataset,prompt_representation_type,prompt_example_type,prompt_number_example,number_tokens,number_bool,number_int,number_float,number_string
+road-safety,S,Random,0,1498,0,60,2,4
+road-safety,SDVC,Random,0,1863,0,60,2,4
+road-safety,SMVF,Random,0,2117,0,60,2,4
+road-safety,SSN,Random,0,3082,0,60,2,4
+road-safety,SCV,Random,0,1988,0,60,2,4
+road-safety,SDVCMVF,Random,0,2553,0,60,2,4
+road-safety,SDVCSN,Random,0,3451,0,60,2,4
+road-safety,SMVFSN,Random,0,3704,0,60,2,4
+road-safety,SMVFCV,Random,0,2610,0,60,2,4
+road-safety,SSNCV,Random,0,3576,0,60,2,4
+road-safety,ALL,Random,0,4215,0,60,2,4
+road-safety,CatDB,Random,0,4678,0,60,2,4

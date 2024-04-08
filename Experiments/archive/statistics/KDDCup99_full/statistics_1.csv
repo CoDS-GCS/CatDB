@@ -1,0 +1,13 @@
+dataset,prompt_representation_type,prompt_example_type,prompt_number_example,number_tokens,number_bool,number_int,number_float,number_string
+KDDCup99_full,S,Random,0,1195,5,18,15,4
+KDDCup99_full,SDVC,Random,0,1428,5,18,15,4
+KDDCup99_full,SMVF,Random,0,1589,5,18,15,4
+KDDCup99_full,SSN,Random,0,2047,5,18,15,4
+KDDCup99_full,SCV,Random,0,1550,5,18,15,4
+KDDCup99_full,SDVCMVF,Random,0,1868,5,18,15,4
+KDDCup99_full,SDVCSN,Random,0,2284,5,18,15,4
+KDDCup99_full,SMVFSN,Random,0,2444,5,18,15,4
+KDDCup99_full,SMVFCV,Random,0,1947,5,18,15,4
+KDDCup99_full,SSNCV,Random,0,2406,5,18,15,4
+KDDCup99_full,ALL,Random,0,2772,5,18,15,4
+KDDCup99_full,CatDB,Random,0,2657,5,18,15,4

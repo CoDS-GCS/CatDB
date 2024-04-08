@@ -1,0 +1,13 @@
+dataset,prompt_representation_type,prompt_example_type,prompt_number_example,number_tokens,number_bool,number_int,number_float,number_string
+dionis,S,Random,0,1248,0,61,0,0
+dionis,SDVC,Random,0,1626,0,61,0,0
+dionis,SMVF,Random,0,1813,0,61,0,0
+dionis,SSN,Random,0,2980,0,61,0,0
+dionis,SCV,Random,0,1427,0,61,0,0
+dionis,SDVCMVF,Random,0,2256,0,61,0,0
+dionis,SDVCSN,Random,0,3362,0,61,0,0
+dionis,SMVFSN,Random,0,3548,0,61,0,0
+dionis,SMVFCV,Random,0,1995,0,61,0,0
+dionis,SSNCV,Random,0,3163,0,61,0,0
+dionis,ALL,Random,0,3952,0,61,0,0
+dionis,CatDB,Random,0,3547,0,61,0,0

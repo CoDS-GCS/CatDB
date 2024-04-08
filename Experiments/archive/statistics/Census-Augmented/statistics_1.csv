@@ -1,0 +1,13 @@
+dataset,prompt_representation_type,prompt_example_type,prompt_number_example,number_tokens,number_bool,number_int,number_float,number_string
+Census-Augmented,S,Random,0,1017,0,0,6,9
+Census-Augmented,SDVC,Random,0,1118,0,0,6,9
+Census-Augmented,SMVF,Random,0,1168,0,0,6,9
+Census-Augmented,SSN,Random,0,1234,0,0,6,9
+Census-Augmented,SCV,Random,0,1105,0,0,6,9
+Census-Augmented,SDVCMVF,Random,0,1288,0,0,6,9
+Census-Augmented,SDVCSN,Random,0,1339,0,0,6,9
+Census-Augmented,SMVFSN,Random,0,1388,0,0,6,9
+Census-Augmented,SMVFCV,Random,0,1259,0,0,6,9
+Census-Augmented,SSNCV,Random,0,1326,0,0,6,9
+Census-Augmented,ALL,Random,0,1485,0,0,6,9
+Census-Augmented,CatDB,Random,0,1432,0,0,6,9

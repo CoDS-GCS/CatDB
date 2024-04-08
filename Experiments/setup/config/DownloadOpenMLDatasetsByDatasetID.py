@@ -53,8 +53,12 @@ if __name__ == '__main__':
         print(f" Downloading Dataset: dataset name={dataset_name}, dataset ID={dataset_id} \n")
 
         dataset = openml.datasets.get_dataset(dataset_id, download_qualities=False)
-        data, y, categorical_indicator, attribute_names = dataset.get_data()
-        target_attribute = dataset.default_target_attribute
+        dataset_description = dataset.description
+        # data, y, categorical_indicator, attribute_names = dataset.get_data()
+        # target_attribute = dataset.default_target_attribute
+
+        target_attribute = "MMM"
+        data = pd.DataFrame(columns=["MMM"])
 
         n_classes = data[dataset.default_target_attribute].nunique()
         # if n_classes == 2:
@@ -67,7 +71,7 @@ if __name__ == '__main__':
          # Split and save original dataset
         nrows, ncols, number_classes = get_metadata(data=data, target_attribute=target_attribute)
         split_data_save(data=data, ds_name=dataset_name,out_path= args.data_out_path)
-        save_config(dataset_name=dataset_name, target=target_attribute, task_type=task_type, data_out_path=args.data_out_path, setting_out_path=args.setting_out_path)
+        save_config(dataset_name=dataset_name, target=target_attribute, task_type=task_type, data_out_path=args.data_out_path, setting_out_path=args.setting_out_path, description=dataset_description)
         dataset_out_name = dataset_name
 
         # # Split and rename dataset-name, then save  

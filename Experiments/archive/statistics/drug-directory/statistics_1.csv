@@ -1,0 +1,13 @@
+dataset,prompt_representation_type,prompt_example_type,prompt_number_example,number_tokens,number_bool,number_int,number_float,number_string
+drug-directory,S,Random,0,1072,0,3,0,17
+drug-directory,SDVC,Random,0,1204,0,3,0,17
+drug-directory,SMVF,Random,0,1268,0,3,0,17
+drug-directory,SSN,Random,0,1187,0,3,0,17
+drug-directory,SCV,Random,0,1152,0,3,0,17
+drug-directory,SDVCMVF,Random,0,1424,0,3,0,17
+drug-directory,SDVCSN,Random,0,1323,0,3,0,17
+drug-directory,SMVFSN,Random,0,1386,0,3,0,17
+drug-directory,SMVFCV,Random,0,1351,0,3,0,17
+drug-directory,SSNCV,Random,0,1271,0,3,0,17
+drug-directory,ALL,Random,0,1511,0,3,0,17
+drug-directory,CatDB,Random,0,1533,0,3,0,17

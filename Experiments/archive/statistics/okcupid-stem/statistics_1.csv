@@ -1,0 +1,13 @@
+dataset,prompt_representation_type,prompt_example_type,prompt_number_example,number_tokens,number_bool,number_int,number_float,number_string
+okcupid-stem,S,Random,0,1015,0,3,0,17
+okcupid-stem,SDVC,Random,0,1136,0,3,0,17
+okcupid-stem,SMVF,Random,0,1211,0,3,0,17
+okcupid-stem,SSN,Random,0,1111,0,3,0,17
+okcupid-stem,SCV,Random,0,1183,0,3,0,17
+okcupid-stem,SDVCMVF,Random,0,1356,0,3,0,17
+okcupid-stem,SDVCSN,Random,0,1236,0,3,0,17
+okcupid-stem,SMVFSN,Random,0,1310,0,3,0,17
+okcupid-stem,SMVFCV,Random,0,1382,0,3,0,17
+okcupid-stem,SSNCV,Random,0,1283,0,3,0,17
+okcupid-stem,ALL,Random,0,1457,0,3,0,17
+okcupid-stem,CatDB,Random,0,1400,0,3,0,17

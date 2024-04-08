@@ -1,0 +1,13 @@
+dataset,prompt_representation_type,prompt_example_type,prompt_number_example,number_tokens,number_bool,number_int,number_float,number_string
+Meta_Album_BRD_Extended,S,Random,0,977,0,1,0,2
+Meta_Album_BRD_Extended,SDVC,Random,0,1013,0,1,0,2
+Meta_Album_BRD_Extended,SMVF,Random,0,1020,0,1,0,2
+Meta_Album_BRD_Extended,SSN,Random,0,993,0,1,0,2
+Meta_Album_BRD_Extended,SCV,Random,0,1009,0,1,0,2
+Meta_Album_BRD_Extended,SDVCMVF,Random,0,1063,0,1,0,2
+Meta_Album_BRD_Extended,SDVCSN,Random,0,1033,0,1,0,2
+Meta_Album_BRD_Extended,SMVFSN,Random,0,1039,0,1,0,2
+Meta_Album_BRD_Extended,SMVFCV,Random,0,1055,0,1,0,2
+Meta_Album_BRD_Extended,SSNCV,Random,0,1029,0,1,0,2
+Meta_Album_BRD_Extended,ALL,Random,0,1050,0,1,0,2
+Meta_Album_BRD_Extended,CatDB,Random,0,1050,0,1,0,2

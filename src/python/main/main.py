@@ -15,7 +15,7 @@ def parse_arguments():
     parser = ArgumentParser()
     parser.add_argument('--metadata-path', type=str, default=None)
     parser.add_argument('--data-profile-path', type=str, default=None)
-    parser.add_argument('--dataset-description', type=str, default="False")
+    parser.add_argument('--dataset-description', type=str, default="yes")
     parser.add_argument('--prompt-representation-type', type=str, default=None)
     parser.add_argument('--prompt-example-type', type=str, default=None)
     parser.add_argument('--prompt-number-example', type=int, default=None)
@@ -76,7 +76,7 @@ def parse_arguments():
     if args.prompt_representation_type == "CatDB":
         args.enable_reduction = True
 
-    if args.dataset_description.lower() == "True":
+    if args.dataset_description.lower() == "yes":
         dataset_description_path = args.metadata_path.replace(".yml",".txt")
         args.description = read_text_file_line_by_line(fname=dataset_description_path)
     else:

@@ -14,7 +14,7 @@ def parse_arguments():
     parser.add_argument('--data-profile-path', type=str, default=None)
     parser.add_argument('--output-path', type=str, default=None)
     parser.add_argument('--llm-model', type=str, default=None)
-    parser.add_argument('--dataset-description', type=str, default="False")
+    parser.add_argument('--dataset-description', type=str, default="yes")
     args = parser.parse_args()
 
     if args.metadata_path is None:
@@ -44,7 +44,7 @@ def parse_arguments():
         except yaml.YAMLError as ex:
             raise Exception(ex)
 
-    if args.dataset_description.lower() == "True":
+    if args.dataset_description.lower() == "yes":
         dataset_description_path = args.metadata_path.replace(".yml", ".txt")
         args.description = read_text_file_line_by_line(fname=dataset_description_path)
     else:

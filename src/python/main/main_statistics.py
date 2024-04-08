@@ -76,7 +76,7 @@ if __name__ == '__main__':
             nints += 1
 
     df_1 = pd.DataFrame(
-        columns=["dataset", "prompt_representation_type", "prompt_example_type", "prompt_number_example"
+        columns=["dataset", "with_dataset_description", "prompt_representation_type", "prompt_example_type", "prompt_number_example"
             , "number_tokens", "number_bool", "number_int", "number_float", "number_string"])
     log_path = f"{args.output_path}/statistics_1.csv"
     llm = GenerateLLMCode(model=args.llm_model)
@@ -98,7 +98,7 @@ if __name__ == '__main__':
         prompt_rule = prompt_format["rules"]
         prompt_msg = prompt_format["question"]
         ntokens = llm.get_number_tokens(prompt_rules=prompt_rule, prompt_message=prompt_msg)
-        df_1.loc[len(df_1)] = [args.dataset_name, rt, "Random", 0, ntokens, nbools, nints, nfloats, nstrings]
+        df_1.loc[len(df_1)] = [args.dataset_name, args.dataset_description, rt, "Random", 0, ntokens, nbools, nints, nfloats, nstrings]
 
 
     df_1.to_csv(f"{args.output_path}/statistics_1.csv", index=False)

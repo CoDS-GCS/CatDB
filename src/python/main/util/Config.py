@@ -14,16 +14,21 @@ from prompt.PromptTemplate import AllPrompt
 
 class LLMSetting:
     def __init__(self):
-        self.GPT_4_Token_Limit = 8192
+        self.GPT_4_Limit = 8192
         self.GPT_4_1106_Preview_Limit = 4096
         self.GPT_3_5_Turbo_limit = 4096
+        self.GPT_4_Turbo_Limit = 4096
 
     def get_limit(self, model: str):
         if model == "skip":
             return -1
 
         if model == "gpt-4":
-            return self.GPT_4_Token_Limit
+            return self.GPT_4_Limit
+
+        elif model == "gpt-4-turbo":
+            return self.GPT_4_Turbo_Limit
+
         elif model == "gpt-3.5-turbo":
             return self.GPT_3_5_Turbo_limit
         else:

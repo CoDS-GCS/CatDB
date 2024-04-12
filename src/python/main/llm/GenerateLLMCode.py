@@ -15,7 +15,7 @@ class GenerateLLMCode(object):
             return ""
         elif (self.model == "gpt-3.5-turbo" or
               self.model == "gpt-4" or
-              self.model == "gpt-4-1106-preview"):
+              self.model == "gpt-4-turbo"):
             return self.generate_code_OpenAI_LLM(prompt_message=prompt_message, prompt_rules=prompt_rules)
         else:
             raise Exception(f"Model {self.model} is not implemented yet!")

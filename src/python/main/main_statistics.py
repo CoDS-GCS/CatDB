@@ -12,7 +12,6 @@ def parse_arguments():
     parser = ArgumentParser()
     parser.add_argument('--metadata-path', type=str, default=None)
     parser.add_argument('--data-profile-path', type=str, default=None)
-    parser.add_argument('--output-path', type=str, default=None)
     parser.add_argument('--llm-model', type=str, default=None)
     parser.add_argument('--dataset-description', type=str, default="yes")
     parser.add_argument('--log-file-name', type=str, default=None)

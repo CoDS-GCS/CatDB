@@ -12,7 +12,7 @@ data_profile_path="${data_path}/${dataset}/data_profile_full"
 
 
 # Run Data Profiling
-./explocal/exp0_statistics/runExperiment0_Data_Profile.sh ${dataset} ${data_profile_path}
+#./explocal/exp0_statistics/runExperiment0_Data_Profile.sh ${dataset} ${data_profile_path}
 
 metadata_path="${data_path}/${dataset}/${dataset}.yaml"
 

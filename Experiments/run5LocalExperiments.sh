@@ -21,13 +21,13 @@ echo "dataset,llm_model,prompt_representation_type,prompt_example_type,prompt_nu
 
 cd ${exp_path}
 
-#CMD=./explocal/exp0_statistics/runExperiment0.sh
-CMD=./explocal/exp1_catalog/runExperiment1.sh
+CMD=./explocal/exp0_statistics/runExperiment0.sh
+#CMD=./explocal/exp1_catalog/runExperiment1.sh
 #CMD=./explocal/exp2_micro_benchmark/runExperiment2.sh 
 #CMD=./explocal/exp3_end_to_end/runExperiment3.sh 
 
 
-$CMD Higgs binary
+# $CMD Higgs binary
 # $CMD albert binary
 # $CMD Click_prediction_small binary
 # $CMD Census-Augmented binary
@@ -52,5 +52,5 @@ $CMD Higgs binary
 # $CMD tic-tac-toe binary
 # $CMD eucalyptus multiclass
 # $CMD pc1 binary
-# $CMD airlines binary
+$CMD airlines binary
 # $CMD jungle_chess_2pcs_raw_endgame_complete multiclass

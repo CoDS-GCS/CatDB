@@ -42,7 +42,7 @@ class BasicPrompt(object):
         # randomforest_param = int (self.nrows * 0.1)
         # if randomforest_param < 3000:
         #     randomforest_param = self.nrows
-        randomforest_param = 3000
+        randomforest_param = 500
         rules = [StaticValues.Rule_task.format(self.ds_attribute_prefix),
                  StaticValues.Rule_input,
                  StaticValues.Rule_output,

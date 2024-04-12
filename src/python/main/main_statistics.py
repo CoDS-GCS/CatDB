@@ -15,10 +15,18 @@ def parse_arguments():
     parser.add_argument('--output-path', type=str, default=None)
     parser.add_argument('--llm-model', type=str, default=None)
     parser.add_argument('--dataset-description', type=str, default="yes")
+    parser.add_argument('--log-file-name', type=str, default=None)
+    parser.add_argument('--statistic-file-name', type=str, default=None)
     args = parser.parse_args()
 
     if args.metadata_path is None:
         raise Exception("--metadata-path is a required parameter!")
+
+    if args.log_file_name is None:
+        raise Exception("--log-file-name is a required parameter!")
+
+    if args.statistic_file_name is None:
+        raise Exception("--statistic-file-name is a required parameter!")
 
     if args.data_profile_path is None:
         raise Exception("--data-profile-path is a required parameter!")
@@ -75,14 +83,14 @@ if __name__ == '__main__':
         elif schema_info[k] == "int":
             nints += 1
 
-    log_path = f"{args.output_path}/statistics_1.csv"
     try:
-        df_1 = pd.read_csv(log_path)
+        df_1 = pd.read_csv(args.log_file_name)
+
     except Exception as err:
         df_1 = pd.DataFrame(
-            columns=["dataset", "with_dataset_description", "prompt_representation_type", "prompt_example_type", "prompt_number_example"
-                , "number_tokens", "number_bool", "number_int", "number_float", "number_string"])
-
+            columns=["dataset_name", "task_type", "llm_model", "has_description", "prompt_representation_type",
+                     "prompt_example_type", "prompt_number_example", "number_tokens", "number_bool", "number_int",
+                     "number_float", "number_string"])
 
     llm = GenerateLLMCode(model=args.llm_model)
     for rt in PROMPT_FUNC.keys():
@@ -103,17 +111,16 @@ if __name__ == '__main__':
         prompt_rule = prompt_format["rules"]
         prompt_msg = prompt_format["question"]
         ntokens = llm.get_number_tokens(prompt_rules=prompt_rule, prompt_message=prompt_msg)
-        df_1.loc[len(df_1)] = [args.dataset_name, args.dataset_description, rt, "Random", 0, ntokens, nbools, nints, nfloats, nstrings]
+        df_1.loc[len(df_1)] = [args.dataset_name, args.task_type, args.llm_model, args.dataset_description, rt,
+                               "Random", 0, ntokens, nbools, nints, nfloats, nstrings]
 
-    df_1.to_csv(f"{args.output_path}/statistics_1.csv", index=False)
-
-    log_path = f"{args.output_path}/statistics_2.csv"
+    df_1.to_csv(args.log_file_name, index=False)
     try:
-        df_2 = pd.read_csv(log_path)
+        df_2 = pd.read_csv(args.statistic_file_name)
 
     except Exception as err:
-        df_2 = pd.DataFrame(columns=["dataset", "col_index", "data_type", "with_dataset_description", "missing_values_count","total_values_count",
-                         "distinct_values_count","number_rows"])
+        df_2 = pd.DataFrame(columns=["dataset_name", "col_index", "data_type", "with_dataset_description",
+                                "missing_values_count","total_values_count", "distinct_values_count","number_rows"])
 
     index = 0
     for k in profile_info.keys():
@@ -124,4 +131,4 @@ if __name__ == '__main__':
 
     df_2 = df_2.sort_values(by=['missing_values_count'], ascending=True)
     df_2["col_index"] = [i for i in range(1, index+1)]
-    df_2.to_csv(log_path, index=False)
+    df_2.to_csv(args.statistic_file_name, index=False)

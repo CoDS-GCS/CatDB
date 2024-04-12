@@ -88,7 +88,7 @@ def save_config(dataset_name,target, task_type, data_out_path, setting_out_path,
     f.close()   
 
     if description is not None:
-        description_file = f'{data_out_path}/{dataset_name}.txt'
+        description_file = f'{data_out_path}/{dataset_name}/{dataset_name}.txt'
         f = open(description_file, 'w')
         f.write(description)
         f.close()

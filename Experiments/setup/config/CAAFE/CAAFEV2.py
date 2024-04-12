@@ -13,6 +13,7 @@ from functools import partial
 from caafe.preprocessing import make_datasets_numeric
 import yaml
 import pandas as pd
+from sklearn.ensemble import RandomForestClassifier
 
 def read_text_file_line_by_line(fname:str):
     try:
@@ -30,6 +31,7 @@ def parse_arguments():
     parser.add_argument('--description-file-name', type=str, default=None)
     parser.add_argument('--number-iteration', type=int, default=1)
     parser.add_argument('--llm-model', type=str, default=None)
+    parser.add_argument('--classifier', type=str, default=None)
 
     args = parser.parse_args()
 
@@ -60,6 +62,9 @@ def parse_arguments():
     if args.llm_model is None:
         raise Exception("--llm-model is a required parameter!") 
     
+    if args.classifier is None:
+        raise Exception("--classifier is a required parameter!") 
+    
     if args.description_file_name is None:
         args.description = "There is no description for this dataset."
         args.has_description = False
@@ -69,16 +74,7 @@ def parse_arguments():
 
     return args
 
-def run_caafe(args):
-  openai.api_key = os.environ.get("OPENAI_API_KEY")
-
-  df_train = pd.read_csv(args.data_source_train_path)
-  df_test = pd.read_csv(args.data_source_test_path)
-
-  df_train, df_test = make_datasets_numeric(df_train, df_test, args.target_attribute)
-  train_x, train_y = data.get_X_y(df_train, args.target_attribute)
-  test_x, test_y = data.get_X_y(df_test, args.target_attribute)
-
+def runTabPFNClassifier(df_train, df_test, train_x, train_y, test_x, test_y):
   clf_no_feat_eng = TabPFNClassifier(device=('cuda' if torch.cuda.is_available() else 'cpu'), N_ensemble_configurations=4)
   clf_no_feat_eng.fit = partial(clf_no_feat_eng.fit, overwrite_warning=True)
 
@@ -103,9 +99,52 @@ def run_caafe(args):
 
   acc_test_after = accuracy_score(pred_test, test_y)
   acc_train_after = accuracy_score(pred_train, train_y)
+
+  return acc_train_before, acc_test_before, acc_test_after, acc_train_after
+
+def runRandomForestClassifier(df_train, df_test, train_x, train_y, test_x, test_y):
+  clf = RandomForestClassifier()
+  clf.fit(train_x, train_y)
+  pred_test = clf.predict(test_x)
+  pred_train = clf.predict(train_x)
+
+  acc_test_before = accuracy_score(pred_test, test_y)
+  acc_train_before = accuracy_score(pred_train, train_y)
+
+  caafe_clf = CAAFEClassifier(base_classifier=clf,
+                            llm_model=args.llm_model,
+                            iterations=args.number_iteration)
+
+  caafe_clf.fit_pandas(df_train,
+                      target_column_name=args.target_attribute,
+                      dataset_description=args.description)
   
+
+  pred_test = caafe_clf.predict(df_test)
+  pred_train = caafe_clf.predict(df_train)
+
+  acc_test_after = accuracy_score(pred_test, test_y)
+  acc_train_after = accuracy_score(pred_train, train_y)
+
+  return acc_train_before, acc_test_before, acc_test_after, acc_train_after
+
+def run_caafe(args):
+  openai.api_key = os.environ.get("OPENAI_API_KEY")
+
+  df_train = pd.read_csv(args.data_source_train_path)
+  df_test = pd.read_csv(args.data_source_test_path)
+
+  df_train, df_test = make_datasets_numeric(df_train, df_test, args.target_attribute)
+  train_x, train_y = data.get_X_y(df_train, args.target_attribute)
+  test_x, test_y = data.get_X_y(df_test, args.target_attribute)
+
+  if args.classifier == "TabPFN":
+    acc_train_before, acc_test_before, acc_test_after, acc_train_after = runTabPFNClassifier(df_train, df_test, train_x, train_y, test_x, test_y)
+  elif args.classifier == "RandomForest":
+    acc_train_before, acc_test_before, acc_test_after, acc_train_after = runRandomForestClassifier(df_train, df_test, train_x, train_y, test_x, test_y)  
+
   
-  log = [args.dataset_name, args.has_description, args.task_type, args.llm_model, acc_train_before, acc_test_before, acc_train_after, acc_test_after]
+  log = [args.dataset_name, args.has_description, args.classifier, args.task_type, args.llm_model, acc_train_before, acc_test_before, acc_train_after, acc_test_after]
   
   return log    
 
@@ -116,7 +155,7 @@ if __name__ == '__main__':
    try:
        df_result = pd.read_csv(args.log_file_name)
    except Exception as err:  
-       df_result = pd.DataFrame(columns=["dataset_name","has_description","task_type", "llm_model", "accuracy_train_before", "accuracy_test_before", "accuracy_train_after", "accuracy_test_after"])
+       df_result = pd.DataFrame(columns=["dataset_name","has_description","classifier","task_type", "llm_model", "accuracy_train_before", "accuracy_test_before", "accuracy_train_after", "accuracy_test_after"])
 
    df_result.loc[len(df_result)] = log
    df_result.to_csv(args.log_file_name, index=False)   

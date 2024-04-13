@@ -8,7 +8,7 @@ log_file_name=$4
 exp_path="$(pwd)"
 data_path="${exp_path}/data"
 metadata_path="${data_path}/${dataset}/${dataset}.yaml"
-number_iteration=1
+number_iteration=10
 
 cd "${exp_path}/setup/Baselines/CAAFE/"
 source venv/bin/activate

@@ -107,7 +107,7 @@ def run_caafe(args):
         {},
         args.description,
         ]
-  caafe_promt = caafe.caafe.build_prompt_from_df(df=df_train, ds=ds, iterative=10)  
+  caafe_promt = caafe.caafe.build_prompt_from_df(df=df_train, ds=ds, iterative=args.number_iteration)  
   
   number_tokens = get_number_tokens(prompt=caafe_promt, args=args)
   log = [args.dataset_name, 
@@ -116,8 +116,8 @@ def run_caafe(args):
          args.dataset_description, 
          "CAAFE",
          "Random",
-         10,
-         number_tokens,
+         args.number_iteration,
+         number_tokens * args.number_iteration,
          0,0,0,0]
   
   return log 

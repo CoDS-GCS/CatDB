@@ -6,6 +6,7 @@ from util.Config import PROMPT_FUNC
 from util.FileHandler import read_text_file_line_by_line
 import pandas as pd
 import yaml
+from pipegen.Metadata import Metadata
 
 
 def parse_arguments():
@@ -16,6 +17,8 @@ def parse_arguments():
     parser.add_argument('--dataset-description', type=str, default="yes")
     parser.add_argument('--log-file-name', type=str, default=None)
     parser.add_argument('--statistic-file-name', type=str, default=None)
+    parser.add_argument('--prompt-representation-type', type=str, default=None)
+
     args = parser.parse_args()
 
     if args.metadata_path is None:
@@ -57,6 +60,9 @@ def parse_arguments():
     else:
         args.description = None
 
+    if args.prompt_representation_type is None:
+        args.prompt_representation_type = "AUTO"
+
     return args
 
 
@@ -82,8 +88,15 @@ if __name__ == '__main__':
         elif schema_info[k] == "int":
             nints += 1
 
+    if args.prompt_representation_type == "AUTO":
+        combinations = Metadata(catalog=catalog).get_combinations()
+    else:
+        combinations = [args.prompt_representation_type]
+
     try:
         df_1 = pd.read_csv(args.log_file_name)
+        indexDS = df_1[(df_1['dataset_name'] == args.dataset_name)].index
+        df_1.drop(indexDS, inplace=True)
 
     except Exception as err:
         df_1 = pd.DataFrame(
@@ -92,7 +105,7 @@ if __name__ == '__main__':
                      "number_float", "number_string"])
 
     llm = GenerateLLMCode(model=args.llm_model)
-    for rt in PROMPT_FUNC.keys():
+    for rt in combinations:
         prompt = prompt_factory(catalog=catalog,
                                 representation_type=rt,
                                 example_type="Random",

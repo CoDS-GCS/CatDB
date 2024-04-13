@@ -12,7 +12,7 @@ data_profile_path="${data_path}/${dataset}/data_profile_full"
 
 
 # Run Data Profiling
-#./explocal/exp0_statistics/runExperiment0_Data_Profile.sh ${dataset} ${data_profile_path}
+./explocal/exp0_statistics/runExperiment0_Data_Profile.sh ${dataset} ${data_profile_path}
 
 metadata_path="${data_path}/${dataset}/${dataset}.yaml"
 
@@ -25,7 +25,8 @@ SCRIPT="python main_statistics.py \
         --llm-model ${llm_model} \
         --dataset-description ${with_dataset_description} \
         --log-file-name ${log_file_name} \
-        --statistic-file-name ${statistic_file_name}"
+        --statistic-file-name ${statistic_file_name} \
+        --prompt-representation-type CatDB"
 
 echo ${SCRIPT}
 $SCRIPT

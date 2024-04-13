@@ -7,13 +7,14 @@ import os
 import openai
 import torch
 from caafe import data
-from sklearn.metrics import accuracy_score
+from sklearn.metrics import accuracy_score, f1_score
 from tabpfn.scripts import tabular_metrics
 from functools import partial
 from caafe.preprocessing import make_datasets_numeric
 import yaml
 import pandas as pd
 from sklearn.ensemble import RandomForestClassifier
+import time
 
 def read_text_file_line_by_line(fname:str):
     try:
@@ -28,7 +29,7 @@ def parse_arguments():
     parser = ArgumentParser()
     parser.add_argument('--metadata-path', type=str, default=None)
     parser.add_argument('--log-file-name', type=str, default=None)
-    parser.add_argument('--description-file-name', type=str, default=None)
+    parser.add_argument('--dataset-description', type=str, default="yes")
     parser.add_argument('--number-iteration', type=int, default=1)
     parser.add_argument('--llm-model', type=str, default=None)
     parser.add_argument('--classifier', type=str, default=None)
@@ -65,69 +66,85 @@ def parse_arguments():
     if args.classifier is None:
         raise Exception("--classifier is a required parameter!") 
     
-    if args.description_file_name is None:
-        args.description = "There is no description for this dataset."
-        args.has_description = False
+    if args.dataset_description.lower() == "yes":
+        dataset_description_path = args.metadata_path.replace(".yaml", ".txt")
+        args.description = read_text_file_line_by_line(fname=dataset_description_path)
+        args.dataset_description = 'yes'
     else:
-        args.description = read_text_file_line_by_line(args.description_file_name)
-        args.has_description = True
+        args.description = "There is not data description for this dataset."
+        args.dataset_description = 'no'   
 
     return args
 
-def runTabPFNClassifier(df_train, df_test, train_x, train_y, test_x, test_y):
-  clf_no_feat_eng = TabPFNClassifier(device=('cuda' if torch.cuda.is_available() else 'cpu'), N_ensemble_configurations=4)
-  clf_no_feat_eng.fit = partial(clf_no_feat_eng.fit, overwrite_warning=True)
+# Build TabPFN Classifier 
+def runTabPFNClassifier(df_train, df_test, train_y, test_y):
+  try:
+    clf_no_feat_eng = TabPFNClassifier(device=('cuda' if torch.cuda.is_available() else 'cpu'), N_ensemble_configurations=4)
+    clf_no_feat_eng.fit = partial(clf_no_feat_eng.fit, overwrite_warning=True)
 
-  clf_no_feat_eng.fit(train_x, train_y)
-  pred_test = clf_no_feat_eng.predict(test_x)
-  pred_train = clf_no_feat_eng.predict(train_x)
+    caafe_clf = CAAFEClassifier(base_classifier=clf_no_feat_eng,
+                                llm_model=args.llm_model,
+                                iterations=args.number_iteration)
 
-  acc_test_before = accuracy_score(pred_test, test_y)
-  acc_train_before = accuracy_score(pred_train, train_y)
+    caafe_clf.fit_pandas(df_train,
+                        target_column_name=args.target_attribute,
+                        dataset_description=args.description)
+    
 
-  caafe_clf = CAAFEClassifier(base_classifier=clf_no_feat_eng,
-                            llm_model=args.llm_model,
-                            iterations=args.number_iteration)
+    pred_test = caafe_clf.predict(df_test)
+    pred_train = caafe_clf.predict(df_train)
 
-  caafe_clf.fit_pandas(df_train,
-                      target_column_name=args.target_attribute,
-                      dataset_description=args.description)
+    acc_test = accuracy_score(pred_test, test_y)
+    acc_train = accuracy_score(pred_train, train_y)
+
+    train_F1_score = f1_score(train_y, pred_train)
+    test_F1_score = f1_score(test_y, pred_test)
+    status = False
   
+  except Exception as err:
+    acc_train = -1
+    train_F1_score = -1
+    acc_test = -1
+    test_F1_score = -1
+    status = False  
 
-  pred_test = caafe_clf.predict(df_test)
-  pred_train = caafe_clf.predict(df_train)
+  return status, acc_train, train_F1_score, acc_test, test_F1_score
 
-  acc_test_after = accuracy_score(pred_test, test_y)
-  acc_train_after = accuracy_score(pred_train, train_y)
 
-  return acc_train_before, acc_test_before, acc_test_after, acc_train_after
+# Build RandomForest Classifier 
+def runRandomForestClassifier(df_train, df_test, train_y, test_y):
+  try: 
+    clf = RandomForestClassifier()
+    caafe_clf = CAAFEClassifier(base_classifier=clf,
+                                llm_model=args.llm_model,
+                                iterations=args.number_iteration)
 
-def runRandomForestClassifier(df_train, df_test, train_x, train_y, test_x, test_y):
-  clf = RandomForestClassifier()
-  clf.fit(train_x, train_y)
-  pred_test = clf.predict(test_x)
-  pred_train = clf.predict(train_x)
+    caafe_clf.fit_pandas(df_train,
+                        target_column_name=args.target_attribute,
+                        dataset_description=args.description)
+    
 
-  acc_test_before = accuracy_score(pred_test, test_y)
-  acc_train_before = accuracy_score(pred_train, train_y)
+    pred_test = caafe_clf.predict(df_test)
+    pred_train = caafe_clf.predict(df_train)
 
-  caafe_clf = CAAFEClassifier(base_classifier=clf,
-                            llm_model=args.llm_model,
-                            iterations=args.number_iteration)
+    acc_test = accuracy_score(pred_test, test_y)
+    acc_train = accuracy_score(pred_train, train_y)
 
-  caafe_clf.fit_pandas(df_train,
-                      target_column_name=args.target_attribute,
-                      dataset_description=args.description)
-  
+    train_F1_score = f1_score(train_y, pred_train)
+    test_F1_score = f1_score(test_y, pred_test)
+    status = True
 
-  pred_test = caafe_clf.predict(df_test)
-  pred_train = caafe_clf.predict(df_train)
+  except Exception as err:
+    acc_train = -1
+    train_F1_score = -1
+    acc_test = -1
+    test_F1_score = -1
+    status = False  
+   
+  return status, acc_train, train_F1_score, acc_test, test_F1_score
 
-  acc_test_after = accuracy_score(pred_test, test_y)
-  acc_train_after = accuracy_score(pred_train, train_y)
 
-  return acc_train_before, acc_test_before, acc_test_after, acc_train_after
-
+# Run CAAFE
 def run_caafe(args):
   openai.api_key = os.environ.get("OPENAI_API_KEY")
 
@@ -135,27 +152,67 @@ def run_caafe(args):
   df_test = pd.read_csv(args.data_source_test_path)
 
   df_train, df_test = make_datasets_numeric(df_train, df_test, args.target_attribute)
-  train_x, train_y = data.get_X_y(df_train, args.target_attribute)
-  test_x, test_y = data.get_X_y(df_test, args.target_attribute)
+  _, train_y = data.get_X_y(df_train, args.target_attribute)
+  _, test_y = data.get_X_y(df_test, args.target_attribute)
 
   if args.classifier == "TabPFN":
-    acc_train_before, acc_test_before, acc_test_after, acc_train_after = runTabPFNClassifier(df_train, df_test, train_x, train_y, test_x, test_y)
+    status, acc_train, train_F1_score, acc_test, test_F1_score = runTabPFNClassifier(df_train, df_test, train_y, test_y)
+  
   elif args.classifier == "RandomForest":
-    acc_train_before, acc_test_before, acc_test_after, acc_train_after = runRandomForestClassifier(df_train, df_test, train_x, train_y, test_x, test_y)  
+    status, acc_train, train_F1_score, acc_test, test_F1_score = runRandomForestClassifier(df_train, df_test, train_y, test_y)  
 
-  
-  log = [args.dataset_name, args.has_description, args.classifier, args.task_type, args.llm_model, acc_train_before, acc_test_before, acc_train_after, acc_test_after]
-  
-  return log    
+  return status, acc_train, train_F1_score, acc_test, test_F1_score    
 
 if __name__ == '__main__':
    args = parse_arguments()
-   log = run_caafe(args)
 
-   try:
-       df_result = pd.read_csv(args.log_file_name)
-   except Exception as err:  
-       df_result = pd.DataFrame(columns=["dataset_name","has_description","classifier","task_type", "llm_model", "accuracy_train_before", "accuracy_test_before", "accuracy_train_after", "accuracy_test_after"])
+   start = time.time()
+   status, acc_train, train_F1_score, acc_test, test_F1_score = run_caafe(args)
+   end = time.time()
 
-   df_result.loc[len(df_result)] = log
-   df_result.to_csv(args.log_file_name, index=False)   
+   execute_time = end - start
+
+   if args.task_type != 'regression':
+    try:
+        df_result = pd.read_csv(args.log_file_name)
+    except Exception as err:  
+        df_result = pd.DataFrame(columns=["dataset_name",
+                                          "config",
+                                          "llm_model",
+                                          "has_description",
+                                          "classifier",
+                                          "task_type",
+                                          "status",
+                                          "number_iteration",
+                                          "pipeline_gen_time",
+                                          "execution_time",
+                                          "train_accuracy",
+                                          "train_f1_score",
+                                          "train_log_loss",
+                                          "train_r_squared",
+                                          "train_rmse",
+                                          "test_accuracy",
+                                          "test_f1_score",
+                                          "test_log_loss",
+                                          "test_r_squared",
+                                          "test_rmse"])
+    
+    log = [args.dataset_name, 
+           "CAAFE", 
+           args.llm_model,
+           args.dataset_description, 
+           args.classifier, 
+           args.task_type, 
+           status, 
+           args.number_iteration,
+           -1, 
+           execute_time, 
+           acc_train, 
+           train_F1_score, 
+           -1, -1, -1, 
+           acc_test, 
+           test_F1_score, 
+           -1, -1, -1]   
+
+    df_result.loc[len(df_result)] = log
+    df_result.to_csv(args.log_file_name, index=False)   

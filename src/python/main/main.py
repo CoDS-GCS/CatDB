@@ -209,22 +209,51 @@ if __name__ == '__main__':
     try:
         df_result = pd.read_csv(args.result_output_path)
     except Exception as err:
-        df_result = pd.DataFrame(columns=["dataset_name", "config", "task_type", "with_dataset_description", "status", "number_iteration", "pipeline_gen_time",
-                                      "execution_time",
-                                      "train_accuracy", "train_f1_score", "train_log_loss", "train_r_squared", "train_rmse",
-                                      "test_accuracy", "test_f1_score", "test_log_loss", "test_r_squared", "test_rmse"])
+        df_result = pd.DataFrame(columns=["dataset_name",
+                                          "config",
+                                          "llm_model",
+                                          "has_description",
+                                          "classifier",
+                                          "task_type",
+                                          "status",
+                                          "number_iteration",
+                                          "pipeline_gen_time",
+                                          "execution_time",
+                                          "train_accuracy",
+                                          "train_f1_score",
+                                          "train_log_loss",
+                                          "train_r_squared",
+                                          "train_rmse",
+                                          "test_accuracy",
+                                          "test_f1_score",
+                                          "test_log_loss",
+                                          "test_r_squared",
+                                          "test_rmse"])
     for rep_type in combinations:
         try:
             status, number_iteration, gen_time, execute_time, result = generate_and_run_pipeline(catalog=catalog,
                                                                                                  prompt_representation_type=rep_type,
                                                                                                  args=args)
-            df_result.loc[len(df_result)] = [args.dataset_name, rep_type, args.task_type, args.dataset_description, status, number_iteration,
-                                             catalog_time + gen_time, execute_time,
-                                             result["Train_Accuracy"], result["Train_F1_score"], result["Train_Log_loss"],
-                                             result["Train_R_Squared"], result["Train_RMSE"],
-                                             result["Test_Accuracy"], result["Test_F1_score"],
+            df_result.loc[len(df_result)] = [args.dataset_name,
+                                             rep_type,
+                                             args.llm_model,
+                                             args.dataset_description,
+                                             "automatic",
+                                             args.task_type,
+                                             status,
+                                             number_iteration,
+                                             catalog_time + gen_time,
+                                             execute_time,
+                                             result["Train_Accuracy"],
+                                             result["Train_F1_score"],
+                                             result["Train_Log_loss"],
+                                             result["Train_R_Squared"],
+                                             result["Train_RMSE"],
+                                             result["Test_Accuracy"],
+                                             result["Test_F1_score"],
                                              result["Test_Log_loss"],
-                                             result["Test_R_Squared"], result["Test_RMSE"]
+                                             result["Test_R_Squared"],
+                                             result["Test_RMSE"]
                                              ]
 
         except Exception as err:

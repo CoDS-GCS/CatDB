@@ -13,5 +13,8 @@ task_type=$2
 # # Run AutoML Baseline
 # ./explocal/exp3_end_to_end/runExperiment3_AutoML.sh $dataset $constraint
 
+./explocal/exp3_end_to_end/runExperiment3_CAAFE.sh ${dataset} ${task_type} Yes TabPFN gpt-3.5-turbo
+./explocal/exp3_end_to_end/runExperiment3_CAAFE.sh ${dataset} ${task_type} No TabPFN gpt-3.5-turbo
 
-./explocal/exp3_end_to_end/runExperiment3_CAAFE.sh ${dataset} ${task_type}
+./explocal/exp3_end_to_end/runExperiment3_CAAFE.sh ${dataset} ${task_type} Yes RandomForest gpt-3.5-turbo
+./explocal/exp3_end_to_end/runExperiment3_CAAFE.sh ${dataset} ${task_type} No RandomForest gpt-3.5-turbo

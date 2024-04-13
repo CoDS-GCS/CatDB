@@ -29,23 +29,32 @@ def parse_arguments():
 if __name__ == '__main__':
     args = parse_arguments()    
     
-    datasetIDs = [(45570,"Higgs","binary",1),
-              (41147,"albert","binary",2),
-              (1218,"Click_prediction_small","binary",3),
-              (43489,"Census-Augmented","binary",4),
-              (267,"BNG_heart-statlog","binary",5),
-              (1110,"KDDCup99_full","multiclass",6),
-              (42803,"road-safety","multiclass",7),
-              (43044,"drug-directory","multiclass",8),
-              (42734,"okcupid-stem","multiclass",9),
-              (1509,"walking-activity","multiclass",10),
-              (45274,"PASS","regression",11),
-              (42396,"aloi","regression",12),
-              (45049,"MD_MIX_Mini_Copy","regression",13),
-              (41167,"dionis","regression",14),
-              (44320,"Meta_Album_BRD_Extended","regression",15)]
+    datasetIDs = [(11,"Balance-Scale","multiclass",1),
+                  (15,"Breast-w","binary",2),
+                  (23,"CMC","multiclass",3),
+                  (31,"Credit-g","binary",4),
+                  (37,"Diabetes","binary",5),
+                  (50,"Tic-Tac-Toe","binary",6),
+                  (188,"Eucalyptus","multiclass",7),
+                  (1068,"PC1","binary",8),
+                  (1169,"Airlines","binary",9),
+                  (41027,"Jungle-Chess","multiclass",10),
+                  (45570,"Higgs","binary",11),
+                  (41147,"Albert","binary",12),
+                  (1218,"Click-Prediction","binary",13),
+                  (43489,"Census-Augmented","binary",14),
+                  (267,"Heart-Statlog","binary",15),
+                  (1110,"KDDCup99","multiclass",16),
+                  (42803,"Road-Safety","multiclass",17),
+                  (43044,"Drug-Directory","multiclass",18),
+                  (42734,"Okcupid-Stem","multiclass",19),
+                  (1509,"Walking-Activity","multiclass",20),
+                  (45274,"PASS","regression",21),
+                  (42396,"Aloi","regression",22),
+                  (45049,"MD-MIX-Mini","regression",23),
+                  (41167,"Dionis","regression",24),
+                  (44320,"Meta-Album-BRD","regression",25)]
    
-    #dataset_list = 'row,orig_dataset_name,dataset_name,nrows,ncols,file_format,task_type,number_classes,original_url,target_feature,description\n'
     dataset_list =  pd.DataFrame(columns=["Row","ID","dataset_name", "orig_name","nrows","ncols","nclasses","target"])
     
     script_list =""

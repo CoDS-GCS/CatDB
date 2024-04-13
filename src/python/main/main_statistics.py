@@ -95,8 +95,6 @@ if __name__ == '__main__':
 
     try:
         df_1 = pd.read_csv(args.log_file_name)
-        indexDS = df_1[(df_1['dataset_name'] == args.dataset_name)].index
-        df_1.drop(indexDS, inplace=True)
 
     except Exception as err:
         df_1 = pd.DataFrame(

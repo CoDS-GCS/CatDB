@@ -9,16 +9,16 @@ data_profile_path="${data_path}/${dataset}/data_profile"
 
 
 # Run Data Profiling Experiments
-#./explocal/exp1_catalog/runExperiment1_Data_Profile.sh ${dataset} ${task_type}
+./explocal/exp1_catalog/runExperiment1_Data_Profile.sh ${dataset} ${task_type}
 
 # Rnn CSV Data Reader Experiment
-#./explocal/exp1_catalog/runExperiment1_CSVDataReader.sh $dataset
+./explocal/exp1_catalog/runExperiment1_CSVDataReader.sh $dataset
 
 # Run Prompt and LLM Pipeline Generation Experiments
 CMD=./explocal/exp1_catalog/runExperiment1_LLM_Pipe_Gen.sh
-#$CMD ${dataset} ${data_profile_path} SCV Random 0 ${task_type} gpt-4 
 
-#$CMD ${dataset} ${data_profile_path} AUTO Random 0 ${task_type} gpt-4 
+$CMD ${dataset} ${data_profile_path} AUTO Random 0 ${task_type} gpt-3.5-turbo NO
+$CMD ${dataset} ${data_profile_path} AUTO Random 0 ${task_type} gpt-3.5-turbo YES
 
-$CMD ${dataset} ${data_profile_path} CatDB Random 0 ${task_type} gpt-4 NO
-$CMD ${dataset} ${data_profile_path} CatDB Random 0 ${task_type} gpt-4 YES
+#$CMD ${dataset} ${data_profile_path} CatDB Random 0 ${task_type} gpt-4-turbo NO
+#$CMD ${dataset} ${data_profile_path} CatDB Random 0 ${task_type} gpt-4-turbo YES

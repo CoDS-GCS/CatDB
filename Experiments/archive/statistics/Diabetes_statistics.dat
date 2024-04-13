@@ -1,0 +1,10 @@
+dataset_name,col_index,data_type,with_dataset_description,missing_values_count,total_values_count,distinct_values_count,number_rows
+Diabetes,1,str,No,0,768,2,768
+Diabetes,2,int,No,0,768,186,768
+Diabetes,3,int,No,0,768,17,768
+Diabetes,4,int,No,0,768,47,768
+Diabetes,5,int,No,0,768,51,768
+Diabetes,6,int,No,0,768,136,768
+Diabetes,7,int,No,0,768,52,768
+Diabetes,8,float,No,0,768,517,768
+Diabetes,9,float,No,0,768,248,768

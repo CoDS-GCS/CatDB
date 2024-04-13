@@ -1,0 +1,11 @@
+dataset_name,col_index,data_type,with_dataset_description,missing_values_count,total_values_count,distinct_values_count,number_rows
+Tic-Tac-Toe,1,str,No,0,958,3,958
+Tic-Tac-Toe,2,str,No,0,958,3,958
+Tic-Tac-Toe,3,str,No,0,958,3,958
+Tic-Tac-Toe,4,str,No,0,958,3,958
+Tic-Tac-Toe,5,str,No,0,958,2,958
+Tic-Tac-Toe,6,str,No,0,958,3,958
+Tic-Tac-Toe,7,str,No,0,958,3,958
+Tic-Tac-Toe,8,str,No,0,958,3,958
+Tic-Tac-Toe,9,str,No,0,958,3,958
+Tic-Tac-Toe,10,str,No,0,958,3,958

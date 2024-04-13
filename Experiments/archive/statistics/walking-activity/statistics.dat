@@ -1,6 +1,0 @@
-dataset_name,col_index,data_type,with_dataset_description,missing_values_count,total_values_count,distinct_values_count,number_rows
-walking-activity,1,int,No,0,149332,22,149332
-walking-activity,2,float,No,0,149332,72087,149332
-walking-activity,3,float,No,0,149332,756,149332
-walking-activity,4,float,No,0,149332,665,149332
-walking-activity,5,float,No,0,149332,733,149332

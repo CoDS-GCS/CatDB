@@ -87,6 +87,8 @@ def parse_arguments():
 
 
 def get_error_prompt(pipeline_code: str, pipeline_error: str):
+    min_length = min(len(pipeline_error), 2000)
+    small_error_msg = pipeline_error[:min_length]
     prompt_rule = ['You are expert in coding assistant. Your task is fix the error of this pipeline code.\n'
                    'The user will provide a pipeline code enclosed in "<CODE> pipline code will be here. </CODE>", '
                    'and an error message enclosed in "<ERROR> error message will be here. </ERROR>".',
@@ -97,7 +99,7 @@ def get_error_prompt(pipeline_code: str, pipeline_error: str):
                   "</CODE>\n",
                   "\n",
                   "<ERROR>\n",
-                  pipeline_error,
+                  small_error_msg,
                   "</ERROR>\n",
                   "Question: Fix the code error provided and return only the corrected pipeline without additional\n"
                   " explanations regarding the resolved error.\n"]

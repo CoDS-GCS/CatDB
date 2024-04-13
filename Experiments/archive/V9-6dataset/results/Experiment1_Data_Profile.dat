@@ -1,7 +1,0 @@
-dataset,task_type,platform,time
-dataset_1_rnc,binary,kglids,30034
-dataset_2_rnc,binary,kglids,36266
-dataset_3_rnc,binary,kglids,42388
-dataset_4_rnc,binary,kglids,31366
-dataset_5_rnc,binary,kglids,28283
-dataset_6_rnc,binary,kglids,31487

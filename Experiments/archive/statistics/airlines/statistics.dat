@@ -1,0 +1,9 @@
+dataset_name,col_index,data_type,with_dataset_description,missing_values_count,total_values_count,distinct_values_count,number_rows
+airlines,1,int,No,0,2000,194,2000
+airlines,2,int,No,0,2000,193,2000
+airlines,3,int,No,0,2000,1623,2000
+airlines,4,int,No,0,2000,529,2000
+airlines,5,int,No,0,2000,7,2000
+airlines,6,int,No,0,2000,290,2000
+airlines,7,int,No,0,2000,18,2000
+airlines,8,bool,No,0,2000,2,2000

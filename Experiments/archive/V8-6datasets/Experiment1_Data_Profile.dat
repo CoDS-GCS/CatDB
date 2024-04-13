@@ -1,7 +1,0 @@
-dataset,task_type,platform,time
-horsecolic,binary,kglids,26436
-credit-g,binary,kglids,63968
-albert,binary,kglids,37379
-Sonar,binary,kglids,29345
-abalone,binary,kglids,26017
-poker,binary,kglids,28295

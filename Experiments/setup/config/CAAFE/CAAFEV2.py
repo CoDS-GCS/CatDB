@@ -99,7 +99,7 @@ def runTabPFNClassifier(df_train, df_test, train_y, test_y):
 
     train_F1_score = f1_score(train_y, pred_train)
     test_F1_score = f1_score(test_y, pred_test)
-    status = False
+    status = True
   
   except Exception as err:
     acc_train = -1

@@ -87,8 +87,13 @@ class GenerateLLMCode(object):
                      temperature=0
                     )
         code = completion.choices[0].message.content
+        # Refine code, keep all codes are between ```python and ```end
+        begin_key = "```python"
+        end_key = "```end"[::-1]
+        begin_point = code.find(begin_key)
+        end_point = len(code) - code[::-1].find(end_key)
+        code = code[begin_point:end_point]
         code = code.replace("```", "# ```")
-        # code = ""
         return code
 
     def get_number_tokens(self, prompt_rules: str, prompt_message: str):

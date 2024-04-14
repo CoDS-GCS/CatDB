@@ -1,0 +1,102 @@
+\newcommand{\addplotTokens}[5]{
+	   \addplot[xshift=#1,draw=black,line width=0.15pt, fill=#5, discard if singlplatform={#2}{#3},postaction={#4}] 
+	   table[ y=number_tokens, col sep=comma, x=dataset_name] {results/dataset_overview.dat};
+	   %\label{gen_#2#3};
+};
+
+
+\pgfplotsset{
+    discard if singlplatform/.style n args={2}{
+        x filter/.code={
+            \edef\tempa{\thisrow{prompt_representation_type}}
+            \edef\tempb{#1}
+            \ifx\tempa\tempb
+              \edef\tempc{\thisrow{has_description}}
+                \edef\tempd{#2}
+                  \ifx\tempc\tempd
+                  \else
+                  \def\pgfmathresult{inf}
+                  \fi
+            \else
+            \def\pgfmathresult{inf}
+            \fi			
+        }
+    }
+};
+
+\begin{tikzpicture}[
+  every axis/.style={
+    every axis plot post/.style={/pgf/number format/fixed},
+    major x tick style = {draw=none},
+    xtick style={draw=none},		
+    every major tick/.append style={ thick,major tick length=2.5pt, gray},
+    axis line style={gray},
+    ybar,        
+    %ybar=0pt,
+    ymin=0,
+    ymax=7000,
+    log ticks with fixed point,
+    %y tick label style={/pgf/number format/1000 sep={}},
+    x tick label style={/pgf/number format/1000 sep={}},
+    scaled y ticks=false,
+    %enlarge y limits={0.013,upper},
+    enlarge x limits=0.03,
+    ylabel={Token's Count},
+    %ytick={0.0001,100,1000, 10000},
+    %yticklabels={0,1e2, 1e3,1e4},
+    ytick align=outside,
+    xtick pos=left,
+    ytick pos=left,
+    yticklabel style = {font=\scriptsize},
+    ylabel style = {font=\scriptsize, yshift=-2pt},
+    xticklabel style = {font=\scriptsize, xshift=1pt,yshift=3pt ,rotate=90},
+    height=0.5\columnwidth,
+    width=\columnwidth,    
+    bar width=3pt,	 
+    ymajorgrids=true,
+    grid style=dotted,   
+    minor grid style={gray!50}, 
+    xtick = data,
+    symbolic x coords={Higgs,Albert,Click-Prediction,Census,Heart-Statlog,KDDCup99,Road-Safety,Drug-Directory,Okcupid-Stem,Walking-Activity,PASS,Aloi,MD-MIX-Mini,Dionis,Meta-Album-BRD,Balance-Scale,Breast-w,CMC,Credit-g,Diabetes,Tic-Tac-Toe,Eucalyptus,PC1,Airlines,Jungle-Chess}, 
+    legend image code/.code={\draw [#1] (0cm,-0.1cm) rectangle (0.2cm,0.15cm); },
+    restrict y to domain*=0:7000, % Cut values off at 14
+    %
+    visualization depends on=rawy\as\rawy, % Save the unclipped values
+    after end axis/.code={ % Draw line indicating break
+            \draw [ultra thick, black, decoration={snake, amplitude=1pt}, decorate] (rel axis cs:0,1.45) -- (rel axis cs:1,1.45);
+        },
+    % nodes near coords={%
+    %     \pgfmathprintnumber{\rawy}% Print unclipped values
+    % },
+axis lines*=left,
+clip=false    
+  }	 
+]
+	
+\begin{axis}
+  \addplotTokens{0pt}{CatDB}{Yes}{}{tug};	  	  
+\end{axis}
+
+\begin{axis}[hide axis]  
+  \addplotTokens{3pt}{CAAFE}{Yes}{}{tugb};
+\end{axis}
+
+% \begin{axis}[hide axis]  
+% 	\addplotCatDB{4}{gpt-4}{binary}{SCHEMA_STATISTIC}{pattern=north east lines,pattern color=gray!130}{-4};
+% \end{axis}
+
+	
+% \node [draw=none,inner sep=0, font=\Large, anchor=west] (leg1) at (rel axis cs: 0.45,0.4) {\shortstack[l]{
+% 			\ref{leg_dataprofile} Data Profiling \\
+%       \ref{leg_pip_gen_SCHEMA} Pipeline Generation  \\
+% 			\ref{leg_pip_runtime_SCHEMA} Pipeline Execution 			 			
+% 	}};
+
+%  \node [draw=none,inner sep=0, font=\large, anchor=west, below=of leg1, yshift=20pt, xshift=-22pt] (schema) {Schema};
+%  \draw[draw=black] ($(schema.west)+(-0.4cm,.15cm)$) rectangle ($(schema.west)+(-0.1cm,-0.15cm)$); 
+
+
+%  \node [draw=none,inner sep=0, font=\large, anchor=west, right=of schema,yshift=0pt] (schema_statistic)  {Schema \& Statistics};
+%  \draw[draw=black, pattern=north east lines, pattern color=gray!130] ($(schema_statistic.west)+(-0.4cm,.15cm)$) rectangle ($(schema_statistic.west)+(-0.1cm,-0.15cm)$); 
+
+\end{tikzpicture}

@@ -69,15 +69,15 @@ def parse_arguments():
     if args.dataset_description.lower() == "yes":
         dataset_description_path = args.metadata_path.replace(".yaml", ".txt")
         args.description = read_text_file_line_by_line(fname=dataset_description_path)
-        args.dataset_description = 'yes'
+        args.dataset_description = 'Yes'
     else:
         args.description = "There is not data description for this dataset."
-        args.dataset_description = 'no'   
+        args.dataset_description = 'No'   
 
     return args
 
 # Build TabPFN Classifier 
-def runTabPFNClassifier(df_train, df_test, train_y, test_y):
+def runTabPFNClassifier(args, df_train, df_test, train_y, test_y):
   try:
     clf_no_feat_eng = TabPFNClassifier(device=('cuda' if torch.cuda.is_available() else 'cpu'), N_ensemble_configurations=4)
     clf_no_feat_eng.fit = partial(clf_no_feat_eng.fit, overwrite_warning=True)
@@ -112,7 +112,7 @@ def runTabPFNClassifier(df_train, df_test, train_y, test_y):
 
 
 # Build RandomForest Classifier 
-def runRandomForestClassifier(df_train, df_test, train_y, test_y):
+def runRandomForestClassifier(args, df_train, df_test, train_y, test_y):
   try: 
     clf = RandomForestClassifier()
     caafe_clf = CAAFEClassifier(base_classifier=clf,
@@ -156,10 +156,10 @@ def run_caafe(args):
   _, test_y = data.get_X_y(df_test, args.target_attribute)
 
   if args.classifier == "TabPFN":
-    status, acc_train, train_F1_score, acc_test, test_F1_score = runTabPFNClassifier(df_train, df_test, train_y, test_y)
+    status, acc_train, train_F1_score, acc_test, test_F1_score = runTabPFNClassifier(args, df_train, df_test, train_y, test_y)
   
   elif args.classifier == "RandomForest":
-    status, acc_train, train_F1_score, acc_test, test_F1_score = runRandomForestClassifier(df_train, df_test, train_y, test_y)  
+    status, acc_train, train_F1_score, acc_test, test_F1_score = runRandomForestClassifier(args, df_train, df_test, train_y, test_y)  
 
   return status, acc_train, train_F1_score, acc_test, test_F1_score    
 

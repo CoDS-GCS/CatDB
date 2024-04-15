@@ -1,7 +1,7 @@
 \newcommand{\addplotTokens}[5]{
 	   \addplot[xshift=#1,draw=black,line width=0.15pt, fill=#5, discard if singlplatform={#2}{#3},postaction={#4}] 
 	   table[ y=number_tokens, col sep=comma, x=dataset_name] {results/dataset_overview.dat};
-	   %\label{gen_#2#3};
+	   \label{plat_#2#3};
 };
 
 
@@ -34,7 +34,7 @@
     ybar,        
     %ybar=0pt,
     ymin=0,
-    ymax=7000,
+    ymax=92000,
     log ticks with fixed point,
     %y tick label style={/pgf/number format/1000 sep={}},
     x tick label style={/pgf/number format/1000 sep={}},
@@ -42,8 +42,8 @@
     %enlarge y limits={0.013,upper},
     enlarge x limits=0.03,
     ylabel={Token's Count},
-    %ytick={0.0001,100,1000, 10000},
-    %yticklabels={0,1e2, 1e3,1e4},
+    ytick={0,5000,10000,20000,30000,40000,50000,60000,70000,80000,90000,100000},
+    yticklabels={0,5k,10k,20k,30k,40k,50k,60k,70k,80k,90k,100k},
     ytick align=outside,
     xtick pos=left,
     ytick pos=left,
@@ -58,18 +58,18 @@
     minor grid style={gray!50}, 
     xtick = data,
     symbolic x coords={Higgs,Albert,Click-Prediction,Census,Heart-Statlog,KDDCup99,Road-Safety,Drug-Directory,Okcupid-Stem,Walking-Activity,PASS,Aloi,MD-MIX-Mini,Dionis,Meta-Album-BRD,Balance-Scale,Breast-w,CMC,Credit-g,Diabetes,Tic-Tac-Toe,Eucalyptus,PC1,Airlines,Jungle-Chess}, 
-    legend image code/.code={\draw [#1] (0cm,-0.1cm) rectangle (0.2cm,0.15cm); },
-    restrict y to domain*=0:7000, % Cut values off at 14
-    %
-    visualization depends on=rawy\as\rawy, % Save the unclipped values
-    after end axis/.code={ % Draw line indicating break
-            \draw [ultra thick, black, decoration={snake, amplitude=1pt}, decorate] (rel axis cs:0,1.45) -- (rel axis cs:1,1.45);
-        },
-    % nodes near coords={%
-    %     \pgfmathprintnumber{\rawy}% Print unclipped values
-    % },
-axis lines*=left,
-clip=false    
+    legend image code/.code={\draw [#1] (0cm,-0.1cm) rectangle (0.15cm,0.1cm); },
+%     restrict y to domain*=0:7000, % Cut values off at 14
+%     %
+%     visualization depends on=rawy\as\rawy, % Save the unclipped values
+%     after end axis/.code={ % Draw line indicating break
+%             \draw [ultra thick, black, decoration={snake, amplitude=1pt}, decorate] (rel axis cs:0,1.45) -- (rel axis cs:1,1.45);
+%         },
+%     % nodes near coords={%
+%     %     \pgfmathprintnumber{\rawy}% Print unclipped values
+%     % },
+% axis lines*=left,
+% clip=false    
   }	 
 ]
 	
@@ -86,11 +86,10 @@ clip=false
 % \end{axis}
 
 	
-% \node [draw=none,inner sep=0, font=\Large, anchor=west] (leg1) at (rel axis cs: 0.45,0.4) {\shortstack[l]{
-% 			\ref{leg_dataprofile} Data Profiling \\
-%       \ref{leg_pip_gen_SCHEMA} Pipeline Generation  \\
-% 			\ref{leg_pip_runtime_SCHEMA} Pipeline Execution 			 			
-% 	}};
+\node [draw=none,inner sep=0, font=\scriptsize, anchor=west] (leg1) at (rel axis cs: 0.75,0.8) {\shortstack[l]{
+			\ref{plat_CatDBYes} CatDB \\
+      \ref{plat_CAAFEYes} CAAFE 			 			
+	}};
 
 %  \node [draw=none,inner sep=0, font=\large, anchor=west, below=of leg1, yshift=20pt, xshift=-22pt] (schema) {Schema};
 %  \draw[draw=black] ($(schema.west)+(-0.4cm,.15cm)$) rectangle ($(schema.west)+(-0.1cm,-0.15cm)$); 

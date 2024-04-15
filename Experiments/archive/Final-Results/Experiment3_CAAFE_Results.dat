@@ -1,0 +1,3 @@
+dataset_name,config,llm_model,has_description,classifier,task_type,status,number_iteration,pipeline_gen_time,execution_time,train_accuracy,train_f1_score,train_log_loss,train_r_squared,train_rmse,test_accuracy,test_f1_score,test_log_loss,test_r_squared,test_rmse
+Balance-Scale,CAAFE,gpt-4,Yes,TabPFN,multiclass,True,10,-1,151.01132440567017,1.0,-1,0.0001921877686917,-1,-1,1.0,-1,0.0004203766665345,-1,-1
+Balance-Scale,CAAFE,gpt-4,No,TabPFN,multiclass,True,10,-1,128.8997287750244,1.0,-1,0.001670575036833779,-1,-1,1.0,-1,0.003520937953956618,-1,-1

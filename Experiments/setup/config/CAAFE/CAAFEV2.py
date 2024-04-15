@@ -79,62 +79,65 @@ def parse_arguments():
 
 # Run CAAFE
 def run_caafe(args):
-  openai.api_key = os.environ.get("OPENAI_API_KEY")
+      openai.api_key = os.environ.get("OPENAI_API_KEY")
 
-  df_train = pd.read_csv(args.data_source_train_path)
-  df_test = pd.read_csv(args.data_source_test_path)
+      df_train = pd.read_csv(args.data_source_train_path)
+      df_test = pd.read_csv(args.data_source_test_path)
 
-  df_train, df_test = make_datasets_numeric(df_train, df_test, args.target_attribute)
-  _, train_y = data.get_X_y(df_train, args.target_attribute)
-  _, test_y = data.get_X_y(df_test, args.target_attribute)
+      df_train, df_test = make_datasets_numeric(df_train, df_test, args.target_attribute)
+      _, train_y = data.get_X_y(df_train, args.target_attribute)
+      _, test_y = data.get_X_y(df_test, args.target_attribute)
 
-  try:
-    clf_no_feat_eng = None
-    if args.classifier == "TabPFN":
-      clf_no_feat_eng = TabPFNClassifier(device=('cuda' if torch.cuda.is_available() else 'cpu'), N_ensemble_configurations=4)    
-    
-    elif args.classifier == "RandomForest":
-      clf_no_feat_eng = RandomForestClassifier(max_leaf_nodes=500)
-
-    caafe_clf = CAAFEClassifier(base_classifier=clf_no_feat_eng,
-                                  llm_model=args.llm_model,
-                                  iterations=args.number_iteration)
-
-    caafe_clf.fit_pandas(df_train,
-                          target_column_name=args.target_attribute,
-                          dataset_description=args.description)
+    #try:
+      clf_no_feat_eng = None
+      if args.classifier == "TabPFN":
+        clf_no_feat_eng = TabPFNClassifier(device=('cuda' if torch.cuda.is_available() else 'cpu'), N_ensemble_configurations=4)    
       
+      elif args.classifier == "RandomForest":
+        clf_no_feat_eng = RandomForestClassifier(max_leaf_nodes=500)
 
-    pred_test = caafe_clf.predict(df_test)
-    pred_train = caafe_clf.predict(df_train)
+      caafe_clf = CAAFEClassifier(base_classifier=clf_no_feat_eng,
+                                    llm_model=args.llm_model,
+                                    iterations=1)
 
-    acc_test = accuracy_score(pred_test, test_y)
-    acc_train = accuracy_score(pred_train, train_y)
+      caafe_clf.fit_pandas(df_train,
+                            target_column_name=args.target_attribute,
+                            dataset_description=args.description)
+        
 
-    train_F1_score = -1
-    test_F1_score = -1
-    train_log_loss = -1
-    test_log_loss = -1
-    
-    if args.task_type == "binary":
-      train_F1_score = f1_score(train_y, pred_train)
-      test_F1_score = f1_score(test_y, pred_test)
-    
-    elif args.task_type == "multiclass":
-      train_log_loss = log_loss(train_y, pred_train)
-      test_log_loss = log_loss(test_y, pred_test)
+      pred_test = caafe_clf.predict(df_test)
+      pred_train = caafe_clf.predict(df_train)
 
-    status = True  
-  except Exception as err:
-    pred_test = -1
-    acc_train = -1
-    train_F1_score = -1
-    test_F1_score = -1
-    train_log_loss = -1
-    test_log_loss = -1
-    status = False
+      acc_test = accuracy_score(pred_test, test_y)
+      acc_train = accuracy_score(pred_train, train_y)
 
-  return status, acc_train, train_F1_score, train_log_loss, acc_test, test_log_loss, test_F1_score
+      train_F1_score = -1
+      test_F1_score = -1
+      train_log_loss = -1
+      test_log_loss = -1
+      
+      if args.task_type == "binary":
+        train_F1_score = f1_score(train_y, pred_train)
+        test_F1_score = f1_score(test_y, pred_test)
+      
+      elif args.task_type == "multiclass":
+        y_train_prob = caafe_clf.predict_proba(df_train.drop(args.target_attribute, axis=1))
+        y_test_prob = caafe_clf.predict_proba(df_test.drop(args.target_attribute, axis=1))
+        train_log_loss = log_loss(train_y, y_train_prob)
+        test_log_loss = log_loss(test_y, y_test_prob)
+
+      status = True  
+    # except Exception as err:
+    #   pred_test = -1
+    #   acc_train = -1
+    #   train_F1_score = -1
+    #   acc_test = -1
+    #   test_F1_score = -1
+    #   train_log_loss = -1
+    #   test_log_loss = -1
+    #   status = False
+
+      return status, acc_train, train_F1_score, train_log_loss, acc_test, test_log_loss, test_F1_score
 
 if __name__ == '__main__':
    args = parse_arguments()

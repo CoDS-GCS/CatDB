@@ -1,5 +1,5 @@
 \newcommand{\addplotTokens}[5]{
-	   \addplot[xshift=#1,draw=black,line width=0.15pt, fill=#5, discard if singlplatform={#2}{#3},postaction={#4}] 
+	   \addplot[xshift=#1,draw=none,line width=0.15pt, fill=#5, discard if singlplatform={#2}{#3},postaction={#4}] 
 	   table[ y=number_tokens, col sep=comma, x=dataset_name] {results/dataset_overview.dat};
 	   \label{plat_#2#3};
 };
@@ -21,81 +21,76 @@
             \def\pgfmathresult{inf}
             \fi			
         }
-    }
+    },
+    every non boxed x axis/.style={}
 };
 
-\begin{tikzpicture}[
-  every axis/.style={
+%\pgfplotsset{every non boxed x axis/.style={}}
+
+\begin{tikzpicture}%
+  \begin{groupplot}[
+    group style={
+        group name=my fancy plots,
+        group size=1 by 2,
+        xticklabels at=edge bottom,
+        vertical sep=0pt
+    },
     every axis plot post/.style={/pgf/number format/fixed},
     major x tick style = {draw=none},
     xtick style={draw=none},		
-    every major tick/.append style={ thick,major tick length=2.5pt, gray},
-    axis line style={gray},
+    every major tick/.append style={ line width=0.10mm,major tick length=2pt, gray},
+    axis line style={gray, line width=0.10mm},
     ybar,        
-    %ybar=0pt,
-    ymin=0,
-    ymax=92000,
     log ticks with fixed point,
-    %y tick label style={/pgf/number format/1000 sep={}},
     x tick label style={/pgf/number format/1000 sep={}},
     scaled y ticks=false,
-    %enlarge y limits={0.013,upper},
     enlarge x limits=0.03,
-    ylabel={Token's Count},
-    ytick={0,5000,10000,20000,30000,40000,50000,60000,70000,80000,90000,100000},
-    yticklabels={0,5k,10k,20k,30k,40k,50k,60k,70k,80k,90k,100k},
+    ylabel={},
     ytick align=outside,
     xtick pos=left,
     ytick pos=left,
     yticklabel style = {font=\scriptsize},
-    ylabel style = {font=\scriptsize, yshift=-2pt},
-    xticklabel style = {font=\scriptsize, xshift=1pt,yshift=3pt ,rotate=90},
+    ylabel style = {font=\scriptsize, yshift=-1pt},
+    xticklabel style = {font=\scriptsize, xshift=-3pt,yshift=3pt ,rotate=90},
     height=0.5\columnwidth,
-    width=\columnwidth,    
-    bar width=3pt,	 
+    width=1\columnwidth,    
+    %bar width=3pt,	 
     ymajorgrids=true,
     grid style=dotted,   
     minor grid style={gray!50}, 
     xtick = data,
     symbolic x coords={Higgs,Albert,Click-Prediction,Census,Heart-Statlog,KDDCup99,Road-Safety,Drug-Directory,Okcupid-Stem,Walking-Activity,PASS,Aloi,MD-MIX-Mini,Dionis,Meta-Album-BRD,Balance-Scale,Breast-w,CMC,Credit-g,Diabetes,Tic-Tac-Toe,Eucalyptus,PC1,Airlines,Jungle-Chess}, 
-    legend image code/.code={\draw [#1] (0cm,-0.1cm) rectangle (0.15cm,0.1cm); },
-%     restrict y to domain*=0:7000, % Cut values off at 14
-%     %
-%     visualization depends on=rawy\as\rawy, % Save the unclipped values
-%     after end axis/.code={ % Draw line indicating break
-%             \draw [ultra thick, black, decoration={snake, amplitude=1pt}, decorate] (rel axis cs:0,1.45) -- (rel axis cs:1,1.45);
-%         },
-%     % nodes near coords={%
-%     %     \pgfmathprintnumber{\rawy}% Print unclipped values
-%     % },
-% axis lines*=left,
-% clip=false    
-  }	 
-]
-	
-\begin{axis}
-  \addplotTokens{0pt}{CatDB}{Yes}{}{tug};	  	  
-\end{axis}
-
-\begin{axis}[hide axis]  
-  \addplotTokens{3pt}{CAAFE}{Yes}{}{tugb};
-\end{axis}
-
-% \begin{axis}[hide axis]  
-% 	\addplotCatDB{4}{gpt-4}{binary}{SCHEMA_STATISTIC}{pattern=north east lines,pattern color=gray!130}{-4};
-% \end{axis}
-
-	
-\node [draw=none,inner sep=0, font=\scriptsize, anchor=west] (leg1) at (rel axis cs: 0.75,0.8) {\shortstack[l]{
-			\ref{plat_CatDBYes} CatDB \\
+    legend image code/.code={\draw [#1] (0cm,-0.1cm) rectangle (0.1cm,0.08cm); },
+]%
+% top
+\nextgroupplot[ymin=5000,ymax=100000,
+               ytick={5000,50000,100000},
+               yticklabels={5k,50k, 100k},
+               axis x line=top, 
+               axis y discontinuity=crunch,
+               height=0.25\columnwidth,
+               bar width=3pt,
+               ]%
+\addplotTokens{0pt}{CatDB}{Yes}{}{tug};	  	  
+\addplotTokens{-2.5pt}{CAAFE}{Yes}{}{tugb};             
+% bellow
+\nextgroupplot[ymin=0,ymax=5000,overlay,
+               ytick={0,3000},
+               yticklabels={0,3k},
+               axis x line=bottom,
+               height=0.25\columnwidth,
+               bar width=3pt,
+               ylabel={Token's Count},
+               ]
+               %
+%
+\addplotTokens{0pt}{CatDB}{Yes}{}{tug};	  	  
+\addplotTokens{-2.5pt}{CAAFE}{Yes}{}{tugb};
+%\end{axis}               
+\end{groupplot}%
+\path(current axis.south) -- ++(-4.2cm,-1.7cm);
+\node [draw=none,inner sep=0, font=\scriptsize, anchor=west] (leg1) at (rel axis cs: 0.75,0.75) {\shortstack[l]{
+			\ref{plat_CatDBYes} CatDB \ \ \ 
       \ref{plat_CAAFEYes} CAAFE 			 			
 	}};
-
-%  \node [draw=none,inner sep=0, font=\large, anchor=west, below=of leg1, yshift=20pt, xshift=-22pt] (schema) {Schema};
-%  \draw[draw=black] ($(schema.west)+(-0.4cm,.15cm)$) rectangle ($(schema.west)+(-0.1cm,-0.15cm)$); 
-
-
-%  \node [draw=none,inner sep=0, font=\large, anchor=west, right=of schema,yshift=0pt] (schema_statistic)  {Schema \& Statistics};
-%  \draw[draw=black, pattern=north east lines, pattern color=gray!130] ($(schema_statistic.west)+(-0.4cm,.15cm)$) rectangle ($(schema_statistic.west)+(-0.1cm,-0.15cm)$); 
-
 \end{tikzpicture}

@@ -45,7 +45,18 @@
 \usepgfplotslibrary{fillbetween}
 
 \usepackage{filecontents}
+% \usetikzlibrary{pgfplots.groupplots}
+% \pgfplotsset{compat=1.9}
 
+% \usepackage[utf8]{inputenc}
+% \usepackage[ngerman]{babel}
+% \usepackage{pgfplots}
+% \pgfplotsset{compat=1.9}
+% \usetikzlibrary{
+%   pgfplots.groupplots,
+%   matrix
+% }
+% \usepackage{siunitx}
 
 \newtheorem{theorem}{Theorem}
 \newtheorem{definition}{Definition}
@@ -100,4 +111,50 @@
 \widowpenalty = 10000
 \brokenpenalty = 10000
 \frenchspacing
+
+
+\makeatletter
+\def\pgfplots@drawaxis@lines@preparediscont@for#1{%
+        \ifnum\csname pgfplots@#1axisdiscontnum\endcsname>0
+                \begingroup
+                % this group employs several temporary dimension registers
+                % and is therefor scoped:
+                \let\disstart=\pgf@ya
+                \let\disend=\pgf@yb
+                \disend=\csname pgfplots@#1max@reg\endcsname
+                \advance\disend by -\csname pgfplots@#1min@reg\endcsname
+                \disend=\csname pgfplots@#1@veclength\endcsname\disend
+                \ifcase\csname pgfplots@#1axisdiscontnum\endcsname\relax
+                        % has already been checked above.
+                \or
+                        \def\discontstyle{decoration={zigzag,segment length=5pt, amplitude=2pt}}%
+                        \advance \disend by -8pt
+                \or
+                        \def\discontstyle{decoration={ticks,segment length=4pt, amplitude=8pt}}%
+                        \advance \disend by -4pt
+                \fi
+                \pgfplotscoordmath{#1}{datascaletrafo get params}%
+                % if #1max + shift < 0pt  (shift is 0 without the scaling trafo)
+                \ifdim\csname pgfplots@#1max@reg\endcsname<-\pgfplotsretvalb pt
+                        % swap start and end
+                        \disstart=\disend
+                        \disend=2pt
+                \else
+                        \disstart=2pt
+                \fi
+                % carry local computations outside of group:
+                \xdef\pgfplots@glob@TMPa{%
+                        \noexpand\def\expandafter\noexpand\csname #1disstart\endcsname{\the\disstart}%
+                        \noexpand\def\expandafter\noexpand\csname #1disend\endcsname{\the\disend}%
+                        \noexpand\pgfkeysdef{/tikz/#1discont}{\noexpand\pgfkeysalso{\discontstyle}}%
+                }%
+                \endgroup
+                \pgfplots@glob@TMPa
+        \else
+                \expandafter\def\csname #1disstart\endcsname{0pt}%
+                \expandafter\def\csname #1disend\endcsname{0pt}%
+                \pgfkeyslet{/tikz/#1discont}=\pgfutil@empty
+        \fi
+}%
+\makeatother
 

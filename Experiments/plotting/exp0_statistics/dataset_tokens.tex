@@ -25,8 +25,6 @@
     every non boxed x axis/.style={}
 };
 
-%\pgfplotsset{every non boxed x axis/.style={}}
-
 \begin{tikzpicture}%
   \begin{groupplot}[
     group style={
@@ -53,8 +51,7 @@
     ylabel style = {font=\scriptsize, yshift=-1pt},
     xticklabel style = {font=\scriptsize, xshift=-3pt,yshift=3pt ,rotate=90},
     height=0.5\columnwidth,
-    width=1\columnwidth,    
-    %bar width=3pt,	 
+    width=1\columnwidth,     
     ymajorgrids=true,
     grid style=dotted,   
     minor grid style={gray!50}, 

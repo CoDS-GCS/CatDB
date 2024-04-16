@@ -1,0 +1,69 @@
+\newcommand{\addplotStatistics}[2]{
+	   \addplot[xshift=7.5pt,draw=tug,line width=0.15pt, fill=tug]
+	   table[ y=number_string, col sep=comma, x=dataset_name] {results/dataset_overview.dat};
+     \label{string}; 
+
+     \addplot[xshift=2.5pt,draw=tugb,line width=0.15pt, fill=tugb]
+	   table[ y=number_int, col sep=comma, x=dataset_name] {results/dataset_overview.dat};
+     \label{int};  
+     
+     \addplot[xshift=-2.5pt,draw=color3,line width=0.15pt, fill=color3]
+	   table[ y=number_float, col sep=comma, x=dataset_name] {results/dataset_overview.dat};
+     \label{float};
+
+     \addplot[xshift=-7.5pt,draw=color4,line width=0.15pt, fill=color4]
+	   table[ y=number_bool, col sep=comma, x=dataset_name] {results/dataset_overview.dat};
+     \label{bool};
+};
+
+\begin{tikzpicture}[
+  every axis/.style={
+    major x tick style = {draw=none},
+    ybar stacked,
+    xtick style={draw=none},		
+    every major tick/.append style={ thick,major tick length=2.5pt, gray},
+    axis line style={gray},
+    ybar,        
+    ybar=0pt,
+    ymin=0,
+    log ticks with fixed point,
+    y tick label style={/pgf/number format/1000 sep={}},
+    x tick label style={/pgf/number format/1000 sep={}},
+    scaled y ticks=false,
+    enlarge y limits={0.013,upper},
+    enlarge x limits=0.02,
+    ylabel={Count},
+    ytick={0,20,40,60,80,100,120},
+    ytick align=outside,
+    xtick align=outside,
+    xtick pos=left,
+    ytick pos=left,
+    yticklabel style = {font=\scriptsize},
+    ylabel style = {font=\scriptsize, yshift=-5pt},
+    xticklabel style = {font=\scriptsize, rotate=90, xshift=5pt},
+    height=0.5\columnwidth,
+    width=\columnwidth,    
+    bar width=5pt,	 
+    ymajorgrids=true,
+    grid style=dotted,   
+    minor grid style={gray!50}, 
+    xtick = data,
+    symbolic x coords={Higgs,Albert,Click-Prediction,Census,Heart-Statlog,KDDCup99,Road-Safety,Drug-Directory,Okcupid-Stem,Walking-Activity,PASS,Aloi,MD-MIX-Mini,Dionis,Meta-Album-BRD,Balance-Scale,Breast-w,CMC,Credit-g,Diabetes,Tic-Tac-Toe,Eucalyptus,PC1,Airlines,Jungle-Chess}, 
+    legend image code/.code={\draw [#1] (0cm,-0.1cm) rectangle (0.2cm,0.15cm); },
+  }	 
+]
+
+
+
+\begin{axis}
+  \addplotStatistics{}{};	  	  
+\end{axis}
+
+\node [draw=none,inner sep=0, font=\scriptsize, anchor=west] (leg1) at (rel axis cs: 0.75,0.73) {\shortstack[l]{
+			\ref{string} String \\ 
+      \ref{int} Int \\
+      \ref{float} Float \\
+      \ref{bool} Bool		 			
+	}};
+
+\end{tikzpicture}

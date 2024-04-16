@@ -1,0 +1,82 @@
+The error is caused by the log_loss function which expects the predicted probabilities as input, not the predicted classes. The RandomForestClassifier's predict_proba method should be used instead of predict. Here is the corrected code:
+
+# ```python
+# Import all required packages
+import pandas as pd
+import numpy as np
+from sklearn.preprocessing import OneHotEncoder, StandardScaler
+from sklearn.impute import SimpleImputer
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import accuracy_score, log_loss
+from sklearn.pipeline import Pipeline
+from sklearn.compose import ColumnTransformer
+from sklearn.model_selection import train_test_split
+
+# Load the training and test datasets
+train_data = pd.read_csv('../../../data/Drug-Directory/Drug-Directory_train.csv')
+test_data = pd.read_csv('../../../data/Drug-Directory/Drug-Directory_test.csv')
+
+# Drop the columns that are not needed for the analysis
+columns_to_drop = ['ENDMARKETINGDATE', 'NDC_EXCLUDE_FLAG', 'PROPRIETARYNAMESUFFIX', 'DEASCHEDULE']
+train_data.drop(columns=columns_to_drop, inplace=True)
+test_data.drop(columns=columns_to_drop, inplace=True)
+
+# Define the columns that need to be imputed and scaled
+num_cols = ['STARTMARKETINGDATE', 'LISTING_RECORD_CERTIFIED_THROUGH']
+cat_cols = ['SUBSTANCENAME', 'APPLICATIONNUMBER', 'NONPROPRIETARYNAME', 'PROPRIETARYNAME', 'PHARM_CLASSES', 'ACTIVE_INGRED_UNIT', 'LISTING_RECORD_CERTIFIED_THROUGH', 'ROUTENAME', 'ACTIVE_NUMERATOR_STRENGTH']
+
+# Define the preprocessing steps for the numerical and categorical columns
+num_preprocessing = Pipeline([
+    ('imputer', SimpleImputer(strategy='median')),
+    ('scaler', StandardScaler())
+])
+
+cat_preprocessing = Pipeline([
+    ('imputer', SimpleImputer(strategy='most_frequent')),
+    ('encoder', OneHotEncoder(handle_unknown='ignore'))
+])
+
+# Combine the preprocessing steps
+preprocessing = ColumnTransformer([
+    ('num', num_preprocessing, num_cols),
+    ('cat', cat_preprocessing, cat_cols)
+])
+
+# Define the target variable and the features
+X_train = train_data.drop('PRODUCTTYPENAME', axis=1)
+y_train = train_data['PRODUCTTYPENAME']
+X_test = test_data.drop('PRODUCTTYPENAME', axis=1)
+y_test = test_data['PRODUCTTYPENAME']
+
+# Choose the RandomForestClassifier as the machine learning algorithm
+model = RandomForestClassifier(max_leaf_nodes=500)
+
+# Combine the preprocessing steps and the model into a pipeline
+pipeline = Pipeline([
+    ('preprocessing', preprocessing),
+    ('model', model)
+])
+
+# Train the model
+pipeline.fit(X_train, y_train)
+
+# Make predictions on the train and test datasets
+y_train_pred = pipeline.predict(X_train)
+y_test_pred = pipeline.predict(X_test)
+
+# Make probability predictions on the train and test datasets
+y_train_pred_proba = pipeline.predict_proba(X_train)
+y_test_pred_proba = pipeline.predict_proba(X_test)
+
+# Calculate the accuracy and log loss for the train and test datasets
+Train_Accuracy = accuracy_score(y_train, y_train_pred)
+Test_Accuracy = accuracy_score(y_test, y_test_pred)
+Train_Log_loss = log_loss(y_train, y_train_pred_proba)
+Test_Log_loss = log_loss(y_test, y_test_pred_proba)
+
+# Print the results
+print(f"Train_Accuracy:{Train_Accuracy}")   
+print(f"Train_Log_loss:{Train_Log_loss}") 
+print(f"Test_Accuracy:{Test_Accuracy}")   
+print(f"Test_Log_loss:{Test_Log_loss}")
+# ```

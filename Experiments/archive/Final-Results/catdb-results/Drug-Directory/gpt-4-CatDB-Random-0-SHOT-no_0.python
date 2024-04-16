@@ -1,0 +1,90 @@
+# ```python
+# Import all required packages
+import pandas as pd
+import numpy as np
+from sklearn.preprocessing import OneHotEncoder, StandardScaler
+from sklearn.impute import SimpleImputer
+from sklearn.compose import ColumnTransformer
+from sklearn.pipeline import Pipeline
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import accuracy_score, log_loss
+from sklearn.model_selection import train_test_split
+# ```end
+
+# ```python
+# Load the training and test datasets
+train_data = pd.read_csv('../../../data/Drug-Directory/Drug-Directory_train.csv')
+test_data = pd.read_csv('../../../data/Drug-Directory/Drug-Directory_test.csv')
+# ```end
+
+# ```python
+# Drop the unnecessary columns
+drop_cols = ['ENDMARKETINGDATE', 'NDC_EXCLUDE_FLAG', 'PROPRIETARYNAMESUFFIX', 'DEASCHEDULE']
+train_data.drop(columns=drop_cols, inplace=True)
+test_data.drop(columns=drop_cols, inplace=True)
+# ```end-dropping-columns
+
+# ```python
+# Define the columns to be processed
+none_numerical_cols = ['SUBSTANCENAME', 'APPLICATIONNUMBER', 'NONPROPRIETARYNAME', 'PROPRIETARYNAME', 'PHARM_CLASSES', 'ACTIVE_INGRED_UNIT']
+categorical_cols = ['LISTING_RECORD_CERTIFIED_THROUGH', 'ROUTENAME', 'ACTIVE_NUMERATOR_STRENGTH']
+numerical_cols = ['STARTMARKETINGDATE', 'LISTING_RECORD_CERTIFIED_THROUGH']
+# ```end
+
+# ```python
+# Define the preprocessing steps
+none_numerical_transformer = SimpleImputer(strategy='most_frequent')
+categorical_transformer = Pipeline(steps=[
+    ('imputer', SimpleImputer(strategy='most_frequent')),
+    ('onehot', OneHotEncoder(handle_unknown='ignore'))])
+numerical_transformer = Pipeline(steps=[
+    ('imputer', SimpleImputer(strategy='median')),
+    ('scaler', StandardScaler())])
+
+# Combine preprocessing steps
+preprocessor = ColumnTransformer(
+    transformers=[
+        ('none_num', none_numerical_transformer, none_numerical_cols),
+        ('cat', categorical_transformer, categorical_cols),
+        ('num', numerical_transformer, numerical_cols)])
+# ```end
+
+# ```python
+# Define the model
+model = RandomForestClassifier(max_leaf_nodes=500)
+
+# Combine preprocessing and modeling steps
+clf = Pipeline(steps=[('preprocessor', preprocessor),
+                      ('classifier', model)])
+# ```end
+
+# ```python
+# Split the target variable from the predictors
+X_train = train_data.drop('PRODUCTTYPENAME', axis=1)
+y_train = train_data['PRODUCTTYPENAME']
+X_test = test_data.drop('PRODUCTTYPENAME', axis=1)
+y_test = test_data['PRODUCTTYPENAME']
+
+# Fit the model
+clf.fit(X_train, y_train)
+# ```end
+
+# ```python
+# Predict the training and test data
+y_train_pred = clf.predict(X_train)
+y_test_pred = clf.predict(X_test)
+
+# Calculate the accuracy
+Train_Accuracy = accuracy_score(y_train, y_train_pred)
+Test_Accuracy = accuracy_score(y_test, y_test_pred)
+
+# Calculate the log loss
+Train_Log_loss = log_loss(y_train, y_train_pred)
+Test_Log_loss = log_loss(y_test, y_test_pred)
+
+# Print the results
+print(f"Train_Accuracy:{Train_Accuracy}")   
+print(f"Train_Log_loss:{Train_Log_loss}") 
+print(f"Test_Accuracy:{Test_Accuracy}")   
+print(f"Test_Log_loss:{Test_Log_loss}")
+# ```end

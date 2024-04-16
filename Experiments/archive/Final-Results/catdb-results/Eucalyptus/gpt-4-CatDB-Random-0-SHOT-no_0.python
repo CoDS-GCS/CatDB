@@ -1,0 +1,80 @@
+# ```python
+# Import all required packages
+import pandas as pd
+import numpy as np
+from sklearn.preprocessing import OneHotEncoder, StandardScaler, MinMaxScaler
+from sklearn.impute import SimpleImputer
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import accuracy_score, log_loss
+from sklearn.pipeline import Pipeline
+from sklearn.compose import ColumnTransformer
+# ```end
+
+# ```python
+# Load the training and test datasets
+train_data = pd.read_csv('../../../data/Eucalyptus/Eucalyptus_train.csv')
+test_data = pd.read_csv('../../../data/Eucalyptus/Eucalyptus_test.csv')
+# ```end
+
+# ```python
+# Perform data cleaning and preprocessing
+# Impute missing values
+imputer = SimpleImputer(strategy='mean')
+imputed_train_data = imputer.fit_transform(train_data)
+imputed_test_data = imputer.transform(test_data)
+
+# Convert imputed data back to pandas DataFrame
+train_data = pd.DataFrame(imputed_train_data, columns=train_data.columns)
+test_data = pd.DataFrame(imputed_test_data, columns=test_data.columns)
+# ```end
+
+# ```python
+# Perform feature processing
+# One-hot encode categorical features
+categorical_features = ['Frosts', 'Year', 'Rep']
+one_hot_encoder = OneHotEncoder()
+one_hot_encoded_train_data = one_hot_encoder.fit_transform(train_data[categorical_features])
+one_hot_encoded_test_data = one_hot_encoder.transform(test_data[categorical_features])
+
+# Scale numerical features
+numerical_features = ['Altitude', 'Locality', 'Rainfall', 'Sp', 'Map_Ref', 'PMCno', 'Abbrev', 'Latitude', 'DBH', 'Crown_Fm', 'Ins_res', 'Brnch_Fm', 'Stem_Fm', 'Ht', 'Vig', 'Surv']
+scaler = StandardScaler()
+scaled_train_data = scaler.fit_transform(train_data[numerical_features])
+scaled_test_data = scaler.transform(test_data[numerical_features])
+
+# Combine processed features
+train_data = np.concatenate([one_hot_encoded_train_data, scaled_train_data], axis=1)
+test_data = np.concatenate([one_hot_encoded_test_data, scaled_test_data], axis=1)
+# ```end
+
+# ```python
+# Select the appropriate features and target variables
+X_train = train_data.drop(columns=['Utility'])
+y_train = train_data['Utility']
+X_test = test_data.drop(columns=['Utility'])
+y_test = test_data['Utility']
+# ```end
+
+# ```python
+# Choose the suitable machine learning algorithm or technique (classifier)
+# RandomForestClassifier is chosen because it can handle both categorical and numerical features, and it is robust to overfitting.
+clf = RandomForestClassifier(max_leaf_nodes=500)
+clf.fit(X_train, y_train)
+# ```end
+
+# ```python
+# Report evaluation based on train and test dataset
+y_train_pred = clf.predict(X_train)
+y_test_pred = clf.predict(X_test)
+
+Train_Accuracy = accuracy_score(y_train, y_train_pred)
+Test_Accuracy = accuracy_score(y_test, y_test_pred)
+
+Train_Log_loss = log_loss(y_train, y_train_pred)
+Test_Log_loss = log_loss(y_test, y_test_pred)
+
+print(f"Train_Accuracy:{Train_Accuracy}")   
+print(f"Train_Log_loss:{Train_Log_loss}") 
+print(f"Test_Accuracy:{Test_Accuracy}")   
+print(f"Test_Log_loss:{Test_Log_loss}")
+# ```end

@@ -1,0 +1,96 @@
+SYSTEM MESSAGE:
+Task: Generate a data science pipeline in Python 3.10 that answers a question based on a given dataset, Schema, and Data Profiling Info.
+Input: A dataset in CSV format, a schema that describes the columns and data types of the dataset, and a data profiling info that summarizes the statistics and quality of the dataset. A question that requires data analysis or modeling to answer.
+Output: A Python 3.10 code that performs the following steps:
+	 1. Import the necessary libraries and modules.
+	 2. Load the training and test datasets. For the training data, utilize the variable """train_data=../../../data/Okcupid-Stem/Okcupid-Stem_train.csv""", and for the test data, employ the variable """test_data=../../../data/Okcupid-Stem/Okcupid-Stem_test.csv""". Utilize pandas' CSV readers to load the datasets.
+	 3. Don't split the train_data into train and test sets. Use only the given datasets.
+	 4. The user will provide the Schema, and Data Profiling Info of the dataset with columns appropriately named as attributes, enclosed in triple quotes, and preceded by the prefix "Schema, and Data Profiling Info:".
+	 5. Perform data cleaning and preprocessing.
+	 6. Utilize data augmentation techniques (sophisticated techniques) on the dataset to enhance accuracy and mitigate overfitting.
+	 7. Perform feature processing (e.g., encode categorical values by dummyEncode).
+	 8. Select the appropriate features and target variables for the question. Additional columns add new semantic information, additional columns that are useful for a downstream algorithmpredicting "job". They can e.g. be feature combinations, transformations, aggregations where the new column is a function of the existing columns. Use appropriate scale factor for columns are needto transfer.
+	 9.  Perform drops columns, if these may be redundant and hurt the predictive performance of the downstream classifier (Feature selection). Dropping columns may help as the chance of overfitting is lower, especially if the dataset is small. The job will be trained on the dataset with the generated columns and evaluated on a holdout set.
+	 10. In order to avoid runtime error for unseen value on the target feature, do preprocessing based on union of train and test dataset.
+	 11. Code formatting for all required packages:
+```python
+# Import all required packages
+```end
+
+	 12. Code formatting for each added column:
+ ```python 
+ # (Feature name and description) 
+ # Usefulness: (Description why this adds useful real world knowledge to classify 'job' according to dataset description and attributes.) 
+ (Some pandas code using 'height', 'income', ... to add a new column for each row in df)
+ ```end
+	 13. Code formatting for dropping columns:
+```python-dropping-columns
+# Explanation why the column XX is dropped
+# df.drop(columns=['XX'], inplace=True)
+```end-dropping-columns
+
+	 14. Code formatting for training technique:
+ ```python 
+ # Choose the suitable machine learning algorithm or technique (classifier).
+ # Explanation why the solution is selected 
+ trn = ... 
+ ```end
+	 15. Code formatting for multiclass classification evaluation:
+```python
+# Report evaluation based on train and test dataset
+# Calculate the model accuracy, represented by a value between 0 and 1, where 0 indicates low accuracy and 1 signifies higher accuracy. Store the accuracy value in a variable labeled as "Train_Accuracy=..." and "Test_Accuracy=...".
+# Calculate the model log loss, a lower log-loss value means better predictions. Store the  log loss value in a variable labeled as "Train_Log_loss=..." and "Test_Log_loss=...".
+# Print the train accuracy result: print(f"Train_Accuracy:{Train_Accuracy}")   
+# Print the train log loss result: print(f"Train_Log_loss:{Train_Log_loss}") 
+# Print the test accuracy result: print(f"Test_Accuracy:{Test_Accuracy}")   
+# Print the test log loss result: print(f"Test_Log_loss:{Test_Log_loss}")
+```end
+
+	 16. If the question is not relevant to the dataset or the task, the output should be: "Insufficient information."
+	 17. Don't report validation evaluation. We don't need it.
+	 18. If the algorithm is RandomForestClassifier then pass max_leaf_nodes=500 as parameter.
+---------------------------------------
+PROMPT TEXT:
+Description of the dataset:
+User profile data for San Francisco OkCupid users published in [Kim, A. Y., & Escobedo-Land, A. (2015). OKCupid data for introductory statistics and data science courses. Journal of Statistics Education, 23(2).]. The curated dataset was downloaded from [https://github.com/rudeboybert/JSE_OkCupid]. The original dataset was created with the use of a python script that pulled the data from public profiles on www.okcupid.com on 06/30/2012. It includes people (n = 59946) within a 25 mile radius of San Francisco, who were online in the last year (06/30/2011), with at least one profile picture. Permission to use this data was obtained by the author of the original paper from OkCupid president and co-founder Christian Rudder under the condition that the dataset remains public. As target, the variable 'job' was collapsed into three categories: 'stem', 'non_stem', and 'student'. STEM jobs were defined as 'job' %in% c('computer / hardware / software', 'science / tech / engineering'). Observations with 'job' %in% c('unemployed', 'retired', 'rather not say') or missing values in 'job' were removed. The original dataset also included ten open text variables 'essay0' to 'essay9', which were removed from the dataset uploaded here. The dataset further includes the date/time variable 'last_online' (ignored by default) which could be used to construct additional features. Using OkCupid data for predicting STEM jobs was inspired by Max Kuhns book 'Feature Engineering and Selection: A Practical Approach for Predictive Models' [https://bookdown.org/max/FES/].
+
+Schema, and Data Profiling Info:
+"""
+height (int): distinct-count [52], min-max values [1.0, 95.0], mean [68.33], median [68.00]
+income (int): distinct-count [12], min-max values [20000.0, 1000000.0], mean [102107.20], median [50000.00]
+age (int): distinct-count [53], min-max values [18.0, 109.0], mean [32.44], median [30.00]
+orientation (str): distinct-count [3]
+offspring (str): distinct-count [15]
+sign (str): distinct-count [48]
+speaks (str): distinct-count [5312]
+body_type (str): distinct-count [12]
+education (str): distinct-count [32]
+sex (str): distinct-count [2]
+ethnicity (str): distinct-count [188]
+drugs (str): distinct-count [3]
+pets (str): distinct-count [15]
+location (str): distinct-count [165]
+smokes (str): distinct-count [5]
+religion (str): distinct-count [45]
+status (str): distinct-count [5]
+drinks (str): distinct-count [6]
+diet (str): distinct-count [18]
+job (str): distinct-count [3]
+"""
+
+Dataset Attribute:
+Number of samples (rows) in training dataset: 35552
+
+# Predict the missing values for the following none-numerical columns:
+	Columns: speaks
+# Predict the missing values for the following categorical columns:
+	Columns: income,offspring,sign,body_type,education,ethnicity,drugs,pets,smokes,religion,drinks,diet
+# Select an appropriate scaler the following numerical columns (do it base on the min-max, mean, and median values are in the "Schema, and Data Profiling Info"):
+	Columns: height,income,age
+# Encode categorical values by "on-hot-encoder" for the following columns:
+	Columns: height,income,age,orientation,offspring,sign,body_type,education,sex,ethnicity,drugs,pets,location,smokes,religion,status,drinks,diet
+# Encode all "object" columns by dummyEncode.
+
+
+Question: Provide a complete pipeline code that can be executed in a multi-threaded environment with various CPU configurations, such as PyTorch or other relevant frameworks.
+Each codeblock ends with "```end" and starts with "```python".

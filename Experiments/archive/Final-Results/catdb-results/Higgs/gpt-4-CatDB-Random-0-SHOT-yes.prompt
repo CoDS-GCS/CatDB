@@ -1,0 +1,114 @@
+SYSTEM MESSAGE:
+Task: Generate a data science pipeline in Python 3.10 that answers a question based on a given dataset, Schema, and Data Profiling Info.
+Input: A dataset in CSV format, a schema that describes the columns and data types of the dataset, and a data profiling info that summarizes the statistics and quality of the dataset. A question that requires data analysis or modeling to answer.
+Output: A Python 3.10 code that performs the following steps:
+	 1. Import the necessary libraries and modules.
+	 2. Load the training and test datasets. For the training data, utilize the variable """train_data=../../../data/Higgs/Higgs_train.csv""", and for the test data, employ the variable """test_data=../../../data/Higgs/Higgs_test.csv""". Utilize pandas' CSV readers to load the datasets.
+	 3. Don't split the train_data into train and test sets. Use only the given datasets.
+	 4. The user will provide the Schema, and Data Profiling Info of the dataset with columns appropriately named as attributes, enclosed in triple quotes, and preceded by the prefix "Schema, and Data Profiling Info:".
+	 5. Perform data cleaning and preprocessing.
+	 6. Utilize data augmentation techniques (sophisticated techniques) on the dataset to enhance accuracy and mitigate overfitting.
+	 7. Perform feature processing (e.g., encode categorical values by dummyEncode).
+	 8. Select the appropriate features and target variables for the question. Additional columns add new semantic information, additional columns that are useful for a downstream algorithmpredicting "Target". They can e.g. be feature combinations, transformations, aggregations where the new column is a function of the existing columns. Use appropriate scale factor for columns are needto transfer.
+	 9.  Perform drops columns, if these may be redundant and hurt the predictive performance of the downstream classifier (Feature selection). Dropping columns may help as the chance of overfitting is lower, especially if the dataset is small. The Target will be trained on the dataset with the generated columns and evaluated on a holdout set.
+	 10. In order to avoid runtime error for unseen value on the target feature, do preprocessing based on union of train and test dataset.
+	 11. Code formatting for all required packages:
+```python
+# Import all required packages
+```end
+
+	 12. Code formatting for each added column:
+ ```python 
+ # (Feature name and description) 
+ # Usefulness: (Description why this adds useful real world knowledge to classify 'Target' according to dataset description and attributes.) 
+ (Some pandas code using 'm_bb', 'jet 2 eta', ... to add a new column for each row in df)
+ ```end
+	 13. Code formatting for dropping columns:
+```python-dropping-columns
+# Explanation why the column XX is dropped
+# df.drop(columns=['XX'], inplace=True)
+```end-dropping-columns
+
+	 14. Code formatting for training technique:
+ ```python 
+ # Choose the suitable machine learning algorithm or technique (classifier).
+ # Explanation why the solution is selected 
+ trn = ... 
+ ```end
+	 15. Code formatting for binary classification evaluation:
+```python
+# Report evaluation based on train and test dataset
+# Calculate the model accuracy, represented by a value between 0 and 1, where 0 indicates low accuracy and 1 signifies higher accuracy. Store the accuracy value in a variable labeled as "Train_Accuracy=..." and "Test_Accuracy=...".
+# Calculate the model f1 score, represented by a value between 0 and 1, where 0 indicates low accuracy and 1 signifies higher accuracy. Store the f1 score value in a variable labeled as "Train_F1_score=..." and "Test_F1_score=...".
+# Print the train accuracy result: print(f"Train_Accuracy:{Train_Accuracy}")   
+# Print the train f1 score result: print(f"Train_F1_score:{Train_F1_score}")
+# Print the test accuracy result: print(f"Test_Accuracy:{Test_Accuracy}")   
+# Print the test f1 score result: print(f"Test_F1_score:{Test_F1_score}") 
+```end
+
+	 16. If the question is not relevant to the dataset or the task, the output should be: "Insufficient information."
+	 17. Don't report validation evaluation. We don't need it.
+	 18. If the algorithm is RandomForestClassifier then pass max_leaf_nodes=500 as parameter.
+---------------------------------------
+PROMPT TEXT:
+Description of the dataset:
+This is a classification problem to distinguish between a signal process which produces Higgs bosons and a background process which does not.
+    
+## Information
+
+The data has been produced using Monte Carlo simulations. The first 21 features (columns 2-22) are kinematic properties measured by the particle detectors in the accelerator. The last seven features are functions of the first 21 features; these are high-level features derived by physicists to help discriminate between the two classes. There is an interest in using deep learning methods to obviate the need for physicists to manually develop such features. Benchmark results using Bayesian Decision Trees from a standard physics package and 5-layer neural networks are presented in the original paper. The last 500,000 examples are used as a test set.
+
+## Attribute Information    
+
+The first column is the class label (1 for signal, 0 for background), followed by the 28 features (21 low-level features then 7 high-level features): lepton  pT, lepton  eta, lepton  phi, missing energy magnitude, missing energy phi, jet 1 pt, jet 1 eta, jet 1 phi, jet 1 b-tag, jet 2 pt, jet 2 eta, jet 2 phi, jet 2 b-tag, jet 3 pt, jet 3 eta, jet 3 phi, jet 3 b-tag, jet 4 pt, jet 4 eta, jet 4 phi, jet 4 b-tag, m_jj, m_jjj, m_lv, m_jlv, m_bb, m_wbb, m_wwbb. For more detailed information about each feature see the original paper.
+
+**Notes by Uploader to OpenML**
+
+* This is the 11M version from UCI.
+* This dataset is described in version 1 of arXiv:1402.4735 and version 2 on arXiv and the subsequent NeurIPS publication used larger versions of this dataset.
+
+Schema, and Data Profiling Info:
+"""
+m_bb (float): distinct-count [1056033], min-max values [0.0478621460497379, 17.76285171508789], mean [0.97], median [0.87]
+jet 2 eta (float): distinct-count [5999], min-max values [-2.9130895137786865, 2.913209915161133], mean [0.00], median [0.00]
+jet 4 pt (float): distinct-count [18919], min-max values [0.3653541505336761, 12.882567405700684], mean [0.99], median [0.87]
+jet 4 phi (float): distinct-count [6284], min-max values [-1.7426908016204832, 1.7433723211288452], mean [-0.00], median [-0.00]
+jet 3 b-tag (float): distinct-count [3], min-max values [0.0, 2.548224449157715], mean [1.00], median [0.00]
+jet 3 phi (float): distinct-count [6284], min-max values [-1.7420687675476074, 1.7428839206695557], mean [-0.00], median [-0.00]
+jet 1 b-tag (float): distinct-count [3], min-max values [0.0, 2.1730761528015137], mean [1.00], median [1.09]
+jet 3 eta (float): distinct-count [5999], min-max values [-2.7296628952026367, 2.7300088405609126], mean [0.00], median [0.00]
+missing energy magnitude (float): distinct-count [1175447], min-max values [0.0002370088477618, 12.84385585784912], mean [1.00], median [0.89]
+jet 3 pt (float): distinct-count [25769], min-max values [0.2636076211929321, 11.155643463134764], mean [0.99], median [0.90]
+lepton eta (float): distinct-count [5001], min-max values [-2.434976100921631, 2.4348678588867188], mean [-0.00], median [-0.00]
+m_wbb (float): distinct-count [641019], min-max values [0.3033497035503387, 11.496521949768066], mean [1.03], median [0.95]
+jet 1 phi (float): distinct-count [6284], min-max values [-1.7412374019622805, 1.7414537668228147], mean [0.00], median [0.00]
+jet 4 eta (float): distinct-count [5999], min-max values [-2.497264862060547, 2.498008966445923], mean [-0.00], median [0.00]
+lepton pT (float): distinct-count [26742], min-max values [0.27469664812088, 11.673967361450195], mean [0.99], median [0.85]
+jet 1 pt (float): distinct-count [43859], min-max values [0.1376856416463852, 9.940390586853027], mean [0.99], median [0.89]
+m_jj (float): distinct-count [995479], min-max values [0.0750704556703567, 40.19236755371094], mean [1.03], median [0.89]
+m_wwbb (float): distinct-count [727098], min-max values [0.3474428057670592, 8.37449836730957], mean [0.96], median [0.87]
+missing energy phi (float): distinct-count [1916631], min-max values [-1.7439435720443723, 1.7432570457458496], mean [-0.00], median [0.00]
+m_jlv (float): distinct-count [475367], min-max values [0.1320061683654785, 12.891449928283691], mean [1.01], median [0.92]
+jet 2 b-tag (float): distinct-count [3], min-max values [0.0, 2.2148721218109126], mean [1.00], median [0.00]
+m_jjj (float): distinct-count [439357], min-max values [0.1986757218837738, 20.37278175354004], mean [1.02], median [0.95]
+jet 4 b-tag (float): distinct-count [3], min-max values [0.0, 3.101961374282837], mean [1.00], median [0.00]
+m_lv (float): distinct-count [325485], min-max values [0.0910557508468628, 7.992739200592042], mean [1.05], median [0.99]
+lepton phi (float): distinct-count [6284], min-max values [-1.7425082921981812, 1.7432359457015991], mean [0.00], median [0.00]
+jet 2 phi (float): distinct-count [6284], min-max values [-1.742371678352356, 1.7431747913360596], mean [0.00], median [0.00]
+jet 2 pt (float): distinct-count [36217], min-max values [0.188981145620346, 11.64708137512207], mean [0.99], median [0.89]
+jet 1 eta (float): distinct-count [5999], min-max values [-2.9697251319885254, 2.9696741104125977], mean [0.00], median [0.00]
+Target (bool): distinct-count [2]
+"""
+
+Dataset Attribute:
+Number of samples (rows) in training dataset: 7700000
+
+# Select an appropriate scaler the following numerical columns (do it base on the min-max, mean, and median values are in the "Schema, and Data Profiling Info"):
+	Columns: m_bb,jet 2 eta,jet 4 pt,jet 4 phi,jet 3 b-tag,jet 3 phi,jet 1 b-tag,jet 3 eta,missing energy magnitude,jet 3 pt,lepton eta,m_wbb,jet 1 phi,jet 4 eta,lepton pT,jet 1 pt,m_jj,m_wwbb,missing energy phi,m_jlv,jet 2 b-tag,m_jjj,jet 4 b-tag,m_lv,lepton phi,jet 2 phi,jet 2 pt,jet 1 eta
+# Encode categorical values by "on-hot-encoder" for the following columns:
+	Columns: jet 2 eta,jet 4 pt,jet 4 phi,jet 3 b-tag,jet 3 phi,jet 1 b-tag,jet 3 eta,jet 3 pt,lepton eta,jet 1 phi,jet 4 eta,lepton pT,jet 1 pt,jet 2 b-tag,jet 4 b-tag,lepton phi,jet 2 phi,jet 2 pt,jet 1 eta
+# Encode all "object" columns by dummyEncode.
+
+
+Question: Provide a complete pipeline code that can be executed in a multi-threaded environment with various CPU configurations, such as PyTorch or other relevant frameworks.
+Each codeblock ends with "```end" and starts with "```python".

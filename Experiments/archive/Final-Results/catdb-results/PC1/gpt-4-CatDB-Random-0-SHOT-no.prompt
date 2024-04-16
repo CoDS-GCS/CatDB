@@ -1,0 +1,89 @@
+SYSTEM MESSAGE:
+Task: Generate a data science pipeline in Python 3.10 that answers a question based on a given dataset, Schema, and Data Profiling Info.
+Input: A dataset in CSV format, a schema that describes the columns and data types of the dataset, and a data profiling info that summarizes the statistics and quality of the dataset. A question that requires data analysis or modeling to answer.
+Output: A Python 3.10 code that performs the following steps:
+	 1. Import the necessary libraries and modules.
+	 2. Load the training and test datasets. For the training data, utilize the variable """train_data=../../../data/PC1/PC1_train.csv""", and for the test data, employ the variable """test_data=../../../data/PC1/PC1_test.csv""". Utilize pandas' CSV readers to load the datasets.
+	 3. Don't split the train_data into train and test sets. Use only the given datasets.
+	 4. The user will provide the Schema, and Data Profiling Info of the dataset with columns appropriately named as attributes, enclosed in triple quotes, and preceded by the prefix "Schema, and Data Profiling Info:".
+	 5. Perform data cleaning and preprocessing.
+	 6. Utilize data augmentation techniques (sophisticated techniques) on the dataset to enhance accuracy and mitigate overfitting.
+	 7. Perform feature processing (e.g., encode categorical values by dummyEncode).
+	 8. Select the appropriate features and target variables for the question. Additional columns add new semantic information, additional columns that are useful for a downstream algorithmpredicting "defects". They can e.g. be feature combinations, transformations, aggregations where the new column is a function of the existing columns. Use appropriate scale factor for columns are needto transfer.
+	 9.  Perform drops columns, if these may be redundant and hurt the predictive performance of the downstream classifier (Feature selection). Dropping columns may help as the chance of overfitting is lower, especially if the dataset is small. The defects will be trained on the dataset with the generated columns and evaluated on a holdout set.
+	 10. In order to avoid runtime error for unseen value on the target feature, do preprocessing based on union of train and test dataset.
+	 11. Code formatting for all required packages:
+```python
+# Import all required packages
+```end
+
+	 12. Code formatting for each added column:
+ ```python 
+ # (Feature name and description) 
+ # Usefulness: (Description why this adds useful real world knowledge to classify 'defects' according to dataset description and attributes.) 
+ (Some pandas code using 'lOComment', 'lOCode', ... to add a new column for each row in df)
+ ```end
+	 13. Code formatting for dropping columns:
+```python-dropping-columns
+# Explanation why the column XX is dropped
+# df.drop(columns=['XX'], inplace=True)
+```end-dropping-columns
+
+	 14. Code formatting for training technique:
+ ```python 
+ # Choose the suitable machine learning algorithm or technique (classifier).
+ # Explanation why the solution is selected 
+ trn = ... 
+ ```end
+	 15. Code formatting for binary classification evaluation:
+```python
+# Report evaluation based on train and test dataset
+# Calculate the model accuracy, represented by a value between 0 and 1, where 0 indicates low accuracy and 1 signifies higher accuracy. Store the accuracy value in a variable labeled as "Train_Accuracy=..." and "Test_Accuracy=...".
+# Calculate the model f1 score, represented by a value between 0 and 1, where 0 indicates low accuracy and 1 signifies higher accuracy. Store the f1 score value in a variable labeled as "Train_F1_score=..." and "Test_F1_score=...".
+# Print the train accuracy result: print(f"Train_Accuracy:{Train_Accuracy}")   
+# Print the train f1 score result: print(f"Train_F1_score:{Train_F1_score}")
+# Print the test accuracy result: print(f"Test_Accuracy:{Test_Accuracy}")   
+# Print the test f1 score result: print(f"Test_F1_score:{Test_F1_score}") 
+```end
+
+	 16. If the question is not relevant to the dataset or the task, the output should be: "Insufficient information."
+	 17. Don't report validation evaluation. We don't need it.
+	 18. If the algorithm is RandomForestClassifier then pass max_leaf_nodes=500 as parameter.
+---------------------------------------
+PROMPT TEXT:
+Schema, and Data Profiling Info:
+"""
+lOComment (int): distinct-count [49], min-max values [0.0, 73.0], mean [4.87], median [0.00]
+lOCode (int): distinct-count [104], min-max values [0.0, 600.0], mean [22.91], median [13.00]
+lOBlank (int): distinct-count [47], min-max values [0.0, 225.0], mean [7.04], median [3.00]
+locCodeAndComment (int): distinct-count [22], min-max values [0.0, 48.0], mean [0.96], median [0.00]
+L (float): distinct-count [41], min-max values [0.0, 2.0], mean [0.13], median [0.08]
+iv(G) (float): distinct-count [28], min-max values [1.0, 123.0], mean [3.33], median [2.00]
+ev(g) (float): distinct-count [25], min-max values [1.0, 123.0], mean [2.80], median [1.00]
+branchCount (float): distinct-count [55], min-max values [1.0, 236.0], mean [9.57], median [5.00]
+uniq_Op (float): distinct-count [44], min-max values [1.0, 99.0], mean [13.48], median [13.00]
+uniq_Opnd (float): distinct-count [95], min-max values [0.0, 538.0], mean [21.10], median [12.00]
+V (float): distinct-count [610], min-max values [0.0, 25942.689453125], mean [711.56], median [285.29]
+I (float): distinct-count [658], min-max values [0.0, 598.3300170898438], mean [33.15], median [23.68]
+T (float): distinct-count [692], min-max values [0.0, 237757.40625], mean [1726.96], median [182.23]
+E (float): distinct-count [696], min-max values [0.0, 4279633.0], mean [31085.23], median [3280.22]
+total_Op (float): distinct-count [203], min-max values [1.0, 1641.0], mean [67.70], median [34.00]
+v(g) (float): distinct-count [41], min-max values [1.0, 136.0], mean [5.53], median [3.00]
+D (float): distinct-count [505], min-max values [0.0, 270.6600036621094], mean [15.62], median [11.85]
+loc (float): distinct-count [98], min-max values [0.0, 602.0], mean [23.87], median [13.00]
+N (float): distinct-count [275], min-max values [1.0, 2785.0], mean [119.23], median [60.00]
+total_Opnd (float): distinct-count [180], min-max values [0.0, 1144.0], mean [51.53], median [25.00]
+B (float): distinct-count [116], min-max values [0.0, 8.649999618530273], mean [0.24], median [0.10]
+defects (bool): distinct-count [2]
+"""
+
+Dataset Attribute:
+Number of samples (rows) in training dataset: 831
+
+# Select an appropriate scaler the following numerical columns (do it base on the min-max, mean, and median values are in the "Schema, and Data Profiling Info"):
+	Columns: lOComment,lOCode,lOBlank,locCodeAndComment,L,iv(G),ev(g),branchCount,uniq_Op,uniq_Opnd,V,I,T,E,total_Op,v(g),D,loc,N,total_Opnd,B
+# Encode all "object" columns by dummyEncode.
+
+
+Question: Provide a complete pipeline code that can be executed in a multi-threaded environment with various CPU configurations, such as PyTorch or other relevant frameworks.
+Each codeblock ends with "```end" and starts with "```python".

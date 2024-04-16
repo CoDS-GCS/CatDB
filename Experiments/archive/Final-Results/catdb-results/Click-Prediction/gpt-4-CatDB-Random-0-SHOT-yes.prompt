@@ -1,0 +1,88 @@
+SYSTEM MESSAGE:
+Task: Generate a data science pipeline in Python 3.10 that answers a question based on a given dataset, Schema, and Data Profiling Info.
+Input: A dataset in CSV format, a schema that describes the columns and data types of the dataset, and a data profiling info that summarizes the statistics and quality of the dataset. A question that requires data analysis or modeling to answer.
+Output: A Python 3.10 code that performs the following steps:
+	 1. Import the necessary libraries and modules.
+	 2. Load the training and test datasets. For the training data, utilize the variable """train_data=../../../data/Click-Prediction/Click-Prediction_train.csv""", and for the test data, employ the variable """test_data=../../../data/Click-Prediction/Click-Prediction_test.csv""". Utilize pandas' CSV readers to load the datasets.
+	 3. Don't split the train_data into train and test sets. Use only the given datasets.
+	 4. The user will provide the Schema, and Data Profiling Info of the dataset with columns appropriately named as attributes, enclosed in triple quotes, and preceded by the prefix "Schema, and Data Profiling Info:".
+	 5. Perform data cleaning and preprocessing.
+	 6. Utilize data augmentation techniques (sophisticated techniques) on the dataset to enhance accuracy and mitigate overfitting.
+	 7. Perform feature processing (e.g., encode categorical values by dummyEncode).
+	 8. Select the appropriate features and target variables for the question. Additional columns add new semantic information, additional columns that are useful for a downstream algorithmpredicting "click". They can e.g. be feature combinations, transformations, aggregations where the new column is a function of the existing columns. Use appropriate scale factor for columns are needto transfer.
+	 9.  Perform drops columns, if these may be redundant and hurt the predictive performance of the downstream classifier (Feature selection). Dropping columns may help as the chance of overfitting is lower, especially if the dataset is small. The click will be trained on the dataset with the generated columns and evaluated on a holdout set.
+	 10. In order to avoid runtime error for unseen value on the target feature, do preprocessing based on union of train and test dataset.
+	 11. Code formatting for all required packages:
+```python
+# Import all required packages
+```end
+
+	 12. Code formatting for each added column:
+ ```python 
+ # (Feature name and description) 
+ # Usefulness: (Description why this adds useful real world knowledge to classify 'click' according to dataset description and attributes.) 
+ (Some pandas code using 'query_id', 'depth', ... to add a new column for each row in df)
+ ```end
+	 13. Code formatting for dropping columns:
+```python-dropping-columns
+# Explanation why the column XX is dropped
+# df.drop(columns=['XX'], inplace=True)
+```end-dropping-columns
+
+	 14. Code formatting for training technique:
+ ```python 
+ # Choose the suitable machine learning algorithm or technique (classifier).
+ # Explanation why the solution is selected 
+ trn = ... 
+ ```end
+	 15. Code formatting for binary classification evaluation:
+```python
+# Report evaluation based on train and test dataset
+# Calculate the model accuracy, represented by a value between 0 and 1, where 0 indicates low accuracy and 1 signifies higher accuracy. Store the accuracy value in a variable labeled as "Train_Accuracy=..." and "Test_Accuracy=...".
+# Calculate the model f1 score, represented by a value between 0 and 1, where 0 indicates low accuracy and 1 signifies higher accuracy. Store the f1 score value in a variable labeled as "Train_F1_score=..." and "Test_F1_score=...".
+# Print the train accuracy result: print(f"Train_Accuracy:{Train_Accuracy}")   
+# Print the train f1 score result: print(f"Train_F1_score:{Train_F1_score}")
+# Print the test accuracy result: print(f"Test_Accuracy:{Test_Accuracy}")   
+# Print the test f1 score result: print(f"Test_F1_score:{Test_F1_score}") 
+```end
+
+	 16. If the question is not relevant to the dataset or the task, the output should be: "Insufficient information."
+	 17. Don't report validation evaluation. We don't need it.
+	 18. If the algorithm is RandomForestClassifier then pass max_leaf_nodes=500 as parameter.
+---------------------------------------
+PROMPT TEXT:
+Description of the dataset:
+**Author**:   
+**Source**: Unknown - Date unknown  
+**Please cite**:   
+
+Balanced version of click prediction data
+
+Schema, and Data Profiling Info:
+"""
+query_id (int): distinct-count [742832], min-max values [0.0, 26243462.0], mean [3182124.85], median [117274.00]
+depth (int): distinct-count [3], min-max values [1.0, 3.0], mean [1.95], median [2.00]
+impression (int): distinct-count [604], min-max values [1.0, 80881.0], mean [2.06], median [1.00]
+title_id (int): distinct-count [365880], min-max values [0.0, 4051260.0], mean [169730.50], median [10598.00]
+ad_id (int): distinct-count [153692], min-max values [1000465.0, 22237280.0], mean [15990465.09], median [20278575.00]
+keyword_id (int): distinct-count [189563], min-max values [0.0, 1249692.0], mean [35053.94], median [3281.00]
+user_id (int): distinct-count [927242], min-max values [0.0, 23907630.0], mean [3692260.17], median [898539.00]
+position (int): distinct-count [3], min-max values [1.0, 3.0], mean [1.46], median [1.00]
+advertiser_id (int): distinct-count [13536], min-max values [81.0, 39164.0], mean [22448.30], median [23808.00]
+description_id (int): distinct-count [297605], min-max values [0.0, 3171740.0], mean [108633.71], median [4827.00]
+url_hash (float): distinct-count [19504], min-max values [482436910553333.0, 1.8445899849997224e+19], mean [9652658389545605120.00], median [10380001132566548480.00]
+click (bool): distinct-count [2]
+"""
+
+Dataset Attribute:
+Number of samples (rows) in training dataset: 1398187
+
+# Select an appropriate scaler the following numerical columns (do it base on the min-max, mean, and median values are in the "Schema, and Data Profiling Info"):
+	Columns: query_id,depth,impression,title_id,ad_id,keyword_id,user_id,position,advertiser_id,description_id,url_hash
+# Encode categorical values by "on-hot-encoder" for the following columns:
+	Columns: depth,impression,position,advertiser_id
+# Encode all "object" columns by dummyEncode.
+
+
+Question: Provide a complete pipeline code that can be executed in a multi-threaded environment with various CPU configurations, such as PyTorch or other relevant frameworks.
+Each codeblock ends with "```end" and starts with "```python".

@@ -1,0 +1,129 @@
+SYSTEM MESSAGE:
+Task: Generate a data science pipeline in Python 3.10 that answers a question based on a given dataset, Schema, and Data Profiling Info.
+Input: A dataset in CSV format, a schema that describes the columns and data types of the dataset, and a data profiling info that summarizes the statistics and quality of the dataset. A question that requires data analysis or modeling to answer.
+Output: A Python 3.10 code that performs the following steps:
+	 1. Import the necessary libraries and modules.
+	 2. Load the training and test datasets. For the training data, utilize the variable """train_data=../../../data/Credit-g/Credit-g_train.csv""", and for the test data, employ the variable """test_data=../../../data/Credit-g/Credit-g_test.csv""". Utilize pandas' CSV readers to load the datasets.
+	 3. Don't split the train_data into train and test sets. Use only the given datasets.
+	 4. The user will provide the Schema, and Data Profiling Info of the dataset with columns appropriately named as attributes, enclosed in triple quotes, and preceded by the prefix "Schema, and Data Profiling Info:".
+	 5. Perform data cleaning and preprocessing.
+	 6. Utilize data augmentation techniques (sophisticated techniques) on the dataset to enhance accuracy and mitigate overfitting.
+	 7. Perform feature processing (e.g., encode categorical values by dummyEncode).
+	 8. Select the appropriate features and target variables for the question. Additional columns add new semantic information, additional columns that are useful for a downstream algorithmpredicting "class". They can e.g. be feature combinations, transformations, aggregations where the new column is a function of the existing columns. Use appropriate scale factor for columns are needto transfer.
+	 9.  Perform drops columns, if these may be redundant and hurt the predictive performance of the downstream classifier (Feature selection). Dropping columns may help as the chance of overfitting is lower, especially if the dataset is small. The class will be trained on the dataset with the generated columns and evaluated on a holdout set.
+	 10. In order to avoid runtime error for unseen value on the target feature, do preprocessing based on union of train and test dataset.
+	 11. Code formatting for all required packages:
+```python
+# Import all required packages
+```end
+
+	 12. Code formatting for each added column:
+ ```python 
+ # (Feature name and description) 
+ # Usefulness: (Description why this adds useful real world knowledge to classify 'class' according to dataset description and attributes.) 
+ (Some pandas code using 'existing_credits', 'employment', ... to add a new column for each row in df)
+ ```end
+	 13. Code formatting for dropping columns:
+```python-dropping-columns
+# Explanation why the column XX is dropped
+# df.drop(columns=['XX'], inplace=True)
+```end-dropping-columns
+
+	 14. Code formatting for training technique:
+ ```python 
+ # Choose the suitable machine learning algorithm or technique (classifier).
+ # Explanation why the solution is selected 
+ trn = ... 
+ ```end
+	 15. Code formatting for binary classification evaluation:
+```python
+# Report evaluation based on train and test dataset
+# Calculate the model accuracy, represented by a value between 0 and 1, where 0 indicates low accuracy and 1 signifies higher accuracy. Store the accuracy value in a variable labeled as "Train_Accuracy=..." and "Test_Accuracy=...".
+# Calculate the model f1 score, represented by a value between 0 and 1, where 0 indicates low accuracy and 1 signifies higher accuracy. Store the f1 score value in a variable labeled as "Train_F1_score=..." and "Test_F1_score=...".
+# Print the train accuracy result: print(f"Train_Accuracy:{Train_Accuracy}")   
+# Print the train f1 score result: print(f"Train_F1_score:{Train_F1_score}")
+# Print the test accuracy result: print(f"Test_Accuracy:{Test_Accuracy}")   
+# Print the test f1 score result: print(f"Test_F1_score:{Test_F1_score}") 
+```end
+
+	 16. If the question is not relevant to the dataset or the task, the output should be: "Insufficient information."
+	 17. Don't report validation evaluation. We don't need it.
+	 18. If the algorithm is RandomForestClassifier then pass max_leaf_nodes=500 as parameter.
+---------------------------------------
+PROMPT TEXT:
+Description of the dataset:
+
+**German Credit dataset**  
+This dataset classifies people described by a set of attributes as good or bad credit risks.
+
+This dataset comes with a cost matrix: 
+``` 
+Good  Bad (predicted)  
+Good   0    1   (actual)  
+Bad    5    0  
+```
+
+It is worse to class a customer as good when they are bad (5), than it is to class a customer as bad when they are good (1).  
+
+
+
+ Attribute description  
+
+1. Status of existing checking account, in Deutsche Mark.  
+2. Duration in months  
+3. Credit history (credits taken, paid back duly, delays, critical accounts)  
+4. Purpose of the credit (car, television,...)  
+5. Credit amount  
+6. Status of savings account/bonds, in Deutsche Mark.  
+7. Present employment, in number of years.  
+8. Installment rate in percentage of disposable income  
+9. Personal status (married, single,...) and sex  
+10. Other debtors / guarantors  
+11. Present residence since X years  
+12. Property (e.g. real estate)  
+13. Age in years  
+14. Other installment plans (banks, stores)  
+15. Housing (rent, own,...)  
+16. Number of existing credits at this bank  
+17. Job  
+18. Number of people being liable to provide maintenance for  
+19. Telephone (yes,no)  
+20. Foreign worker (yes,no)
+
+Schema, and Data Profiling Info:
+"""
+existing_credits (int): distinct-count [4], min-max values [1.0, 4.0], mean [1.41], median [1.00]
+employment (int): distinct-count [5], min-max values [0.0, 4.0], mean [2.41], median [2.00]
+housing (int): distinct-count [3], min-max values [0.0, 2.0], mean [0.93], median [1.00]
+purpose (int): distinct-count [10], min-max values [0.0, 10.0], mean [2.82], median [2.00]
+other_payment_plans (int): distinct-count [3], min-max values [0.0, 2.0], mean [1.68], median [2.00]
+savings_status (int): distinct-count [5], min-max values [0.0, 4.0], mean [1.14], median [0.00]
+personal_status (int): distinct-count [4], min-max values [0.0, 3.0], mean [1.67], median [2.00]
+residence_since (int): distinct-count [4], min-max values [1.0, 4.0], mean [2.85], median [3.00]
+num_dependents (int): distinct-count [2], min-max values [1.0, 2.0], mean [1.16], median [1.00]
+age (int): distinct-count [53], min-max values [19.0, 75.0], mean [36.16], median [33.00]
+credit_amount (int): distinct-count [705], min-max values [250.0, 18424.0], mean [3297.92], median [2281.00]
+other_parties (int): distinct-count [3], min-max values [0.0, 2.0], mean [0.15], median [0.00]
+property_magnitude (int): distinct-count [4], min-max values [0.0, 3.0], mean [1.34], median [1.00]
+installment_commitment (int): distinct-count [4], min-max values [1.0, 4.0], mean [2.99], median [3.00]
+job (int): distinct-count [4], min-max values [0.0, 3.0], mean [1.88], median [2.00]
+duration (int): distinct-count [31], min-max values [4.0, 72.0], mean [20.73], median [18.00]
+checking_status (int): distinct-count [4], min-max values [0.0, 3.0], mean [1.61], median [1.00]
+credit_history (int): distinct-count [5], min-max values [0.0, 4.0], mean [2.53], median [2.00]
+foreign_worker (bool): distinct-count [2]
+own_telephone (bool): distinct-count [2]
+class (bool): distinct-count [2]
+"""
+
+Dataset Attribute:
+Number of samples (rows) in training dataset: 750
+
+# Select an appropriate scaler the following numerical columns (do it base on the min-max, mean, and median values are in the "Schema, and Data Profiling Info"):
+	Columns: existing_credits,employment,housing,purpose,other_payment_plans,savings_status,personal_status,residence_since,num_dependents,age,credit_amount,other_parties,property_magnitude,installment_commitment,job,duration,checking_status,credit_history
+# Encode categorical values by "on-hot-encoder" for the following columns:
+	Columns: existing_credits,employment,housing,other_payment_plans,savings_status,personal_status,residence_since,num_dependents,other_parties,property_magnitude,installment_commitment,job,checking_status,credit_history,foreign_worker,own_telephone
+# Encode all "object" columns by dummyEncode.
+
+
+Question: Provide a complete pipeline code that can be executed in a multi-threaded environment with various CPU configurations, such as PyTorch or other relevant frameworks.
+Each codeblock ends with "```end" and starts with "```python".

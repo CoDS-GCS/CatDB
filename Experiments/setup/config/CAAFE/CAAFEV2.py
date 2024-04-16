@@ -98,7 +98,7 @@ def run_caafe(args):
 
       caafe_clf = CAAFEClassifier(base_classifier=clf_no_feat_eng,
                                     llm_model=args.llm_model,
-                                    iterations=1)
+                                    iterations=args.number_iteration)
 
       caafe_clf.fit_pandas(df_train,
                             target_column_name=args.target_attribute,

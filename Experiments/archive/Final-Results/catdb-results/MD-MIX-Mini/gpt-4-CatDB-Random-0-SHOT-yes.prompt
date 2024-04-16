@@ -1,0 +1,134 @@
+SYSTEM MESSAGE:
+Task: Generate a data science pipeline in Python 3.10 that answers a question based on a given dataset, Schema, and Data Profiling Info.
+Input: A dataset in CSV format, a schema that describes the columns and data types of the dataset, and a data profiling info that summarizes the statistics and quality of the dataset. A question that requires data analysis or modeling to answer.
+Output: A Python 3.10 code that performs the following steps:
+	 1. Import the necessary libraries and modules.
+	 2. Load the training and test datasets. For the training data, utilize the variable """train_data=../../../data/MD-MIX-Mini/MD-MIX-Mini_train.csv""", and for the test data, employ the variable """test_data=../../../data/MD-MIX-Mini/MD-MIX-Mini_test.csv""". Utilize pandas' CSV readers to load the datasets.
+	 3. Don't split the train_data into train and test sets. Use only the given datasets.
+	 4. The user will provide the Schema, and Data Profiling Info of the dataset with columns appropriately named as attributes, enclosed in triple quotes, and preceded by the prefix "Schema, and Data Profiling Info:".
+	 5. Perform data cleaning and preprocessing.
+	 6. Utilize data augmentation techniques (sophisticated techniques) on the dataset to enhance accuracy and mitigate overfitting.
+	 7. Perform feature processing (e.g., encode categorical values by dummyEncode).
+	 8. Select the appropriate features and target variables for the question. Additional columns add new semantic information, additional columns that are useful for a downstream algorithmpredicting "CATEGORY". They can e.g. be feature combinations, transformations, aggregations where the new column is a function of the existing columns. Use appropriate scale factor for columns are needto transfer.
+	 9.  Perform drops columns, if these may be redundant and hurt the predictive performance of the downstream regressor (Feature selection). Dropping columns may help as the chance of overfitting is lower, especially if the dataset is small. The CATEGORY will be trained on the dataset with the generated columns and evaluated on a holdout set.
+	 10. In order to avoid runtime error for unseen value on the target feature, do preprocessing based on union of train and test dataset.
+	 11. Code formatting for all required packages:
+```python
+# Import all required packages
+```end
+
+	 12. Code formatting for each added column:
+ ```python 
+ # (Feature name and description) 
+ # Usefulness: (Description why this adds useful real world knowledge to classify 'CATEGORY' according to dataset description and attributes.) 
+ (Some pandas code using 'background_image_name', 'FILE_NAME', ... to add a new column for each row in df)
+ ```end
+	 13. Code formatting for dropping columns:
+```python-dropping-columns
+# Explanation why the column XX is dropped
+# df.drop(columns=['XX'], inplace=True)
+```end-dropping-columns
+
+	 14. Code formatting for training technique:
+ ```python 
+ # Choose the suitable machine learning algorithm or technique (regressor).
+ # Explanation why the solution is selected 
+ trn = ... 
+ ```end
+	 15. Code formatting for regression evaluation:
+```python
+# Report evaluation based on train and test dataset
+# Calculate the model R-Squared, represented by a value between 0 and 1, where 0 indicates low and 1 ndicates more variability is explained by the model. Store the R-Squared value in a variable labeled as "Train_R_Squared=..." and "Test_R_Squared=...".
+# Calculate the model Root Mean Squared Error, where the lower the value of the Root Mean Squared Error, the better the model is.. Store the model Root Mean Squared Error value in a variable labeled as "Train_RMSE=..." and "Test_RMSE=...".
+# Print the train accuracy result: print(f"Train_R_Squared:{Train_R_Squared}")   
+# Print the train log loss result: print(f"Train_RMSE:{Train_RMSE}") 
+# Print the test accuracy result: print(f"Test_R_Squared:{Test_R_Squared}")   
+# Print the test log loss result: print(f"Test_RMSE:{Test_RMSE}") 
+```end
+
+	 16. If the question is not relevant to the dataset or the task, the output should be: "Insufficient information."
+	 17. Don't report validation evaluation. We don't need it.
+	 18. If the algorithm is RandomForestClassifier then pass max_leaf_nodes=500 as parameter.
+---------------------------------------
+PROMPT TEXT:
+Description of the dataset:
+A copy of MD_MIX_Mini dataset from Meta album Set0
+
+Schema, and Data Profiling Info:
+"""
+background_image_name (str): distinct-count [26]
+FILE_NAME (str): distinct-count [19768]
+text (str): distinct-count [706]
+font_file (str): distinct-count [806]
+outline_image_name (str): distinct-count [26]
+foreground (str): distinct-count [2]
+foreground_image_name (str): distinct-count [26]
+background (str): distinct-count [4]
+outline (str): distinct-count [2]
+postscript_name (str): distinct-count [766]
+SUPER_CATEGORY (str): distinct-count [23]
+outline_size (int): distinct-count [2], min-max values [5.0, 10.0], mean [5.54], median [5.00]
+foreground_image_crop_x_plus_width (int): distinct-count [719], min-max values [130.0, 3966.0], mean [1820.01], median [1684.00]
+background_image_original_height (int): distinct-count [7], min-max values [1079.0, 3968.0], mean [3100.22], median [2976.00]
+foreground_image_resized_width (int): distinct-count [5], min-max values [1633.0, 3968.0], mean [3529.84], median [3968.00]
+offset_vertical (int): distinct-count [272], min-max values [0.0, 428.0], mean [68.51], median [62.00]
+background_image_resized_height (int): distinct-count [7], min-max values [1079.0, 3968.0], mean [3100.22], median [2976.00]
+foreground_image_original_width (int): distinct-count [5], min-max values [1633.0, 3968.0], mean [3529.84], median [3968.00]
+outline_image_crop_y (int): distinct-count [524], min-max values [5.0, 3836.0], mean [1450.31], median [1311.00]
+background_image_original_width (int): distinct-count [5], min-max values [1633.0, 3968.0], mean [3457.12], median [3968.00]
+foreground_image_crop_x (int): distinct-count [719], min-max values [2.0, 3838.0], mean [1692.01], median [1556.00]
+foreground_image_crop_y_plus_height (int): distinct-count [670], min-max values [132.0, 3935.0], mean [1659.25], median [1592.00]
+background_image_crop_y (int): distinct-count [913], min-max values [3.0, 3833.0], mean [1467.10], median [1345.00]
+foreground_image_original_height (int): distinct-count [7], min-max values [1079.0, 3968.0], mean [3133.22], median [2976.00]
+background_image_crop_x (int): distinct-count [958], min-max values [2.0, 3837.0], mean [1604.48], median [1445.00]
+outline_image_original_width (int): distinct-count [5], min-max values [1633.0, 3968.0], mean [3483.61], median [3968.00]
+outline_image_crop_x (int): distinct-count [542], min-max values [1.0, 3840.0], mean [1690.86], median [1533.00]
+background_image_crop_x_plus_width (int): distinct-count [958], min-max values [130.0, 3965.0], mean [1732.48], median [1573.00]
+original_image_height_resolution (int): distinct-count [299], min-max values [95.0, 734.0], mean [285.62], median [279.00]
+background_image_crop_y_plus_height (int): distinct-count [913], min-max values [131.0, 3961.0], mean [1595.10], median [1473.00]
+foreground_image_resized_height (int): distinct-count [7], min-max values [1079.0, 3968.0], mean [3133.22], median [2976.00]
+background_image_resized_width (int): distinct-count [5], min-max values [1633.0, 3968.0], mean [3457.12], median [3968.00]
+outline_image_crop_x_plus_width (int): distinct-count [542], min-max values [129.0, 3968.0], mean [1818.86], median [1661.00]
+outline_image_resized_height (int): distinct-count [7], min-max values [1079.0, 3968.0], mean [3093.66], median [2976.00]
+foreground_image_crop_y (int): distinct-count [670], min-max values [4.0, 3807.0], mean [1531.25], median [1464.00]
+outline_image_original_height (int): distinct-count [7], min-max values [1079.0, 3968.0], mean [3093.66], median [2976.00]
+original_image_width_resolution (int): distinct-count [299], min-max values [95.0, 734.0], mean [285.62], median [279.00]
+outline_image_resized_width (int): distinct-count [5], min-max values [1633.0, 3968.0], mean [3483.61], median [3968.00]
+offset_horizontal (int): distinct-count [244], min-max values [0.0, 345.0], mean [69.02], median [64.00]
+outline_image_crop_y_plus_height (int): distinct-count [524], min-max values [133.0, 3964.0], mean [1578.31], median [1439.00]
+family_name (str): distinct-count [506]
+style_name (str): distinct-count [40]
+perspective_params (str): distinct-count [16665]
+image_blending_method (str): distinct-count [2]
+background_color (str): distinct-count [708]
+stroke_fill (str): distinct-count [659]
+variable_font_weight (bool): distinct-count [2]
+brightness (float): distinct-count [18788], min-max values [0.8333000514435518, 1.1999991141804762], mean [1.02], median [1.02]
+shear_x (float): distinct-count [407], min-max values [-0.4938111728420038, 0.4971152365770379], mean [-0.01], median [-0.00]
+contrast (float): distinct-count [18788], min-max values [0.8333192755044175, 1.1999854297415122], mean [1.02], median [1.02]
+rotation (float): distinct-count [450], min-max values [-59.85772645290845, 59.81544157103332], mean [-0.34], median [-1.47]
+shear_y (float): distinct-count [195], min-max values [-0.4976298807073669, 0.4971152365770379], mean [-0.00], median [0.01]
+color_enhance (float): distinct-count [18788], min-max values [0.8333286677915436, 1.1999953388288669], mean [1.02], median [1.02]
+CATEGORY (int): distinct-count [706]
+"""
+
+Dataset Attribute:
+Number of samples (rows) in training dataset: 19768
+
+# Drop the following column(s) from the train and test datasets:
+	Column(s): font_weight,image_width_resolution,morph_gradient_kernel_size,image_height_resolution,font_size,background_random_color_composition_params,image_mode,morph_gradient_kernel_shape,background_polygon_outline_color,background_polygon_fill_color,margin_right,margin_bottom,margin_left,margin_top,pre_elastic
+# Do missing values imputation for the following numerical columns:
+	Columns: foreground_image_crop_x_plus_width,outline_image_crop_y,foreground_image_crop_x,foreground_image_crop_y_plus_height,background_image_crop_y,background_image_crop_x,outline_image_crop_x,background_image_crop_x_plus_width,background_image_crop_y_plus_height,outline_image_crop_x_plus_width,foreground_image_crop_y,outline_image_crop_y_plus_height,shear_x
+# Predict the missing values for the following none-numerical columns:
+	Columns: postscript_name
+# Predict the missing values for the following categorical columns:
+	Columns: background_image_name,outline_image_name,foreground_image_name,outline,outline_size,background_image_original_height,foreground_image_resized_width,background_image_resized_height,foreground_image_original_width,background_image_original_width,foreground_image_original_height,outline_image_original_width,foreground_image_resized_height,background_image_resized_width,outline_image_resized_height,outline_image_original_height,outline_image_resized_width,background_color,stroke_fill,shear_y
+# Select an appropriate scaler the following numerical columns (do it base on the min-max, mean, and median values are in the "Schema, and Data Profiling Info"):
+	Columns: outline_size,foreground_image_crop_x_plus_width,background_image_original_height,foreground_image_resized_width,offset_vertical,background_image_resized_height,foreground_image_original_width,outline_image_crop_y,background_image_original_width,foreground_image_crop_x,foreground_image_crop_y_plus_height,background_image_crop_y,foreground_image_original_height,background_image_crop_x,outline_image_original_width,outline_image_crop_x,background_image_crop_x_plus_width,original_image_height_resolution,background_image_crop_y_plus_height,foreground_image_resized_height,background_image_resized_width,outline_image_crop_x_plus_width,outline_image_resized_height,foreground_image_crop_y,outline_image_original_height,original_image_width_resolution,outline_image_resized_width,offset_horizontal,outline_image_crop_y_plus_height,brightness,shear_x,contrast,rotation,shear_y,color_enhance
+# Encode categorical values by "on-hot-encoder" for the following columns:
+	Columns: background_image_name,outline_image_name,foreground,foreground_image_name,background,outline,SUPER_CATEGORY,outline_size,background_image_original_height,foreground_image_resized_width,background_image_resized_height,foreground_image_original_width,background_image_original_width,foreground_image_original_height,outline_image_original_width,foreground_image_resized_height,background_image_resized_width,outline_image_resized_height,outline_image_original_height,outline_image_resized_width,style_name,image_blending_method,background_color,stroke_fill,variable_font_weight,shear_y
+# Encode all "object" columns by dummyEncode.
+
+
+Question: Provide a complete pipeline code that can be executed in a multi-threaded environment with various CPU configurations, such as PyTorch or other relevant frameworks.
+Each codeblock ends with "```end" and starts with "```python".

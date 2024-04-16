@@ -1,0 +1,63 @@
+# ```python
+# Import all required packages
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import LabelEncoder
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import r2_score, mean_squared_error
+import numpy as np
+# ```end
+
+# ```python
+# Load the training and test datasets
+train_data = pd.read_csv('../../../data/Meta-Album-BRD/Meta-Album-BRD_train.csv')
+test_data = pd.read_csv('../../../data/Meta-Album-BRD/Meta-Album-BRD_test.csv')
+# ```end
+
+# ```python
+# Perform data cleaning and preprocessing
+# Drop the 'SUPER_CATEGORY' column as it is not provided in the schema
+train_data.drop(columns=['SUPER_CATEGORY'], inplace=True)
+test_data.drop(columns=['SUPER_CATEGORY'], inplace=True)
+# ```end-dropping-columns
+
+# ```python
+# Perform data augmentation techniques
+# Here, we will use LabelEncoder to encode the 'CATEGORY' column
+le = LabelEncoder()
+train_data['CATEGORY'] = le.fit_transform(train_data['CATEGORY'])
+test_data['CATEGORY'] = le.transform(test_data['CATEGORY'])
+# ```end
+
+# ```python
+# Select the appropriate features and target variables for the question
+X_train = train_data.drop('CATEGORY', axis=1)
+y_train = train_data['CATEGORY']
+X_test = test_data.drop('CATEGORY', axis=1)
+y_test = test_data['CATEGORY']
+# ```end
+
+# ```python
+# Choose the suitable machine learning algorithm or technique (regressor)
+# Here, we will use RandomForestClassifier as it is a versatile and widely used algorithm that can handle both categorical and numerical features
+# We set max_leaf_nodes=500 to prevent overfitting
+clf = RandomForestClassifier(max_leaf_nodes=500)
+clf.fit(X_train, y_train)
+# ```end
+
+# ```python
+# Report evaluation based on train and test dataset
+y_train_pred = clf.predict(X_train)
+y_test_pred = clf.predict(X_test)
+
+Train_R_Squared = r2_score(y_train, y_train_pred)
+Test_R_Squared = r2_score(y_test, y_test_pred)
+
+Train_RMSE = np.sqrt(mean_squared_error(y_train, y_train_pred))
+Test_RMSE = np.sqrt(mean_squared_error(y_test, y_test_pred))
+
+print(f"Train_R_Squared:{Train_R_Squared}")   
+print(f"Train_RMSE:{Train_RMSE}") 
+print(f"Test_R_Squared:{Test_R_Squared}")   
+print(f"Test_RMSE:{Test_RMSE}") 
+# ```end

@@ -1,0 +1,71 @@
+The error is occurring because the log_loss function is trying to convert the string labels into float. The log_loss function is used for binary classification problems where the target variable is 0 or 1. In this case, the target variable 'PRODUCTTYPENAME' is a string and not a binary variable. Therefore, the log_loss function cannot be used. 
+
+Here is the corrected code:
+
+# ```python
+# Import all required packages
+import pandas as pd
+import numpy as np
+from sklearn.preprocessing import OneHotEncoder, StandardScaler
+from sklearn.impute import SimpleImputer
+from sklearn.compose import ColumnTransformer
+from sklearn.pipeline import Pipeline
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import accuracy_score
+from sklearn.model_selection import train_test_split
+
+# Load the training and test datasets
+train_data = pd.read_csv('../../../data/Drug-Directory/Drug-Directory_train.csv')
+test_data = pd.read_csv('../../../data/Drug-Directory/Drug-Directory_test.csv')
+
+# Drop the unnecessary columns
+drop_cols = ['ENDMARKETINGDATE', 'NDC_EXCLUDE_FLAG', 'PROPRIETARYNAMESUFFIX', 'DEASCHEDULE']
+train_data.drop(columns=drop_cols, inplace=True)
+test_data.drop(columns=drop_cols, inplace=True)
+
+# Define the columns to be processed
+categorical_cols = ['SUBSTANCENAME', 'APPLICATIONNUMBER', 'NONPROPRIETARYNAME', 'PROPRIETARYNAME', 'PHARM_CLASSES', 'ACTIVE_INGRED_UNIT', 'LISTING_RECORD_CERTIFIED_THROUGH', 'ROUTENAME', 'ACTIVE_NUMERATOR_STRENGTH']
+numerical_cols = ['STARTMARKETINGDATE', 'LISTING_RECORD_CERTIFIED_THROUGH']
+
+# Define the preprocessing steps
+categorical_transformer = Pipeline(steps=[
+    ('imputer', SimpleImputer(strategy='most_frequent')),
+    ('onehot', OneHotEncoder(handle_unknown='ignore'))])
+numerical_transformer = Pipeline(steps=[
+    ('imputer', SimpleImputer(strategy='median')),
+    ('scaler', StandardScaler())])
+
+# Combine preprocessing steps
+preprocessor = ColumnTransformer(
+    transformers=[
+        ('cat', categorical_transformer, categorical_cols),
+        ('num', numerical_transformer, numerical_cols)])
+
+# Define the model
+model = RandomForestClassifier(max_leaf_nodes=500)
+
+# Combine preprocessing and modeling steps
+clf = Pipeline(steps=[('preprocessor', preprocessor),
+                      ('classifier', model)])
+
+# Split the target variable from the predictors
+X_train = train_data.drop('PRODUCTTYPENAME', axis=1)
+y_train = train_data['PRODUCTTYPENAME']
+X_test = test_data.drop('PRODUCTTYPENAME', axis=1)
+y_test = test_data['PRODUCTTYPENAME']
+
+# Fit the model
+clf.fit(X_train, y_train)
+
+# Predict the training and test data
+y_train_pred = clf.predict(X_train)
+y_test_pred = clf.predict(X_test)
+
+# Calculate the accuracy
+Train_Accuracy = accuracy_score(y_train, y_train_pred)
+Test_Accuracy = accuracy_score(y_test, y_test_pred)
+
+# Print the results
+print(f"Train_Accuracy:{Train_Accuracy}")   
+print(f"Test_Accuracy:{Test_Accuracy}")   
+# ```

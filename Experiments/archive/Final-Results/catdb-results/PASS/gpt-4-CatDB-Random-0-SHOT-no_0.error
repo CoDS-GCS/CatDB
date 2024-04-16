@@ -1,0 +1,14 @@
+Traceback (most recent call last):
+  File "/home/ubuntu/CatDB/Experiments/setup/Baselines/CatDB/runcode/RunCode.py", line 36, in execute_code
+    exec(compile(parse, filename="<ast>", mode="exec"), loc)
+  File "<ast>", line 44, in <module>
+  File "/home/ubuntu/CatDB/Experiments/setup/Baselines/CatDB/venv/lib/python3.11/site-packages/pandas/core/reshape/encoding.py", line 209, in get_dummies
+    dummy = _get_dummies_1d(
+            ^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/CatDB/Experiments/setup/Baselines/CatDB/venv/lib/python3.11/site-packages/pandas/core/reshape/encoding.py", line 330, in _get_dummies_1d
+    dummy_mat = np.eye(number_of_cols, dtype=eye_dtype).take(codes, axis=1).T
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/CatDB/Experiments/setup/Baselines/CatDB/venv/lib/python3.11/site-packages/numpy/lib/twodim_base.py", line 211, in eye
+    m = zeros((N, M), dtype=dtype, order=order)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+numpy.core._exceptions._ArrayMemoryError: Unable to allocate 946. GiB for an array with shape (1007711, 1007711) and data type bool

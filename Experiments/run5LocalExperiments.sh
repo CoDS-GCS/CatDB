@@ -22,14 +22,14 @@ echo "dataset,llm_model,prompt_representation_type,prompt_example_type,prompt_nu
 cd ${exp_path}
 
 #CMD=./explocal/exp0_statistics/runExperiment0.sh
-CMD=./explocal/exp1_catalog/runExperiment1.sh
+#CMD=./explocal/exp1_catalog/runExperiment1.sh
 #CMD=./explocal/exp2_micro_benchmark/runExperiment2.sh 
-#CMD=./explocal/exp3_end_to_end/runExperiment3.sh 
+CMD=./explocal/exp3_end_to_end/runExperiment3.sh 
 
 
 # Large Datasets
 # $CMD Higgs binary
-$CMD Albert binary
+# $CMD Albert binary
 # $CMD Click-Prediction binary
 # $CMD Census-Augmented binary
 # $CMD Heart-Statlog binary
@@ -45,13 +45,13 @@ $CMD Albert binary
 # $CMD Meta-Album-BRD regression
 
 # Small Datasets
-$CMD Balance-Scale multiclass
+# $CMD Balance-Scale multiclass
 $CMD Breast-w binary
-$CMD CMC multiclass
-$CMD Credit-g binary
-$CMD Diabetes binary
-$CMD Tic-Tac-Toe binary
-$CMD Eucalyptus multiclass
-$CMD PC1 binary
-$CMD Airlines binary
-$CMD Jungle-Chess multiclass
+# $CMD CMC multiclass
+# $CMD Credit-g binary
+# $CMD Diabetes binary
+# $CMD Tic-Tac-Toe binary
+# $CMD Eucalyptus multiclass
+# $CMD PC1 binary
+# $CMD Airlines binary
+# $CMD Jungle-Chess multiclass

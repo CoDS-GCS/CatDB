@@ -66,14 +66,14 @@ cd $path
 
 # Setup CatDB
 #############
-catdb_path="${path}/Baselines/CatDB/"
-#rm -rf ${catdb_path}
-mkdir -p ${catdb_path}
+# catdb_path="${path}/Baselines/CatDB/"
+# rm -rf ${catdb_path}
+# mkdir -p ${catdb_path}
 
-cd ${root_path}
-cd ..
-cp -r src/python/main/* ${catdb_path}
-cd ${catdb_path}
+# cd ${root_path}
+# cd ..
+# cp -r src/python/main/* ${catdb_path}
+# cd ${catdb_path}
 
 # rm -rf venv
 # python -m venv venv
@@ -129,17 +129,17 @@ cd ${catdb_path}
 
 # ==============================================================================
 # Setup CAFFE
-# baselines_path="$path/Baselines"
-# cd ${baselines_path}
-# rm -rf CAAFE
-# cp -r ${path}"/config/CAAFE" ${baselines_path}
-# cd CAAFE
+baselines_path="$path/Baselines"
+cd ${baselines_path}
+rm -rf CAAFE
+cp -r ${path}"/config/CAAFE" ${baselines_path}
+cd CAAFE
 
-# rm -rf venv
-# python3.10 -m venv venv
-# source venv/bin/activate
-# python -m pip install --upgrade pip
-# python -m pip install -r requirements.txt
+rm -rf venv
+python3.10 -m venv venv
+source venv/bin/activate
+python -m pip install --upgrade pip
+python -m pip install -r requirements.txt
 
 # echo "-----------------------------------------------------------------------"
 # pip --version

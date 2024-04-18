@@ -84,6 +84,13 @@ def run_caafe(args):
       df_train = pd.read_csv(args.data_source_train_path).dropna()
       df_test = pd.read_csv(args.data_source_test_path).dropna()
 
+      if args.classifier == "TabPFN":
+          if len(df_train) > 10000:
+            df_train = df_train.sample(frac=1).reset_index(drop=True)[0:10000]
+
+          if len(df_test) > 10000:
+            df_test = df_test.sample(frac=1).reset_index(drop=True)[0:10000]   
+
       df_train, df_test = make_datasets_numeric(df_train, df_test, args.target_attribute)
       _, train_y = data.get_X_y(df_train, args.target_attribute)
       _, test_y = data.get_X_y(df_test, args.target_attribute)

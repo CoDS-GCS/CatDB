@@ -30,9 +30,9 @@ CMD=./explocal/exp3_end_to_end/runExperiment3.sh
 # Large Datasets
 # $CMD Higgs binary
 # $CMD Albert binary
-$CMD Click-Prediction binary
-$CMD Census-Augmented binary
-$CMD Heart-Statlog binary
+# $CMD Click-Prediction binary
+# $CMD Census-Augmented binary
+# $CMD Heart-Statlog binary
 # $CMD KDDCup99 multiclass
 # $CMD Road-Safety multiclass
 # $CMD Drug-Directory multiclass
@@ -46,14 +46,14 @@ $CMD Heart-Statlog binary
 
 # Small Datasets
 # $CMD Balance-Scale multiclass
-$CMD Breast-w binary
+# $CMD Breast-w binary
 # $CMD CMC multiclass
-#$CMD Credit-g binary
-$CMD Diabetes binary
-#$CMD Tic-Tac-Toe binary
+# $CMD Credit-g binary
+# $CMD Diabetes binary
+# $CMD Tic-Tac-Toe binary
 # $CMD Eucalyptus multiclass
-$CMD PC1 binary
-#$CMD Airlines binary
+# $CMD PC1 binary
+$CMD Airlines binary
 # $CMD Jungle-Chess multiclass
 
-Higgs,Albert,Click-Prediction,Census,Heart-Statlog,Breast-w,Credit-g,Diabetes,Tic-Tac-Toe,PC1,Airlines
+

@@ -81,8 +81,8 @@ def parse_arguments():
 def run_caafe(args):
       openai.api_key = os.environ.get("OPENAI_API_KEY")
 
-      df_train = pd.read_csv(args.data_source_train_path)
-      df_test = pd.read_csv(args.data_source_test_path)
+      df_train = pd.read_csv(args.data_source_train_path).dropna()
+      df_test = pd.read_csv(args.data_source_test_path).dropna()
 
       df_train, df_test = make_datasets_numeric(df_train, df_test, args.target_attribute)
       _, train_y = data.get_X_y(df_train, args.target_attribute)

@@ -85,30 +85,23 @@ def run_caafe(args):
       df_test = pd.read_csv(args.data_source_test_path).dropna()
 
       df_train, df_test = make_datasets_numeric(df_train, df_test, args.target_attribute)
-      _, train_y = data.get_X_y(df_train, args.target_attribute)
-      _, test_y = data.get_X_y(df_test, args.target_attribute)
+      train_X, train_y = data.get_X_y(df_train, args.target_attribute)
+      test_X, test_y = data.get_X_y(df_test, args.target_attribute)
 
 
     #try:
       clf_no_feat_eng = None
       if args.classifier == "TabPFN":
-        clf_no_feat_eng = TabPFNClassifier(device=('cuda' if torch.cuda.is_available() else 'cpu'), N_ensemble_configurations=4) 
-        clf_no_feat_eng.fit = partial(clf_no_feat_eng.fit, overwrite_warning=True)   
+        clf_no_feat_eng = TabPFNClassifier(device=('cuda' if torch.cuda.is_available() else 'cpu'), N_ensemble_configurations=4)
+        clf_no_feat_eng.fit = partial(clf_no_feat_eng.fit, overwrite_warning=True)            
       
       elif args.classifier == "RandomForest":
-        clf_no_feat_eng = RandomForestClassifier(max_leaf_nodes=500)
-
-      caafe_clf = CAAFEClassifier(base_classifier=clf_no_feat_eng,
-                                    llm_model=args.llm_model,
-                                    iterations=args.number_iteration)
-
-      caafe_clf.fit_pandas(df_train,
-                            target_column_name=args.target_attribute,
-                            dataset_description=args.description)
+        clf_no_feat_eng = RandomForestClassifier(max_leaf_nodes=500)           
+    
         
-
-      pred_test = caafe_clf.predict(df_test)
-      pred_train = caafe_clf.predict(df_train)
+      clf_no_feat_eng.fit(train_X, train_y)
+      pred_test = clf_no_feat_eng.predict(test_X)
+      pred_train = clf_no_feat_eng.predict(train_X)
 
       acc_test = accuracy_score(pred_test, test_y)
       acc_train = accuracy_score(pred_train, train_y)
@@ -123,8 +116,8 @@ def run_caafe(args):
         test_F1_score = f1_score(test_y, pred_test)
       
       elif args.task_type == "multiclass":
-        y_train_prob = caafe_clf.predict_proba(df_train.drop(args.target_attribute, axis=1))
-        y_test_prob = caafe_clf.predict_proba(df_test.drop(args.target_attribute, axis=1))
+        y_train_prob = clf_no_feat_eng.predict_proba(df_train.drop(args.target_attribute, axis=1))
+        y_test_prob = clf_no_feat_eng.predict_proba(df_test.drop(args.target_attribute, axis=1))
         train_log_loss = log_loss(train_y, y_train_prob)
         test_log_loss = log_loss(test_y, y_test_prob)
 

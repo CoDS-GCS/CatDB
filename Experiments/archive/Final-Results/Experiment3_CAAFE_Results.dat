@@ -87,5 +87,5 @@ ValueError: ⚠️ WARNING: TabPFN is not made for datasets with a trainingsize 
 
 /////////////////////////////////////////////////////////
 Balance-Scale,CAAFE,gpt-4,Yes,RandomForest,multiclass,True,10,-1,114.68372750282288,1.0,-1,4.440892098500627e-16,-1,-1,1.0,-1,4.440892098500627e-16,-1,-1
-
-Eucalyptus,CAAFE,gpt-4,Yes,RandomForest,multiclass,True,10,-1,163.83750987052917,1.0,-1,0.21566113023899844,-1,-1,0.5900621118012422,-1,0.8762387760139049,-1,-1
+Eucalyptus,CAAFE,gpt-4,Yes,RandomForest,multiclass,True,10,-1,163.83750987052915,1.0,-1,0.2156611302389984,-1,-1,0.5900621118012422,-1,0.8762387760139049,-1,-1
+Jungle-Chess,CAAFE,gpt-4,Yes,RandomForest,multiclass,True,10,-1,196.973206281662,1.0,-1,0.12142673900830943,-1,-1,0.81,-1,0.4560758888389818,-1,-1

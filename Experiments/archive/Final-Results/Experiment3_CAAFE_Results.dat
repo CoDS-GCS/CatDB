@@ -52,16 +52,16 @@ Jungle-Chess,CAAFE,gpt-4,no,TabPFN,multiclass,False,10,-1,519.555634498596,0,-1,
 Balance-Scale,CAAFE,gpt-4,yes,RandomForest,multiclass,True,10,-1,99.86136317253111,1.0,-1.0,0.0072310853710059,-1,-1,1.0,-1.0,0.021222126185881,-1,-1
 Balance-Scale,CAAFE,gpt-4,no,RandomForest,multiclass,True,10,-1,98.7782289981842,1.0,-1.0,0.0214001644671218,-1,-1,1.0,-1.0,0.0622619825552359,-1,-1
 
-Breast-w,CAAFE,gpt-4,yes,RandomForest,binary,False,10,-1,166.92313599586487,-1.0,-1.0,-1.0,-1,-1,-1.0,-1.0,-1.0,-1,-1
+Breast-w,CAAFE,gpt-4,Yes,RandomForest,binary,True,10,-1,149.66359186172485,1.0,1.0,-1,-1,-1,0.9761904761904762,0.967741935483871,-1,-1,-1
 Breast-w,CAAFE,gpt-4,no,RandomForest,binary,False,10,-1,149.87664437294006,-1.0,-1.0,-1.0,-1,-1,-1.0,-1.0,-1.0,-1,-1
 
 CMC,CAAFE,gpt-4,yes,RandomForest,multiclass,True,10,-1,156.39901065826416,0.9592391304347826,-1.0,0.2611314133763617,-1,-1,0.5094850948509485,-1.0,1.171208080279758,-1,-1
 CMC,CAAFE,gpt-4,no,RandomForest,multiclass,False,10,-1,165.44570636749268,-1.0,-1.0,-1.0,-1,-1,-1.0,-1.0,-1.0,-1,-1
 
-Credit-g,CAAFE,gpt-4,yes,RandomForest,binary,False,10,-1,135.25687050819397,-1.0,-1.0,-1.0,-1,-1,-1.0,-1.0,-1.0,-1,-1
+Credit-g,CAAFE,gpt-4,yes,RandomForest,binary,True,10,-1,174.2408411502838,1.0,1.0,-1,-1,-1,0.796,0.592,-1,-1,-1
 Credit-g,CAAFE,gpt-4,no,RandomForest,binary,True,10,-1,160.14362740516663,1.0,1.0,-1.0,-1,-1,0.752,0.4833333333333333,-1.0,-1,-1
 
-Diabetes,CAAFE,gpt-4,yes,RandomForest,binary,False,10,-1,144.66642117500305,-1.0,-1.0,-1.0,-1,-1,-1.0,-1.0,-1.0,-1,-1
+Diabetes,CAAFE,gpt-4,yes,RandomForest,binary,True,10,-1,144.84544587135315,1.0,1.0,-1,-1,-1,0.8020833333333334,0.6984126984126984,-1,-1,-1
 Diabetes,CAAFE,gpt-4,no,RandomForest,binary,True,10,-1,139.5567581653595,1.0,1.0,-1.0,-1,-1,0.8072916666666666,0.6991869918699187,-1.0,-1,-1
 
 Tic-Tac-Toe,CAAFE,gpt-4,yes,RandomForest,binary,True,10,-1,170.99393463134766,1.0,1.0,-1.0,-1,-1,0.9208333333333332,0.940809968847352,-1.0,-1,-1
@@ -83,3 +83,9 @@ Jungle-Chess,CAAFE,gpt-4,no,RandomForest,multiclass,True,10,-1,193.7319436073303
 $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 raise ValueError("⚠️ WARNING: TabPFN is not made for datasets with a trainingsize > 1024. Prediction might take a while, be less reliable. We advise not to run datasets > 10k samples, which might lead to your machine crashing (due to quadratic memory scaling of TabPFN). Please confirm you want to run by passing overwrite_warning=True to the fit function.")
 ValueError: ⚠️ WARNING: TabPFN is not made for datasets with a trainingsize > 1024. Prediction might take a while, be less reliable. We advise not to run datasets > 10k samples, which might lead to your machine crashing (due to quadratic memory scaling of TabPFN). Please confirm you want to run by passing overwrite_warning=True to the fit function.
+
+
+/////////////////////////////////////////////////////////
+Balance-Scale,CAAFE,gpt-4,Yes,RandomForest,multiclass,True,10,-1,114.68372750282288,1.0,-1,4.440892098500627e-16,-1,-1,1.0,-1,4.440892098500627e-16,-1,-1
+
+Eucalyptus,CAAFE,gpt-4,Yes,RandomForest,multiclass,True,10,-1,163.83750987052917,1.0,-1,0.21566113023899844,-1,-1,0.5900621118012422,-1,0.8762387760139049,-1,-1

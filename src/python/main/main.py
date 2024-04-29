@@ -158,6 +158,7 @@ def generate_and_run_pipeline(catalog: CatalogInfo, prompt_representation_type: 
     # Parse LLM Code
     result = {"Train_Accuracy": -1, "Train_F1_score": -1, "Train_Log_loss": -1, "Train_R_Squared": -1, "Train_RMSE": -1,
               "Test_Accuracy": -1, "Test_F1_score": -1, "Test_Log_loss": -1, "Test_R_Squared": -1, "Test_RMSE": -1}
+
     iteration = 0
     if args.parse_pipeline or args.run_pipeline:
         rc = RunCode()
@@ -187,7 +188,11 @@ def generate_and_run_pipeline(catalog: CatalogInfo, prompt_representation_type: 
                 save_text_file(fname=pipeline_fname, data=code)
 
                 prompt_rule, prompt_msg = get_error_prompt(code, f"{result.get_exception()}")
-                code = llm.generate_llm_code(prompt_rules=prompt_rule, prompt_message=prompt_msg)
+                new_code = llm.generate_llm_code(prompt_rules=prompt_rule, prompt_message=prompt_msg)
+                if len(new_code) > 500:
+                    code = new_code
+                else:
+                    i -=1
 
     return final_status, iteration, gen_time, execute_time, result.parse_results()
 

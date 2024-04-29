@@ -81,13 +81,25 @@ def parse_arguments():
 def run_caafe(args):
       openai.api_key = os.environ.get("OPENAI_API_KEY")
 
-      df_train = pd.read_csv(args.data_source_train_path).dropna()
-      df_test = pd.read_csv(args.data_source_test_path).dropna()
+      df_train = pd.read_csv(args.data_source_train_path)
+      df_test = pd.read_csv(args.data_source_test_path)
 
+      df_train.loc[:, (df_train.dtypes == object)] = df_train.loc[:, (df_train.dtypes == object)].fillna("")
+      df_test.loc[:, (df_test.dtypes == object)] = df_test.loc[:, (df_test.dtypes == object)].fillna("")
+
+    #   df_train = df_train.infer_objects()
+    #   for col in df_train.columns:
+    #       print(df_train[col].dtype.name)
+      print(df_train)
+      print(df_test)
+      print("===============================================================")
+      
       df_train, df_test = make_datasets_numeric(df_train, df_test, args.target_attribute)
       train_X, train_y = data.get_X_y(df_train, args.target_attribute)
       test_X, test_y = data.get_X_y(df_test, args.target_attribute)
 
+      print(df_train)
+      print(df_test)
 
     #try:
       clf_no_feat_eng = None
@@ -137,53 +149,61 @@ def run_caafe(args):
 if __name__ == '__main__':
    args = parse_arguments()
 
-   start = time.time()
-   status, acc_train, train_F1_score, train_log_loss, acc_test, test_log_loss, test_F1_score = run_caafe(args)
-   end = time.time()
+   run_caafe(args)
 
-   execute_time = end - start
+#    start = time.time()
+#    status, acc_train, train_F1_score, train_log_loss, acc_test, test_log_loss, test_F1_score = run_caafe(args)
+#    end = time.time()
 
-   if args.task_type != 'regression':
-    try:
-        df_result = pd.read_csv(args.log_file_name)
-    except Exception as err:  
-        df_result = pd.DataFrame(columns=["dataset_name",
-                                          "config",
-                                          "llm_model",
-                                          "has_description",
-                                          "classifier",
-                                          "task_type",
-                                          "status",
-                                          "number_iteration",
-                                          "pipeline_gen_time",
-                                          "execution_time",
-                                          "train_accuracy",
-                                          "train_f1_score",
-                                          "train_log_loss",
-                                          "train_r_squared",
-                                          "train_rmse",
-                                          "test_accuracy",
-                                          "test_f1_score",
-                                          "test_log_loss",
-                                          "test_r_squared",
-                                          "test_rmse"])
+#    execute_time = end - start
+
+#    if args.task_type != 'regression':
+#     try:
+#         df_result = pd.read_csv(args.log_file_name)
+#     except Exception as err:  
+#         df_result = pd.DataFrame(columns=["dataset_name",
+#                                           "config",
+#                                           "llm_model",
+#                                           "has_description",
+#                                           "classifier",
+#                                           "task_type",
+#                                           "status",
+#                                           "number_iteration",
+#                                           "pipeline_gen_time",
+#                                           "execution_time",
+#                                           "train_accuracy",
+#                                           "train_f1_score",
+#                                           "train_log_loss",
+#                                           "train_r_squared",
+#                                           "train_rmse",
+#                                           "test_accuracy",
+#                                           "test_f1_score",
+#                                           "test_log_loss",
+#                                           "test_r_squared",
+#                                           "test_rmse"])
     
-    log = [args.dataset_name, 
-           "CAAFE", 
-           args.llm_model,
-           args.dataset_description, 
-           args.classifier, 
-           args.task_type, 
-           status, 
-           args.number_iteration,
-           -1, 
-           execute_time, 
-           acc_train, 
-           train_F1_score, 
-           train_log_loss, -1, -1, 
-           acc_test, 
-           test_F1_score, 
-           test_log_loss, -1, -1]   
+#     log = [args.dataset_name, 
+#            "CAAFE", 
+#            args.llm_model,
+#            args.dataset_description, 
+#            args.classifier, 
+#            args.task_type, 
+#            status, 
+#            args.number_iteration,
+#            -1, 
+#            execute_time, 
+#            acc_train, 
+#            train_F1_score, 
+#            train_log_loss, -1, -1, 
+#            acc_test, 
+#            test_F1_score, 
+#            test_log_loss, -1, -1]   
 
-    df_result.loc[len(df_result)] = log
-    df_result.to_csv(args.log_file_name, index=False)   
+#     df_result.loc[len(df_result)] = log
+#     df_result.to_csv(args.log_file_name, index=False)   
+
+
+# Higgs
+# Click-Prediction
+# Road-Safety
+# Walking-Activity

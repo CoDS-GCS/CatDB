@@ -25,27 +25,28 @@ class RunCode(object):
 
     def execute_code(self, src: str, parse=None):
         result = CodeResultTemplate()
+        tmp = sys.stdout
+        pipeline_result = StringIO()
+        sys.stdout = pipeline_result
         try:
             loc = {}
             if parse is None:
                 parse = ast.parse(src)
-            tmp = sys.stdout
-            pipeline_result = StringIO()
-            sys.stdout = pipeline_result
 
             exec(compile(parse, filename="<ast>", mode="exec"), loc)
             sys.stdout = tmp
             result.set_status(status=True)
             result.set_result(pipeline_result.getvalue())
-
             return result
 
         except SyntaxError as err:
+            sys.stdout = tmp
             error_class = err.__class__.__name__
             detail = err.args[0]
             line_number = err.lineno
             exception = err
         except Exception as err:
+            sys.stdout = tmp
             error_class = err.__class__.__name__
             cl, exc, tb = sys.exc_info()
             line_number = traceback.extract_tb(tb)[-1][1]

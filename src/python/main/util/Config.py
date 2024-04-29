@@ -18,6 +18,7 @@ class LLMSetting:
         self.GPT_4_1106_Preview_Limit = 4096
         self.GPT_3_5_Turbo_limit = 4096
         self.GPT_4_Turbo_Limit = 4096
+        self.Llama3_70b_8192 = 8192
 
     def get_limit(self, model: str):
         if model == "skip":
@@ -31,6 +32,8 @@ class LLMSetting:
 
         elif model == "gpt-3.5-turbo":
             return self.GPT_3_5_Turbo_limit
+        elif model =="llama3-70b-8192":
+            return self.Llama3_70b_8192
         else:
             raise Exception(f"Model {model} is not implemented yet!")
 

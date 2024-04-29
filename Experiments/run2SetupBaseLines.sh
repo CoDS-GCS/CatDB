@@ -58,7 +58,7 @@ cd $path
 # conda create -n kglids python=3.8 -y
 # eval "$(conda shell.bash hook)"
 # conda activate kglids
-# python -m pip install --upgrade pip
+# python3.8 -m pip install --upgrade pip
 # pip install -r requirements.txt
 
 # cp "${root_path=}/data/kglids_main.py"  "${path}/Baselines/kglids/kg_governor/data_profiling/src/"
@@ -66,24 +66,24 @@ cd $path
 
 # Setup CatDB
 #############
-# catdb_path="${path}/Baselines/CatDB/"
-# rm -rf ${catdb_path}
-# mkdir -p ${catdb_path}
+catdb_path="${path}/Baselines/CatDB/"
+rm -rf ${catdb_path}
+mkdir -p ${catdb_path}
 
-# cd ${root_path}
-# cd ..
-# cp -r src/python/main/* ${catdb_path}
-# cd ${catdb_path}
+cd ${root_path}
+cd ..
+cp -r src/python/main/* ${catdb_path}
+cd ${catdb_path}
 
-# rm -rf venv
-# python -m venv venv
-# source venv/bin/activate
+rm -rf venv
+python -m venv venv
+source venv/bin/activate
 
-# # Then install the dependencies:
-# python -m pip install --upgrade pip
-# pip install torchvision 
-# python -m pip install -r requirements.txt
-# pip install pipreqs
+# Then install the dependencies:
+python -m pip install --upgrade pip
+pip install torchvision 
+python -m pip install -r requirements.txt
+pip install pipreqs
 
 # Prepare Config
 ################
@@ -128,18 +128,18 @@ cd $path
 # python3.9 setup.py install
 
 # ==============================================================================
-# Setup CAFFE
-baselines_path="$path/Baselines"
-cd ${baselines_path}
-rm -rf CAAFE
-cp -r ${path}"/config/CAAFE" ${baselines_path}
-cd CAAFE
+# # Setup CAFFE
+# baselines_path="$path/Baselines"
+# cd ${baselines_path}
+# rm -rf CAAFE
+# cp -r ${path}"/config/CAAFE" ${baselines_path}
+# cd CAAFE
 
-rm -rf venv
-python3.10 -m venv venv
-source venv/bin/activate
-python -m pip install --upgrade pip
-python -m pip install -r requirements.txt
+# rm -rf venv
+# python3.10 -m venv venv
+# source venv/bin/activate
+# python -m pip install --upgrade pip
+# python -m pip install -r requirements.txt
 
 # echo "-----------------------------------------------------------------------"
 # pip --version

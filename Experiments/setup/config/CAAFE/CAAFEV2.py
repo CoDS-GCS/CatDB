@@ -194,3 +194,6 @@ if __name__ == '__main__':
 
     df_result.loc[len(df_result)] = log
     df_result.to_csv(args.log_file_name, index=False)   
+
+
+    # TODO: remove drop NaN for RandomForest Classifer

@@ -22,7 +22,11 @@ class ProfileInfo(object):
                  median: float,
                  iqr: float,
                  embedding_scaling_factor: float,
-                 embedding=None
+                 embedding=None,
+                 category_values=None,
+                 category_values_ratio=None,
+                 samples=None,
+                 nrows: int = 0,
                  ):
         self.distinct_values_count = distinct_values_count
         self.data_source = data_source
@@ -53,6 +57,20 @@ class ProfileInfo(object):
             self.short_data_type = "str"
         else:
             self.short_data_type = self.data_type
+
+        self.samples = samples
+        if samples is None or len(samples) == 0:
+            self.samples = None
+
+        self.categorical_values = None
+        self.categorical_values_ratio = None
+        self.is_categorical = False
+        if category_values is not None and len(category_values) > 0:
+            self.is_categorical = True
+            self.categorical_values = category_values
+            self.categorical_values_ratio = category_values_ratio
+
+        self.nrows = nrows
 
     def deactivate(self):
         self.is_active = False

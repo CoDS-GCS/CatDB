@@ -10,6 +10,7 @@ from prompt.PromptTemplate import SchemaMissingValueFrequencyCategoricalValuesPr
 from prompt.PromptTemplate import SchemaStatisticNumericCategoricalValuesPrompt
 from prompt.PromptTemplate import CatDBPrompt
 from prompt.PromptTemplate import AllPrompt
+from prompt.PromptChainTemplate import CatDBDataPreprocessingChainPrompt
 
 
 class LLMSetting:

@@ -1,6 +1,6 @@
 from argparse import ArgumentParser
 from catalog.Catalog import load_data_source_profile, CatalogInfo
-from prompt.PromptBuilder import prompt_factory, error_prompt_factory
+from prompt.PromptBuilder import prompt_factory
 from llm.GenerateLLMCode import GenerateLLMCode
 from runcode.RunCode import RunCode
 from util.FileHandler import save_prompt
@@ -17,8 +17,8 @@ def parse_arguments():
     parser.add_argument('--data-profile-path', type=str, default=None)
     parser.add_argument('--dataset-description', type=str, default="yes")
     parser.add_argument('--prompt-representation-type', type=str, default=None)
-    parser.add_argument('--prompt-sample-type', type=str, default=None)
-    parser.add_argument('--prompt-number-samples', type=int, default=None)
+    parser.add_argument('--prompt-example-type', type=str, default=None)
+    parser.add_argument('--prompt-number-example', type=int, default=None)
     parser.add_argument('--prompt-number-iteration', type=int, default=1)
     parser.add_argument('--output-path', type=str, default=None)
     parser.add_argument('--llm-model', type=str, default=None)
@@ -58,11 +58,11 @@ def parse_arguments():
         except yaml.YAMLError as ex:
             raise Exception(ex)
 
-    if args.prompt_sample_type is None:
-        raise Exception("--prompt-sample-type is a required parameter!")
+    if args.prompt_example_type is None:
+        raise Exception("--prompt-example-type is a required parameter!")
 
-    if args.prompt_number_samples is None:
-        raise Exception("--prompt-number-samples is a required parameter!")
+    if args.prompt_number_example is None:
+        raise Exception("--prompt-number-example is a required parameter!")
 
     if args.llm_model is None:
         raise Exception("--llm-model is a required parameter!")
@@ -70,7 +70,10 @@ def parse_arguments():
     if args.prompt_number_iteration is None:
         args.prompt_number_iteration = 1
 
-    if args.prompt_representation_type in {"CatDB", "CatDBChain"}:
+    if args.prompt_representation_type is None:
+        args.prompt_representation_type = "AUTO"
+
+    if args.prompt_representation_type == "CatDB":
         args.enable_reduction = True
 
     if args.dataset_description.lower() == "yes":
@@ -83,6 +86,27 @@ def parse_arguments():
     return args
 
 
+def get_error_prompt(pipeline_code: str, pipeline_error: str):
+    min_length = min(len(pipeline_error), 2000)
+    small_error_msg = pipeline_error[:min_length]
+    prompt_rule = ['You are expert in coding assistant. Your task is fix the error of this pipeline code.\n'
+                   'The user will provide a pipeline code enclosed in "<CODE> pipline code will be here. </CODE>", '
+                   'and an error message enclosed in "<ERROR> error message will be here. </ERROR>".',
+                   'Fix the code error provided and return only the corrected pipeline without additional explanations'
+                   ' regarding the resolved error.']
+    prompt_msg = ["<CODE>\n",
+                  pipeline_code,
+                  "</CODE>\n",
+                  "\n",
+                  "<ERROR>\n",
+                  small_error_msg,
+                  "</ERROR>\n",
+                  "Question: Fix the code error provided and return only the corrected pipeline without additional\n"
+                  " explanations regarding the resolved error.\n"]
+
+    return "".join(prompt_rule), "".join(prompt_msg)
+
+
 def generate_and_run_pipeline(catalog: CatalogInfo, prompt_representation_type: str, args):
     # time
     gen_time = 0
@@ -93,8 +117,8 @@ def generate_and_run_pipeline(catalog: CatalogInfo, prompt_representation_type: 
     start = time.time()
     prompt = prompt_factory(catalog=catalog,
                             representation_type=prompt_representation_type,
-                            sample_type=args.prompt_sample_type,
-                            number_samples=args.prompt_number_samples,
+                            example_type=args.prompt_example_type,
+                            number_example=args.prompt_number_example,
                             task_type=args.task_type,
                             number_iteration=args.prompt_number_iteration,
                             target_attribute=args.target_attribute,
@@ -109,7 +133,7 @@ def generate_and_run_pipeline(catalog: CatalogInfo, prompt_representation_type: 
     # Generate LLM code
     start = time.time()
     llm = GenerateLLMCode(model=args.llm_model)
-    prompt_format = prompt.format()
+    prompt_format = prompt.format(examples=None)
     prompt_rule = prompt_format["rules"]
     prompt_msg = prompt_format["question"]
     code = llm.generate_llm_code(prompt_rules=prompt_rule, prompt_message=prompt_msg)
@@ -163,12 +187,12 @@ def generate_and_run_pipeline(catalog: CatalogInfo, prompt_representation_type: 
                 save_text_file(error_fname, f"{result.get_exception()}")
                 save_text_file(fname=pipeline_fname, data=code)
 
-                prompt_rule, prompt_msg = error_prompt_factory(code, f"{result.get_exception()}")
+                prompt_rule, prompt_msg = get_error_prompt(code, f"{result.get_exception()}")
                 new_code = llm.generate_llm_code(prompt_rules=prompt_rule, prompt_message=prompt_msg)
                 if len(new_code) > 500:
                     code = new_code
                 else:
-                    i -= 1
+                    i -=1
 
     return final_status, iteration, gen_time, execute_time, result.parse_results()
 

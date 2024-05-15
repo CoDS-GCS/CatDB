@@ -22,7 +22,8 @@ def prompt_factory(catalog: CatalogInfo,
                    target_attribute: str,
                    data_source_train_path: str,
                    data_source_test_path: str,
-                   dataset_description: str):
+                   dataset_description: str,
+                   previous_result: str):
 
     repr_cls = get_representation_class(representation_type)
     file_format = catalog.file_format
@@ -53,11 +54,12 @@ def prompt_factory(catalog: CatalogInfo,
             self.task_type = task_type_str
             self.evaluation_text = evaluation_text
             self.dataset_description = dataset_description
+            self.previous_result = previous_result
             repr_cls.__init__(self, *args, **kwargs)
 
     return PromptClass()
 
 
 def error_prompt_factory(pipeline_code: str, pipeline_error):
-    error_prompt = RuntimeErrorPrompt(pipeline_code=pipeline_code, pipeline_error=pipeline_error)
-    return error_prompt.format_rules(), error_prompt.format_question()
+    error_prompt = RuntimeErrorPrompt(pipeline_code=pipeline_code, pipeline_error=pipeline_error).format_prompt()
+    return error_prompt['system_message'], error_prompt['user_message']

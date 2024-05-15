@@ -1,4 +1,4 @@
-# Data preprocessing rules:
+# Data preprocessing Rules:
 dp_rule_task = "Task: Generate list of tasks are required for data preprocessing in Python 3.10."
 
 dp_rule_input = ("Input: A dataset in CSV format, a schema that describes the columns and data types of the dataset, "
@@ -16,6 +16,25 @@ dp_rule_4 = ('The user will provide the {} of the dataset with columns appropria
 dp_rule_5 = 'If the question is not relevant to the dataset or the task, the output should be: "Insufficient information."'
 dp_rule_6 = 'Utilize data augmentation techniques on the dataset to enhance accuracy and mitigate overfitting.'
 dp_rule_7 = 'The target feature in the dataset is \"{}\".'
+
+# Feature Engineering Rules:
+fe_rule_task = ('Task: Select the appropriate features and target variables for the question (Feature Engineering Task). '
+          'Additional columns add new semantic information, additional columns that are useful for a downstream algorithm'
+          'predicting "{}". They can e.g. be feature combinations, transformations, aggregations where the '
+          'new column is a function of the existing columns. Use appropriate scale factor for columns are need'
+          'to transfer.')
+
+fe_rule_input = ('Input: first draft version of pipline with a Data Preprocessing task enclosed in '
+                 '"<CODE> pipline code will be here. </CODE>", and a schema that describes the columns and data types '
+                 'of the dataset, and a data profiling info that summarizes the statistics and quality of the dataset.')
+
+fe_rule_output = "Output: A modified Python 3.10 code with additional feature enginnering tasks that performs the following steps:"
+fe_rule_1 = 'The target feature in the dataset is \"{}\".'
+fe_rule_2 = ("Perform drops columns, if these may be redundant and hurt the predictive performance of the downstream {} "
+          "(Feature selection). Dropping columns may help as the chance of overfitting is lower, especially if the "
+          "dataset is small. The {} will be trained on the dataset with the generated columns and evaluated on a "
+          "holdout set.")
+fe_rule_3 = 'If the question is not relevant to the dataset or the task, the output should be: "Insufficient information."'
 
 #----------------------------------------------------------------------------------------------------------------------
 

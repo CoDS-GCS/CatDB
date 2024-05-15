@@ -9,6 +9,7 @@ class BasicPrompt(object):
                  flag_statistical_number: bool = False,
                  flag_categorical_values: bool = False,
                  flag_dataset_description: bool = False,
+                 flag_previous_result: bool = False,
                  flag_samples: bool = False,
                  *args, **kwargs):
         self.ds_attribute_prefix = None
@@ -25,7 +26,9 @@ class BasicPrompt(object):
         self.flag_statistical_number = flag_statistical_number
         self.flag_categorical_values = flag_categorical_values
         self.flag_dataset_description = flag_dataset_description
+        self.flag_previous_result = flag_previous_result
         self.flag_samples = flag_samples
+        self.previous_result_format = None
 
     def format(self):
         return {
@@ -39,6 +42,8 @@ class BasicPrompt(object):
         if self.flag_dataset_description and self.dataset_description is not None:
             prompt_items.append(_user_delimiter+" "+StaticValues.dataset_description.format(self.dataset_description))
 
+        if self.flag_previous_result and self.previous_result is not None:
+            prompt_items.append(self.previous_result_format)
         prompt_items.append(self.format_schema_data())
 
         if self.flag_missing_value_frequency:

@@ -6,11 +6,10 @@ from .CodeResultTemplate import CodeResultTemplate
 from .InterpreterError import InterpreterError
 
 
-class RunCode(object):
-    def __init__(self):
-        pass
+class RunCode:
 
-    def parse_code(self, src: str):
+    @staticmethod
+    def parse_code(src: str):
         result = CodeResultTemplate()
         try:
             parse = ast.parse(src)
@@ -23,8 +22,9 @@ class RunCode(object):
 
         return result
 
-    def execute_code(self, src: str, parse=None):
-        result = CodeResultTemplate()
+    @staticmethod
+    def execute_code(src: str, parse=None, run_mode: str = None):
+        result = CodeResultTemplate(run_mode=run_mode, code = src)
         tmp = sys.stdout
         pipeline_result = StringIO()
         sys.stdout = pipeline_result

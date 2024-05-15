@@ -1,13 +1,12 @@
 from argparse import ArgumentParser
-from catalog.Catalog import load_data_source_profile, CatalogInfo
+from catalog.Catalog import load_data_source_profile
 from prompt.PromptBuilder import prompt_factory, error_prompt_factory
 from llm.GenerateLLMCode import GenerateLLMCode
 from runcode.RunCode import RunCode
 from util.FileHandler import save_prompt
 from util.FileHandler import save_text_file, read_text_file_line_by_line
 from util.Config import set_config
-from pipegen.Metadata import Metadata
-import pandas as pd
+from util.LogResults import LogResults
 import time
 import yaml
 
@@ -76,23 +75,18 @@ def parse_arguments():
     return args
 
 
-def generate_and_run_pipeline(args, run_mode: str = 'validation'):
+def generate_and_run_pipeline(args, catalog, run_mode: str = None, sub_task: str = '', previous_result: str = None,
+                              time_catalog: float = 0):
+
+    from util.Config import __gen_run_mode
     time_generate = 0
     time_execute = 0
     final_status = False
 
-    time_start = time.time()
-    catalog = load_data_source_profile(data_source_path=args.data_profile_path,
-                                       file_format="JSON",
-                                       target_attribute=args.target_attribute,
-                                       enable_reduction=args.enable_reduction)
-
-    time_end = time.time()
-    catalog_time = time_end - time_start
-
+    time_total_start = time.time()
     time_start = time.time()  # Start Time
     prompt = prompt_factory(catalog=catalog,
-                            representation_type=args.prompt_representation_type,
+                            representation_type=f"{args.prompt_representation_type}{sub_task}",
                             samples_type=args.prompt_samples_type,
                             number_samples=args.prompt_number_samples,
                             task_type=args.task_type,
@@ -100,7 +94,8 @@ def generate_and_run_pipeline(args, run_mode: str = 'validation'):
                             target_attribute=args.target_attribute,
                             data_source_train_path=args.data_source_train_path,
                             data_source_test_path=args.data_source_test_path,
-                            dataset_description=args.description)
+                            dataset_description=args.description,
+                            previous_result=previous_result)
 
     time_end = time.time()  # End time
     time_generate += time_end - time_start  # Add prompt construction time to pipeline generate time
@@ -111,6 +106,9 @@ def generate_and_run_pipeline(args, run_mode: str = 'validation'):
 
     # Save prompt:
     file_name = f'{args.output_path}/{args.llm_model}-{prompt.class_name}-{args.dataset_description}'
+    if sub_task != '':
+        file_name = f"{file_name}-{sub_task}"
+
     prompt_fname = f"{file_name}.prompt"
     save_prompt(fname=prompt_fname, system_message=prompt_system_message, user_message=prompt_user_message)
 
@@ -122,114 +120,102 @@ def generate_and_run_pipeline(args, run_mode: str = 'validation'):
     for i in range(5):
         if code == "Insufficient information.":
             time_start = time.time()
-            code = GenerateLLMCode.generate_llm_code(user_message=prompt_user_message, system_message=prompt_system_message)
+            code = GenerateLLMCode.generate_llm_code(user_message=prompt_user_message,
+                                                     system_message=prompt_system_message)
             time_end = time.time()
         else:
             break
     time_generate += time_end - time_start
 
-    #
-    # # Parse LLM Code
-    # result = {"Train_Accuracy": -1, "Train_F1_score": -1, "Train_Log_loss": -1, "Train_R_Squared": -1, "Train_RMSE": -1,
-    #           "Test_Accuracy": -1, "Test_F1_score": -1, "Test_Log_loss": -1, "Test_R_Squared": -1, "Test_RMSE": -1}
-    #
-    # iteration = 0
-    # if args.parse_pipeline or args.run_pipeline:
-    #     rc = RunCode()
-    #     parse = None
-    #     for i in range(iteration, args.prompt_number_iteration):
-    #
-    #         pipeline_fname = f"{file_name}_draft.py"
-    #         save_text_file(fname=pipeline_fname, data=code)
-    #
-    #         start = time.time()
-    #         result = rc.execute_code(src=code, parse=parse)
-    #         end = time.time()
-    #         save_text_file(fname=pipeline_fname, data=code)
-    #         if result.get_status():
-    #             pipeline_fname = f"{file_name}.py"
-    #             save_text_file(fname=pipeline_fname, data=code)
-    #
-    #             execute_time = end - start
-    #             final_status = True
-    #             iteration = i + 1
-    #             break
-    #         else:
-    #             error_fname = f"{file_name}_{i}.error"
-    #             pipeline_fname = f"{file_name}_{i}.python"
-    #
-    #             save_text_file(error_fname, f"{result.get_exception()}")
-    #             save_text_file(fname=pipeline_fname, data=code)
-    #
-    #             prompt_rule, prompt_msg = error_prompt_factory(code, f"{result.get_exception()}")
-    #             new_code = llm.generate_llm_code(prompt_rules=prompt_rule, prompt_message=prompt_msg)
-    #             if len(new_code) > 500:
-    #                 code = new_code
-    #             else:
-    #                 i -= 1
-    #
-    # return final_status, iteration, gen_time, execute_time, result.parse_results()
+    iteration = 0
+    for i in range(iteration, args.prompt_number_iteration):
+        if len(code) > 500:
+            pipeline_fname = f"{file_name}_draft.py"
+            save_text_file(fname=pipeline_fname, data=code)
+
+        time_start = time.time()
+        result = RunCode.execute_code(src=code, parse=None, run_mode=run_mode)
+        time_end = time.time()
+        if result.get_status():
+            pipeline_fname = f"{file_name}.py"
+            save_text_file(fname=pipeline_fname, data=code)
+
+            time_execute = time_end - time_start
+            final_status = True
+            iteration = i + 1
+            break
+        else:
+            error_fname = f"{file_name}_{i}.error"
+            pipeline_fname = f"{file_name}_{i}.python"
+
+            save_text_file(error_fname, f"{result.get_exception()}")
+            save_text_file(fname=pipeline_fname, data=code)
+
+            system_message, user_message = error_prompt_factory(code, f"{result.get_exception()}")
+            prompt_fname_error = f"{file_name}_Error_{iteration}.prompt"
+            save_prompt(fname=prompt_fname_error, system_message=system_message, user_message=user_message)
+
+            new_code = GenerateLLMCode.generate_llm_code(system_message=system_message, user_message=user_message)
+            if len(new_code) > 500:
+                code = new_code
+            else:
+                i -= 1
+
+    time_total_end = time.time()
+    time_total = time_total_end - time_total_start
+
+    log_results = LogResults(dataset_name=args.dataset_name, config=args.prompt_representation_type, sub_task=sub_task,
+                             llm_model=args.llm_model, classifier="Auto", task_type=args.task_type,
+                             status=f"{final_status}", number_iteration=iteration,
+                             has_description=args.dataset_description,
+                             time_catalog_load=time_catalog, time_pipeline_generate=time_generate,
+                             time_total=time_total,
+                             time_execution=time_execute)
+    if run_mode == __gen_run_mode:
+        results = result.parse_results()
+        log_results.train_accuracy = results["Train_Accuracy"]
+        log_results.train_f1_score = results["Train_F1_score"]
+        log_results.train_log_loss = results["Train_Log_loss"]
+        log_results.train_r_squared = results["Train_R_Squared"]
+        log_results.train_rmse = results["Train_RMSE"]
+        log_results.test_accuracy = results["Test_Accuracy"]
+        log_results.test_f1_score = results["Test_F1_score"]
+        log_results.test_log_loss = results["Test_Log_loss"]
+        log_results.test_r_squared = results["Test_R_Squared"]
+        log_results.test_rmse = results["Test_RMSE"]
+
+    log_results.save_results(result_output_path=args.result_output_path)
+
+    return final_status, code
 
 
 if __name__ == '__main__':
+    from util.Config import __validation_run_mode, __gen_run_mode, __sub_task_data_preprocessing, \
+        __sub_task_feature_engineering, __sub_task_model_selection
+
     args = parse_arguments()
     set_config(args.llm_model)
-    generate_and_run_pipeline(args=args)
 
+    time_total_start = time_start = time.time()
+    catalog = load_data_source_profile(data_source_path=args.data_profile_path,
+                                       file_format="JSON",
+                                       target_attribute=args.target_attribute,
+                                       enable_reduction=args.enable_reduction)
 
-    #############################################################################
-    # try:
-    #     df_result = pd.read_csv(args.result_output_path)
-    # except Exception as err:
-    #     df_result = pd.DataFrame(columns=["dataset_name",
-    #                                       "config",
-    #                                       "llm_model",
-    #                                       "has_description",
-    #                                       "classifier",
-    #                                       "task_type",
-    #                                       "status",
-    #                                       "number_iteration",
-    #                                       "pipeline_gen_time",
-    #                                       "execution_time",
-    #                                       "train_accuracy",
-    #                                       "train_f1_score",
-    #                                       "train_log_loss",
-    #                                       "train_r_squared",
-    #                                       "train_rmse",
-    #                                       "test_accuracy",
-    #                                       "test_f1_score",
-    #                                       "test_log_loss",
-    #                                       "test_r_squared",
-    #                                       "test_rmse"])
-    # for rep_type in combinations:
-    #     try:
-    #         status, number_iteration, gen_time, execute_time, result = generate_and_run_pipeline(catalog=catalog,
-    #                                                                                              prompt_representation_type=rep_type,
-    #                                                                                              args=args)
-    #         df_result.loc[len(df_result)] = [args.dataset_name,
-    #                                          rep_type,
-    #                                          args.llm_model,
-    #                                          args.dataset_description,
-    #                                          "automatic",
-    #                                          args.task_type,
-    #                                          status,
-    #                                          number_iteration,
-    #                                          catalog_time + gen_time,
-    #                                          execute_time,
-    #                                          result["Train_Accuracy"],
-    #                                          result["Train_F1_score"],
-    #                                          result["Train_Log_loss"],
-    #                                          result["Train_R_Squared"],
-    #                                          result["Train_RMSE"],
-    #                                          result["Test_Accuracy"],
-    #                                          result["Test_F1_score"],
-    #                                          result["Test_Log_loss"],
-    #                                          result["Test_R_Squared"],
-    #                                          result["Test_RMSE"]
-    #                                          ]
-    #
-    #     except Exception as err:
-    #         print("*******************************************")
-    #         print(args.dataset_name)
-    #         print(err)
-    # df_result.to_csv(args.result_output_path, index=False)
+    time_end = time.time()
+    time_catalog = time_end - time_start
+
+    if args.prompt_representation_type == "CatDBChain":
+        final_status, code = generate_and_run_pipeline(args=args, catalog=catalog, run_mode=__validation_run_mode,
+                                                       sub_task=__sub_task_data_preprocessing, time_catalog = time_catalog)
+        if final_status:
+            final_status, code = generate_and_run_pipeline(args=args, catalog=catalog,  run_mode=__validation_run_mode,
+                                                           sub_task=__sub_task_feature_engineering,
+                                                           previous_result=code, time_catalog = time_catalog)
+            # if final_status:
+            #     final_status, code = generate_and_run_pipeline(args=args, run_mode=__gen_run_mode,
+            #                                                    sub_task=__sub_task_model_selection,
+            #                                                    previous_result=code, time_catalog = time_catalog)
+
+    else:
+        generate_and_run_pipeline(args=args, catalog=catalog, run_mode=__gen_run_mode, time_catalog = time_catalog)

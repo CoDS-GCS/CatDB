@@ -9,14 +9,23 @@ from prompt.PromptTemplate import SchemaMissingValueFrequencyStatisticNumericPro
 from prompt.PromptTemplate import SchemaMissingValueFrequencyCategoricalValuesPrompt
 from prompt.PromptTemplate import SchemaStatisticNumericCategoricalValuesPrompt
 from prompt.PromptTemplate import CatDBPrompt
-from prompt.PromptChainTemplate import DataPreprocessingChainPrompt
 from prompt.PromptTemplate import AllPrompt
+
+from prompt.PromptChainTemplate import DataPreprocessingChainPrompt
+from prompt.PromptChainTemplate import FeatureEngineeringChainPrompt
+
+__gen_run_mode = 'generate-and-run'
+__validation_run_mode = 'validation'
+__sub_task_data_preprocessing = "DataPreprocessing"
+__sub_task_feature_engineering = "FeatureEngineering"
+__sub_task_model_selection = "ModelSelection"
 
 __GPT_4_Limit = 8192
 __GPT_4_1106_Preview_Limit = 4096
 __GPT_4_Turbo_Limit = 4096
 __GPT_4o_Limit = 4096
 __GPT_3_5_Turbo_limit = 4096
+__Llama2_70b = 4096
 __Llama3_70b_8192 = 8192
 
 _OPENAI = "OpenAI"
@@ -62,6 +71,7 @@ def set_config(model):
         _system_delimiter = __GPT_system_delimiter
 
     elif model == "gpt-4o":
+        _llm_platform = _OPENAI
         _max_token_limit = __GPT_4o_Limit
         _user_delimiter = __GPT_user_delimiter
         _system_delimiter = __GPT_system_delimiter
@@ -71,6 +81,12 @@ def set_config(model):
         _max_token_limit = __GPT_3_5_Turbo_limit
         _user_delimiter = __GPT_user_delimiter
         _system_delimiter = __GPT_system_delimiter
+
+    elif model == "llama2-7b":
+        _llm_platform = _META
+        _max_token_limit = __Llama2_70b
+        _user_delimiter = __Llama_user_delimiter
+        _system_delimiter = __Llama_system_delimiter
 
     elif model == "llama3-70b-8192":
         _llm_platform = _META
@@ -123,5 +139,6 @@ PROMPT_FUNC = {"S": SchemaPrompt,
                "SSNCV": SchemaStatisticNumericCategoricalValuesPrompt,
                "ALL": AllPrompt,
                "CatDB": CatDBPrompt,
-               "CatDBChain": DataPreprocessingChainPrompt
+               "CatDBChainDataPreprocessing": DataPreprocessingChainPrompt,
+               "CatDBChainFeatureEngineering": FeatureEngineeringChainPrompt
                }

@@ -12,13 +12,14 @@ class DataPreprocessingChainPrompt(BasicPrompt):
                              flag_distinct_value_count=True,
                              flag_statistical_number=True,
                              flag_samples=True,
+                             flag_previous_result=False,
                              *args, **kwargs)
         self.ds_attribute_prefix = "Schema, and Data Profiling Info"
         self.ds_attribute_prefix_label = "Schema, and Data Profiling Info:"
 
         self.rules = [f'{_system_delimiter} {StaticValues.dp_rule_task}',
-                      f'{_system_delimiter} {StaticValues.Rule_input}',
-                      f'{_system_delimiter} {StaticValues.Rule_output}',
+                      f'{_system_delimiter} {StaticValues.dp_rule_input}',
+                      f'{_system_delimiter} {StaticValues.dp_rule_output}',
                       f'#1 : {StaticValues.dp_rule_1}',
                       f'#2 : {StaticValues.dp_rule_2.format(self.data_source_train_path, self.data_source_test_path)}',
                       f'#3 : {StaticValues.dp_rule_3}',
@@ -29,3 +30,37 @@ class DataPreprocessingChainPrompt(BasicPrompt):
 
         self.question = ("Provide a pipeline code that do data preprocessing in a multi-threaded environment "
                          "Each codeblock ends with \"```end\" and starts with \"```python\".")
+
+
+class FeatureEngineeringChainPrompt(BasicPrompt):
+    def __init__(self, *args, **kwargs):
+        from util.Config import _system_delimiter
+        BasicPrompt.__init__(self,
+                             flag_categorical_values=True,
+                             flag_missing_value_frequency=False,
+                             flag_dataset_description=True,
+                             flag_distinct_value_count=True,
+                             flag_statistical_number=True,
+                             flag_samples=True,
+                             flag_previous_result=True,
+                             *args, **kwargs)
+        self.ds_attribute_prefix = "Schema, and Data Profiling Info"
+        self.ds_attribute_prefix_label = "Schema, and Data Profiling Info:"
+
+        if self.task_type == "binary classification" or self.task_type == "multiclass classification":
+            algorithm = "classifier"
+        else:
+            algorithm = "regressor"
+
+        self.previous_result_format = f"<CODE>\n{self.previous_result}\n</CODE>"
+
+        self.rules = [f'{_system_delimiter} {StaticValues.fe_rule_task.format(self.target_attribute)}',
+                      f'{_system_delimiter} {StaticValues.fe_rule_input}',
+                      f'{_system_delimiter} {StaticValues.fe_rule_output}',
+                      f'#1 : {StaticValues.fe_rule_1.format(self.target_attribute)}',
+                      f'#2 : {StaticValues.fe_rule_2.format(algorithm, self.target_attribute)}',
+                      f'#3 : {StaticValues.dp_rule_3}']
+
+        self.question = ("Provide a pipeline code that modify the Data Preprocessing code by adding Feature Engineering tasks"
+                         " in a multi-threaded environment."
+                         " Each codeblock ends with \"```end\" and starts with \"```python\".")

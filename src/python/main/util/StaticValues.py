@@ -1,3 +1,24 @@
+# Data preprocessing rules:
+dp_rule_task = "Task: Generate list of tasks are required for data preprocessing in Python 3.10."
+
+dp_rule_input = ("Input: A dataset in CSV format, a schema that describes the columns and data types of the dataset, "
+                 "and a data profiling info that summarizes the statistics and quality of the dataset.")
+
+dp_rule_output = "Output: A Python 3.10 code that performs the following steps:"
+dp_rule_1 = "Import the necessary libraries and modules."
+dp_rule_2 = ('Load the training and test datasets. For the training data, utilize the variable """train_data={}""", '
+          'and for the test data, employ the variable """test_data={}""". Utilize pandas\' CSV readers to load the '
+          'datasets.')
+dp_rule_3 = "Don't split the train_data into train and test sets. Use only the given datasets."
+dp_rule_4 = ('The user will provide the {} of the dataset with columns appropriately named as attributes, enclosed in '
+             'triple quotes, and preceded by the prefix "{}".')
+
+dp_rule_5 = 'If the question is not relevant to the dataset or the task, the output should be: "Insufficient information."'
+dp_rule_6 = 'Utilize data augmentation techniques on the dataset to enhance accuracy and mitigate overfitting.'
+dp_rule_7 = 'The target feature in the dataset is \"{}\".'
+
+#----------------------------------------------------------------------------------------------------------------------
+
 Rule_task = ("Task: Generate a data science pipeline in Python 3.10 that answers a question based on a "
              "given dataset, {}.")
 
@@ -39,6 +60,12 @@ CODE_FORMATTING_IMPORT = f"""Code formatting for all required packages:
 # Import all required packages
 ```end
 """
+
+CODE_FORMATTING_PREPROCESSING = "Code formatting for data preprocessing:\n \
+```python \n \
+# List all required tasks  \
+```end"
+
 
 CODE_FORMATTING_ADDING = "Code formatting for each added column:\n \
 ```python \n \

@@ -9,34 +9,77 @@ from prompt.PromptTemplate import SchemaMissingValueFrequencyStatisticNumericPro
 from prompt.PromptTemplate import SchemaMissingValueFrequencyCategoricalValuesPrompt
 from prompt.PromptTemplate import SchemaStatisticNumericCategoricalValuesPrompt
 from prompt.PromptTemplate import CatDBPrompt
+from prompt.PromptChainTemplate import DataPreprocessingChainPrompt
 from prompt.PromptTemplate import AllPrompt
-from prompt.PromptChainTemplate import CatDBDataPreprocessingChainPrompt
+
+__GPT_4_Limit = 8192
+__GPT_4_1106_Preview_Limit = 4096
+__GPT_4_Turbo_Limit = 4096
+__GPT_4o_Limit = 4096
+__GPT_3_5_Turbo_limit = 4096
+__Llama3_70b_8192 = 8192
+
+_OPENAI = "OpenAI"
+__GPT_system_delimiter = "### "
+__GPT_user_delimiter = "### "
+
+_META = "Meta"
+__Llama_system_delimiter = "### "
+__Llama_user_delimiter = "### "
+
+_llm_model = None
+_llm_platform = None
+_system_delimiter = None
+_user_delimiter = None
+_max_token_limit = None
 
 
-class LLMSetting:
-    def __init__(self):
-        self.GPT_4_Limit = 8192
-        self.GPT_4_1106_Preview_Limit = 4096
-        self.GPT_3_5_Turbo_limit = 4096
-        self.GPT_4_Turbo_Limit = 4096
-        self.Llama3_70b_8192 = 8192
+def set_config(model):
+    global _llm_model
+    global _llm_platform
+    global _system_delimiter
+    global _user_delimiter
+    global _max_token_limit
 
-    def get_limit(self, model: str):
-        if model == "skip":
-            return -1
+    _llm_model = model
 
-        if model == "gpt-4":
-            return self.GPT_4_Limit
+    if model == "gpt-4":
+        _llm_platform = _OPENAI
+        _max_token_limit = __GPT_4_Limit
+        _user_delimiter = __GPT_user_delimiter
+        _system_delimiter = __GPT_system_delimiter
 
-        elif model == "gpt-4-turbo":
-            return self.GPT_4_Turbo_Limit
+    if model == "gpt-4-1106-preview_":
+        _llm_platform = _OPENAI
+        _max_token_limit = __GPT_4_1106_Preview_Limit
+        _user_delimiter = __GPT_user_delimiter
+        _system_delimiter = __GPT_system_delimiter
 
-        elif model == "gpt-3.5-turbo":
-            return self.GPT_3_5_Turbo_limit
-        elif model =="llama3-70b-8192":
-            return self.Llama3_70b_8192
-        else:
-            raise Exception(f"Model {model} is not implemented yet!")
+    elif model == "gpt-4-turbo":
+        _llm_platform = _OPENAI
+        _max_token_limit = __GPT_4_Turbo_Limit
+        _user_delimiter = __GPT_user_delimiter
+        _system_delimiter = __GPT_system_delimiter
+
+    elif model == "gpt-4o":
+        _max_token_limit = __GPT_4o_Limit
+        _user_delimiter = __GPT_user_delimiter
+        _system_delimiter = __GPT_system_delimiter
+
+    elif model == "gpt-3.5-turbo":
+        _llm_platform = _OPENAI
+        _max_token_limit = __GPT_3_5_Turbo_limit
+        _user_delimiter = __GPT_user_delimiter
+        _system_delimiter = __GPT_system_delimiter
+
+    elif model == "llama3-70b-8192":
+        _llm_platform = _META
+        _max_token_limit = __Llama3_70b_8192
+        _user_delimiter = __Llama_user_delimiter
+        _system_delimiter = __Llama_system_delimiter
+
+    else:
+        raise Exception(f"Model {model} is not implemented yet!")
 
 
 CATEGORICAL_RATIO: float = 0.01
@@ -79,5 +122,6 @@ PROMPT_FUNC = {"S": SchemaPrompt,
                "SMVFCV": SchemaMissingValueFrequencyCategoricalValuesPrompt,
                "SSNCV": SchemaStatisticNumericCategoricalValuesPrompt,
                "ALL": AllPrompt,
-               "CatDB": CatDBPrompt
+               "CatDB": CatDBPrompt,
+               "CatDBChain": DataPreprocessingChainPrompt
                }

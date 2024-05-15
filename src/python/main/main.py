@@ -5,6 +5,7 @@ from llm.GenerateLLMCode import GenerateLLMCode
 from runcode.RunCode import RunCode
 from util.FileHandler import save_prompt
 from util.FileHandler import save_text_file, read_text_file_line_by_line
+from util.Config import set_config
 from pipegen.Metadata import Metadata
 import pandas as pd
 import time
@@ -17,16 +18,13 @@ def parse_arguments():
     parser.add_argument('--data-profile-path', type=str, default=None)
     parser.add_argument('--dataset-description', type=str, default="yes")
     parser.add_argument('--prompt-representation-type', type=str, default=None)
-    parser.add_argument('--prompt-sample-type', type=str, default=None)
+    parser.add_argument('--prompt-samples-type', type=str, default=None)
     parser.add_argument('--prompt-number-samples', type=int, default=None)
     parser.add_argument('--prompt-number-iteration', type=int, default=1)
     parser.add_argument('--output-path', type=str, default=None)
     parser.add_argument('--llm-model', type=str, default=None)
-    parser.add_argument('--parse-pipeline', type=bool, default=True)
-    parser.add_argument('--run-pipeline', type=bool, default=True)
     parser.add_argument('--enable-reduction', type=bool, default=False)
     parser.add_argument('--result-output-path', type=str, default="/tmp/results.csv")
-
     args = parser.parse_args()
 
     if args.metadata_path is None:
@@ -50,15 +48,10 @@ def parse_arguments():
             except Exception as ex:
                 raise Exception(ex)
 
-            try:
-                args.number_folds = int(config_data[0].get('folds'))
-            except yaml.YAMLError as ex:
-                args.number_folds = 1
-
         except yaml.YAMLError as ex:
             raise Exception(ex)
 
-    if args.prompt_sample_type is None:
+    if args.prompt_samples_type is None:
         raise Exception("--prompt-sample-type is a required parameter!")
 
     if args.prompt_number_samples is None:
@@ -76,171 +69,167 @@ def parse_arguments():
     if args.dataset_description.lower() == "yes":
         dataset_description_path = args.metadata_path.replace(".yaml", ".txt")
         args.description = read_text_file_line_by_line(fname=dataset_description_path)
-        args.dataset_description = 'yes'
+        args.dataset_description = 'Yes'
     else:
         args.description = None
-        args.dataset_description = 'no'
+        args.dataset_description = 'No'
     return args
 
 
-def generate_and_run_pipeline(catalog: CatalogInfo, prompt_representation_type: str, args):
-    # time
-    gen_time = 0
-    execute_time = 0
+def generate_and_run_pipeline(args, run_mode: str = 'validation'):
+    time_generate = 0
+    time_execute = 0
     final_status = False
 
-    # Start Time
-    start = time.time()
+    time_start = time.time()
+    catalog = load_data_source_profile(data_source_path=args.data_profile_path,
+                                       file_format="JSON",
+                                       target_attribute=args.target_attribute,
+                                       enable_reduction=args.enable_reduction)
+
+    time_end = time.time()
+    catalog_time = time_end - time_start
+
+    time_start = time.time()  # Start Time
     prompt = prompt_factory(catalog=catalog,
-                            representation_type=prompt_representation_type,
-                            sample_type=args.prompt_sample_type,
+                            representation_type=args.prompt_representation_type,
+                            samples_type=args.prompt_samples_type,
                             number_samples=args.prompt_number_samples,
                             task_type=args.task_type,
                             number_iteration=args.prompt_number_iteration,
                             target_attribute=args.target_attribute,
                             data_source_train_path=args.data_source_train_path,
                             data_source_test_path=args.data_source_test_path,
-                            number_folds=args.number_folds,
                             dataset_description=args.description)
 
-    end = time.time()
-    gen_time += end - start
+    time_end = time.time()  # End time
+    time_generate += time_end - time_start  # Add prompt construction time to pipeline generate time
+
+    prompt_format = prompt.format()
+    prompt_system_message = prompt_format["system_message"]
+    prompt_user_message = prompt_format["user_message"]
+
+    # Save prompt:
+    file_name = f'{args.output_path}/{args.llm_model}-{prompt.class_name}-{args.dataset_description}'
+    prompt_fname = f"{file_name}.prompt"
+    save_prompt(fname=prompt_fname, system_message=prompt_system_message, user_message=prompt_user_message)
 
     # Generate LLM code
-    start = time.time()
-    llm = GenerateLLMCode(model=args.llm_model)
-    prompt_format = prompt.format()
-    prompt_rule = prompt_format["rules"]
-    prompt_msg = prompt_format["question"]
-    code = llm.generate_llm_code(prompt_rules=prompt_rule, prompt_message=prompt_msg)
-    end = time.time()
+    time_start = time.time()
+    code = GenerateLLMCode.generate_llm_code(user_message=prompt_user_message, system_message=prompt_system_message)
+    time_end = time.time()
 
     for i in range(5):
         if code == "Insufficient information.":
-            start = time.time()
-            code = llm.generate_llm_code(prompt_rules=prompt_rule, prompt_message=prompt_msg)
-            end = time.time()
+            time_start = time.time()
+            code = GenerateLLMCode.generate_llm_code(user_message=prompt_user_message, system_message=prompt_system_message)
+            time_end = time.time()
         else:
             break
+    time_generate += time_end - time_start
 
-    gen_time += end - start
-
-    file_name = f'{args.output_path}/{args.llm_model}-{prompt.class_name}-{args.dataset_description}'
-
-    # Save prompt:
-    prompt_fname = f"{file_name}.prompt"
-    save_prompt(fname=prompt_fname, prompt_rule=prompt_rule, prompt_msg=prompt_msg)
-
-    # Parse LLM Code
-    result = {"Train_Accuracy": -1, "Train_F1_score": -1, "Train_Log_loss": -1, "Train_R_Squared": -1, "Train_RMSE": -1,
-              "Test_Accuracy": -1, "Test_F1_score": -1, "Test_Log_loss": -1, "Test_R_Squared": -1, "Test_RMSE": -1}
-
-    iteration = 0
-    if args.parse_pipeline or args.run_pipeline:
-        rc = RunCode()
-        parse = None
-        for i in range(iteration, args.prompt_number_iteration):
-
-            pipeline_fname = f"{file_name}_draft.py"
-            save_text_file(fname=pipeline_fname, data=code)
-
-            start = time.time()
-            result = rc.execute_code(src=code, parse=parse)
-            end = time.time()
-            save_text_file(fname=pipeline_fname, data=code)
-            if result.get_status():
-                pipeline_fname = f"{file_name}.py"
-                save_text_file(fname=pipeline_fname, data=code)
-
-                execute_time = end - start
-                final_status = True
-                iteration = i + 1
-                break
-            else:
-                error_fname = f"{file_name}_{i}.error"
-                pipeline_fname = f"{file_name}_{i}.python"
-
-                save_text_file(error_fname, f"{result.get_exception()}")
-                save_text_file(fname=pipeline_fname, data=code)
-
-                prompt_rule, prompt_msg = error_prompt_factory(code, f"{result.get_exception()}")
-                new_code = llm.generate_llm_code(prompt_rules=prompt_rule, prompt_message=prompt_msg)
-                if len(new_code) > 500:
-                    code = new_code
-                else:
-                    i -= 1
-
-    return final_status, iteration, gen_time, execute_time, result.parse_results()
+    #
+    # # Parse LLM Code
+    # result = {"Train_Accuracy": -1, "Train_F1_score": -1, "Train_Log_loss": -1, "Train_R_Squared": -1, "Train_RMSE": -1,
+    #           "Test_Accuracy": -1, "Test_F1_score": -1, "Test_Log_loss": -1, "Test_R_Squared": -1, "Test_RMSE": -1}
+    #
+    # iteration = 0
+    # if args.parse_pipeline or args.run_pipeline:
+    #     rc = RunCode()
+    #     parse = None
+    #     for i in range(iteration, args.prompt_number_iteration):
+    #
+    #         pipeline_fname = f"{file_name}_draft.py"
+    #         save_text_file(fname=pipeline_fname, data=code)
+    #
+    #         start = time.time()
+    #         result = rc.execute_code(src=code, parse=parse)
+    #         end = time.time()
+    #         save_text_file(fname=pipeline_fname, data=code)
+    #         if result.get_status():
+    #             pipeline_fname = f"{file_name}.py"
+    #             save_text_file(fname=pipeline_fname, data=code)
+    #
+    #             execute_time = end - start
+    #             final_status = True
+    #             iteration = i + 1
+    #             break
+    #         else:
+    #             error_fname = f"{file_name}_{i}.error"
+    #             pipeline_fname = f"{file_name}_{i}.python"
+    #
+    #             save_text_file(error_fname, f"{result.get_exception()}")
+    #             save_text_file(fname=pipeline_fname, data=code)
+    #
+    #             prompt_rule, prompt_msg = error_prompt_factory(code, f"{result.get_exception()}")
+    #             new_code = llm.generate_llm_code(prompt_rules=prompt_rule, prompt_message=prompt_msg)
+    #             if len(new_code) > 500:
+    #                 code = new_code
+    #             else:
+    #                 i -= 1
+    #
+    # return final_status, iteration, gen_time, execute_time, result.parse_results()
 
 
 if __name__ == '__main__':
     args = parse_arguments()
+    set_config(args.llm_model)
+    generate_and_run_pipeline(args=args)
 
-    start = time.time()
-    catalog = load_data_source_profile(data_source_path=args.data_profile_path,
-                                       file_format="JSON",
-                                       target_attribute=args.target_attribute,
-                                       enable_reduction=args.enable_reduction)
 
-    end = time.time()
-    catalog_time = end - start
-    if args.prompt_representation_type == "AUTO":
-        combinations = Metadata(catalog=catalog).get_combinations()
-    else:
-        combinations = [args.prompt_representation_type]
-
-    try:
-        df_result = pd.read_csv(args.result_output_path)
-    except Exception as err:
-        df_result = pd.DataFrame(columns=["dataset_name",
-                                          "config",
-                                          "llm_model",
-                                          "has_description",
-                                          "classifier",
-                                          "task_type",
-                                          "status",
-                                          "number_iteration",
-                                          "pipeline_gen_time",
-                                          "execution_time",
-                                          "train_accuracy",
-                                          "train_f1_score",
-                                          "train_log_loss",
-                                          "train_r_squared",
-                                          "train_rmse",
-                                          "test_accuracy",
-                                          "test_f1_score",
-                                          "test_log_loss",
-                                          "test_r_squared",
-                                          "test_rmse"])
-    for rep_type in combinations:
-        try:
-            status, number_iteration, gen_time, execute_time, result = generate_and_run_pipeline(catalog=catalog,
-                                                                                                 prompt_representation_type=rep_type,
-                                                                                                 args=args)
-            df_result.loc[len(df_result)] = [args.dataset_name,
-                                             rep_type,
-                                             args.llm_model,
-                                             args.dataset_description,
-                                             "automatic",
-                                             args.task_type,
-                                             status,
-                                             number_iteration,
-                                             catalog_time + gen_time,
-                                             execute_time,
-                                             result["Train_Accuracy"],
-                                             result["Train_F1_score"],
-                                             result["Train_Log_loss"],
-                                             result["Train_R_Squared"],
-                                             result["Train_RMSE"],
-                                             result["Test_Accuracy"],
-                                             result["Test_F1_score"],
-                                             result["Test_Log_loss"],
-                                             result["Test_R_Squared"],
-                                             result["Test_RMSE"]
-                                             ]
-
-        except Exception as err:
-            print("*******************************************")
-            print(args.dataset_name)
-            print(err)
-    df_result.to_csv(args.result_output_path, index=False)
+    #############################################################################
+    # try:
+    #     df_result = pd.read_csv(args.result_output_path)
+    # except Exception as err:
+    #     df_result = pd.DataFrame(columns=["dataset_name",
+    #                                       "config",
+    #                                       "llm_model",
+    #                                       "has_description",
+    #                                       "classifier",
+    #                                       "task_type",
+    #                                       "status",
+    #                                       "number_iteration",
+    #                                       "pipeline_gen_time",
+    #                                       "execution_time",
+    #                                       "train_accuracy",
+    #                                       "train_f1_score",
+    #                                       "train_log_loss",
+    #                                       "train_r_squared",
+    #                                       "train_rmse",
+    #                                       "test_accuracy",
+    #                                       "test_f1_score",
+    #                                       "test_log_loss",
+    #                                       "test_r_squared",
+    #                                       "test_rmse"])
+    # for rep_type in combinations:
+    #     try:
+    #         status, number_iteration, gen_time, execute_time, result = generate_and_run_pipeline(catalog=catalog,
+    #                                                                                              prompt_representation_type=rep_type,
+    #                                                                                              args=args)
+    #         df_result.loc[len(df_result)] = [args.dataset_name,
+    #                                          rep_type,
+    #                                          args.llm_model,
+    #                                          args.dataset_description,
+    #                                          "automatic",
+    #                                          args.task_type,
+    #                                          status,
+    #                                          number_iteration,
+    #                                          catalog_time + gen_time,
+    #                                          execute_time,
+    #                                          result["Train_Accuracy"],
+    #                                          result["Train_F1_score"],
+    #                                          result["Train_Log_loss"],
+    #                                          result["Train_R_Squared"],
+    #                                          result["Train_RMSE"],
+    #                                          result["Test_Accuracy"],
+    #                                          result["Test_F1_score"],
+    #                                          result["Test_Log_loss"],
+    #                                          result["Test_R_Squared"],
+    #                                          result["Test_RMSE"]
+    #                                          ]
+    #
+    #     except Exception as err:
+    #         print("*******************************************")
+    #         print(args.dataset_name)
+    #         print(err)
+    # df_result.to_csv(args.result_output_path, index=False)

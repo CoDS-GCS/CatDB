@@ -1,26 +1,29 @@
-from openai import OpenAI
-import os
-import tiktoken
-from util.Config import LLMSetting
 from .GenerateLLMCodeGPT import GenerateLLMCodeGPT
 from .GenerateLLMCodeLLaMa import GenerateLLMCodeLLaMa
+import tiktoken
 
 
-class GenerateLLMCode(object):
-    def __init__(self, model: str):
-        setting = LLMSetting()
-        self.model = model
-        self.model_token_limit = setting.get_limit(model=model)
+class GenerateLLMCode:
 
-    def generate_llm_code(self, prompt_message: str, prompt_rules: str):
-        if self.model == "skip":
-            return ""
-        elif (self.model == "gpt-3.5-turbo" or
-              self.model == "gpt-4" or
-              self.model == "gpt-4-turbo"):
-            return GenerateLLMCodeGPT.generate_code_OpenAI_LLM(model=self.model, prompt_message=prompt_message, prompt_rules=prompt_rules)
-        elif self.model == "llama3-70b-8192":
-            return GenerateLLMCodeLLaMa.generate_code_LLaMa_LLM(model=self.model, prompt_message=prompt_message, prompt_rules=prompt_rules)
+    @staticmethod
+    def generate_llm_code(user_message: str, system_message: str):
+        from util.Config import _llm_platform, _OPENAI, _META
+
+        if _llm_platform is None:
+            raise Exception("Select a LLM Platform: OpenAI (GPT) or Meta (Lama)")
+        elif _llm_platform == _OPENAI:
+            return GenerateLLMCodeGPT.generate_code_OpenAI_LLM(user_message=user_message, system_message=system_message)
+        elif _llm_platform == _META:
+            return GenerateLLMCodeLLaMa.generate_code_LLaMa_LLM(user_message=user_message, system_message=system_message)
 
         else:
-            raise Exception(f"Model {self.model} is not implemented yet!")
+            raise Exception(f"Model {_llm_platform} is not implemented yet!")
+
+    @staticmethod
+    def __get_number_tokens(user_message: str, system_message: str):
+        from util.Config import _llm_platform
+        enc = tiktoken.get_encoding("cl100k_base")
+        enc = tiktoken.encoding_for_model(_llm_platform)
+        token_integers = enc.encode(user_message + system_message)
+        num_tokens = len(token_integers)
+        return num_tokens

@@ -1,30 +1,26 @@
 from openai import OpenAI
 import os
-import tiktoken
-from util.Config import LLMSetting
 import re
 from groq import Groq
 
 
 class GenerateLLMCodeLLaMa:
     @staticmethod
-    def generate_code_LLaMa_LLM(model: str, prompt_message: str, prompt_rules: str):
+    def generate_code_LLaMa_LLM(user_message: str, system_message: str):
         GROQ_API_KEY = os.environ.get("GROQ_API_KEY")
         client = Groq(api_key=GROQ_API_KEY)
-        setting = LLMSetting()
-        model_token_limit = setting.get_limit(model=model)
-
         messages = [
-            {"role": "system", "content": prompt_rules},
-            {"role": "user", "content": prompt_message}
+            {"role": "system", "content": system_message},
+            {"role": "user", "content": user_message}
         ]
-        code = GenerateLLMCodeLLaMa.__submit_Request_LLaMa_LLM(model=model, messages=messages, client=client)
+        code = GenerateLLMCodeLLaMa.__submit_Request_LLaMa_LLM(messages=messages, client=client)
         return code
 
     @staticmethod
-    def __submit_Request_LLaMa_LLM(model, messages, client):
+    def __submit_Request_LLaMa_LLM(messages, client):
+        from util.Config import _llm_model
         completion = client.chat.completions.create(
-            model=model,
+            model=_llm_model,
             messages=messages,
             temperature=0
         )
@@ -63,11 +59,3 @@ class GenerateLLMCodeLLaMa:
         text = text.replace("<CODE>", "# <CODE>")
         text = text.replace("</CODE>", "# </CODE>")
         return text
-
-    @staticmethod
-    def __get_number_tokens(model, prompt_rules: str, prompt_message: str):
-        enc = tiktoken.get_encoding("cl100k_base")
-        enc = tiktoken.encoding_for_model(model)
-        token_integers = enc.encode(prompt_rules + prompt_message)
-        num_tokens = len(token_integers)
-        return num_tokens

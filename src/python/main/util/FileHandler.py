@@ -17,12 +17,12 @@ def save_text_file(fname: str, data):
         raise Exception (f"Error in save file:\n {ex}")
 
 
-def save_prompt(fname: str, prompt_rule: str, prompt_msg):
+def save_prompt(fname: str, system_message: str, user_message: str):
     prompt_items = ["SYSTEM MESSAGE:\n",
-                    prompt_rule,
+                    system_message,
                     "\n---------------------------------------\n",
                     "PROMPT TEXT:\n",
-                    prompt_msg]
+                    user_message]
     prompt_data = "".join(prompt_items)
     save_text_file(fname=fname, data=prompt_data)
 

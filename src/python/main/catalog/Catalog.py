@@ -4,7 +4,8 @@ from .DimensionReduction import ReduceDimension
 
 
 class CatalogInfo(object):
-    def __init__(self, nrows: int,
+    def __init__(self,
+                 nrows: int,
                  ncols: int,
                  dataset_name: str,
                  data_source_path,
@@ -74,6 +75,7 @@ def load_data_source_profile(data_source_path: str, file_format: str, target_att
             else:
                 schema_info_group[profile.short_data_type].append(profile.column_name)
 
+            nrows = profile.nrows
             ncols += 1
             if dataset_name is None:
                 dataset_name = profile.dataset_name

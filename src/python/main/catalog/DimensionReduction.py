@@ -2,13 +2,17 @@ import multiprocessing
 import threading
 import math
 import concurrent.futures
-from util.Config import LOW_RATIO_THRESHOLD
+
 
 class SortItem(object):
     def __init__(self, i: int, j: int, value: float):
         self.i = i
         self.j = j
         self.value = value
+
+
+def calc_euclidean_distance(list1, list2):
+    return sum((p - q) ** 2 for p, q in zip(list1, list2)) ** .5
 
 
 class ReduceDimension(object):
@@ -56,7 +60,7 @@ class ReduceDimension(object):
         self.run_reduction_function(task=self.remove_constant_and_unique_columns, keys=all_keys)
         self.run_reduction_function(task=self.remove_low_ratio_columns, keys=all_keys)
 
-        #self.run_similarity_reduction_function(task=self.calc_embedding_euclidean_distance_similarity, keys=int_keys)
+        # self.run_similarity_reduction_function(task=self.calc_embedding_euclidean_distance_similarity, keys=int_keys)
 
         schema_info = dict()
         schema_info_group = dict()
@@ -127,6 +131,7 @@ class ReduceDimension(object):
                 pi.deactivate()
 
     def remove_low_ratio_columns(self, keys: []):
+        from util.Config import LOW_RATIO_THRESHOLD
         for k in keys:
             pi = self.profile_info[k]
             if pi.missing_values_count / pi.total_values_count > 1 - LOW_RATIO_THRESHOLD:
@@ -136,11 +141,8 @@ class ReduceDimension(object):
         ed_list = []
         xi = self.profile_info[keys[indexi]].embedding
         for j in range(indexj, indexj_end):
-            ed = self.calc_euclidean_distance(xi, self.profile_info[keys[j]].embedding)
+            ed = calc_euclidean_distance(xi, self.profile_info[keys[j]].embedding)
             ed_list.append(SortItem(i=indexi, j=j, value=ed))
 
-        #sort_list = sorted(ed_list, key=lambda x: x.value, reverse=False)
+        # sort_list = sorted(ed_list, key=lambda x: x.value, reverse=False)
         return ed_list
-
-    def calc_euclidean_distance(self, list1, list2):
-        return sum((p - q) ** 2 for p, q in zip(list1, list2)) ** .5

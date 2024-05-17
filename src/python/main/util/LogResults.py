@@ -11,6 +11,7 @@ class LogResults(object):
                  task_type: str,
                  status: str,
                  number_iteration: int,
+                 number_iteration_error: int,
                  has_description: str,
                  time_catalog_load: float,
                  time_pipeline_generate: float,
@@ -34,6 +35,7 @@ class LogResults(object):
         self.task_type = task_type
         self.status = status
         self.number_iteration = number_iteration
+        self.number_iteration_error = number_iteration_error
         self.has_description = has_description
         self.dataset_name = dataset_name
         self.time_catalog_load = time_catalog_load
@@ -52,7 +54,7 @@ class LogResults(object):
         self.test_rmse = test_rmse
 
         self.columns = ["dataset_name", "config", "sub_task", "llm_model", "classifier", "task_type", "status",
-                        "number_iteration", "has_description", "time_catalog_load", "time_pipeline_generate",
+                        "number_iteration","number_iteration_error", "has_description", "time_catalog_load", "time_pipeline_generate",
                         "time_total", "time_execution", "train_accuracy", "train_f1_score", "train_log_loss",
                         "train_r_squared", "train_rmse", "test_accuracy", "test_f1_score", "test_log_loss",
                         "test_r_squared", "test_rmse"]
@@ -60,13 +62,6 @@ class LogResults(object):
     def save_results(self, result_output_path: str):
         try:
             df_result = pd.read_csv(result_output_path)
-            data_index = df_result[(df_result['dataset_name'] == self.dataset_name) &
-                                 (df_result['config'] == self.config) &
-                                 (df_result['sub_task'] == self.sub_task) &
-                                 (df_result['llm_model'] == self.llm_model) &
-                                 (df_result['classifier'] == self.classifier)].index
-            if len(data_index) > 0:
-                df_result = df_result.drop(data_index, axis=0).reset_index(drop=True)
 
         except Exception as err:
             df_result = pd.DataFrame(columns=self.columns)
@@ -79,6 +74,7 @@ class LogResults(object):
                                          self.task_type,
                                          self.status,
                                          self.number_iteration,
+                                         self.number_iteration_error,
                                          self.has_description,
                                          self.time_catalog_load,
                                          self.time_pipeline_generate,

@@ -20,6 +20,7 @@ def parse_arguments():
     parser.add_argument('--prompt-samples-type', type=str, default=None)
     parser.add_argument('--prompt-number-samples', type=int, default=None)
     parser.add_argument('--prompt-number-iteration', type=int, default=1)
+    parser.add_argument('--prompt-number-iteration-error', type=int, default=1)
     parser.add_argument('--output-path', type=str, default=None)
     parser.add_argument('--llm-model', type=str, default=None)
     parser.add_argument('--enable-reduction', type=bool, default=False)
@@ -76,7 +77,7 @@ def parse_arguments():
 
 
 def generate_and_run_pipeline(args, catalog, run_mode: str = None, sub_task: str = '', previous_result: str = None,
-                              time_catalog: float = 0):
+                              time_catalog: float = 0, iteration: int = 1):
 
     from util.Config import __gen_run_mode
     time_generate = 0
@@ -105,7 +106,7 @@ def generate_and_run_pipeline(args, catalog, run_mode: str = None, sub_task: str
     prompt_user_message = prompt_format["user_message"]
 
     # Save prompt:
-    file_name = f'{args.output_path}/{args.llm_model}-{prompt.class_name}-{args.dataset_description}'
+    file_name = f'{args.output_path}/{args.llm_model}-{prompt.class_name}-{args.dataset_description}-iteration-{iteration}'
     if sub_task != '':
         file_name = f"{file_name}-{sub_task}"
 
@@ -127,8 +128,8 @@ def generate_and_run_pipeline(args, catalog, run_mode: str = None, sub_task: str
             break
     time_generate += time_end - time_start
 
-    iteration = 0
-    for i in range(iteration, args.prompt_number_iteration):
+    iteration_error = 0
+    for i in range(iteration_error, args.prompt_number_iteration_error):
         if len(code) > 500:
             pipeline_fname = f"{file_name}_draft.py"
             save_text_file(fname=pipeline_fname, data=code)
@@ -142,7 +143,7 @@ def generate_and_run_pipeline(args, catalog, run_mode: str = None, sub_task: str
 
             time_execute = time_end - time_start
             final_status = True
-            iteration = i + 1
+            iteration_error = i + 1
             break
         else:
             error_fname = f"{file_name}_{i}.error"
@@ -152,7 +153,7 @@ def generate_and_run_pipeline(args, catalog, run_mode: str = None, sub_task: str
             save_text_file(fname=pipeline_fname, data=code)
 
             system_message, user_message = error_prompt_factory(code, f"{result.get_exception()}")
-            prompt_fname_error = f"{file_name}_Error_{iteration}.prompt"
+            prompt_fname_error = f"{file_name}_Error_{i}.prompt"
             save_prompt(fname=prompt_fname_error, system_message=system_message, user_message=user_message)
 
             new_code = GenerateLLMCode.generate_llm_code(system_message=system_message, user_message=user_message)
@@ -166,7 +167,7 @@ def generate_and_run_pipeline(args, catalog, run_mode: str = None, sub_task: str
 
     log_results = LogResults(dataset_name=args.dataset_name, config=args.prompt_representation_type, sub_task=sub_task,
                              llm_model=args.llm_model, classifier="Auto", task_type=args.task_type,
-                             status=f"{final_status}", number_iteration=iteration,
+                             status=f"{final_status}", number_iteration=iteration, number_iteration_error=iteration_error,
                              has_description=args.dataset_description,
                              time_catalog_load=time_catalog, time_pipeline_generate=time_generate,
                              time_total=time_total,
@@ -205,17 +206,18 @@ if __name__ == '__main__':
     time_end = time.time()
     time_catalog = time_end - time_start
 
-    if args.prompt_representation_type == "CatDBChain":
-        final_status, code = generate_and_run_pipeline(args=args, catalog=catalog, run_mode=__validation_run_mode,
-                                                       sub_task=__sub_task_data_preprocessing, time_catalog=time_catalog)
-        if final_status:
-            final_status, code = generate_and_run_pipeline(args=args, catalog=catalog,  run_mode=__validation_run_mode,
-                                                           sub_task=__sub_task_feature_engineering,
-                                                           previous_result=code, time_catalog=time_catalog)
+    for i in range(0, args.prompt_number_iteration):
+        if args.prompt_representation_type == "CatDBChain":
+            final_status, code = generate_and_run_pipeline(args=args, catalog=catalog, run_mode=__validation_run_mode,
+                                                           sub_task=__sub_task_data_preprocessing, time_catalog=time_catalog, iteration=i)
             if final_status:
-                final_status, code = generate_and_run_pipeline(args=args,catalog=catalog, run_mode=__gen_run_mode,
-                                                               sub_task=__sub_task_model_selection,
-                                                               previous_result=code, time_catalog=time_catalog)
+                final_status, code = generate_and_run_pipeline(args=args, catalog=catalog,  run_mode=__validation_run_mode,
+                                                               sub_task=__sub_task_feature_engineering,
+                                                               previous_result=code, time_catalog=time_catalog, iteration=i)
+                if final_status:
+                    final_status, code = generate_and_run_pipeline(args=args,catalog=catalog, run_mode=__gen_run_mode,
+                                                                   sub_task=__sub_task_model_selection,
+                                                                   previous_result=code, time_catalog=time_catalog, iteration=i)
 
-    else:
-        generate_and_run_pipeline(args=args, catalog=catalog, run_mode=__gen_run_mode, time_catalog=time_catalog)
+        else:
+            generate_and_run_pipeline(args=args, catalog=catalog, run_mode=__gen_run_mode, time_catalog=time_catalog, iteration=i)

@@ -27,3 +27,12 @@ class GenerateLLMCode:
         token_integers = enc.encode(user_message + system_message)
         num_tokens = len(token_integers)
         return num_tokens
+
+    @staticmethod
+    def refine_source_code(code: str):
+        final_code = []
+        for line in code.splitlines():
+            if not line.startswith('#'):
+                final_code.append(line)
+        final_code = "\n".join(final_code)
+        return final_code.replace("@ ```", "# ```")

@@ -13,6 +13,7 @@ from prompt.PromptTemplate import AllPrompt
 
 from prompt.PromptChainTemplate import DataPreprocessingChainPrompt
 from prompt.PromptChainTemplate import FeatureEngineeringChainPrompt
+from prompt.PromptChainTemplate import ModelSelectionChainPrompt
 
 __gen_run_mode = 'generate-and-run'
 __validation_run_mode = 'validation'
@@ -51,14 +52,13 @@ def set_config(model):
     global _max_token_limit
 
     _llm_model = model
-
     if model == "gpt-4":
         _llm_platform = _OPENAI
         _max_token_limit = __GPT_4_Limit
         _user_delimiter = __GPT_user_delimiter
         _system_delimiter = __GPT_system_delimiter
 
-    if model == "gpt-4-1106-preview_":
+    elif model == "gpt-4-1106-preview_":
         _llm_platform = _OPENAI
         _max_token_limit = __GPT_4_1106_Preview_Limit
         _user_delimiter = __GPT_user_delimiter
@@ -140,5 +140,6 @@ PROMPT_FUNC = {"S": SchemaPrompt,
                "ALL": AllPrompt,
                "CatDB": CatDBPrompt,
                "CatDBChainDataPreprocessing": DataPreprocessingChainPrompt,
-               "CatDBChainFeatureEngineering": FeatureEngineeringChainPrompt
+               "CatDBChainFeatureEngineering": FeatureEngineeringChainPrompt,
+               "CatDBChainModelSelection": ModelSelectionChainPrompt
                }

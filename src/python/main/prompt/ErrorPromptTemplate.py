@@ -1,3 +1,6 @@
+from util import StaticValues
+
+
 class BasicErrorPrompt(object):
     def __init__(self, pipeline_code: str, pipeline_error: str, *args, **kwargs):
         self.rules = []
@@ -18,7 +21,8 @@ class BasicErrorPrompt(object):
         code = f"<CODE>\n{self.pipeline_code}\n</CODE>"
         error = f"<ERROR>\n{self.small_error_msg}\n</ERROR>"
         question = ("Question: Fix the code error provided and return only the corrected pipeline without "
-                    "additional explanations regarding the resolved error.")
+                    "additional explanations regarding the resolved error."
+                    )
         prompt_items = [code, error, question]
 
         return f"{_user_delimiter}".join(prompt_items)
@@ -33,7 +37,8 @@ class RuntimeErrorPrompt(BasicErrorPrompt):
         BasicErrorPrompt.__init__(self, *args, **kwargs)
         self.rules = ['Task: You are expert in coding assistant. Your task is fix the error of this pipeline code.',
                       'Input: The user will provide a pipeline code enclosed in "<CODE> pipline code will be here. </CODE>", '
-                      'and an error message enclosed in "<ERROR> error message will be here. </ERROR>".']
+                      'and an error message enclosed in "<ERROR> error message will be here. </ERROR>".',
+                      f"Rule : {StaticValues.rule_code_block}"]
 
         min_length = min(len(self.pipeline_error), 2000)
         self.small_error_msg = self.pipeline_error[:min_length]

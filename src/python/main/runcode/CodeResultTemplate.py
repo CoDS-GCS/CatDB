@@ -27,8 +27,9 @@ class CodeResultTemplate(object):
         return self.exception
 
     def parse_results(self):
-        from util.Config import __gen_run_mode
-        if self.run_mode == __gen_run_mode:
+        print(self.result)
+        #from util.Config import __gen_run_mode
+        if self.run_mode == 'generate-and-run': #__gen_run_mode:
             pipeline_evl = {"Train_Accuracy": -1,
                             "Train_F1_score": -1,
                             "Train_Log_loss": -1,

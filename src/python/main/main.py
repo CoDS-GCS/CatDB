@@ -207,15 +207,15 @@ if __name__ == '__main__':
 
     if args.prompt_representation_type == "CatDBChain":
         final_status, code = generate_and_run_pipeline(args=args, catalog=catalog, run_mode=__validation_run_mode,
-                                                       sub_task=__sub_task_data_preprocessing, time_catalog = time_catalog)
+                                                       sub_task=__sub_task_data_preprocessing, time_catalog=time_catalog)
         if final_status:
             final_status, code = generate_and_run_pipeline(args=args, catalog=catalog,  run_mode=__validation_run_mode,
                                                            sub_task=__sub_task_feature_engineering,
-                                                           previous_result=code, time_catalog = time_catalog)
-            # if final_status:
-            #     final_status, code = generate_and_run_pipeline(args=args, run_mode=__gen_run_mode,
-            #                                                    sub_task=__sub_task_model_selection,
-            #                                                    previous_result=code, time_catalog = time_catalog)
+                                                           previous_result=code, time_catalog=time_catalog)
+            if final_status:
+                final_status, code = generate_and_run_pipeline(args=args,catalog=catalog, run_mode=__gen_run_mode,
+                                                               sub_task=__sub_task_model_selection,
+                                                               previous_result=code, time_catalog=time_catalog)
 
     else:
-        generate_and_run_pipeline(args=args, catalog=catalog, run_mode=__gen_run_mode, time_catalog = time_catalog)
+        generate_and_run_pipeline(args=args, catalog=catalog, run_mode=__gen_run_mode, time_catalog=time_catalog)

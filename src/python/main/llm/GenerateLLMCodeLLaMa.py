@@ -58,4 +58,8 @@ class GenerateLLMCodeLLaMa:
         text = text[begin_index:end_index]
         text = text.replace("<CODE>", "# <CODE>")
         text = text.replace("</CODE>", "# </CODE>")
+        text = text.replace("```", "@ ```")
+
+        from .GenerateLLMCode import GenerateLLMCode
+        text = GenerateLLMCode.refine_source_code(code=text)
         return text

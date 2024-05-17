@@ -28,5 +28,8 @@ class GenerateLLMCodeGPT:
         begin_point = code.find(begin_key)
         end_point = len(code) - code[::-1].find(end_key)
         code = code[begin_point:end_point]
-        code = code.replace("```", "# ```")
+        code = code.replace("```", "@ ```")
+
+        from .GenerateLLMCode import GenerateLLMCode
+        code = GenerateLLMCode.refine_source_code(code=code)
         return code

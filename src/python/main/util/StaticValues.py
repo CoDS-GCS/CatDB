@@ -16,6 +16,7 @@ dp_rule_4 = ('The user will provide the {} of the dataset with columns appropria
 dp_rule_5 = 'If the question is not relevant to the dataset or the task, the output should be: "Insufficient information."'
 dp_rule_6 = 'Utilize data augmentation techniques on the dataset to enhance accuracy and mitigate overfitting.'
 dp_rule_7 = 'The target feature in the dataset is \"{}\".'
+dp_rule_8 = "Don't display the first few rows of the datasets."
 
 # Feature Engineering Rules:
 fe_rule_task = ('Task: Select the appropriate features and target variables for the question (Feature Engineering Task). '
@@ -35,7 +36,21 @@ fe_rule_2 = ("Perform drops columns, if these may be redundant and hurt the pred
           "dataset is small. The {} will be trained on the dataset with the generated columns and evaluated on a "
           "holdout set.")
 fe_rule_3 = 'If the question is not relevant to the dataset or the task, the output should be: "Insufficient information."'
+fe_rule_4 = "Don't display the first few rows of the datasets."
 
+# Model Selection and Hyperparameters Tuning
+ms_rule_task = "Task: Select an appropriate {} Machine Learning model for the question."
+ms_rule_input = ('Input: first draft version of pipline with a Data Preprocessing and Feature Engineering task enclosed in '
+                 '"<CODE> pipline code will be here. </CODE>", and a schema that describes the columns and data types '
+                 'of the dataset, and a data profiling info that summarizes the statistics and quality of the dataset.')
+ms_rule_output = "Output: A modified Python 3.10 code with a Machine Learning algorithm task that performs the following steps:"
+ms_rule_1 = 'Select {} algorithm (such as RandomForestClassifier/XGBoost and so on) predicting "{}".'
+ms_rule_2 = ('Select a suitable hyperparameters for the selected algorithm. If the algorithm is RandomForestClassifier '
+             'then pass max_leaf_nodes={} as parameter.')
+ms_rule_3 = "Don't report validation evaluation. We don't need it."
+
+
+rule_code_block = "Each codeblock ends with \"```end\" and starts with \"```python\"."
 #----------------------------------------------------------------------------------------------------------------------
 
 Rule_task = ("Task: Generate a data science pipeline in Python 3.10 that answers a question based on a "

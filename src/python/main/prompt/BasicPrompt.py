@@ -56,6 +56,12 @@ class BasicPrompt(object):
         if scaler_prompt is not None:
             prompt_items.append(scaler_prompt)
 
+        # Encode categorical values:
+        if self.flag_categorical_values and len(self.catalog.columns_categorical) > 0:
+            categorical_column_prompt = (f'Encode categorical values by "on-hot-encoder" for the following '
+                                         f'columns:\n\t# Columns: {",".join(self.catalog.columns_categorical)}')
+            prompt_items.append(categorical_column_prompt)
+
         prompt_items.append(f"Dataset Attribute:\n# Number of samples (rows) in training dataset: {self.catalog.nrows}")
         prompt_items.append(f'Question: {self.question}')
         return f"\n\n{_user_delimiter}".join(prompt_items)
@@ -68,7 +74,7 @@ class BasicPrompt(object):
         content = []
         for r in range(0, len(self.df_content)):
             row_msg = [f'# {self.df_content.loc[r]["column_name"]} ({self.df_content.loc[r]["column_data_type"]})']
-            if self.flag_distinct_value_count:
+            if self.flag_distinct_value_count and self.df_content.loc[r]["is_categorical"] == False:
                 row_msg.append(f'distinct-count [{self.df_content.loc[r]["distinct_count"]}]')
 
             if self.df_content.loc[r]["is_numerical"] and self.flag_statistical_number:
@@ -85,7 +91,7 @@ class BasicPrompt(object):
 
             content.append(", ".join(row_msg))
         content = "\n".join(content)
-        prompt_items = [f"{_user_delimiter} {self.ds_attribute_prefix_label}",
+        prompt_items = [f"{self.ds_attribute_prefix_label}",
                         '"""',
                         content,
                         '"""']

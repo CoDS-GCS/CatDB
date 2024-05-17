@@ -60,19 +60,17 @@ class LogResults(object):
     def save_results(self, result_output_path: str):
         try:
             df_result = pd.read_csv(result_output_path)
-            old_data = df_result[(df_result['dataset_name'] == self.dataset_name) &
+            data_index = df_result[(df_result['dataset_name'] == self.dataset_name) &
                                  (df_result['config'] == self.config) &
                                  (df_result['sub_task'] == self.sub_task) &
                                  (df_result['llm_model'] == self.llm_model) &
                                  (df_result['classifier'] == self.classifier)].index
-            df_result = df_result.drop(old_data, axis=0).reset_index()
+            if len(data_index) > 0:
+                df_result = df_result.drop(data_index, axis=0).reset_index(drop=True)
 
         except Exception as err:
             df_result = pd.DataFrame(columns=self.columns)
 
-        print("=========================================")
-        print(df_result)
-        print("-------------------------------------------")
         df_result.loc[len(df_result)] = [self.dataset_name,
                                          self.config,
                                          self.sub_task,
@@ -96,6 +94,5 @@ class LogResults(object):
                                          self.test_log_loss,
                                          self.test_r_squared,
                                          self.test_rmse]
-
 
         df_result.to_csv(result_output_path, index=False)

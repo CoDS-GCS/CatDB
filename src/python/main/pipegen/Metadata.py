@@ -1,5 +1,5 @@
 from catalog.Catalog import CatalogInfo
-from util.Config import REP_TYPE, PROFILE_TYPE_VAL, CATEGORICAL_RATIO
+from util.Config import REP_TYPE, PROFILE_TYPE_VAL
 
 
 class Metadata(object):
@@ -27,7 +27,7 @@ class Metadata(object):
 
     def set_config(self, row, cols):
         for col in cols:
-            self.config_matrix[row][col-1] = 1
+            self.config_matrix[row][col - 1] = 1
 
     def set_distinct_values(self):
         flag = False
@@ -42,38 +42,18 @@ class Metadata(object):
             self.set_config(row=1, cols=cols)
 
     def set_missing_values(self):
-        flag = False
-        nrows = self.catalog.nrows
-        for k in self.catalog.profile_info.keys():
-            pi = self.catalog.profile_info[k]
-            if 0 < pi.missing_values_count < nrows:
-                flag = True
-                break
-        if flag:
+        if len(self.catalog.columns_numerical_missing_values) > 0 or \
+                len(self.catalog.columns_others_missing_values) > 0 or \
+                len(self.catalog.columns_categorical_missing_values) > 0:
             cols = [3, 6, 8, 9, 11]
             self.set_config(row=2, cols=cols)
 
     def set_numerical_values(self):
-        flag = False
-        for k in self.catalog.profile_info.keys():
-            pi = self.catalog.profile_info[k]
-            if pi.data_type in {"int", "float"} and pi.distinct_values_count > 0:
-                flag = True
-                break
-        if flag:
+        if len(self.catalog.columns_numerical):
             cols = [4, 7, 8, 1, 11]
             self.set_config(row=3, cols=cols)
 
     def set_categorical_values(self):
-        flag = False
-        nrows = self.catalog.nrows
-        for k in self.catalog.profile_info.keys():
-            pi = self.catalog.profile_info[k]
-            r = pi.distinct_values_count / nrows
-            if r <= CATEGORICAL_RATIO:
-                flag = True
-                break
-
-        if flag:
+        if len(self.catalog.columns_categorical) > 0:
             cols = [5, 9, 10, 11]
             self.set_config(row=4, cols=cols)

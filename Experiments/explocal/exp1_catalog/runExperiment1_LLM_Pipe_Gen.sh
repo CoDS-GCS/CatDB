@@ -12,7 +12,8 @@ llm_model=$7
 with_dataset_description=$8
 
 metadata_path="${data_path}/${dataset}/${dataset}.yaml"
-number_iteration=20
+number_iteration=5
+number_iteration_error=20
 
 log_file_name="${exp_path}/results/Experiment1_LLM_Pipe_Gen.dat"
 
@@ -30,6 +31,7 @@ SCRIPT="python -Wignore main.py --metadata-path ${metadata_path} \
         --prompt-samples-type ${prompt_samples_type} \
         --prompt-number-samples ${prompt_number_samples} \
         --prompt-number-iteration ${number_iteration} \
+        --prompt-number-iteration-error ${number_iteration_error} \
         --llm-model ${llm_model} \
         --output-path ${output_path} \
         --result-output-path ${result_output_path} \

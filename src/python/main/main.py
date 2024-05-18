@@ -7,6 +7,7 @@ from util.FileHandler import save_prompt
 from util.FileHandler import save_text_file, read_text_file_line_by_line
 from util.Config import set_config
 from util.LogResults import LogResults
+from pipegen.Metadata import Metadata
 import time
 import yaml
 
@@ -218,6 +219,12 @@ if __name__ == '__main__':
                     final_status, code = generate_and_run_pipeline(args=args,catalog=catalog, run_mode=__gen_run_mode,
                                                                    sub_task=__sub_task_model_selection,
                                                                    previous_result=code, time_catalog=time_catalog, iteration=i)
-
+        elif args.prompt_representation_type == "AUTO":
+            combinations = Metadata(catalog=catalog).get_combinations()
+            for cmb in combinations:
+                args.prompt_representation_type = cmb
+                generate_and_run_pipeline(args=args, catalog=catalog, run_mode=__gen_run_mode,
+                                          time_catalog=time_catalog, iteration=i)
         else:
-            generate_and_run_pipeline(args=args, catalog=catalog, run_mode=__gen_run_mode, time_catalog=time_catalog, iteration=i)
+            generate_and_run_pipeline(args=args, catalog=catalog, run_mode=__gen_run_mode,
+                                      time_catalog=time_catalog, iteration=i)

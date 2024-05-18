@@ -6,7 +6,7 @@ task_type=$2
 exp_path="$(pwd)"
 log_file_name="${exp_path}/results/Experiment1_Data_Profile.dat"
 data_source="${exp_path}/data"
-data_profile_path="${exp_path}/setup/Baselines/kglids/kg_governor/data_profiling/src/"
+data_profile_path="${exp_path}/setup/Baselines/kglidsplus/kg_governor/data_profiling/src/"
 
 eval "$(conda shell.bash hook)"
 conda activate kglids
@@ -22,4 +22,4 @@ start=$(date +%s%N)
 $SCRIPT
 end=$(date +%s%N)
 
-echo ${dataset}","${task_type}",kglids,"$((($end - $start) / 1000000)) >>$log_file_name
+echo ${dataset}","${task_type}",kglidsplus,"$((($end - $start) / 1000000)) >>$log_file_name

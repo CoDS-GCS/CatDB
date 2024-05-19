@@ -115,19 +115,19 @@ def generate_and_run_pipeline(args, catalog, run_mode: str = None, sub_task: str
     save_prompt(fname=prompt_fname, system_message=prompt_system_message, user_message=prompt_user_message)
 
     # Generate LLM code
-    time_start = time.time()
-    code = GenerateLLMCode.generate_llm_code(user_message=prompt_user_message, system_message=prompt_system_message)
-    time_end = time.time()
-
-    for i in range(5):
-        if code == "Insufficient information.":
-            time_start = time.time()
-            code = GenerateLLMCode.generate_llm_code(user_message=prompt_user_message,
-                                                     system_message=prompt_system_message)
-            time_end = time.time()
-        else:
-            break
-    time_generate += time_end - time_start
+    # time_start = time.time()
+    # code = GenerateLLMCode.generate_llm_code(user_message=prompt_user_message, system_message=prompt_system_message)
+    # time_end = time.time()
+    #
+    # for i in range(5):
+    #     if code == "Insufficient information.":
+    #         time_start = time.time()
+    #         code = GenerateLLMCode.generate_llm_code(user_message=prompt_user_message,
+    #                                                  system_message=prompt_system_message)
+    #         time_end = time.time()
+    #     else:
+    #         break
+    # time_generate += time_end - time_start
 
     # iteration_error = 0
     # for i in range(iteration_error, args.prompt_number_iteration_error):

@@ -129,66 +129,67 @@ def generate_and_run_pipeline(args, catalog, run_mode: str = None, sub_task: str
             break
     time_generate += time_end - time_start
 
-    iteration_error = 0
-    for i in range(iteration_error, args.prompt_number_iteration_error):
-        if len(code) > 500:
-            pipeline_fname = f"{file_name}_draft.py"
-            save_text_file(fname=pipeline_fname, data=code)
+    # iteration_error = 0
+    # for i in range(iteration_error, args.prompt_number_iteration_error):
+    #     if len(code) > 500:
+    #         pipeline_fname = f"{file_name}_draft.py"
+    #         save_text_file(fname=pipeline_fname, data=code)
+    #
+    #     time_start = time.time()
+    #     result = RunCode.execute_code(src=code, parse=None, run_mode=run_mode)
+    #     time_end = time.time()
+    #     if result.get_status():
+    #         pipeline_fname = f"{file_name}.py"
+    #         save_text_file(fname=pipeline_fname, data=code)
+    #
+    #         time_execute = time_end - time_start
+    #         final_status = True
+    #         iteration_error = i + 1
+    #         break
+    #     else:
+    #         error_fname = f"{file_name}_{i}.error"
+    #         pipeline_fname = f"{file_name}_{i}.python"
+    #
+    #         save_text_file(error_fname, f"{result.get_exception()}")
+    #         save_text_file(fname=pipeline_fname, data=code)
+    #
+    #         system_message, user_message = error_prompt_factory(code, f"{result.get_exception()}")
+    #         prompt_fname_error = f"{file_name}_Error_{i}.prompt"
+    #         save_prompt(fname=prompt_fname_error, system_message=system_message, user_message=user_message)
+    #
+    #         new_code = GenerateLLMCode.generate_llm_code(system_message=system_message, user_message=user_message)
+    #         if len(new_code) > 500:
+    #             code = new_code
+    #         else:
+    #             i -= 1
+    #
+    # time_total_end = time.time()
+    # time_total = time_total_end - time_total_start
+    #
+    # log_results = LogResults(dataset_name=args.dataset_name, config=args.prompt_representation_type, sub_task=sub_task,
+    #                          llm_model=args.llm_model, classifier="Auto", task_type=args.task_type,
+    #                          status=f"{final_status}", number_iteration=iteration, number_iteration_error=iteration_error,
+    #                          has_description=args.dataset_description,
+    #                          time_catalog_load=time_catalog, time_pipeline_generate=time_generate,
+    #                          time_total=time_total,
+    #                          time_execution=time_execute)
+    # if run_mode == __gen_run_mode:
+    #     results = result.parse_results()
+    #     log_results.train_accuracy = results["Train_Accuracy"]
+    #     log_results.train_f1_score = results["Train_F1_score"]
+    #     log_results.train_log_loss = results["Train_Log_loss"]
+    #     log_results.train_r_squared = results["Train_R_Squared"]
+    #     log_results.train_rmse = results["Train_RMSE"]
+    #     log_results.test_accuracy = results["Test_Accuracy"]
+    #     log_results.test_f1_score = results["Test_F1_score"]
+    #     log_results.test_log_loss = results["Test_Log_loss"]
+    #     log_results.test_r_squared = results["Test_R_Squared"]
+    #     log_results.test_rmse = results["Test_RMSE"]
+    #
+    # log_results.save_results(result_output_path=args.result_output_path)
 
-        time_start = time.time()
-        result = RunCode.execute_code(src=code, parse=None, run_mode=run_mode)
-        time_end = time.time()
-        if result.get_status():
-            pipeline_fname = f"{file_name}.py"
-            save_text_file(fname=pipeline_fname, data=code)
-
-            time_execute = time_end - time_start
-            final_status = True
-            iteration_error = i + 1
-            break
-        else:
-            error_fname = f"{file_name}_{i}.error"
-            pipeline_fname = f"{file_name}_{i}.python"
-
-            save_text_file(error_fname, f"{result.get_exception()}")
-            save_text_file(fname=pipeline_fname, data=code)
-
-            system_message, user_message = error_prompt_factory(code, f"{result.get_exception()}")
-            prompt_fname_error = f"{file_name}_Error_{i}.prompt"
-            save_prompt(fname=prompt_fname_error, system_message=system_message, user_message=user_message)
-
-            new_code = GenerateLLMCode.generate_llm_code(system_message=system_message, user_message=user_message)
-            if len(new_code) > 500:
-                code = new_code
-            else:
-                i -= 1
-
-    time_total_end = time.time()
-    time_total = time_total_end - time_total_start
-
-    log_results = LogResults(dataset_name=args.dataset_name, config=args.prompt_representation_type, sub_task=sub_task,
-                             llm_model=args.llm_model, classifier="Auto", task_type=args.task_type,
-                             status=f"{final_status}", number_iteration=iteration, number_iteration_error=iteration_error,
-                             has_description=args.dataset_description,
-                             time_catalog_load=time_catalog, time_pipeline_generate=time_generate,
-                             time_total=time_total,
-                             time_execution=time_execute)
-    if run_mode == __gen_run_mode:
-        results = result.parse_results()
-        log_results.train_accuracy = results["Train_Accuracy"]
-        log_results.train_f1_score = results["Train_F1_score"]
-        log_results.train_log_loss = results["Train_Log_loss"]
-        log_results.train_r_squared = results["Train_R_Squared"]
-        log_results.train_rmse = results["Train_RMSE"]
-        log_results.test_accuracy = results["Test_Accuracy"]
-        log_results.test_f1_score = results["Test_F1_score"]
-        log_results.test_log_loss = results["Test_Log_loss"]
-        log_results.test_r_squared = results["Test_R_Squared"]
-        log_results.test_rmse = results["Test_RMSE"]
-
-    log_results.save_results(result_output_path=args.result_output_path)
-
-    return final_status, code
+    # return final_status, code
+    return True, "CODE"
 
 
 if __name__ == '__main__':

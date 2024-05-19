@@ -193,7 +193,7 @@ class BasicPrompt(object):
             if k in self.catalog.columns_numerical:
                 is_numerical = True
 
-            if k in self.catalog.columns_categorical:
+            if self.catalog.columns_categorical is not None and k in self.catalog.columns_categorical:
                 is_categorical = True
                 categorical_values = (",".join([str(val) for val in cp.categorical_values])).replace("\"","'")
                 tmp_cc = []

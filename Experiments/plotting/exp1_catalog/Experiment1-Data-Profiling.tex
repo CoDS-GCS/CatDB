@@ -1,0 +1,48 @@
+\newcommand{\addplotDataProfilling}[1]{
+	   \addplot[xshift=0, draw=black,line width=0.15pt, fill=tugb] 
+	   table[y=time, col sep=comma, x=dataset] {../archive/Final-Results/Experiment1_Data_Profile.dat};
+     %\label{leg_dataprofile} 
+};
+
+\begin{tikzpicture}[
+  every axis/.style={
+    major x tick style = {draw=none},
+    % ybar stacked,
+    ymode=log,
+    xtick style={draw=none},		
+    every major tick/.append style={ thick,major tick length=2.5pt, gray},
+    axis line style={gray},
+    ybar,        
+    ymin=20000,
+    ymax=600000,
+    log ticks with fixed point,
+    y tick label style={/pgf/number format/1000 sep={}},
+    x tick label style={/pgf/number format/1000 sep={}},
+    scaled y ticks=false,
+    enlarge y limits={0.02,upper},
+    enlarge x limits=0.02,
+    ylabel={Execution Time[s]},
+    ytick={20000,40000,80000,160000,320000,600000},
+    yticklabels={0, 40, 80, 160, 320,600},
+    ytick align=outside,
+    xtick pos=left,
+    ytick pos=left,
+    yticklabel style = {font=\scriptsize},
+    ylabel style = {font=\scriptsize, yshift=-1pt, xshift=-5pt},
+    xticklabel style = {font=\scriptsize, xshift=0pt,yshift=2pt ,rotate=90},
+    height=0.35\columnwidth,
+    width=1.4\columnwidth,    
+    bar width=8pt,
+    ymajorgrids=true,
+    grid style=dotted,   
+    minor grid style={gray!50}, 
+    xtick = data,
+    symbolic x coords={Higgs,Albert,Click-Prediction,Census,Heart-Statlog,KDDCup99,Road-Safety,Drug-Directory,Okcupid-Stem,Walking-Activity,PASS,Aloi,MD-MIX-Mini,Dionis,Meta-Album-BRD,Balance-Scale,Breast-w,CMC,Credit-g,Diabetes,Tic-Tac-Toe,Eucalyptus,PC1,Airlines,Jungle-Chess}, 
+    legend image code/.code={\draw [#1] (0cm,-0.1cm) rectangle (0.3cm,0.2cm); },
+  }	 
+]
+	
+\begin{axis}%[hide axis]
+  \addplotDataProfilling{-16pt};	  	  
+\end{axis}
+\end{tikzpicture}

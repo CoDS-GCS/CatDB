@@ -57,7 +57,7 @@ cd $path
 # cd kglidsplus
 # conda create -n kglidsplus python=3.8 -y
 # eval "$(conda shell.bash hook)"
-# conda activate kglids
+# conda activate kglidsplus
 # python3.8 -m pip install --upgrade pip
 # pip install -r requirements.txt
 

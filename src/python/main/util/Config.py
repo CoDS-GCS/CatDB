@@ -29,6 +29,8 @@ __GPT_3_5_Turbo_limit = 4096
 __Llama2_70b = 4096
 __Llama3_70b_8192 = 8192
 __Gemma_7b_it = 8192
+__Gemini = 8192
+
 
 _OPENAI = "OpenAI"
 __GPT_system_delimiter = "### "
@@ -39,8 +41,8 @@ __Llama_system_delimiter = "### "
 __Llama_user_delimiter = "### "
 
 _GOOGLE = "Google"
-__Gemma_system_delimiter = "### "
-__Gemma_user_delimiter = "### "
+__Gemini_system_delimiter = "### "
+__Gemini_user_delimiter = "### "
 
 _llm_model = None
 _llm_platform = None
@@ -108,8 +110,20 @@ def set_config(model):
     elif model == "gemma-7b-it":
         _llm_platform = _GOOGLE
         _max_token_limit = __Gemma_7b_it
-        _user_delimiter = __GPT_user_delimiter
-        _system_delimiter = __Gemma_system_delimiter
+        _user_delimiter = __Gemini_user_delimiter
+        _system_delimiter = __Gemini_system_delimiter
+
+    elif model == "gemini-1.0-pro-latest":
+        _llm_platform = _GOOGLE
+        _max_token_limit = __Gemini
+        _user_delimiter = __Gemini_user_delimiter
+        _system_delimiter = __Gemini_system_delimiter
+
+    elif model == "gemini-1.5-pro-latest":
+        _llm_platform = _GOOGLE
+        _max_token_limit = __Gemini
+        _user_delimiter = __Gemini_user_delimiter
+        _system_delimiter = __Gemini_system_delimiter
 
     else:
         raise Exception(f"Model {model} is not implemented yet!")

@@ -5,3 +5,4 @@ PyYAML==6.0.1
 tiktoken==0.5.2
 scikit-learn
 xgboost
+google-generativeai

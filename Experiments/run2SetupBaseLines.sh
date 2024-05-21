@@ -61,29 +61,29 @@ cd $path
 # python3.8 -m pip install --upgrade pip
 # pip install -r requirements.txt
 
-cp "${root_path}/setup/config/kglidsplus_main.py"  "${path}/Baselines/kglidsplus/kg_governor/data_profiling/src/"
+#cp "${root_path}/setup/config/kglidsplus_main.py"  "${path}/Baselines/kglidsplus/kg_governor/data_profiling/src/"
 
 
 # Setup CatDB
 #############
-# catdb_path="${path}/Baselines/CatDB/"
-# rm -rf ${catdb_path}
-# mkdir -p ${catdb_path}
+catdb_path="${path}/Baselines/CatDB/"
+rm -rf ${catdb_path}
+mkdir -p ${catdb_path}
 
-# cd ${root_path}
-# cd ..
-# cp -r src/python/main/* ${catdb_path}
-# cd ${catdb_path}
+cd ${root_path}
+cd ..
+cp -r src/python/main/* ${catdb_path}
+cd ${catdb_path}
 
-# rm -rf venv
-# python -m venv venv
-# source venv/bin/activate
+rm -rf venv
+python -m venv venv
+source venv/bin/activate
 
-# # Then install the dependencies:
-# python -m pip install --upgrade pip
-# pip install torchvision 
-# python -m pip install -r requirements.txt
-# pip install pipreqs
+# Then install the dependencies:
+python -m pip install --upgrade pip
+pip install torchvision 
+python -m pip install -r requirements.txt
+pip install pipreqs
 
 # Prepare Config
 ################

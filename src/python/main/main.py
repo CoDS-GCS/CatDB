@@ -25,6 +25,7 @@ def parse_arguments():
     parser.add_argument('--output-path', type=str, default=None)
     parser.add_argument('--llm-model', type=str, default=None)
     parser.add_argument('--enable-reduction', type=bool, default=False)
+    parser.add_argument('--delay', type=int, default=20)
     parser.add_argument('--result-output-path', type=str, default="/tmp/results.csv")
     args = parser.parse_args()
 
@@ -79,7 +80,8 @@ def parse_arguments():
 
 def generate_and_run_pipeline(args, catalog, run_mode: str = None, sub_task: str = '', previous_result: str = None,
                               time_catalog: float = 0, iteration: int = 1):
-
+    sum_delay = args.delay
+    time.sleep(args.delay)
     from util.Config import __gen_run_mode
     time_generate = 0
     time_execute = 0
@@ -121,6 +123,8 @@ def generate_and_run_pipeline(args, catalog, run_mode: str = None, sub_task: str
 
     for i in range(5):
         if code == "Insufficient information.":
+            sum_delay += args.delay
+            time.sleep(args.delay)
             time_start = time.time()
             code = GenerateLLMCode.generate_llm_code(user_message=prompt_user_message,
                                                      system_message=prompt_system_message)
@@ -147,6 +151,8 @@ def generate_and_run_pipeline(args, catalog, run_mode: str = None, sub_task: str
             iteration_error = i + 1
             break
         else:
+            sum_delay += args.delay
+            time.sleep(args.delay)
             error_fname = f"{file_name}_{i}.error"
             pipeline_fname = f"{file_name}_{i}.python"
 
@@ -164,7 +170,7 @@ def generate_and_run_pipeline(args, catalog, run_mode: str = None, sub_task: str
                 i -= 1
 
     time_total_end = time.time()
-    time_total = time_total_end - time_total_start
+    time_total = time_total_end - time_total_start - sum_delay
 
     log_results = LogResults(dataset_name=args.dataset_name, config=args.prompt_representation_type, sub_task=sub_task,
                              llm_model=args.llm_model, classifier="Auto", task_type=args.task_type,

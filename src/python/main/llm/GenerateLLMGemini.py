@@ -35,7 +35,6 @@ class GenerateLLMGemini:
 
         response = model.generate_content(messages)
         code = response.text
-        print(code)
         # Refine code, keep all codes are between ```python and ```end
         begin_key = "```python"
         end_key = "```end"[::-1]

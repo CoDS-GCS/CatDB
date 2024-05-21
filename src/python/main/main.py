@@ -108,8 +108,8 @@ def generate_and_run_pipeline(args, catalog, run_mode: str = None, sub_task: str
 
     # Save prompt:
     file_name = f'{args.output_path}/{args.llm_model}-{prompt.class_name}-{args.dataset_description}-iteration-{iteration}'
-    if sub_task != '':
-        file_name = f"{file_name}-{sub_task}"
+    # if sub_task != '':
+    #     file_name = f"{file_name}-{sub_task}"
 
     prompt_fname = f"{file_name}.prompt"
     save_prompt(fname=prompt_fname, system_message=prompt_system_message, user_message=prompt_user_message)

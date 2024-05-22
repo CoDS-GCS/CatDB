@@ -16,35 +16,35 @@ cd automlbenchmark
 
 ## Create a virtual environments to install the dependencies in:
 rm -rf venv
-python -m venv venv
+python3.9 -m venv venv
 source venv/bin/activate
 
 ## Then install the dependencies:
-python -m pip install --upgrade pip
-python -m pip install -r requirements.txt
+python3.9 -m pip install --upgrade pip
+python3,9 -m pip install -r requirements.txt
 
 cp -r ${path}"/config/automl/constraints.yaml" ${path}"/automlbenchmark/resources/" # update constraints
 cp -r ${path}"/config/automl/frameworks.yaml" ${path}"/automlbenchmark/resources/" # update frameworks
 cp -r ${path}"/config/automl/config.yaml" ${path}"/automlbenchmark/resources/" # update config
 
-python runbenchmark.py AutoGluon --setup=only
-python runbenchmark.py AutoGluon_bestquality --setup=only
-python runbenchmark.py AutoGluon_hq --setup=only
-python runbenchmark.py AutoGluon_gq --setup=only
-python runbenchmark.py H2OAutoML --setup=only
-python runbenchmark.py mljarsupervised --setup=only
-python runbenchmark.py mljarsupervised_compete --setup=only
-python runbenchmark.py constantpredictor --setup=only
-python runbenchmark.py RandomForest --setup=only
-python runbenchmark.py TunedRandomForest --setup=only
-python runbenchmark.py TPOT --setup=only
+# python3.9 runbenchmark.py AutoGluon --setup=only
+# python3.9 runbenchmark.py AutoGluon_bestquality --setup=only
+# python3.9 runbenchmark.py AutoGluon_hq --setup=only
+# python3.9 runbenchmark.py AutoGluon_gq --setup=only
+# python3.9 runbenchmark.py H2OAutoML --setup=only
+# python3.9 runbenchmark.py mljarsupervised --setup=only
+# python3.9 runbenchmark.py mljarsupervised_compete --setup=only
+# python3.9 runbenchmark.py constantpredictor --setup=only
+# python3.9 runbenchmark.py RandomForest --setup=only
+# python3.9 runbenchmark.py TunedRandomForest --setup=only
+# python3.9 runbenchmark.py TPOT --setup=only
 
-# ## TODO: fix the following frameworks error
-# python runbenchmark.py lightautoml --setup=only
-# python runbenchmark.py flaml --setup=only
-# python runbenchmark.py GAMA --setup=only
-# python runbenchmark.py autosklearn --setup=only
-# python runbenchmark.py autosklearn2 --setup=only
+## TODO: fix the following frameworks error
+# python3.9 runbenchmark.py lightautoml --setup=only
+python3.9 runbenchmark.py flaml --setup=only
+# python3.9 runbenchmark.py GAMA --setup=only
+# python3.9 runbenchmark.py autosklearn --setup=only
+# python3.9 runbenchmark.py autosklearn2 --setup=only
 
 
 # Setup kglidsplus

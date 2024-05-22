@@ -21,7 +21,7 @@ source venv/bin/activate
 
 ## Then install the dependencies:
 python3.9 -m pip install --upgrade pip
-python3,9 -m pip install -r requirements.txt
+python3.9 -m pip install -r requirements.txt
 
 cp -r ${path}"/config/automl/constraints.yaml" ${path}"/automlbenchmark/resources/" # update constraints
 cp -r ${path}"/config/automl/frameworks.yaml" ${path}"/automlbenchmark/resources/" # update frameworks

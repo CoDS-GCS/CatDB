@@ -195,7 +195,13 @@ class BasicPrompt(object):
 
             if cp.categorical_values is not None and k in self.catalog.columns_categorical:
                 is_categorical = True
-                categorical_values = (",".join([str(val) for val in cp.categorical_values])).replace("\"","'")
+                if len(cp.categorical_values) > 20:
+                    categorical_values = [str(val) for val in cp.categorical_values[0:20]]
+                    categorical_values.append(f"and {len(cp.categorical_values) - 20} more")
+                else:
+                    categorical_values = [str(val) for val in cp.categorical_values]
+
+                categorical_values = (",".join(categorical_values)).replace("\"","'")
                 tmp_cc = []
                 for cv in cp.categorical_values:
                     tmp_cc.append(f"{cv}:{cp.categorical_values_ratio[str(cv)]}")

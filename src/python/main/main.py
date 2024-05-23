@@ -183,7 +183,7 @@ def generate_and_run_pipeline(args, catalog, run_mode: str = None, sub_task: str
                              time_total=time_total,
                              time_execution=time_execute,
                              prompt_token_count=prompt_token_count,
-                             all_token_count=all_token_count)
+                             all_token_count=all_token_count + prompt_token_count)
     if run_mode == __gen_run_mode:
         results = result.parse_results()
         log_results.train_accuracy = results["Train_AUC"]

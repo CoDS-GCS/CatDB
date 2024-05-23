@@ -1,7 +1,6 @@
 from .GenerateLLMCodeGPT import GenerateLLMCodeGPT
 from .GenerateLLMCodeLLaMa import GenerateLLMCodeLLaMa
 from .GenerateLLMGemini import GenerateLLMGemini
-import tiktoken
 
 
 class GenerateLLMCode:
@@ -15,21 +14,12 @@ class GenerateLLMCode:
         elif _llm_platform == _OPENAI:
             return GenerateLLMCodeGPT.generate_code_OpenAI_LLM(user_message=user_message, system_message=system_message)
         elif _llm_platform == _META:
-            return GenerateLLMCodeLLaMa.generate_code_LLaMa_LLM(user_message=user_message, system_message=system_message)
+            return GenerateLLMCodeLLaMa.generate_code_LLaMa_LLM(user_message=user_message, system_message=system_message), 0
         elif _llm_platform == _GOOGLE:
             return GenerateLLMGemini.generate_code_Gemini_LLM(user_message=user_message, system_message=system_message)
 
         else:
             raise Exception(f"Model {_llm_platform} is not implemented yet!")
-
-    @staticmethod
-    def __get_number_tokens(user_message: str, system_message: str):
-        from util.Config import _llm_platform
-        enc = tiktoken.get_encoding("cl100k_base")
-        enc = tiktoken.encoding_for_model(_llm_platform)
-        token_integers = enc.encode(user_message + system_message)
-        num_tokens = len(token_integers)
-        return num_tokens
 
     @staticmethod
     def refine_source_code(code: str):

@@ -30,16 +30,22 @@ class CodeResultTemplate(object):
         print(self.result)
         #from util.Config import __gen_run_mode
         if self.run_mode == 'generate-and-run': #__gen_run_mode:
-            pipeline_evl = {"Train_Accuracy": -1,
-                            "Train_F1_score": -1,
-                            "Train_Log_loss": -1,
-                            "Train_R_Squared": -1,
-                            "Train_RMSE": -1,
-                            "Test_Accuracy": -1,
-                            "Test_F1_score": -1,
-                            "Test_Log_loss": -1,
-                            "Test_R_Squared": -1,
-                            "Test_RMSE": -1}
+            pipeline_evl = {"Train_AUC": -2,
+                            "Train_AUC_OVO": -2,
+                            "Train_AUC_OVR": -2,
+                            "Train_Accuracy": -2,
+                            "Train_F1_score": -2,
+                            "Train_Log_loss": -2,
+                            "Train_R_Squared": -2,
+                            "Train_RMSE": -2,
+                            "Test_AUC": -2,
+                            "Test_AUC_OVO": -2,
+                            "Test_AUC_OVR": -2,
+                            "Test_Accuracy": -2,
+                            "Test_F1_score": -2,
+                            "Test_Log_loss": -2,
+                            "Test_R_Squared": -2,
+                            "Test_RMSE": -2}
             if self.status and self.result is not None:
                 raw_results = self.result.splitlines()
                 for rr in raw_results:

@@ -104,24 +104,24 @@ class BasicPrompt(object):
                                 "others_missing_values": None}
 
         if len(self.catalog.columns_numerical_missing_values) > 0:
-            missing_values_prompt = (f"Do missing values imputation for the following numerical columns:\n\tColumns: "
+            missing_values_prompt = (f"Do missing values imputation semantically for the following numerical columns:\n\tColumns: "
                                      f"{','.join(self.catalog.columns_numerical_missing_values)}\n")
             missing_values_rules["numerical_missing_values"] = missing_values_prompt
 
         if len(self.catalog.columns_bool_missing_values) > 0:
             missing_values_prompt = (
-                f"# Predict the missing values for the following boolean columns:\n\tColumns: "
+                f"# Predict the missing values semantically for the following boolean columns:\n\tColumns: "
                 f"{','.join(self.catalog.columns_bool_missing_values)}")
             missing_values_rules["bool_missing_values"] = missing_values_prompt
 
         if len(self.catalog.columns_categorical_missing_values) > 0:
-            missing_values_prompt = (f"# Predict the missing values for the following categorical columns:\n\tColumns: "
+            missing_values_prompt = (f"# Predict the missing values semantically for the following categorical columns:\n\tColumns: "
                                      f"{','.join(self.catalog.columns_categorical_missing_values)}\n")
             missing_values_rules["categorical_missing_values"] = missing_values_prompt
 
         if len(self.catalog.columns_others_missing_values) > 0:
             missing_values_prompt = (
-                f"# Predict the missing values for the following string/object columns:\n\tColumns: "
+                f"# Predict the missing values semantically for the following string/object columns:\n\tColumns: "
                 f"{','.join(self.catalog.columns_others_missing_values)}")
             missing_values_rules["others_missing_values"] = missing_values_prompt
 

@@ -81,6 +81,7 @@ def parse_arguments():
 def generate_and_run_pipeline(args, catalog, run_mode: str = None, sub_task: str = '', previous_result: str = None,
                               time_catalog: float = 0, iteration: int = 1):
     sum_delay = args.delay
+    all_token_count = 0
     time.sleep(args.delay)
     from util.Config import __gen_run_mode
     time_generate = 0
@@ -118,7 +119,7 @@ def generate_and_run_pipeline(args, catalog, run_mode: str = None, sub_task: str
 
     # Generate LLM code
     time_start = time.time()
-    code = GenerateLLMCode.generate_llm_code(user_message=prompt_user_message, system_message=prompt_system_message)
+    code, prompt_token_count = GenerateLLMCode.generate_llm_code(user_message=prompt_user_message, system_message=prompt_system_message)
     time_end = time.time()
 
     for i in range(5):
@@ -126,9 +127,10 @@ def generate_and_run_pipeline(args, catalog, run_mode: str = None, sub_task: str
             sum_delay += args.delay
             time.sleep(args.delay)
             time_start = time.time()
-            code = GenerateLLMCode.generate_llm_code(user_message=prompt_user_message,
+            code, tokens_count = GenerateLLMCode.generate_llm_code(user_message=prompt_user_message,
                                                      system_message=prompt_system_message)
             time_end = time.time()
+            all_token_count += tokens_count
         else:
             break
     time_generate += time_end - time_start
@@ -163,7 +165,8 @@ def generate_and_run_pipeline(args, catalog, run_mode: str = None, sub_task: str
             prompt_fname_error = f"{file_name}_Error_{i}.prompt"
             save_prompt(fname=prompt_fname_error, system_message=system_message, user_message=user_message)
 
-            new_code = GenerateLLMCode.generate_llm_code(system_message=system_message, user_message=user_message)
+            new_code, tokens_count = GenerateLLMCode.generate_llm_code(system_message=system_message, user_message=user_message)
+            all_token_count += tokens_count
             if len(new_code) > 500:
                 code = new_code
             else:
@@ -178,14 +181,22 @@ def generate_and_run_pipeline(args, catalog, run_mode: str = None, sub_task: str
                              has_description=args.dataset_description,
                              time_catalog_load=time_catalog, time_pipeline_generate=time_generate,
                              time_total=time_total,
-                             time_execution=time_execute)
+                             time_execution=time_execute,
+                             prompt_token_count=prompt_token_count,
+                             all_token_count=all_token_count)
     if run_mode == __gen_run_mode:
         results = result.parse_results()
+        log_results.train_accuracy = results["Train_AUC"]
+        log_results.train_accuracy = results["Train_AUC_OVO"]
+        log_results.train_accuracy = results["Train_AUC_OVR"]
         log_results.train_accuracy = results["Train_Accuracy"]
         log_results.train_f1_score = results["Train_F1_score"]
         log_results.train_log_loss = results["Train_Log_loss"]
         log_results.train_r_squared = results["Train_R_Squared"]
         log_results.train_rmse = results["Train_RMSE"]
+        log_results.train_accuracy = results["Test_AUC"]
+        log_results.train_accuracy = results["Test_AUC_OVO"]
+        log_results.train_accuracy = results["Test_AUC_OVR"]
         log_results.test_accuracy = results["Test_Accuracy"]
         log_results.test_f1_score = results["Test_F1_score"]
         log_results.test_log_loss = results["Test_Log_loss"]

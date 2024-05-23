@@ -127,8 +127,11 @@ CODE_FORMATTING_BINARY_EVALUATION = f"""Code formatting for binary classificatio
 # Report evaluation based on train and test dataset
 # Calculate the model accuracy, represented by a value between 0 and 1, where 0 indicates low accuracy and 1 signifies higher accuracy. Store the accuracy value in a variable labeled as "Train_Accuracy=..." and "Test_Accuracy=...".
 # Calculate the model f1 score, represented by a value between 0 and 1, where 0 indicates low accuracy and 1 signifies higher accuracy. Store the f1 score value in a variable labeled as "Train_F1_score=..." and "Test_F1_score=...".
+# Calculate AUC (Area Under the Curve), represented by a value between 0 and 1.
+# Print the train AUC result: print(f"Train_AUC:{{Train_AUC}}")
 # Print the train accuracy result: print(f"Train_Accuracy:{{Train_Accuracy}}")   
 # Print the train f1 score result: print(f"Train_F1_score:{{Train_F1_score}}")
+# Print the test AUC result: print(f"Test_AUC:{{Test_AUC}}")
 # Print the test accuracy result: print(f"Test_Accuracy:{{Test_Accuracy}}")   
 # Print the test f1 score result: print(f"Test_F1_score:{{Test_F1_score}}") 
 ```end
@@ -139,8 +142,14 @@ CODE_FORMATTING_MULTICLASS_EVALUATION = f"""Code formatting for multiclass class
 # Report evaluation based on train and test dataset
 # Calculate the model accuracy, represented by a value between 0 and 1, where 0 indicates low accuracy and 1 signifies higher accuracy. Store the accuracy value in a variable labeled as "Train_Accuracy=..." and "Test_Accuracy=...".
 # Calculate the model log loss, a lower log-loss value means better predictions. Store the  log loss value in a variable labeled as "Train_Log_loss=..." and "Test_Log_loss=...".
+# Calculate AUC_OVO (Area Under the Curve One-vs-One), represented by a value between 0 and 1.
+# Calculate AUC_OVR (Area Under the Curve One-vs-Rest), represented by a value between 0 and 1.
+# Print the train AUC One-vs-One result: print(f"Train_AUC_OVO:{{Train_AUC_OVO}}")
+# Print the train AUC One-vs-Rest result: print(f"Train_AUC_OVR:{{Train_AUC_OVR}}")
 # Print the train accuracy result: print(f"Train_Accuracy:{{Train_Accuracy}}")   
 # Print the train log loss result: print(f"Train_Log_loss:{{Train_Log_loss}}") 
+# Print the test AUC One-vs-One result: print(f"Test_AUC_OVO:{{Test_AUC_OVO}}")
+# Print the test AUC One-vs-Rest result: print(f"Test_AUC_OVR:{{Test_AUC_OVR}}")
 # Print the test accuracy result: print(f"Test_Accuracy:{{Test_Accuracy}}")   
 # Print the test log loss result: print(f"Test_Log_loss:{{Test_Log_loss}}")
 ```end

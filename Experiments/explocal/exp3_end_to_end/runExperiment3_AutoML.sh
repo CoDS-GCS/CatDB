@@ -15,7 +15,7 @@ source venv/bin/activate
 
 declare -a benchmarks=("catdb_openml")
 
-declare -a frameworks=("AutoGluon" "H2OAutoML" "mljarsupervised" "RandomForest" "TPOT" "lightautoml" "autosklearn2")
+declare -a frameworks=("AutoGluon") #("AutoGluon" "H2OAutoML" "mljarsupervised" "RandomForest" "TPOT" "lightautoml" "autosklearn2")
 for framework in "${frameworks[@]}"; do
     AMLB="python runbenchmark.py ${framework} ${dataset} ${constraint} --outdir=${output_dir} --userdir=${user_dir} --logging=${logging}"
     echo "AMLB_SCRIPT=${AMLB}"

@@ -31,9 +31,11 @@ class BasicPrompt(object):
         self.previous_result_format = None
 
     def format(self):
+        user_message, schema_data = self.format_user_message()
         return {
             "system_message": self.format_system_message(),
-            "user_message": self.format_user_message()
+            "user_message": user_message,
+            "schema_data": schema_data
         }
 
     def format_user_message(self):
@@ -44,7 +46,9 @@ class BasicPrompt(object):
 
         if self.flag_previous_result and self.previous_result is not None:
             prompt_items.append(self.previous_result_format)
-        prompt_items.append(self.format_schema_data())
+
+        schema_data = self.format_schema_data()
+        prompt_items.append(schema_data)
 
         if self.flag_missing_value_frequency:
             missing_values_rules = self.get_missing_values_rules()
@@ -64,16 +68,20 @@ class BasicPrompt(object):
 
         prompt_items.append(f"Dataset Attribute:\n# Number of samples (rows) in training dataset: {self.catalog.nrows}")
         prompt_items.append(f'Question: {self.question}')
-        return f"\n\n{_user_delimiter}".join(prompt_items)
+        return f"\n\n{_user_delimiter}".join(prompt_items), schema_data
 
     def format_system_message(self):
         return "\n".join(self.rules)
 
     def format_schema_data(self):
-        from util.Config import _user_delimiter
         content = []
+        target_text = "**This is a target column**"
         for r in range(0, len(self.df_content)):
-            row_msg = [f'# {self.df_content.loc[r]["column_name"]} ({self.df_content.loc[r]["column_data_type"]})']
+            row_msg_1 = f'# {self.df_content.loc[r]["column_name"]} ({self.df_content.loc[r]["column_data_type"]}'
+            if self.df_content.loc[r]["column_name"] == self.target_attribute:
+                row_msg_1 = f"{row_msg_1}, {target_text}"
+            row_msg_1 = f"{row_msg_1})"
+            row_msg = [row_msg_1]
             if self.flag_distinct_value_count and self.df_content.loc[r]["is_categorical"] == False:
                 row_msg.append(f'distinct-count [{self.df_content.loc[r]["distinct_count"]}]')
 

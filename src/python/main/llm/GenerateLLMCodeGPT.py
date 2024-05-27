@@ -1,6 +1,7 @@
 from openai import OpenAI
 import tiktoken
 import os
+import time
 
 
 class GenerateLLMCodeGPT:
@@ -12,8 +13,10 @@ class GenerateLLMCodeGPT:
             {"role": "system", "content": system_message} ,
             {"role": "user", "content": user_message}
         ]
+        time_start = time.time()
         code = GenerateLLMCodeGPT.__submit_Request_OpenAI_LLM( messages=messages, client=client)
-        return code, number_of_tokens
+        time_end = time.time()
+        return code, number_of_tokens, time_end - time_start
 
     @staticmethod
     def __submit_Request_OpenAI_LLM(messages, client):

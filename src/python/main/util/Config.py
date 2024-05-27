@@ -50,16 +50,19 @@ _llm_platform = None
 _system_delimiter = None
 _user_delimiter = None
 _max_token_limit = None
+_delay = 20
 
-
-def set_config(model):
+def set_config(model, delay):
     global _llm_model
     global _llm_platform
     global _system_delimiter
     global _user_delimiter
     global _max_token_limit
+    global _delay
 
     _llm_model = model
+    _delay = delay
+
     if model == "gpt-4":
         _llm_platform = _OPENAI
         _max_token_limit = __GPT_4_Limit

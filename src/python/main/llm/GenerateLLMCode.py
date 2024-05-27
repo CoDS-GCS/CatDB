@@ -14,7 +14,7 @@ class GenerateLLMCode:
         elif _llm_platform == _OPENAI:
             return GenerateLLMCodeGPT.generate_code_OpenAI_LLM(user_message=user_message, system_message=system_message)
         elif _llm_platform == _META:
-            return GenerateLLMCodeLLaMa.generate_code_LLaMa_LLM(user_message=user_message, system_message=system_message), 0
+            return GenerateLLMCodeLLaMa.generate_code_LLaMa_LLM(user_message=user_message, system_message=system_message)
         elif _llm_platform == _GOOGLE:
             return GenerateLLMGemini.generate_code_Gemini_LLM(user_message=user_message, system_message=system_message)
 

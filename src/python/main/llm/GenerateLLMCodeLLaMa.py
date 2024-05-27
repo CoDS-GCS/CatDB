@@ -1,6 +1,7 @@
 import os
 import re
 from groq import Groq
+import time
 
 
 class GenerateLLMCodeLLaMa:
@@ -12,8 +13,10 @@ class GenerateLLMCodeLLaMa:
             {"role": "system", "content": system_message},
             {"role": "user", "content": user_message}
         ]
+        time_start = time.time()
         code = GenerateLLMCodeLLaMa.__submit_Request_LLaMa_LLM(messages=messages, client=client)
-        return code
+        time_end = time.time()
+        return code, 0, time_end - time_start
 
     @staticmethod
     def __submit_Request_LLaMa_LLM(messages, client):

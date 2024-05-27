@@ -1,12 +1,17 @@
-
 class CodeResultTemplate(object):
     def __init__(self, status: bool = True, result=None, exception: Exception = None,
-                 run_mode: str = 'generate-and-run', code: str = None):
+                 run_mode: str = 'generate-and-run', code: str = None,
+                 error_class=None, error_type=None, error_value=None, error_detail=None, error_exception=None):
         self.status = status
         self.result = result
         self.exception = exception
         self.run_mode = run_mode
         self.code = code
+        self.error_class = error_class
+        self.error_type = error_type
+        self.error_value = error_value
+        self.error_detail = error_detail
+        self.error_exception = error_exception
 
     def set_status(self, status: bool = True):
         self.status = status
@@ -17,6 +22,21 @@ class CodeResultTemplate(object):
     def set_exception(self, exception: Exception = None):
         self.exception = exception
 
+    def set_error_class(self, error_class):
+        self.error_class = error_class
+
+    def set_error_type(self, error_type):
+        self.error_type = error_type
+
+    def set_error_value(self, error_value):
+        self.error_type = error_value
+
+    def set_error_detail(self, error_detail):
+        self.error_detail = error_detail
+
+    def set_error_exception(self, error_exception):
+        self.error_exception = error_exception
+
     def get_status(self):
         return self.status
 
@@ -26,10 +46,25 @@ class CodeResultTemplate(object):
     def get_exception(self):
         return self.exception
 
+    def get_error_class(self):
+        return self.error_class
+
+    def get_error_type(self):
+        return self.error_type
+
+    def get_error_value(self):
+        return self.error_type
+
+    def get_error_detail(self):
+        return self.error_detail
+
+    def get_error_exception(self):
+        return self.error_exception
+
     def parse_results(self):
         print(self.result)
-        #from util.Config import __gen_run_mode
-        if self.run_mode == 'generate-and-run': #__gen_run_mode:
+        # from util.Config import __gen_run_mode
+        if self.run_mode == 'generate-and-run':  # __gen_run_mode:
             pipeline_evl = {"Train_AUC": -2,
                             "Train_AUC_OVO": -2,
                             "Train_AUC_OVR": -2,

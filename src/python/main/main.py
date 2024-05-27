@@ -7,8 +7,10 @@ from util.FileHandler import save_prompt
 from util.FileHandler import save_text_file, read_text_file_line_by_line
 from util.Config import set_config
 from util.LogResults import LogResults
+from util.ErrorResults import ErrorResults
 from pipegen.Metadata import Metadata
 import time
+import datetime
 import yaml
 
 
@@ -27,6 +29,7 @@ def parse_arguments():
     parser.add_argument('--enable-reduction', type=bool, default=False)
     parser.add_argument('--delay', type=int, default=20)
     parser.add_argument('--result-output-path', type=str, default="/tmp/results.csv")
+    parser.add_argument('--error-output-path', type=str, default="/tmp/catdb_error.csv")
     parser.add_argument('--run-code', type=bool, default=False)
     args = parser.parse_args()
 
@@ -82,15 +85,13 @@ def parse_arguments():
 
 def generate_and_run_pipeline(args, catalog, run_mode: str = None, sub_task: str = '', previous_result: str = None,
                               time_catalog: float = 0, iteration: int = 1):
-    sum_delay = args.delay
     all_token_count = 0
-    time.sleep(args.delay)
     from util.Config import __gen_run_mode
     time_generate = 0
     time_execute = 0
     final_status = False
+    time_total = 0
 
-    time_total_start = time.time()
     time_start = time.time()  # Start Time
     prompt = prompt_factory(catalog=catalog,
                             representation_type=f"{args.prompt_representation_type}{sub_task}",
@@ -106,13 +107,16 @@ def generate_and_run_pipeline(args, catalog, run_mode: str = None, sub_task: str
 
     time_end = time.time()  # End time
     time_generate += time_end - time_start  # Add prompt construction time to pipeline generate time
+    time_total += time_generate
 
     prompt_format = prompt.format()
     prompt_system_message = prompt_format["system_message"]
     prompt_user_message = prompt_format["user_message"]
+    schema_data = prompt_format["schema_data"]
 
     # Save prompt:
-    file_name = f'{args.output_path}/{args.llm_model}-{prompt.class_name}-{args.dataset_description}-iteration-{iteration}'
+    prompt_file_name = f"{args.llm_model}-{prompt.class_name}-{args.dataset_description}-iteration-{iteration}"
+    file_name = f'{args.output_path}/{prompt_file_name}'
     # if sub_task != '':
     #     file_name = f"{file_name}-{sub_task}"
 
@@ -120,23 +124,18 @@ def generate_and_run_pipeline(args, catalog, run_mode: str = None, sub_task: str
     save_prompt(fname=prompt_fname, system_message=prompt_system_message, user_message=prompt_user_message)
 
     # Generate LLM code
-    time_start = time.time()
-    code, prompt_token_count = GenerateLLMCode.generate_llm_code(user_message=prompt_user_message,
+    time_tmp_gen = 0
+    code, prompt_token_count, time_tmp_gen = GenerateLLMCode.generate_llm_code(user_message=prompt_user_message,
                                                                  system_message=prompt_system_message)
-    time_end = time.time()
-
     for i in range(5):
         if code == "Insufficient information.":
-            sum_delay += args.delay
-            time.sleep(args.delay)
-            time_start = time.time()
-            code, tokens_count = GenerateLLMCode.generate_llm_code(user_message=prompt_user_message,
+            code, tokens_count, time_tmp_gen = GenerateLLMCode.generate_llm_code(user_message=prompt_user_message,
                                                                    system_message=prompt_system_message)
-            time_end = time.time()
             all_token_count += tokens_count
+            time_total += time_tmp_gen
         else:
             break
-    time_generate += time_end - time_start
+    time_generate += time_tmp_gen
 
     iteration_error = 0
     for i in range(iteration_error, args.prompt_number_iteration_error):
@@ -152,32 +151,40 @@ def generate_and_run_pipeline(args, catalog, run_mode: str = None, sub_task: str
             save_text_file(fname=pipeline_fname, data=code)
 
             time_execute = time_end - time_start
+            time_total += time_execute
             final_status = True
             iteration_error = i + 1
             break
         else:
-            sum_delay += args.delay
-            time.sleep(args.delay)
+
+            # add error to error lists:
+            ErrorResults(error_class=result.get_error_class(), error_exception=result.error_exception,
+                         error_type=result.get_error_type(), error_value=result.get_error_value(),
+                         error_detail=result.get_error_detail(), dataset_name=args.dataset_name,
+                         llm_model=args.llm_model,
+                         config=args.prompt_representation_type, sub_task=sub_task,
+                         file_name=f"{prompt_file_name}_{i}.python",
+                         timestamp=datetime.datetime.utcnow().isoformat()).save_error(args.error_output_path)
+
             error_fname = f"{file_name}_{i}.error"
             pipeline_fname = f"{file_name}_{i}.python"
-
             save_text_file(error_fname, f"{result.get_exception()}")
             save_text_file(fname=pipeline_fname, data=code)
 
-            system_message, user_message = error_prompt_factory(code, f"{result.get_exception()}")
+            system_message, user_message = error_prompt_factory(pipeline_code=code,
+                                                                pipeline_error=f"{result.get_error_class()}: {result.get_error_detail()}",
+                                                                schema_data=schema_data)
             prompt_fname_error = f"{file_name}_Error_{i}.prompt"
             save_prompt(fname=prompt_fname_error, system_message=system_message, user_message=user_message)
 
-            new_code, tokens_count = GenerateLLMCode.generate_llm_code(system_message=system_message,
+            new_code, tokens_count, time_tmp_gen = GenerateLLMCode.generate_llm_code(system_message=system_message,
                                                                        user_message=user_message)
+            time_total += time_tmp_gen
             all_token_count += tokens_count
             if len(new_code) > 500:
                 code = new_code
             else:
                 i -= 1
-
-    time_total_end = time.time()
-    time_total = time_total_end - time_total_start - sum_delay
 
     log_results = LogResults(dataset_name=args.dataset_name, config=args.prompt_representation_type, sub_task=sub_task,
                              llm_model=args.llm_model, classifier="Auto", task_type=args.task_type,
@@ -216,7 +223,6 @@ def generate_and_run_pipeline(args, catalog, run_mode: str = None, sub_task: str
 
 def run_pipeline(args, catalog, run_mode: str = None, sub_task: str = '', previous_result: str = None,
                  time_catalog: float = 0, iteration: int = 1):
-
     all_token_count = 0
     from util.Config import __gen_run_mode
     time_generate = 0
@@ -254,7 +260,7 @@ def run_pipeline(args, catalog, run_mode: str = None, sub_task: str = '', previo
     time_start = time.time()
     code = read_text_file_line_by_line(f"{file_name}.py")
     prompt_token_count = GenerateLLMCode.get_number_tokens(user_message=prompt_user_message,
-                                                                 system_message=prompt_system_message)
+                                                           system_message=prompt_system_message)
     time_end = time.time()
     time_generate += time_end - time_start
 
@@ -266,8 +272,6 @@ def run_pipeline(args, catalog, run_mode: str = None, sub_task: str = '', previo
     if result.get_status():
         time_execute = time_end - time_start
         final_status = True
-    else:
-        print(result.get_exception())
 
     time_total_end = time.time()
     time_total = time_total_end - time_total_start
@@ -313,17 +317,16 @@ if __name__ == '__main__':
         __sub_task_feature_engineering, __sub_task_model_selection
 
     args = parse_arguments()
-    set_config(args.llm_model)
+    set_config(model=args.llm_model, delay=args.delay)
 
     if args.run_code == False:
         operation = generate_and_run_pipeline
-        begin_iteration = 0
-        end_iteration = 0
+        begin_iteration = 1
+        end_iteration = 1
     else:
         operation = run_pipeline
         begin_iteration = args.prompt_number_iteration
         end_iteration = 1
-
 
     time_total_start = time_start = time.time()
     catalog = load_data_source_profile(data_source_path=args.data_profile_path,
@@ -334,28 +337,28 @@ if __name__ == '__main__':
     time_end = time.time()
     time_catalog = time_end - time_start
 
-    for i in range(begin_iteration, args.prompt_number_iteration+end_iteration):
+    for i in range(begin_iteration, args.prompt_number_iteration + end_iteration):
         if args.prompt_representation_type == "CatDBChain":
             final_status, code = operation(args=args, catalog=catalog, run_mode=__validation_run_mode,
-                                                           sub_task=__sub_task_data_preprocessing,
-                                                           time_catalog=time_catalog, iteration=i)
+                                           sub_task=__sub_task_data_preprocessing,
+                                           time_catalog=time_catalog, iteration=i)
             if final_status:
                 final_status, code = operation(args=args, catalog=catalog,
-                                                               run_mode=__validation_run_mode,
-                                                               sub_task=__sub_task_feature_engineering,
-                                                               previous_result=code, time_catalog=time_catalog,
-                                                               iteration=i)
+                                               run_mode=__validation_run_mode,
+                                               sub_task=__sub_task_feature_engineering,
+                                               previous_result=code, time_catalog=time_catalog,
+                                               iteration=i)
                 if final_status:
                     final_status, code = operation(args=args, catalog=catalog, run_mode=__gen_run_mode,
-                                                                   sub_task=__sub_task_model_selection,
-                                                                   previous_result=code, time_catalog=time_catalog,
-                                                                   iteration=i)
+                                                   sub_task=__sub_task_model_selection,
+                                                   previous_result=code, time_catalog=time_catalog,
+                                                   iteration=i)
         elif args.prompt_representation_type == "AUTO":
             combinations = Metadata(catalog=catalog).get_combinations()
             for cmb in combinations:
                 args.prompt_representation_type = cmb
                 operation(args=args, catalog=catalog, run_mode=__gen_run_mode,
-                                          time_catalog=time_catalog, iteration=i)
+                          time_catalog=time_catalog, iteration=i)
         else:
             operation(args=args, catalog=catalog, run_mode=__gen_run_mode,
-                                      time_catalog=time_catalog, iteration=i)
+                      time_catalog=time_catalog, iteration=i)

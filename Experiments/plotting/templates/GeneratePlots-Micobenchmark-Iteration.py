@@ -94,7 +94,9 @@ def extract_incremental_plots(root, out):
   
 
 def extract_dataset_iterations(root, out):
-    datasets = [("Balance-Scale","multiclass"),("Breast-w","binary"),("CMC","multiclass"),("Credit-g","binary"),("Diabetes","binary"),("Tic-Tac-Toe","binary"),("Eucalyptus","multiclass"),("PC1","binary"),("Airlines","binary"),("Jungle-Chess","multiclass")]
+    # datasets = [("Balance-Scale","multiclass"),("Breast-w","binary"),("CMC","multiclass"),("Credit-g","binary"),("Diabetes","binary"),("Tic-Tac-Toe","binary"),("Eucalyptus","multiclass"),("PC1","binary"),("Airlines","binary"),("Jungle-Chess","multiclass")]
+
+    datasets = [("Balance-Scale","multiclass"),("Breast-w","binary"),("CMC","multiclass"),("Tic-Tac-Toe","binary"),("Eucalyptus","multiclass")]
 
     template = read_template("Experiment1-Iteration_Template.tex")
     exp_micorbenchmark = read_template("Exp_Micorbenchmark_Template.tex")

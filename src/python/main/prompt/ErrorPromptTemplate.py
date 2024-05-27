@@ -2,13 +2,14 @@ from util import StaticValues
 
 
 class BasicErrorPrompt(object):
-    def __init__(self, pipeline_code: str, pipeline_error: str, *args, **kwargs):
+    def __init__(self, pipeline_code: str, pipeline_error: str, schema_data: str, *args, **kwargs):
         self.rules = []
         self.pipeline_code = pipeline_code
         self.pipeline_error = pipeline_error
         self.small_error_msg = None
         self.system_message_delimiter = None
         self.user_message_delimiter = None
+        self.schema_data = schema_data
 
     def format_prompt(self):
         return {
@@ -23,9 +24,9 @@ class BasicErrorPrompt(object):
         question = ("Question: Fix the code error provided and return only the corrected pipeline without "
                     "additional explanations regarding the resolved error."
                     )
-        prompt_items = [code, error, question]
+        prompt_items = [f"{_user_delimiter} {self.schema_data}\n", code, error, question]
 
-        return f"{_user_delimiter}".join(prompt_items)
+        return f"\n\n{_user_delimiter}".join(prompt_items)
 
     def format_system_message(self):
         from util.Config import _system_delimiter

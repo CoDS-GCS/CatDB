@@ -28,7 +28,8 @@ class DataPreprocessingChainPrompt(BasicPrompt):
                       f'#6 : {StaticValues.dp_rule_6}',
                       f'#7 : {StaticValues.dp_rule_7.format(self.target_attribute)}',
                       f'#8 : {StaticValues.dp_rule_8}',
-                      f'#9 : {StaticValues.rule_code_block}']
+                      f'#9 : {StaticValues.rule_code_block}',
+                      f'#10 : {StaticValues.chain_rule_1}']
 
         self.question = "Provide a pipeline code that do data preprocessing in a multi-threaded environment."
 
@@ -62,7 +63,8 @@ class FeatureEngineeringChainPrompt(BasicPrompt):
                       f'#2 : {StaticValues.fe_rule_2.format(algorithm, self.target_attribute)}',
                       f'#3 : {StaticValues.fe_rule_3}',
                       f'#4 : {StaticValues.fe_rule_4}',
-                      f'#5 : {StaticValues.rule_code_block}']
+                      f'#5 : {StaticValues.rule_code_block}',
+                      f'#6 : {StaticValues.chain_rule_1}']
 
         self.question = ("Provide a pipeline code that modify the Data Preprocessing code by adding Feature Engineering"
                          " tasks in a multi-threaded environment.")
@@ -98,6 +100,7 @@ class ModelSelectionChainPrompt(BasicPrompt):
                       f'#2 : {StaticValues.ms_rule_2.format(randomforest_param)}',
                       f'#3 : {self.evaluation_text}',
                       f'#4 : {StaticValues.ms_rule_3}',
-                      f'#5 : {StaticValues.rule_code_block}']
+                      f'#5 : {StaticValues.rule_code_block}',
+                      f'#6 : {StaticValues.chain_rule_1}']
 
         self.question = ("Provide a complete pipeline code that can be executed in a multi-threaded environment.")

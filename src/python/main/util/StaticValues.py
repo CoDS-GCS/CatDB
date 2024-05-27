@@ -51,6 +51,8 @@ ms_rule_3 = "Don't report validation evaluation. We don't need it."
 
 
 rule_code_block = "Each codeblock ends with \"```end\" and starts with \"```python\"."
+
+chain_rule_1 = "Don't use \"if __name__ == '__main__':\" style, use only flat mode."
 #----------------------------------------------------------------------------------------------------------------------
 
 Rule_task = ("Task: Generate a data science pipeline in Python 3.10 that answers a question based on a "
@@ -89,9 +91,10 @@ Rule_12 = 'Utilize data augmentation techniques (sophisticated techniques) on th
 Rule_13 = 'If the algorithm is RandomForestClassifier then pass max_leaf_nodes={} as parameter.'
 dataset_description = "Description of the dataset:\n{}\n"
 
-CODE_FORMATTING_IMPORT = f"""Code formatting for all required packages:
+CODE_FORMATTING_IMPORT = f"""Code formatting for all required packages and pipeline format:
 ```python
 # Import all required packages
+# Don't use "if __name__ == '__main__':" style, use only flat mode.
 ```end
 """
 

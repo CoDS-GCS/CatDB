@@ -45,7 +45,7 @@ CMD=./explocal/exp1_catalog/runExperiment1.sh
 # Small Datasets
 # $CMD Balance-Scale multiclass
 # $CMD Breast-w binary
-# $CMD CMC multiclass
+$CMD CMC multiclass
 # $CMD Credit-g binary
 # $CMD Diabetes binary
 # $CMD Tic-Tac-Toe binary

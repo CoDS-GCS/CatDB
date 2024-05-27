@@ -45,6 +45,7 @@ class RunCode:
             detail = err.args[0]
             line_number = err.lineno
             exception = err
+            error_type = "Syntax"
         except Exception as err:
             sys.stdout = tmp
             error_class = err.__class__.__name__
@@ -52,10 +53,15 @@ class RunCode:
             line_number = traceback.extract_tb(tb)[-1][1]
             detail = err.args[0]
             exception = traceback.format_exc()
+            error_type = f"Exception-{cl}"
 
         ie = InterpreterError("%s at line %d of %s: %s" % (error_class, line_number, "source string", detail))
         result.set_status(status=False)
         result.set_exception(exception=exception)
         result.set_result(result=ie)
+        result.set_error_exception(exception)
+        result.set_error_class(error_class)
+        result.set_error_type(error_type)
+        result.set_error_detail(detail)
 
         return result

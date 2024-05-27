@@ -62,7 +62,7 @@ def main():
     print(datetime.now(), ': Creating tables, Getting columns')
     columns_and_tables = []
     for data_source in profiler_config.data_sources:
-        for filename in glob.glob(os.path.join(data_source.path, '**/*.' + data_source.file_type), recursive=True):
+            filename = f"{data_source.path}/{data_source.name}.{data_source.file_type}"
             if os.path.isfile(filename) and os.path.getsize(filename) > 0:   # if not an empty file
                 dataset_base_dir = Path(filename).resolve()
                 while dataset_base_dir.parent != Path(data_source.path).resolve():

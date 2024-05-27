@@ -7,7 +7,7 @@ class GenerateLLMCodeGPT:
     @staticmethod
     def generate_code_OpenAI_LLM(user_message: str, system_message: str):
         client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"), )
-        number_of_tokens = GenerateLLMCodeGPT.__get_number_tokens(user_message=user_message, system_message=system_message)
+        number_of_tokens = GenerateLLMCodeGPT.get_number_tokens(user_message=user_message, system_message=system_message)
         messages = [
             {"role": "system", "content": system_message} ,
             {"role": "user", "content": user_message}
@@ -37,7 +37,7 @@ class GenerateLLMCodeGPT:
         return code
 
     @staticmethod
-    def __get_number_tokens(user_message: str, system_message: str):
+    def get_number_tokens(user_message: str, system_message: str):
         from util.Config import _llm_platform
         enc = tiktoken.get_encoding("cl100k_base")
         enc = tiktoken.encoding_for_model(_llm_platform)

@@ -17,6 +17,7 @@ from prompt.PromptChainTemplate import ModelSelectionChainPrompt
 
 __gen_run_mode = 'generate-and-run'
 __validation_run_mode = 'validation'
+
 __sub_task_data_preprocessing = "DataPreprocessing"
 __sub_task_feature_engineering = "FeatureEngineering"
 __sub_task_model_selection = "ModelSelection"

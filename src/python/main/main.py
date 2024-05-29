@@ -99,8 +99,10 @@ def clean_up(args, prompt_file_name):
         file_names.append(pipeline_fname)
 
     for fn in file_names:
-        os.remove(fn)
-
+        try:
+            os.remove(fn)
+        except Exception as ex:
+            pass
 
 def generate_and_run_pipeline(args, catalog, run_mode: str = None, sub_task: str = '', previous_result: str = None,
                               time_catalog: float = 0, iteration: int = 1):

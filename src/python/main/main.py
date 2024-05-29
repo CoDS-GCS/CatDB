@@ -12,6 +12,7 @@ from pipegen.Metadata import Metadata
 import time
 import datetime
 import yaml
+import os
 
 
 def parse_arguments():
@@ -83,6 +84,24 @@ def parse_arguments():
     return args
 
 
+def clean_up(args, prompt_file_name):
+    file_names = []
+    file_name = f'{args.output_path}/{prompt_file_name}'
+    prompt_fname = f"{file_name}.prompt"
+    file_names.append(prompt_fname)
+
+    pipeline_fname = f"{file_name}_draft.py"
+    file_names.append(pipeline_fname)
+    for i in range(0, args.prompt_number_iteration_error):
+        error_fname = f"{file_name}_{i}.error"
+        pipeline_fname = f"{file_name}_{i}.python"
+        file_names.append(error_fname)
+        file_names.append(pipeline_fname)
+
+    for fn in file_names:
+        os.remove(fn)
+
+
 def generate_and_run_pipeline(args, catalog, run_mode: str = None, sub_task: str = '', previous_result: str = None,
                               time_catalog: float = 0, iteration: int = 1):
     all_token_count = 0
@@ -117,6 +136,8 @@ def generate_and_run_pipeline(args, catalog, run_mode: str = None, sub_task: str
     # Save prompt:
     prompt_file_name = f"{args.llm_model}-{prompt.class_name}-{args.dataset_description}-iteration-{iteration}"
     file_name = f'{args.output_path}/{prompt_file_name}'
+
+    clean_up(args=args, prompt_file_name= prompt_file_name)
     # if sub_task != '':
     #     file_name = f"{file_name}-{sub_task}"
 
@@ -126,11 +147,11 @@ def generate_and_run_pipeline(args, catalog, run_mode: str = None, sub_task: str
     # Generate LLM code
     time_tmp_gen = 0
     code, prompt_token_count, time_tmp_gen = GenerateLLMCode.generate_llm_code(user_message=prompt_user_message,
-                                                                 system_message=prompt_system_message)
+                                                                               system_message=prompt_system_message)
     for i in range(5):
         if code == "Insufficient information.":
             code, tokens_count, time_tmp_gen = GenerateLLMCode.generate_llm_code(user_message=prompt_user_message,
-                                                                   system_message=prompt_system_message)
+                                                                                 system_message=prompt_system_message)
             all_token_count += tokens_count
             time_total += time_tmp_gen
         else:
@@ -178,7 +199,7 @@ def generate_and_run_pipeline(args, catalog, run_mode: str = None, sub_task: str
             save_prompt(fname=prompt_fname_error, system_message=system_message, user_message=user_message)
 
             new_code, tokens_count, time_tmp_gen = GenerateLLMCode.generate_llm_code(system_message=system_message,
-                                                                       user_message=user_message)
+                                                                                     user_message=user_message)
             time_total += time_tmp_gen
             all_token_count += tokens_count
             if len(new_code) > 500:
@@ -216,7 +237,8 @@ def generate_and_run_pipeline(args, catalog, run_mode: str = None, sub_task: str
         log_results.test_r_squared = results["Test_R_Squared"]
         log_results.test_rmse = results["Test_RMSE"]
 
-    log_results.save_results(result_output_path=args.result_output_path)
+    if final_status:
+        log_results.save_results(result_output_path=args.result_output_path)
 
     return final_status, code
 
@@ -337,28 +359,33 @@ if __name__ == '__main__':
     time_end = time.time()
     time_catalog = time_end - time_start
 
-    for i in range(begin_iteration, args.prompt_number_iteration + end_iteration):
+    while begin_iteration < args.prompt_number_iteration + end_iteration:
         if args.prompt_representation_type == "CatDBChain":
             final_status, code = operation(args=args, catalog=catalog, run_mode=__validation_run_mode,
                                            sub_task=__sub_task_data_preprocessing,
-                                           time_catalog=time_catalog, iteration=i)
+                                           time_catalog=time_catalog, iteration=begin_iteration)
             if final_status:
                 final_status, code = operation(args=args, catalog=catalog,
                                                run_mode=__validation_run_mode,
                                                sub_task=__sub_task_feature_engineering,
                                                previous_result=code, time_catalog=time_catalog,
-                                               iteration=i)
+                                               iteration=begin_iteration)
                 if final_status:
                     final_status, code = operation(args=args, catalog=catalog, run_mode=__gen_run_mode,
                                                    sub_task=__sub_task_model_selection,
                                                    previous_result=code, time_catalog=time_catalog,
-                                                   iteration=i)
+                                                   iteration=begin_iteration)
+                    begin_iteration += 1
         elif args.prompt_representation_type == "AUTO":
             combinations = Metadata(catalog=catalog).get_combinations()
             for cmb in combinations:
                 args.prompt_representation_type = cmb
-                operation(args=args, catalog=catalog, run_mode=__gen_run_mode,
-                          time_catalog=time_catalog, iteration=i)
+                final_status, code = operation(args=args, catalog=catalog, run_mode=__gen_run_mode,
+                                               time_catalog=time_catalog, iteration=begin_iteration)
+                if final_status:
+                    begin_iteration += 1
         else:
-            operation(args=args, catalog=catalog, run_mode=__gen_run_mode,
-                      time_catalog=time_catalog, iteration=i)
+            final_status, code = operation(args=args, catalog=catalog, run_mode=__gen_run_mode,
+                                           time_catalog=time_catalog, iteration=begin_iteration)
+            if final_status:
+                begin_iteration += 1

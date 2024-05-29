@@ -43,15 +43,15 @@ CMD=./explocal/exp1_catalog/runExperiment1.sh
 # $CMD Meta-Album-BRD regression
 
 # Small Datasets
-# $CMD Balance-Scale multiclass
-# $CMD Breast-w binary
+$CMD Balance-Scale multiclass
+$CMD Breast-w binary
 $CMD CMC multiclass
-# $CMD Credit-g binary
-# $CMD Diabetes binary
-# $CMD Tic-Tac-Toe binary
-# $CMD Eucalyptus multiclass
-# $CMD PC1 binary
-# $CMD Airlines binary
-# $CMD Jungle-Chess multiclass
+$CMD Credit-g binary
+$CMD Diabetes binary
+$CMD Tic-Tac-Toe binary
+$CMD Eucalyptus multiclass
+$CMD PC1 binary
+$CMD Airlines binary
+$CMD Jungle-Chess multiclass
 
 

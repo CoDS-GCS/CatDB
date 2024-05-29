@@ -95,8 +95,10 @@ def clean_up(args, prompt_file_name):
     for i in range(0, args.prompt_number_iteration_error):
         error_fname = f"{file_name}_{i}.error"
         pipeline_fname = f"{file_name}_{i}.python"
+        prompt_fname_error = f"{file_name}_Error_{i}.prompt"
         file_names.append(error_fname)
         file_names.append(pipeline_fname)
+        file_names.append(prompt_fname_error)
 
     for fn in file_names:
         try:

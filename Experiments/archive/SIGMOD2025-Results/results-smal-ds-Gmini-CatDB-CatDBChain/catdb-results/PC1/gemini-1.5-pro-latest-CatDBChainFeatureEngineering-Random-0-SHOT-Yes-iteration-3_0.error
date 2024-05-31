@@ -1,0 +1,17 @@
+Traceback (most recent call last):
+  File "/home/ubuntu/CatDB/Experiments/setup/Baselines/CatDB/runcode/RunCode.py", line 36, in execute_code
+    exec(compile(parse, filename="<ast>", mode="exec"), loc)
+  File "<ast>", line 40, in <module>
+  File "/home/ubuntu/anaconda3/lib/python3.11/multiprocessing/pool.py", line 367, in map
+    return self._map_async(func, iterable, mapstar, chunksize).get()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/anaconda3/lib/python3.11/multiprocessing/pool.py", line 774, in get
+    raise self._value
+  File "/home/ubuntu/anaconda3/lib/python3.11/multiprocessing/pool.py", line 540, in _handle_tasks
+    put(task)
+  File "/home/ubuntu/anaconda3/lib/python3.11/multiprocessing/connection.py", line 205, in send
+    self._send_bytes(_ForkingPickler.dumps(obj))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/anaconda3/lib/python3.11/multiprocessing/reduction.py", line 51, in dumps
+    cls(buf, protocol).dump(obj)
+_pickle.PicklingError: Can't pickle <function augment_data at 0x7f1d84e73600>: attribute lookup augment_data on __main__ failed

@@ -1,0 +1,133 @@
+SYSTEM MESSAGE:
+###  Task: Generate a data science pipeline in Python 3.10 that answers a question based on a given dataset, Schema, and Data Profiling Info.
+###  Input: A dataset in CSV format, a schema that describes the columns and data types of the dataset, and a data profiling info that summarizes the statistics and quality of the dataset. A question that requires data analysis or modeling to answer.
+###  Output: A Python 3.10 code that performs the following steps:
+# 1: Import the necessary libraries and modules.
+# 2: Load the training and test datasets. For the training data, utilize the variable """train_data=../../../data/CMC/CMC_train.csv""", and for the test data, employ the variable """test_data=../../../data/CMC/CMC_test.csv""". Utilize pandas' CSV readers to load the datasets.
+# 3: Don't split the train_data into train and test sets. Use only the given datasets.
+# 4: The user will provide the Schema, and Data Profiling Info of the dataset with columns appropriately named as attributes, enclosed in triple quotes, and preceded by the prefix "Schema, and Data Profiling Info:".
+# 5: Perform data cleaning and preprocessing.
+# 6: Utilize data augmentation techniques (sophisticated techniques) on the dataset to enhance accuracy and mitigate overfitting.
+# 7: Perform feature processing (e.g., encode categorical values by dummyEncode).
+# 8: Select the appropriate features and target variables for the question. Additional columns add new semantic information, additional columns that are useful for a downstream algorithmpredicting "Contraceptive_method_used". They can e.g. be feature combinations, transformations, aggregations where the new column is a function of the existing columns. Use appropriate scale factor for columns are needto transfer.
+# 9:  Perform drops columns, if these may be redundant and hurt the predictive performance of the downstream classifier (Feature selection). Dropping columns may help as the chance of overfitting is lower, especially if the dataset is small. The Contraceptive_method_used will be trained on the dataset with the generated columns and evaluated on a holdout set.
+# 10: In order to avoid runtime error for unseen value on the target feature, do preprocessing based on union of train and test dataset.
+# 11: Code formatting for all required packages and pipeline format:
+```python
+# Import all required packages
+# Don't use "if __name__ == '__main__':" style, use only flat mode.
+```end
+
+# 12: Code formatting for each added column:
+ ```python 
+ # (Feature name and description) 
+ # Usefulness: (Description why this adds useful real world knowledge to classify 'Contraceptive_method_used' according to dataset description and attributes.) 
+ (Some pandas code using 'Wifes_education', 'Number_of_children_ever_born', ... to add a new column for each row in df)
+ ```end
+# 13: Code formatting for dropping columns:
+```python-dropping-columns
+# Explanation why the column XX is dropped
+# df.drop(columns=['XX'], inplace=True)
+```end-dropping-columns
+
+# 14: Code formatting for training technique:
+ ```python 
+ # Choose the suitable machine learning algorithm or technique (classifier).
+ # Explanation why the solution is selected 
+ trn = ... 
+ ```end
+# 15: Code formatting for multiclass classification evaluation:
+```python
+# Report evaluation based on train and test dataset
+# Calculate the model accuracy, represented by a value between 0 and 1, where 0 indicates low accuracy and 1 signifies higher accuracy. Store the accuracy value in a variable labeled as "Train_Accuracy=..." and "Test_Accuracy=...".
+# Calculate the model log loss, a lower log-loss value means better predictions. Store the  log loss value in a variable labeled as "Train_Log_loss=..." and "Test_Log_loss=...".
+# Calculate AUC_OVO (Area Under the Curve One-vs-One), represented by a value between 0 and 1.
+# Calculate AUC_OVR (Area Under the Curve One-vs-Rest), represented by a value between 0 and 1.
+# Print the train AUC One-vs-One result: print(f"Train_AUC_OVO:{Train_AUC_OVO}")
+# Print the train AUC One-vs-Rest result: print(f"Train_AUC_OVR:{Train_AUC_OVR}")
+# Print the train accuracy result: print(f"Train_Accuracy:{Train_Accuracy}")   
+# Print the train log loss result: print(f"Train_Log_loss:{Train_Log_loss}") 
+# Print the test AUC One-vs-One result: print(f"Test_AUC_OVO:{Test_AUC_OVO}")
+# Print the test AUC One-vs-Rest result: print(f"Test_AUC_OVR:{Test_AUC_OVR}")
+# Print the test accuracy result: print(f"Test_Accuracy:{Test_Accuracy}")   
+# Print the test log loss result: print(f"Test_Log_loss:{Test_Log_loss}")
+```end
+
+# 16: If the question is not relevant to the dataset or the task, the output should be: "Insufficient information."
+# 17: Don't report validation evaluation. We don't need it.
+# 18: If the algorithm is RandomForestClassifier then pass max_leaf_nodes=500 as parameter.
+# 19: Each codeblock ends with "```end" and starts with "```python".
+---------------------------------------
+PROMPT TEXT:
+###  Description of the dataset:
+
+1. Title: Contraceptive Method Choice
+ 
+    (a) Origin:  This dataset is a subset of the 1987 National Indonesia
+                 Contraceptive Prevalence Survey
+    (b) Creator: Tjen-Sien Lim (limt@stat.wisc.edu)
+    (c) Donor:   Tjen-Sien Lim (limt@stat.wisc.edu)
+    (c) Date:    June 7, 1997
+ 
+ 3. Past Usage:
+    Lim, T.-S., Loh, W.-Y. & Shih, Y.-S. (1999). A Comparison of
+    Prediction Accuracy, Complexity, and Training Time of Thirty-three
+    Old and New Classification Algorithms. Machine Learning. Forthcoming.
+    (ftp://ftp.stat.wisc.edu/pub/loh/treeprogs/quest1.7/mach1317.pdf or
+    (http://www.stat.wisc.edu/~limt/mach1317.pdf)
+ 
+ 4. Relevant Information:
+    This dataset is a subset of the 1987 National Indonesia Contraceptive
+    Prevalence Survey. The samples are married women who were either not 
+    pregnant or do not know if they were at the time of interview. The 
+    problem is to predict the current contraceptive method choice 
+    (no use, long-term methods, or short-term methods) of a woman based 
+    on her demographic and socio-economic characteristics.
+ 
+ 5. Number of Instances: 1473
+ 
+ 6. Number of Attributes: 10 (including the class attribute)
+ 
+ 7. Attribute Information:
+ 
+    1. Wife's age                     (numerical)
+    2. Wife's education               (categorical)      1=low, 2, 3, 4=high
+    3. Husband's education            (categorical)      1=low, 2, 3, 4=high
+    4. Number of children ever born   (numerical)
+    5. Wife's religion                (binary)           0=Non-Islam, 1=Islam
+    6. Wife's now working?            (binary)           0=Yes, 1=No
+    7. Husband's occupation           (categorical)      1, 2, 3, 4
+    8. Standard-of-living index       (categorical)      1=low, 2, 3, 4=high
+    9. Media exposure                 (binary)           0=Good, 1=Not good
+    10. Contraceptive method used     (class attribute)  1=No-use 
+                                                         2=Long-term
+                                                         3=Short-term
+ 
+ 8. Missing Attribute Values: None
+
+ Information about the dataset
+ CLASSTYPE: nominal
+ CLASSINDEX: last
+
+
+### Schema, and Data Profiling Info:
+"""
+# Wifes_education (int), categorical-values [3,2,0,1]
+# Number_of_children_ever_born (int), categorical-values [6,2,1,7,8,4,0,11,5,3,10,9,12,13,16]
+# Husbands_occupation (int), categorical-values [1,2,0,3]
+# Wifes_age (int), categorical-values [48,32,28,20,47,30,44,22,25,37,29,21,19,35,26,23,27,36,34,41,and 14 more]
+# Standard-of-living_index (int), categorical-values [3,2,1,0]
+# Husbands_education (int), categorical-values [3,0,1,2]
+# Wifes_now_working%3F (bool), categorical-values [1,0]
+# Wifes_religion (bool), categorical-values [0,1]
+# Media_exposure (bool), categorical-values [0,1]
+# Contraceptive_method_used (int, **This is a target column**), categorical-values [1,0,2]
+"""
+
+### Encode categorical values by "on-hot-encoder" for the following columns:
+	# Columns: Wifes_education,Number_of_children_ever_born,Husbands_occupation,Wifes_age,Standard-of-living_index,Husbands_education,Contraceptive_method_used,Wifes_now_working%3F,Wifes_religion,Media_exposure
+
+### Dataset Attribute:
+# Number of samples (rows) in training dataset: 1473
+
+### Question: Provide a complete pipeline code that can be executed in a multi-threaded environment.

@@ -1,0 +1,13 @@
+Traceback (most recent call last):
+  File "/home/ubuntu/CatDB/Experiments/setup/Baselines/CatDB/runcode/RunCode.py", line 36, in execute_code
+    exec(compile(parse, filename="<ast>", mode="exec"), loc)
+  File "<ast>", line 18, in <module>
+  File "/home/ubuntu/CatDB/Experiments/setup/Baselines/CatDB/venv/lib/python3.11/site-packages/pandas/core/reshape/concat.py", line 393, in concat
+    return op.get_result()
+           ^^^^^^^^^^^^^^^
+  File "/home/ubuntu/CatDB/Experiments/setup/Baselines/CatDB/venv/lib/python3.11/site-packages/pandas/core/reshape/concat.py", line 676, in get_result
+    indexers[ax] = obj_labels.get_indexer(new_labels)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/CatDB/Experiments/setup/Baselines/CatDB/venv/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 3875, in get_indexer
+    raise InvalidIndexError(self._requires_unique_msg)
+pandas.errors.InvalidIndexError: Reindexing only valid with uniquely valued Index objects

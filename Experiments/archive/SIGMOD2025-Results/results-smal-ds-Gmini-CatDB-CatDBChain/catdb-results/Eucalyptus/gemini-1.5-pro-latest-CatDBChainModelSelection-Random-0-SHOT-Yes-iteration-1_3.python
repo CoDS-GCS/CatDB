@@ -1,0 +1,71 @@
+# ```python
+import pandas as pd
+from sklearn.preprocessing import OneHotEncoder
+from sklearn.compose import ColumnTransformer
+from sklearn.pipeline import Pipeline
+from sklearn.impute import SimpleImputer
+from sklearn.preprocessing import FunctionTransformer
+import numpy as np
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import accuracy_score, log_loss
+from sklearn.metrics import roc_auc_score
+
+def log_transform(X):
+    # Apply log transformation to the desired column
+    X[:, 0] = np.log1p(X[:, 0])
+    return X
+
+categorical_features = ['Stem_Fm', 'Vig', 'Brnch_Fm', 'Ins_res', 'Crown_Fm', 'Altitude', 'Rep', 'Rainfall', 'Map_Ref',
+                       'Locality', 'Frosts', 'Sp', 'Latitude', 'Year', 'Abbrev']
+numerical_features = ['DBH']
+
+numerical_transformer = Pipeline(steps=[
+    ('imputer', SimpleImputer(strategy='mean')),
+    ('log_transform', FunctionTransformer(log_transform, validate=True)),
+])
+
+categorical_transformer = Pipeline(steps=[
+    ('imputer', SimpleImputer(strategy='most_frequent')),
+    ('onehot', OneHotEncoder(handle_unknown='ignore')),
+])
+
+preprocessor = ColumnTransformer(
+    transformers=[
+        ('num', numerical_transformer, numerical_features),
+        ('cat', categorical_transformer, categorical_features)
+    ])
+
+pipeline = Pipeline(steps=[
+    ('preprocessor', preprocessor),
+    ('classifier', RandomForestClassifier(max_leaf_nodes=500, n_jobs=-1))
+])
+
+
+from sklearn.model_selection import train_test_split
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+pipeline.fit(X_train, y_train)
+
+y_train_pred = pipeline.predict(X_train)
+y_test_pred = pipeline.predict(X_test)
+
+Train_Accuracy = accuracy_score(y_train, y_train_pred)
+Test_Accuracy = accuracy_score(y_test, y_test_pred)
+
+Train_Log_loss = log_loss(y_train, y_train_pred)
+Test_Log_loss = log_loss(y_test, y_test_pred)
+
+Train_AUC_OVO = roc_auc_score(y_train, y_train_pred, multi_class='ovo')
+Train_AUC_OVR = roc_auc_score(y_train, y_train_pred, multi_class='ovr')
+Test_AUC_OVO = roc_auc_score(y_test, y_test_pred, multi_class='ovo')
+Test_AUC_OVR = roc_auc_score(y_test, y_test_pred, multi_class='ovr')
+
+print(f"Train_AUC_OVO:{Train_AUC_OVO}")
+print(f"Train_AUC_OVR:{Train_AUC_OVR}")
+print(f"Train_Accuracy:{Train_Accuracy}")
+print(f"Train_Log_loss:{Train_Log_loss}")
+print(f"Test_AUC_OVO:{Test_AUC_OVO}")
+print(f"Test_AUC_OVR:{Test_AUC_OVR}")
+print(f"Test_Accuracy:{Test_Accuracy}")
+print(f"Test_Log_loss:{Test_Log_loss}")
+# ```end

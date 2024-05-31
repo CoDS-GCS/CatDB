@@ -1,0 +1,13 @@
+Traceback (most recent call last):
+  File "/home/ubuntu/CatDB/Experiments/setup/Baselines/CatDB/runcode/RunCode.py", line 36, in execute_code
+    exec(compile(parse, filename="<ast>", mode="exec"), loc)
+  File "<ast>", line 40, in <module>
+  File "/home/ubuntu/CatDB/Experiments/setup/Baselines/CatDB/venv/lib/python3.11/site-packages/sklearn/utils/_param_validation.py", line 213, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/CatDB/Experiments/setup/Baselines/CatDB/venv/lib/python3.11/site-packages/sklearn/metrics/_classification.py", line 2897, in log_loss
+    y_pred = check_array(
+             ^^^^^^^^^^^^
+  File "/home/ubuntu/CatDB/Experiments/setup/Baselines/CatDB/venv/lib/python3.11/site-packages/sklearn/utils/validation.py", line 1053, in check_array
+    raise ValueError(
+ValueError: Found array with dim 3. None expected <= 2.

@@ -1,0 +1,88 @@
+SYSTEM MESSAGE:
+Task: You are expert in coding assistant. Your task is fix the error of this pipeline code.### Input: The user will provide a pipeline code enclosed in "<CODE> pipline code will be here. </CODE>", and an error message enclosed in "<ERROR> error message will be here. </ERROR>".### Rule : Each codeblock ends with "```end" and starts with "```python".
+---------------------------------------
+PROMPT TEXT:
+###  Schema, and Data Profiling Info:
+"""
+# right-weight (int), categorical-values [4,5,3,1,2]
+# right-distance (int), categorical-values [5,4,3,1,2]
+# left-weight (int), categorical-values [3,5,1,4,2]
+# left-distance (int), categorical-values [1,2,3,4,5]
+# class (int, **This is a target column**), categorical-values [2,0,1]
+"""
+
+
+### <CODE>
+# ```python
+import pandas as pd
+from sklearn.preprocessing import OneHotEncoder
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import accuracy_score, log_loss
+from sklearn.metrics import roc_auc_score
+
+train_data = pd.read_csv("../../../data/Balance-Scale/Balance-Scale_train.csv")
+test_data = pd.read_csv("../../../data/Balance-Scale/Balance-Scale_test.csv")
+
+
+train_data = pd.concat([train_data, train_data.copy()], ignore_index=True)
+
+categorical_cols = ['right-weight', 'right-distance', 'left-weight', 'left-distance', 'class']
+encoder = OneHotEncoder(handle_unknown='ignore')
+encoder.fit(pd.concat([train_data[categorical_cols], test_data[categorical_cols]]))
+train_encoded = pd.DataFrame(encoder.transform(train_data[categorical_cols]).toarray())
+test_encoded = pd.DataFrame(encoder.transform(test_data[categorical_cols]).toarray())
+train_data = train_data.reset_index(drop=True).join(train_encoded)
+test_data = test_data.reset_index(drop=True).join(test_encoded)
+
+
+train_data['total_left_weight'] = train_data['left-weight'] * train_data['left-distance']
+test_data['total_left_weight'] = test_data['left-weight'] * test_data['left-distance']
+
+train_data['total_right_weight'] = train_data['right-weight'] * train_data['right-distance']
+test_data['total_right_weight'] = test_data['right-weight'] * test_data['right-distance']
+
+train_data.drop(columns=['right-weight'], inplace=True)
+test_data.drop(columns=['right-weight'], inplace=True)
+train_data.drop(columns=['right-distance'], inplace=True)
+test_data.drop(columns=['right-distance'], inplace=True)
+train_data.drop(columns=['left-weight'], inplace=True)
+test_data.drop(columns=['left-weight'], inplace=True)
+train_data.drop(columns=['left-distance'], inplace=True)
+test_data.drop(columns=['left-distance'], inplace=True)
+
+trn = RandomForestClassifier(max_leaf_nodes=500) 
+
+X_train = train_data.drop(columns=['class'] + list(range(5)))
+y_train = train_data['class']
+X_test = test_data.drop(columns=['class'] + list(range(5)))
+y_test = test_data['class']
+trn.fit(X_train, y_train)
+
+Train_Accuracy = accuracy_score(y_train, trn.predict(X_train))
+Test_Accuracy = accuracy_score(y_test, trn.predict(X_test))
+
+Train_Log_loss = log_loss(y_train, trn.predict_proba(X_train))
+Test_Log_loss = log_loss(y_test, trn.predict_proba(X_test))
+
+Train_AUC_OVO = roc_auc_score(y_train, trn.predict_proba(X_train), multi_class='ovo')
+Test_AUC_OVO = roc_auc_score(y_test, trn.predict_proba(X_test), multi_class='ovo')
+
+Train_AUC_OVR = roc_auc_score(y_train, trn.predict_proba(X_train), multi_class='ovr')
+Test_AUC_OVR = roc_auc_score(y_test, trn.predict_proba(X_test), multi_class='ovr')
+
+print(f"Train_AUC_OVO:{Train_AUC_OVO}")
+print(f"Train_AUC_OVR:{Train_AUC_OVR}")
+print(f"Train_Accuracy:{Train_Accuracy}")   
+print(f"Train_Log_loss:{Train_Log_loss}") 
+print(f"Test_AUC_OVO:{Test_AUC_OVO}")
+print(f"Test_AUC_OVR:{Test_AUC_OVR}")
+print(f"Test_Accuracy:{Test_Accuracy}")   
+print(f"Test_Log_loss:{Test_Log_loss}")
+# ```end
+</CODE>
+
+### <ERROR>
+TypeError: Feature names are only supported if all input features have string names, but your input has ['int', 'str'] as feature name / column name types. If you want feature names to be stored and validated, you must convert them all to strings, by using X.columns = X.columns.astype(str) for example. Otherwise you can remove feature / column names from your input data, or convert them all to a non-string data type.
+</ERROR>
+
+### Question: Fix the code error provided and return only the corrected pipeline without additional explanations regarding the resolved error.

@@ -1,0 +1,112 @@
+SYSTEM MESSAGE:
+Task: You are expert in coding assistant. Your task is fix the error of this pipeline code.### Input: The user will provide a pipeline code enclosed in "<CODE> pipline code will be here. </CODE>", and an error message enclosed in "<ERROR> error message will be here. </ERROR>".### Rule : Each codeblock ends with "```end" and starts with "```python".
+---------------------------------------
+PROMPT TEXT:
+###  Schema, and Data Profiling Info:
+"""
+# I (float), distinct-count [823]
+# B (float), distinct-count [126]
+# uniq_Opnd (float), distinct-count [106]
+# L (float), categorical-values [0.0199999995529651,0.0599999986588954,0.1800000071525573,0.0399999991059303,0.1400000005960464,0.0700000002980232,0.0099999997764825,0.5,0.0900000035762786,0.0799999982118606,0.3300000131130218,0.1199999973177909,0.2899999916553497,0.1299999952316284,0.050000000745058,0.3199999928474426,0.6700000166893005,0.1599999964237213,0.2399999946355819,0.1099999994039535,and 25 more]
+# uniq_Op (float), categorical-values [22.0,12.0,34.0,8.0,16.0,9.0,15.0,38.0,4.0,31.0,18.0,14.0,6.0,10.0,7.0,21.0,5.0,19.0,17.0,3.0,and 26 more]
+# E (float), distinct-count [890]
+# v(g) (float), categorical-values [7.0,3.0,19.0,1.0,2.0,10.0,54.0,20.0,4.0,6.0,5.0,11.0,29.0,49.0,9.0,8.0,21.0,25.0,15.0,12.0,and 28 more]
+# N (float), distinct-count [312]
+# loc (float), distinct-count [111]
+# ev(g) (float), categorical-values [3.0,1.0,25.0,8.0,6.0,4.0,5.0,7.0,9.0,11.0,1.399999976158142,12.0,41.0,14.0,42.0,17.0,13.0,15.0,21.0,23.0,and 7 more]
+# total_Opnd (float), distinct-count [203]
+# total_Op (float), distinct-count [232]
+# V (float), distinct-count [756]
+# T (float), distinct-count [886]
+# iv(G) (float), categorical-values [2.0,1.0,3.0,6.0,24.0,19.0,5.0,11.0,9.0,4.0,8.0,13.0,18.0,7.0,1.399999976158142,82.0,10.0,17.0,43.0,14.0,and 11 more]
+# branchCount (float), distinct-count [62]
+# D (float), distinct-count [613]
+# lOComment (int), categorical-values [9,0,62,7,3,1,38,2,5,6,13,12,50,55,4,16,73,21,17,18,and 33 more]
+# locCodeAndComment (int), categorical-values [2,21,0,1,4,24,3,16,5,12,10,9,48,11,42,6,13,15,7,20,and 4 more]
+# lOCode (int), distinct-count [113]
+# lOBlank (int), categorical-values [8,5,34,2,1,3,24,7,60,0,26,17,11,9,19,4,10,12,39,27,and 32 more]
+# defects (bool, **This is a target column**), categorical-values [0,1]
+"""
+
+
+### <CODE>
+# ```python
+import pandas as pd
+from sklearn.preprocessing import OneHotEncoder
+from sklearn.compose import ColumnTransformer
+from sklearn.pipeline import Pipeline
+from multiprocessing import Pool
+import numpy as np
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import accuracy_score, f1_score, roc_auc_score
+
+categorical_features = ['L', 'uniq_Op', 'v(g)', 'ev(g)', 'iv(G)', 'lOComment', 'locCodeAndComment', 'lOBlank']
+numerical_features = ['I', 'B', 'uniq_Opnd', 'E', 'N', 'loc', 'total_Opnd', 'total_Op', 'V', 'T', 'branchCount', 'D', 'lOCode']
+
+train_data = pd.read_csv("../../../data/PC1/PC1_train.csv")
+test_data = pd.read_csv("../../../data/PC1/PC1_test.csv")
+
+def augment_data(data):
+    augmented_data = data.copy()
+    for feature in numerical_features:
+        augmented_data[feature] += np.random.normal(0, 0.01, len(data))
+    return augmented_data
+
+def feature_engineering(data):
+    data['total_unique_operand'] = data['total_Opnd'] / data['uniq_Opnd']
+    data['total_unique_operator'] = data['total_Op'] / data['uniq_Op']
+    return data
+
+def process_data(data):
+    # Create the preprocessing pipeline
+    preprocessor = ColumnTransformer(
+        transformers=[
+            ('num', 'passthrough', numerical_features),
+            ('cat', OneHotEncoder(handle_unknown='ignore'), categorical_features)
+        ])
+    
+    # Fit and transform the data
+    data_processed = preprocessor.fit_transform(data)
+    return data_processed
+
+pipeline = Pipeline([
+    ('augment', FunctionTransformer(augment_data)),
+    ('feature_eng', FunctionTransformer(feature_engineering)),
+    ('preprocess', ColumnTransformer(
+        transformers=[
+            ('num', 'passthrough', numerical_features + ['total_unique_operand', 'total_unique_operator']),
+            ('cat', OneHotEncoder(handle_unknown='ignore'), categorical_features)
+        ])
+    ),
+    ('model', RandomForestClassifier(max_leaf_nodes=500, n_jobs=-1))
+])
+
+pipeline.fit(train_data, train_data['defects'])
+
+train_predictions = pipeline.predict(train_data)
+test_predictions = pipeline.predict(test_data)
+
+Train_Accuracy = accuracy_score(train_data['defects'], train_predictions)
+Test_Accuracy = accuracy_score(test_data['defects'], test_predictions)
+
+Train_F1_score = f1_score(train_data['defects'], train_predictions)
+Test_F1_score = f1_score(test_data['defects'], test_predictions)
+
+Train_AUC = roc_auc_score(train_data['defects'], train_predictions)
+Test_AUC = roc_auc_score(test_data['defects'], test_predictions)
+
+print(f"Train_AUC:{Train_AUC}")
+print(f"Train_Accuracy:{Train_Accuracy}")   
+print(f"Train_F1_score:{Train_F1_score}")
+
+print(f"Test_AUC:{Test_AUC}")
+print(f"Test_Accuracy:{Test_Accuracy}")   
+print(f"Test_F1_score:{Test_F1_score}") 
+# ```end
+</CODE>
+
+### <ERROR>
+NameError: name 'FunctionTransformer' is not defined
+</ERROR>
+
+### Question: Fix the code error provided and return only the corrected pipeline without additional explanations regarding the resolved error.

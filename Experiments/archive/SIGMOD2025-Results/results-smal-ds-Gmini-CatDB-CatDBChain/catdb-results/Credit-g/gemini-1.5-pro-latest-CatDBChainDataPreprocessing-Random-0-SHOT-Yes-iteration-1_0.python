@@ -1,0 +1,33 @@
+# ```python
+import pandas as pd
+from sklearn.preprocessing import OneHotEncoder
+from sklearn.compose import ColumnTransformer
+from sklearn.pipeline import Pipeline
+from sklearn.model_selection import train_test_split
+
+categorical_features = ['residence_since', 'savings_status', 'job', 'purpose', 'property_magnitude',
+                        'personal_status', 'num_dependents', 'existing_credits', 'employment',
+                        'other_payment_plans', 'housing', 'duration', 'checking_status',
+                        'installment_commitment', 'credit_history', 'other_parties',
+                        'foreign_worker', 'own_telephone', 'class']
+
+train_data = pd.read_csv('../../../data/Credit-g/Credit-g_train.csv')
+test_data = pd.read_csv('../../../data/Credit-g/Credit-g_test.csv')
+
+X_train = train_data.drop('class', axis=1)
+y_train = train_data['class']
+X_test = test_data.drop('class', axis=1)
+y_test = test_data['class']
+
+preprocessor = ColumnTransformer(
+    transformers=[('cat', OneHotEncoder(), categorical_features)],
+    remainder='passthrough'  # Pass through any remaining numerical columns
+)
+
+pipeline = Pipeline([
+    ('preprocessor', preprocessor)
+])
+
+X_train_transformed = pipeline.fit_transform(X_train)
+X_test_transformed = pipeline.transform(X_test)
+# ```end

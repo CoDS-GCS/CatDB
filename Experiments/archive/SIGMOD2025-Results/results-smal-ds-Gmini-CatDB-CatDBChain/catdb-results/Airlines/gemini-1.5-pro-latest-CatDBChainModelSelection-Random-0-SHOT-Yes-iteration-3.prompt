@@ -1,0 +1,87 @@
+SYSTEM MESSAGE:
+###  Task: Select an appropriate classifier Machine Learning model for the question.
+###  Input: first draft version of pipline with a Data Preprocessing and Feature Engineering task enclosed in "<CODE> pipline code will be here. </CODE>", and a schema that describes the columns and data types of the dataset, and a data profiling info that summarizes the statistics and quality of the dataset.
+###  Output: A modified Python 3.10 code with a Machine Learning algorithm task that performs the following steps:
+#1 : Select classifier algorithm (such as RandomForestClassifier/XGBoost and so on) predicting "Delay".
+#2 : Select a suitable hyperparameters for the selected algorithm. If the algorithm is RandomForestClassifier then pass max_leaf_nodes=500 as parameter.
+#3 : Code formatting for binary classification evaluation:
+```python
+# Report evaluation based on train and test dataset
+# Calculate the model accuracy, represented by a value between 0 and 1, where 0 indicates low accuracy and 1 signifies higher accuracy. Store the accuracy value in a variable labeled as "Train_Accuracy=..." and "Test_Accuracy=...".
+# Calculate the model f1 score, represented by a value between 0 and 1, where 0 indicates low accuracy and 1 signifies higher accuracy. Store the f1 score value in a variable labeled as "Train_F1_score=..." and "Test_F1_score=...".
+# Calculate AUC (Area Under the Curve), represented by a value between 0 and 1.
+# Print the train AUC result: print(f"Train_AUC:{Train_AUC}")
+# Print the train accuracy result: print(f"Train_Accuracy:{Train_Accuracy}")   
+# Print the train f1 score result: print(f"Train_F1_score:{Train_F1_score}")
+# Print the test AUC result: print(f"Test_AUC:{Test_AUC}")
+# Print the test accuracy result: print(f"Test_Accuracy:{Test_Accuracy}")   
+# Print the test f1 score result: print(f"Test_F1_score:{Test_F1_score}") 
+```end
+
+#4 : Don't report validation evaluation. We don't need it.
+#5 : Each codeblock ends with "```end" and starts with "```python".
+#6 : Don't use "if __name__ == '__main__':" style, use only flat mode.
+---------------------------------------
+PROMPT TEXT:
+###  Description of the dataset:
+
+Airlines Dataset Inspired in the regression dataset from Elena Ikonomovska. The task is to predict whether a given flight will be delayed, given the information of the scheduled departure.
+
+
+### <CODE>
+# ```python
+import pandas as pd
+from sklearn.preprocessing import OneHotEncoder
+from sklearn.compose import ColumnTransformer
+from sklearn.pipeline import Pipeline
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn.compose import make_column_transformer, make_column_selector
+from sklearn.pipeline import make_pipeline
+
+train_data = pd.read_csv("../../../data/Airlines/Airlines_train.csv")
+test_data = pd.read_csv("../../../data/Airlines/Airlines_test.csv")
+
+categorical_features = ["DayOfWeek", "Airline"]
+numerical_features = ["AirportTo", "AirportFrom", "Flight", "Length", "Time"]
+
+target = ["Delay"]
+
+numerical_transformer = make_pipeline(
+    StandardScaler()
+)
+
+categorical_transformer = make_pipeline(
+    OneHotEncoder(handle_unknown='ignore')
+)
+
+preprocessor = make_column_transformer(
+    (numerical_transformer, numerical_features),
+    (categorical_transformer, categorical_features)
+)
+
+pipeline = make_pipeline(
+    preprocessor
+)
+# ```end
+</CODE>
+
+### Schema, and Data Profiling Info:
+"""
+# DayOfWeek (int), categorical-values [2,3,0,6,5,4,1]
+# AirportTo (int), distinct-count [190]
+# Airline (int), categorical-values [0,2,14,7,5,17,4,15,11,1,10,12,13,16,3,9,8,6]
+# AirportFrom (int), distinct-count [187]
+# Flight (int), distinct-count [1611]
+# Length (int), distinct-count [288]
+# Time (int), distinct-count [520]
+# Delay (bool, **This is a target column**), categorical-values [1,0]
+"""
+
+### Encode categorical values by "on-hot-encoder" for the following columns:
+	# Columns: DayOfWeek,Airline,Delay
+
+### Dataset Attribute:
+# Number of samples (rows) in training dataset: 2000
+
+### Question: Provide a complete pipeline code that can be executed in a multi-threaded environment.

@@ -1,0 +1,53 @@
+# ```python
+import pandas as pd
+from sklearn.preprocessing import OneHotEncoder
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import accuracy_score, f1_score, roc_auc_score
+
+train_data = pd.read_csv("../../../data/Breast-w/Breast-w_train.csv")
+test_data = pd.read_csv("../../../data/Breast-w/Breast-w_test.csv")
+
+def preprocess_data(df):
+    # Create a OneHotEncoder object
+    enc = OneHotEncoder(handle_unknown='ignore')
+
+    # Fit the encoder on the training data
+    enc.fit(df[['Normal_Nucleoli', 'Bland_Chromatin', 'Clump_Thickness', 'Cell_Shape_Uniformity', 'Bare_Nuclei', 'Cell_Size_Uniformity', 'Marginal_Adhesion', 'Mitoses', 'Single_Epi_Cell_Size']])
+
+    # Transform the categorical features into one-hot encoded features
+    df_transformed = pd.DataFrame(enc.transform(df[['Normal_Nucleoli', 'Bland_Chromatin', 'Clump_Thickness', 'Cell_Shape_Uniformity', 'Bare_Nuclei', 'Cell_Size_Uniformity', 'Marginal_Adhesion', 'Mitoses', 'Single_Epi_Cell_Size']]).toarray())
+    df_transformed = df_transformed.add_prefix('onehot_')
+    df = pd.concat([df.reset_index(drop=True), df_transformed.reset_index(drop=True)], axis=1)
+
+    return df
+
+train_data = preprocess_data(train_data)
+test_data = preprocess_data(test_data)
+
+features = train_data.drop(columns=['Class'])
+target = train_data['Class']
+
+trn = RandomForestClassifier(max_leaf_nodes=500)
+trn.fit(features, target)
+
+preds_train = trn.predict(features)
+
+preds_test = trn.predict(test_data.drop(columns=['Class']))
+
+Train_Accuracy = accuracy_score(target, preds_train)
+Train_F1_score = f1_score(target, preds_train)
+Train_AUC = roc_auc_score(target, preds_train)
+
+Test_Accuracy = accuracy_score(test_data['Class'], preds_test)
+Test_F1_score = f1_score(test_data['Class'], preds_test)
+Test_AUC = roc_auc_score(test_data['Class'], preds_test)
+
+print(f"Train_AUC:{Train_AUC}")
+print(f"Train_Accuracy:{Train_Accuracy}")
+print(f"Train_F1_score:{Train_F1_score}")
+
+print(f"Test_AUC:{Test_AUC}")
+print(f"Test_Accuracy:{Test_Accuracy}")
+print(f"Test_F1_score:{Test_F1_score}")
+# ```end

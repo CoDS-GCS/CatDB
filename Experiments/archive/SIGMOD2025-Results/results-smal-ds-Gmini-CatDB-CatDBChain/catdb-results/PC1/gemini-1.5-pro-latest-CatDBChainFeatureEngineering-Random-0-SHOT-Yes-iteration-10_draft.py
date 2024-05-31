@@ -1,0 +1,46 @@
+# ```python
+import pandas as pd
+from sklearn.preprocessing import OneHotEncoder
+from sklearn.compose import ColumnTransformer
+from sklearn.pipeline import Pipeline
+from sklearn.impute import SimpleImputer
+from sklearn.preprocessing import StandardScaler
+from sklearn.decomposition import PCA
+from sklearn.feature_selection import SelectKBest, f_classif
+
+categorical_features = ['L', 'uniq_Op', 'v(g)', 'ev(g)', 'iv(G)', 'lOComment', 'locCodeAndComment', 'lOBlank']
+numerical_features = ['I', 'B', 'uniq_Opnd', 'E', 'N', 'loc', 'total_Opnd', 'total_Op', 'V', 'T', 'branchCount', 'D', 'lOCode']
+
+train_data = pd.read_csv("../../../data/PC1/PC1_train.csv")
+test_data = pd.read_csv("../../../data/PC1/PC1_test.csv")
+
+def add_interaction_terms(X):
+    for i in range(len(numerical_features)):
+        for j in range(i+1, len(numerical_features)):
+            feature1 = numerical_features[i]
+            feature2 = numerical_features[j]
+            X[f'{feature1}_x_{feature2}'] = X[feature1] * X[feature2]
+    return X
+
+train_data = add_interaction_terms(train_data.copy())
+test_data = add_interaction_terms(test_data.copy())
+
+numerical_features += [col for col in train_data.columns if col not in categorical_features + ['defects']]
+
+preprocessor = ColumnTransformer(
+    transformers=[
+        ('num', Pipeline(steps=[
+            ('imputer', SimpleImputer(strategy='median')),
+            ('scaler', StandardScaler()),  # Standardize numerical features
+            ('pca', PCA(n_components=0.95)),  # Apply PCA for dimensionality reduction
+            ('feature_selection', SelectKBest(f_classif, k=10))  # Select top k features
+        ]), numerical_features),
+        ('cat', Pipeline(steps=[
+            ('imputer', SimpleImputer(strategy='most_frequent')),
+            ('onehot', OneHotEncoder(handle_unknown='ignore'))
+        ]), categorical_features)
+    ])
+
+train_data_processed = preprocessor.fit_transform(train_data.drop('defects', axis=1), train_data['defects'])
+test_data_processed = preprocessor.transform(test_data.drop('defects', axis=1))
+# ```end

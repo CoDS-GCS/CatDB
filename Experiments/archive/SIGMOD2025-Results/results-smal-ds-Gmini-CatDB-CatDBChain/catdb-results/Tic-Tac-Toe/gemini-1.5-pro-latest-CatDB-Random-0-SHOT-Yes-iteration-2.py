@@ -1,0 +1,117 @@
+# ```python
+import pandas as pd
+from sklearn.preprocessing import OneHotEncoder
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import accuracy_score, f1_score, roc_auc_score
+
+train_data = pd.read_csv("../../../data/Tic-Tac-Toe/Tic-Tac-Toe_train.csv")
+test_data = pd.read_csv("../../../data/Tic-Tac-Toe/Tic-Tac-Toe_test.csv")
+
+
+
+categorical_cols = ['bottom-middle-square', 'top-middle-square', 'bottom-left-square', 'middle-left-square',
+                   'bottom-right-square', 'top-right-square', 'middle-right-square', 'middle-middle-square',
+                   'top-left-square']
+encoder = OneHotEncoder(handle_unknown='ignore')
+encoder.fit(pd.concat([train_data[categorical_cols], test_data[categorical_cols]]))
+
+def encode_data(df):
+    encoded_features = encoder.transform(df[categorical_cols]).toarray()
+    encoded_df = pd.DataFrame(encoded_features)
+    df = df.reset_index(drop=True).join(encoded_df)
+    return df
+
+train_data = encode_data(train_data)
+test_data = encode_data(test_data)
+
+def add_new_features(df):
+    # (Feature name and description) 
+    # top-horizontal-line: This feature represents whether the top horizontal line has the same symbol.
+    # Usefulness: This adds useful real-world knowledge to classify 'Class' as it indicates a potential win or draw situation.
+    df['top-horizontal-line'] = (df['top-left-square'] == df['top-middle-square']) & (df['top-middle-square'] == df['top-right-square'])
+
+    # (Feature name and description) 
+    # middle-horizontal-line: This feature represents whether the middle horizontal line has the same symbol.
+    # Usefulness: This adds useful real-world knowledge to classify 'Class' as it indicates a potential win or draw situation.
+    df['middle-horizontal-line'] = (df['middle-left-square'] == df['middle-middle-square']) & (df['middle-middle-square'] == df['middle-right-square'])
+
+    # (Feature name and description) 
+    # bottom-horizontal-line: This feature represents whether the bottom horizontal line has the same symbol.
+    # Usefulness: This adds useful real-world knowledge to classify 'Class' as it indicates a potential win or draw situation.
+    df['bottom-horizontal-line'] = (df['bottom-left-square'] == df['bottom-middle-square']) & (df['bottom-middle-square'] == df['bottom-right-square'])
+
+    # (Feature name and description) 
+    # left-vertical-line: This feature represents whether the left vertical line has the same symbol.
+    # Usefulness: This adds useful real-world knowledge to classify 'Class' as it indicates a potential win or draw situation.
+    df['left-vertical-line'] = (df['top-left-square'] == df['middle-left-square']) & (df['middle-left-square'] == df['bottom-left-square'])
+
+    # (Feature name and description) 
+    # middle-vertical-line: This feature represents whether the middle vertical line has the same symbol.
+    # Usefulness: This adds useful real-world knowledge to classify 'Class' as it indicates a potential win or draw situation.
+    df['middle-vertical-line'] = (df['top-middle-square'] == df['middle-middle-square']) & (df['middle-middle-square'] == df['bottom-middle-square'])
+
+    # (Feature name and description) 
+    # right-vertical-line: This feature represents whether the right vertical line has the same symbol.
+    # Usefulness: This adds useful real-world knowledge to classify 'Class' as it indicates a potential win or draw situation.
+    df['right-vertical-line'] = (df['top-right-square'] == df['middle-right-square']) & (df['middle-right-square'] == df['bottom-right-square'])
+
+    # (Feature name and description) 
+    # main-diagonal-line: This feature represents whether the main diagonal line has the same symbol.
+    # Usefulness: This adds useful real-world knowledge to classify 'Class' as it indicates a potential win or draw situation.
+    df['main-diagonal-line'] = (df['top-left-square'] == df['middle-middle-square']) & (df['middle-middle-square'] == df['bottom-right-square'])
+
+    # (Feature name and description) 
+    # anti-diagonal-line: This feature represents whether the anti-diagonal line has the same symbol.
+    # Usefulness: This adds useful real-world knowledge to classify 'Class' as it indicates a potential win or draw situation.
+    df['anti-diagonal-line'] = (df['top-right-square'] == df['middle-middle-square']) & (df['middle-middle-square'] == df['bottom-left-square'])
+    return df
+
+train_data = add_new_features(train_data)
+test_data = add_new_features(test_data)
+
+train_data.drop(columns=['top-left-square'], inplace=True)
+test_data.drop(columns=['top-left-square'], inplace=True)
+train_data.drop(columns=['top-middle-square'], inplace=True)
+test_data.drop(columns=['top-middle-square'], inplace=True)
+train_data.drop(columns=['top-right-square'], inplace=True)
+test_data.drop(columns=['top-right-square'], inplace=True)
+train_data.drop(columns=['middle-left-square'], inplace=True)
+test_data.drop(columns=['middle-left-square'], inplace=True)
+train_data.drop(columns=['middle-middle-square'], inplace=True)
+test_data.drop(columns=['middle-middle-square'], inplace=True)
+train_data.drop(columns=['middle-right-square'], inplace=True)
+test_data.drop(columns=['middle-right-square'], inplace=True)
+train_data.drop(columns=['bottom-left-square'], inplace=True)
+test_data.drop(columns=['bottom-left-square'], inplace=True)
+train_data.drop(columns=['bottom-middle-square'], inplace=True)
+test_data.drop(columns=['bottom-middle-square'], inplace=True)
+train_data.drop(columns=['bottom-right-square'], inplace=True)
+test_data.drop(columns=['bottom-right-square'], inplace=True)
+
+X_train = train_data.drop('Class', axis=1)
+y_train = train_data['Class']
+X_test = test_data.drop('Class', axis=1)
+y_test = test_data['Class']
+
+X_train.columns = X_train.columns.astype(str)
+X_test.columns = X_test.columns.astype(str)
+
+trn = RandomForestClassifier(max_leaf_nodes=500)
+trn.fit(X_train, y_train)
+
+y_pred_train = trn.predict(X_train)
+y_pred_test = trn.predict(X_test)
+
+Train_AUC = roc_auc_score(y_train, y_pred_train)
+Train_Accuracy = accuracy_score(y_train, y_pred_train)
+Train_F1_score = f1_score(y_train, y_pred_train)
+Test_AUC = roc_auc_score(y_test, y_pred_test)
+Test_Accuracy = accuracy_score(y_test, y_pred_test)
+Test_F1_score = f1_score(y_test, y_pred_test)
+
+print(f"Train_AUC:{Train_AUC}")
+print(f"Train_Accuracy:{Train_Accuracy}")   
+print(f"Train_F1_score:{Train_F1_score}")
+print(f"Test_AUC:{Test_AUC}")
+print(f"Test_Accuracy:{Test_Accuracy}")   
+print(f"Test_F1_score:{Test_F1_score}") 

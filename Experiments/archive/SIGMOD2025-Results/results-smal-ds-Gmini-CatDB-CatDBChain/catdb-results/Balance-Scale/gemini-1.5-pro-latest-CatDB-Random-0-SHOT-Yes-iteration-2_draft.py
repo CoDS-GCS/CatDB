@@ -1,0 +1,69 @@
+# ```python
+import pandas as pd
+from sklearn.preprocessing import OneHotEncoder
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import accuracy_score, log_loss
+from sklearn.metrics import roc_auc_score
+
+train_data = pd.read_csv("../../../data/Balance-Scale/Balance-Scale_train.csv")
+test_data = pd.read_csv("../../../data/Balance-Scale/Balance-Scale_test.csv")
+
+
+train_data = pd.concat([train_data, train_data.copy()], ignore_index=True)
+
+categorical_cols = ['right-weight', 'right-distance', 'left-weight', 'left-distance', 'class']
+encoder = OneHotEncoder(handle_unknown='ignore')
+encoder.fit(pd.concat([train_data[categorical_cols], test_data[categorical_cols]]))
+train_encoded = pd.DataFrame(encoder.transform(train_data[categorical_cols]).toarray())
+test_encoded = pd.DataFrame(encoder.transform(test_data[categorical_cols]).toarray())
+train_data = train_data.reset_index(drop=True).join(train_encoded)
+test_data = test_data.reset_index(drop=True).join(test_encoded)
+
+
+train_data['total_left_weight'] = train_data['left-weight'] * train_data['left-distance']
+test_data['total_left_weight'] = test_data['left-weight'] * test_data['left-distance']
+
+train_data['total_right_weight'] = train_data['right-weight'] * train_data['right-distance']
+test_data['total_right_weight'] = test_data['right-weight'] * test_data['right-distance']
+
+train_data.drop(columns=['right-weight'], inplace=True)
+test_data.drop(columns=['right-weight'], inplace=True)
+train_data.drop(columns=['right-distance'], inplace=True)
+test_data.drop(columns=['right-distance'], inplace=True)
+train_data.drop(columns=['left-weight'], inplace=True)
+test_data.drop(columns=['left-weight'], inplace=True)
+train_data.drop(columns=['left-distance'], inplace=True)
+test_data.drop(columns=['left-distance'], inplace=True)
+
+trn = RandomForestClassifier(max_leaf_nodes=500) 
+
+X_train = train_data.drop(columns=['class'])
+y_train = train_data['class']
+X_test = test_data.drop(columns=['class'])
+y_test = test_data['class']
+
+X_train.columns = X_train.columns.astype(str)
+X_test.columns = X_test.columns.astype(str)
+
+trn.fit(X_train, y_train)
+
+Train_Accuracy = accuracy_score(y_train, trn.predict(X_train))
+Test_Accuracy = accuracy_score(y_test, trn.predict(X_test))
+
+Train_Log_loss = log_loss(y_train, trn.predict_proba(X_train))
+Test_Log_loss = log_loss(y_test, trn.predict_proba(X_test))
+
+Train_AUC_OVO = roc_auc_score(y_train, trn.predict_proba(X_train), multi_class='ovo')
+Test_AUC_OVO = roc_auc_score(y_test, trn.predict_proba(X_test), multi_class='ovo')
+
+Train_AUC_OVR = roc_auc_score(y_train, trn.predict_proba(X_train), multi_class='ovr')
+Test_AUC_OVR = roc_auc_score(y_test, trn.predict_proba(X_test), multi_class='ovr')
+
+print(f"Train_AUC_OVO:{Train_AUC_OVO}")
+print(f"Train_AUC_OVR:{Train_AUC_OVR}")
+print(f"Train_Accuracy:{Train_Accuracy}")   
+print(f"Train_Log_loss:{Train_Log_loss}") 
+print(f"Test_AUC_OVO:{Test_AUC_OVO}")
+print(f"Test_AUC_OVR:{Test_AUC_OVR}")
+print(f"Test_Accuracy:{Test_Accuracy}")   
+print(f"Test_Log_loss:{Test_Log_loss}")

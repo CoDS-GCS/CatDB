@@ -1,0 +1,87 @@
+SYSTEM MESSAGE:
+Task: You are expert in coding assistant. Your task is fix the error of this pipeline code.### Input: The user will provide a pipeline code enclosed in "<CODE> pipline code will be here. </CODE>", and an error message enclosed in "<ERROR> error message will be here. </ERROR>".### Rule : Each codeblock ends with "```end" and starts with "```python".
+---------------------------------------
+PROMPT TEXT:
+###  Schema, and Data Profiling Info:
+"""
+# residence_since (int), categorical-values [1,2,4,3]
+# savings_status (int), categorical-values [0,1,4,2,3]
+# job (int), categorical-values [2,3,1,0]
+# purpose (int), categorical-values [0,1,3,9,6,2,5,8,4,10]
+# credit_amount (int), distinct-count [921], min-value [250.0], max-value [18424.0], median-value [2319.5], mean-value [3271.258]
+# property_magnitude (int), categorical-values [0,2,3,1]
+# personal_status (int), categorical-values [2,1,0,3]
+# num_dependents (int), categorical-values [1,2]
+# existing_credits (int), categorical-values [2,1,4,3]
+# employment (int), categorical-values [2,4,0,3,1]
+# other_payment_plans (int), categorical-values [2,0,1]
+# housing (int), categorical-values [1,2,0]
+# duration (int), categorical-values [9,39,24,12,48,18,36,6,10,13,15,27,30,21,60,54,42,7,11,4,and 13 more]
+# checking_status (int), categorical-values [3,0,1,2]
+# installment_commitment (int), categorical-values [3,4,2,1]
+# credit_history (int), categorical-values [4,2,0,3,1]
+# other_parties (int), categorical-values [0,1,2]
+# age (int), distinct-count [53], min-value [19.0], max-value [75.0], median-value [33.0], mean-value [35.546]
+# foreign_worker (bool), categorical-values [0,1]
+# own_telephone (bool), categorical-values [0,1]
+# class (bool, **This is a target column**), categorical-values [0,1]
+"""
+
+
+### <CODE>
+# ```python
+import pandas as pd
+from sklearn.preprocessing import OneHotEncoder
+from sklearn.compose import ColumnTransformer
+from sklearn.pipeline import Pipeline
+from sklearn.model_selection import train_test_split
+
+categorical_features = ['residence_since', 'savings_status', 'job', 'purpose', 'property_magnitude',
+                        'personal_status', 'num_dependents', 'existing_credits', 'employment',
+                        'other_payment_plans', 'housing', 'duration', 'checking_status',
+                        'installment_commitment', 'credit_history', 'other_parties',
+                        'foreign_worker', 'own_telephone']
+
+train_data = pd.read_csv('../../../data/Credit-g/Credit-g_train.csv')
+test_data = pd.read_csv('../../../data/Credit-g/Credit-g_test.csv')
+
+X_train = train_data.drop('class', axis=1)
+y_train = train_data['class']
+X_test = test_data.drop('class', axis=1)
+y_test = test_data['class']
+
+preprocessor = ColumnTransformer(
+    transformers=[('cat', OneHotEncoder(handle_unknown='ignore'), categorical_features)],
+    remainder='passthrough'  # Pass through any remaining numerical columns
+)
+
+from sklearn.base import BaseEstimator, TransformerMixin
+
+class CombinedAttributesAdder(BaseEstimator, TransformerMixin):
+    def __init__(self, add_credit_per_duration=True):
+        self.add_credit_per_duration = add_credit_per_duration
+
+    def fit(self, X, y=None):
+        return self  # Nothing else to do
+
+    def transform(self, X):
+        X = pd.DataFrame(X)  # Convert to DataFrame
+        if self.add_credit_per_duration:
+            X['credit_per_duration'] = X[X.columns[0]] / X[X.columns[1]]
+        return X
+
+pipeline = Pipeline([
+    ('preprocessor', preprocessor),
+    ('feature_adder', CombinedAttributesAdder()),
+])
+
+X_train_transformed = pipeline.fit_transform(X_train)
+X_test_transformed = pipeline.transform(X_test)
+# ```end
+</CODE>
+
+### <ERROR>
+IndexError: index 1 is out of bounds for axis 0 with size 1
+</ERROR>
+
+### Question: Fix the code error provided and return only the corrected pipeline without additional explanations regarding the resolved error.

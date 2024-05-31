@@ -1,0 +1,114 @@
+SYSTEM MESSAGE:
+###  Task: Select the appropriate features and target variables for the question (Feature Engineering Task). Additional columns add new semantic information, additional columns that are useful for a downstream algorithmpredicting "Contraceptive_method_used". They can e.g. be feature combinations, transformations, aggregations where the new column is a function of the existing columns. Use appropriate scale factor for columns are needto transfer.
+###  Input: first draft version of pipline with a Data Preprocessing task enclosed in "<CODE> pipline code will be here. </CODE>", and a schema that describes the columns and data types of the dataset, and a data profiling info that summarizes the statistics and quality of the dataset.
+###  Output: A modified Python 3.10 code with additional feature enginnering tasks that performs the following steps:
+#1 : The target feature in the dataset is "Contraceptive_method_used".
+#2 : Perform drops columns, if these may be redundant and hurt the predictive performance of the downstream classifier (Feature selection). Dropping columns may help as the chance of overfitting is lower, especially if the dataset is small. The Contraceptive_method_used will be trained on the dataset with the generated columns and evaluated on a holdout set.
+#3 : If the question is not relevant to the dataset or the task, the output should be: "Insufficient information."
+#4 : Don't display the first few rows of the datasets.
+#5 : Each codeblock ends with "```end" and starts with "```python".
+#6 : Don't use "if __name__ == '__main__':" style, use only flat mode.
+---------------------------------------
+PROMPT TEXT:
+###  Description of the dataset:
+
+1. Title: Contraceptive Method Choice
+ 
+    (a) Origin:  This dataset is a subset of the 1987 National Indonesia
+                 Contraceptive Prevalence Survey
+    (b) Creator: Tjen-Sien Lim (limt@stat.wisc.edu)
+    (c) Donor:   Tjen-Sien Lim (limt@stat.wisc.edu)
+    (c) Date:    June 7, 1997
+ 
+ 3. Past Usage:
+    Lim, T.-S., Loh, W.-Y. & Shih, Y.-S. (1999). A Comparison of
+    Prediction Accuracy, Complexity, and Training Time of Thirty-three
+    Old and New Classification Algorithms. Machine Learning. Forthcoming.
+    (ftp://ftp.stat.wisc.edu/pub/loh/treeprogs/quest1.7/mach1317.pdf or
+    (http://www.stat.wisc.edu/~limt/mach1317.pdf)
+ 
+ 4. Relevant Information:
+    This dataset is a subset of the 1987 National Indonesia Contraceptive
+    Prevalence Survey. The samples are married women who were either not 
+    pregnant or do not know if they were at the time of interview. The 
+    problem is to predict the current contraceptive method choice 
+    (no use, long-term methods, or short-term methods) of a woman based 
+    on her demographic and socio-economic characteristics.
+ 
+ 5. Number of Instances: 1473
+ 
+ 6. Number of Attributes: 10 (including the class attribute)
+ 
+ 7. Attribute Information:
+ 
+    1. Wife's age                     (numerical)
+    2. Wife's education               (categorical)      1=low, 2, 3, 4=high
+    3. Husband's education            (categorical)      1=low, 2, 3, 4=high
+    4. Number of children ever born   (numerical)
+    5. Wife's religion                (binary)           0=Non-Islam, 1=Islam
+    6. Wife's now working?            (binary)           0=Yes, 1=No
+    7. Husband's occupation           (categorical)      1, 2, 3, 4
+    8. Standard-of-living index       (categorical)      1=low, 2, 3, 4=high
+    9. Media exposure                 (binary)           0=Good, 1=Not good
+    10. Contraceptive method used     (class attribute)  1=No-use 
+                                                         2=Long-term
+                                                         3=Short-term
+ 
+ 8. Missing Attribute Values: None
+
+ Information about the dataset
+ CLASSTYPE: nominal
+ CLASSINDEX: last
+
+
+### <CODE>
+# ```python
+import pandas as pd
+from sklearn.preprocessing import OneHotEncoder
+from sklearn.compose import ColumnTransformer
+from sklearn.pipeline import Pipeline
+from sklearn.compose import make_column_selector as selector
+from sklearn.multioutput import MultiOutputClassifier
+from sklearn.linear_model import LogisticRegression
+
+categorical_features = ['Wifes_education', 'Number_of_children_ever_born', 'Husbands_occupation', 'Wifes_age', 'Standard_of_living_index', 'Husbands_education', 
+                       'Wifes_now_working%3F', 'Wifes_religion', 'Media_exposure','Contraceptive_method_used']
+numerical_features = []
+
+train_data = pd.read_csv("../../../data/CMC/CMC_train.csv")
+test_data = pd.read_csv("../../../data/CMC/CMC_test.csv")
+
+preprocessor = ColumnTransformer(
+    transformers=[
+        ('cat', OneHotEncoder(handle_unknown='ignore'), categorical_features),
+        # ('num', StandardScaler(), numerical_features)  # No numerical features to scale in this case
+    ])
+
+pipeline = Pipeline([
+    ('preprocessor', preprocessor),
+    ('classifier', MultiOutputClassifier(LogisticRegression(), n_jobs=-1))  # Use all available cores
+])
+# ```end
+</CODE>
+
+### Schema, and Data Profiling Info:
+"""
+# Wifes_education (int), categorical-values [3,2,0,1]
+# Number_of_children_ever_born (int), categorical-values [6,2,1,7,8,4,0,11,5,3,10,9,12,13,16]
+# Husbands_occupation (int), categorical-values [1,2,0,3]
+# Wifes_age (int), categorical-values [48,32,28,20,47,30,44,22,25,37,29,21,19,35,26,23,27,36,34,41,and 14 more]
+# Standard-of-living_index (int), categorical-values [3,2,1,0]
+# Husbands_education (int), categorical-values [3,0,1,2]
+# Wifes_now_working%3F (bool), categorical-values [1,0]
+# Wifes_religion (bool), categorical-values [0,1]
+# Media_exposure (bool), categorical-values [0,1]
+# Contraceptive_method_used (int, **This is a target column**), categorical-values [1,0,2]
+"""
+
+### Encode categorical values by "on-hot-encoder" for the following columns:
+	# Columns: Wifes_education,Number_of_children_ever_born,Husbands_occupation,Wifes_age,Standard-of-living_index,Husbands_education,Contraceptive_method_used,Wifes_now_working%3F,Wifes_religion,Media_exposure
+
+### Dataset Attribute:
+# Number of samples (rows) in training dataset: 1473
+
+### Question: Provide a pipeline code that modify the Data Preprocessing code by adding Feature Engineering tasks in a multi-threaded environment.

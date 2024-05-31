@@ -1,0 +1,117 @@
+SYSTEM MESSAGE:
+###  Task: Select an appropriate classifier Machine Learning model for the question.
+###  Input: first draft version of pipline with a Data Preprocessing and Feature Engineering task enclosed in "<CODE> pipline code will be here. </CODE>", and a schema that describes the columns and data types of the dataset, and a data profiling info that summarizes the statistics and quality of the dataset.
+###  Output: A modified Python 3.10 code with a Machine Learning algorithm task that performs the following steps:
+#1 : Select classifier algorithm (such as RandomForestClassifier/XGBoost and so on) predicting "class".
+#2 : Select a suitable hyperparameters for the selected algorithm. If the algorithm is RandomForestClassifier then pass max_leaf_nodes=500 as parameter.
+#3 : Code formatting for multiclass classification evaluation:
+```python
+# Report evaluation based on train and test dataset
+# Calculate the model accuracy, represented by a value between 0 and 1, where 0 indicates low accuracy and 1 signifies higher accuracy. Store the accuracy value in a variable labeled as "Train_Accuracy=..." and "Test_Accuracy=...".
+# Calculate the model log loss, a lower log-loss value means better predictions. Store the  log loss value in a variable labeled as "Train_Log_loss=..." and "Test_Log_loss=...".
+# Calculate AUC_OVO (Area Under the Curve One-vs-One), represented by a value between 0 and 1.
+# Calculate AUC_OVR (Area Under the Curve One-vs-Rest), represented by a value between 0 and 1.
+# Print the train AUC One-vs-One result: print(f"Train_AUC_OVO:{Train_AUC_OVO}")
+# Print the train AUC One-vs-Rest result: print(f"Train_AUC_OVR:{Train_AUC_OVR}")
+# Print the train accuracy result: print(f"Train_Accuracy:{Train_Accuracy}")   
+# Print the train log loss result: print(f"Train_Log_loss:{Train_Log_loss}") 
+# Print the test AUC One-vs-One result: print(f"Test_AUC_OVO:{Test_AUC_OVO}")
+# Print the test AUC One-vs-Rest result: print(f"Test_AUC_OVR:{Test_AUC_OVR}")
+# Print the test accuracy result: print(f"Test_Accuracy:{Test_Accuracy}")   
+# Print the test log loss result: print(f"Test_Log_loss:{Test_Log_loss}")
+```end
+
+#4 : Don't report validation evaluation. We don't need it.
+#5 : Each codeblock ends with "```end" and starts with "```python".
+#6 : Don't use "if __name__ == '__main__':" style, use only flat mode.
+---------------------------------------
+PROMPT TEXT:
+###  Description of the dataset:
+
+
+ Description 
+
+
+
+This dataset is part of a collection datasets based on the game "Jungle Chess" (a.k.a. Dou Shou Qi). For a description of the rules, please refer to the paper (link attached). The paper also contains a description of various constructed features. As the tablebases are a disjoint set of several tablebases based on which (two) pieces are on the board, we have uploaded all tablebases that have explicit different content:
+
+* Rat vs Rat
+* Rat vs Panther
+* Rat vs. Lion
+* Rat vs. Elephant
+* Panther vs. Lion
+* Panther vs. Elephant
+* Tiger vs. Lion
+* Lion vs. Lion
+* Lion vs. Elephant
+* Elephant vs. Elephant
+* Complete (Combination of the above)
+* RAW Complete (Combination of the above, containing for both pieces just the rank, file and strength information). This dataset contains a similar classification problem as, e.g., the King and Rook vs. King problem and is suitable for classification tasks. 
+
+(Note that this dataset is one of the above mentioned datasets). Additionally, note that several subproblems are very similar. Having seen a given positions from one of the tablebases arguably gives a lot of information about the outcome of the same position in the other tablebases. 
+
+J. N. van Rijn and J. K. Vis, Endgame Analysis of Dou Shou Qi. ICGA Journal 37:2, 120--124, 2014. ArXiv link: https://arxiv.org/abs/1604.07312
+
+
+### <CODE>
+# ```python
+import pandas as pd
+from sklearn.preprocessing import OneHotEncoder
+from sklearn.compose import ColumnTransformer
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import FunctionTransformer
+from sklearn.compose import make_column_transformer, make_column_selector
+from sklearn.pipeline import make_pipeline
+import multiprocessing
+
+categorical_features = ['black_piece0_file', 'white_piece0_strength', 'black_piece0_strength',
+                        'black_piece0_rank', 'white_piece0_rank', 'white_piece0_file']
+numerical_features = ['piece_strength_difference', 'piece_rank_difference']
+
+def create_features(X):
+    X_ = X.copy()
+    X_['piece_strength_difference'] = X_['black_piece0_strength'] - X_['white_piece0_strength']
+    X_['piece_rank_difference'] = X_['black_piece0_rank'] - X_['white_piece0_rank']
+    return X_
+
+feature_engineering = FunctionTransformer(create_features)
+
+categorical_transformer = make_pipeline(
+    OneHotEncoder(handle_unknown='ignore', sparse_output=False)
+)
+
+numerical_transformer = make_pipeline(
+
+)
+
+preprocessor = make_column_transformer(
+    (categorical_transformer, categorical_features),
+    (numerical_transformer, numerical_features),
+    remainder='passthrough'
+)
+
+pipeline = Pipeline([
+    ('feature_engineering', feature_engineering),
+    ('preprocessor', preprocessor)
+])
+# ```end
+</CODE>
+
+### Schema, and Data Profiling Info:
+"""
+# black_piece0_file (int), categorical-values [0,5,2,6,1,3,4]
+# white_piece0_strength (int), categorical-values [7,0,5,4,6]
+# black_piece0_strength (int), categorical-values [4,0,6,7,5]
+# black_piece0_rank (int), categorical-values [1,4,6,7,0,2,8,5,3]
+# white_piece0_rank (int), categorical-values [2,0,3,1,4,5,7,6,8]
+# white_piece0_file (int), categorical-values [1,5,4,6,2,0,3]
+# class (int, **This is a target column**), categorical-values [2,0,1]
+"""
+
+### Encode categorical values by "on-hot-encoder" for the following columns:
+	# Columns: black_piece0_file,white_piece0_strength,black_piece0_strength,black_piece0_rank,white_piece0_rank,class,white_piece0_file
+
+### Dataset Attribute:
+# Number of samples (rows) in training dataset: 2000
+
+### Question: Provide a complete pipeline code that can be executed in a multi-threaded environment.

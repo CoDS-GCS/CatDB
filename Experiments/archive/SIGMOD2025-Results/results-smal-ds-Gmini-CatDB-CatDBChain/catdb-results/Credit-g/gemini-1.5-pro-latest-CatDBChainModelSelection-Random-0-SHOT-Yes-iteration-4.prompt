@@ -1,0 +1,136 @@
+SYSTEM MESSAGE:
+###  Task: Select an appropriate classifier Machine Learning model for the question.
+###  Input: first draft version of pipline with a Data Preprocessing and Feature Engineering task enclosed in "<CODE> pipline code will be here. </CODE>", and a schema that describes the columns and data types of the dataset, and a data profiling info that summarizes the statistics and quality of the dataset.
+###  Output: A modified Python 3.10 code with a Machine Learning algorithm task that performs the following steps:
+#1 : Select classifier algorithm (such as RandomForestClassifier/XGBoost and so on) predicting "class".
+#2 : Select a suitable hyperparameters for the selected algorithm. If the algorithm is RandomForestClassifier then pass max_leaf_nodes=500 as parameter.
+#3 : Code formatting for binary classification evaluation:
+```python
+# Report evaluation based on train and test dataset
+# Calculate the model accuracy, represented by a value between 0 and 1, where 0 indicates low accuracy and 1 signifies higher accuracy. Store the accuracy value in a variable labeled as "Train_Accuracy=..." and "Test_Accuracy=...".
+# Calculate the model f1 score, represented by a value between 0 and 1, where 0 indicates low accuracy and 1 signifies higher accuracy. Store the f1 score value in a variable labeled as "Train_F1_score=..." and "Test_F1_score=...".
+# Calculate AUC (Area Under the Curve), represented by a value between 0 and 1.
+# Print the train AUC result: print(f"Train_AUC:{Train_AUC}")
+# Print the train accuracy result: print(f"Train_Accuracy:{Train_Accuracy}")   
+# Print the train f1 score result: print(f"Train_F1_score:{Train_F1_score}")
+# Print the test AUC result: print(f"Test_AUC:{Test_AUC}")
+# Print the test accuracy result: print(f"Test_Accuracy:{Test_Accuracy}")   
+# Print the test f1 score result: print(f"Test_F1_score:{Test_F1_score}") 
+```end
+
+#4 : Don't report validation evaluation. We don't need it.
+#5 : Each codeblock ends with "```end" and starts with "```python".
+#6 : Don't use "if __name__ == '__main__':" style, use only flat mode.
+---------------------------------------
+PROMPT TEXT:
+###  Description of the dataset:
+
+**German Credit dataset**  
+This dataset classifies people described by a set of attributes as good or bad credit risks.
+
+This dataset comes with a cost matrix: 
+``` 
+Good  Bad (predicted)  
+Good   0    1   (actual)  
+Bad    5    0  
+```
+
+It is worse to class a customer as good when they are bad (5), than it is to class a customer as bad when they are good (1).  
+
+
+
+ Attribute description  
+
+1. Status of existing checking account, in Deutsche Mark.  
+2. Duration in months  
+3. Credit history (credits taken, paid back duly, delays, critical accounts)  
+4. Purpose of the credit (car, television,...)  
+5. Credit amount  
+6. Status of savings account/bonds, in Deutsche Mark.  
+7. Present employment, in number of years.  
+8. Installment rate in percentage of disposable income  
+9. Personal status (married, single,...) and sex  
+10. Other debtors / guarantors  
+11. Present residence since X years  
+12. Property (e.g. real estate)  
+13. Age in years  
+14. Other installment plans (banks, stores)  
+15. Housing (rent, own,...)  
+16. Number of existing credits at this bank  
+17. Job  
+18. Number of people being liable to provide maintenance for  
+19. Telephone (yes,no)  
+20. Foreign worker (yes,no)
+
+
+### <CODE>
+# ```python
+import pandas as pd
+from sklearn.preprocessing import OneHotEncoder
+from sklearn.compose import ColumnTransformer
+from sklearn.pipeline import Pipeline
+from sklearn.model_selection import train_test_split
+
+categorical_features = ['residence_since', 'savings_status', 'job', 'purpose', 'property_magnitude',
+                       'personal_status', 'num_dependents', 'existing_credits', 'employment',
+                       'other_payment_plans', 'housing', 'duration', 'checking_status',
+                       'installment_commitment', 'credit_history', 'other_parties',
+                       'foreign_worker', 'own_telephone']
+
+train_data = pd.read_csv("../../../data/Credit-g/Credit-g_train.csv")
+test_data = pd.read_csv("../../../data/Credit-g/Credit-g_test.csv")
+
+X_train = train_data.drop('class', axis=1)
+y_train = train_data['class']
+X_test = test_data.drop('class', axis=1)
+y_test = test_data['class']
+
+preprocessor = ColumnTransformer(
+    transformers=[
+        ('cat', OneHotEncoder(handle_unknown='ignore'), categorical_features)
+    ],
+    remainder='passthrough'
+)
+
+pipeline = Pipeline(steps=[
+    ('preprocessor', preprocessor)
+])
+
+X_train_transformed = pipeline.fit_transform(X_train)
+
+X_test_transformed = pipeline.transform(X_test)
+# ```end
+</CODE>
+
+### Schema, and Data Profiling Info:
+"""
+# residence_since (int), categorical-values [1,2,4,3]
+# savings_status (int), categorical-values [0,1,4,2,3]
+# job (int), categorical-values [2,3,1,0]
+# purpose (int), categorical-values [0,1,3,9,6,2,5,8,4,10]
+# credit_amount (int), distinct-count [921]
+# property_magnitude (int), categorical-values [0,2,3,1]
+# personal_status (int), categorical-values [2,1,0,3]
+# num_dependents (int), categorical-values [1,2]
+# existing_credits (int), categorical-values [2,1,4,3]
+# employment (int), categorical-values [2,4,0,3,1]
+# other_payment_plans (int), categorical-values [2,0,1]
+# housing (int), categorical-values [1,2,0]
+# duration (int), categorical-values [9,39,24,12,48,18,36,6,10,13,15,27,30,21,60,54,42,7,11,4,and 13 more]
+# checking_status (int), categorical-values [3,0,1,2]
+# installment_commitment (int), categorical-values [3,4,2,1]
+# credit_history (int), categorical-values [4,2,0,3,1]
+# other_parties (int), categorical-values [0,1,2]
+# age (int), distinct-count [53]
+# foreign_worker (bool), categorical-values [0,1]
+# own_telephone (bool), categorical-values [0,1]
+# class (bool, **This is a target column**), categorical-values [0,1]
+"""
+
+### Encode categorical values by "on-hot-encoder" for the following columns:
+	# Columns: residence_since,savings_status,job,purpose,property_magnitude,personal_status,num_dependents,existing_credits,employment,other_payment_plans,housing,duration,checking_status,installment_commitment,credit_history,other_parties,foreign_worker,own_telephone,class
+
+### Dataset Attribute:
+# Number of samples (rows) in training dataset: 1000
+
+### Question: Provide a complete pipeline code that can be executed in a multi-threaded environment.

@@ -1,0 +1,79 @@
+SYSTEM MESSAGE:
+Task: You are expert in coding assistant. Your task is fix the error of this pipeline code.### Input: The user will provide a pipeline code enclosed in "<CODE> pipline code will be here. </CODE>", and an error message enclosed in "<ERROR> error message will be here. </ERROR>".### Rule : Each codeblock ends with "```end" and starts with "```python".
+---------------------------------------
+PROMPT TEXT:
+###  Schema, and Data Profiling Info:
+"""
+# mass (float), distinct-count [248], min-value [0.0], max-value [67.0999984741211], median-value [32.0], mean-value [31.99257813890775]
+# pedi (float), distinct-count [517], min-value [0.0780000016093254], max-value [2.4200000762939453], median-value [0.3725000023841858], mean-value [0.4718763029280429]
+# skin (int), distinct-count [51], min-value [0.0], max-value [99.0], median-value [23.0], mean-value [20.536458333333332]
+# pres (int), distinct-count [47], min-value [0.0], max-value [122.0], median-value [72.0], mean-value [69.10546875]
+# insu (int), distinct-count [186], min-value [0.0], max-value [846.0], median-value [30.5], mean-value [79.79947916666667]
+# preg (int), categorical-values [1,0,4,6,2,10,12,3,11,5,8,9,7,13,14,15,17]
+# plas (int), distinct-count [136], min-value [0.0], max-value [199.0], median-value [117.0], mean-value [120.89453125]
+# age (int), distinct-count [52], min-value [21.0], max-value [81.0], median-value [29.0], mean-value [33.240885416666664]
+# class (bool, **This is a target column**), categorical-values [1,0]
+"""
+
+
+### <CODE>
+# ```python
+import pandas as pd
+from sklearn.preprocessing import OneHotEncoder
+from sklearn.compose import ColumnTransformer
+from sklearn.pipeline import Pipeline
+from sklearn.impute import SimpleImputer
+from sklearn.preprocessing import StandardScaler
+from sklearn.multiprocessing import Pool
+
+categorical_features = ['preg']
+numerical_features = ['mass', 'pedi', 'skin', 'pres', 'insu', 'plas', 'age']
+
+numerical_transformer = Pipeline(steps=[
+    ('imputer', SimpleImputer(strategy='median')),
+    ('scaler', StandardScaler())
+])
+
+categorical_transformer = Pipeline(steps=[
+    ('imputer', SimpleImputer(strategy='most_frequent')),
+    ('onehot', OneHotEncoder(handle_unknown='ignore'))
+])
+
+preprocessor = ColumnTransformer(
+    transformers=[
+        ('num', numerical_transformer, numerical_features),
+        ('cat', categorical_transformer, categorical_features)
+    ])
+
+def feature_engineering(df):
+    df['glucose_per_age'] = df['plas'] / df['age']
+    df['bmi_per_skin'] = df['mass'] / df['skin']
+    return df
+
+def process_data(data):
+    X = data.drop('class', axis=1)
+    y = data['class']
+    X_transformed = pipeline.fit_transform(X)
+    return X_transformed, y
+
+pipeline = Pipeline(steps=[
+    ('preprocessor', preprocessor)
+])
+
+train_data = pd.read_csv("../../../data/Diabetes/Diabetes_train.csv")
+test_data = pd.read_csv("../../../data/Diabetes/Diabetes_test.csv")
+
+train_data = feature_engineering(train_data)
+test_data = feature_engineering(test_data)
+
+with Pool(processes=2) as pool:
+    X_train_transformed, y_train = pool.apply(process_data, [train_data])
+    X_test_transformed, y_test = pool.apply(process_data, [test_data])
+# ```end
+</CODE>
+
+### <ERROR>
+ModuleNotFoundError: No module named 'sklearn.multiprocessing'
+</ERROR>
+
+### Question: Fix the code error provided and return only the corrected pipeline without additional explanations regarding the resolved error.

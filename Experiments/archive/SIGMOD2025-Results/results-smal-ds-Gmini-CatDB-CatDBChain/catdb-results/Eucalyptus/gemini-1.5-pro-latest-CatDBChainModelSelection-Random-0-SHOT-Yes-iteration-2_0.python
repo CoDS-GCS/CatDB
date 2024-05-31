@@ -1,0 +1,82 @@
+# ```python
+import pandas as pd
+from sklearn.preprocessing import OneHotEncoder
+from sklearn.compose import ColumnTransformer
+from sklearn.pipeline import Pipeline
+from sklearn.impute import SimpleImputer
+from sklearn.compose import make_column_transformer
+from sklearn.pipeline import make_pipeline
+from sklearn.preprocessing import FunctionTransformer
+import numpy as np
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import accuracy_score, log_loss
+from sklearn.metrics import roc_auc_score
+
+def log_transform(X):
+    return np.log(X + 1)  # Adding 1 to handle zero values
+
+def sqrt_transform(X):
+    return np.sqrt(X)
+
+def feature_engineering(X):
+    # Polynomial features for 'DBH' and 'Ht'
+    X['DBH_squared'] = X['DBH'] ** 2
+    X['Ht_squared'] = X['Ht'] ** 2
+    X['DBH_Ht'] = X['DBH'] * X['Ht']
+    return X
+
+categorical_features = ['Stem_Fm', 'Vig', 'Brnch_Fm', 'Ins_res', 'Crown_Fm', 'Altitude', 'Rep', 'Rainfall', 
+                       'Map_Ref', 'Locality', 'Frosts', 'Sp', 'Latitude', 'Year', 'Abbrev']
+numerical_features = ['DBH', 'Ht', 'Surv']
+
+numerical_transformer = make_pipeline(
+    SimpleImputer(strategy='mean'),  # Impute missing values
+    FunctionTransformer(log_transform, validate=False),  # Apply log transformation
+    FunctionTransformer(sqrt_transform, validate=False)  # Apply square root transformation
+)
+
+categorical_transformer = make_pipeline(
+    SimpleImputer(strategy='most_frequent'),
+    OneHotEncoder(handle_unknown='ignore')
+)
+
+preprocessor = make_column_transformer(
+    (numerical_transformer, numerical_features),
+    (categorical_transformer, categorical_features),
+    remainder='passthrough'
+)
+
+pipeline = make_pipeline(
+    preprocessor,
+    FunctionTransformer(feature_engineering, validate=False),
+    RandomForestClassifier(max_leaf_nodes=500, n_jobs=-1, random_state=42)  # Add RandomForestClassifier with specified parameters
+)
+
+
+pipeline.fit(X_train, y_train)
+
+y_train_proba = pipeline.predict_proba(X_train)
+y_test_proba = pipeline.predict_proba(X_test)
+
+Train_Accuracy = accuracy_score(y_train, pipeline.predict(X_train))
+Test_Accuracy = accuracy_score(y_test, pipeline.predict(X_test))
+
+Train_Log_loss = log_loss(y_train, y_train_proba)
+Test_Log_loss = log_loss(y_test, y_test_proba)
+
+Train_AUC_OVO = roc_auc_score(y_train, y_train_proba, multi_class='ovo')
+Train_AUC_OVR = roc_auc_score(y_train, y_train_proba, multi_class='ovr')
+
+Test_AUC_OVO = roc_auc_score(y_test, y_test_proba, multi_class='ovo')
+Test_AUC_OVR = roc_auc_score(y_test, y_test_proba, multi_class='ovr')
+
+print(f"Train_AUC_OVO:{Train_AUC_OVO}")
+print(f"Train_AUC_OVR:{Train_AUC_OVR}")
+print(f"Train_Accuracy:{Train_Accuracy}")   
+print(f"Train_Log_loss:{Train_Log_loss}") 
+
+print(f"Test_AUC_OVO:{Test_AUC_OVO}")
+print(f"Test_AUC_OVR:{Test_AUC_OVR}")
+print(f"Test_Accuracy:{Test_Accuracy}")   
+print(f"Test_Log_loss:{Test_Log_loss}")
+# ```end

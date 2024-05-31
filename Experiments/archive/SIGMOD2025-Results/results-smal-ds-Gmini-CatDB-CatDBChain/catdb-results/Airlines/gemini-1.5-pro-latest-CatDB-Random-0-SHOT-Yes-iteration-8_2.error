@@ -1,0 +1,26 @@
+Traceback (most recent call last):
+  File "/home/ubuntu/CatDB/Experiments/setup/Baselines/CatDB/runcode/RunCode.py", line 36, in execute_code
+    exec(compile(parse, filename="<ast>", mode="exec"), loc)
+  File "<ast>", line 42, in <module>
+  File "/home/ubuntu/CatDB/Experiments/setup/Baselines/CatDB/venv/lib/python3.11/site-packages/sklearn/base.py", line 1473, in wrapper
+    return fit_method(estimator, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/CatDB/Experiments/setup/Baselines/CatDB/venv/lib/python3.11/site-packages/sklearn/ensemble/_forest.py", line 363, in fit
+    X, y = self._validate_data(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/CatDB/Experiments/setup/Baselines/CatDB/venv/lib/python3.11/site-packages/sklearn/base.py", line 650, in _validate_data
+    X, y = check_X_y(X, y, **check_params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/CatDB/Experiments/setup/Baselines/CatDB/venv/lib/python3.11/site-packages/sklearn/utils/validation.py", line 1273, in check_X_y
+    X = check_array(
+        ^^^^^^^^^^^^
+  File "/home/ubuntu/CatDB/Experiments/setup/Baselines/CatDB/venv/lib/python3.11/site-packages/sklearn/utils/validation.py", line 1007, in check_array
+    array = _asarray_with_order(array, order=order, dtype=dtype, xp=xp)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/CatDB/Experiments/setup/Baselines/CatDB/venv/lib/python3.11/site-packages/sklearn/utils/_array_api.py", line 746, in _asarray_with_order
+    array = numpy.asarray(array, order=order, dtype=dtype)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/CatDB/Experiments/setup/Baselines/CatDB/venv/lib/python3.11/site-packages/pandas/core/generic.py", line 2084, in __array__
+    arr = np.asarray(values, dtype=dtype)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: could not convert string to float: '85.0_0.0'

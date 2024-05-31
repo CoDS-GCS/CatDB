@@ -1,0 +1,154 @@
+SYSTEM MESSAGE:
+###  Task: Select an appropriate classifier Machine Learning model for the question.
+###  Input: first draft version of pipline with a Data Preprocessing and Feature Engineering task enclosed in "<CODE> pipline code will be here. </CODE>", and a schema that describes the columns and data types of the dataset, and a data profiling info that summarizes the statistics and quality of the dataset.
+###  Output: A modified Python 3.10 code with a Machine Learning algorithm task that performs the following steps:
+#1 : Select classifier algorithm (such as RandomForestClassifier/XGBoost and so on) predicting "defects".
+#2 : Select a suitable hyperparameters for the selected algorithm. If the algorithm is RandomForestClassifier then pass max_leaf_nodes=500 as parameter.
+#3 : Code formatting for binary classification evaluation:
+```python
+# Report evaluation based on train and test dataset
+# Calculate the model accuracy, represented by a value between 0 and 1, where 0 indicates low accuracy and 1 signifies higher accuracy. Store the accuracy value in a variable labeled as "Train_Accuracy=..." and "Test_Accuracy=...".
+# Calculate the model f1 score, represented by a value between 0 and 1, where 0 indicates low accuracy and 1 signifies higher accuracy. Store the f1 score value in a variable labeled as "Train_F1_score=..." and "Test_F1_score=...".
+# Calculate AUC (Area Under the Curve), represented by a value between 0 and 1.
+# Print the train AUC result: print(f"Train_AUC:{Train_AUC}")
+# Print the train accuracy result: print(f"Train_Accuracy:{Train_Accuracy}")   
+# Print the train f1 score result: print(f"Train_F1_score:{Train_F1_score}")
+# Print the test AUC result: print(f"Test_AUC:{Test_AUC}")
+# Print the test accuracy result: print(f"Test_Accuracy:{Test_Accuracy}")   
+# Print the test f1 score result: print(f"Test_F1_score:{Test_F1_score}") 
+```end
+
+#4 : Don't report validation evaluation. We don't need it.
+#5 : Each codeblock ends with "```end" and starts with "```python".
+#6 : Don't use "if __name__ == '__main__':" style, use only flat mode.
+---------------------------------------
+PROMPT TEXT:
+###  Description of the dataset:
+  
+
+**PC1 Software defect prediction**  
+One of the NASA Metrics Data Program defect data sets. Data from flight software for earth orbiting satellite. Data comes from McCabe and Halstead features extractors of source code.  These features were defined in the 70s in an attempt to objectively characterize code features that are associated with software quality.
+
+
+
+ Attribute Information  
+
+1. loc             : numeric % McCabe's line count of code
+2. v(g)            : numeric % McCabe "cyclomatic complexity"
+3. ev(g)           : numeric % McCabe "essential complexity"
+4. iv(g)           : numeric % McCabe "design complexity"
+5. n               : numeric % Halstead total operators + operands
+6. v               : numeric % Halstead "volume"
+7. l               : numeric % Halstead "program length"
+8. d               : numeric % Halstead "difficulty"
+9. i               : numeric % Halstead "intelligence"
+10. e               : numeric % Halstead "effort"
+11. b               : numeric % Halstead 
+12. t               : numeric % Halstead's time estimator
+13. lOCode          : numeric % Halstead's line count
+14. lOComment       : numeric % Halstead's count of lines of comments
+15. lOBlank         : numeric % Halstead's count of blank lines
+16. lOCodeAndComment: numeric
+17. uniq_Op         : numeric % unique operators
+18. uniq_Opnd       : numeric % unique operands
+19. total_Op        : numeric % total operators
+20. total_Opnd      : numeric % total operands
+21. branchCount     : numeric % of the flow graph
+22. branchCount     : numeric % of the flow graph
+23. defects         : {false,true} % module has/has not one or more reported defects
+
+
+
+ Relevant papers  
+
+- Shepperd, M. and Qinbao Song and Zhongbin Sun and Mair, C. (2013)
+Data Quality: Some Comments on the NASA Software Defect Datasets, IEEE Transactions on Software Engineering, 39.
+
+- Tim Menzies and Justin S. Di Stefano (2004) How Good is Your Blind Spot Sampling Policy? 2004 IEEE Conference on High Assurance
+Software Engineering.
+
+- T. Menzies and J. DiStefano and A. Orrego and R. Chapman (2004) Assessing Predictors of Software Defects", Workshop on Predictive Software Models, Chicago
+
+
+### <CODE>
+# ```python
+import pandas as pd
+from sklearn.preprocessing import OneHotEncoder
+from sklearn.compose import ColumnTransformer
+from sklearn.pipeline import Pipeline
+from sklearn.impute import SimpleImputer
+from sklearn.preprocessing import StandardScaler
+from sklearn.decomposition import PCA
+from sklearn.feature_selection import SelectKBest, f_classif
+
+categorical_features = ['L', 'uniq_Op', 'v(g)', 'ev(g)', 'iv(G)', 'lOComment', 'locCodeAndComment', 'lOBlank']
+numerical_features = ['I', 'B', 'uniq_Opnd', 'E', 'N', 'loc', 'total_Opnd', 'total_Op', 'V', 'T', 'branchCount', 'D', 'lOCode']
+
+train_data = pd.read_csv("../../../data/PC1/PC1_train.csv")
+test_data = pd.read_csv("../../../data/PC1/PC1_test.csv")
+
+def add_interaction_terms(X):
+    for i in range(len(numerical_features)):
+        for j in range(i+1, len(numerical_features)):
+            feature1 = numerical_features[i]
+            feature2 = numerical_features[j]
+            X[f'{feature1}_x_{feature2}'] = X[feature1] * X[feature2]
+    return X
+
+train_data = add_interaction_terms(train_data.copy())
+test_data = add_interaction_terms(test_data.copy())
+
+numerical_features += [col for col in train_data.columns if col not in categorical_features + ['defects']]
+
+preprocessor = ColumnTransformer(
+    transformers=[
+        ('num', Pipeline(steps=[
+            ('imputer', SimpleImputer(strategy='median')),
+            ('scaler', StandardScaler()),  # Standardize numerical features
+            ('pca', PCA(n_components=0.95)),  # Apply PCA for dimensionality reduction
+            ('feature_selection', SelectKBest(f_classif, k=10))  # Select top k features
+        ]), numerical_features),
+        ('cat', Pipeline(steps=[
+            ('imputer', SimpleImputer(strategy='most_frequent')),
+            ('onehot', OneHotEncoder(handle_unknown='ignore'))
+        ]), categorical_features)
+    ])
+
+train_data_processed = preprocessor.fit_transform(train_data.drop('defects', axis=1), train_data['defects'])
+test_data_processed = preprocessor.transform(test_data.drop('defects', axis=1))
+# ```end
+</CODE>
+
+### Schema, and Data Profiling Info:
+"""
+# I (float), distinct-count [823]
+# B (float), distinct-count [126]
+# uniq_Opnd (float), distinct-count [106]
+# L (float), categorical-values [0.0199999995529651,0.0599999986588954,0.1800000071525573,0.0399999991059303,0.1400000005960464,0.0700000002980232,0.0099999997764825,0.5,0.0900000035762786,0.0799999982118606,0.3300000131130218,0.1199999973177909,0.2899999916553497,0.1299999952316284,0.050000000745058,0.3199999928474426,0.6700000166893005,0.1599999964237213,0.2399999946355819,0.1099999994039535,and 25 more]
+# uniq_Op (float), categorical-values [22.0,12.0,34.0,8.0,16.0,9.0,15.0,38.0,4.0,31.0,18.0,14.0,6.0,10.0,7.0,21.0,5.0,19.0,17.0,3.0,and 26 more]
+# E (float), distinct-count [890]
+# v(g) (float), categorical-values [7.0,3.0,19.0,1.0,2.0,10.0,54.0,20.0,4.0,6.0,5.0,11.0,29.0,49.0,9.0,8.0,21.0,25.0,15.0,12.0,and 28 more]
+# N (float), distinct-count [312]
+# loc (float), distinct-count [111]
+# ev(g) (float), categorical-values [3.0,1.0,25.0,8.0,6.0,4.0,5.0,7.0,9.0,11.0,1.399999976158142,12.0,41.0,14.0,42.0,17.0,13.0,15.0,21.0,23.0,and 7 more]
+# total_Opnd (float), distinct-count [203]
+# total_Op (float), distinct-count [232]
+# V (float), distinct-count [756]
+# T (float), distinct-count [886]
+# iv(G) (float), categorical-values [2.0,1.0,3.0,6.0,24.0,19.0,5.0,11.0,9.0,4.0,8.0,13.0,18.0,7.0,1.399999976158142,82.0,10.0,17.0,43.0,14.0,and 11 more]
+# branchCount (float), distinct-count [62]
+# D (float), distinct-count [613]
+# lOComment (int), categorical-values [9,0,62,7,3,1,38,2,5,6,13,12,50,55,4,16,73,21,17,18,and 33 more]
+# locCodeAndComment (int), categorical-values [2,21,0,1,4,24,3,16,5,12,10,9,48,11,42,6,13,15,7,20,and 4 more]
+# lOCode (int), distinct-count [113]
+# lOBlank (int), categorical-values [8,5,34,2,1,3,24,7,60,0,26,17,11,9,19,4,10,12,39,27,and 32 more]
+# defects (bool, **This is a target column**), categorical-values [0,1]
+"""
+
+### Encode categorical values by "on-hot-encoder" for the following columns:
+	# Columns: L,uniq_Op,v(g),ev(g),iv(G),lOComment,locCodeAndComment,lOBlank,defects
+
+### Dataset Attribute:
+# Number of samples (rows) in training dataset: 1109
+
+### Question: Provide a complete pipeline code that can be executed in a multi-threaded environment.

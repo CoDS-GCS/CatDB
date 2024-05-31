@@ -1,0 +1,76 @@
+# ```python
+import pandas as pd
+from sklearn.preprocessing import OneHotEncoder
+from sklearn.compose import ColumnTransformer
+import multiprocessing
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import accuracy_score, log_loss
+from sklearn.metrics import roc_auc_score
+
+train_data = pd.read_csv("../../../data/Balance-Scale/Balance-Scale_train.csv")
+test_data = pd.read_csv("../../../data/Balance-Scale/Balance-Scale_test.csv")
+
+def feature_engineering(data):
+    data['left_torque'] = data['left-weight'] * data['left-distance']
+    data['right_torque'] = data['right-weight'] * data['right-distance']
+    data = data.drop(['left-weight', 'left-distance', 'right-weight', 'right-distance'], axis=1)
+    return data
+
+categorical_features = ['class', 'right-weight', 'right-distance', 'left-weight', 'left-distance']
+encoder = OneHotEncoder(handle_unknown='ignore', sparse_output=False)
+
+preprocessor = ColumnTransformer(
+    transformers=[
+        ('cat', encoder, categorical_features)
+    ],
+    remainder='passthrough'
+)
+
+def process_data(data):
+    """Applies data preprocessing to a given dataset."""
+    data = feature_engineering(data)
+    X = data.drop('class', axis=1)
+    y = data['class']
+    X_encoded = preprocessor.fit_transform(X)
+    return X_encoded, y
+
+num_processes = multiprocessing.cpu_count()
+pool = multiprocessing.Pool(processes=num_processes)
+
+train_results = pool.apply_async(process_data, (train_data,))
+test_results = pool.apply_async(process_data, (test_data,))
+
+X_train, y_train = train_results.get()
+X_test, y_test = test_results.get()
+
+pool.close()
+pool.join()
+
+model = RandomForestClassifier(max_leaf_nodes=500, random_state=42)
+model.fit(X_train, y_train)
+
+y_train_pred_proba = model.predict_proba(X_train)
+y_test_pred_proba = model.predict_proba(X_test)
+
+Train_Accuracy = accuracy_score(y_train, model.predict(X_train))
+Test_Accuracy = accuracy_score(y_test, model.predict(X_test))
+
+Train_Log_loss = log_loss(y_train, y_train_pred_proba)
+Test_Log_loss = log_loss(y_test, y_test_pred_proba)
+
+Train_AUC_OVO = roc_auc_score(y_train, y_train_pred_proba, multi_class='ovo')
+Train_AUC_OVR = roc_auc_score(y_train, y_train_pred_proba, multi_class='ovr')
+
+Test_AUC_OVO = roc_auc_score(y_test, y_test_pred_proba, multi_class='ovo')
+Test_AUC_OVR = roc_auc_score(y_test, y_test_pred_proba, multi_class='ovr')
+
+print(f"Train_AUC_OVO:{Train_AUC_OVO}")
+print(f"Train_AUC_OVR:{Train_AUC_OVR}")
+print(f"Train_Accuracy:{Train_Accuracy}")   
+print(f"Train_Log_loss:{Train_Log_loss}") 
+
+print(f"Test_AUC_OVO:{Test_AUC_OVO}")
+print(f"Test_AUC_OVR:{Test_AUC_OVR}")
+print(f"Test_Accuracy:{Test_Accuracy}")   
+print(f"Test_Log_loss:{Test_Log_loss}")
+# ```end

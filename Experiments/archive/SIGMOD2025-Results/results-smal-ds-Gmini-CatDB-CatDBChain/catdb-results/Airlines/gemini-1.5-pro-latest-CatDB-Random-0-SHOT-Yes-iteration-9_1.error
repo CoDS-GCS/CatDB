@@ -1,0 +1,18 @@
+Traceback (most recent call last):
+  File "/home/ubuntu/CatDB/Experiments/setup/Baselines/CatDB/runcode/RunCode.py", line 36, in execute_code
+    exec(compile(parse, filename="<ast>", mode="exec"), loc)
+  File "<ast>", line 37, in <module>
+  File "/home/ubuntu/CatDB/Experiments/setup/Baselines/CatDB/venv/lib/python3.11/site-packages/sklearn/base.py", line 1473, in wrapper
+    return fit_method(estimator, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/CatDB/Experiments/setup/Baselines/CatDB/venv/lib/python3.11/site-packages/sklearn/ensemble/_forest.py", line 363, in fit
+    X, y = self._validate_data(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/CatDB/Experiments/setup/Baselines/CatDB/venv/lib/python3.11/site-packages/sklearn/base.py", line 608, in _validate_data
+    self._check_feature_names(X, reset=reset)
+  File "/home/ubuntu/CatDB/Experiments/setup/Baselines/CatDB/venv/lib/python3.11/site-packages/sklearn/base.py", line 469, in _check_feature_names
+    feature_names_in = _get_feature_names(X)
+                       ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/CatDB/Experiments/setup/Baselines/CatDB/venv/lib/python3.11/site-packages/sklearn/utils/validation.py", line 2250, in _get_feature_names
+    raise TypeError(
+TypeError: Feature names are only supported if all input features have string names, but your input has ['int', 'str'] as feature name / column name types. If you want feature names to be stored and validated, you must convert them all to strings, by using X.columns = X.columns.astype(str) for example. Otherwise you can remove feature / column names from your input data, or convert them all to a non-string data type.

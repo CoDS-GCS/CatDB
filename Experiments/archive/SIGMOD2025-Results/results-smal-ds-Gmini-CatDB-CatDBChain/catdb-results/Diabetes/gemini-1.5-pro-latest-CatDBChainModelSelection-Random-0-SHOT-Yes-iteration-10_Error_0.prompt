@@ -1,0 +1,112 @@
+SYSTEM MESSAGE:
+Task: You are expert in coding assistant. Your task is fix the error of this pipeline code.### Input: The user will provide a pipeline code enclosed in "<CODE> pipline code will be here. </CODE>", and an error message enclosed in "<ERROR> error message will be here. </ERROR>".### Rule : Each codeblock ends with "```end" and starts with "```python".
+---------------------------------------
+PROMPT TEXT:
+###  Schema, and Data Profiling Info:
+"""
+# mass (float), distinct-count [248]
+# pedi (float), distinct-count [517]
+# skin (int), distinct-count [51]
+# pres (int), distinct-count [47]
+# insu (int), distinct-count [186]
+# preg (int), categorical-values [1,0,4,6,2,10,12,3,11,5,8,9,7,13,14,15,17]
+# plas (int), distinct-count [136]
+# age (int), distinct-count [52]
+# class (bool, **This is a target column**), categorical-values [1,0]
+"""
+
+
+### <CODE>
+# ```python
+import pandas as pd
+from sklearn.preprocessing import OneHotEncoder
+from sklearn.compose import ColumnTransformer
+from sklearn.pipeline import Pipeline
+from sklearn.impute import SimpleImputer
+from sklearn.preprocessing import StandardScaler
+from sklearn.decomposition import PCA
+import numpy as np
+from sklearn.compose import make_column_transformer
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import accuracy_score, f1_score, roc_auc_score
+
+categorical_features = ['preg']
+numerical_features = ['mass', 'pedi', 'skin', 'pres', 'insu', 'plas', 'age']
+
+numerical_transformer = Pipeline(steps=[
+    ('imputer', SimpleImputer(strategy='median')),
+    ('scaler', StandardScaler())
+])
+
+categorical_transformer = Pipeline(steps=[
+    ('imputer', SimpleImputer(strategy='most_frequent')),
+    ('onehot', OneHotEncoder(handle_unknown='ignore'))
+])
+
+preprocessor = ColumnTransformer(
+    transformers=[
+        ('num', numerical_transformer, numerical_features),
+        ('cat', categorical_transformer, categorical_features)
+    ])
+
+def glucose_level(X):
+    # Glucose level = plas
+    return X[:, np.where(np.array(numerical_features) == 'plas')[0]]
+
+def bmi_category(X):
+    # Calculate BMI category based on 'mass' column
+    bmi = X[:, np.where(np.array(numerical_features) == 'mass')[0]]
+    categories = ['underweight', 'normal', 'overweight', 'obese']
+    bins = [0, 18.5, 25, 30, np.inf]
+    return np.array([categories[i] for i in np.digitize(bmi, bins)-1]).reshape(-1, 1)
+
+transformer = Pipeline(steps=[
+    ('preprocessor', preprocessor),
+    ('feature_engineering', make_column_transformer(
+        (glucose_level, ['plas']),
+        (bmi_category, ['mass']),
+        remainder='passthrough'
+    )),
+    ('pca', PCA(n_components=0.95))
+])
+
+pipeline = Pipeline(steps=[
+    ('transformer', transformer),
+    ('classifier', RandomForestClassifier(max_leaf_nodes=500, n_jobs=-1))
+])
+
+from sklearn.model_selection import train_test_split
+import pandas as pd
+data = pd.read_csv("diabetes.csv")
+X = data.drop('class', axis=1)
+y = data['class']
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+pipeline.fit(X_train, y_train)
+
+y_train_pred = pipeline.predict(X_train)
+y_test_pred = pipeline.predict(X_test)
+
+Train_Accuracy = accuracy_score(y_train, y_train_pred)
+Train_F1_score = f1_score(y_train, y_train_pred)
+Train_AUC = roc_auc_score(y_train, y_train_pred)
+
+Test_Accuracy = accuracy_score(y_test, y_test_pred)
+Test_F1_score = f1_score(y_test, y_test_pred)
+Test_AUC = roc_auc_score(y_test, y_test_pred)
+
+print(f"Train_AUC:{Train_AUC}")
+print(f"Train_Accuracy:{Train_Accuracy}")   
+print(f"Train_F1_score:{Train_F1_score}")
+
+print(f"Test_AUC:{Test_AUC}")
+print(f"Test_Accuracy:{Test_Accuracy}")   
+print(f"Test_F1_score:{Test_F1_score}") 
+# ```end
+</CODE>
+
+### <ERROR>
+FileNotFoundError: 2
+</ERROR>
+
+### Question: Fix the code error provided and return only the corrected pipeline without additional explanations regarding the resolved error.

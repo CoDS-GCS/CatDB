@@ -1,0 +1,98 @@
+SYSTEM MESSAGE:
+###  Task: Select an appropriate classifier Machine Learning model for the question.
+###  Input: first draft version of pipline with a Data Preprocessing and Feature Engineering task enclosed in "<CODE> pipline code will be here. </CODE>", and a schema that describes the columns and data types of the dataset, and a data profiling info that summarizes the statistics and quality of the dataset.
+###  Output: A modified Python 3.10 code with a Machine Learning algorithm task that performs the following steps:
+#1 : Select classifier algorithm (such as RandomForestClassifier/XGBoost and so on) predicting "Class".
+#2 : Select a suitable hyperparameters for the selected algorithm. If the algorithm is RandomForestClassifier then pass max_leaf_nodes=500 as parameter.
+#3 : Code formatting for binary classification evaluation:
+```python
+# Report evaluation based on train and test dataset
+# Calculate the model accuracy, represented by a value between 0 and 1, where 0 indicates low accuracy and 1 signifies higher accuracy. Store the accuracy value in a variable labeled as "Train_Accuracy=..." and "Test_Accuracy=...".
+# Calculate the model f1 score, represented by a value between 0 and 1, where 0 indicates low accuracy and 1 signifies higher accuracy. Store the f1 score value in a variable labeled as "Train_F1_score=..." and "Test_F1_score=...".
+# Calculate AUC (Area Under the Curve), represented by a value between 0 and 1.
+# Print the train AUC result: print(f"Train_AUC:{Train_AUC}")
+# Print the train accuracy result: print(f"Train_Accuracy:{Train_Accuracy}")   
+# Print the train f1 score result: print(f"Train_F1_score:{Train_F1_score}")
+# Print the test AUC result: print(f"Test_AUC:{Test_AUC}")
+# Print the test accuracy result: print(f"Test_Accuracy:{Test_Accuracy}")   
+# Print the test f1 score result: print(f"Test_F1_score:{Test_F1_score}") 
+```end
+
+#4 : Don't report validation evaluation. We don't need it.
+#5 : Each codeblock ends with "```end" and starts with "```python".
+#6 : Don't use "if __name__ == '__main__':" style, use only flat mode.
+---------------------------------------
+PROMPT TEXT:
+###  Description of the dataset:
+
+**Tic-Tac-Toe Endgame database**  
+This database encodes the complete set of possible board configurations at the end of tic-tac-toe games, where "x" is assumed to have played first.  The target concept is "win for x" (i.e., true when "x" has one of 8 possible ways to create a "three-in-a-row").  
+
+
+
+ Attribute Information  
+
+     (x=player x has taken, o=player o has taken, b=blank)
+     1. top-left-square: {x,o,b}
+     2. top-middle-square: {x,o,b}
+     3. top-right-square: {x,o,b}
+     4. middle-left-square: {x,o,b}
+     5. middle-middle-square: {x,o,b}
+     6. middle-right-square: {x,o,b}
+     7. bottom-left-square: {x,o,b}
+     8. bottom-middle-square: {x,o,b}
+     9. bottom-right-square: {x,o,b}
+    10. Class: {positive,negative}
+
+
+### <CODE>
+# ```python
+import pandas as pd
+from sklearn.preprocessing import OneHotEncoder
+from sklearn.compose import ColumnTransformer
+from sklearn.pipeline import Pipeline
+from sklearn.multioutput import MultiOutputClassifier
+from sklearn.linear_model import LogisticRegression 
+
+categorical_cols = ['bottom-middle-square', 'top-middle-square', 'bottom-left-square', 
+                   'middle-left-square', 'bottom-right-square', 'top-right-square', 
+                   'middle-right-square', 'middle-middle-square', 'top-left-square']
+
+train_data = pd.read_csv("../../../data/Tic-Tac-Toe/Tic-Tac-Toe_train.csv")
+test_data = pd.read_csv("../../../data/Tic-Tac-Toe/Tic-Tac-Toe_test.csv")
+
+preprocessor = ColumnTransformer(
+    transformers=[
+        ('cat', OneHotEncoder(), categorical_cols)
+    ],
+    remainder='passthrough'
+)
+
+pipeline = Pipeline([
+    ('preprocessor', preprocessor),
+    ('classifier', MultiOutputClassifier(LogisticRegression(n_jobs=-1)))  # Use all available cores
+])
+# ```end
+</CODE>
+
+### Schema, and Data Profiling Info:
+"""
+# bottom-middle-square (int), categorical-values [2,1,0]
+# top-middle-square (int), categorical-values [1,2,0]
+# bottom-left-square (int), categorical-values [0,1,2]
+# middle-left-square (int), categorical-values [2,0,1]
+# bottom-right-square (int), categorical-values [2,0,1]
+# top-right-square (int), categorical-values [1,0,2]
+# middle-right-square (int), categorical-values [1,2,0]
+# middle-middle-square (int), categorical-values [2,1,0]
+# top-left-square (int), categorical-values [1,0,2]
+# Class (bool, **This is a target column**), categorical-values [0,1]
+"""
+
+### Encode categorical values by "on-hot-encoder" for the following columns:
+	# Columns: bottom-middle-square,top-middle-square,bottom-left-square,middle-left-square,bottom-right-square,top-right-square,middle-right-square,middle-middle-square,top-left-square,Class
+
+### Dataset Attribute:
+# Number of samples (rows) in training dataset: 958
+
+### Question: Provide a complete pipeline code that can be executed in a multi-threaded environment.

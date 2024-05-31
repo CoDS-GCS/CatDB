@@ -1,0 +1,17 @@
+Traceback (most recent call last):
+  File "/home/ubuntu/CatDB/Experiments/setup/Baselines/CatDB/runcode/RunCode.py", line 36, in execute_code
+    exec(compile(parse, filename="<ast>", mode="exec"), loc)
+  File "<ast>", line 37, in <module>
+  File "/home/ubuntu/CatDB/Experiments/setup/Baselines/CatDB/venv/lib/python3.11/site-packages/sklearn/utils/_param_validation.py", line 213, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/CatDB/Experiments/setup/Baselines/CatDB/venv/lib/python3.11/site-packages/sklearn/metrics/_ranking.py", line 634, in roc_auc_score
+    return _multiclass_roc_auc_score(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/CatDB/Experiments/setup/Baselines/CatDB/venv/lib/python3.11/site-packages/sklearn/metrics/_ranking.py", line 765, in _multiclass_roc_auc_score
+    return _average_multiclass_ovo_score(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/CatDB/Experiments/setup/Baselines/CatDB/venv/lib/python3.11/site-packages/sklearn/metrics/_base.py", line 196, in _average_multiclass_ovo_score
+    a_true_score = binary_metric(a_true, y_score[ab_mask, a])
+                                         ~~~~~~~^^^^^^^^^^^^
+IndexError: too many indices for array: array is 2-dimensional, but 3 were indexed

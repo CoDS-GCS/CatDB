@@ -1,0 +1,40 @@
+# ```python
+import pandas as pd
+from sklearn.preprocessing import OneHotEncoder
+from sklearn.compose import ColumnTransformer
+from sklearn.pipeline import Pipeline
+from multiprocessing import Pool
+import numpy as np
+
+categorical_features = ['L', 'uniq_Op', 'v(g)', 'ev(g)', 'iv(G)', 'lOComment', 'locCodeAndComment', 'lOBlank']
+numerical_features = ['I', 'B', 'uniq_Opnd', 'E', 'N', 'loc', 'total_Opnd', 'total_Op', 'V', 'T', 'branchCount', 'D', 'lOCode']
+
+train_data = pd.read_csv("../../../data/PC1/PC1_train.csv")
+test_data = pd.read_csv("../../../data/PC1/PC1_test.csv")
+
+def augment_data(data):
+    augmented_data = data.copy()
+    for feature in numerical_features:
+        augmented_data[feature] += np.random.normal(0, 0.01, len(data))
+    return augmented_data
+
+def process_data(data):
+    # Create the preprocessing pipeline
+    preprocessor = ColumnTransformer(
+        transformers=[
+            ('num', 'passthrough', numerical_features),
+            ('cat', OneHotEncoder(handle_unknown='ignore'), categorical_features)
+        ])
+    
+    # Fit and transform the data
+    data_processed = preprocessor.fit_transform(data)
+    return data_processed
+
+if __name__ == '__main__':
+    with Pool(processes=4) as pool:  # Adjust the number of processes as needed
+        # Process training and test data in parallel
+        train_data_processed = pool.map(process_data, [train_data, augment_data(train_data)])
+        test_data_processed = pool.map(process_data, [test_data])
+
+    train_data_processed = np.concatenate((train_data_processed[0], train_data_processed[1]), axis=0)
+# ```end

@@ -1,0 +1,87 @@
+# ```python
+import pandas as pd
+from sklearn.preprocessing import OneHotEncoder
+from sklearn.compose import ColumnTransformer
+from sklearn.pipeline import Pipeline
+from multiprocessing import Pool
+import numpy as np
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import accuracy_score, f1_score, roc_auc_score
+
+train_data = pd.read_csv("../../../data/Tic-Tac-Toe/Tic-Tac-Toe_train.csv")
+test_data = pd.read_csv("../../../data/Tic-Tac-Toe/Tic-Tac-Toe_test.csv")
+
+categorical_features = ['bottom-middle-square', 'top-middle-square', 'bottom-left-square',
+                        'middle-left-square', 'bottom-right-square', 'top-right-square',
+                        'middle-right-square', 'middle-middle-square', 'top-left-square']
+
+encoder = OneHotEncoder(handle_unknown='ignore')
+
+preprocessor = ColumnTransformer(
+    transformers=[
+        ('cat', encoder, categorical_features)
+    ],
+    remainder='passthrough'
+)
+
+def augment_data(X, y, noise_factor=0.1):
+    # Add random noise to numerical features
+    X_augmented = X + noise_factor * np.random.randn(*X.shape)
+    # Concatenate augmented data with original data
+    X = np.concatenate((X, X_augmented))
+    y = np.concatenate((y, y))
+    return X, y
+
+def generate_features(data):
+    data['top_row_same'] = (data['top-left-square'] == data['top-middle-square']) & (data['top-middle-square'] == data['top-right-square'])
+    data['middle_row_same'] = (data['middle-left-square'] == data['middle-middle-square']) & (data['middle-middle-square'] == data['middle-right-square'])
+    data['bottom_row_same'] = (data['bottom-left-square'] == data['bottom-middle-square']) & (data['bottom-middle-square'] == data['bottom-right-square'])
+    data['left_col_same'] = (data['top-left-square'] == data['middle-left-square']) & (data['middle-left-square'] == data['bottom-left-square'])
+    data['middle_col_same'] = (data['top-middle-square'] == data['middle-middle-square']) & (data['middle-middle-square'] == data['bottom-middle-square'])
+    data['right_col_same'] = (data['top-right-square'] == data['middle-right-square']) & (data['middle-right-square'] == data['bottom-right-square'])
+    data['diag1_same'] = (data['top-left-square'] == data['middle-middle-square']) & (data['middle-middle-square'] == data['bottom-right-square'])
+    data['diag2_same'] = (data['top-right-square'] == data['middle-middle-square']) & (data['middle-middle-square'] == data['bottom-left-square'])
+    return data
+
+def process_data(data):
+    X = data.drop('Class', axis=1)
+    y = data['Class']
+    # Apply data augmentation
+    X, y = augment_data(X.values, y.values)
+    X = pd.DataFrame(X, columns=categorical_features)
+    # Apply feature engineering
+    X = generate_features(X)
+    # Fit and transform the data using the preprocessor
+    X = preprocessor.fit_transform(X)
+    return X, y
+
+model = RandomForestClassifier(max_leaf_nodes=500, n_jobs=-1)
+
+pipeline = Pipeline([
+    ('preprocess', preprocessor),
+    ('model', model)
+])
+
+X_train, y_train = process_data(train_data)
+X_test, y_test = process_data(test_data)
+
+pipeline.fit(X_train, y_train)
+
+y_train_pred = pipeline.predict(X_train)
+y_test_pred = pipeline.predict(X_test)
+
+Train_Accuracy = accuracy_score(y_train, y_train_pred)
+Train_F1_score = f1_score(y_train, y_train_pred)
+Train_AUC = roc_auc_score(y_train, y_train_pred)
+
+Test_Accuracy = accuracy_score(y_test, y_test_pred)
+Test_F1_score = f1_score(y_test, y_test_pred)
+Test_AUC = roc_auc_score(y_test, y_test_pred)
+
+print(f"Train_AUC:{Train_AUC}")
+print(f"Train_Accuracy:{Train_Accuracy}")
+print(f"Train_F1_score:{Train_F1_score}")
+print(f"Test_AUC:{Test_AUC}")
+print(f"Test_Accuracy:{Test_Accuracy}")
+print(f"Test_F1_score:{Test_F1_score}")
+# ```end

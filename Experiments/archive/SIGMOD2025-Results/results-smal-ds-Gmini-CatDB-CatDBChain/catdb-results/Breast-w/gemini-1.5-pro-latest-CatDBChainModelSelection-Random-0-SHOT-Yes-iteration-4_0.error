@@ -1,0 +1,9 @@
+Traceback (most recent call last):
+  File "/home/ubuntu/CatDB/Experiments/setup/Baselines/CatDB/runcode/RunCode.py", line 36, in execute_code
+    exec(compile(parse, filename="<ast>", mode="exec"), loc)
+  File "<ast>", line 38, in <module>
+  File "/home/ubuntu/CatDB/Experiments/setup/Baselines/CatDB/venv/lib/python3.11/site-packages/sklearn/utils/_available_if.py", line 40, in __get__
+    self._check(obj, owner=owner)
+  File "/home/ubuntu/CatDB/Experiments/setup/Baselines/CatDB/venv/lib/python3.11/site-packages/sklearn/utils/_available_if.py", line 34, in _check
+    raise AttributeError(attr_err_msg)
+AttributeError: This 'Pipeline' has no attribute 'fit_transform'

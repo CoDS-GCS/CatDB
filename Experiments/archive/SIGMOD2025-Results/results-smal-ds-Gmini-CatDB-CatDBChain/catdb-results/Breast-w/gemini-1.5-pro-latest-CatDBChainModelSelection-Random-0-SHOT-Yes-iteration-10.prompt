@@ -1,0 +1,109 @@
+SYSTEM MESSAGE:
+###  Task: Select an appropriate classifier Machine Learning model for the question.
+###  Input: first draft version of pipline with a Data Preprocessing and Feature Engineering task enclosed in "<CODE> pipline code will be here. </CODE>", and a schema that describes the columns and data types of the dataset, and a data profiling info that summarizes the statistics and quality of the dataset.
+###  Output: A modified Python 3.10 code with a Machine Learning algorithm task that performs the following steps:
+#1 : Select classifier algorithm (such as RandomForestClassifier/XGBoost and so on) predicting "Class".
+#2 : Select a suitable hyperparameters for the selected algorithm. If the algorithm is RandomForestClassifier then pass max_leaf_nodes=500 as parameter.
+#3 : Code formatting for binary classification evaluation:
+```python
+# Report evaluation based on train and test dataset
+# Calculate the model accuracy, represented by a value between 0 and 1, where 0 indicates low accuracy and 1 signifies higher accuracy. Store the accuracy value in a variable labeled as "Train_Accuracy=..." and "Test_Accuracy=...".
+# Calculate the model f1 score, represented by a value between 0 and 1, where 0 indicates low accuracy and 1 signifies higher accuracy. Store the f1 score value in a variable labeled as "Train_F1_score=..." and "Test_F1_score=...".
+# Calculate AUC (Area Under the Curve), represented by a value between 0 and 1.
+# Print the train AUC result: print(f"Train_AUC:{Train_AUC}")
+# Print the train accuracy result: print(f"Train_Accuracy:{Train_Accuracy}")   
+# Print the train f1 score result: print(f"Train_F1_score:{Train_F1_score}")
+# Print the test AUC result: print(f"Test_AUC:{Test_AUC}")
+# Print the test accuracy result: print(f"Test_Accuracy:{Test_Accuracy}")   
+# Print the test f1 score result: print(f"Test_F1_score:{Test_F1_score}") 
+```end
+
+#4 : Don't report validation evaluation. We don't need it.
+#5 : Each codeblock ends with "```end" and starts with "```python".
+#6 : Don't use "if __name__ == '__main__':" style, use only flat mode.
+---------------------------------------
+PROMPT TEXT:
+###  Description of the dataset:
+
+**Breast Cancer Wisconsin (Original) Data Set.** Features are computed from a digitized image of a fine needle aspirate (FNA) of a breast mass. They describe characteristics of the cell nuclei present in the image. The target feature records the prognosis (malignant or benign). [Original data available here](ftp://ftp.cs.wisc.edu/math-prog/cpo-dataset/machine-learn/cancer/)  
+
+Current dataset was adapted to ARFF format from the UCI version. Sample code ID's were removed.  
+
+! Note that there is also a related Breast Cancer Wisconsin (Diagnosis) Data Set with a different set of features, better known as [wdbc](https://www.openml.org/d/1510).
+
+
+
+ Citation request  
+
+This breast cancer database was obtained from the University of Wisconsin Hospitals, Madison from Dr. William H. Wolberg.  If you publish results when using this database, then please include this information in your acknowledgments.  Also, please cite one or more of:
+
+   1. O. L. Mangasarian and W. H. Wolberg: "Cancer diagnosis via linear 
+      programming", SIAM News, Volume 23, Number 5, September 1990, pp 1 & 18.
+
+   2. William H. Wolberg and O.L. Mangasarian: "Multisurface method of 
+      pattern separation for medical diagnosis applied to breast cytology", 
+      Proceedings of the National Academy of Sciences, U.S.A., Volume 87, 
+      December 1990, pp 9193-9196.
+
+   3. O. L. Mangasarian, R. Setiono, and W.H. Wolberg: "Pattern recognition 
+      via linear programming: Theory and application to medical diagnosis", 
+      in: "Large-scale numerical optimization", Thomas F. Coleman and Yuying
+      Li, editors, SIAM Publications, Philadelphia 1990, pp 22-30.
+
+   4. K. P. Bennett & O. L. Mangasarian: "Robust linear programming 
+      discrimination of two linearly inseparable sets", Optimization Methods
+      and Software 1, 1992, 23-34 (Gordon & Breach Science Publishers).
+
+
+### <CODE>
+# ```python
+import pandas as pd
+from sklearn.preprocessing import OneHotEncoder
+from sklearn.compose import ColumnTransformer
+from sklearn.pipeline import Pipeline
+from sklearn.linear_model import LogisticRegression
+
+train_data = pd.read_csv("../../../data/Breast-w/Breast-w_train.csv")
+test_data = pd.read_csv("../../../data/Breast-w/Breast-w_test.csv")
+
+categorical_features = ['Normal_Nucleoli', 'Bland_Chromatin', 'Clump_Thickness',
+                        'Cell_Shape_Uniformity', 'Bare_Nuclei', 'Cell_Size_Uniformity',
+                        'Marginal_Adhesion', 'Mitoses', 'Single_Epi_Cell_Size']
+
+onehot_encoder = OneHotEncoder(handle_unknown='ignore')
+
+preprocessor = ColumnTransformer(
+    transformers=[
+        ('cat', onehot_encoder, categorical_features)
+    ],
+    remainder='passthrough'
+)
+
+pipeline = Pipeline([
+    ('preprocessor', preprocessor),
+    ('classifier', LogisticRegression(n_jobs=-1))
+])
+# ```end
+</CODE>
+
+### Schema, and Data Profiling Info:
+"""
+# Normal_Nucleoli (int), categorical-values [4,1,10,2,7,3,9,8,6,5]
+# Bland_Chromatin (int), categorical-values [3,4,1,10,2,7,9,8,5,6]
+# Clump_Thickness (int), categorical-values [5,3,6,8,2,1,4,7,10,9]
+# Cell_Shape_Uniformity (int), categorical-values [3,1,5,8,2,4,7,6,10,9]
+# Bare_Nuclei (int), categorical-values [4,1,5,3,8,10,2,6,7,9]
+# Cell_Size_Uniformity (int), categorical-values [3,1,10,8,4,9,2,5,6,7]
+# Marginal_Adhesion (int), categorical-values [4,1,3,5,8,7,10,2,6,9]
+# Mitoses (int), categorical-values [1,3,2,4,6,7,10,8,5]
+# Single_Epi_Cell_Size (int), categorical-values [2,8,4,3,5,1,6,7,10,9]
+# Class (bool, **This is a target column**), categorical-values [1,0]
+"""
+
+### Encode categorical values by "on-hot-encoder" for the following columns:
+	# Columns: Normal_Nucleoli,Bland_Chromatin,Clump_Thickness,Cell_Shape_Uniformity,Bare_Nuclei,Cell_Size_Uniformity,Marginal_Adhesion,Mitoses,Single_Epi_Cell_Size,Class
+
+### Dataset Attribute:
+# Number of samples (rows) in training dataset: 699
+
+### Question: Provide a complete pipeline code that can be executed in a multi-threaded environment.

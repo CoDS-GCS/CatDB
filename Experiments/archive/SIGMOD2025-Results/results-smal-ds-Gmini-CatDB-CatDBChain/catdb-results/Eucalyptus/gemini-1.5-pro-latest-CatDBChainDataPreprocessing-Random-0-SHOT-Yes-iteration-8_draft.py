@@ -1,0 +1,23 @@
+# ```python
+import pandas as pd
+from sklearn.preprocessing import OneHotEncoder
+from sklearn.compose import ColumnTransformer
+from sklearn.pipeline import Pipeline
+from sklearn.impute import SimpleImputer
+
+categorical_cols = ['Stem_Fm', 'Vig', 'Brnch_Fm', 'Ins_res', 'Crown_Fm', 'Altitude', 'Rep', 'Rainfall', 'Map_Ref', 
+                   'Locality', 'Frosts', 'Utility', 'Sp', 'Latitude', 'Year', 'Abbrev']
+
+preprocessor = ColumnTransformer(
+    transformers=[
+        ('cat', OneHotEncoder(handle_unknown='ignore'), categorical_cols)
+    ],
+    remainder='passthrough'  # Pass through numerical columns
+)
+
+pipeline = Pipeline(
+    steps=[
+        ('imputer', SimpleImputer(strategy='median')),  # Handle potential missing values
+        ('preprocessor', preprocessor)
+    ]
+)

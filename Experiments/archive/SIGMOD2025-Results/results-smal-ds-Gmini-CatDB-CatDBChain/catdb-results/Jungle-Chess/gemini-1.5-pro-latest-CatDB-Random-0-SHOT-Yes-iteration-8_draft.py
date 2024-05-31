@@ -1,0 +1,65 @@
+# ```python
+import pandas as pd
+from sklearn.preprocessing import OneHotEncoder
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import accuracy_score, log_loss
+from sklearn.metrics import roc_auc_score
+
+train_data = pd.read_csv("../../../data/Jungle-Chess/Jungle-Chess_train.csv")
+test_data = pd.read_csv("../../../data/Jungle-Chess/Jungle-Chess_test.csv")
+
+
+def augment_data(df):
+    # (Feature name and description) black_piece0_combined: This feature combines the rank and file of the black piece 0, providing a more informative representation of its position.
+    # Usefulness: (Description why this adds useful real world knowledge to classify 'class' according to dataset description and attributes.) In Jungle Chess, the combined rank and file of a piece can be a stronger indicator of its strategic advantage than considering rank and file separately. For instance, certain combinations might make the piece more likely to control key areas of the board.
+    df['black_piece0_combined'] = df['black_piece0_rank'] * 7 + df['black_piece0_file']
+
+    # (Feature name and description) white_piece0_combined: This feature combines the rank and file of the white piece 0, providing a more informative representation of its position.
+    # Usefulness: (Description why this adds useful real world knowledge to classify 'class' according to dataset description and attributes.) Similar to the black piece, combining rank and file for the white piece provides a more holistic view of its position and potential influence on the game's outcome.
+    df['white_piece0_combined'] = df['white_piece0_rank'] * 7 + df['white_piece0_file']
+    return df
+
+train_data = augment_data(train_data.copy())
+test_data = augment_data(test_data.copy())
+
+combined_data = pd.concat([train_data, test_data])
+ohe = OneHotEncoder(handle_unknown='ignore')
+ohe.fit(combined_data[['black_piece0_file', 'white_piece0_strength', 'black_piece0_strength', 'black_piece0_rank', 'white_piece0_rank', 'white_piece0_file']])
+
+def encode_data(df):
+    encoded_features = ohe.transform(df[['black_piece0_file', 'white_piece0_strength', 'black_piece0_strength', 'black_piece0_rank', 'white_piece0_rank', 'white_piece0_file']]).toarray()
+    encoded_df = pd.DataFrame(encoded_features)
+    df = pd.concat([df.reset_index(drop=True), encoded_df.reset_index(drop=True)], axis=1)
+    return df
+
+train_data = encode_data(train_data)
+test_data = encode_data(test_data)
+
+X_train = train_data.drop(columns=['class'])
+y_train = train_data['class']
+X_test = test_data.drop(columns=['class'])
+y_test = test_data['class']
+
+X_train.columns = X_train.columns.astype(str)
+X_test.columns = X_test.columns.astype(str)
+
+trn = RandomForestClassifier(max_leaf_nodes=500)
+trn.fit(X_train, y_train)
+
+Train_Accuracy = accuracy_score(y_train, trn.predict(X_train))
+Test_Accuracy = accuracy_score(y_test, trn.predict(X_test))
+Train_Log_loss = log_loss(y_train, trn.predict_proba(X_train))
+Test_Log_loss = log_loss(y_test, trn.predict_proba(X_test))
+Train_AUC_OVO = roc_auc_score(y_train, trn.predict_proba(X_train), multi_class='ovo')
+Train_AUC_OVR = roc_auc_score(y_train, trn.predict_proba(X_train), multi_class='ovr')
+Test_AUC_OVO = roc_auc_score(y_test, trn.predict_proba(X_test), multi_class='ovo')
+Test_AUC_OVR = roc_auc_score(y_test, trn.predict_proba(X_test), multi_class='ovr')
+print(f"Train_AUC_OVO:{Train_AUC_OVO}")
+print(f"Train_AUC_OVR:{Train_AUC_OVR}")
+print(f"Train_Accuracy:{Train_Accuracy}")
+print(f"Train_Log_loss:{Train_Log_loss}")
+print(f"Test_AUC_OVO:{Test_AUC_OVO}")
+print(f"Test_AUC_OVR:{Test_AUC_OVR}")
+print(f"Test_Accuracy:{Test_Accuracy}")
+print(f"Test_Log_loss:{Test_Log_loss}")

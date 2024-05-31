@@ -1,0 +1,37 @@
+# ```python
+import pandas as pd
+from sklearn.preprocessing import OneHotEncoder
+from sklearn.compose import ColumnTransformer
+from sklearn.pipeline import Pipeline
+from multiprocessing import Pool
+
+categorical_cols = ['Wifes_education', 'Number_of_children_ever_born', 'Husbands_occupation', 'Wifes_age',
+                   'Standard_of_living_index', 'Husbands_education', 'Contraceptive_method_used',
+                   'Wifes_now_working%3F', 'Wifes_religion', 'Media_exposure']
+
+train_data = pd.read_csv("../../../data/CMC/CMC_train.csv")
+test_data = pd.read_csv("../../../data/CMC/CMC_test.csv")
+
+encoder = OneHotEncoder(handle_unknown='ignore', sparse_output=False)
+
+preprocessor = ColumnTransformer(
+    transformers=[('cat', encoder, categorical_cols)],
+    remainder='passthrough'
+)
+
+pipeline = Pipeline([
+    ('preprocessor', preprocessor)
+])
+
+def process_data(data):
+    return pipeline.fit_transform(data)
+
+with Pool() as pool:
+    # Process the training and test data in parallel
+    train_data_processed = pool.apply_async(process_data, [train_data])
+    test_data_processed = pool.apply_async(process_data, [test_data])
+
+    # Get the results
+    train_data_processed = train_data_processed.get()
+    test_data_processed = test_data_processed.get()
+# ```end

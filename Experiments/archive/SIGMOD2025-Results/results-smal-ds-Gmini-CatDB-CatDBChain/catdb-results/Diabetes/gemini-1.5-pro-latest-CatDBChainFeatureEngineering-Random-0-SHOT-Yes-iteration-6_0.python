@@ -1,0 +1,53 @@
+# ```python
+import pandas as pd
+from sklearn.preprocessing import OneHotEncoder
+from sklearn.compose import ColumnTransformer
+from sklearn.pipeline import Pipeline
+from sklearn.impute import SimpleImputer
+from sklearn.preprocessing import StandardScaler
+from sklearn.multiprocessing import Pool
+
+categorical_features = ['preg']
+numerical_features = ['mass', 'pedi', 'skin', 'pres', 'insu', 'plas', 'age']
+
+numerical_transformer = Pipeline(steps=[
+    ('imputer', SimpleImputer(strategy='median')),
+    ('scaler', StandardScaler())
+])
+
+categorical_transformer = Pipeline(steps=[
+    ('imputer', SimpleImputer(strategy='most_frequent')),
+    ('onehot', OneHotEncoder(handle_unknown='ignore'))
+])
+
+preprocessor = ColumnTransformer(
+    transformers=[
+        ('num', numerical_transformer, numerical_features),
+        ('cat', categorical_transformer, categorical_features)
+    ])
+
+def feature_engineering(df):
+    df['glucose_per_age'] = df['plas'] / df['age']
+    df['bmi_per_skin'] = df['mass'] / df['skin']
+    return df
+
+def process_data(data):
+    X = data.drop('class', axis=1)
+    y = data['class']
+    X_transformed = pipeline.fit_transform(X)
+    return X_transformed, y
+
+pipeline = Pipeline(steps=[
+    ('preprocessor', preprocessor)
+])
+
+train_data = pd.read_csv("../../../data/Diabetes/Diabetes_train.csv")
+test_data = pd.read_csv("../../../data/Diabetes/Diabetes_test.csv")
+
+train_data = feature_engineering(train_data)
+test_data = feature_engineering(test_data)
+
+with Pool(processes=2) as pool:
+    X_train_transformed, y_train = pool.apply(process_data, [train_data])
+    X_test_transformed, y_test = pool.apply(process_data, [test_data])
+# ```end

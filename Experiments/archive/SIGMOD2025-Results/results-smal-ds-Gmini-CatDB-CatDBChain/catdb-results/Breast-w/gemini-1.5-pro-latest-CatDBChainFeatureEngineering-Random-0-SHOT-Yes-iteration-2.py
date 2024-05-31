@@ -1,0 +1,40 @@
+# ```python
+import pandas as pd
+from sklearn.preprocessing import OneHotEncoder
+from sklearn.compose import ColumnTransformer
+from sklearn.pipeline import Pipeline
+
+train_data = pd.read_csv("../../../data/Breast-w/Breast-w_train.csv")
+test_data = pd.read_csv("../../../data/Breast-w/Breast-w_test.csv")
+
+categorical_features = ['Normal_Nucleoli', 'Bland_Chromatin', 'Clump_Thickness',
+                        'Cell_Shape_Uniformity', 'Bare_Nuclei', 'Cell_Size_Uniformity',
+                        'Marginal_Adhesion', 'Mitoses', 'Single_Epi_Cell_Size']
+
+encoder = OneHotEncoder(handle_unknown='ignore', sparse_output=False)
+
+preprocessor = ColumnTransformer(
+    transformers=[
+        ('cat', encoder, categorical_features)
+    ],
+    remainder='passthrough'
+)
+
+pipeline = Pipeline([
+    ('preprocessor', preprocessor)
+])
+# ```end
+# ```python
+from sklearn.utils import parallel_backend
+
+with parallel_backend('threading'):
+    train_data_processed = pipeline.fit_transform(train_data.drop(columns=['Class']))
+    test_data_processed = pipeline.transform(test_data.drop(columns=['Class']))
+# ```end
+# ```python
+train_data_processed = pd.DataFrame(train_data_processed)
+test_data_processed = pd.DataFrame(test_data_processed)
+
+train_data_processed['Class'] = train_data['Class']
+test_data_processed['Class'] = test_data['Class']
+# ```end

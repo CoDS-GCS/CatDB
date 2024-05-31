@@ -1,0 +1,58 @@
+SYSTEM MESSAGE:
+Task: You are expert in coding assistant. Your task is fix the error of this pipeline code.### Input: The user will provide a pipeline code enclosed in "<CODE> pipline code will be here. </CODE>", and an error message enclosed in "<ERROR> error message will be here. </ERROR>".### Rule : Each codeblock ends with "```end" and starts with "```python".
+---------------------------------------
+PROMPT TEXT:
+###  Schema, and Data Profiling Info:
+"""
+# right-weight (int), categorical-values [4,5,3,1,2]
+# right-distance (int), categorical-values [5,4,3,1,2]
+# left-weight (int), categorical-values [3,5,1,4,2]
+# left-distance (int), categorical-values [1,2,3,4,5]
+# class (int, **This is a target column**), categorical-values [2,0,1]
+"""
+
+
+### <CODE>
+# ```python
+import pandas as pd
+from sklearn.preprocessing import OneHotEncoder
+from sklearn.compose import ColumnTransformer
+from sklearn.pipeline import Pipeline
+from joblib import Parallel, delayed
+import numpy as np
+
+categorical_features = ['right-weight', 'right-distance', 'left-weight', 'left-distance']
+
+encoder = OneHotEncoder(handle_unknown='ignore', sparse_output=False)
+
+preprocessor = ColumnTransformer(
+    transformers=[('cat', encoder, categorical_features)],
+    remainder='passthrough'
+)
+
+train_data = pd.read_csv("../../../data/Balance-Scale/Balance-Scale_train.csv")
+test_data = pd.read_csv("../../../data/Balance-Scale/Balance-Scale_test.csv")
+
+def preprocess_chunk(data, preprocessor):
+    data['left_torque'] = data['left-weight'] * data['left-distance']
+    data['right_torque'] = data['right-weight'] * data['right-distance']
+    return preprocessor.fit_transform(data)
+
+n_jobs = -1
+
+train_data_processed = Parallel(n_jobs=n_jobs)(
+    delayed(preprocess_chunk)(chunk, preprocessor)
+    for chunk in np.array_split(train_data, n_jobs)
+)
+
+train_data_processed = np.concatenate(train_data_processed)
+
+test_data_processed = preprocessor.fit_transform(test_data)
+# ```end
+</CODE>
+
+### <ERROR>
+ValueError: number sections must be larger than 0.
+</ERROR>
+
+### Question: Fix the code error provided and return only the corrected pipeline without additional explanations regarding the resolved error.

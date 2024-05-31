@@ -1,0 +1,51 @@
+# ```python
+import pandas as pd
+from sklearn.preprocessing import OneHotEncoder
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score, log_loss, roc_auc_score
+
+train_data = pd.read_csv("../../../data/CMC/CMC_train.csv")
+test_data = pd.read_csv("../../../data/CMC/CMC_test.csv")
+
+combined_data = pd.concat([train_data, test_data], axis=0)
+
+
+
+categorical_cols = ['Wifes_education', 'Number_of_children_ever_born', 'Husbands_occupation', 'Wifes_age', 'Standard-of-living_index', 'Husbands_education', 'Contraceptive_method_used', 'Wifes_now_working%3F', 'Wifes_religion', 'Media_exposure']
+encoder = OneHotEncoder(handle_unknown='ignore')
+encoded_features = encoder.fit_transform(combined_data[categorical_cols]).toarray()
+encoded_df = pd.DataFrame(encoded_features, columns=encoder.get_feature_names_out(categorical_cols))
+
+combined_data = pd.concat([combined_data.reset_index(drop=True), encoded_df], axis=1)
+
+train_data = combined_data.iloc[:len(train_data), :]
+test_data = combined_data.iloc[len(train_data):, :]
+
+X_train = train_data.drop(columns=['Contraceptive_method_used'] + categorical_cols)
+y_train = train_data['Contraceptive_method_used']
+X_test = test_data.drop(columns=['Contraceptive_method_used'] + categorical_cols)
+y_test = test_data['Contraceptive_method_used']
+
+trn = RandomForestClassifier(max_leaf_nodes=500)
+trn.fit(X_train, y_train)
+
+Train_Accuracy = accuracy_score(y_train, trn.predict(X_train))
+Test_Accuracy = accuracy_score(y_test, trn.predict(X_test))
+
+Train_Log_loss = log_loss(y_train, trn.predict_proba(X_train), labels=trn.classes_)
+Test_Log_loss = log_loss(y_test, trn.predict_proba(X_test), labels=trn.classes_)
+
+Train_AUC_OVO = roc_auc_score(y_train, trn.predict_proba(X_train), multi_class='ovo', labels=trn.classes_)
+Train_AUC_OVR = roc_auc_score(y_train, trn.predict_proba(X_train), multi_class='ovr', labels=trn.classes_)
+Test_AUC_OVO = roc_auc_score(y_test, trn.predict_proba(X_test), multi_class='ovo', labels=trn.classes_)
+Test_AUC_OVR = roc_auc_score(y_test, trn.predict_proba(X_test), multi_class='ovr', labels=trn.classes_)
+
+print(f"Train_AUC_OVO:{Train_AUC_OVO}")
+print(f"Train_AUC_OVR:{Train_AUC_OVR}")
+print(f"Train_Accuracy:{Train_Accuracy}")
+print(f"Train_Log_loss:{Train_Log_loss}")
+print(f"Test_AUC_OVO:{Test_AUC_OVO}")
+print(f"Test_AUC_OVR:{Test_AUC_OVR}")
+print(f"Test_Accuracy:{Test_Accuracy}")
+print(f"Test_Log_loss:{Test_Log_loss}")

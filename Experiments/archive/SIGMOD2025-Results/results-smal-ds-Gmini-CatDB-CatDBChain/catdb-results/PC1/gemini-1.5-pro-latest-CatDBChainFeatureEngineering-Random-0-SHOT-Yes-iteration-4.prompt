@@ -1,0 +1,148 @@
+SYSTEM MESSAGE:
+###  Task: Select the appropriate features and target variables for the question (Feature Engineering Task). Additional columns add new semantic information, additional columns that are useful for a downstream algorithmpredicting "defects". They can e.g. be feature combinations, transformations, aggregations where the new column is a function of the existing columns. Use appropriate scale factor for columns are needto transfer.
+###  Input: first draft version of pipline with a Data Preprocessing task enclosed in "<CODE> pipline code will be here. </CODE>", and a schema that describes the columns and data types of the dataset, and a data profiling info that summarizes the statistics and quality of the dataset.
+###  Output: A modified Python 3.10 code with additional feature enginnering tasks that performs the following steps:
+#1 : The target feature in the dataset is "defects".
+#2 : Perform drops columns, if these may be redundant and hurt the predictive performance of the downstream classifier (Feature selection). Dropping columns may help as the chance of overfitting is lower, especially if the dataset is small. The defects will be trained on the dataset with the generated columns and evaluated on a holdout set.
+#3 : If the question is not relevant to the dataset or the task, the output should be: "Insufficient information."
+#4 : Don't display the first few rows of the datasets.
+#5 : Each codeblock ends with "```end" and starts with "```python".
+#6 : Don't use "if __name__ == '__main__':" style, use only flat mode.
+---------------------------------------
+PROMPT TEXT:
+###  Description of the dataset:
+  
+
+**PC1 Software defect prediction**  
+One of the NASA Metrics Data Program defect data sets. Data from flight software for earth orbiting satellite. Data comes from McCabe and Halstead features extractors of source code.  These features were defined in the 70s in an attempt to objectively characterize code features that are associated with software quality.
+
+
+
+ Attribute Information  
+
+1. loc             : numeric % McCabe's line count of code
+2. v(g)            : numeric % McCabe "cyclomatic complexity"
+3. ev(g)           : numeric % McCabe "essential complexity"
+4. iv(g)           : numeric % McCabe "design complexity"
+5. n               : numeric % Halstead total operators + operands
+6. v               : numeric % Halstead "volume"
+7. l               : numeric % Halstead "program length"
+8. d               : numeric % Halstead "difficulty"
+9. i               : numeric % Halstead "intelligence"
+10. e               : numeric % Halstead "effort"
+11. b               : numeric % Halstead 
+12. t               : numeric % Halstead's time estimator
+13. lOCode          : numeric % Halstead's line count
+14. lOComment       : numeric % Halstead's count of lines of comments
+15. lOBlank         : numeric % Halstead's count of blank lines
+16. lOCodeAndComment: numeric
+17. uniq_Op         : numeric % unique operators
+18. uniq_Opnd       : numeric % unique operands
+19. total_Op        : numeric % total operators
+20. total_Opnd      : numeric % total operands
+21. branchCount     : numeric % of the flow graph
+22. branchCount     : numeric % of the flow graph
+23. defects         : {false,true} % module has/has not one or more reported defects
+
+
+
+ Relevant papers  
+
+- Shepperd, M. and Qinbao Song and Zhongbin Sun and Mair, C. (2013)
+Data Quality: Some Comments on the NASA Software Defect Datasets, IEEE Transactions on Software Engineering, 39.
+
+- Tim Menzies and Justin S. Di Stefano (2004) How Good is Your Blind Spot Sampling Policy? 2004 IEEE Conference on High Assurance
+Software Engineering.
+
+- T. Menzies and J. DiStefano and A. Orrego and R. Chapman (2004) Assessing Predictors of Software Defects", Workshop on Predictive Software Models, Chicago
+
+
+### <CODE>
+# ```python
+import pandas as pd
+from sklearn.preprocessing import OneHotEncoder
+from sklearn.compose import ColumnTransformer
+from sklearn.pipeline import Pipeline
+from sklearn.impute import SimpleImputer
+
+categorical_features = ['L', 'uniq_Op', 'v(g)', 'ev(g)', 'iv(G)', 'lOComment', 'locCodeAndComment', 'lOBlank']
+numerical_features = ['I', 'B', 'uniq_Opnd', 'E', 'N', 'loc', 'total_Opnd', 'total_Op', 'V', 'T', 'branchCount', 'D', 'lOCode']
+
+numerical_transformer = Pipeline(steps=[
+    ('imputer', SimpleImputer(strategy='median'))
+])
+
+categorical_transformer = Pipeline(steps=[
+    ('imputer', SimpleImputer(strategy='most_frequent')),
+    ('onehot', OneHotEncoder(handle_unknown='ignore'))
+])
+
+preprocessor = ColumnTransformer(
+    transformers=[
+        ('num', numerical_transformer, numerical_features),
+        ('cat', categorical_transformer, categorical_features)
+    ])
+
+pipeline = Pipeline(steps=[
+    ('preprocessor', preprocessor)
+])
+
+train_data = pd.read_csv("../../../data/PC1/PC1_train.csv")
+test_data = pd.read_csv("../../../data/PC1/PC1_test.csv")
+
+X_train = train_data.drop('defects', axis=1)
+y_train = train_data['defects']
+X_test = test_data.drop('defects', axis=1)
+y_test = test_data['defects']
+
+X_train_transformed = pipeline.fit_transform(X_train)
+X_test_transformed = pipeline.transform(X_test)
+# ```end
+# ```python
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.model_selection import cross_val_score
+import numpy as np
+
+
+model = RandomForestClassifier(random_state=42)
+
+scores = cross_val_score(model, X_train_transformed, y_train, cv=5)
+
+print("Cross-validation scores:", scores)
+print("Average cross-validation score:", np.mean(scores))
+# ```end
+</CODE>
+
+### Schema, and Data Profiling Info:
+"""
+# I (float), distinct-count [823], min-value [0.0], max-value [598.3300170898438], median-value [23.56999969482422], mean-value [32.904472529296946]
+# B (float), distinct-count [126], min-value [0.0], max-value [8.649999618530273], median-value [0.0900000035762786], mean-value [0.23522993592533634]
+# uniq_Opnd (float), distinct-count [106], min-value [0.0], max-value [538.0], median-value [12.0], mean-value [20.89287646532704]
+# L (float), categorical-values [0.0199999995529651,0.0599999986588954,0.1800000071525573,0.0399999991059303,0.1400000005960464,0.0700000002980232,0.0099999997764825,0.5,0.0900000035762786,0.0799999982118606,0.3300000131130218,0.1199999973177909,0.2899999916553497,0.1299999952316284,0.050000000745058,0.3199999928474426,0.6700000166893005,0.1599999964237213,0.2399999946355819,0.1099999994039535,and 25 more]
+# uniq_Op (float), categorical-values [22.0,12.0,34.0,8.0,16.0,9.0,15.0,38.0,4.0,31.0,18.0,14.0,6.0,10.0,7.0,21.0,5.0,19.0,17.0,3.0,and 26 more]
+# E (float), distinct-count [890], min-value [0.0], max-value [4279633.0], median-value [3189.169921875], mean-value [28822.88235942021]
+# v(g) (float), categorical-values [7.0,3.0,19.0,1.0,2.0,10.0,54.0,20.0,4.0,6.0,5.0,11.0,29.0,49.0,9.0,8.0,21.0,25.0,15.0,12.0,and 28 more]
+# N (float), distinct-count [312], min-value [1.0], max-value [2785.0], median-value [58.0], mean-value [117.39341749319415]
+# loc (float), distinct-count [111], min-value [0.0], max-value [602.0], median-value [13.0], mean-value [23.3761045987591]
+# ev(g) (float), categorical-values [3.0,1.0,25.0,8.0,6.0,4.0,5.0,7.0,9.0,11.0,1.399999976158142,12.0,41.0,14.0,42.0,17.0,13.0,15.0,21.0,23.0,and 7 more]
+# total_Opnd (float), distinct-count [203], min-value [0.0], max-value [1144.0], median-value [24.0], mean-value [50.90189359787888]
+# total_Op (float), distinct-count [232], min-value [1.0], max-value [1641.0], median-value [33.0], mean-value [66.49341749328015]
+# V (float), distinct-count [756], min-value [0.0], max-value [25942.689453125], median-value [275.1000061035156], mean-value [699.7112158153162]
+# T (float), distinct-count [886], min-value [0.0], max-value [237757.40625], median-value [177.17999267578125], mean-value [1601.2730372076178]
+# iv(G) (float), categorical-values [2.0,1.0,3.0,6.0,24.0,19.0,5.0,11.0,9.0,4.0,8.0,13.0,18.0,7.0,1.399999976158142,82.0,10.0,17.0,43.0,14.0,and 11 more]
+# branchCount (float), distinct-count [62], min-value [1.0], max-value [236.0], median-value [5.0], mean-value [9.576555455343696]
+# D (float), distinct-count [613], min-value [0.0], max-value [270.6600036621094], median-value [11.609999656677246], mean-value [15.396266908447844]
+# lOComment (int), categorical-values [9,0,62,7,3,1,38,2,5,6,13,12,50,55,4,16,73,21,17,18,and 33 more]
+# locCodeAndComment (int), categorical-values [2,21,0,1,4,24,3,16,5,12,10,9,48,11,42,6,13,15,7,20,and 4 more]
+# lOCode (int), distinct-count [113], min-value [0.0], max-value [600.0], median-value [13.0], mean-value [22.4346257889991]
+# lOBlank (int), categorical-values [8,5,34,2,1,3,24,7,60,0,26,17,11,9,19,4,10,12,39,27,and 32 more]
+# defects (bool, **This is a target column**), categorical-values [0,1]
+"""
+
+### Encode categorical values by "on-hot-encoder" for the following columns:
+	# Columns: L,uniq_Op,v(g),ev(g),iv(G),lOComment,locCodeAndComment,lOBlank,defects
+
+### Dataset Attribute:
+# Number of samples (rows) in training dataset: 1109
+
+### Question: Provide a pipeline code that modify the Data Preprocessing code by adding Feature Engineering tasks in a multi-threaded environment.

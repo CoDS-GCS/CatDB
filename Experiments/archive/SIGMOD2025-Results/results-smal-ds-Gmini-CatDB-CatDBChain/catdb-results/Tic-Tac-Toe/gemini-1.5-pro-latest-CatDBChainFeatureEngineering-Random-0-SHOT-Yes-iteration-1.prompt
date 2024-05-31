@@ -1,0 +1,103 @@
+SYSTEM MESSAGE:
+###  Task: Select the appropriate features and target variables for the question (Feature Engineering Task). Additional columns add new semantic information, additional columns that are useful for a downstream algorithmpredicting "Class". They can e.g. be feature combinations, transformations, aggregations where the new column is a function of the existing columns. Use appropriate scale factor for columns are needto transfer.
+###  Input: first draft version of pipline with a Data Preprocessing task enclosed in "<CODE> pipline code will be here. </CODE>", and a schema that describes the columns and data types of the dataset, and a data profiling info that summarizes the statistics and quality of the dataset.
+###  Output: A modified Python 3.10 code with additional feature enginnering tasks that performs the following steps:
+#1 : The target feature in the dataset is "Class".
+#2 : Perform drops columns, if these may be redundant and hurt the predictive performance of the downstream classifier (Feature selection). Dropping columns may help as the chance of overfitting is lower, especially if the dataset is small. The Class will be trained on the dataset with the generated columns and evaluated on a holdout set.
+#3 : If the question is not relevant to the dataset or the task, the output should be: "Insufficient information."
+#4 : Don't display the first few rows of the datasets.
+#5 : Each codeblock ends with "```end" and starts with "```python".
+#6 : Don't use "if __name__ == '__main__':" style, use only flat mode.
+---------------------------------------
+PROMPT TEXT:
+###  Description of the dataset:
+
+**Tic-Tac-Toe Endgame database**  
+This database encodes the complete set of possible board configurations at the end of tic-tac-toe games, where "x" is assumed to have played first.  The target concept is "win for x" (i.e., true when "x" has one of 8 possible ways to create a "three-in-a-row").  
+
+
+
+ Attribute Information  
+
+     (x=player x has taken, o=player o has taken, b=blank)
+     1. top-left-square: {x,o,b}
+     2. top-middle-square: {x,o,b}
+     3. top-right-square: {x,o,b}
+     4. middle-left-square: {x,o,b}
+     5. middle-middle-square: {x,o,b}
+     6. middle-right-square: {x,o,b}
+     7. bottom-left-square: {x,o,b}
+     8. bottom-middle-square: {x,o,b}
+     9. bottom-right-square: {x,o,b}
+    10. Class: {positive,negative}
+
+
+### <CODE>
+# ```python
+import pandas as pd
+from sklearn.preprocessing import OneHotEncoder
+from sklearn.compose import ColumnTransformer
+from sklearn.pipeline import Pipeline
+from multiprocessing import Pool
+import numpy as np
+
+train_data = pd.read_csv("../../../data/Tic-Tac-Toe/Tic-Tac-Toe_train.csv")
+test_data = pd.read_csv("../../../data/Tic-Tac-Toe/Tic-Tac-Toe_test.csv")
+
+categorical_features = ['bottom-middle-square', 'top-middle-square', 'bottom-left-square',
+                        'middle-left-square', 'bottom-right-square', 'top-right-square',
+                        'middle-right-square', 'middle-middle-square', 'top-left-square']
+
+encoder = OneHotEncoder(handle_unknown='ignore')
+
+preprocessor = ColumnTransformer(
+    transformers=[
+        ('cat', encoder, categorical_features)
+    ],
+    remainder='passthrough'
+)
+
+def augment_data(X, y, noise_factor=0.1):
+    # Add random noise to numerical features
+    X_augmented = X + noise_factor * np.random.randn(*X.shape)
+    # Concatenate augmented data with original data
+    X = np.concatenate((X, X_augmented))
+    y = np.concatenate((y, y))
+    return X, y
+
+def process_data(data):
+    X = data.drop('Class', axis=1)
+    y = data['Class']
+    # Apply data augmentation
+    X, y = augment_data(X.values, y.values)
+    # Fit and transform the data using the preprocessor
+    X = preprocessor.fit_transform(X)
+    return X, y
+
+pipeline = Pipeline([
+    ('preprocess', preprocessor)
+])
+# ```end
+</CODE>
+
+### Schema, and Data Profiling Info:
+"""
+# bottom-middle-square (int), categorical-values [2,1,0]
+# top-middle-square (int), categorical-values [1,2,0]
+# bottom-left-square (int), categorical-values [0,1,2]
+# middle-left-square (int), categorical-values [2,0,1]
+# bottom-right-square (int), categorical-values [2,0,1]
+# top-right-square (int), categorical-values [1,0,2]
+# middle-right-square (int), categorical-values [1,2,0]
+# middle-middle-square (int), categorical-values [2,1,0]
+# top-left-square (int), categorical-values [1,0,2]
+# Class (bool, **This is a target column**), categorical-values [0,1]
+"""
+
+### Encode categorical values by "on-hot-encoder" for the following columns:
+	# Columns: bottom-middle-square,top-middle-square,bottom-left-square,middle-left-square,bottom-right-square,top-right-square,middle-right-square,middle-middle-square,top-left-square,Class
+
+### Dataset Attribute:
+# Number of samples (rows) in training dataset: 958
+
+### Question: Provide a pipeline code that modify the Data Preprocessing code by adding Feature Engineering tasks in a multi-threaded environment.

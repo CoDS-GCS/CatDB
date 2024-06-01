@@ -81,7 +81,7 @@ def load_data_source_profile(data_source_path: str, file_format: str, target_att
                 dataset_name = profile.dataset_name
                 source_path = profile.path
 
-            if profile.is_categorical :
+            if profile.is_categorical:
                 columns_categorical.append(profile.column_name)
                 if profile.nrows > profile.total_values_count:
                     columns_categorical_missing_values.append(profile.column_name)
@@ -110,14 +110,25 @@ def load_data_source_profile(data_source_path: str, file_format: str, target_att
         new_profile_size = len(schema_info)
 
         for dk in drop_schema_info.keys():
-            columns_categorical.remove(dk)
-            columns_categorical_missing_values.remove(dk)
-            columns_numerical.remove(dk)
-            columns_numerical_missing_values.remove(dk)
-            columns_bool.remove(dk)
-            columns_bool_missing_values.remove(dk)
-            columns_others .remove(dk)
-            columns_others_missing_values.remove(dk)
+            if dk in columns_categorical:
+                columns_categorical.remove(dk)
+                if dk in columns_categorical_missing_values:
+                    columns_categorical_missing_values.remove(dk)
+
+            if dk in columns_numerical:
+                columns_numerical.remove(dk)
+                if dk in columns_numerical_missing_values:
+                    columns_numerical_missing_values.remove(dk)
+
+            if dk in columns_bool:
+                columns_bool.remove(dk)
+                if dk in columns_bool_missing_values:
+                    columns_bool_missing_values.remove(dk)
+
+            if dk in columns_others:
+                columns_others .remove(dk)
+                if dk in columns_others_missing_values:
+                    columns_others_missing_values.remove(dk)
 
         print(
             f"[{data_source_path}]  --- orig_size = {orig_profile_size}, new_size = {new_profile_size} >> r= {orig_profile_size - new_profile_size}")
@@ -132,11 +143,11 @@ def load_data_source_profile(data_source_path: str, file_format: str, target_att
                        drop_schema_info=drop_schema_info,
                        schema_info_group=schema_info_group,
                        columns_categorical=columns_categorical,
-                       columns_categorical_missing_values = columns_categorical_missing_values,
-                       columns_numerical = columns_numerical,
-                       columns_numerical_missing_values = columns_numerical_missing_values,
-                       columns_bool = columns_bool,
-                       columns_bool_missing_values = columns_bool_missing_values,
-                       columns_others = columns_others,
-                       columns_others_missing_values = columns_others_missing_values
+                       columns_categorical_missing_values=columns_categorical_missing_values,
+                       columns_numerical=columns_numerical,
+                       columns_numerical_missing_values=columns_numerical_missing_values,
+                       columns_bool=columns_bool,
+                       columns_bool_missing_values=columns_bool_missing_values,
+                       columns_others=columns_others,
+                       columns_others_missing_values=columns_others_missing_values
                        )

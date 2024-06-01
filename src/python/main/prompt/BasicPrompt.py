@@ -211,8 +211,8 @@ class BasicPrompt(object):
 
                 categorical_values = (",".join(categorical_values)).replace("\"","'")
                 tmp_cc = []
-                for cv in cp.categorical_values:
-                    tmp_cc.append(f"{cv}:{cp.categorical_values_ratio[str(cv)]}")
+                # for cv in cp.categorical_values:
+                #     tmp_cc.append(f"{cv}:{cp.categorical_values_ratio[str(cv)]}")
 
                 categorical_values_ratio = (",".join(tmp_cc)).replace("\"","\'")
 

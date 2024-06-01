@@ -198,7 +198,8 @@ def generate_and_run_pipeline(args, catalog, run_mode: str = None, sub_task: str
 
             system_message, user_message = error_prompt_factory(pipeline_code=code,
                                                                 pipeline_error=f"{result.get_error_class()}: {result.get_error_detail()}",
-                                                                schema_data=schema_data)
+                                                                schema_data=schema_data,
+                                                                task_type=args.task_type)
             prompt_fname_error = f"{file_name}_Error_{i}.prompt"
             save_prompt(fname=prompt_fname_error, system_message=system_message, user_message=user_message)
 

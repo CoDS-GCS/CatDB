@@ -30,16 +30,18 @@ class BasicErrorPrompt(object):
 
     def format_system_message(self):
         from util.Config import _system_delimiter
-        return f"{_system_delimiter}".join(self.rules)
+        return f"{_system_delimiter}\n".join(self.rules)
 
 
 class RuntimeErrorPrompt(BasicErrorPrompt):
-    def __init__(self, *args, **kwargs):
+    def __init__(self,evaluation_text: str, *args, **kwargs):
         BasicErrorPrompt.__init__(self, *args, **kwargs)
         self.rules = ['Task: You are expert in coding assistant. Your task is fix the error of this pipeline code.',
                       'Input: The user will provide a pipeline code enclosed in "<CODE> pipline code will be here. </CODE>", '
                       'and an error message enclosed in "<ERROR> error message will be here. </ERROR>".',
-                      f"Rule : {StaticValues.rule_code_block}"]
+                      f"Rule 1: {StaticValues.rule_code_block}",
+                      f"Rule 2: {evaluation_text}",
+                      ]
 
         min_length = min(len(self.pipeline_error), 2000)
         self.small_error_msg = self.pipeline_error[:min_length]

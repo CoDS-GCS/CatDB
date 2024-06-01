@@ -60,7 +60,15 @@ def prompt_factory(catalog: CatalogInfo,
     return PromptClass()
 
 
-def error_prompt_factory(pipeline_code: str, pipeline_error, schema_data: str):
+def error_prompt_factory(pipeline_code: str, pipeline_error, schema_data: str, task_type: str):
+    evaluation_text = None
+    if task_type == "binary" or task_type == "multiclass":
+        if task_type == "binary":
+            evaluation_text = CODE_FORMATTING_BINARY_EVALUATION
+        else:
+            evaluation_text = CODE_FORMATTING_MULTICLASS_EVALUATION
+    else:
+        evaluation_text = CODE_FORMATTING_REGRESSION_EVALUATION
     error_prompt = RuntimeErrorPrompt(pipeline_code=pipeline_code, pipeline_error=pipeline_error,
-                                      schema_data=schema_data).format_prompt()
+                                      schema_data=schema_data,).format_prompt()
     return error_prompt['system_message'], error_prompt['user_message']

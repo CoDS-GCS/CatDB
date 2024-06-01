@@ -62,8 +62,12 @@ class BasicPrompt(object):
 
         # Encode categorical values:
         if self.flag_categorical_values and len(self.catalog.columns_categorical) > 0:
+            categorical_columns = []
+            for cc in self.catalog.columns_categorical:
+                if cc != self.target_attribute:
+                    categorical_columns.append(cc)
             categorical_column_prompt = (f'Encode categorical values by "on-hot-encoder" for the following '
-                                         f'columns:\n\t# Columns: {",".join(self.catalog.columns_categorical)}')
+                                         f'columns:\n\t# Columns: {",".join(cc)}')
             prompt_items.append(categorical_column_prompt)
 
         prompt_items.append(f"Dataset Attribute:\n# Number of samples (rows) in training dataset: {self.catalog.nrows}")
@@ -79,7 +83,7 @@ class BasicPrompt(object):
         for r in range(0, len(self.df_content)):
             row_msg_1 = f'# {self.df_content.loc[r]["column_name"]} ({self.df_content.loc[r]["column_data_type"]}'
             if self.df_content.loc[r]["column_name"] == self.target_attribute:
-                row_msg_1 = f"{row_msg_1}, {target_text}"
+                row_msg_1 = f"\"{row_msg_1}\", {target_text}"
             row_msg_1 = f"{row_msg_1})"
             row_msg = [row_msg_1]
             if self.flag_distinct_value_count and self.df_content.loc[r]["is_categorical"] == False:

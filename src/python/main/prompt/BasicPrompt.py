@@ -83,8 +83,9 @@ class BasicPrompt(object):
         for r in range(0, len(self.df_content)):
             row_msg_1 = f'# {self.df_content.loc[r]["column_name"]} ({self.df_content.loc[r]["column_data_type"]}'
             if self.df_content.loc[r]["column_name"] == self.target_attribute:
-                row_msg_1 = f"\"{row_msg_1}\", {target_text}"
-            row_msg_1 = f"{row_msg_1})"
+                row_msg_1 = f'# \"{self.df_content.loc[r]["column_name"]}\" ({self.df_content.loc[r]["column_data_type"]}, {target_text})'
+            else:
+                row_msg_1 = f'# {self.df_content.loc[r]["column_name"]} ({self.df_content.loc[r]["column_data_type"]})'
             row_msg = [row_msg_1]
             if self.flag_distinct_value_count and self.df_content.loc[r]["is_categorical"] == False:
                 row_msg.append(f'distinct-count [{self.df_content.loc[r]["distinct_count"]}]')

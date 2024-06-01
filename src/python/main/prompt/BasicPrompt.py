@@ -86,10 +86,10 @@ class BasicPrompt(object):
                 row_msg.append(f'distinct-count [{self.df_content.loc[r]["distinct_count"]}]')
 
             if self.df_content.loc[r]["is_numerical"] and self.flag_statistical_number:
-                row_msg.append(f'min-value [{self.df_content.loc[r]["min_value"]}]')
-                row_msg.append(f'max-value [{self.df_content.loc[r]["max_value"]}]')
-                row_msg.append(f'median-value [{self.df_content.loc[r]["median"]}]')
-                row_msg.append(f'mean-value [{self.df_content.loc[r]["mean"]}]')
+                row_msg.append(f'min-value [{self.df_content.loc[r]["min_value"]:.3f}]')
+                row_msg.append(f'max-value [{self.df_content.loc[r]["max_value"]:.3f}]')
+                row_msg.append(f'median-value [{self.df_content.loc[r]["median"]:.3f}]')
+                row_msg.append(f'mean-value [{self.df_content.loc[r]["mean"]:.3f}]')
 
             if self.df_content.loc[r]["is_categorical"] and self.flag_categorical_values:
                 row_msg.append(f'categorical-values [{self.df_content.loc[r]["categorical_values"]}]')

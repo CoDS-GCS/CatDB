@@ -6,3 +6,4 @@ tiktoken==0.5.2
 scikit-learn
 xgboost
 google-generativeai
+imbalanced-learn

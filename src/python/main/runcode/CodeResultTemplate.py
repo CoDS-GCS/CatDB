@@ -63,7 +63,6 @@ class CodeResultTemplate(object):
 
     def parse_results(self):
         print(self.result)
-        # from util.Config import __gen_run_mode
         if self.run_mode == 'generate-and-run':  # __gen_run_mode:
             pipeline_evl = {"Train_AUC": -2,
                             "Train_AUC_OVO": -2,
@@ -87,7 +86,28 @@ class CodeResultTemplate(object):
                     row = rr.replace("LogResults.py loss", "Log_loss").strip().split(":")
                     if row[0] in pipeline_evl.keys():
                         pipeline_evl[row[0]] = row[1].strip()
+            verify = False
+            # verify results
+            if ((pipeline_evl["Train_AUC"] !=-2 and # binary classification
+                pipeline_evl["Train_Accuracy"] != -2 and
+                pipeline_evl["Train_F1_score"] != -2 and
+                pipeline_evl["Test_AUC"] != -2 and
+                pipeline_evl["Test_Accuracy"] != -2 and
+                pipeline_evl["Test_F1_score"] != -2) or
+                (pipeline_evl["Train_AUC_OVO"] !=-2 and # multiclass classification
+                 pipeline_evl["Train_AUC_OVR"] !=-2 and
+                 pipeline_evl["Train_Accuracy"] != -2 and
+                 pipeline_evl["Train_Log_loss"] !=-2 and
+                 pipeline_evl["Test_AUC_OVO"] != -2 and
+                 pipeline_evl["Test_AUC_OVR"] != -2 and
+                 pipeline_evl["Test_Accuracy"] != -2 and
+                 pipeline_evl["Test_Log_loss"] != -2) or
+                (pipeline_evl["Train_R_Squared"] != -2 and # regression
+                 pipeline_evl["Train_RMSE"] != -2 and
+                 pipeline_evl["Test_R_Squared"] != -2 and
+                 pipeline_evl["Test_RMSE"] != -2 )):
+                verify = True
 
-            return pipeline_evl
+            return verify, pipeline_evl
         else:
-            return self.code
+            return True, self.code

@@ -31,13 +31,13 @@ CMD=./explocal/exp1_catalog/runExperiment1.sh
 # $CMD Click-Prediction binary
 # $CMD Census-Augmented binary
 # $CMD Heart-Statlog binary
-# $CMD KDDCup99 multiclass
-# $CMD Road-Safety multiclass
-# $CMD Drug-Directory multiclass
-# $CMD Okcupid-Stem multiclass
-# $CMD Walking-Activity multiclass
-#$CMD PASS regression
-#$CMD Aloi regression
+$CMD KDDCup99 multiclass
+$CMD Road-Safety multiclass
+$CMD Drug-Directory multiclass
+$CMD Okcupid-Stem multiclass
+$CMD Walking-Activity multiclass
+$CMD PASS regression
+$CMD Aloi regression
 $CMD MD-MIX-Mini regression
 $CMD Dionis regression
 $CMD Meta-Album-BRD regression

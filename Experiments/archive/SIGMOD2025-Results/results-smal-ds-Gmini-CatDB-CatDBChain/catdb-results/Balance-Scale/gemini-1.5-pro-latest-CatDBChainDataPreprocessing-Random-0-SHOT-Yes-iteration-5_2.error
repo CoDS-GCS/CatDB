@@ -1,7 +1,0 @@
-Traceback (most recent call last):
-  File "/home/ubuntu/CatDB/Experiments/setup/Baselines/CatDB/runcode/RunCode.py", line 36, in execute_code
-    exec(compile(parse, filename="<ast>", mode="exec"), loc)
-  File "<ast>", line 28, in <module>
-  File "/home/ubuntu/CatDB/Experiments/setup/Baselines/CatDB/venv/lib/python3.11/site-packages/numpy/lib/shape_base.py", line 770, in array_split
-    raise ValueError('number sections must be larger than 0.') from None
-ValueError: number sections must be larger than 0.

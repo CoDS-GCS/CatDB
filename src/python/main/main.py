@@ -1,6 +1,6 @@
 from argparse import ArgumentParser
 from catalog.Catalog import load_data_source_profile
-from prompt.PromptBuilder import prompt_factory, error_prompt_factory
+from prompt.PromptBuilder import prompt_factory, error_prompt_factory, result_error_prompt_factory
 from llm.GenerateLLMCode import GenerateLLMCode
 from runcode.RunCode import RunCode
 from util.FileHandler import save_prompt
@@ -163,6 +163,7 @@ def generate_and_run_pipeline(args, catalog, run_mode: str = None, sub_task: str
     time_generate += time_tmp_gen
 
     iteration_error = 0
+    results_verified = False
     for i in range(iteration_error, args.prompt_number_iteration_error):
         if len(code) > 500:
             pipeline_fname = f"{file_name}_draft.py"
@@ -172,16 +173,29 @@ def generate_and_run_pipeline(args, catalog, run_mode: str = None, sub_task: str
         result = RunCode.execute_code(src=code, parse=None, run_mode=run_mode)
         time_end = time.time()
         if result.get_status():
+            results_verified, results = result.parse_results()
             pipeline_fname = f"{file_name}.py"
             save_text_file(fname=pipeline_fname, data=code)
+            if results_verified:
+                time_execute = time_end - time_start
+                time_total += time_execute
+                final_status = True
+                iteration_error = i + 1
+                break
+            else:
+                system_message, user_message = result_error_prompt_factory(pipeline_code=code, task_type=args.task_type)
+                prompt_fname_error = f"{file_name}_Error_Results_{i}.prompt"
+                save_prompt(fname=prompt_fname_error, system_message=system_message, user_message=user_message)
+                new_code, tokens_count, time_tmp_gen = GenerateLLMCode.generate_llm_code(system_message=system_message,
+                                                                                         user_message=user_message)
+                time_total += time_tmp_gen
+                all_token_count += tokens_count
+                if len(new_code) > 500:
+                    code = new_code
+                else:
+                    i -= 1
 
-            time_execute = time_end - time_start
-            time_total += time_execute
-            final_status = True
-            iteration_error = i + 1
-            break
         else:
-
             # add error to error lists:
             ErrorResults(error_class=result.get_error_class(), error_exception=result.error_exception,
                          error_type=result.get_error_type(), error_value=result.get_error_value(),
@@ -223,8 +237,7 @@ def generate_and_run_pipeline(args, catalog, run_mode: str = None, sub_task: str
                              prompt_token_count=prompt_token_count,
                              all_token_count=all_token_count + prompt_token_count,
                              operation="Gen-and-Run-Pipeline")
-    if run_mode == __gen_run_mode:
-        results = result.parse_results()
+    if run_mode == __gen_run_mode and results_verified:
         log_results.train_auc = results["Train_AUC"]
         log_results.train_auc_ovo = results["Train_AUC_OVO"]
         log_results.train_auc_ovr = results["Train_AUC_OVR"]

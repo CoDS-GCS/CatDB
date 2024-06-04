@@ -4,6 +4,7 @@ from util.StaticValues import CODE_FORMATTING_MULTICLASS_EVALUATION
 from util.StaticValues import CODE_FORMATTING_REGRESSION_EVALUATION
 from util.Config import PROMPT_FUNC
 from .ErrorPromptTemplate import RuntimeErrorPrompt
+from .ErrorPromptTemplate import ResultsErrorPrompt
 
 
 def get_representation_class(repr_type: str):
@@ -24,19 +25,14 @@ def prompt_factory(catalog: CatalogInfo,
                    data_source_test_path: str,
                    dataset_description: str,
                    previous_result: str):
-
     repr_cls = get_representation_class(representation_type)
     file_format = catalog.file_format
     evaluation_text = None
+    evaluation_text = get_evaluation_text(task_type=task_type)
     if task_type == "binary" or task_type == "multiclass":
         task_type_str = f"{task_type} classification"
-        if task_type == "binary":
-            evaluation_text = CODE_FORMATTING_BINARY_EVALUATION
-        else:
-            evaluation_text = CODE_FORMATTING_MULTICLASS_EVALUATION
     else:
         task_type_str = task_type
-        evaluation_text = CODE_FORMATTING_REGRESSION_EVALUATION
 
     class_name = f"{representation_type}-{samples_type}-{number_samples}-SHOT"
     assert repr_cls is not None
@@ -60,14 +56,24 @@ def prompt_factory(catalog: CatalogInfo,
     return PromptClass()
 
 
-def error_prompt_factory(pipeline_code: str, pipeline_error, schema_data: str, task_type: str):
+def get_evaluation_text(task_type: str):
     if task_type == "binary" or task_type == "multiclass":
         if task_type == "binary":
-            evaluation_text = CODE_FORMATTING_BINARY_EVALUATION
+            return CODE_FORMATTING_BINARY_EVALUATION
         else:
-            evaluation_text = CODE_FORMATTING_MULTICLASS_EVALUATION
+            return CODE_FORMATTING_MULTICLASS_EVALUATION
     else:
-        evaluation_text = CODE_FORMATTING_REGRESSION_EVALUATION
+        return CODE_FORMATTING_REGRESSION_EVALUATION
+
+
+def error_prompt_factory(pipeline_code: str, pipeline_error, schema_data: str, task_type: str):
+    evaluation_text = get_evaluation_text(task_type=task_type)
     error_prompt = RuntimeErrorPrompt(pipeline_code=pipeline_code, pipeline_error=pipeline_error,
-                                      schema_data=schema_data, evaluation_text= evaluation_text).format_prompt()
+                                      schema_data=schema_data, evaluation_text=evaluation_text).format_prompt()
+    return error_prompt['system_message'], error_prompt['user_message']
+
+
+def result_error_prompt_factory(pipeline_code: str, task_type: str):
+    evaluation_text = get_evaluation_text(task_type=task_type)
+    error_prompt = ResultsErrorPrompt(pipeline_code=pipeline_code, evaluation_text=evaluation_text).format_prompt()
     return error_prompt['system_message'], error_prompt['user_message']

@@ -183,7 +183,9 @@ def generate_and_run_pipeline(args, catalog, run_mode: str = None, sub_task: str
                 iteration_error = i + 1
                 break
             else:
-                system_message, user_message = result_error_prompt_factory(pipeline_code=code, task_type=args.task_type)
+                system_message, user_message = result_error_prompt_factory(pipeline_code=code, task_type=args.task_type,
+                                                                           data_source_train_path=args.data_source_train_path,
+                                                                           data_source_test_path=args.data_source_test_path)
                 prompt_fname_error = f"{file_name}_Error_Results_{i}.prompt"
                 save_prompt(fname=prompt_fname_error, system_message=system_message, user_message=user_message)
                 new_code, tokens_count, time_tmp_gen = GenerateLLMCode.generate_llm_code(system_message=system_message,
@@ -213,7 +215,9 @@ def generate_and_run_pipeline(args, catalog, run_mode: str = None, sub_task: str
             system_message, user_message = error_prompt_factory(pipeline_code=code,
                                                                 pipeline_error=f"{result.get_error_class()}: {result.get_error_detail()}",
                                                                 schema_data=schema_data,
-                                                                task_type=args.task_type)
+                                                                task_type=args.task_type,
+                                                                data_source_train_path=args.data_source_train_path,
+                                                                data_source_test_path=args.data_source_test_path)
             prompt_fname_error = f"{file_name}_Error_{i}.prompt"
             save_prompt(fname=prompt_fname_error, system_message=system_message, user_message=user_message)
 

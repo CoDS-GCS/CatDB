@@ -2,7 +2,8 @@ from util import StaticValues
 
 
 class BasicErrorPrompt(object):
-    def __init__(self, pipeline_code: str, pipeline_error: str, schema_data: str, *args, **kwargs):
+    def __init__(self, pipeline_code: str, pipeline_error: str, schema_data: str,
+                 data_source_train_path: str, data_source_test_path: str, *args, **kwargs):
         self.rules = []
         self.pipeline_code = pipeline_code
         self.pipeline_error = pipeline_error
@@ -10,6 +11,8 @@ class BasicErrorPrompt(object):
         self.system_message_delimiter = None
         self.user_message_delimiter = None
         self.schema_data = schema_data
+        self.data_source_train_path: data_source_train_path
+        self.data_source_test_path: data_source_test_path
 
     def format_prompt(self):
         return {
@@ -55,7 +58,9 @@ class BasicResultErrorPrompt(object):
 
     def format_system_message(self):
         from util.Config import _system_delimiter
-        return f"{_system_delimiter}\n".join(self.rules)
+        rules = self.rules
+        rules[0] = f"{_system_delimiter} {rules[0]}"
+        return f"\n{_system_delimiter} ".join(rules)
 
 
 class RuntimeErrorPrompt(BasicErrorPrompt):
@@ -66,6 +71,7 @@ class RuntimeErrorPrompt(BasicErrorPrompt):
                       'and an error message enclosed in "<ERROR> error message will be here. </ERROR>".',
                       f"Rule 1: {StaticValues.rule_code_block}",
                       f"Rule 2: {evaluation_text}",
+                      f'Rule 3 : {StaticValues.dp_rule_2.format(self.data_source_train_path, self.data_source_test_path)}'
                       ]
 
         min_length = min(len(self.pipeline_error), 2000)
@@ -79,5 +85,6 @@ class ResultsErrorPrompt(BasicResultErrorPrompt):
                       'execution of the pipeline. Modify the code and return achievable results.'
                       'Your task is fix the error and return requested results of this pipeline code.',
                       'Input: The user will provide a pipeline code enclosed in "<CODE> pipline code will be here. </CODE>"',
-                      f"Rule : {evaluation_text}",
+                      f"Rule 1: {evaluation_text}",
+                      f'Rule 2: {StaticValues.dp_rule_2.format(self.data_source_train_path, self.data_source_test_path)}'
                       ]

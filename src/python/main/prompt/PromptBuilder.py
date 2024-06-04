@@ -66,14 +66,20 @@ def get_evaluation_text(task_type: str):
         return CODE_FORMATTING_REGRESSION_EVALUATION
 
 
-def error_prompt_factory(pipeline_code: str, pipeline_error, schema_data: str, task_type: str):
+def error_prompt_factory(pipeline_code: str, pipeline_error, schema_data: str, task_type: str,
+                         data_source_train_path: str, data_source_test_path: str):
     evaluation_text = get_evaluation_text(task_type=task_type)
     error_prompt = RuntimeErrorPrompt(pipeline_code=pipeline_code, pipeline_error=pipeline_error,
-                                      schema_data=schema_data, evaluation_text=evaluation_text).format_prompt()
+                                      schema_data=schema_data, evaluation_text=evaluation_text,
+                                      data_source_train_path=data_source_train_path,
+                                      data_source_test_path=data_source_test_path).format_prompt()
     return error_prompt['system_message'], error_prompt['user_message']
 
 
-def result_error_prompt_factory(pipeline_code: str, task_type: str):
+def result_error_prompt_factory(pipeline_code: str, task_type: str,
+                                data_source_train_path: str, data_source_test_path: str):
     evaluation_text = get_evaluation_text(task_type=task_type)
-    error_prompt = ResultsErrorPrompt(pipeline_code=pipeline_code, evaluation_text=evaluation_text).format_prompt()
+    error_prompt = ResultsErrorPrompt(pipeline_code=pipeline_code, evaluation_text=evaluation_text,
+                                      data_source_train_path=data_source_train_path,
+                                      data_source_test_path=data_source_test_path).format_prompt()
     return error_prompt['system_message'], error_prompt['user_message']

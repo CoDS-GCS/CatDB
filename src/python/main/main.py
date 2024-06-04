@@ -329,7 +329,7 @@ def run_pipeline(args, catalog, run_mode: str = None, sub_task: str = '', previo
                              operation="Run-Pipeline")
 
     if run_mode == __gen_run_mode:
-        results = result.parse_results()
+        _, results = result.parse_results()
         log_results.train_auc = results["Train_AUC"]
         log_results.train_auc_ovo = results["Train_AUC_OVO"]
         log_results.train_auc_ovr = results["Train_AUC_OVR"]

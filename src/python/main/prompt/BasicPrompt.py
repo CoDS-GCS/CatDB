@@ -67,7 +67,7 @@ class BasicPrompt(object):
                 if cc != self.target_attribute:
                     categorical_columns.append(cc)
             categorical_column_prompt = (f'Encode categorical values by "on-hot-encoder" for the following '
-                                         f'columns:\n\t# Columns: {",".join(cc)}')
+                                         f'columns:\n\t# Columns: {",".join(categorical_columns)}')
             prompt_items.append(categorical_column_prompt)
 
         prompt_items.append(f"Dataset Attribute:\n# Number of samples (rows) in training dataset: {self.catalog.nrows}")
@@ -81,7 +81,6 @@ class BasicPrompt(object):
         content = []
         target_text = "**This is a target column**"
         for r in range(0, len(self.df_content)):
-            row_msg_1 = f'# {self.df_content.loc[r]["column_name"]} ({self.df_content.loc[r]["column_data_type"]}'
             if self.df_content.loc[r]["column_name"] == self.target_attribute:
                 row_msg_1 = f'# \"{self.df_content.loc[r]["column_name"]}\" ({self.df_content.loc[r]["column_data_type"]}, {target_text})'
             else:

@@ -53,7 +53,8 @@ if __name__ == '__main__':
                   (42396,"Aloi","regression",22),
                   (45049,"MD-MIX-Mini","regression",23),
                   (41167,"Dionis","regression",24),
-                  (44320,"Meta-Album-BRD","regression",25)]
+                  (44320,"Meta-Album-BRD","regression",25),
+                  (1590,"Adult","binary",26)]
    
     dataset_list =  pd.DataFrame(columns=["Row","ID","dataset_name", "orig_name","nrows","ncols","nclasses","target"])
     

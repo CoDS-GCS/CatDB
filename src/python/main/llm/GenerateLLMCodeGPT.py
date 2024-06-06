@@ -41,9 +41,9 @@ class GenerateLLMCodeGPT:
 
     @staticmethod
     def get_number_tokens(user_message: str, system_message: str):
-        from util.Config import _llm_platform
+        from util.Config import _llm_model
         enc = tiktoken.get_encoding("cl100k_base")
-        enc = tiktoken.encoding_for_model(_llm_platform)
+        enc = tiktoken.encoding_for_model(_llm_model)
         token_integers = enc.encode(user_message + system_message)
         num_tokens = len(token_integers)
         return num_tokens

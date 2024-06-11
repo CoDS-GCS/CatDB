@@ -1,6 +1,5 @@
-imblearn
-matplotlib
-numpy
-pandas
-scikit_learn
-seaborn
+PyYAML==6.0.1
+pandas==2.1.4
+h2o
+scikit-learn
+arff

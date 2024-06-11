@@ -1,120 +1,202 @@
-from AutoML import AutoML
-from util.Config import _nthreads, _jvm_memory
+from automl.AutoML import AutoML, result
+from util.Config import Config
+from util.Data import Dataset
+from util.Namespace import Namespace as ns
 
 import os
+import pandas as pd
+import re
 import h2o
 from h2o.automl import H2OAutoML
 
 
 class H2O(AutoML):
-    def __init__(self, dataset, config, *args, **kwargs):
-        AutoML.__init__(dataset, config, *args, **kwargs)
+    def __init__(self, dataset: Dataset, config: Config, *args, **kwargs):
+        AutoML.__init__(self, dataset=dataset, config=config)
+
+    def extract_preds(self, h2o_preds, test, target):
+        h2o_preds = h2o_preds.as_data_frame(use_pandas=False)
+        preds = self.to_data_frame(arr=h2o_preds[1:], columns=h2o_preds[0])
+        y_pred = preds.iloc[:, 0]
+
+        h2o_truth = test[:, target].as_data_frame(use_pandas=False, header=False)
+        y_truth = self.to_data_frame(h2o_truth)
+
+        predictions = y_pred.values
+        probabilities = preds.iloc[:, 1:].values
+        prob_labels = h2o_labels = h2o_preds[0][1:]
+        if all([re.fullmatch(r"p(-?\d)+", p) for p in prob_labels]):
+            # for categories represented as numerical values, h2o prefixes the probabilities columns with p
+            # in this case, we let the app setting the labels to avoid mismatch
+            prob_labels = None
+        truth = y_truth.values
+
+        return ns(predictions=predictions,
+                  truth=truth,
+                  probabilities=probabilities,
+                  probabilities_labels=prob_labels,
+                  h2o_labels=h2o_labels)
+
+    def to_data_frame(self, arr, columns=None):
+        return pd.DataFrame.from_records(arr, columns=columns)
+
+    def output_subdir(self, name):
+        subdir = os.path.join(self.config.output_dir, name)
+        self.touch(subdir, as_dir=True)
+        return subdir
+
+    def write_csv(self, df, path):
+        self.touch(path)
+        df.to_csv(path, header=True, index=False)
+
+    def save_model(self, model_id, dest_dir='.', mformat='json'):
+        model = h2o.get_model(model_id)
+        if mformat == 'mojo':
+            return model.save_mojo(path=dest_dir)
+        elif mformat == 'binary':
+            return h2o.save_model(model, path=dest_dir)
+        else:
+            return model.save_model_details(path=dest_dir)
+
+    def frame_name(self, fr_type):
+        return '_'.join([fr_type, self.config.name])
+
+    def write_preds(self, preds, path):
+        df = self.to_data_frame(preds.probabilities, columns=preds.probabilities_labels)
+        df = df.assign(predictions=preds.predictions)
+        df = df.assign(truth=preds.truth)
+        self.write_csv(df, path)
+
+    def save_artifacts(self, automl):
+        artifacts = ['leaderboard']
+        try:
+            models_artifacts = []
+            lb_pat = re.compile(r"leaderboard(?:\[(.*)\])?")
+            lb_match = next((lb_pat.fullmatch(a) for a in artifacts), None)
+            if lb_match:
+                lb_ext = list(filter(None, re.split("[,; ]", (lb_match.group(1) or ""))))
+                lb = h2o.automl.get_leaderboard(automl, lb_ext).as_data_frame()
+                models_dir = self.output_subdir("models")
+                lb_path = os.path.join(models_dir, "leaderboard.csv")
+                self.write_csv(lb, lb_path)
+                models_artifacts.append(lb_path)
+            else:
+                lb = automl.leaderboard.as_data_frame()
+
+            models_pat = re.compile(r"models(\[(json|binary|mojo)(?:,(\d+))?\])?")
+            models = list(filter(models_pat.fullmatch, artifacts))
+            for m in models:
+                models_dir = self.output_subdir("models")
+                all_models_se = next((mid for mid in lb['model_id'] if mid.startswith("StackedEnsemble_AllModels")),
+                                     None)
+                match = models_pat.fullmatch(m)
+                mformat = match.group(2) or 'json'
+                topN = int(match.group(3) or -1)
+                if topN < 0 and mformat != 'json' and all_models_se:
+                    models_artifacts.append(self.save_model(all_models_se, dest_dir=models_dir, mformat=mformat))
+                else:
+                    count = 0
+                    for mid in lb['model_id']:
+                        if topN < 0 or count < topN:
+                            self.save_model(mid, dest_dir=models_dir, mformat=mformat)
+                            count += 1
+                        else:
+                            break
+
+                    models_archive = os.path.join(models_dir, f"models_{mformat}.zip")
+                    self.zip_path(models_dir, models_archive, filter_=lambda p: p not in models_artifacts)
+                    models_artifacts.append(models_archive)
+                    self.clean_dir(models_dir,
+                                   filter_=lambda p: p not in models_artifacts
+                                                     and os.path.splitext(p)[1] in ['.json', '.zip', ''])
+
+        except Exception:
+            print("Error when saving artifacts.")
 
     def run(self):
         print(f"\n**** H2O AutoML [v{h2o.__version__}] ****\n")
-
+        # Mapping of benchmark metrics to H2O metrics
+        metrics_mapping = dict(
+            acc='mean_per_class_error',
+            auc='AUC',
+            logloss='logloss',
+            mae='mae',
+            mse='mse',
+            r2='r2',
+            rmse='rmse',
+            rmsle='rmsle'
+        )
+        metrics = self.config.get_metrics(self.dataset.task_type)
+        sort_metric = []
+        for m in metrics:
+            metric = metrics_mapping.get(m)
+            if metric is not None:
+                sort_metric.append(metric)
+        # sort_metric = [m for ] metrics_mapping[metrics] if metrics in metrics_mapping else None
+        print(sort_metric)
+        sort_metric = "AUC"
         try:
-            # nthreads = os.cpu_count()
-            jvm_memory = str(round(_jvm_memory * 2 / 3)) + "M"  # leaving 1/3rd of available memory for XGBoost
+            jvm_memory = str(
+                round(self.config.jvm_memory * 2 / 3)) + "M"  # leaving 1/3rd of available memory for XGBoost
             max_port_range = 49151
             min_port_range = 1024
             rnd_port = os.getpid() % (max_port_range - min_port_range) + min_port_range
-            port = config.framework_params.get('_port', rnd_port)
-
-            init_params = config.framework_params.get('_init', {})
-
-            h2o.init(nthreads=_nthreads,
-                     port=port,
+            h2o.init(nthreads=self.config.nthreads,
+                     port=rnd_port,
                      min_mem_size=jvm_memory,
-                     max_mem_size=jvm_memory,
-                     **init_params)
+                     max_mem_size=jvm_memory)
 
             import_kwargs = dict(escapechar='\\')
-            train = None
-            if version.parse(h2o.__version__) >= version.parse(
-                    "3.32.1"):  # previous versions may fail to parse correctly some rare arff files using single quotes as enum/string delimiters (pandas also fails on same datasets)
-                import_kwargs['quotechar'] = '"'
-                train = h2o.import_file(dataset.train.path, destination_frame=frame_name('train', config),
-                                        **import_kwargs)
-                if train.nlevels() != dataset.domains.cardinalities:
-                    h2o.remove(train)
-                    train = None
-                    import_kwargs['quotechar'] = "'"
 
-            if not train:
-                train = h2o.import_file(dataset.train.path, destination_frame=frame_name('train', config),
-                                        **import_kwargs)
-                # train.impute(method='mean')
-            log.debug("Loading test data from %s.", dataset.test.path)
-            test = h2o.import_file(dataset.test.path, destination_frame=frame_name('test', config), **import_kwargs)
-            # test.impute(method='mean')
+            import_kwargs['quotechar'] = '"'
+            train = h2o.import_file(self.dataset.train_path)
+            test = h2o.import_file(self.dataset.test_path)
 
-            if config.type == 'classification' and dataset.format == 'csv':
-                train[dataset.target.index] = train[dataset.target.index].asfactor()
-                test[dataset.target.index] = test[dataset.target.index].asfactor()
+            if self.dataset.task_type == 'classification':
+                train[self.dataset.target_attribute] = train[self.dataset.target_attribute].asfactor()
+                test[self.dataset.target_attribute] = test[self.dataset.target_attribute].asfactor()
 
-            log.info("Running model on task %s, fold %s.", config.name, config.fold)
-            log.debug("Running H2O AutoML with a maximum time of %ss on %s core(s), optimizing %s.",
-                      config.max_runtime_seconds, config.cores, sort_metric)
+            ml = H2OAutoML(max_runtime_secs=self.config.max_runtime_seconds,
+                           sort_metric=sort_metric,
+                           seed=self.config.seed)
 
-            aml = H2OAutoML(max_runtime_secs=config.max_runtime_seconds,
-                            sort_metric=sort_metric,
-                            seed=config.seed,
-                            **training_params)
+            ml.train(y=self.dataset.target_attribute, training_frame=train)
 
-            monitor = (BackendMemoryMonitoring(interval_seconds=config.ext.monitoring.interval_seconds,
-                                               check_on_exit=True,
-                                               verbosity=config.ext.monitoring.verbosity)
-                       if config.framework_params.get('_monitor_backend', False)
-                       else contextlib.nullcontext()  # Py 3.7+ only
-                       # else contextlib.contextmanager(lambda: (_ for _ in (0,)))()
-                       )
-            with Timer() as training:
-                with monitor:
-                    aml.train(y=dataset.target.index, training_frame=train)
-            log.info(f"Finished fit in {training.duration}s.")
+            if not ml.leader:
+                raise Exception("H2O could not produce any model in the requested time.")
 
-            if not aml.leader:
-                raise FrameworkError("H2O could not produce any model in the requested time.")
+            pred_train = ml.predict(train)
+            pred_test = ml.predict(test)
 
-            def infer(path: str):
-                filename = pathlib.Path(path).name
-                # H2O can't do inference on single row arff, it needs columns explicitly:
-                # https://github.com/h2oai/h2o-3/issues/15572
-                batch = h2o.import_file(path, col_names=train.names, destination_frame=frame_name(filename, config),
-                                        **import_kwargs)
-                return aml.predict(batch)
+            preds_train = self.extract_preds(pred_train, train, self.dataset.target_attribute)
+            preds_test = self.extract_preds(pred_test, test, self.dataset.target_attribute)
 
-            inference_times = {}
-            if config.measure_inference_time:
-                inference_times["file"] = measure_inference_times(infer, dataset.inference_subsample_files)
-                log.info(f"Finished inference time measurements.")
+            self.save_artifacts(ml)
 
-            with Timer() as predict:
-                preds = aml.predict(test)
-            log.info(f"Finished predict in {predict.duration}s.")
+            result_train = result(
+                output_file=self.config.output_predictions_file_train,
+                predictions=preds_train.predictions,
+                truth=preds_train.truth,
+                probabilities=preds_train.probabilities,
+                probabilities_labels=preds_train.probabilities_labels,
+                models_count=len(ml.leaderboard))
 
-            preds = extract_preds(preds, test, dataset=dataset)
-            save_artifacts(aml, dataset=dataset, config=config)
+            result_test = result(
+                output_file=self.config.output_predictions_file_test,
+                predictions=preds_test.predictions,
+                truth=preds_test.truth,
+                probabilities=preds_test.probabilities,
+                probabilities_labels=preds_test.probabilities_labels,
+                models_count=len(ml.leaderboard))
 
-            return result(
-                output_file=config.output_predictions_file,
-                predictions=preds.predictions,
-                truth=preds.truth,
-                probabilities=preds.probabilities,
-                probabilities_labels=preds.probabilities_labels,
-                models_count=len(aml.leaderboard),
-                training_duration=training.duration,
-                predict_duration=predict.duration,
-                inference_times=inference_times,
-            )
+            print(ml.leader.model_performance(test, auc_type="auto"))
+            #print(ml.leader.model_performance(train))
+
+            return {"train_result": result_train, "test_result": result_test}
 
         finally:
             con = h2o.connection()
             if con:
-                # h2o.remove_all()
                 con.close()
                 if con.local_server:
                     con.local_server.shutdown()
-            # if h2o.cluster():
-            #     h2o.cluster().shutdown()

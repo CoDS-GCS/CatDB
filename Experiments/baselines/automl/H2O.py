@@ -4,6 +4,7 @@ from util.Data import Dataset
 from util.Namespace import Namespace as ns
 
 import os
+import time
 import pandas as pd
 import re
 import h2o
@@ -119,11 +120,11 @@ class H2O(AutoML):
         metrics_mapping = dict(
             acc='mean_per_class_error',
             auc='AUC',
-            logloss='logloss',
+            logloss='LogLoss',
             mae='mae',
-            mse='mse',
+            mse='MSE',
             r2='r2',
-            rmse='rmse',
+            rmse='RMSE',
             rmsle='rmsle'
         )
         metrics = self.config.get_metrics(self.dataset.task_type)
@@ -132,10 +133,9 @@ class H2O(AutoML):
             metric = metrics_mapping.get(m)
             if metric is not None:
                 sort_metric.append(metric)
-        # sort_metric = [m for ] metrics_mapping[metrics] if metrics in metrics_mapping else None
-        print(sort_metric)
-        sort_metric = "AUC"
+
         try:
+            time_start = time.time()
             jvm_memory = str(
                 round(self.config.jvm_memory * 2 / 3)) + "M"  # leaving 1/3rd of available memory for XGBoost
             max_port_range = 49151
@@ -157,42 +157,63 @@ class H2O(AutoML):
                 test[self.dataset.target_attribute] = test[self.dataset.target_attribute].asfactor()
 
             ml = H2OAutoML(max_runtime_secs=self.config.max_runtime_seconds,
-                           sort_metric=sort_metric,
-                           seed=self.config.seed)
+                           sort_metric="AUC",
+                           seed=self.config.seed,
+                           max_models = 20,
+                           exclude_algos = ["StackedEnsemble", "DeepLearning"],
+                           nfolds=0)
 
             ml.train(y=self.dataset.target_attribute, training_frame=train)
 
             if not ml.leader:
                 raise Exception("H2O could not produce any model in the requested time.")
 
-            pred_train = ml.predict(train)
-            pred_test = ml.predict(test)
+            # pred_train = ml.predict(train)
+            # pred_test = ml.predict(test)
 
-            preds_train = self.extract_preds(pred_train, train, self.dataset.target_attribute)
-            preds_test = self.extract_preds(pred_test, test, self.dataset.target_attribute)
+            # preds_train = self.extract_preds(pred_train, train, self.dataset.target_attribute)
+            # preds_test = self.extract_preds(pred_test, test, self.dataset.target_attribute)
+            time_end = time.time()
+            time_execute = time_end - time_start
 
             self.save_artifacts(ml)
 
-            result_train = result(
-                output_file=self.config.output_predictions_file_train,
-                predictions=preds_train.predictions,
-                truth=preds_train.truth,
-                probabilities=preds_train.probabilities,
-                probabilities_labels=preds_train.probabilities_labels,
-                models_count=len(ml.leaderboard))
+            result_train = ml.leader.model_performance(train)
+            result_test = ml.leader.model_performance(test)
+            print(result_train)
 
-            result_test = result(
-                output_file=self.config.output_predictions_file_test,
-                predictions=preds_test.predictions,
-                truth=preds_test.truth,
-                probabilities=preds_test.probabilities,
-                probabilities_labels=preds_test.probabilities_labels,
-                models_count=len(ml.leaderboard))
+            # Extract Results
+            if self.dataset.task_type == "binary":
+                self.log_results.train_auc = result_train["AUC"]
+                self.log_results.train_log_loss = result_train["LogLoss"]
+                self.log_results.train_rmse = result_train["RMSE"]
 
-            print(ml.leader.model_performance(test, auc_type="auto"))
-            #print(ml.leader.model_performance(train))
+                self.log_results.test_auc = result_test["AUC"]
+                self.log_results.test_log_loss = result_test["LogLoss"]
+                self.log_results.test_rmse = result_test["RMSE"]
 
-            return {"train_result": result_train, "test_result": result_test}
+            self.log_results.status = "True"
+            self.log_results.time_execution = time_execute
+            self.log_results.config = "H2O"
+            self.log_results.save_results(result_output_path=self.config.output_path)
+            #
+            # if run_mode == __gen_run_mode and results_verified:
+            #     log_results.train_auc = results["Train_AUC"]
+            #     log_results.train_auc_ovo = results["Train_AUC_OVO"]
+            #     log_results.train_auc_ovr = results["Train_AUC_OVR"]
+            #     log_results.train_accuracy = results["Train_Accuracy"]
+            #     log_results.train_f1_score = results["Train_F1_score"]
+            #     log_results.train_log_loss = results["Train_Log_loss"]
+            #     log_results.train_r_squared = results["Train_R_Squared"]
+            #     log_results.train_rmse = results["Train_RMSE"]
+            #     log_results.test_auc = results["Test_AUC"]
+            #     log_results.test_auc_ovo = results["Test_AUC_OVO"]
+            #     log_results.test_auc_ovr = results["Test_AUC_OVR"]
+            #     log_results.test_accuracy = results["Test_Accuracy"]
+            #     log_results.test_f1_score = results["Test_F1_score"]
+            #     log_results.test_log_loss = results["Test_Log_loss"]
+            #     log_results.test_r_squared = results["Test_R_Squared"]
+            #     log_results.test_rmse = results["Test_RMSE"]
 
         finally:
             con = h2o.connection()

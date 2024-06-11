@@ -4,19 +4,19 @@ import pandas as pd
 class LogResults(object):
     def __init__(self,
                  dataset_name: str,
-                 config: str,
-                 sub_task: str,
-                 llm_model: str,
-                 classifier: str,
                  task_type: str,
-                 status: str,
-                 number_iteration: int,
-                 number_iteration_error: int,
-                 has_description: str,
-                 time_catalog_load: float,
-                 time_pipeline_generate: float,
-                 time_total: float,
-                 time_execution: float,
+                 status: str="False",
+                 number_iteration: int=1,
+                 number_iteration_error: int=0,
+                 has_description: str="No",
+                 time_catalog_load: float=0,
+                 time_pipeline_generate: float=0,
+                 time_total: float=0,
+                 time_execution: float=0,
+                 sub_task: str=None,
+                 llm_model: str=None,
+                 classifier: str=None,
+                 config: str = None,
                  train_auc: float = -2,
                  train_auc_ovo: float = -2,
                  train_auc_ovr: float = -2,
@@ -35,7 +35,7 @@ class LogResults(object):
                  test_rmse: float = -2,
                  prompt_token_count: int = 0,
                  all_token_count: int = 0,
-                 operation: str=None
+                 operation: str="Run-AutoML"
                  ):
         self.config = config
         self.sub_task = sub_task

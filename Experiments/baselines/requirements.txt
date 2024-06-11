@@ -3,3 +3,4 @@ pandas==2.1.4
 h2o
 scikit-learn
 arff
+psutil

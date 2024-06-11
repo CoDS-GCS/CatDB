@@ -8,9 +8,11 @@ mkdir -p "$path/Baselines"
 cd $path
 
 # unzip venv template
-venv_path="${root_path}/setup/config/venv"
-unzip "${venv_path}.zip"
+# cd "${root_path}/setup/config"
+# venv_path="${root_path}/setup/config/venv"
+# unzip "${venv_path}.zip"
 
+# cd $path
 
 # Setup kglidsplus
 #################
@@ -40,8 +42,8 @@ cp -r src/python/main/* ${catdb_path}
 cd ${catdb_path}
 
 rm -rf venv 
-cp -r ${venv_path} ${catdb_path} 
-# python -m venv venv
+#cp -r ${venv_path} ${catdb_path} 
+python -m venv venv
 source venv/bin/activate
 
 # Then install the dependencies:
@@ -52,17 +54,17 @@ pip install pipreqs
 
 # Prepare Config
 ################
-config_path="${path}/config/"
-cd ${config_path}
-rm -rf venv
-#python -m venv venv
-cp -r ${venv_path} ${catdb_path} 
-source venv/bin/activate
+# config_path="${path}/config/"
+# cd ${config_path}
+# rm -rf venv
 
-#Then install the dependencies:
-python -m pip install --upgrade pip
-python -m pip install -r requirements.txt
+# python -m venv venv
+# #cp -r ${venv_path} ${catdb_path} 
+# source venv/bin/activate
 
+# #Then install the dependencies:
+# python -m pip install --upgrade pip
+# python -m pip install -r requirements.txt
 
 # Setup Hand-craft baseline
 ################

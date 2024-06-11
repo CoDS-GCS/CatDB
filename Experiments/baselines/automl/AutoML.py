@@ -4,12 +4,17 @@ import os
 import zipfile
 import itertools
 import shutil
+from util.LogResults import LogResults
 
 
 class AutoML(object):
     def __init__(self, dataset: Dataset, config: Config):
         self.dataset = dataset
         self.config = config
+        self.automl_framework = None
+        self.log_results = LogResults(dataset_name=dataset.dataset_name,
+                                      task_type=dataset.task_type,
+                                      time_total=config.max_runtime_seconds)
 
     def run(self):
         pass
@@ -75,6 +80,8 @@ class AutoML(object):
                 os.remove(path)
 
         self.walk_apply(dir_path, delete, max_depth=0)
+
+
 
 def result(output_file=None,
            predictions=None,

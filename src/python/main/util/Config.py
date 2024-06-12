@@ -29,6 +29,8 @@ __GPT_4o_Limit = 4096
 __GPT_3_5_Turbo_limit = 4096
 __Llama2_70b = 4096
 __Llama3_70b_8192 = 8192
+__Llama3_8b_8192 = 8192
+__Mixtral_8x7b_32768 = 32768
 __Gemma_7b_it = 8192
 __Gemini = 8192
 
@@ -50,7 +52,8 @@ _llm_platform = None
 _system_delimiter = None
 _user_delimiter = None
 _max_token_limit = None
-_delay = 20
+_delay = 75
+
 
 def set_config(model, delay):
     global _llm_model
@@ -107,7 +110,13 @@ def set_config(model, delay):
 
     elif model == "llama3-8b-8192":
         _llm_platform = _META
-        _max_token_limit = __Llama3_70b_8192
+        _max_token_limit = __Llama3_8b_8192
+        _user_delimiter = __Llama_user_delimiter
+        _system_delimiter = __Llama_system_delimiter
+
+    elif model == "mixtral-8x7b-32768":
+        _llm_platform = _META
+        _max_token_limit = __Mixtral_8x7b_32768
         _user_delimiter = __Llama_user_delimiter
         _system_delimiter = __Llama_system_delimiter
 

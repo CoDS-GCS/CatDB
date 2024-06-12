@@ -20,23 +20,27 @@ class GenerateLLMCodeLLaMa:
 
     @staticmethod
     def __submit_Request_LLaMa_LLM(messages, client):
-        from util.Config import _llm_model
-        completion = client.chat.completions.create(
-            model=_llm_model,
-            messages=messages,
-            temperature=0
-        )
-        content = completion.choices[0].message.content
-        content = GenerateLLMCodeLLaMa.__refine_text(content)
-        codes = []
-        code_blocks = GenerateLLMCodeLLaMa.__match_code_blocks(content)
-        if len(code_blocks) > 0:
-            for code in code_blocks:
-                codes.append(code)
+        from util.Config import _llm_model, _delay
+        try:
+            completion = client.chat.completions.create(
+                model=_llm_model,
+                messages=messages,
+                temperature=0
+            )
+            content = completion.choices[0].message.content
+            content = GenerateLLMCodeLLaMa.__refine_text(content)
+            codes = []
+            code_blocks = GenerateLLMCodeLLaMa.__match_code_blocks(content)
+            if len(code_blocks) > 0:
+                for code in code_blocks:
+                    codes.append(code)
 
-            return "\n".join(codes)
-        else:
-            return content
+                return "\n".join(codes)
+            else:
+                return content
+        except Exception as err:
+            time.sleep(_delay)
+            return GenerateLLMCodeLLaMa.__submit_Request_LLaMa_LLM(messages, client)
 
     @staticmethod
     def __match_code_blocks(text):

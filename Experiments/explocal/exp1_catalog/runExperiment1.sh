@@ -31,11 +31,11 @@ CMD=./explocal/exp1_catalog/runExperiment1_LLM_Pipe_Gen.sh
 # $CMD ${dataset} ${data_profile_path} CatDB Random 0 ${task_type} gpt-4o Yes
 # $CMD ${dataset} ${data_profile_path} CatDB Random 0 ${task_type} gpt-3.5-turbo Yes
 
-$CMD ${dataset} ${data_profile_path} CatDB Random 0 ${task_type} llama3-8b-8192 Yes
-$CMD ${dataset} ${data_profile_path} CatDB Random 0 ${task_type} gemma-7b-it Yes
+# $CMD ${dataset} ${data_profile_path} CatDB Random 0 ${task_type} llama3-8b-8192 Yes
+# $CMD ${dataset} ${data_profile_path} CatDB Random 0 ${task_type} gemma-7b-it Yes
 $CMD ${dataset} ${data_profile_path} CatDB Random 0 ${task_type} mixtral-8x7b-32768 Yes
 $CMD ${dataset} ${data_profile_path} CatDB Random 0 ${task_type} llama3-70b-8192 Yes
-$CMD ${dataset} ${data_profile_path} CatDB Random 0 ${task_type} gemini-1.5-pro-latest Yes
+# $CMD ${dataset} ${data_profile_path} CatDB Random 0 ${task_type} gemini-1.5-pro-latest Yes
 
 # $CMD ${dataset} ${data_profile_path} CatDB Random 0 ${task_type} gpt-4 No
 # $CMD ${dataset} ${data_profile_path} CatDB Random 0 ${task_type} gpt-4o No
@@ -45,7 +45,11 @@ $CMD ${dataset} ${data_profile_path} CatDB Random 0 ${task_type} gemini-1.5-pro-
 #$CMD ${dataset} ${data_profile_path} CatDBChain Random 0 ${task_type} gpt-4 Yes
 # $CMD ${dataset} ${data_profile_path} CatDBChain Random 0 ${task_type} gpt-4o Yes
 # $CMD ${dataset} ${data_profile_path} CatDBChain Random 0 ${task_type} gpt-3.5-turbo Yes
-# $CMD ${dataset} ${data_profile_path} CatDBChain Random 0 ${task_type} llama3-70b-8192 Yes
+
+# $CMD ${dataset} ${data_profile_path} CatDBChain Random 0 ${task_type} llama3-8b-8192 Yes
+# $CMD ${dataset} ${data_profile_path} CatDBChain Random 0 ${task_type} gemma-7b-it Yes
+$CMD ${dataset} ${data_profile_path} CatDBChain Random 0 ${task_type} mixtral-8x7b-32768 Yes
+$CMD ${dataset} ${data_profile_path} CatDBChain Random 0 ${task_type} llama3-70b-8192 Yes
 # $CMD ${dataset} ${data_profile_path} CatDBChain Random 0 ${task_type} gemini-1.5-pro-latest Yes
 
 # $CMD ${dataset} ${data_profile_path} CatDBChain Random 0 ${task_type} gpt-4 No

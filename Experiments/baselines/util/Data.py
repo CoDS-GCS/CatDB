@@ -39,6 +39,11 @@ import pandas as pd
 #     )
 
 
+def reader_CSV(filename):
+    df = pd.read_csv(filename, low_memory=False)
+    return df
+
+
 class Dataset(object):
     def __init__(self,
                  dataset_name: str,

@@ -2,16 +2,9 @@
 
 dataset=$1
 task_type=$2
-constraint="1h"
-
-root_path="$(pwd)"
-benchmark_path="${root_path}/setup/automlbenchmark/resources/"
-config_path="${root_path}/setup/config/automl/constraints.yaml"
-
-cp -r ${config_path} ${benchmark_path} 
 
 # Run AutoML Baseline
-./explocal/exp3_end_to_end/runExperiment3_AutoML.sh $dataset $constraint
+./explocal/exp3_end_to_end/runExperiment3_AutoML.sh $dataset 30
 
 #./explocal/exp3_end_to_end/runExperiment3_CAAFE.sh ${dataset} ${task_type} Yes TabPFN gpt-4
 #./explocal/exp3_end_to_end/runExperiment3_CAAFE.sh ${dataset} ${task_type} No TabPFN gpt-3.5-turbo

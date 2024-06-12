@@ -1,6 +1,9 @@
 PyYAML==6.0.1
 pandas==2.1.4
 h2o
+flaml
+flaml[autogen]
+flaml[notebook]
 scikit-learn
 arff
 psutil

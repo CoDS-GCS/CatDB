@@ -5,7 +5,7 @@ import os
 from util.Config import Config
 from util.Data import Dataset
 from automl.H2O import H2O
-
+from automl.FLAML import FLAML
 
 def parse_arguments():
     parser = ArgumentParser()
@@ -69,4 +69,7 @@ if __name__ == '__main__':
     ml = None
     if args.automl_framework == "H2O":
         ml = H2O(dataset=dataset, config=config)
+    elif args.automl_framework == "FLAML":
+        ml = FLAML(dataset=dataset, config=config)
+
     ml.run()

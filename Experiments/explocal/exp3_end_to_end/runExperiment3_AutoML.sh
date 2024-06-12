@@ -1,32 +1,36 @@
 #!/bin/bash
 
 dataset=$1
-constraint=$2
+max_runtime_seconds=$2
+jvm_memory=20
 
 exp_path="$(pwd)"
-output_dir="${exp_path}/results/automl_results"
-user_dir=${exp_path}
-log_file_name="${exp_path}/results/Experiment3_AutoML_1H.dat"
+data_path="${exp_path}/data"
+metadata_path="${data_path}/${dataset}/${dataset}.yaml"
+output_dir="${exp_path}/results/AutoML"
+output_path="${exp_path}/results/Experiment3_AutoML.dat"
 
-logging=console:warning,app:info
+mkdir -p ${output_dir}
 
-cd "${exp_path}/setup/automlbenchmark/"
+cd "${exp_path}/baselines/"
+
+# rm -rf venv 
+# python -m venv venv
+# source venv/bin/activate
+
+# # Then install the dependencies:
+# python -m pip install --upgrade pip
+# python -m pip install --no-cache-dir -r requirements.txt
+
 source venv/bin/activate
 
-declare -a benchmarks=("catdb_openml")
+CMD="python -Wignore main.py --metadata-path ${metadata_path} \
+    --output-path ${output_path} \
+    --max-runtime-seconds ${max_runtime_seconds} \
+    --jvm-memory ${jvm_memory} \
+    --output-dir ${output_dir}"
 
-declare -a frameworks=("AutoGluon") #("AutoGluon" "H2OAutoML" "mljarsupervised" "RandomForest" "TPOT" "lightautoml" "autosklearn2")
-for framework in "${frameworks[@]}"; do
-    AMLB="python runbenchmark.py ${framework} ${dataset} ${constraint} --outdir=${output_dir} --userdir=${user_dir} --logging=${logging}"
-    echo "AMLB_SCRIPT=${AMLB}"
-
-    # sudo echo 3 >/proc/sys/vm/drop_caches && sudo sync
-    # sleep 3
-
-    start=$(date +%s%N)
-    $AMLB
-    end=$(date +%s%N)
-    echo ${dataset}","${framework}","$((($end - $start) / 1000000))","${constraint} >>$log_file_name
-done
+# $CMD --automl-framework H2O
+$CMD --automl-framework FLAML
 
 cd ${exp_path}

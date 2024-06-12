@@ -40,20 +40,18 @@ CMD=./explocal/exp1_catalog/runExperiment1.sh
 # $CMD Aloi regression
 # $CMD MD-MIX-Mini regression
 # $CMD Dionis regression
-# $CMD Meta-Album-BRD regression
+#$CMD Meta-Album-BRD regression
 
 # # Small Datasets
-# $CMD Balance-Scale multiclass
+#$CMD Balance-Scale multiclass
 # $CMD Breast-w binary
 # $CMD CMC multiclass
 # $CMD Credit-g binary
-# $CMD Diabetes binary
+$CMD Diabetes binary
 # $CMD Tic-Tac-Toe binary
-# $CMD Eucalyptus multiclass
+#$CMD Eucalyptus multiclass
 # $CMD PC1 binary
 # $CMD Airlines binary
 # $CMD Jungle-Chess multiclass
 
-$CMD Adult binary
-
-
+# $CMD Adult binary

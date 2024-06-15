@@ -32,14 +32,14 @@ cd $path
 
 # Setup CatDB
 #############
-catdb_path="${path}/Baselines/CatDB/"
-# rm -rf ${catdb_path}
-mkdir -p ${catdb_path}
+# catdb_path="${path}/Baselines/CatDB/"
+# # rm -rf ${catdb_path}
+# mkdir -p ${catdb_path}
 
-cd ${root_path}
-cd ..
-cp -r src/python/main/* ${catdb_path}
-cd ${catdb_path}
+# cd ${root_path}
+# cd ..
+# cp -r src/python/main/* ${catdb_path}
+# cd ${catdb_path}
 
 # rm -rf venv 
 # #cp -r ${venv_path} ${catdb_path} 
@@ -81,40 +81,18 @@ cd ${catdb_path}
 # python -m pip install -r requirements.txt
 
 
-# # Setup CAFFE
-# baselines_path="$path/Baselines"
-# cd ${baselines_path}
-# rm -rf CAAFE
-# git clone https://github.com/automl/CAAFE.git
 
-# cd CAAFE
-# rm -rf venv
-# python3.9 -m venv venv
-# source venv/bin/activate
-# python3.9 -m pip install --upgrade pip
-# cp "${path}/config/CAAFE/setup.py" "${baselines_path}/CAAFE/"
-# python3.9 setup.py install
+# Setup CAFFE
+#############
+baselines_path="$path/Baselines"
+cd ${baselines_path}
+rm -rf CAAFE
+git clone --branch catdb https://github.com/fathollahzadeh/CAAFE.git
 
-# ==============================================================================
-# # Setup CAFFE
-# baselines_path="$path/Baselines"
-# cd ${baselines_path}
-# rm -rf CAAFE
-# cp -r ${path}"/config/CAAFE" ${baselines_path}
-# cd CAAFE
-
-# rm -rf venv
-# python3.10 -m venv venv
-# source venv/bin/activate
-# python -m pip install --upgrade pip
-# python -m pip install -r requirements.txt
-
-# echo "-----------------------------------------------------------------------"
-# pip --version
-# pip install lightgbm
-
-# ===============================================================================
-# Setup LlaMa3
-
-
-
+cd CAAFE
+rm -rf venv
+python3.9 -m venv venv
+source venv/bin/activate
+python3.9 -m pip install --upgrade pip
+pip install torch==1.10.0+cu113 torchvision==0.11.1+cu113 torchaudio==0.10.0+cu113 -f https://download.pytorch.org/whl/cu113/torch_stable.html
+python3.9 -m pip install -r requirements.txt

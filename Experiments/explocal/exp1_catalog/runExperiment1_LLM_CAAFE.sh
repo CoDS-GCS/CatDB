@@ -7,7 +7,7 @@ llm_model=$2
 with_dataset_description=$3
 
 metadata_path="${data_path}/${dataset}/${dataset}.yaml"
-number_iteration=1
+number_iteration=2
 result_output_path="${exp_path}/caafe-results/${dataset}"
 
 mkdir -p "${exp_path}/caafe-results"
@@ -15,7 +15,7 @@ mkdir -p "${result_output_path}"
 
 output_path="${exp_path}/results/Experiment1_LLM_CAAFE.dat"
 
-cd /home/saeed/Documents/Github/CAAFE
+cd "${exp_path}/setup/Baselines/CAAFE/"
 source venv/bin/activate
 
 SCRIPT="python -Wignore main.py --metadata-path ${metadata_path} \

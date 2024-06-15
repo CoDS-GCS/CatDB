@@ -5,7 +5,9 @@ import os
 from util.Config import Config
 from util.Data import Dataset
 from automl.H2O import H2O
-from automl.FLAML import FLAML
+from automl.FlamlAutoML import FlamlAutoML
+from automl.AutogluonAutoML import AutogluonAutoML
+
 
 def parse_arguments():
     parser = ArgumentParser()
@@ -70,6 +72,8 @@ if __name__ == '__main__':
     if args.automl_framework == "H2O":
         ml = H2O(dataset=dataset, config=config)
     elif args.automl_framework == "FLAML":
-        ml = FLAML(dataset=dataset, config=config)
+        ml = FlamlAutoML(dataset=dataset, config=config)
+    elif args.automl_framework == "Autogluon":
+        ml = AutogluonAutoML(dataset=dataset, config=config)
 
     ml.run()

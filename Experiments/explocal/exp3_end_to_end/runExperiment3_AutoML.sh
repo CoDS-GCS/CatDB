@@ -31,6 +31,7 @@ CMD="python -Wignore main.py --metadata-path ${metadata_path} \
     --output-dir ${output_dir}"
 
 # $CMD --automl-framework H2O
-$CMD --automl-framework FLAML
+# $CMD --automl-framework FLAML
+$CMD --automl-framework Autogluon
 
 cd ${exp_path}

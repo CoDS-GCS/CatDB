@@ -1,31 +1,22 @@
-from automl.AutoML import AutoML as CatDBAutoML, result
+from automl.AutoML import AutoML as CatDBAutoML
 from util.Config import Config
 from util.Data import Dataset, reader_CSV
-from util.Namespace import Namespace as ns
 
 import os
-import time
-import pandas as pd
-import re
 from flaml import AutoML, __version__
-from flaml.data import load_openml_dataset
 
 
-class FLAML(CatDBAutoML):
+class FlamlAutoML(CatDBAutoML):
     def __init__(self, dataset: Dataset, config: Config, *args, **kwargs):
         CatDBAutoML.__init__(self, dataset=dataset, config=config)
-
 
     def run(self):
         print(f"\n**** FLAML [v{__version__}] ****\n")
 
-        # train_data = reader_CSV(self.dataset.train_path)
-        # test_data = reader_CSV(self.dataset.test_path)
-        # X_train = train_data.drop(columns=[self.dataset.target_attribute])
-        # y_train = train_data[self.dataset.target_attribute].squeeze()
-
-        X_train, X_test, y_train, y_test = load_openml_dataset(dataset_id=1169, data_dir='/home/saeed/Documents/Github/CatDB/Experiments/data/')
-        print(X_train)
+        train_data = reader_CSV(self.dataset.train_path)
+        test_data = reader_CSV(self.dataset.test_path)
+        X_train = train_data.drop(columns=[self.dataset.target_attribute])
+        y_train = train_data[self.dataset.target_attribute].squeeze()
 
         is_classification = self.dataset.task_type == 'classification'
         time_budget = self.config.max_runtime_seconds
@@ -55,8 +46,8 @@ class FLAML(CatDBAutoML):
 
         ml.fit(X_train= X_train,
                y_train= y_train,
-               #metric="accuracy",
+               metric="accuracy",
                task='classification',#self.dataset.task_type,
-               #n_jobs=n_jobs,
-               #log_file_name=flaml_log_file_name,
+               n_jobs=n_jobs,
+               log_file_name=flaml_log_file_name,
                time_budget=time_budget)

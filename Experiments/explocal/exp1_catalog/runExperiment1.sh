@@ -66,5 +66,5 @@ CMDCAAFE=./explocal/exp1_catalog/runExperiment1_LLM_CAAFE.sh
 # $CMD ${dataset} ${data_profile_path} CatDB Random 0 ${task_type} gemini-1.5-pro-latest Yes 4
 
 # CAAFE
-$CMDCAAFE ${dataset} gemini-1.5-pro-latest Yes
-
+$CMDCAAFE ${dataset} gemini-1.5-pro-latest TabPFN Yes
+$CMDCAAFE ${dataset} gemini-1.5-pro-latest RandomForest Yes

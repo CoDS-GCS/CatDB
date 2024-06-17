@@ -12,15 +12,7 @@ output_path="${exp_path}/results/Experiment3_AutoML.dat"
 
 mkdir -p ${output_dir}
 
-cd "${exp_path}/baselines/"
-
-# rm -rf venv 
-# python -m venv venv
-# source venv/bin/activate
-
-# # Then install the dependencies:
-# python -m pip install --upgrade pip
-# python -m pip install --no-cache-dir -r requirements.txt
+cd "${exp_path}/setup/Baselines/AutoML"
 
 source venv/bin/activate
 
@@ -28,6 +20,7 @@ CMD="python -Wignore main.py --metadata-path ${metadata_path} \
     --output-path ${output_path} \
     --max-runtime-seconds ${max_runtime_seconds} \
     --jvm-memory ${jvm_memory} \
+    --dataset-path ${exp_path} \
     --output-dir ${output_dir}"
 
 # $CMD --automl-framework H2O

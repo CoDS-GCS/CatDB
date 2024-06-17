@@ -36,3 +36,4 @@ Experiments/cleaning-datasets/
 src/python/.idea/*
 Experiments/baselines/automl/__pycache__/*
 Experiments/baselines/util/__pycache__/*
+Experiments/baselines/.idea/*

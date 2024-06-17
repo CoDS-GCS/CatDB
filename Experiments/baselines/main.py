@@ -17,6 +17,7 @@ def parse_arguments():
     parser.add_argument('--jvm-memory', type=int, default=2 * 1024)
     parser.add_argument('--output-path', type=str, default=None)
     parser.add_argument('--output-dir', type=str, default=None)
+    parser.add_argument('--dataset-path', type=str, default=None)
     args = parser.parse_args()
 
     if args.metadata_path is None:
@@ -39,10 +40,8 @@ def parse_arguments():
             args.target_attribute = config_data[0].get('dataset').get('target')
             args.task_type = config_data[0].get('dataset').get('type')
             try:
-                args.data_source_train_path = "../" + config_data[0].get('dataset').get('train').replace(
-                    "{user}/", "")
-                args.data_source_test_path = "../" + config_data[0].get('dataset').get('test').replace("{user}/",
-                                                                                                             "")
+                args.data_source_train_path = args.dataset_path+ "/" + config_data[0].get('dataset').get('train').replace("{user}/", "")
+                args.data_source_test_path = args.dataset_path + "/"+ config_data[0].get('dataset').get('test').replace("{user}/","")
             except Exception as ex:
                 raise Exception(ex)
 

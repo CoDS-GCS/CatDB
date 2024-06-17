@@ -84,15 +84,35 @@ cd $path
 
 # Setup CAFFE
 #############
-baselines_path="$path/Baselines"
-cd ${baselines_path}
-rm -rf CAAFE
-git clone --branch catdb https://github.com/fathollahzadeh/CAAFE.git
+# baselines_path="$path/Baselines"
+# cd ${baselines_path}
+# rm -rf CAAFE
+# git clone --branch catdb https://github.com/fathollahzadeh/CAAFE.git
 
-cd CAAFE
-rm -rf venv
-python3.9 -m venv venv
-source venv/bin/activate
-python3.9 -m pip install --upgrade pip
-pip install torch==1.10.0+cu113 torchvision==0.11.1+cu113 torchaudio==0.10.0+cu113 -f https://download.pytorch.org/whl/cu113/torch_stable.html
-python3.9 -m pip install -r requirements.txt
+# cd CAAFE
+# rm -rf venv
+# python3.9 -m venv venv
+# source venv/bin/activate
+# python3.9 -m pip install --upgrade pip
+# pip install torch==1.10.0+cu113 torchvision==0.11.1+cu113 torchaudio==0.10.0+cu113 -f https://download.pytorch.org/whl/cu113/torch_stable.html
+# python3.9 -m pip install -r requirements.txt
+
+
+# Setup AutoML
+automl_path="${path}/Baselines/AutoML/"
+# rm -rf ${automl_path}
+mkdir -p ${automl_path}
+
+cd ${root_path}
+cp -r baselines/* ${automl_path}
+cd ${automl_path}
+
+# rm -rf venv 
+# python -m venv venv
+# source venv/bin/activate
+
+# # Then install the dependencies:
+# python -m pip install --upgrade pip
+# pip install torchvision 
+# python -m pip install -r requirements.txt
+# pip install pipreqs

@@ -1,0 +1,74 @@
+\begin{tikzpicture}[scale=1, node distance=6.0mm]
+    \newcommand{\myaddplot}[7]{
+        \addplot[xshift=#6,boxplot,fill=#4, draw=#4, mark options={scale=0.5, fill=#4}, line width=1.5pt] table[y=#2, col sep=comma, x=ID]{#3};
+        \label{#5_#1_#7}    
+    };
+    
+    \newcommand{\addPerformance}[9]{
+      \myaddplot{train}{train_#7}{../archive/SIGMOD2025-Results/seperate/#1-#2-#3#4.csv}{#5}{#1}{#8}{#4};
+      \myaddplot{test}{test_#7}{../archive/SIGMOD2025-Results/seperate/#1-#2-#3#4.csv}{#6}{#1}{#9}{#4};
+   };
+
+   \newcommand{\addDatasetPerformance}[3]{
+    \addPerformance{CatDB}{#1}{gemini-1.5-pro-latest}{}{tug}{tugb}{#2}{#3}{-3pt};	
+    \addPerformance{CatDBChain}{#1}{gemini-1.5-pro-latest}{}{color3}{color4}{#2}{0pt}{1pt};	
+
+    \addPerformance{CAAFE}{#1}{gemini-1.5-pro-latest}{-TabPFN}{color7}{color9}{#2}{4pt}{4.9pt};	
+    \addPerformance{CAAFE}{#1}{gemini-1.5-pro-latest}{-RandomForest}{mygreen}{mymauve}{#2}{6pt}{6pt};	
+ };
+
+ \newcommand{\myaddplotcost}[3]{
+        \addplot[xshift=#2,fill=#3, draw=black,line width=0.3pt] table[y=#1, col sep=comma, x=ID]{../archive/SIGMOD2025-Results/ExeResults.csv};
+        \label{#1}    
+    };
+ 
+
+  
+\begin{axis}[
+  ybar,  
+  ymin=0,
+  ymode=log,
+  y tick label style={/pgf/number format/1000 sep={}},
+  x tick label style={/pgf/number format/1000 sep={}},
+  scaled y ticks=false,
+  enlarge y limits={0.05,upper},
+  enlarge x limits=0.04,
+  ylabel={Execution Time [s]},
+  xlabel={},
+  %ytick={0,40000,80000,120000,160000},
+  %yticklabels={0, 40k,80k,120k,1600k},
+  ytick align=outside,
+  xtick align=outside,
+  xtick pos=left,
+  ytick pos=left,
+  yticklabel style = {font=\normalsize},
+  ylabel style = {font=\normalsize, yshift=-5pt},
+  xticklabel style = {font=\normalsize},
+  xtick=data,
+  xlabel style = {font=\normalsize, yshift=0pt},
+  height=0.5\columnwidth,
+  width=1.2\textwidth,
+  ymajorgrids=true,
+  % box extend=0.3,
+  grid style=dotted,
+  minor grid style={gray!70},
+  nodes near coords,
+  every node near coord/.style={font=\fontsize{0.1pt}{0.1}, rotate=0},
+  every axis plot/.append style={line width=0.8pt,mark options={scale=1.5,solid}},  
+  legend image post style={line width=.5pt},   
+  boxplot/draw direction=y,
+  bar width=8pt,
+  xtick={1,2,3,4,5,6,7,8,9,10},    
+  xticklabels={Breast-w, Credit-g, Diabetes, Tic-Tac-Toe, PC1, Airlines, Balance-Scale, CMC, Eucalyptus, Jungle-Chess},
+  legend image code/.code={\draw [#1] (0cm,-0.1cm) rectangle (0.15cm,0.1cm); }, 
+  ]
+  \myaddplotcost{CatDB}{0pt}{tug};
+  \myaddplotcost{CatDBChain}{0}{tugb};
+  \myaddplotcost{CAAFETabPFN}{0}{color3};
+  \myaddplotcost{CAAFERandomForest}{0}{color4};
+\end{axis}
+
+\node [draw=none,inner sep=0, font=\normalsize, anchor=west] (leg1) at (rel axis cs: 0.1,0.85) {\shortstack[l]{
+  \ref{CatDB} CatDB  \ \ \ \  \ref{CatDBChain} CatDBChain \ \ \ \  \ref{CAAFETabPFN} CAAFE+TabPFN  \ \ \ \  \ref{CAAFERandomForest} CAAFE+RandomForest 		
+	}};
+\end{tikzpicture}

@@ -37,6 +37,8 @@ if __name__ == '__main__':
                     f"{root_path}/server-65/part2-CAFFE-gemini-1.5-pro-latest/Experiment1_LLM_CAAFE.dat"] 
     
     df_pip_gen = pd.DataFrame(columns = columns)
+    df_cost = pd.DataFrame(columns = ["ID","dataset_name","CatDB","CatDBChain","CAAFETabPFN","CAAFERandomForest"])
+    df_exe = pd.DataFrame(columns = ["ID","dataset_name","CatDB","CatDBChain","CAAFETabPFN","CAAFERandomForest"])
 
     for rp in results_path:
         df_catdb = load_results(rp)    
@@ -57,6 +59,8 @@ if __name__ == '__main__':
 
     for (ds,ds_id) in datasets:
         for llm in llms:
+            prompt_cost = {"CatDB": 0, "CatDBChain": 0, "CAAFETabPFN": 0, "CAAFERandomForest":0}
+            prompt_exe = {"CatDB": 0, "CatDBChain": 0, "CAAFETabPFN": 0, "CAAFERandomForest":0}
             for config in configs:
                 for cls in classifier:
                     #print(f"{config} >> {len(df_pip_gen[]['sub_task'])}")
@@ -97,12 +101,31 @@ if __name__ == '__main__':
                             fname = f"{fname}-{cls}"
                         fname = f"{fname}.csv"    
 
-                        df_ds.to_csv(f"/home/saeed/Documents/Github/CatDB/Experiments/archive/SIGMOD2025-Results/seperate/{fname}", index=False)
-                    
+                        # df_ds.to_csv(f"/home/saeed/Documents/Github/CatDB/Experiments/archive/SIGMOD2025-Results/seperate/{fname}", index=False)
+
+                        # -----
+                        
+                        if config == "CatDB":
+                            prompt_cost[config] = df_ds['prompt_token_count'].sum()   
+                            prompt_exe[config] = f"{df_ds['time_total'].mean():.2f}"  
+
+                        elif config == "CatDBChain":
+                            prompt_cost[config] = df_ds['prompt_token_count'].sum()   
+                            prompt_exe[config] = f"{(df_ds['time_total']+df_ds['time_pipeline_generate']).mean():.2f}"    
+
+                        elif config == "CAAFE":
+                             max_iteration = df_ds['number_iteration'].max()                    
+                             prompt_cost[f"{config}{cls}"] = df_ds.loc[df_ds['number_iteration'] == max_iteration, 'all_token_count'].values[0]
+                             prompt_exe[f"{config}{cls}"] = f"{df_ds['time_total'].mean():.2f}"
+                                
+
+            df_cost.loc[len(df_cost)] = [ds_id, ds, prompt_cost["CatDB"], prompt_cost["CatDBChain"], prompt_cost["CAAFETabPFN"],prompt_cost["CAAFERandomForest"]]   
+            df_exe.loc[len(df_cost)] = [ds_id, ds, prompt_exe["CatDB"], prompt_exe["CatDBChain"], prompt_exe["CAAFETabPFN"],prompt_exe["CAAFERandomForest"]]      
 
 
               
 
-    df_sort.to_csv("/home/saeed/Documents/Github/CatDB/Experiments/archive/SIGMOD2025-Results/AllResults.csv", index=False)
-   
+    # df_sort.to_csv("/home/saeed/Documents/Github/CatDB/Experiments/archive/SIGMOD2025-Results/AllResults.csv", index=False)
+    df_cost.to_csv("/home/saeed/Documents/Github/CatDB/Experiments/archive/SIGMOD2025-Results/CostResults.csv", index=False)
+    df_exe.to_csv("/home/saeed/Documents/Github/CatDB/Experiments/archive/SIGMOD2025-Results/ExeResults.csv", index=False)
            

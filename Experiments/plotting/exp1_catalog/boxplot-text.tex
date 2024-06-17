@@ -1,14 +1,22 @@
 \begin{tikzpicture}[scale=1, node distance=6.0mm]
-    \newcommand{\myaddplot}[6]{
-        \addplot[xshift=#6,boxplot,fill=#4, draw=#4, mark options={scale=0.4}, line width=1pt] table[y=#2, col sep=comma, x=ID]{#3};
-        \label{#5_#1}    
+    \newcommand{\myaddplot}[7]{
+        \addplot[xshift=#6,boxplot,fill=#4, draw=#4, mark options={scale=0.5, fill=#4}, line width=1.5pt] table[y=#2, col sep=comma, x=ID]{#3};
+        \label{#5_#1_#7}    
     };
     
-    %{CatDB}{Breast-w}{gemini-1.5-pro-latest}{tug}{tugb};	
-    \newcommand{\addCatDBPerformance}[5]{
-      \myaddplot{train}{train_auc}{/home/saeed/Documents/Github/CatDB/Experiments/archive/SIGMOD2025-Results/r/#1-#2-#3.csv}{#4}{#1}{0};
-      \myaddplot{test}{test_auc}{/home/saeed/Documents/Github/CatDB/Experiments/archive/SIGMOD2025-Results/r/#1-#2-#3.csv}{#5}{#1}{-2.5pt};
+    \newcommand{\addPerformance}[9]{
+      \myaddplot{train}{train_#7}{../archive/SIGMOD2025-Results/seperate/#1-#2-#3#4.csv}{#5}{#1}{#8}{#4};
+      \myaddplot{test}{test_#7}{../archive/SIGMOD2025-Results/seperate/#1-#2-#3#4.csv}{#6}{#1}{#9}{#4};
    };
+
+   \newcommand{\addDatasetPerformance}[3]{
+    \addPerformance{CatDB}{#1}{gemini-1.5-pro-latest}{}{tug}{tugb}{#2}{#3}{-3pt};	
+    \addPerformance{CatDBChain}{#1}{gemini-1.5-pro-latest}{}{color3}{color4}{#2}{0pt}{1pt};	
+
+    \addPerformance{CAAFE}{#1}{gemini-1.5-pro-latest}{-TabPFN}{color7}{color9}{#2}{4pt}{4.9pt};	
+    \addPerformance{CAAFE}{#1}{gemini-1.5-pro-latest}{-RandomForest}{mygreen}{mymauve}{#2}{6pt}{6pt};	
+ };
+ 
 
   
 \begin{axis}[
@@ -17,8 +25,8 @@
   y tick label style={/pgf/number format/1000 sep={}},
   x tick label style={/pgf/number format/1000 sep={}},
   scaled y ticks=false,
-  enlarge y limits={0.1,upper},
-  enlarge x limits=0.01,
+  enlarge y limits={0.05,upper},
+  enlarge x limits=0.008,
   ylabel={AUC $\%$},
   xlabel={},
   ytick={0,0.2,0.4,0.6,0.8,1.0},
@@ -32,9 +40,9 @@
   xticklabel style = {font=\normalsize},
   %xtick=data,
   xlabel style = {font=\normalsize, yshift=0pt},
-  height=.6\columnwidth,
-  width=1.2\columnwidth,
-  grid=both,
+  height=0.5\columnwidth,
+  width=1.2\textwidth,
+  grid=none,
   % box extend=0.3,
   grid style=dotted,
   minor grid style={gray!70},
@@ -45,34 +53,44 @@
   boxplot/draw direction=y,
   %boxplot/box extend=0.1,
   boxplot={
-        draw position={1/6 + floor(\plotnumofactualtype/4) + 1/6*mod(\plotnumofactualtype,4)},
+        draw position={1/10 + floor(\plotnumofactualtype/8) + 1/10*mod(\plotnumofactualtype,8)},
         box extend=0.1
     },
-  xtick={0.4, 1.4, 2.4, 3.4, 4.4, 5.4},
-  xticklabels={Breast-w, Credit-g, Diabetes, Tic-Tac-Toe, PC1, Airlines},
-  legend image code/.code={\draw [#1] (0cm,-0.1cm) rectangle (0.1cm,0.08cm); },   
+  xtick={0.5,1.5,2.5,3.5,4.5,5.5,6.5,7.5,8.5,9.5},
+  xticklabels={Breast-w, Credit-g, Diabetes, Tic-Tac-Toe, PC1, Airlines, Balance-Scale, CMC, Eucalyptus, Jungle-Chess},
+  legend image code/.code={\draw [#1] (0cm,-0.1cm) rectangle (0.15cm,0.1cm); },   
 	]
-   \addCatDBPerformance{CatDB}{Breast-w}{gemini-1.5-pro-latest}{tug}{tugb};	
-   \addCatDBPerformance{CatDBChain}{Breast-w}{gemini-1.5-pro-latest}{color3}{color4};	
-   
-   \addCatDBPerformance{CatDB}{Credit-g}{gemini-1.5-pro-latest}{tug}{tugb};
-   \addCatDBPerformance{CatDBChain}{Credit-g}{gemini-1.5-pro-latest}{color2}{color3};
-   
-   \addCatDBPerformance{CatDB}{Diabetes}{gemini-1.5-pro-latest}{tug}{tugb};
-   \addCatDBPerformance{CatDBChain}{Credit-g}{gemini-1.5-pro-latest}{color2}{color3};
-   
-   \addCatDBPerformance{CatDB}{Tic-Tac-Toe}{gemini-1.5-pro-latest}{tug}{tugb};
-   \addCatDBPerformance{CatDBChain}{Tic-Tac-Toe}{gemini-1.5-pro-latest}{color2}{color3};
+  \filldraw[draw=none, fill=lightgray!20] (-0.02,0.008) rectangle (0.49,1.045);
+  \filldraw[draw=none, fill=lightgray!20] (0.98,0.008) rectangle (1.49,1.045);
+  \filldraw[draw=none, fill=lightgray!20] (1.98,0.008) rectangle (2.49,1.045);
+  \filldraw[draw=none, fill=lightgray!20] (2.98,0.008) rectangle (3.49,1.045);
+  \filldraw[draw=none, fill=lightgray!20] (3.98,0.008) rectangle (4.49,1.045);
+  \filldraw[draw=none, fill=lightgray!20] (4.98,0.008) rectangle (5.49,1.045);
+  \filldraw[draw=none, fill=lightgray!20] (5.98,0.008) rectangle (6.49,1.045);
+  \filldraw[draw=none, fill=lightgray!20] (6.98,0.008) rectangle (7.49,1.045);
+  \filldraw[draw=none, fill=lightgray!20] (7.98,0.008) rectangle (8.49,1.045);
+  \filldraw[draw=none, fill=lightgray!20] (8.98,0.008) rectangle (9.49,1.045);
+  \draw[dotted, gray!70] (-0.02,1) -- (10,1);
+  \draw[dotted, gray!70] (-0.02,0.8) -- (10,0.8);
+  \draw[dotted, gray!70] (-0.02,0.6) -- (10,0.6);
+  \draw[dotted, gray!70] (-0.02,0.4) -- (10,0.4);
 
-   \addCatDBPerformance{CatDB}{PC1}{gemini-1.5-pro-latest}{tug}{tugb};
-   \addCatDBPerformance{CatDBChain}{PC1}{gemini-1.5-pro-latest}{color2}{color3};
+  \addDatasetPerformance{Breast-w}{auc}{-4pt};
+  \addDatasetPerformance{Credit-g}{auc}{-4pt};
+  \addDatasetPerformance{Diabetes}{auc}{-4pt};
+  \addDatasetPerformance{Tic-Tac-Toe}{auc}{-4pt};
+   \addDatasetPerformance{PC1}{auc}{-4pt};
+   \addDatasetPerformance{Airlines}{auc}{-4pt};
+   % 
+  \addDatasetPerformance{Balance-Scale}{auc_ovr}{-4pt};
+  \addDatasetPerformance{CMC}{auc_ovr}{-4pt};
+  \addDatasetPerformance{Eucalyptus}{auc_ovr}{-4pt};
+  \addDatasetPerformance{Jungle-Chess}{auc_ovr}{-4pt};
 
-   \addCatDBPerformance{CatDB}{Airlines}{gemini-1.5-pro-latest}{tug}{tugb};
-   \addCatDBPerformance{CatDBChain}{Airlines}{gemini-1.5-pro-latest}{color2}{color3};   		
+  
+   
 \end{axis}
-
-\node [draw=none,inner sep=0, font=\normalsize, anchor=west] (leg1) at (rel axis cs: 0.2,1.1) {\shortstack[l]{
-			CatDB (\ref{CatDB_train} Train \ref{CatDB_test} Test) \ \ \ \  %\\  
-      CatDBChain (\ref{CatDBChain_train} Train \ref{CatDBChain_test} Test) 	 			
+\node [draw=none,inner sep=0, font=\normalsize, anchor=west] (leg1) at (rel axis cs: 0.05,1.1) {\shortstack[l]{
+			CatDB (\ref{CatDB_train_} Train \ref{CatDB_test_} Test) \ \ \ \  CatDBChain (\ref{CatDBChain_train_} Train \ref{CatDBChain_test_} Test) \ \ \ \  CAAFE+TabPFN (\ref{CAAFE_train_-TabPFN} Train \ref{CAAFE_test_-TabPFN} Test)	  \ \ \ \  CAAFE+RandomForest (\ref{CAAFE_train_-RandomForest} Train \ref{CAAFE_test_-RandomForest} Test)			
 	}};
 \end{tikzpicture}

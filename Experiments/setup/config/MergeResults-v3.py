@@ -43,7 +43,7 @@ if __name__ == '__main__':
         df_pip_gen = merge_raw_data(df_result=df_pip_gen, df_tmp=df_catdb)
 
     df_sort = pd.DataFrame(columns = columns)
-    datasets = [("Balance-Scale",1), ("CMC",2), ("Eucalyptus",3), ("Jungle-Chess",4),
+    datasets = [("Balance-Scale",7), ("CMC",8), ("Eucalyptus",9), ("Jungle-Chess",10),
                 ("Breast-w",1), ("Credit-g",2), ("Diabetes",3), ("Tic-Tac-Toe",4),
                 ("PC1",5), ("Airlines",6)]
 
@@ -88,6 +88,7 @@ if __name__ == '__main__':
 
                         df_ds = df_sort.loc[(df_sort['dataset_name'] ==ds) &
                                             (df_sort['llm_model'] == llm)&
+                                            (df_sort['classifier'] == cls) &
                                             (df_sort['config'] == config)]
                         df_ds["ID"] = [ds_id for dsid in range(0,len(df_ds))]
 

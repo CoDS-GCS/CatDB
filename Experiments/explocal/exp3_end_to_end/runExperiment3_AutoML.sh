@@ -14,17 +14,24 @@ mkdir -p ${output_dir}
 
 cd "${exp_path}/setup/Baselines/AutoML"
 
-source venv/bin/activate
 
-CMD="python -Wignore main.py --metadata-path ${metadata_path} \
+
+
+
+# # $CMD --automl-framework H2O
+# # $CMD --automl-framework FLAML
+# # $CMD --automl-framework Autogluon
+
+my_main="mainAutoSklearn.py"
+cd AutoSklearnAutoML
+source venv/bin/activate
+cd ..
+
+CMD="python -Wignore ${my_main} --metadata-path ${metadata_path} \
     --output-path ${output_path} \
     --max-runtime-seconds ${max_runtime_seconds} \
     --jvm-memory ${jvm_memory} \
     --dataset-path ${exp_path} \
     --output-dir ${output_dir}"
 
-# $CMD --automl-framework H2O
-# $CMD --automl-framework FLAML
-$CMD --automl-framework Autogluon
-
-cd ${exp_path}
+$CMD

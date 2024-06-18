@@ -91,6 +91,10 @@ class AutogluonAutoML(CatDBAutoML):
             self.log_results.test_auc_ovo = result_test["roc_auc_ovo_macro"]
             self.log_results.test_accuracy = result_test["accuracy"]
 
+        elif self.dataset.task_type == "regression":
+            r1 = predictor.predict(test_data, as_pandas=True)
+            print(r1)
+
         self.log_results.status = "True"
         self.log_results.time_execution = time_execute
         self.log_results.config = "Autogluon"

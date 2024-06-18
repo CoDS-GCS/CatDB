@@ -29,14 +29,14 @@ CMD=./explocal/exp3_end_to_end/runExperiment3.sh
 $CMD Balance-Scale multiclass
 # $CMD Breast-w binary
 # $CMD CMC multiclass
-# $CMD Credit-g binary
+$CMD Credit-g binary
 # $CMD Diabetes binary
 # $CMD Tic-Tac-Toe binary
-# $CMD Eucalyptus multiclass
+$CMD Eucalyptus multiclass
 # $CMD PC1 binary
 # $CMD Airlines binary
-# $CMD Jungle-Chess multiclass
-# $CMD Adult binary
+$CMD Jungle-Chess multiclass
+#$CMD Adult binary
 
 # Large Datasets
 # $CMD Higgs binary
@@ -53,4 +53,4 @@ $CMD Balance-Scale multiclass
 # $CMD Aloi regression
 # $CMD MD-MIX-Mini regression
 # $CMD Dionis regression
-# $CMD Meta-Album-BRD regression
+$CMD Meta-Album-BRD regression

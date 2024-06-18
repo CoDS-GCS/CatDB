@@ -100,19 +100,27 @@ cd $path
 
 # Setup AutoML
 automl_path="${path}/Baselines/AutoML/"
-# rm -rf ${automl_path}
+#rm -rf ${automl_path}
 mkdir -p ${automl_path}
 
 cd ${root_path}
-cp -r baselines/* ${automl_path}
+cp -r baselines/* "${automl_path}/"
+# cp -r baselines/automl "${automl_path}/"
+# cp -r baselines/AutoSklearnAutoML "${automl_path}/"
+# cp -r baselines/util "${automl_path}/"
+# cp -r baselines/mainAutoSklearn.py "${automl_path}/"
+
 cd ${automl_path}
 
+# # Install Auto Sklearn
+# cd AutoSklearnAutoML
 # rm -rf venv 
 # python -m venv venv
 # source venv/bin/activate
-
-# # Then install the dependencies:
 # python -m pip install --upgrade pip
-# pip install torchvision 
 # python -m pip install -r requirements.txt
-# pip install pipreqs
+# pip uninstall -y numpy
+# pip install numpy==1.26.4
+
+# pip unistall -y pandas
+# pip install -U pandas==1.5.3

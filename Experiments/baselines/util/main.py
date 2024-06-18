@@ -4,15 +4,11 @@ import os
 
 from util.Config import Config
 from util.Data import Dataset
-from automl.H2O import H2O
-from automl.FlamlAutoML import FlamlAutoML
-from automl.AutogluonAutoML import AutogluonAutoML
 
 
 def parse_arguments():
     parser = ArgumentParser()
     parser.add_argument('--metadata-path', type=str, default=None)
-    parser.add_argument('--automl-framework', type=str, default=None)
     parser.add_argument('--max-runtime-seconds', type=int, default=None)
     parser.add_argument('--jvm-memory', type=int, default=2 * 1024)
     parser.add_argument('--output-path', type=str, default=None)
@@ -22,9 +18,6 @@ def parse_arguments():
 
     if args.metadata_path is None:
         raise Exception("--metadata-path is a required parameter!")
-
-    if args.automl_framework is None:
-        raise Exception("--automl-framework is a required parameter!")
 
     if args.max_runtime_seconds is None:
         raise Exception("--max-runtime-seconds is a required parameter!")
@@ -48,12 +41,7 @@ def parse_arguments():
         except yaml.YAMLError as ex:
             raise Exception(ex)
 
-    return args
-
-
-if __name__ == '__main__':
-    args = parse_arguments()
-    config = Config(jvm_memory=args.jvm_memory,
+    args.config = Config(jvm_memory=args.jvm_memory,
                     max_runtime_seconds=args.max_runtime_seconds,
                     nthreads=os.cpu_count(),
                     output_predictions_file_train=f"{args.output_path}/{args.dataset_name}/train",
@@ -61,18 +49,9 @@ if __name__ == '__main__':
                     output_dir=f"{args.output_dir}/{args.dataset_name}/",
                     output_path=args.output_path)
 
-    dataset = Dataset(dataset_name=args.dataset_name,
+    args.dataset = Dataset(dataset_name=args.dataset_name,
                       train_path=args.data_source_train_path,
                       test_path=args.data_source_test_path,
                       task_type=args.task_type,
                       target_attribute=args.target_attribute)
-
-    ml = None
-    if args.automl_framework == "H2O":
-        ml = H2O(dataset=dataset, config=config)
-    elif args.automl_framework == "FLAML":
-        ml = FlamlAutoML(dataset=dataset, config=config)
-    elif args.automl_framework == "Autogluon":
-        ml = AutogluonAutoML(dataset=dataset, config=config)
-
-    ml.run()
+    return args

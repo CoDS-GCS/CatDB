@@ -43,7 +43,7 @@ def parse_arguments():
 
     args.config = Config(jvm_memory=args.jvm_memory,
                     max_runtime_seconds=args.max_runtime_seconds,
-                    nthreads=os.cpu_count(),
+                    nthreads= os.cpu_count(),
                     output_predictions_file_train=f"{args.output_path}/{args.dataset_name}/train",
                     output_predictions_file_test=f"{args.output_path}/{args.dataset_name}/test",
                     output_dir=f"{args.output_dir}/{args.dataset_name}/",

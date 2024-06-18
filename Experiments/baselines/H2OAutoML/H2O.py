@@ -115,25 +115,7 @@ class H2O(AutoML):
             print("Error when saving artifacts.")
 
     def run(self):
-        print(f"\n**** H2O AutoML [v{h2o.__version__}] ****\n")
-        # Mapping of benchmark metrics to H2O metrics
-        metrics_mapping = dict(
-            acc='mean_per_class_error',
-            auc='AUC',
-            logloss='LogLoss',
-            mae='mae',
-            mse='MSE',
-            r2='r2',
-            rmse='RMSE',
-            rmsle='rmsle'
-        )
-        metrics = self.config.get_metrics(self.dataset.task_type)
-        sort_metric = []
-        for m in metrics:
-            metric = metrics_mapping.get(m)
-            if metric is not None:
-                sort_metric.append(metric)
-
+        print(f"\n**** H2OAutoML AutoML [v{h2o.__version__}] ****\n")
         try:
             time_start = time.time()
             jvm_memory = str(
@@ -146,27 +128,34 @@ class H2O(AutoML):
                      min_mem_size=jvm_memory,
                      max_mem_size=jvm_memory)
 
-            import_kwargs = dict(escapechar='\\')
-
-            import_kwargs['quotechar'] = '"'
+            # import_kwargs = dict(escapechar='\\')
+            #
+            # import_kwargs['quotechar'] = '"'
             train = h2o.import_file(self.dataset.train_path)
             test = h2o.import_file(self.dataset.test_path)
 
-            if self.dataset.task_type == 'classification':
+
+            if self.dataset.task_type == 'binary' or self.dataset.task_type == 'multiclass':
                 train[self.dataset.target_attribute] = train[self.dataset.target_attribute].asfactor()
                 test[self.dataset.target_attribute] = test[self.dataset.target_attribute].asfactor()
+                pref_metric = "AUC"
+            else:
+                pref_metric = "r2"
+
+            print(train)
 
             ml = H2OAutoML(max_runtime_secs=self.config.max_runtime_seconds,
-                           sort_metric="AUC",
+                           sort_metric=pref_metric,
                            seed=self.config.seed,
                            max_models = 20,
                            exclude_algos = ["StackedEnsemble", "DeepLearning"],
-                           nfolds=0)
+                           nfolds=-1
+                           )
 
             ml.train(y=self.dataset.target_attribute, training_frame=train)
 
             if not ml.leader:
-                raise Exception("H2O could not produce any model in the requested time.")
+                raise Exception("H2OAutoML could not produce any model in the requested time.")
 
             # pred_train = ml.predict(train)
             # pred_test = ml.predict(test)
@@ -176,7 +165,7 @@ class H2O(AutoML):
             time_end = time.time()
             time_execute = time_end - time_start
 
-            self.save_artifacts(ml)
+            # self.save_artifacts(ml)
 
             result_train = ml.leader.model_performance(train)
             result_test = ml.leader.model_performance(test)
@@ -194,26 +183,8 @@ class H2O(AutoML):
 
             self.log_results.status = "True"
             self.log_results.time_execution = time_execute
-            self.log_results.config = "H2O"
+            self.log_results.config = "H2OAutoML"
             self.log_results.save_results(result_output_path=self.config.output_path)
-            #
-            # if run_mode == __gen_run_mode and results_verified:
-            #     log_results.train_auc = results["Train_AUC"]
-            #     log_results.train_auc_ovo = results["Train_AUC_OVO"]
-            #     log_results.train_auc_ovr = results["Train_AUC_OVR"]
-            #     log_results.train_accuracy = results["Train_Accuracy"]
-            #     log_results.train_f1_score = results["Train_F1_score"]
-            #     log_results.train_log_loss = results["Train_Log_loss"]
-            #     log_results.train_r_squared = results["Train_R_Squared"]
-            #     log_results.train_rmse = results["Train_RMSE"]
-            #     log_results.test_auc = results["Test_AUC"]
-            #     log_results.test_auc_ovo = results["Test_AUC_OVO"]
-            #     log_results.test_auc_ovr = results["Test_AUC_OVR"]
-            #     log_results.test_accuracy = results["Test_Accuracy"]
-            #     log_results.test_f1_score = results["Test_F1_score"]
-            #     log_results.test_log_loss = results["Test_Log_loss"]
-            #     log_results.test_r_squared = results["Test_R_Squared"]
-            #     log_results.test_rmse = results["Test_RMSE"]
 
         finally:
             con = h2o.connection()

@@ -26,16 +26,16 @@ CMD=./explocal/exp3_end_to_end/runExperiment3.sh
 
 
 # Small Datasets
-$CMD Balance-Scale multiclass
+#$CMD Balance-Scale multiclass
 # $CMD Breast-w binary
 # $CMD CMC multiclass
-$CMD Credit-g binary
+#$CMD Credit-g binary
 # $CMD Diabetes binary
 # $CMD Tic-Tac-Toe binary
-$CMD Eucalyptus multiclass
+#$CMD Eucalyptus multiclass
 # $CMD PC1 binary
 # $CMD Airlines binary
-$CMD Jungle-Chess multiclass
+#$CMD Jungle-Chess multiclass
 #$CMD Adult binary
 
 # Large Datasets

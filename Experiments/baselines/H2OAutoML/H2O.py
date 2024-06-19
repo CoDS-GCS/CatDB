@@ -188,10 +188,12 @@ class H2O(AutoML):
             elif self.dataset.task_type == "regression":
                 result_train = ml.leader.model_performance(test_data=train)
                 result_test = ml.leader.model_performance(test_data=test)
-                rr = ml.leader#.r2()
-                print(rr)
-                print(result_train)
-                print(result_test)
+
+                self.log_results.train_r_squared = result_train.r2()
+                self.log_results.train_rmse = result_train["RMSE"]
+
+                self.log_results.test_r_squared = result_test.r2()
+                self.log_results.test_rmse = result_test["RMSE"]
 
             self.log_results.status = "True"
             self.log_results.time_execution = time_execute

@@ -93,7 +93,7 @@ class FlamlAutoML(CatDBAutoML):
         self.log_results.number_iteration = self.config.iteration
         self.log_results.status = "True"
         self.log_results.time_execution = time_execute
-        self.log_results.config = "FlamlAutoML"
+        self.log_results.config = "Flaml"
         self.log_results.save_results(result_output_path=self.config.output_path)
 
 

@@ -26,7 +26,7 @@ CMD=./explocal/exp3_end_to_end/runExperiment3.sh
 
 
 # Small Datasets
-#$CMD Balance-Scale multiclass
+$CMD Balance-Scale multiclass
 # $CMD Breast-w binary
 # $CMD CMC multiclass
 #$CMD Credit-g binary
@@ -51,6 +51,6 @@ CMD=./explocal/exp3_end_to_end/runExperiment3.sh
 # $CMD Walking-Activity multiclass
 # $CMD PASS regression
 # $CMD Aloi regression
-$CMD MD-MIX-Mini regression
+#$CMD MD-MIX-Mini regression
 # $CMD Dionis regression
 # $CMD Meta-Album-BRD regression

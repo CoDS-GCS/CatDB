@@ -38,7 +38,8 @@ if __name__ == '__main__':
     
     df_pip_gen = pd.DataFrame(columns = columns)
     df_cost = pd.DataFrame(columns = ["ID","dataset_name","CatDB","CatDBChain","CAAFETabPFN","CAAFERandomForest"])
-    df_exe = pd.DataFrame(columns = ["ID","dataset_name","CatDB","CatDBChain","CAAFETabPFN","CAAFERandomForest"])
+    df_csv_read = load_results(f"{root_path}/Experiment1_CSVDataReader.dat")
+    df_exe = pd.DataFrame(columns = ["ID","dataset_name","CatDB","CatDBChain","CAAFETabPFN","CAAFERandomForest", "dataset_load_time"])
 
     for rp in results_path:
         df_catdb = load_results(rp)    
@@ -119,8 +120,9 @@ if __name__ == '__main__':
                              prompt_exe[f"{config}{cls}"] = f"{df_ds['time_total'].mean():.2f}"
                                 
 
-            df_cost.loc[len(df_cost)] = [ds_id, ds, prompt_cost["CatDB"], prompt_cost["CatDBChain"], prompt_cost["CAAFETabPFN"],prompt_cost["CAAFERandomForest"]]   
-            df_exe.loc[len(df_cost)] = [ds_id, ds, prompt_exe["CatDB"], prompt_exe["CatDBChain"], prompt_exe["CAAFETabPFN"],prompt_exe["CAAFERandomForest"]]      
+            df_cost.loc[len(df_cost)] = [ds_id, ds, prompt_cost["CatDB"], prompt_cost["CatDBChain"], prompt_cost["CAAFETabPFN"],prompt_cost["CAAFERandomForest"]]  
+            dataset_load_time = df_csv_read.loc[df_csv_read['dataset']==ds]["time"].values[0] / 1000
+            df_exe.loc[len(df_cost)] = [ds_id, ds, prompt_exe["CatDB"], prompt_exe["CatDBChain"], prompt_exe["CAAFETabPFN"],prompt_exe["CAAFERandomForest"], dataset_load_time]      
 
 
               

@@ -100,15 +100,14 @@ cd $path
 
 # Setup AutoML
 automl_path="${path}/Baselines/AutoML/"
-# rm -rf ${automl_path}
+#rm -rf ${automl_path}
 mkdir -p ${automl_path}
 
 cd ${root_path}
 cp -r baselines/* "${automl_path}/"
 
-cd ${automl_path}
-
 # # Install Auto Sklearn
+# cd ${automl_path}
 # cd AutoSklearnAutoML
 # rm -rf venv 
 # python -m venv venv
@@ -120,7 +119,8 @@ cd ${automl_path}
 # pip unistall -y pandas
 # pip install -U pandas==1.5.3
 
-# Install H2O AutoML
+# # Install H2O AutoML
+# cd ${automl_path}
 # cd H2OAutoML
 # rm -rf venv 
 # python -m venv venv
@@ -128,7 +128,8 @@ cd ${automl_path}
 # python -m pip install --upgrade pip
 # python -m pip install -r requirements.txt
 
-# Install Flaml AutoML
+# # Install Flaml AutoML
+# cd ${automl_path}
 # cd FlamlAutoML
 # rm -rf venv 
 # python -m venv venv
@@ -136,7 +137,8 @@ cd ${automl_path}
 # python -m pip install --upgrade pip
 # python -m pip install -r requirements.txt
 
-# Install Autogluon  AutoML
+# # Install Autogluon  AutoML
+# cd ${automl_path}
 # cd AutogluonAutoML
 # rm -rf venv 
 # python -m venv venv

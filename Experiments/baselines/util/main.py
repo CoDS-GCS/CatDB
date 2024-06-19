@@ -3,13 +3,14 @@ import yaml
 import os
 
 from util.Config import Config
-from util.Data import Dataset
+from util.Data import Dataset, reader_CSV
 
 
 def parse_arguments():
     parser = ArgumentParser()
     parser.add_argument('--metadata-path', type=str, default=None)
     parser.add_argument('--max-runtime-seconds', type=int, default=None)
+    parser.add_argument('--exe-runtime-path', type=str, default=None)
     parser.add_argument('--iteration', type=int, default=1)
     parser.add_argument('--jvm-memory', type=int, default=2 * 1024)
     parser.add_argument('--output-path', type=str, default=None)
@@ -19,9 +20,6 @@ def parse_arguments():
 
     if args.metadata_path is None:
         raise Exception("--metadata-path is a required parameter!")
-
-    if args.max_runtime_seconds is None:
-        raise Exception("--max-runtime-seconds is a required parameter!")
 
     if args.jvm_memory is not None:
         args.jvm_memory = args.jvm_memory * 1024
@@ -41,6 +39,14 @@ def parse_arguments():
 
         except yaml.YAMLError as ex:
             raise Exception(ex)
+
+    if args.max_runtime_seconds is None or args.exe_runtime_path is not None:
+        try:
+            df_exe = reader_CSV(args.exe_runtime_path)
+            df_exe = df_exe.loc[df_exe['dataset_name'] == args.dataset_name]
+            args.max_runtime_seconds = int(df_exe['CatDBChain'].values[0] - df_exe['dataset_load_time'].values[0])
+        except Exception as ex:
+            raise Exception("--max-runtime-seconds is a required parameter!")
 
     args.config = Config(jvm_memory=args.jvm_memory,
                     max_runtime_seconds=args.max_runtime_seconds,

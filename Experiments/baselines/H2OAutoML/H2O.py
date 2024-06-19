@@ -195,7 +195,7 @@ class H2O(AutoML):
             self.log_results.number_iteration = self.config.iteration
             self.log_results.status = "True"
             self.log_results.time_execution = time_execute
-            self.log_results.config = "H2OAutoML"
+            self.log_results.config = "H2O"
             self.log_results.save_results(result_output_path=self.config.output_path)
 
         finally:

@@ -10,6 +10,7 @@ def parse_arguments():
     parser = ArgumentParser()
     parser.add_argument('--metadata-path', type=str, default=None)
     parser.add_argument('--max-runtime-seconds', type=int, default=None)
+    parser.add_argument('--iteration', type=int, default=1)
     parser.add_argument('--jvm-memory', type=int, default=2 * 1024)
     parser.add_argument('--output-path', type=str, default=None)
     parser.add_argument('--output-dir', type=str, default=None)

@@ -192,6 +192,7 @@ class H2O(AutoML):
                 self.log_results.test_r_squared = result_test.r2()
                 self.log_results.test_rmse = result_test["RMSE"]
 
+            self.log_results.number_iteration = self.config.iteration
             self.log_results.status = "True"
             self.log_results.time_execution = time_execute
             self.log_results.config = "H2OAutoML"

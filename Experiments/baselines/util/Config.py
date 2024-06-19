@@ -12,7 +12,8 @@ class Config(object):
                  output_predictions_file_test: str = None,
                  output_dir: str = None,
                  name: str = None,
-                 output_path: str= None
+                 output_path: str= None,
+                 iteration: int= 1
                  ):
         self.nthreads = nthreads
         self.jvm_memory = jvm_memory
@@ -23,6 +24,7 @@ class Config(object):
         self.output_dir = output_dir
         self.name = name
         self.output_path = output_path
+        self.iteration = iteration
 
     def get_metrics(self, task_type: str):
         metrics = []

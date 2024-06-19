@@ -1,0 +1,6 @@
+PyYAML==6.0.1
+pandas
+autogluon
+scikit-learn
+arff
+psutil

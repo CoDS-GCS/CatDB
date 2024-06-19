@@ -9,9 +9,6 @@ import pandas as pd
 import re
 import h2o
 from h2o.automl import H2OAutoML
-from sklearn.metrics import accuracy_score, f1_score, roc_auc_score, log_loss
-from sklearn.metrics import r2_score, mean_squared_error
-import sklearn.metrics
 
 
 class H2O(AutoML):

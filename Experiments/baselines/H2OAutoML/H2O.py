@@ -9,6 +9,9 @@ import pandas as pd
 import re
 import h2o
 from h2o.automl import H2OAutoML
+from sklearn.metrics import accuracy_score, f1_score, roc_auc_score, log_loss
+from sklearn.metrics import r2_score, mean_squared_error
+import sklearn.metrics
 
 
 class H2O(AutoML):
@@ -128,12 +131,8 @@ class H2O(AutoML):
                      min_mem_size=jvm_memory,
                      max_mem_size=jvm_memory)
 
-            # import_kwargs = dict(escapechar='\\')
-            #
-            # import_kwargs['quotechar'] = '"'
             train = h2o.import_file(self.dataset.train_path)
             test = h2o.import_file(self.dataset.test_path)
-
 
             if self.dataset.task_type == 'binary' or self.dataset.task_type == 'multiclass':
                 train[self.dataset.target_attribute] = train[self.dataset.target_attribute].asfactor()
@@ -142,14 +141,10 @@ class H2O(AutoML):
             else:
                 pref_metric = "r2"
 
-            print(train)
-
             ml = H2OAutoML(max_runtime_secs=self.config.max_runtime_seconds,
                            sort_metric=pref_metric,
                            seed=self.config.seed,
-                           max_models = 20,
-                           exclude_algos = ["StackedEnsemble", "DeepLearning"],
-                           nfolds=-1
+                           exclude_algos = ["StackedEnsemble", "DeepLearning"]
                            )
 
             ml.train(y=self.dataset.target_attribute, training_frame=train)
@@ -157,22 +152,14 @@ class H2O(AutoML):
             if not ml.leader:
                 raise Exception("H2OAutoML could not produce any model in the requested time.")
 
-            # pred_train = ml.predict(train)
-            # pred_test = ml.predict(test)
-
-            # preds_train = self.extract_preds(pred_train, train, self.dataset.target_attribute)
-            # preds_test = self.extract_preds(pred_test, test, self.dataset.target_attribute)
             time_end = time.time()
             time_execute = time_end - time_start
 
-            # self.save_artifacts(ml)
-
-            result_train = ml.leader.model_performance(train)
-            result_test = ml.leader.model_performance(test)
-            print(result_train)
-
             # Extract Results
             if self.dataset.task_type == "binary":
+                result_train = ml.leader.model_performance(test_data=train)
+                result_test = ml.leader.model_performance(test_data=test)
+
                 self.log_results.train_auc = result_train["AUC"]
                 self.log_results.train_log_loss = result_train["LogLoss"]
                 self.log_results.train_rmse = result_train["RMSE"]
@@ -180,6 +167,31 @@ class H2O(AutoML):
                 self.log_results.test_auc = result_test["AUC"]
                 self.log_results.test_log_loss = result_test["LogLoss"]
                 self.log_results.test_rmse = result_test["RMSE"]
+
+            elif self.dataset.task_type == "multiclass":
+                result_train_ovo = ml.leader.model_performance(test_data=train, auc_type="macro_ovo")
+                result_train_ovr = ml.leader.model_performance(test_data=train, auc_type="macro_ovr")
+
+                result_test_ovo = ml.leader.model_performance(test_data=test, auc_type="macro_ovo")
+                result_test_ovr = ml.leader.model_performance(test_data=test, auc_type="macro_ovr")
+
+                self.log_results.train_auc_ovo = result_train_ovo["AUC"]
+                self.log_results.train_auc_ovr = result_train_ovr["AUC"]
+                self.log_results.train_log_loss = result_train_ovo["LogLoss"]
+                self.log_results.train_rmse = result_train_ovo["RMSE"]
+
+                self.log_results.test_auc_ovo = result_test_ovo["AUC"]
+                self.log_results.test_auc_ovr = result_test_ovr["AUC"]
+                self.log_results.test_log_loss = result_test_ovo["LogLoss"]
+                self.log_results.test_rmse = result_test_ovo["RMSE"]
+
+            elif self.dataset.task_type == "regression":
+                result_train = ml.leader.model_performance(test_data=train)
+                result_test = ml.leader.model_performance(test_data=test)
+                rr = ml.leader#.r2()
+                print(rr)
+                print(result_train)
+                print(result_test)
 
             self.log_results.status = "True"
             self.log_results.time_execution = time_execute

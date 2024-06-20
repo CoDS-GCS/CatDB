@@ -13,6 +13,8 @@ import time
 import datetime
 import yaml
 import os
+import re
+import numpy as np
 
 
 def parse_arguments():
@@ -77,13 +79,46 @@ def parse_arguments():
 
     if args.dataset_description.lower() == "yes":
         dataset_description_path = args.metadata_path.replace(".yaml", ".txt")
-        args.description = read_text_file_line_by_line(fname=dataset_description_path)
+        args.description = refactor_openml_description(read_text_file_line_by_line(fname=dataset_description_path))
         args.dataset_description = 'Yes'
     else:
         args.description = None
         args.dataset_description = 'No'
 
     return args
+
+
+def refactor_openml_description(description):
+    """Refactor the description of an openml dataset to remove the irrelevant parts."""
+    if description is None:
+        return None
+    splits = re.split("\n", description)
+    blacklist = [
+        "Please cite",
+        "Author",
+        "Source",
+        "Author:",
+        "Source:",
+        "Please cite:",
+    ]
+    sel = ~np.array(
+        [
+            np.array([blacklist_ in splits[i] for blacklist_ in blacklist]).any()
+            for i in range(len(splits))
+        ]
+    )
+    description = str.join("\n", np.array(splits)[sel].tolist())
+
+    splits = re.split("###", description)
+    blacklist = ["Relevant Papers"]
+    sel = ~np.array(
+        [
+            np.array([blacklist_ in splits[i] for blacklist_ in blacklist]).any()
+            for i in range(len(splits))
+        ]
+    )
+    description = str.join("\n\n", np.array(splits)[sel].tolist())
+    return description
 
 
 def clean_up(args, prompt_file_name):
@@ -107,6 +142,7 @@ def clean_up(args, prompt_file_name):
             os.remove(fn)
         except Exception as ex:
             pass
+
 
 def generate_and_run_pipeline(args, catalog, run_mode: str = None, sub_task: str = '', previous_result: str = None,
                               time_catalog: float = 0, iteration: int = 1):
@@ -143,7 +179,7 @@ def generate_and_run_pipeline(args, catalog, run_mode: str = None, sub_task: str
     prompt_file_name = f"{args.llm_model}-{prompt.class_name}-{args.dataset_description}-iteration-{iteration}"
     file_name = f'{args.output_path}/{prompt_file_name}'
 
-    clean_up(args=args, prompt_file_name= prompt_file_name)
+    clean_up(args=args, prompt_file_name=prompt_file_name)
     # if sub_task != '':
     #     file_name = f"{file_name}-{sub_task}"
 
@@ -151,7 +187,6 @@ def generate_and_run_pipeline(args, catalog, run_mode: str = None, sub_task: str
     save_prompt(fname=prompt_fname, system_message=prompt_system_message, user_message=prompt_user_message)
 
     # Generate LLM code
-    time_tmp_gen = 0
     code, prompt_token_count, time_tmp_gen = GenerateLLMCode.generate_llm_code(user_message=prompt_user_message,
                                                                                system_message=prompt_system_message)
     for i in range(5):
@@ -401,7 +436,8 @@ if __name__ == '__main__':
                                                    sub_task=__sub_task_model_selection,
                                                    previous_result=code, time_catalog=time_catalog,
                                                    iteration=begin_iteration)
-                    begin_iteration += 1
+                    if final_status:
+                        begin_iteration += 1
         elif args.prompt_representation_type == "AUTO":
             combinations = Metadata(catalog=catalog).get_combinations()
             for cmb in combinations:
@@ -416,6 +452,6 @@ if __name__ == '__main__':
             if final_status:
                 begin_iteration += 1
 
-        ti +=1
+        ti += 1
         if ti > t:
             break

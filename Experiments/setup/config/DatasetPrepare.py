@@ -64,7 +64,7 @@ def rename_col_names(data, ds_name, target_attribute, out_path):
     
     return target_attribute, nrows, ncols, number_classes    
 
-def save_config(dataset_name,target, task_type, data_out_path, setting_out_path, description=None):
+def save_config(dataset_name,target, task_type, data_out_path, description=None):
     config_strs = [f"- name: {dataset_name}",
                        "  dataset:",
                        f"    train: \'{{user}}/data/{dataset_name}/{dataset_name}_train.csv\'",
@@ -79,19 +79,16 @@ def save_config(dataset_name,target, task_type, data_out_path, setting_out_path,
     f_local = open(yaml_file_local, 'w')
     f_local.write("--- \n \n")
     f_local.write(config_str)
-    f_local.close()
+    f_local.close() 
 
-    yaml_file_benchmark = f'{setting_out_path}/{dataset_name}.yaml'
-    f = open(yaml_file_benchmark, 'w')
-    f.write("--- \n \n")
-    f.write(config_str)
-    f.close()   
-
-    if description is not None:
-        description_file = f'{data_out_path}/{dataset_name}/{dataset_name}.txt'
-        f = open(description_file, 'w')
-        f.write(description)
-        f.close()
+    des = description
+    if description is None:
+        des = ""
+        
+    description_file = f'{data_out_path}/{dataset_name}/{dataset_name}.txt'
+    f = open(description_file, 'w')
+    f.write(des)
+    f.close()
 
 if __name__ == '__main__':
     args = parse_arguments()

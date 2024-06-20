@@ -21,7 +21,7 @@ class GenerateLLMGemini:
         time_start = time.time()
 
         generation_config = {
-            "temperature": 0,
+            "temperature": 0.5,
             "top_p": 1,
             "top_k": 64,
             "max_output_tokens": 8192,

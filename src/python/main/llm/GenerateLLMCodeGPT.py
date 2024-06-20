@@ -24,7 +24,7 @@ class GenerateLLMCodeGPT:
         completion = client.chat.completions.create(
             messages=messages,
             model=_llm_model,
-            temperature=0
+            temperature=0.5
         )
         code = completion.choices[0].message.content
         # Refine code, keep all codes are between ```python and ```end

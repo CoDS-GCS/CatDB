@@ -32,14 +32,14 @@ cd $path
 
 # Setup CatDB
 #############
-# catdb_path="${path}/Baselines/CatDB/"
-# # rm -rf ${catdb_path}
-# mkdir -p ${catdb_path}
+catdb_path="${path}/Baselines/CatDB/"
+#rm -rf ${catdb_path}
+mkdir -p ${catdb_path}
 
-# cd ${root_path}
-# cd ..
-# cp -r src/python/main/* ${catdb_path}
-# cd ${catdb_path}
+cd ${root_path}
+cd ..
+cp -r src/python/main/* ${catdb_path}
+cd ${catdb_path}
 
 # rm -rf venv 
 # #cp -r ${venv_path} ${catdb_path} 
@@ -99,12 +99,12 @@ cd $path
 
 
 # Setup AutoML
-automl_path="${path}/Baselines/AutoML/"
-#rm -rf ${automl_path}
-mkdir -p ${automl_path}
+# automl_path="${path}/Baselines/AutoML/"
+# #rm -rf ${automl_path}
+# mkdir -p ${automl_path}
 
-cd ${root_path}
-cp -r baselines/* "${automl_path}/"
+# cd ${root_path}
+# cp -r baselines/* "${automl_path}/"
 
 # # Install Auto Sklearn
 # cd ${automl_path}

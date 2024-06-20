@@ -14,8 +14,11 @@ with_dataset_description=$8
 metadata_path="${data_path}/${dataset}/${dataset}.yaml"
 number_iteration=10
 number_iteration_error=20
+delay=60
 
 log_file_name="${exp_path}/results/Experiment1_LLM_Pipe_Gen.dat"
+date=$(date '+%Y-%m-%d-%H-%M-%S')
+system_log="${exp_path}/system-log-${date}.dat"
 
 output_path="${exp_path}/catdb-results/${dataset}"
 mkdir -p ${output_path}
@@ -37,10 +40,10 @@ SCRIPT="python -Wignore main.py --metadata-path ${metadata_path} \
         --output-path ${output_path} \
         --result-output-path ${result_output_path} \
         --dataset-description ${with_dataset_description} \
-        --error-output-path ${error_output_path}"
+        --error-output-path ${error_output_path} \
+        --delay ${delay} \
+        --system-log ${system_log}"
 
-# sudo echo 3 >/proc/sys/vm/drop_caches && sudo sync
-# sleep 3
 
 echo ${SCRIPT}
 

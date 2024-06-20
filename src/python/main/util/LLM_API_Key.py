@@ -16,7 +16,7 @@ class LLM_API_Key(object):
 
         self.platform_keys = {}
         aks = dict()
-        for ki in range(1, 5):
+        for ki in range(1, 10):
             try:
                 ID = f"{key}_{ki}"
                 api_key = os.environ.get(ID)

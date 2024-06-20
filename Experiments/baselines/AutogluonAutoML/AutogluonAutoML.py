@@ -91,6 +91,7 @@ class AutogluonAutoML(CatDBAutoML):
             self.log_results.test_rmse = mean_squared_error(y_test, y_test_pred, squared=False)
 
         self.log_results.number_iteration = self.config.iteration
+        self.log_results.llm_model = self.config.llm_model
         self.log_results.status = "True"
         self.log_results.time_execution = time_execute
         self.log_results.config = "Autogluon"

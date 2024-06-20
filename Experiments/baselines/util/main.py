@@ -16,6 +16,7 @@ def parse_arguments():
     parser.add_argument('--output-path', type=str, default=None)
     parser.add_argument('--output-dir', type=str, default=None)
     parser.add_argument('--dataset-path', type=str, default=None)
+    parser.add_argument('--llm-model', type=str, default=None)
     args = parser.parse_args()
 
     if args.metadata_path is None:
@@ -43,7 +44,8 @@ def parse_arguments():
     if args.max_runtime_seconds is None or args.exe_runtime_path is not None:
         try:
             df_exe = reader_CSV(args.exe_runtime_path)
-            df_exe = df_exe.loc[df_exe['dataset_name'] == args.dataset_name]
+            df_exe = df_exe.loc[(df_exe['dataset_name'] == args.dataset_name) &
+                                (df_exe['llm_model'] == args.llm_model)]
             args.max_runtime_seconds = int(df_exe['CatDBChain'].values[0] - df_exe['dataset_load_time'].values[0])
         except Exception as ex:
             raise Exception("--max-runtime-seconds is a required parameter!")
@@ -54,7 +56,7 @@ def parse_arguments():
                     output_predictions_file_train=f"{args.output_path}/{args.dataset_name}/train",
                     output_predictions_file_test=f"{args.output_path}/{args.dataset_name}/test",
                     output_dir=f"{args.output_dir}/{args.dataset_name}/",
-                    output_path=args.output_path)
+                    output_path=args.output_path, llm_model=args.llm_model)
 
     args.dataset = Dataset(dataset_name=args.dataset_name,
                       train_path=args.data_source_train_path,

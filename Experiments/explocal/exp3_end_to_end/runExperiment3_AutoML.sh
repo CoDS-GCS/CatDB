@@ -4,6 +4,7 @@ dataset=$1
 framework=$2
 max_runtime_seconds=$3
 iteration=$4
+llm_model=$5
 jvm_memory=20
 
 exp_path="$(pwd)"
@@ -24,7 +25,8 @@ CMD="python -Wignore main${framework}.py --metadata-path ${metadata_path} \
     --dataset-path ${exp_path} \
     --output-dir ${output_dir} \
     --iteration ${iteration} \
-    --exe-runtime-path ${exe_runtime_path}"
+    --exe-runtime-path ${exe_runtime_path} \
+    --llm-model ${llm_model}"
 
 cd "${framework}AutoML"
 source venv/bin/activate

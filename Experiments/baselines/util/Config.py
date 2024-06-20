@@ -13,7 +13,8 @@ class Config(object):
                  output_dir: str = None,
                  name: str = None,
                  output_path: str= None,
-                 iteration: int= 1
+                 iteration: int= 1,
+                 llm_model: str=None
                  ):
         self.nthreads = nthreads
         self.jvm_memory = jvm_memory
@@ -25,16 +26,4 @@ class Config(object):
         self.name = name
         self.output_path = output_path
         self.iteration = iteration
-
-    def get_metrics(self, task_type: str):
-        metrics = []
-        if task_type == 'binary':
-            metrics = ['logloss', 'acc', 'f1', 'auc', 'pr_auc']
-
-        elif task_type == 'multiclass':
-            metrics = ['logloss', 'acc', 'balacc', 'f1', 'auc_ovo', 'auc_ovr']
-
-        elif task_type == 'regression':
-            metrics = ['rmse', 'r2', 'mae', 'mse', 'rmsle']
-
-        return metrics
+        self.llm_model = llm_model

@@ -6,7 +6,9 @@ import time
 class GenerateLLMGemini:
     @staticmethod
     def generate_code_Gemini_LLM(user_message: str, system_message: str):
-        genai.configure(api_key=os.environ["GOOGLE_API_KEY"])
+        from util.Config import _LLM_API_Key
+        _, api_key = _LLM_API_Key.get_API_Key()
+        genai.configure(api_key=api_key)
         prompt = [system_message, user_message]
         message = "\n".join(prompt)
         code, number_of_tokens, time_gen = GenerateLLMGemini.__submit_Request_Gemini_LLM(messages=message)
@@ -14,10 +16,9 @@ class GenerateLLMGemini:
 
     @staticmethod
     def __submit_Request_Gemini_LLM(messages):
-        from util.Config import _delay
+        from util.Config import _LLM_API_Key, _llm_model
 
         time_start = time.time()
-        from util.Config import _llm_model
 
         generation_config = {
             "temperature": 0,
@@ -55,9 +56,9 @@ class GenerateLLMGemini:
             time_end = time.time()
             return code, number_of_tokens, time_end - time_start
 
-        except Exception as err:
-            #from util.Config import _delay
-            time.sleep(_delay)
+        except Exception:
+            _, api_key = _LLM_API_Key.get_API_Key()
+            genai.configure(api_key=api_key)
             return GenerateLLMGemini.__submit_Request_Gemini_LLM(messages)
 
     @staticmethod

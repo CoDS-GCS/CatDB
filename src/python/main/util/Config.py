@@ -15,6 +15,8 @@ from prompt.PromptChainTemplate import DataPreprocessingChainPrompt
 from prompt.PromptChainTemplate import FeatureEngineeringChainPrompt
 from prompt.PromptChainTemplate import ModelSelectionChainPrompt
 
+from .LLM_API_Key import LLM_API_Key
+
 __gen_run_mode = 'generate-and-run'
 __validation_run_mode = 'validation'
 
@@ -53,18 +55,25 @@ _system_delimiter = None
 _user_delimiter = None
 _max_token_limit = None
 _delay = 75
+_last_API_Key = None
+_LLM_API_Key = None
+_system_log_file = None
 
 
-def set_config(model, delay):
+def set_config(model, delay, system_log):
     global _llm_model
     global _llm_platform
     global _system_delimiter
     global _user_delimiter
     global _max_token_limit
     global _delay
+    global _last_API_Key
+    global _LLM_API_Key
+    global _system_log_file
 
     _llm_model = model
     _delay = delay
+    _system_log_file = system_log
 
     if model == "gpt-4":
         _llm_platform = _OPENAI
@@ -141,6 +150,7 @@ def set_config(model, delay):
     else:
         raise Exception(f"Model {model} is not implemented yet!")
 
+    _LLM_API_Key = LLM_API_Key()
 
 CATEGORICAL_RATIO: float = 0.01
 LOW_RATIO_THRESHOLD = 0.1

@@ -32,6 +32,8 @@ def parse_arguments():
     parser.add_argument('--result-output-path', type=str, default="/tmp/results.csv")
     parser.add_argument('--error-output-path', type=str, default="/tmp/catdb_error.csv")
     parser.add_argument('--run-code', type=bool, default=False)
+    parser.add_argument('--system-log', type=str, default="/tmp/catdb-system-log.dat")
+
     args = parser.parse_args()
 
     if args.metadata_path is None:
@@ -361,7 +363,7 @@ if __name__ == '__main__':
         __sub_task_feature_engineering, __sub_task_model_selection
 
     args = parse_arguments()
-    set_config(model=args.llm_model, delay=args.delay)
+    set_config(model=args.llm_model, delay=args.delay, system_log=args.system_log)
 
     if args.run_code == False:
         operation = generate_and_run_pipeline

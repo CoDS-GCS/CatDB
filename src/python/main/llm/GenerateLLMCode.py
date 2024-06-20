@@ -38,7 +38,7 @@ class GenerateLLMCode:
         elif _llm_platform == _OPENAI:
             return GenerateLLMCodeGPT.get_number_tokens(user_message=user_message, system_message=system_message)
         elif _llm_platform == _META:
-            return 0
+            return GenerateLLMCodeLLaMa.get_number_tokens(user_message=user_message, system_message=system_message)
         elif _llm_platform == _GOOGLE:
             prompt = [system_message, user_message]
             message = "\n".join(prompt)

@@ -1,27 +1,27 @@
-import os
 import re
 from groq import Groq
 import time
+import tiktoken
 
 
 class GenerateLLMCodeLLaMa:
     @staticmethod
     def generate_code_LLaMa_LLM(user_message: str, system_message: str):
-        GROQ_API_KEY = os.environ.get("GROQ_API_KEY")
-        client = Groq(api_key=GROQ_API_KEY)
+        from util.Config import _LLM_API_Key
+        _, api_key = _LLM_API_Key.get_API_Key()
+        client = Groq(api_key=api_key)
         messages = [
             {"role": "system", "content": system_message},
             {"role": "user", "content": user_message}
         ]
-        time_start = time.time()
-        code = GenerateLLMCodeLLaMa.__submit_Request_LLaMa_LLM(messages=messages, client=client)
-        time_end = time.time()
-        return code, 0, time_end - time_start
+        code, gen_time = GenerateLLMCodeLLaMa.__submit_Request_LLaMa_LLM(messages=messages, client=client)
+        return code, GenerateLLMCodeLLaMa.get_number_tokens(user_message=user_message, system_message=system_message), gen_time
 
     @staticmethod
     def __submit_Request_LLaMa_LLM(messages, client):
-        from util.Config import _llm_model, _delay
+        from util.Config import _llm_model, _LLM_API_Key
         try:
+            time_start = time.time()
             completion = client.chat.completions.create(
                 model=_llm_model,
                 messages=messages,
@@ -35,11 +35,11 @@ class GenerateLLMCodeLLaMa:
                 for code in code_blocks:
                     codes.append(code)
 
-                return "\n".join(codes)
+                return "\n".join(codes), time.time() - time_start
             else:
-                return content
-        except Exception as err:
-            time.sleep(_delay)
+                return content, time.time() - time_start
+        except Exception:
+            _, api_key = _LLM_API_Key.get_API_Key()
             return GenerateLLMCodeLLaMa.__submit_Request_LLaMa_LLM(messages, client)
 
     @staticmethod
@@ -69,3 +69,11 @@ class GenerateLLMCodeLLaMa:
         from .GenerateLLMCode import GenerateLLMCode
         text = GenerateLLMCode.refine_source_code(code=text)
         return text
+
+    @staticmethod
+    def get_number_tokens(user_message: str, system_message: str):
+        enc = tiktoken.get_encoding("cl100k_base")
+        enc = tiktoken.encoding_for_model("gpt-3.5-turbo")
+        token_integers = enc.encode(user_message + system_message)
+        num_tokens = len(token_integers)
+        return num_tokens

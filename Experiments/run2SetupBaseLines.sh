@@ -33,7 +33,7 @@ cd $path
 # Setup CatDB
 #############
 catdb_path="${path}/Baselines/CatDB/"
-#rm -rf ${catdb_path}
+rm -rf ${catdb_path}
 mkdir -p ${catdb_path}
 
 cd ${root_path}
@@ -41,90 +41,90 @@ cd ..
 cp -r src/python/main/* ${catdb_path}
 cd ${catdb_path}
 
-# rm -rf venv 
-# #cp -r ${venv_path} ${catdb_path} 
-# python -m venv venv
-# source venv/bin/activate
+rm -rf venv 
+#cp -r ${venv_path} ${catdb_path} 
+python -m venv venv
+source venv/bin/activate
 
-# # Then install the dependencies:
-# python -m pip install --upgrade pip
-# pip install torchvision 
-# python -m pip install -r requirements.txt
-# pip install pipreqs
+# Then install the dependencies:
+python -m pip install --upgrade pip
+pip install torchvision 
+python -m pip install -r requirements.txt
+pip install pipreqs
 
 # Prepare Config
 ################
-# config_path="${path}/config/"
-# cd ${config_path}
-# rm -rf venv
+config_path="${path}/config/"
+cd ${config_path}
+rm -rf venv
 
-# python -m venv venv
-# source venv/bin/activate
+python -m venv venv
+source venv/bin/activate
 
-# #Then install the dependencies:
-# python -m pip install --upgrade pip
-# python -m pip install -r requirements.txt
+#Then install the dependencies:
+python -m pip install --upgrade pip
+python -m pip install -r requirements.txt
 
 # Setup CAFFE
 #############
-# baselines_path="$path/Baselines"
-# cd ${baselines_path}
-# rm -rf CAAFE
-# git clone --branch catdb https://github.com/fathollahzadeh/CAAFE.git
+baselines_path="$path/Baselines"
+cd ${baselines_path}
+rm -rf CAAFE
+git clone --branch catdb https://github.com/fathollahzadeh/CAAFE.git
 
-# cd CAAFE
-# rm -rf venv
-# python3.9 -m venv venv
-# source venv/bin/activate
-# python3.9 -m pip install --upgrade pip
-# pip install torch==1.10.0+cu113 torchvision==0.11.1+cu113 torchaudio==0.10.0+cu113 -f https://download.pytorch.org/whl/cu113/torch_stable.html
-# python3.9 -m pip install -r requirements.txt
+cd CAAFE
+rm -rf venv
+python3.9 -m venv venv
+source venv/bin/activate
+python3.9 -m pip install --upgrade pip
+pip install torch==1.10.0+cu113 torchvision==0.11.1+cu113 torchaudio==0.10.0+cu113 -f https://download.pytorch.org/whl/cu113/torch_stable.html
+python3.9 -m pip install -r requirements.txt
 
 
-# Setup AutoML
-# automl_path="${path}/Baselines/AutoML/"
-# #rm -rf ${automl_path}
-# mkdir -p ${automl_path}
+Setup AutoML
+automl_path="${path}/Baselines/AutoML/"
+#rm -rf ${automl_path}
+mkdir -p ${automl_path}
 
-# cd ${root_path}
-# cp -r baselines/* "${automl_path}/"
+cd ${root_path}
+cp -r baselines/* "${automl_path}/"
 
-# # Install Auto Sklearn
-# cd ${automl_path}
-# cd AutoSklearnAutoML
-# rm -rf venv 
-# python -m venv venv
-# source venv/bin/activate
-# python -m pip install --upgrade pip
-# python -m pip install -r requirements.txt
-# pip uninstall -y numpy
-# pip install numpy==1.26.4
-# pip unistall -y pandas
-# pip install -U pandas==1.5.3
+# Install Auto Sklearn
+cd ${automl_path}
+cd AutoSklearnAutoML
+rm -rf venv 
+python -m venv venv
+source venv/bin/activate
+python -m pip install --upgrade pip
+python -m pip install -r requirements.txt
+pip uninstall -y numpy
+pip install numpy==1.26.4
+pip unistall -y pandas
+pip install -U pandas==1.5.3
 
-# # Install H2O AutoML
-# cd ${automl_path}
-# cd H2OAutoML
-# rm -rf venv 
-# python -m venv venv
-# source venv/bin/activate
-# python -m pip install --upgrade pip
-# python -m pip install -r requirements.txt
+# Install H2O AutoML
+cd ${automl_path}
+cd H2OAutoML
+rm -rf venv 
+python -m venv venv
+source venv/bin/activate
+python -m pip install --upgrade pip
+python -m pip install -r requirements.txt
 
-# # Install Flaml AutoML
-# cd ${automl_path}
-# cd FlamlAutoML
-# rm -rf venv 
-# python -m venv venv
-# source venv/bin/activate
-# python -m pip install --upgrade pip
-# python -m pip install -r requirements.txt
+# Install Flaml AutoML
+cd ${automl_path}
+cd FlamlAutoML
+rm -rf venv 
+python -m venv venv
+source venv/bin/activate
+python -m pip install --upgrade pip
+python -m pip install -r requirements.txt
 
-# # Install Autogluon  AutoML
-# cd ${automl_path}
-# cd AutogluonAutoML
-# rm -rf venv 
-# python -m venv venv
-# source venv/bin/activate
-# python -m pip install --upgrade pip
-# python -m pip install -r requirements.txt
+# Install Autogluon  AutoML
+cd ${automl_path}
+cd AutogluonAutoML
+rm -rf venv 
+python -m venv venv
+source venv/bin/activate
+python -m pip install --upgrade pip
+python -m pip install -r requirements.txt

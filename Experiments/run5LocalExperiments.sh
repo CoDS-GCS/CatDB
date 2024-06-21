@@ -21,16 +21,16 @@ CMD=./explocal/exp1_catalog/runExperiment1.sh
 #CMD=./explocal/exp3_end_to_end/runExperiment3.sh 
 
 
-$CMD Balance-Scale multiclass # Balance-Scale
-$CMD Breast-w binary # Breast-w
-$CMD CMC multiclass # CMC
-$CMD Credit-g binary # Credit-g
-$CMD Diabetes binary # Diabetes
-$CMD Tic-Tac-Toe binary # Tic-Tac-Toe
-$CMD Eucalyptus multiclass # Eucalyptus
-$CMD PC1 binary # PC1
-$CMD Airlines binary # Airlines
-$CMD Jungle-Chess multiclass # Jungle-Chess
+# $CMD Balance-Scale multiclass # Balance-Scale
+# $CMD Breast-w binary # Breast-w
+# $CMD CMC multiclass # CMC
+# $CMD Credit-g binary # Credit-g
+# $CMD Diabetes binary # Diabetes
+# $CMD Tic-Tac-Toe binary # Tic-Tac-Toe
+# $CMD Eucalyptus multiclass # Eucalyptus
+# $CMD PC1 binary # PC1
+# $CMD Airlines binary # Airlines
+# $CMD Jungle-Chess multiclass # Jungle-Chess
 
 # $CMD Higgs binary # Higgs
 # $CMD Skin binary # Skin

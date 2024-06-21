@@ -11,6 +11,9 @@ metadata_path="${data_path}/${dataset}/${dataset}.yaml"
 number_iteration=10
 result_output_path="${exp_path}/caafe-results/${dataset}"
 
+date=$(date '+%Y-%m-%d-%H-%M-%S')
+system_log="${exp_path}/system-log-${date}.dat"
+
 mkdir -p "${exp_path}/caafe-results"
 mkdir -p "${result_output_path}"
 
@@ -27,7 +30,8 @@ SCRIPT="python -Wignore main.py --metadata-path ${metadata_path} \
         --classifier ${classifier} \
         --delay 60 \
         --result-output-path ${result_output_path} \
-        --data-path ${exp_path}"
+        --data-path ${exp_path} \
+        --system-log ${system_log}"
 
 echo ${SCRIPT}
 $SCRIPT

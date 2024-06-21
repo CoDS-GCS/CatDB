@@ -21,8 +21,6 @@
         \addplot[xshift=#2,fill=#3, draw=black,line width=0.3pt] table[y=#1, col sep=comma, x=ID]{../archive/SIGMOD2025-Results/ExeResults.csv};
         \label{#1}    
     };
- 
-
   
 \begin{axis}[
   ybar,  
@@ -31,7 +29,7 @@
   y tick label style={/pgf/number format/1000 sep={}},
   x tick label style={/pgf/number format/1000 sep={}},
   scaled y ticks=false,
-  enlarge y limits={0.05,upper},
+  enlarge y limits={0.09,upper},
   enlarge x limits=0.04,
   ylabel={Execution Time [s]},
   xlabel={},
@@ -68,7 +66,7 @@
   \myaddplotcost{CAAFERandomForest}{0}{color4};
 \end{axis}
 
-\node [draw=none,inner sep=0, font=\normalsize, anchor=west] (leg1) at (rel axis cs: 0.1,0.85) {\shortstack[l]{
+\node [draw=none,inner sep=0, font=\normalsize, anchor=west] (leg1) at (rel axis cs: 0.05,0.68) {\shortstack[l]{
   \ref{CatDB} CatDB  \ \ \ \  \ref{CatDBChain} CatDBChain \ \ \ \  \ref{CAAFETabPFN} CAAFE+TabPFN  \ \ \ \  \ref{CAAFERandomForest} CAAFE+RandomForest 		
 	}};
 \end{tikzpicture}

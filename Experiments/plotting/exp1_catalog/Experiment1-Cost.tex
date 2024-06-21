@@ -30,12 +30,12 @@
   y tick label style={/pgf/number format/1000 sep={}},
   x tick label style={/pgf/number format/1000 sep={}},
   scaled y ticks=false,
-  enlarge y limits={0.05,upper},
+  enlarge y limits={0.09,upper},
   enlarge x limits=0.04,
   ylabel={$\#$ Tokens},
   xlabel={},
-  ytick={0,40000,80000,120000,160000},
-  yticklabels={0, 40k,80k,120k,1600k},
+  ytick={0,10000,20000,30000,40000},
+  yticklabels={0,10k,20k,30k,40k},
   ytick align=outside,
   xtick align=outside,
   xtick pos=left,
@@ -45,7 +45,7 @@
   xticklabel style = {font=\normalsize},
   xtick=data,
   xlabel style = {font=\normalsize, yshift=0pt},
-  height=0.4\columnwidth,
+  height=0.5\columnwidth,
   width=1.2\textwidth,
   ymajorgrids=true,
   % box extend=0.3,
@@ -67,7 +67,7 @@
   \myaddplotcost{CAAFERandomForest}{0}{color4};
 \end{axis}
 
-\node [draw=none,inner sep=0, font=\normalsize, anchor=west] (leg1) at (rel axis cs: 0.1,0.85) {\shortstack[l]{
+\node [draw=none,inner sep=0, font=\normalsize, anchor=west] (leg1) at (rel axis cs: 0.05,0.91) {\shortstack[l]{
   \ref{CatDB} CatDB  \ \ \ \  \ref{CatDBChain} CatDBChain \ \ \ \  \ref{CAAFETabPFN} CAAFE+TabPFN  \ \ \ \  \ref{CAAFERandomForest} CAAFE+RandomForest 		
 	}};
 \end{tikzpicture}

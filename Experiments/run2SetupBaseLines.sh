@@ -81,7 +81,7 @@ pip install torch==1.10.0+cu113 torchvision==0.11.1+cu113 torchaudio==0.10.0+cu1
 python3.9 -m pip install -r requirements.txt
 
 
-Setup AutoML
+## Setup AutoML
 automl_path="${path}/Baselines/AutoML/"
 #rm -rf ${automl_path}
 mkdir -p ${automl_path}

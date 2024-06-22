@@ -1,6 +1,7 @@
 #!/bin/bash
 
-sudo apt update
+sudo add-apt-repository ppa:deadsnakes/ppa
+sudo apt-get update
 sudo apt-get install -y openjdk-11-jdk-headless
 
 sudo apt-get install -y clang++

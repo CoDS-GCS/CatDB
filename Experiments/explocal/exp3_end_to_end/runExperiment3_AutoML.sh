@@ -5,7 +5,7 @@ framework=$2
 max_runtime_seconds=$3
 iteration=$4
 llm_model=$5
-jvm_memory=20
+jvm_memory=128
 
 exp_path="$(pwd)"
 data_path="${exp_path}/data"

@@ -31,7 +31,7 @@ def get_figure(name:str, caption:str):
     \\tikzsetnextfilename{@NAME} 
         \\begin{figure}[!ht]
             \\centering
-            \\input{aaa/@NAME.tex}
+            \\input{Experiment1/@NAME.tex}
             \\caption{@CAPTION}
         \\end{figure}  
     """
@@ -99,7 +99,7 @@ def extract_performance_plots(root, out):
 if __name__ == '__main__':
     
     root = "../results"
-    out = "../aaa"
+    out = "../Experiment1"
 
     extract_performance_plots(root=root, out=out)
 

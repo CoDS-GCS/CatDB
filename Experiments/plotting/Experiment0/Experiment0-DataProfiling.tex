@@ -10,7 +10,7 @@
 
 \begin{tikzpicture}[
   every axis/.style={
-  height=0.47\columnwidth,
+  height=0.43\columnwidth,
   width=1.4\columnwidth,  
   ymin=0,
   ymax=300000,
@@ -32,8 +32,8 @@
   %xtick style={draw=none},
   xtick pos=left,
   ytick pos=left,
-  yticklabel style = {font=\large},
-  ylabel style = {font=\large, yshift=-3pt, xshift=-2pt},
+  yticklabel style = {font=\normalsize},
+  ylabel style = {font=\normalsize, yshift=0pt, xshift=-5pt},
   xticklabel style = {font=\footnotesize, xshift=0pt, yshift=4pt, rotate=35, anchor=north east},
   ymajorgrids,
   grid style=dotted,
@@ -43,7 +43,7 @@
   every axis plot/.append style={line width=0.8pt,mark options={scale=1.5,solid}},  
   legend image post style={line width=.5pt},  
   xtick = data,
-  symbolic x coords={Balance-Scale,Breast-w,CMC,Credit-g,Diabetes,Tic-Tac-Toe,Eucalyptus,PC1,Jungle-Chess,Higgs,Skin,Traffic,Walking-Activity,Black-Friday,Bike-Sharing,House-Sales,NYC,Airlines},
+  symbolic x coords={Balance-Scale,Breast-w,CMC,Credit-g,Diabetes,Tic-Tac-Toe,Eucalyptus,PC1,Jungle-Chess,Higgs,Skin,Traffic,Walking-Activity,Black-Friday,Bike-Sharing,House-Sales,NYC,Airlines-DepDelay},
   legend image code/.code={\draw [#1] (0cm,-0.1cm) rectangle (0.2cm,0.1cm); },  
 %}
 ]  
@@ -75,7 +75,7 @@
   every axis plot/.append style={line width=0.8pt,mark options={scale=1.5,solid}},  
   legend image post style={line width=.5pt},  
   xtick = data,
-  symbolic x coords={Balance-Scale,Breast-w,CMC,Credit-g,Diabetes,Tic-Tac-Toe,Eucalyptus,PC1,Jungle-Chess,Higgs,Skin,Traffic,Walking-Activity,Black-Friday,Bike-Sharing,House-Sales,NYC,Airlines},
+  symbolic x coords={Balance-Scale,Breast-w,CMC,Credit-g,Diabetes,Tic-Tac-Toe,Eucalyptus,PC1,Jungle-Chess,Higgs,Skin,Traffic,Walking-Activity,Black-Friday,Bike-Sharing,House-Sales,NYC,Airlines-DepDelay},
   legend image code/.code={\draw [#1] (0cm,-0.1cm) rectangle (0.2cm,0.1cm); }, 
   ]   
   \addplotreader{tug};

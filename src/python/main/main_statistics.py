@@ -1,28 +1,17 @@
 from argparse import ArgumentParser
 from catalog.Catalog import load_data_source_profile
-from prompt.PromptBuilder import prompt_factory
-from llm.GenerateLLMCode import GenerateLLMCode
-from util.Config import PROMPT_FUNC
-from util.FileHandler import read_text_file_line_by_line
 import pandas as pd
 import yaml
-from pipegen.Metadata import Metadata
 
 
 def parse_arguments():
     parser = ArgumentParser()
-    parser.add_argument('--metadata-path', type=str, default=None)
+    parser.add_argument('--dataset-name', type=str, default=None)
     parser.add_argument('--data-profile-path', type=str, default=None)
-    parser.add_argument('--llm-model', type=str, default=None)
-    parser.add_argument('--dataset-description', type=str, default="yes")
     parser.add_argument('--log-file-name', type=str, default=None)
     parser.add_argument('--statistic-file-name', type=str, default=None)
-    parser.add_argument('--prompt-representation-type', type=str, default=None)
 
     args = parser.parse_args()
-
-    if args.metadata_path is None:
-        raise Exception("--metadata-path is a required parameter!")
 
     if args.log_file_name is None:
         raise Exception("--log-file-name is a required parameter!")
@@ -33,36 +22,6 @@ def parse_arguments():
     if args.data_profile_path is None:
         raise Exception("--data-profile-path is a required parameter!")
 
-    # read .yaml file and extract values:
-    with open(args.metadata_path, "r") as f:
-        try:
-            config_data = yaml.load(f, Loader=yaml.FullLoader)
-            args.dataset_name = config_data[0].get('name')
-            args.target_attribute = config_data[0].get('dataset').get('target')
-            args.task_type = config_data[0].get('dataset').get('type')
-            try:
-                args.data_source_train_path = config_data[0].get('dataset').get('train').replace("{user}/", "")
-                args.data_source_test_path = config_data[0].get('dataset').get('test').replace("{user}/", "")
-            except Exception as ex:
-                raise Exception(ex)
-
-            try:
-                args.number_folds = int(config_data[0].get('folds'))
-            except yaml.YAMLError as ex:
-                args.number_folds = 1
-
-        except yaml.YAMLError as ex:
-            raise Exception(ex)
-
-    if args.dataset_description.lower() == "yes":
-        dataset_description_path = args.metadata_path.replace(".yaml", ".txt")
-        args.description = read_text_file_line_by_line(fname=dataset_description_path)
-    else:
-        args.description = None
-
-    if args.prompt_representation_type is None:
-        args.prompt_representation_type = "AUTO"
-
     return args
 
 
@@ -70,7 +29,7 @@ if __name__ == '__main__':
     args = parse_arguments()
     catalog = load_data_source_profile(data_source_path=args.data_profile_path,
                                        file_format="JSON",
-                                       target_attribute=args.target_attribute,
+                                       target_attribute=None,
                                        enable_reduction=False)
     schema_info = catalog.schema_info
     profile_info = catalog.profile_info
@@ -88,54 +47,24 @@ if __name__ == '__main__':
         elif schema_info[k] == "int":
             nints += 1
 
-    if args.prompt_representation_type == "AUTO":
-        combinations = Metadata(catalog=catalog).get_combinations()
-    else:
-        combinations = [args.prompt_representation_type]
-
     try:
         df_1 = pd.read_csv(args.log_file_name)
-
     except Exception as err:
-        df_1 = pd.DataFrame(
-            columns=["dataset_name", "task_type", "llm_model", "has_description", "prompt_representation_type",
-                     "prompt_example_type", "prompt_number_example", "number_tokens", "number_bool", "number_int",
-                     "number_float", "number_string"])
+        df_1 = pd.DataFrame(columns=["dataset_name", "number_bool", "number_int", "number_float", "number_string"])
 
-    llm = GenerateLLMCode(model=args.llm_model)
-    for rt in combinations:
-        prompt = prompt_factory(catalog=catalog,
-                                representation_type=rt,
-                                example_type="Random",
-                                number_example=0,
-                                task_type=args.task_type,
-                                number_iteration=10,
-                                target_attribute=args.target_attribute,
-                                data_source_train_path=args.data_source_train_path,
-                                data_source_test_path=args.data_source_test_path,
-                                number_folds=args.number_folds,
-                                dataset_description=args.description)
-
-        # Generate LLM code
-        prompt_format = prompt.format(examples=None)
-        prompt_rule = prompt_format["rules"]
-        prompt_msg = prompt_format["question"]
-        ntokens = llm.get_number_tokens(prompt_rules=prompt_rule, prompt_message=prompt_msg)
-        df_1.loc[len(df_1)] = [args.dataset_name, args.task_type, args.llm_model, args.dataset_description, rt,
-                               "Random", 0, ntokens, nbools, nints, nfloats, nstrings]
-
+    df_1.loc[len(df_1)] = [args.dataset_name, nbools, nints, nfloats, nstrings]
     df_1.to_csv(args.log_file_name, index=False)
+
     try:
         df_2 = pd.read_csv(args.statistic_file_name)
 
     except Exception as err:
-        df_2 = pd.DataFrame(columns=["dataset_name", "col_index", "data_type", "with_dataset_description",
-                                "missing_values_count","total_values_count", "distinct_values_count","number_rows"])
+        df_2 = pd.DataFrame(columns=["dataset_name", "col_index", "data_type", "missing_values_count","total_values_count", "distinct_values_count","number_rows"])
 
     index = 0
     for k in profile_info.keys():
         pi = profile_info[k]
-        df_2.loc[index] = [args.dataset_name, index + 1, pi.short_data_type, args.dataset_description, pi.missing_values_count,
+        df_2.loc[index] = [args.dataset_name, index + 1, pi.short_data_type, pi.missing_values_count,
                                pi.total_values_count - pi.missing_values_count, pi.distinct_values_count, catalog.nrows]
         index += 1
 

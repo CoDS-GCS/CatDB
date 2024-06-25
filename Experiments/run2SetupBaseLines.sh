@@ -32,17 +32,16 @@ cd $path
 
 # Setup CatDB
 #############
-# catdb_path="${path}/Baselines/CatDB/"
-# rm -rf ${catdb_path}
-# mkdir -p ${catdb_path}
+catdb_path="${path}/Baselines/CatDB/"
+#rm -rf ${catdb_path}
+mkdir -p ${catdb_path}
 
-# cd ${root_path}
-# cd ..
-# cp -r src/python/main/* ${catdb_path}
-# cd ${catdb_path}
+cd ${root_path}
+cd ..
+cp -r src/python/main/* ${catdb_path}
+cd ${catdb_path}
 
 # rm -rf venv 
-# #cp -r ${venv_path} ${catdb_path} 
 # python -m venv venv
 # source venv/bin/activate
 
@@ -82,12 +81,12 @@ cd $path
 
 
 ## Setup AutoML
-automl_path="${path}/Baselines/AutoML/"
-rm -rf ${automl_path}
-mkdir -p ${automl_path}
+# automl_path="${path}/Baselines/AutoML/"
+# rm -rf ${automl_path}
+# mkdir -p ${automl_path}
 
-cd ${root_path}
-cp -r baselines/* "${automl_path}/"
+# cd ${root_path}
+# cp -r baselines/* "${automl_path}/"
 
 # # Install Auto Sklearn
 # cd ${automl_path}
@@ -112,13 +111,13 @@ cp -r baselines/* "${automl_path}/"
 # python -m pip install -r requirements.txt
 
 # Install Flaml AutoML
-cd ${automl_path}
-cd FlamlAutoML
-rm -rf venv 
-python3.9 -m venv venv
-source venv/bin/activate
-python3.9 -m pip install --no-cache-dir --upgrade pip
-python3.9 -m pip install --no-cache-dir -r requirements.txt
+# cd ${automl_path}
+# cd FlamlAutoML
+# rm -rf venv 
+# python -m venv venv
+# source venv/bin/activate
+# python -m pip install --no-cache-dir --upgrade pip
+# python -m pip install --no-cache-dir -r requirements.txt
 
 # # Install Autogluon  AutoML
 # cd ${automl_path}

@@ -16,4 +16,4 @@ Black-Friday,regression,kglidsplus,45166
 Bike-Sharing,regression,kglidsplus,36456
 House-Sales,regression,kglidsplus,36781
 NYC,regression,kglidsplus,42220
-Airlines,regression,kglidsplus,125131
+Airlines-DepDelay,regression,kglidsplus,125131

@@ -79,3 +79,11 @@ oml_dataset_10_rnc,Jungle-Chess-rnc,CatDB,14110,llama3-70b-8192,No
 oml_dataset_10_rnc,Jungle-Chess-rnc,CatDBChain,16544,llama3-70b-8192,No
 oml_dataset_10_rnc,Jungle-Chess-rnc,CAAFETabPFN,0,llama3-70b-8192,No
 oml_dataset_10_rnc,Jungle-Chess-rnc,CAAFERandomForest,0,llama3-70b-8192,No
+oml_dataset_26_rnc,Adult-rnc,CatDB,2076,gemini-1.5-pro-latest,No
+oml_dataset_26_rnc,Adult-rnc,CatDBChain,1647,gemini-1.5-pro-latest,No
+oml_dataset_26_rnc,Adult-rnc,CAAFETabPFN,0,gemini-1.5-pro-latest,No
+oml_dataset_26_rnc,Adult-rnc,CAAFERandomForest,0,gemini-1.5-pro-latest,No
+oml_dataset_26_rnc,Adult-rnc,CatDB,1825,llama3-70b-8192,No
+oml_dataset_26_rnc,Adult-rnc,CatDBChain,2017,llama3-70b-8192,No
+oml_dataset_26_rnc,Adult-rnc,CAAFETabPFN,0,llama3-70b-8192,No
+oml_dataset_26_rnc,Adult-rnc,CAAFERandomForest,0,llama3-70b-8192,No

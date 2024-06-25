@@ -19,3 +19,5 @@ ID,dataset_name,dataset_name_orig,CatDB,CatDBChain,CAAFETabPFN,CAAFERandomForest
 6,oml_dataset_9_rnc,Airlines-rnc,88.26,120.15,0,0,1.171,llama3-70b-8192,No
 10,oml_dataset_10_rnc,Jungle-Chess-rnc,11.85,25.12,156776.01,759.85,0.71,gemini-1.5-pro-latest,No
 10,oml_dataset_10_rnc,Jungle-Chess-rnc,14.49,9.08,0,0,0.71,llama3-70b-8192,No
+11,oml_dataset_26_rnc,Adult-rnc,5.45,17.43,0,0,0.962,gemini-1.5-pro-latest,No
+11,oml_dataset_26_rnc,Adult-rnc,38.71,4.48,0,0,0.962,llama3-70b-8192,No

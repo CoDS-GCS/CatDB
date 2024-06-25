@@ -66,7 +66,7 @@
   scaled y ticks=false,
   enlarge y limits={0.03,upper},
   enlarge x limits=0.005,
-  ylabel={AUC-ovr $\%$},
+  ylabel={AUC $\%$},
   xlabel={},
   ytick={0,0.2,0.4,0.6,0.8,1.0},
   yticklabels={0, 20, 40, 60, 80, 100},
@@ -103,9 +103,9 @@
   \addboxplot{CatDBChain}{Airlines-rnc}{llama3-70b-8192}{}{tugb}{tugb!150};
   
 
-  \addboxplot{CAAFE}{Airlines-rnc}{gemini-1.5-pro-latest}{-RandomForest}{white}{white};
-  \addboxplot{CAAFE}{Airlines-rnc}{gemini-1.5-pro-latest}{-RandomForest}{white}{white};
-  \addboxplot{CAAFE}{Airlines-rnc}{gemini-1.5-pro-latest}{-RandomForest}{white}{white};
+  \addboxplot{CAAFE}{Airlines-rnc}{gemini-1.5-pro-latest}{-TabPFN}{white}{white};
+  \addboxplot{CAAFE}{Airlines-rnc}{gemini-1.5-pro-latest}{-TabPFN}{tug!50}{tug};
+  \addboxplot{CAAFE}{Airlines-rnc}{gemini-1.5-pro-latest}{-TabPFN}{white}{white};
   
   \addboxplot{CAAFE}{Airlines-rnc}{gemini-1.5-pro-latest}{-RandomForest}{white}{white};
   \addboxplot{CAAFE}{Airlines-rnc}{gemini-1.5-pro-latest}{-RandomForest}{tug!50}{tug};
@@ -146,9 +146,9 @@
   legend image code/.code={\draw [#1] (0cm,-0.1cm) rectangle (0.2cm,0.1cm); }, 
   ]   
 
-    %\addcost{Airlines-rnc}{gemini-1.5-pro-latest}{lightgray!120}{0pt};
-    \addcost{Airlines-rnc}{gemini-1.5-pro-latest}{white}{0pt};
-    \addcost{Airlines-rnc}{llama3-70b-8192}{lightgray!70}{0pt};
+    %\addcost{Airlines-rnc}{gemini-1.5-pro-latest}{color8!10}{0pt};
+    \addcost{Airlines-rnc}{gemini-1.5-pro-latest}{color8!40}{0pt};
+    \addcost{Airlines-rnc}{llama3-70b-8192}{color8!70!}{0pt};
     
 \end{axis}
 

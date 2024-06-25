@@ -59,7 +59,8 @@ if __name__ == '__main__':
                   ("Eucalyptus","oml_dataset_7_rnc",9),
                   ("PC1","oml_dataset_8_rnc",5),
                   ("Airlines","oml_dataset_9_rnc",6),
-                  ("Jungle-Chess","oml_dataset_10_rnc",10)
+                  ("Jungle-Chess","oml_dataset_10_rnc",10),
+                  ("Adult","oml_dataset_26_rnc",11)
                 ]
     # ,
     #               ("Higgs","oml_dataset_11_rnc",11),

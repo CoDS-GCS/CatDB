@@ -81,10 +81,12 @@ def extract_performance_plots(root, out):
     plots = []
     for (ds,ds_title, task_type) in datasets:
         metric="auc"
+        metric_lbl = ""        
         if task_type == "multiclass":
             metric="auc_ovr"
+            metric_lbl="-ovr"
 
-        plot_performance = plot_template.replace("@DATASET",ds_title).replace("@METRIC",metric)
+        plot_performance = plot_template.replace("@DATASET",ds_title).replace("@METRIC",metric).replace("@MLBL", metric_lbl)
 
         plot_name = f"Experiment1-Performance-{ds}"
         save_template(plot_performance, f"{out}/{plot_name}.tex")        

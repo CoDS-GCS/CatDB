@@ -40,6 +40,7 @@ class GenerateLLMCodeLLaMa:
                 return content, time.time() - time_start
         except Exception:
             _, api_key = _LLM_API_Key.get_API_Key()
+            client = Groq(api_key=api_key)
             return GenerateLLMCodeLLaMa.__submit_Request_LLaMa_LLM(messages, client)
 
     @staticmethod

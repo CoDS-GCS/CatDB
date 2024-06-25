@@ -74,4 +74,4 @@ CMDCAAFE=./explocal/exp1_catalog/runExperiment1_LLM_CAAFE.sh
 # $CMDCAAFE ${dataset} gemini-1.5-pro-latest RandomForest No
 
 $CMDCAAFE ${dataset} llama3-70b-8192 TabPFN No
-$CMDCAAFE ${dataset} llama3-70b-8192 RandomForest No
+#$CMDCAAFE ${dataset} llama3-70b-8192 RandomForest No

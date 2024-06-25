@@ -1,0 +1,235 @@
+
+% \begin{tikzpicture}
+%   \begin{axis}[
+%       width=0.8\textwidth,
+%       ybar,
+%       enlargelimits=0.15,
+%       ylabel={\#Pathes},
+%       ymode=log,
+%       log ticks with fixed point,
+%       xlabel={Test},
+%       symbolic x coords={1 - 10, 11 - 100, 101 - 1000, 1001 - 10000, >10000},
+%       xtick=data,
+%       nodes near coords={\pgfmathprintnumber{\pgfplotspointmeta}},
+%       nodes near coords align={vertical},
+%       legend style={at={(0.5,-2.75em)},anchor=north, draw=none, anchor=north, legend columns=-1, legend  style={/tikz/every even column/.append style={column sep=0.5cm}}}
+%   ]
+%       \addplot coordinates {(1 - 10, 20551) (11 - 100, 19784) (101 - 1000, 2436) (1001 - 10000, 149) (>10000, 12)};
+%       \addplot coordinates {(1 - 10,4) (11 - 100,4) (101 - 1000,4) (1001 - 10000, 0) (>10000, 0)};
+%   \legend{used,understood,not understood}
+%   \end{axis}
+%   \end{tikzpicture}
+
+\begin{tikzpicture}
+
+   \newcommand{\myaddplotexe}[4]{
+        \addplot[xshift=#4,fill=#3, draw=black,line width=0.3pt] table[y=#1, col sep=comma, x=dataset_name_orig, discard if singlconfig={No}{#2}]{../archive/SIGMOD2025-Results/ExeResults.csv};
+        \label{#1_#2}    
+    };
+
+\pgfplotsset{
+    discard if singlconfig/.style n args={2}{
+        x filter/.code={
+            \edef\tempa{\thisrow{has_description}}
+            \edef\tempb{#1}
+            \ifx\tempa\tempb
+              \edef\tempc{\thisrow{llm_model}}
+                \edef\tempd{#2}
+                  \ifx\tempc\tempd                  
+                  \else
+                  \def\pgfmathresult{inf}
+                  \fi
+            \else
+            \def\pgfmathresult{inf}
+            \fi			
+        }
+    },
+};   
+
+
+\begin{groupplot}[
+  group style={
+        group name=my fancy plots,
+        group size=1 by 2,
+        xticklabels at=edge bottom,
+        vertical sep=4pt
+    }, 
+    ybar, 
+    ymode=log,      
+    %yminorticks=true,  
+  y tick label style={/pgf/number format/1000 sep={}},
+  x tick label style={/pgf/number format/1000 sep={}},  
+  scaled y ticks=false,
+  axis line style={black, line width=0.3pt},
+  enlarge y limits={0.1,upper},
+  enlarge x limits=0.04,
+  ylabel={Execution Time [min.]},
+  xlabel={},
+  log ticks with fixed point,
+  xtick align=outside,
+  xtick pos=left,
+  ytick pos=left,
+  yticklabel style = {font=\footnotesize},
+  ylabel style = {font=\normalsize, yshift=0pt, xshift=20pt},
+  height=0.35\columnwidth,
+  width=1.4\columnwidth,
+  ymajorgrids=true,
+  grid style=dotted,
+  minor grid style={gray!70},
+  nodes near coords,
+  every node near coord/.append style={font=\fontsize{0.1pt}{0.1}, rotate=90, xshift=8pt, yshift=0pt},
+  every axis plot/.append style={line width=0.8pt,mark options={scale=1.5,solid}},  
+  xticklabel style = {font=\footnotesize, xshift=-5pt, yshift=16pt, rotate=0, anchor=north east},
+  legend image post style={line width=.5pt},   
+  log origin y=infty,  
+  max space between ticks=5
+]
+ \nextgroupplot[bar width=3pt,   
+              ymin=0.1, %0.001, 
+              ytick={0.1,1,10,100,1000,10000},
+              yticklabels={0, 1,10,100,1000,10000},            
+              every x tick/.style={ thick,gray, xshift=-4.5pt,yshift=1.5pt},
+              xtick = data,
+              symbolic x coords={Balance-Scale,Breast-w,CMC,Credit-g,Diabetes,Tic-Tac-Toe,Eucalyptus,PC1,Jungle-Chess,Higgs,Skin,Traffic,Walking-Activity,Black-Friday,Bike-Sharing,House-Sales,NYC,Airlines-DepDelay},
+              xticklabels={},
+              ylabel={},
+              xtick style={draw=none},
+              legend image code/.code={\draw [#1] (0cm,-0.1cm) rectangle (0.15cm,0.1cm); 
+  }, 
+  xticklabel style = {font=\footnotesize, xshift=0pt, yshift=-10pt, rotate=35, anchor=north east},] 
+ \myaddplotexe{CatDB_min}{llama3-70b-8192}{tug}{0pt};
+ \myaddplotexe{CatDBChain_min}{llama3-70b-8192}{tugb}{-2pt};
+ \myaddplotexe{CAAFETabPFN_min}{llama3-70b-8192}{color3}{-4pt};
+ \myaddplotexe{CAAFERandomForest_min}{llama3-70b-8192}{color4}{-6pt};
+ \node [draw=none,inner sep=0, font=\normalsize, anchor=west] (leg1) at (rel axis cs: 0.05,0.8) {Llama3-70b-8192};
+
+%
+ \nextgroupplot[bar width=3pt,   
+              ymin=0.1, %0.001, 
+              ytick={0.1,1,10,100,1000,10000},
+              yticklabels={0, 1,10,100,1000,10000},            
+              every x tick/.style={ thick,gray, xshift=-4.5pt,yshift=1.5pt},
+              xtick = data,
+              symbolic x coords={Balance-Scale,Breast-w,CMC,Credit-g,Diabetes,Tic-Tac-Toe,Eucalyptus,PC1,Jungle-Chess,Higgs,Skin,Traffic,Walking-Activity,Black-Friday,Bike-Sharing,House-Sales,NYC,Airlines-DepDelay},
+              legend image code/.code={\draw [#1] (0cm,-0.1cm) rectangle (0.15cm,0.1cm); }, 
+              xticklabel style = {font=\footnotesize, xshift=0pt, yshift=-10pt, rotate=35, anchor=north east},] 
+ \myaddplotexe{CatDB_min}{gemini-1.5-pro-latest}{tug}{0pt};
+ \myaddplotexe{CatDBChain_min}{gemini-1.5-pro-latest}{tugb}{-2pt};
+ \myaddplotexe{CAAFETabPFN_min}{gemini-1.5-pro-latest}{color3}{-4pt};
+ \myaddplotexe{CAAFERandomForest_min}{gemini-1.5-pro-latest}{color4}{-6pt};
+
+ \node [draw=none,inner sep=0, font=\normalsize, anchor=west] (leg1) at (rel axis cs: 0.05,0.8) {Gemini-1.5-pro};
+
+\end{groupplot}%
+
+\end{tikzpicture}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+% \begin{tikzpicture}[scale=1, node distance=6.0mm]
+
+%  \newcommand{\myaddplotexe}[4]{
+%         \addplot[xshift=#4,fill=#3, draw=black,line width=0.3pt] table[y=#1, col sep=comma, x=dataset_name_orig, discard if singlconfig={No}{#2}]{../archive/SIGMOD2025-Results/ExeResults.csv};
+%         \label{#1_#2}    
+%     };
+
+% \pgfplotsset{
+%     discard if singlconfig/.style n args={2}{
+%         x filter/.code={
+%             \edef\tempa{\thisrow{has_description}}
+%             \edef\tempb{#1}
+%             \ifx\tempa\tempb
+%               \edef\tempc{\thisrow{llm_model}}
+%                 \edef\tempd{#2}
+%                   \ifx\tempc\tempd                  
+%                   \else
+%                   \def\pgfmathresult{inf}
+%                   \fi
+%             \else
+%             \def\pgfmathresult{inf}
+%             \fi			
+%         }
+%     },
+% };    
+  
+% \begin{axis}[  
+%   ymin=0,
+%   %ymode=log,
+%   ybar,  
+%   y tick label style={/pgf/number format/1000 sep={}},
+%   x tick label style={/pgf/number format/1000 sep={}},
+%   scaled y ticks=false,
+%   enlarge y limits={0.09,upper},
+%   enlarge x limits=0.04,
+%   ylabel={Execution Time [s]},
+%   xlabel={},
+%   %ytick={0,40000,80000,120000,160000},
+%   %yticklabels={0, 40k,80k,120k,1600k},
+%   ytick align=outside,
+%   xtick align=outside,
+%   xtick pos=left,
+%   ytick pos=left,
+%   yticklabel style = {font=\normalsize},
+%   ylabel style = {font=\normalsize, yshift=-5pt},
+%   xlabel style = {font=\normalsize, yshift=0pt},
+%   height=0.46\columnwidth,
+%   width=1.2\textwidth,
+%   ymajorgrids=true,
+%   % box extend=0.3,
+%   grid style=dotted,
+%   minor grid style={gray!70},
+%   nodes near coords,
+%   every node near coord/.append style={font=\fontsize{5.5pt}{0.1}, rotate=90, xshift=8pt, yshift=-4pt},
+%   every axis plot/.append style={line width=0.8pt,mark options={scale=1.5,solid}},  
+%   xticklabel style = {font=\footnotesize, xshift=0pt, yshift=4pt, rotate=35, anchor=north east},
+%   legend image post style={line width=.5pt},   
+%   boxplot/draw direction=y,
+%   bar width=4.5pt,
+%   xtick = data,
+%   symbolic x coords={Balance-Scale,Breast-w,CMC,Credit-g,Diabetes,Tic-Tac-Toe,Eucalyptus,PC1,Jungle-Chess,Higgs,Skin,Traffic,Walking-Activity,Black-Friday,Bike-Sharing,House-Sales,NYC,Airlines-DepDelay},
+%   legend image code/.code={\draw [#1] (0cm,-0.1cm) rectangle (0.15cm,0.1cm); }, 
+%   ]
+%   \myaddplotexe{CatDB}{gemini-1.5-pro-latest}{tug}{0pt};
+%   % \myaddplotexe{CatDB}{gemini-1.5-pro-latest}{tug}{0pt};
+%   % \myaddplotexe{CatDB}{gemini-1.5-pro-latest}{tug}{0pt};
+%   % \myaddplotexe{CatDB}{gemini-1.5-pro-latest}{tug}{0pt};
+%   % \myaddplotexe{CatDB}{gemini-1.5-pro-latest}{tug}{0pt};
+%   % \myaddplotexe{CatDB}{gemini-1.5-pro-latest}{tug}{0pt};
+%   % \myaddplotexe{CatDB}{gemini-1.5-pro-latest}{tug}{0pt};
+%   % \myaddplotexe{CatDB}{gemini-1.5-pro-latest}{tug}{0pt};
+%   % \myaddplotexe{CatDB}{gemini-1.5-pro-latest}{tug}{0pt};
+%   % \myaddplotexe{CatDB}{gemini-1.5-pro-latest}{tug}{0pt};
+%   % \myaddplotexe{CatDB}{gemini-1.5-pro-latest}{tug}{0pt};
+%   % \myaddplotexe{CatDB}{gemini-1.5-pro-latest}{tug}{0pt};
+%   %\myaddplotexe{CatDBChain}{gemini-1.5-pro-latest}{tugb}{0pt};
+%   %\myaddplotexe{CAAFETabPFN}{gemini-1.5-pro-latest}{color3}{0pt};
+%   %\myaddplotexe{CAAFERandomForest}{gemini-1.5-pro-latest}{color5}{0pt};
+
+%   % \myaddplotexe{CatDBChain}{0}{tugb};
+%   % \myaddplotexe{CAAFETabPFN}{0}{color3};
+%   % \myaddplotexe{CAAFERandomForest}{0}{color4};
+% \end{axis}
+
+% % \node [draw=none,inner sep=0, font=\normalsize, anchor=west] (leg1) at (rel axis cs: 0.05,0.68) {\shortstack[l]{
+% %   \ref{CatDB} CatDB  \ \ \ \  \ref{CatDBChain} CatDBChain \ \ \ \  \ref{CAAFETabPFN} CAAFE+TabPFN  \ \ \ \  \ref{CAAFERandomForest} CAAFE+RandomForest 		
+% % 	}};
+% \end{tikzpicture}

@@ -1,0 +1,15 @@
+dataset_name,dataset_name_orig,CatDB,CatDBChain,CAAFETabPFN,CAAFERandomForest,dataset_load_time,llm_model,has_description
+oml_dataset_12_rnc,Skin,250.48,93.55,0,0,0.9,gemini-1.5-pro-latest,No
+oml_dataset_12_rnc,Skin,245.85,24.60,0,0,0.9,llama3-70b-8192,No
+oml_dataset_19_rnc,Traffic,43.98,97.65,0,0,18.136,llama3-70b-8192,No
+oml_dataset_20_rnc,Walking-Activity,24.52,45.26,0,0,0.826,llama3-70b-8192,No
+oml_dataset_21_rnc,Black-Friday,128.99,43.18,0,0,1.077,gemini-1.5-pro-latest,No
+oml_dataset_22_rnc,Bike-Sharing,29.83,31.37,0,0,0.753,llama3-70b-8192,No
+oml_dataset_23_rnc,House-Sales,28.28,24.66,0,0,0.801,gemini-1.5-pro-latest,No
+oml_dataset_23_rnc,House-Sales,33.49,6.27,0,0,0.801,llama3-70b-8192,No
+oml_dataset_24_rnc,NYC,124.64,107.63,0,0,1.571,gemini-1.5-pro-latest,No
+oml_dataset_24_rnc,NYC,624.81,1824.06,0,0,1.571,llama3-70b-8192,No
+oml_dataset_25_rnc,Airlines-DepDelay,7013.12,856.01,0,0,9.977,gemini-1.5-pro-latest,No
+oml_dataset_25_rnc,Airlines-DepDelay,31833.76,38797.79,0,0,9.977,llama3-70b-8192,No
+oml_dataset_11_rnc,Higgs,4516.30,1609.05,0,0,76.784,gemini-1.5-pro-latest,No
+oml_dataset_11_rnc,Higgs,7418.21,8209.18,0,0,76.784,llama3-70b-8192,No

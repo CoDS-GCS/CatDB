@@ -1,0 +1,89 @@
+\newcommand{\myaddplot}[1]{
+  \addplot[fill=#1, draw=#1,line width=0.4pt] table[y=time, col sep=comma, x=dataset]{../archive/SIGMOD2025-Results/Experiment1-Profiling.dat};
+  \label{total_time}    
+};
+
+\newcommand{\addplotreader}[1]{
+\addplot[fill=#1, draw=#1,line width=0.4pt] table[y=time, col sep=comma, x=dataset]{../archive/SIGMOD2025-Results/Experiment1-DataReader.dat};
+  \label{reader_time}    
+};
+
+\begin{tikzpicture}[
+  every axis/.style={
+  height=0.47\columnwidth,
+  width=1.4\columnwidth,  
+  ymin=0,
+  ymax=300000,
+  }]
+ \begin{axis}[   
+  every major tick/.append style={ thick,major tick length=2.5pt, gray},
+  axis line style={black},
+  ybar,     
+  log ticks with fixed point,
+  y tick label style={/pgf/number format/1000 sep={}},
+  x tick label style={/pgf/number format/1000 sep={}},
+  scaled y ticks=false,
+  enlarge y limits={0.03,upper},
+  enlarge x limits=0.03,
+  ylabel={Execution Time [s]},
+  %xlabel={},
+  ytick={0,50000,100000,200000,300000},
+  yticklabels={0,50, 100, 200, 300},
+  %xtick style={draw=none},
+  xtick pos=left,
+  ytick pos=left,
+  yticklabel style = {font=\large},
+  ylabel style = {font=\large, yshift=-3pt, xshift=-2pt},
+  xticklabel style = {font=\footnotesize, xshift=0pt, yshift=4pt, rotate=35, anchor=north east},
+  ymajorgrids,
+  grid style=dotted,
+  minor grid style={gray!80, dotted},
+  nodes near coords,
+  every node near coord/.style={font=\fontsize{0.1pt}{0.1}, rotate=0},
+  every axis plot/.append style={line width=0.8pt,mark options={scale=1.5,solid}},  
+  legend image post style={line width=.5pt},  
+  xtick = data,
+  symbolic x coords={Balance-Scale,Breast-w,CMC,Credit-g,Diabetes,Tic-Tac-Toe,Eucalyptus,PC1,Jungle-Chess,Higgs,Skin,Traffic,Walking-Activity,Black-Friday,Bike-Sharing,House-Sales,NYC,Airlines},
+  legend image code/.code={\draw [#1] (0cm,-0.1cm) rectangle (0.2cm,0.1cm); },  
+%}
+]  
+  \myaddplot{tugb};
+
+\end{axis}
+
+\begin{axis}[
+  axis y line*=right,
+  axis x line=none,  
+  ybar,        
+  log ticks with fixed point,
+  y tick label style={/pgf/number format/1000 sep={}},
+  x tick label style={/pgf/number format/1000 sep={}},
+  scaled y ticks=false,
+  enlarge y limits={0.03,upper},
+  enlarge x limits=0.03,
+  ylabel={Execution Time [s]},
+  ylabel={},
+  xlabel={},
+  ytick={},
+  yticklabels={},
+  ytick style={draw=none},
+  yticklabel style = {font=\large},
+  ylabel style = {font=\large, yshift=-3pt},
+  xticklabel style = {font=\footnotesize, xshift=0pt, yshift=4pt, rotate=35, anchor=north east},
+  nodes near coords,
+  every node near coord/.style={font=\fontsize{0.1pt}{0.1}, rotate=0},
+  every axis plot/.append style={line width=0.8pt,mark options={scale=1.5,solid}},  
+  legend image post style={line width=.5pt},  
+  xtick = data,
+  symbolic x coords={Balance-Scale,Breast-w,CMC,Credit-g,Diabetes,Tic-Tac-Toe,Eucalyptus,PC1,Jungle-Chess,Higgs,Skin,Traffic,Walking-Activity,Black-Friday,Bike-Sharing,House-Sales,NYC,Airlines},
+  legend image code/.code={\draw [#1] (0cm,-0.1cm) rectangle (0.2cm,0.1cm); }, 
+  ]   
+  \addplotreader{tug};
+    
+\end{axis}
+
+\node [draw=none,inner sep=0, font=\normalsize, anchor=west] (leg1) at (rel axis cs: 0.07,0.80) {\shortstack[l]{
+  \ref{total_time} Total Data Profiling Time \\
+  \ref{reader_time} Dataset Read Time }};
+
+\end{tikzpicture}

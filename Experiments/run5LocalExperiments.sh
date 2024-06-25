@@ -57,22 +57,24 @@ $CMD oml_dataset_5_rnc binary # Diabetes
 $CMD oml_dataset_6_rnc binary # Tic-Tac-Toe
 $CMD oml_dataset_7_rnc multiclass # Eucalyptus
 $CMD oml_dataset_8_rnc binary # PC1
-$CMD oml_dataset_9_rnc binary # Airlines
 $CMD oml_dataset_10_rnc multiclass # Jungle-Chess
 
 # $CMD oml_dataset_11_rnc binary # Higgs
 # $CMD oml_dataset_12_rnc binary # Skin
-# $CMD oml_dataset_13_rnc binary # Click-Prediction
-# $CMD oml_dataset_14_rnc binary # Census-Augmented
-# $CMD oml_dataset_15_rnc binary # Heart-Statlog
-# $CMD oml_dataset_16_rnc multiclass # KDDCup99
-# $CMD oml_dataset_17_rnc multiclass # Road-Safety
-# $CMD oml_dataset_18_rnc multiclass # Drug-Directory
 # $CMD oml_dataset_19_rnc multiclass # Traffic
 # $CMD oml_dataset_20_rnc multiclass # Walking-Activity
+
 # $CMD oml_dataset_21_rnc regression # Black-Friday
 # $CMD oml_dataset_22_rnc regression # Bike-Sharing
 # $CMD oml_dataset_23_rnc regression # House-Sales
 # $CMD oml_dataset_24_rnc regression # NYC
 # $CMD oml_dataset_25_rnc regression # Airlines-DepDelay
+
 # $CMD oml_dataset_26_rnc binary # Adult
+# $CMD oml_dataset_14_rnc binary # Census-Augmented
+# $CMD oml_dataset_15_rnc binary # Heart-Statlog
+# $CMD oml_dataset_9_rnc binary # Airlines
+# $CMD oml_dataset_13_rnc binary # Click-Prediction
+# $CMD oml_dataset_16_rnc multiclass # KDDCup99
+# $CMD oml_dataset_17_rnc multiclass # Road-Safety
+# $CMD oml_dataset_18_rnc multiclass # Drug-Directory

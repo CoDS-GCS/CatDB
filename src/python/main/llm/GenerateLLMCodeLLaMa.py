@@ -25,7 +25,7 @@ class GenerateLLMCodeLLaMa:
             completion = client.chat.completions.create(
                 model=_llm_model,
                 messages=messages,
-                temperature=0.5
+                temperature=0
             )
             content = completion.choices[0].message.content
             content = GenerateLLMCodeLLaMa.__refine_text(content)

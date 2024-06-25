@@ -22,8 +22,8 @@
     axis line style={gray},
     ymin=0,
     %xmin=1,
-    xmax=@XMAX,
-    ymax=@YMAX,
+    xmax=12,
+    ymax=17379,
     tick label style={/pgf/number format/fixed},
     %y tick label style={/pgf/number format/1000 sep={}},
     %x tick label style={/pgf/number format/1000 sep={}},
@@ -34,9 +34,9 @@
     enlarge y limits=false,
     ylabel={Samples},
     xlabel={\# Column},
-    xtick=@XTICK,
-    ytick=@YTICK,
-    yticklabels=@YTICKLABELS,
+    xtick={3,6,9,12,15},
+    ytick={0,7000,14000,21000,28000},
+    yticklabels={0,7e3,14e3,21e3,28e3},
     ytick align=outside,
     xtick align=outside,
     xtick pos=left,
@@ -46,7 +46,7 @@
     xticklabel style = {font=\normalsize, xshift=0pt},
     height=0.4\columnwidth,
     width=0.38\columnwidth,    
-    bar width=@BARWIDTH\columnwidth,	 
+    bar width=0.027777777777777776\columnwidth,	 
     %ymajorgrids=true,
     %grid style=dotted,   
     %minor grid style={gray!50}, 
@@ -55,11 +55,11 @@
 ]
 
 \begin{axis}
-  \addplotStatistics{@DATASET};	  	  
+  \addplotStatistics{../archive/SIGMOD2025-Results/statistics/Bike-Sharing_statistics.dat};	  	  
 \end{axis}
 
 \begin{axis} [hide axis]
-  \addplotDistinct{@DATASET};	  	  
+  \addplotDistinct{../archive/SIGMOD2025-Results/statistics/Bike-Sharing_statistics.dat};	  	  
 \end{axis}
 
 \node [draw=none,inner sep=0, font=\footnotesize, anchor=west] (leg1) at (rel axis cs: -0.65,1.16) {\shortstack[l]{

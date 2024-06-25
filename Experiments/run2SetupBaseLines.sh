@@ -32,14 +32,14 @@ cd $path
 
 # Setup CatDB
 #############
-catdb_path="${path}/Baselines/CatDB/"
-#rm -rf ${catdb_path}
-mkdir -p ${catdb_path}
+# catdb_path="${path}/Baselines/CatDB/"
+# #rm -rf ${catdb_path}
+# mkdir -p ${catdb_path}
 
-cd ${root_path}
-cd ..
-cp -r src/python/main/* ${catdb_path}
-cd ${catdb_path}
+# cd ${root_path}
+# cd ..
+# cp -r src/python/main/* ${catdb_path}
+# cd ${catdb_path}
 
 # rm -rf venv 
 # python -m venv venv
@@ -64,20 +64,20 @@ cd ${catdb_path}
 # python -m pip install --upgrade pip
 # python -m pip install -r requirements.txt
 
-# # Setup CAAFE
-# #############
-# baselines_path="$path/Baselines"
-# cd ${baselines_path}
-# rm -rf CAAFE
-# git clone --branch catdb https://github.com/fathollahzadeh/CAAFE.git
+# Setup CAAFE
+#############
+baselines_path="$path/Baselines"
+cd ${baselines_path}
+rm -rf CAAFE
+git clone --branch catdb https://github.com/fathollahzadeh/CAAFE.git
 
-# cd CAAFE
-# rm -rf venv
-# python3.9 -m venv venv
-# source venv/bin/activate
-# python3.9 -m pip install --upgrade pip
-# pip install torch==1.10.0+cu113 torchvision==0.11.1+cu113 torchaudio==0.10.0+cu113 -f https://download.pytorch.org/whl/cu113/torch_stable.html
-# python3.9 -m pip install -r requirements.txt
+cd CAAFE
+rm -rf venv
+python3.9 -m venv venv
+source venv/bin/activate
+python3.9 -m pip install --upgrade pip
+pip install torch==1.10.0+cu113 torchvision==0.11.1+cu113 torchaudio==0.10.0+cu113 -f https://download.pytorch.org/whl/cu113/torch_stable.html
+python3.9 -m pip install -r requirements.txt
 
 
 ## Setup AutoML

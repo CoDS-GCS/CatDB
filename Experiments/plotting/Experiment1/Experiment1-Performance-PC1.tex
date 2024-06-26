@@ -93,28 +93,36 @@
   legend image code/.code={\draw [#1] (0cm,-0.1cm) rectangle (0.2cm,0.1cm); },  
 %}
 ]  
-  \addboxplot{CatDB}{PC1-rnc}{gemini-1.5-pro-latest}{}{white}{white}; %{color4!60}{color4}
-  \addboxplot{CatDB}{PC1-rnc}{gemini-1.5-pro-latest}{}{tug!50}{tug};
-  \addboxplot{CatDB}{PC1-rnc}{llama3-70b-8192}{}{tugb}{tugb!150};
+  \addboxplot{CatDB}{PC1}{gemini-1.5-pro-latest}{}{white}{white}; %{color4!60}{color4}
+  \addboxplot{CatDB}{PC1}{gemini-1.5-pro-latest}{}{tug!50}{tug};
+  \addboxplot{CatDB}{PC1}{llama3-70b-8192}{}{tugb}{tugb!150};
   
 
-  \addboxplot{CatDBChain}{PC1-rnc}{gemini-1.5-pro-latest}{}{white}{white};
-  \addboxplot{CatDBChain}{PC1-rnc}{gemini-1.5-pro-latest}{}{tug!50}{tug};
-  \addboxplot{CatDBChain}{PC1-rnc}{llama3-70b-8192}{}{tugb}{tugb!150};
+  \addboxplot{CatDBChain}{PC1}{gemini-1.5-pro-latest}{}{white}{white};
+  \addboxplot{CatDBChain}{PC1}{gemini-1.5-pro-latest}{}{tug!50}{tug};
+  \addboxplot{CatDBChain}{PC1}{llama3-70b-8192}{}{tugb}{tugb!150};
   
 
-  \addboxplot{CAAFE}{PC1-rnc}{gemini-1.5-pro-latest}{-TabPFN}{white}{white};
-  \addboxplot{CAAFE}{PC1-rnc}{gemini-1.5-pro-latest}{-TabPFN}{tug!50}{tug};
-  \addboxplot{CAAFE}{PC1-rnc}{gemini-1.5-pro-latest}{-TabPFN}{white}{white};
+  \addboxplot{CAAFE}{PC1}{gemini-1.5-pro-latest}{-TabPFN}{white}{white};
+  \addboxplot{CAAFE}{PC1}{gemini-1.5-pro-latest}{-TabPFN}{tug!50}{tug};
+  \addboxplot{CAAFE}{PC1}{llama3-70b-8192}{-TabPFN}{tugb}{tugb!150};
   
-  \addboxplot{CAAFE}{PC1-rnc}{gemini-1.5-pro-latest}{-RandomForest}{white}{white};
-  \addboxplot{CAAFE}{PC1-rnc}{gemini-1.5-pro-latest}{-RandomForest}{tug!50}{tug};
-  \addboxplot{CAAFE}{PC1-rnc}{gemini-1.5-pro-latest}{-RandomForest}{white}{white};
+  \addboxplot{CAAFE}{PC1}{gemini-1.5-pro-latest}{-RandomForest}{white}{white};
+  \addboxplot{CAAFE}{PC1}{gemini-1.5-pro-latest}{-RandomForest}{tug!50}{tug};
+  \addboxplot{CAAFE}{PC1}{llama3-70b-8192}{-RandomForest}{tugb}{tugb!150};
   
+  \coordinate (top1) at (axis cs:6.49,\pgfkeysvalueof{/pgfplots/ymax});
+  \coordinate (bot1) at (axis cs:6.49,\pgfkeysvalueof{/pgfplots/ymin});
 
-  \draw[black!50, thick] (59,0) -- (59,103);
-  \draw[black!50, thick] (119,0) -- (119,103);
-  \draw[black!50, thick] (179,0) -- (179,103);
+  \coordinate (top2) at (axis cs:12.49,\pgfkeysvalueof{/pgfplots/ymax});
+  \coordinate (bot2) at (axis cs:12.49,\pgfkeysvalueof{/pgfplots/ymin});
+
+  \coordinate (top3) at (axis cs:18.49,\pgfkeysvalueof{/pgfplots/ymax});
+  \coordinate (bot3) at (axis cs:18.49,\pgfkeysvalueof{/pgfplots/ymin});
+
+  \draw[black!50, thick] (top1) -- (bot1);
+  \draw[black!50, thick] (top2) -- (bot2);
+  \draw[black!50, thick] (top3) -- (bot3);
 
 \end{axis}
 
@@ -146,14 +154,14 @@
   legend image code/.code={\draw [#1] (0cm,-0.1cm) rectangle (0.2cm,0.1cm); }, 
   ]   
 
-    %\addcost{PC1-rnc}{gemini-1.5-pro-latest}{color8!10}{0pt};
-    \addcost{PC1-rnc}{gemini-1.5-pro-latest}{color8!40}{0pt};
-    \addcost{PC1-rnc}{llama3-70b-8192}{color8!70!}{0pt};
+    %\addcost{PC1}{gemini-1.5-pro-latest}{color8!5}{0pt};
+    \addcost{PC1}{gemini-1.5-pro-latest}{color8!30}{0pt};
+    \addcost{PC1}{llama3-70b-8192}{color8!70!}{0pt};
     
 \end{axis}
 
 \node [draw=none,inner sep=0, font=\small, anchor=west] (leg1) at (rel axis cs: 0.25,1.15) {\shortstack[r]{
   Gemini-1.5-pro ( \ref{gemini-1.5-pro-latest_CatDB_train} Train \ref{gemini-1.5-pro-latest_CatDB_test} Test \ \ \ \ref{gemini-1.5-pro-latest} Tokens) \\
-  Llama3-70b ( \ref{llama3-70b-8192_CatDB_train} Train \ref{llama3-70b-8192_CatDB_test} Test \ \ \ \ref{llama3-70b-8192} Tokens)}};
+  Llama3-70b-8192 ( \ref{llama3-70b-8192_CatDB_train} Train \ref{llama3-70b-8192_CatDB_test} Test \ \ \ \ref{llama3-70b-8192} Tokens)}};
 
 \end{tikzpicture}

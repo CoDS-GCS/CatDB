@@ -34,6 +34,7 @@ if __name__ == '__main__':
                     f"{root_path}/server-16/CatDB-gemini-1.5-orig/Experiment1_LLM_Pipe_Gen_CatDBChain.dat",
                     f"{root_path}/server-35/CatDB-gemini-1.5-rnc/Experiment1_LLM_Pipe_Gen_CatDB.dat",
                     f"{root_path}/server-35/CatDB-gemini-1.5-rnc/Experiment1_LLM_Pipe_Gen_CatDBChain.dat",
+                    f"{root_path}/server-35/CAAFE-llama3/Experiment1_LLM_CAAFE.dat",
                     f"{root_path}/server-65/CAAFE-gemini-1.5/Experiment1_LLM_CAAFE.dat",
                     f"{root_path}/server-113/CatDB-llama3/Experiment1_LLM_Pipe_Gen_CatDB.dat",
                     f"{root_path}/server-113/CatDB-llama3/Experiment1_LLM_Pipe_Gen_CatDBChain.dat"] 
@@ -183,7 +184,4 @@ if __name__ == '__main__':
 
     df_sort.to_csv(f"{root_path}/AllResults.csv", index=False)
     df_cost.to_csv(f"{root_path}/CostResults.csv", index=False)
-    df_exe.to_csv(f"{root_path}/ExeResults.csv", index=False)
-
-    print(df_exe)
-           
+    df_exe.to_csv(f"{root_path}/ExeResults.csv", index=False)           

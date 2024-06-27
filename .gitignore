@@ -39,3 +39,4 @@ Experiments/baselines/util/__pycache__/*
 Experiments/baselines/.idea/*
 Experiments/setup/automlbenchmark
 Experiments/setup/automlbenchmark
+Experiments/setup/config/MergeResults/__pycache__/MergeResults.cpython-310.pyc

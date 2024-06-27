@@ -39,8 +39,8 @@ def load_merge_all_results(root_path):
                     f"{root_path}/server-113/CatDB-llama3/Experiment1_LLM_Pipe_Gen_CatDB.dat",
                     f"{root_path}/server-113/CatDB-llama3/Experiment1_LLM_Pipe_Gen_CatDBChain.dat",
                     f"{root_path}/server-113/CatDB-llama3/Experiment1_LLM_Pipe_Gen_CatDBChain-part2.dat", 
-                    f"{root_path}/server-113/CatDB-llama3/Experiment1_LLM_Pipe_Gen_CatDBChain_tmp1.dat", 
-                    f"{root_path}/server-113/CatDB-llama3/Experiment1_LLM_Pipe_Gen_CatDB_tmp1.dat",                                                           
+                    f"{root_path}/server-113/CatDB-llama3/Experiment1_LLM_Pipe_Gen_CatDBChain_part3.dat", 
+                    f"{root_path}/server-113/CatDB-llama3/Experiment1_LLM_Pipe_Gen_CatDB_part3.dat"
                     ] 
     
     df_merge = pd.DataFrame(columns = columns)

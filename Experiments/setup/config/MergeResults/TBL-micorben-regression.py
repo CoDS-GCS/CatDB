@@ -66,7 +66,7 @@ if __name__ == '__main__':
                                                 ((df_pip_gen['sub_task'] == 'ModelSelection') | (pd.isnull(df_pip_gen['sub_task'])))]
                             
                             if config in {"AutoSklearn","H2O","Flaml","Autogluon"}:
-                               df = df.loc[df['number_iteration'] == 1]                            
+                               df = df.loc[df['number_iteration'] == 1].head(1)                               
 
                             if len(df) > 0:                             
                                 
@@ -98,6 +98,8 @@ if __name__ == '__main__':
                     r2_value = 0
                 if "test" in k:
                     max_test = max(max_test, r2_value)
+
+                elif "train" in k:    
                     max_train = max(max_train, r2_value) 
 
             
@@ -113,8 +115,11 @@ if __name__ == '__main__':
             df_micro.at[cindex,"llm_model"] = "& "+llms_shorname[llm]
             for k in tbl_data.keys():
                 if tbl_data[k] is None:
-                    df_micro.at[cindex,k] = "& N/A"                  
-                elif tbl_data[k] >= max_test or tbl_data[k] >= max_train:
+                    df_micro.at[cindex,k] = "& N/A"   
+                elif "test" in k and tbl_data[k] >= max_test:
+                    df_micro.at[cindex,k] = "& \\textbf{"+f"{tbl_data[k]/1000}"+"}"
+                    wins[llm][k] +=1
+                elif "train" in k and tbl_data[k] >= max_train:
                     df_micro.at[cindex,k] = "& \\textbf{"+f"{tbl_data[k]/1000}"+"}"
                     wins[llm][k] +=1  
                 elif tbl_data[k] == 0:

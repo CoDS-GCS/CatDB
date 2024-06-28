@@ -87,7 +87,7 @@ if __name__ == '__main__':
                             if config not in {"AutoSklearn","H2O","Flaml","Autogluon"}:
                                 df = df.loc[df['classifier'] == cls]
                             else:
-                               df = df.loc[df['number_iteration'] == 1]     
+                               df = df.loc[df['number_iteration'] == 1].head(1)     
 
                             if len(df) > 0:   
                                 df_sort = pd.DataFrame(columns = df_pip_gen.columns)                                                        
@@ -155,7 +155,12 @@ if __name__ == '__main__':
                 tbl_line = "\\chline"
             df_micro.at[cindex,"llm_model"] = "& "+llms_shorname[llm]
             for k in tbl_data.keys():
-                if tbl_data[k] >= max_test or tbl_data[k] >= max_train:
+                if tbl_data[k] is None:
+                    df_micro.at[cindex,k] = "& N/A"   
+                elif "test" in k and tbl_data[k] >= max_test:
+                    df_micro.at[cindex,k] = "& \\textbf{"+f"{tbl_data[k]/1000}"+"}"
+                    wins[llm][k] +=1
+                elif "train" in k and tbl_data[k] >= max_train:
                     df_micro.at[cindex,k] = "& \\textbf{"+f"{tbl_data[k]/1000}"+"}"
                     wins[llm][k] +=1  
                 elif tbl_data[k] == 0:

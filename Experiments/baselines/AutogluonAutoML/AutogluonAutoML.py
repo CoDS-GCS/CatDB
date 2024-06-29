@@ -64,7 +64,7 @@ class AutogluonAutoML(CatDBAutoML):
             result_train = predictor.evaluate(train_data, silent=True)
 
             y_train = train_data[self.dataset.target_attribute]
-            y_test = pd.DataFrame(test_data[self.dataset.target_attribute])
+            y_test = test_data[self.dataset.target_attribute]
 
             predictions_test = predictor.predict_proba(test_data, as_multiclass=True)
             predictions_train = predictor.predict_proba(train_data, as_multiclass=True)
@@ -82,7 +82,7 @@ class AutogluonAutoML(CatDBAutoML):
             y_test_pred = predictor.predict(test_data, as_pandas=True)
 
             y_train = train_data[self.dataset.target_attribute]
-            y_test = pd.DataFrame(test_data[self.dataset.target_attribute])
+            y_test = test_data[self.dataset.target_attribute]
 
             self.log_results.train_r_squared = r2_score(y_train, y_train_pred)
             self.log_results.train_rmse = mean_squared_error(y_train, y_train_pred, squared=False)

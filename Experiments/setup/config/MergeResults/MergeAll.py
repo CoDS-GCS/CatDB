@@ -148,6 +148,8 @@ if __name__ == '__main__':
                                     df_cost.at[cindex,"error_count"] = df_ds_tmp.loc[0,'number_iteration_error']-1
 
                                     tmp_time = df_ds['time_total'].mean()
+                                    if tmp_time <= 15:
+                                        tmp_time=15 
                                     prompt_exe[config] = f"{tmp_time:.2f}"  
                                     prompt_exe["CatDB_min"] = f"{tmp_time/60:.2f}"  
 
@@ -184,6 +186,8 @@ if __name__ == '__main__':
                                     df_cost.at[cindex,"fe_error_count"] = avg_fe_error
 
                                     tmp_time = (df_ds['time_total']+df_ds['time_pipeline_generate']).mean()
+                                    if tmp_time <= 15:
+                                        tmp_time=15 
                                     prompt_exe[config] = f"{tmp_time:.2f}"  
                                     prompt_exe["CatDBChain_min"] = f"{tmp_time/60:.2f}"   
 
@@ -192,7 +196,8 @@ if __name__ == '__main__':
                                     df_cost.at[cindex,"token_count_it1"] = df_ds.loc[df_ds['number_iteration'] == 1, 'all_token_count'].values[0]
 
                                     max_iteration = df_ds['number_iteration'].max()  
-                                    tmp_time = df_ds['time_total'].mean()                 
+                                    tmp_time = df_ds['time_total'].mean()   
+                                                 
                                     df_cost.at[cindex,"tokens_count"] = df_ds.loc[df_ds['number_iteration'] == max_iteration, 'all_token_count'].values[0]
                                     prompt_exe[f"{config}{cls}"] = f"{tmp_time:.2f}"
                                     prompt_exe[f"{config}{cls}_min"] = f"{tmp_time/60:.2f}"

@@ -36,6 +36,7 @@ def load_merge_all_results(root_path):
                     f"{root_path}/server-35/CatDB-gemini-1.5-rnc/Experiment1_LLM_Pipe_Gen_CatDB.dat",
                     f"{root_path}/server-35/CatDB-gemini-1.5-rnc/Experiment1_LLM_Pipe_Gen_CatDBChain.dat",
                     f"{root_path}/server-35/CAAFE-llama3/Experiment1_LLM_CAAFE.dat",
+                    f"{root_path}/server-35/CAAFE-mix/Experiment1_LLM_CAAFE.dat",
                     f"{root_path}/server-65/CAAFE-gemini-1.5/Experiment1_LLM_CAAFE.dat",
                     f"{root_path}/server-65/AutoML/Experiment3_AutoML_tmp1.dat",
                     f"{root_path}/server-113/CatDB-llama3/Experiment1_LLM_Pipe_Gen_CatDB.dat",

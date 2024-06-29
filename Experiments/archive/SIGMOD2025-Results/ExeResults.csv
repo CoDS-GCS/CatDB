@@ -22,7 +22,7 @@ oml_dataset_11_rnc,Higgs,7418.21,8209.18,0,0,123.64,136.82,0.001,0.001,76.784,ll
 oml_dataset_12_rnc,Skin,250.48,93.55,0,272.82,4.17,1.56,0.001,4.55,0.9,gemini-1.5-pro-latest,No
 oml_dataset_12_rnc,Skin,62.05,18.22,0,191.90,1.03,0.30,0.001,3.20,0.9,llama3-70b-8192,No
 oml_dataset_19_rnc,Traffic,0,128.53,0,31679.66,0.001,2.14,0.001,527.99,18.136,gemini-1.5-pro-latest,No
-oml_dataset_19_rnc,Traffic,43.98,97.65,0,0,0.73,1.63,0.001,0.001,18.136,llama3-70b-8192,No
+oml_dataset_19_rnc,Traffic,43.98,97.65,0,4171.21,0.73,1.63,0.001,69.52,18.136,llama3-70b-8192,No
 oml_dataset_20_rnc,Walking-Activity,30.60,47.55,0,3588.45,0.51,0.79,0.001,59.81,0.826,gemini-1.5-pro-latest,No
 oml_dataset_20_rnc,Walking-Activity,24.52,45.26,0,0,0.41,0.75,0.001,0.001,0.826,llama3-70b-8192,No
 oml_dataset_21_rnc,Black-Friday,128.99,43.18,0,0,2.15,0.72,0.001,0.001,1.077,gemini-1.5-pro-latest,No

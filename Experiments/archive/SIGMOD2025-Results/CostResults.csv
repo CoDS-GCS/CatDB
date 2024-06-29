@@ -81,6 +81,7 @@ oml_dataset_19_rnc,Traffic,CatDBChain,2516,1755,2198,2516,1755,2198,0,0,0,0,0,0,
 oml_dataset_19_rnc,Traffic,CAAFERandomForest,4009,0,0,4009,0,0,0,0,0,0,0,0,0,0,0,gemini-1.5-pro-latest,No
 oml_dataset_19_rnc,Traffic,CatDB,2261,0,0,2261,0,0,22546,0,0,9,0,0,0,0,0,llama3-70b-8192,No
 oml_dataset_19_rnc,Traffic,CatDBChain,2441,5367,4202,2441,1461,1893,0,3906,2309,3,2,1,0,0,0,llama3-70b-8192,No
+oml_dataset_19_rnc,Traffic,CAAFERandomForest,3516,0,0,3516,0,0,0,0,0,0,0,0,0,0,0,llama3-70b-8192,No
 oml_dataset_20_rnc,Walking-Activity,CatDB,1653,0,0,1653,0,0,0,0,0,0,0,0,0,0,0,gemini-1.5-pro-latest,No
 oml_dataset_20_rnc,Walking-Activity,CatDBChain,4680,2346,4410,1536,782,1470,0,0,0,0,0,0,0,0,0,gemini-1.5-pro-latest,No
 oml_dataset_20_rnc,Walking-Activity,CAAFERandomForest,974,0,0,974,0,0,0,0,0,0,0,0,0,0,0,gemini-1.5-pro-latest,No

@@ -33,6 +33,7 @@ def load_merge_all_results(root_path):
                     f"{root_path}/server-16/AutoML/Experiment3_AutoML_larges_part1.dat",
                     f"{root_path}/server-16/AutoML/Experiment3_AutoML_larges_part2.dat",
                     f"{root_path}/server-16/AutoML/Experiment3_AutoML_tmp1.dat",
+                    f"{root_path}/server-16/AutoML/Experiment3_AutoML-autogluon.dat",                    
                     f"{root_path}/server-35/CatDB-gemini-1.5-rnc/Experiment1_LLM_Pipe_Gen_CatDB.dat",
                     f"{root_path}/server-35/CatDB-gemini-1.5-rnc/Experiment1_LLM_Pipe_Gen_CatDBChain.dat",
                     f"{root_path}/server-35/CAAFE-llama3/Experiment1_LLM_CAAFE.dat",

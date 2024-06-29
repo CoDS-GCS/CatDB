@@ -186,8 +186,8 @@ if __name__ == '__main__':
                                     df_cost.at[cindex,"fe_error_count"] = avg_fe_error
 
                                     tmp_time = (df_ds['time_total']+df_ds['time_pipeline_generate']).mean()
-                                    if tmp_time <= 15:
-                                        tmp_time=15 
+                                    # if tmp_time <= 15:
+                                    #     tmp_time=15 
                                     prompt_exe[config] = f"{tmp_time:.2f}"  
                                     prompt_exe["CatDBChain_min"] = f"{tmp_time/60:.2f}"   
 

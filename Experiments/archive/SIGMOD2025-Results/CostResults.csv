@@ -38,6 +38,7 @@ oml_dataset_5_rnc,Diabetes,CAAFERandomForest,17644,0,0,2618,0,0,0,0,0,0,0,0,0,0,
 oml_dataset_5_rnc,Diabetes,CatDB,15000,0,0,1500,0,0,0,0,0,0,0,0,0,0,0,llama3-70b-8192,No
 oml_dataset_5_rnc,Diabetes,CatDBChain,15315,7770,11790,1419,777,1179,0,0,0,0,0,0,0,0,0,llama3-70b-8192,No
 oml_dataset_5_rnc,Diabetes,CAAFETabPFN,14905,0,0,1127,0,0,0,0,0,0,0,0,0,0,0,llama3-70b-8192,No
+oml_dataset_5_rnc,Diabetes,CAAFERandomForest,14838,0,0,1127,0,0,0,0,0,0,0,0,0,0,0,llama3-70b-8192,No
 oml_dataset_6_rnc,Tic-Tac-Toe,CatDB,14620,0,0,1462,0,0,0,0,0,0,0,0,0,0,0,gemini-1.5-pro-latest,No
 oml_dataset_6_rnc,Tic-Tac-Toe,CatDBChain,12800,6830,10230,1187,683,1023,0,0,0,0,0,0,0,0,0,gemini-1.5-pro-latest,No
 oml_dataset_6_rnc,Tic-Tac-Toe,CAAFETabPFN,18385,0,0,2622,0,0,0,0,0,0,0,0,0,0,0,gemini-1.5-pro-latest,No

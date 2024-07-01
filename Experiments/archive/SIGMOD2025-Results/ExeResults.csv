@@ -8,7 +8,7 @@ oml_dataset_3_rnc,CMC,15.89,4.50,471.65,139.47,0.26,0.08,7.86,2.32,0.727,llama3-
 oml_dataset_4_rnc,Credit-g,52.82,22.87,350.02,243.52,0.88,0.38,5.83,4.06,0.776,gemini-1.5-pro-latest,No
 oml_dataset_4_rnc,Credit-g,15.00,8.03,414.91,97.14,0.25,0.13,6.92,1.62,0.776,llama3-70b-8192,No
 oml_dataset_5_rnc,Diabetes,53.29,16.62,266.58,253.50,0.89,0.28,4.44,4.23,0.737,gemini-1.5-pro-latest,No
-oml_dataset_5_rnc,Diabetes,15.00,6.77,236.56,0,0.25,0.11,3.94,0.001,0.737,llama3-70b-8192,No
+oml_dataset_5_rnc,Diabetes,15.00,6.77,236.56,104.85,0.25,0.11,3.94,1.75,0.737,llama3-70b-8192,No
 oml_dataset_6_rnc,Tic-Tac-Toe,33.65,24.95,268.40,251.80,0.56,0.42,4.47,4.20,0.759,gemini-1.5-pro-latest,No
 oml_dataset_6_rnc,Tic-Tac-Toe,15.00,5.06,284.64,114.56,0.25,0.08,4.74,1.91,0.759,llama3-70b-8192,No
 oml_dataset_7_rnc,Eucalyptus,24.29,60.98,300.72,254.94,0.40,1.02,5.01,4.25,0.779,gemini-1.5-pro-latest,No

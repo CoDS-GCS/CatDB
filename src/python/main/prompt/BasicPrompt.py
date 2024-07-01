@@ -77,6 +77,9 @@ class BasicPrompt(object):
     def format_system_message(self):
         return "\n".join(self.rules)
 
+    def floatToString(self, inputValue):
+        return ('%.3f' % inputValue).rstrip('0').rstrip('.')
+
     def format_schema_data(self):
         content = []
         target_text = "**This is a target column**"
@@ -90,10 +93,10 @@ class BasicPrompt(object):
                 row_msg.append(f'distinct-count [{self.df_content.loc[r]["distinct_count"]}]')
 
             if self.df_content.loc[r]["is_numerical"] and self.flag_statistical_number:
-                row_msg.append(f'min-value [{self.df_content.loc[r]["min_value"]:.3f}]')
-                row_msg.append(f'max-value [{self.df_content.loc[r]["max_value"]:.3f}]')
-                row_msg.append(f'median-value [{self.df_content.loc[r]["median"]:.3f}]')
-                row_msg.append(f'mean-value [{self.df_content.loc[r]["mean"]:.3f}]')
+                row_msg.append(f'min-value [{self.floatToString(self.df_content.loc[r]["min_value"])}]')
+                row_msg.append(f'max-value [{self.floatToString(self.df_content.loc[r]["max_value"])}]')
+                row_msg.append(f'median-value [{self.floatToString(self.df_content.loc[r]["median"])}]')
+                row_msg.append(f'mean-value [{self.floatToString(self.df_content.loc[r]["mean"])}]')
 
             if self.df_content.loc[r]["is_categorical"] and self.flag_categorical_values:
                 row_msg.append(f'categorical-values [{self.df_content.loc[r]["categorical_values"]}]')

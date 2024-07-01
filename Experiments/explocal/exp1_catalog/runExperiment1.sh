@@ -9,13 +9,13 @@ data_profile_path="${exp_path}/metadata/${dataset}/data_profile"
 
 
 # Run Data Profiling Experiments
-./explocal/exp1_catalog/runExperiment1_Data_Profile.sh ${dataset} ${task_type}
+#./explocal/exp1_catalog/runExperiment1_Data_Profile.sh ${dataset} ${task_type}
 
 # Rnn CSV Data Reader Experiment
 #./explocal/exp1_catalog/runExperiment1_CSVDataReader.sh $dataset
 
 # Run Prompt and LLM Pipeline Generation Experiments
-#CMD=./explocal/exp1_catalog/runExperiment1_LLM_Pipe_Gen.sh
+CMD=./explocal/exp1_catalog/runExperiment1_LLM_Pipe_Gen.sh
 #CMDCAAFE=./explocal/exp1_catalog/runExperiment1_LLM_CAAFE.sh
 
 # $CMD ${dataset} ${data_profile_path} AUTO Random 0 ${task_type} gpt-4 Yes
@@ -41,8 +41,11 @@ data_profile_path="${exp_path}/metadata/${dataset}/data_profile"
 # $CMD ${dataset} ${data_profile_path} CatDB Random 0 ${task_type} gpt-4 No
 # $CMD ${dataset} ${data_profile_path} CatDB Random 0 ${task_type} gpt-4o No
 # $CMD ${dataset} ${data_profile_path} CatDB Random 0 ${task_type} gpt-3.5-turbo No
-# $CMD ${dataset} ${data_profile_path} CatDB Random 0 ${task_type} llama3-70b-8192 No
-# $CMD ${dataset} ${data_profile_path} CatDB Random 0 ${task_type} gemini-1.5-pro-latest No
+$CMD ${dataset} ${data_profile_path} CatDB Random 10 ${task_type} llama3-70b-8192 No
+$CMD ${dataset} ${data_profile_path} CatDB Random 10 ${task_type} gemini-1.5-pro-latest No
+$CMD ${dataset} ${data_profile_path} CatDB Random 0 ${task_type} llama3-70b-8192 No
+$CMD ${dataset} ${data_profile_path} CatDB Random 0 ${task_type} gemini-1.5-pro-latest No
+
 
 # $CMD ${dataset} ${data_profile_path} CatDBChain Random 0 ${task_type} gpt-4 Yes
 # $CMD ${dataset} ${data_profile_path} CatDBChain Random 0 ${task_type} gpt-4o Yes
@@ -57,8 +60,10 @@ data_profile_path="${exp_path}/metadata/${dataset}/data_profile"
 # $CMD ${dataset} ${data_profile_path} CatDBChain Random 0 ${task_type} gpt-4 No
 # $CMD ${dataset} ${data_profile_path} CatDBChain Random 0 ${task_type} gpt-4o No
 # $CMD ${dataset} ${data_profile_path} CatDBChain Random 0 ${task_type} gpt-3.5-turbo No
-# $CMD ${dataset} ${data_profile_path} CatDBChain Random 0 ${task_type} llama3-70b-8192 No
-# $CMD ${dataset} ${data_profile_path} CatDBChain Random 0 ${task_type} gemini-1.5-pro-latest No
+$CMD ${dataset} ${data_profile_path} CatDBChain Random 10 ${task_type} llama3-70b-8192 No
+$CMD ${dataset} ${data_profile_path} CatDBChain Random 10 ${task_type} gemini-1.5-pro-latest No
+$CMD ${dataset} ${data_profile_path} CatDBChain Random 0 ${task_type} llama3-70b-8192 No
+$CMD ${dataset} ${data_profile_path} CatDBChain Random 0 ${task_type} gemini-1.5-pro-latest No
 
 # Run Generated Pipeline
 # CMD=./explocal/exp1_catalog/runExperiment1_Run_Pipe.sh

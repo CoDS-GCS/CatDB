@@ -4,9 +4,9 @@ oml_dataset_1_rnc,Balance-Scale,15.00,6.43,194.59,96.72,0.25,0.11,3.24,1.61,0.69
 oml_dataset_2_rnc,Breast-w,15.00,18.58,255.88,250.49,0.25,0.31,4.26,4.17,0.687,gemini-1.5-pro-latest,No
 oml_dataset_2_rnc,Breast-w,15.00,4.36,228.26,85.38,0.25,0.07,3.80,1.42,0.687,llama3-70b-8192,No
 oml_dataset_3_rnc,CMC,15.00,21.97,445.14,258.94,0.25,0.37,7.42,4.32,0.727,gemini-1.5-pro-latest,No
-oml_dataset_3_rnc,CMC,15.89,4.50,0,139.47,0.26,0.08,0.001,2.32,0.727,llama3-70b-8192,No
+oml_dataset_3_rnc,CMC,15.89,4.50,471.65,139.47,0.26,0.08,7.86,2.32,0.727,llama3-70b-8192,No
 oml_dataset_4_rnc,Credit-g,52.82,22.87,350.02,243.52,0.88,0.38,5.83,4.06,0.776,gemini-1.5-pro-latest,No
-oml_dataset_4_rnc,Credit-g,15.00,8.03,0,97.14,0.25,0.13,0.001,1.62,0.776,llama3-70b-8192,No
+oml_dataset_4_rnc,Credit-g,15.00,8.03,414.91,97.14,0.25,0.13,6.92,1.62,0.776,llama3-70b-8192,No
 oml_dataset_5_rnc,Diabetes,53.29,16.62,266.58,253.50,0.89,0.28,4.44,4.23,0.737,gemini-1.5-pro-latest,No
 oml_dataset_5_rnc,Diabetes,15.00,6.77,236.56,0,0.25,0.11,3.94,0.001,0.737,llama3-70b-8192,No
 oml_dataset_6_rnc,Tic-Tac-Toe,33.65,24.95,268.40,251.80,0.56,0.42,4.47,4.20,0.759,gemini-1.5-pro-latest,No

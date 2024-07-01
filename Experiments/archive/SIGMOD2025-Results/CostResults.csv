@@ -21,6 +21,7 @@ oml_dataset_3_rnc,CMC,CAAFETabPFN,17648,0,0,1259,0,0,0,0,0,0,0,0,0,0,0,gemini-1.
 oml_dataset_3_rnc,CMC,CAAFERandomForest,19227,0,0,1259,0,0,0,0,0,0,0,0,0,0,0,gemini-1.5-pro-latest,No
 oml_dataset_3_rnc,CMC,CatDB,14860,0,0,1486,0,0,0,0,0,0,0,0,0,0,0,llama3-70b-8192,No
 oml_dataset_3_rnc,CMC,CatDBChain,18739,18800,14310,1624,686,1431,0,1194,0,1,1,0,0,0,0,llama3-70b-8192,No
+oml_dataset_3_rnc,CMC,CAAFETabPFN,11266,0,0,1195,0,0,0,0,0,0,0,0,0,0,0,llama3-70b-8192,No
 oml_dataset_3_rnc,CMC,CAAFERandomForest,14682,0,0,1195,0,0,0,0,0,0,0,0,0,0,0,llama3-70b-8192,No
 oml_dataset_4_rnc,Credit-g,CatDB,19980,0,0,1998,0,0,0,0,0,0,0,0,0,0,0,gemini-1.5-pro-latest,No
 oml_dataset_4_rnc,Credit-g,CatDBChain,18085,12190,15380,1699,1219,1538,0,0,0,0,0,0,0,0,0,gemini-1.5-pro-latest,No
@@ -28,6 +29,7 @@ oml_dataset_4_rnc,Credit-g,CAAFETabPFN,25389,0,0,2067,0,0,0,0,0,0,0,0,0,0,0,gemi
 oml_dataset_4_rnc,Credit-g,CAAFERandomForest,20406,0,0,2067,0,0,0,0,0,0,0,0,0,0,0,gemini-1.5-pro-latest,No
 oml_dataset_4_rnc,Credit-g,CatDB,17490,0,0,1749,0,0,0,0,0,0,0,0,0,0,0,llama3-70b-8192,No
 oml_dataset_4_rnc,Credit-g,CatDBChain,19830,10260,15790,1696,1026,1579,0,0,0,0,0,0,0,0,0,llama3-70b-8192,No
+oml_dataset_4_rnc,Credit-g,CAAFETabPFN,22889,0,0,1940,0,0,0,0,0,0,0,0,0,0,0,llama3-70b-8192,No
 oml_dataset_4_rnc,Credit-g,CAAFERandomForest,23037,0,0,1940,0,0,0,0,0,0,0,0,0,0,0,llama3-70b-8192,No
 oml_dataset_5_rnc,Diabetes,CatDB,17340,0,0,1734,0,0,1825,0,0,1,0,0,0,0,0,gemini-1.5-pro-latest,No
 oml_dataset_5_rnc,Diabetes,CatDBChain,13249,9570,13320,1198,957,1332,0,0,0,0,0,0,0,0,0,gemini-1.5-pro-latest,No

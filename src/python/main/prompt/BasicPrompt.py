@@ -98,7 +98,7 @@ class BasicPrompt(object):
             if self.df_content.loc[r]["is_categorical"] and self.flag_categorical_values:
                 row_msg.append(f'categorical-values [{self.df_content.loc[r]["categorical_values"]}]')
 
-            if self.number_samples > 0 and self.flag_samples:
+            elif self.number_samples > 0 and self.flag_samples:
                 row_msg.append(f'samples [{self.df_content.loc[r]["samples"]}]')
 
             content.append(", ".join(row_msg))

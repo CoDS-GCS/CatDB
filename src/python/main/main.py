@@ -277,7 +277,8 @@ def generate_and_run_pipeline(args, catalog, run_mode: str = None, sub_task: str
                              time_execution=time_execute,
                              prompt_token_count=prompt_token_count,
                              all_token_count=all_token_count + prompt_token_count,
-                             operation="Gen-and-Run-Pipeline")
+                             operation="Gen-and-Run-Pipeline",
+                             number_of_samples=args.prompt_number_samples)
     if run_mode == __gen_run_mode and results_verified:
         log_results.train_auc = results["Train_AUC"]
         log_results.train_auc_ovo = results["Train_AUC_OVO"]

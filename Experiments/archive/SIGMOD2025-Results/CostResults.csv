@@ -72,6 +72,7 @@ oml_dataset_11_rnc,Higgs,CatDBChain,1795,4708,2552,1795,2151,2552,0,2557,0,1,1,0
 oml_dataset_11_rnc,Higgs,CAAFERandomForest,2920,0,0,2920,0,0,0,0,0,0,0,0,0,0,0,gemini-1.5-pro-latest,No
 oml_dataset_11_rnc,Higgs,CatDB,2299,0,0,2299,0,0,0,0,0,0,0,0,0,0,0,llama3-70b-8192,No
 oml_dataset_11_rnc,Higgs,CatDBChain,2039,16217,15446,2039,1576,2258,0,14641,13188,12,7,5,0,0,0,llama3-70b-8192,No
+oml_dataset_11_rnc,Higgs,CAAFERandomForest,2520,0,0,2520,0,0,0,0,0,0,0,0,0,0,0,llama3-70b-8192,No
 oml_dataset_12_rnc,Skin,CatDB,1455,0,0,1455,0,0,0,0,0,0,0,0,0,0,0,gemini-1.5-pro-latest,No
 oml_dataset_12_rnc,Skin,CatDBChain,1564,2016,1316,1564,678,1316,5272,1338,0,4,1,0,0,0,0,gemini-1.5-pro-latest,No
 oml_dataset_12_rnc,Skin,CAAFERandomForest,916,0,0,916,0,0,0,0,0,0,0,0,0,0,0,gemini-1.5-pro-latest,No

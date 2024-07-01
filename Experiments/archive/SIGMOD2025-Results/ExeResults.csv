@@ -18,7 +18,7 @@ oml_dataset_8_rnc,PC1,15.00,4.21,407.31,149.04,0.25,0.07,6.79,2.48,0.684,llama3-
 oml_dataset_10_rnc,Jungle-Chess,15.00,25.12,156776.01,759.85,0.25,0.42,2612.93,12.66,0.71,gemini-1.5-pro-latest,No
 oml_dataset_10_rnc,Jungle-Chess,15.00,8.72,0,347.68,0.25,0.15,0.001,5.79,0.71,llama3-70b-8192,No
 oml_dataset_11_rnc,Higgs,6322.83,1609.05,0,93263.74,105.38,26.82,0.001,1554.40,76.784,gemini-1.5-pro-latest,No
-oml_dataset_11_rnc,Higgs,7418.21,8209.18,0,0,123.64,136.82,0.001,0.001,76.784,llama3-70b-8192,No
+oml_dataset_11_rnc,Higgs,7418.21,8209.18,0,95099.46,123.64,136.82,0.001,1584.99,76.784,llama3-70b-8192,No
 oml_dataset_12_rnc,Skin,250.48,93.55,0,272.82,4.17,1.56,0.001,4.55,0.9,gemini-1.5-pro-latest,No
 oml_dataset_12_rnc,Skin,62.05,18.22,0,191.90,1.03,0.30,0.001,3.20,0.9,llama3-70b-8192,No
 oml_dataset_19_rnc,Traffic,0,128.53,0,31679.66,0.001,2.14,0.001,527.99,18.136,gemini-1.5-pro-latest,No

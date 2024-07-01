@@ -137,9 +137,12 @@ if __name__ == '__main__':
 
             max_train = 0
             max_test = 0
+            max_other = 0
             for k in tbl_data.keys():
                 if "test" in k:
                     max_test = max(max_test, tbl_data[k])
+                    if "CatDB" not in k:
+                        max_other = max(max_other, tbl_data[k])
                 elif "train" in k:
                     max_train = max(max_train, tbl_data[k]) 
 
@@ -168,9 +171,21 @@ if __name__ == '__main__':
                 else:
                     df_micro.at[cindex,k] = f"& {tbl_data[k]/1000}"
             
-             
-            df_micro.at[cindex,"CatDB_test_auc_diff"] = f'& {(max_test - tbl_data["CatDB_test_auc"])/1000}'
-            df_micro.at[cindex,"CatDBChain_test_auc_diff"] = f'& {(max_test - tbl_data["CatDBChain_test_auc"]) / 1000} \\\\ {tbl_line}'
+            catdb_value =(tbl_data["CatDB_test_auc"]-max_other)/1000
+            catdb_chain_value = (tbl_data["CatDBChain_test_auc"]-max_other) / 1000
+            
+            if catdb_value <0:
+                catdb_value_str = f"${catdb_value}$"
+            else:
+               catdb_value_str = f"$+{catdb_value}$"
+
+            if catdb_chain_value <0:
+                catdb_chain_value_str = f"${catdb_chain_value}$"
+            else:
+                catdb_chain_value_str = f"$+{catdb_chain_value}$"
+
+            df_micro.at[cindex,"CatDB_test_auc_diff"] = f'& {catdb_value_str}'
+            df_micro.at[cindex,"CatDBChain_test_auc_diff"] = f'& {catdb_chain_value_str} \\\\ {tbl_line}'
 
             
     # add leader board:
@@ -179,9 +194,9 @@ if __name__ == '__main__':
         df_micro.loc[cindex] = [None for ti in micor_tbl_cols]
 
         if llm == "gemini-1.5-pro-latest":
-             df_micro.at[cindex,"dataset_name"] = "\multirow{2}{*}{$\\#$ Leader Board}"      
+             df_micro.at[cindex,"dataset_name"] = "Leader"      
         else:
-            df_micro.at[cindex,"dataset_name"] = "" 
+            df_micro.at[cindex,"dataset_name"] = "Board" 
 
         df_micro.at[cindex,"llm_model"] = "& "+llms_shorname[llm]
         for k in tbl_data.keys():

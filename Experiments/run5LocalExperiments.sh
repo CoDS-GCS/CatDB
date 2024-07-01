@@ -16,9 +16,9 @@ echo "dataset,llm_model,prompt_representation_type,prompt_example_type,prompt_nu
 cd ${exp_path}
 
 #CMD=./explocal/exp0_statistics/runExperiment0.sh
-CMD=./explocal/exp1_catalog/runExperiment1.sh
+#CMD=./explocal/exp1_catalog/runExperiment1.sh
 #CMD=./explocal/exp2_micro_benchmark/runExperiment2.sh 
-#CMD=./explocal/exp3_end_to_end/runExperiment3.sh 
+CMD=./explocal/exp3_end_to_end/runExperiment3.sh 
 
 
 # $CMD Balance-Scale multiclass # Balance-Scale
@@ -64,12 +64,12 @@ CMD=./explocal/exp1_catalog/runExperiment1.sh
 # $CMD oml_dataset_24_rnc regression # NYC
 # $CMD oml_dataset_25_rnc regression # Airlines-DepDelay
 
-$CMD oml_dataset_27_rnc multiclass # Yolanda
+# $CMD oml_dataset_27_rnc multiclass # Yolanda
 $CMD oml_dataset_28_rnc binary # SF-Police-Incidents
-$CMD oml_dataset_29_rnc binary # Numerai28.6
-$CMD oml_dataset_30_rnc binary # Porto-Seguro
-$CMD oml_dataset_31_rnc multiclass # First-Order
-$CMD oml_dataset_32_rnc multiclass # Helena
+# $CMD oml_dataset_29_rnc binary # Numerai28.6
+# $CMD oml_dataset_30_rnc binary # Porto-Seguro
+# $CMD oml_dataset_31_rnc multiclass # First-Order
+# $CMD oml_dataset_32_rnc multiclass # Helena
 
 ######################################################
 # $CMD Airlines binary # Airlines

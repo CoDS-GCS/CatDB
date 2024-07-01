@@ -51,12 +51,12 @@ if __name__ == '__main__':
     #               (44065,"NYC","regression",24),
     #               (42728,"Airlines-DepDelay","regression",25),
     #               (1590,"Adult","binary",26),
-                    (42705,"Yolanda","multiclass",27),
+                    #(42705,"Yolanda","multiclass",27),
                     (42732,"SF-Police-Incidents","binary",28),
-                    (42742,"Porto-Seguro", "binary", 29),
-                    (23517,"Numerai28.6","binary",30),
-                    (1475,"First-Order","multiclass",31),
-                    (41169,"Helena","multiclass",32)
+                    # (42742,"Porto-Seguro", "binary", 29),
+                    # (23517,"Numerai28.6","binary",30),
+                    # (1475,"First-Order","multiclass",31),
+                    # (41169,"Helena","multiclass",32)
                 ]
    
     dataset_list =  pd.DataFrame(columns=["Row","ID","dataset_name", "orig_name","nrows","ncols","nclasses","target"])

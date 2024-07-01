@@ -2,9 +2,14 @@ import os
 import sys
 import pandas as pd
 import numpy as np
+import csv
 
 def load_results(path):
-    df = pd.read_csv(path)
+    df = pd.read_csv(path, low_memory=False, encoding='utf-8')
+    return df
+
+def load_results2(path):
+    df = pd.read_csv(path, low_memory=False, sep=',',quoting=csv.QUOTE_ALL)
     return df
 
 def mergse_dfs(df_base, df_new):
@@ -38,6 +43,7 @@ def load_merge_all_results(root_path):
                     f"{root_path}/server-35/CatDB-gemini-1.5-rnc/Experiment1_LLM_Pipe_Gen_CatDBChain.dat",
                     f"{root_path}/server-35/CAAFE-llama3/Experiment1_LLM_CAAFE.dat",
                     f"{root_path}/server-35/CAAFE-mix/Experiment1_LLM_CAAFE.dat",
+                     f"{root_path}/server-35/CAAFE-mix/Experiment1_LLM_CAAFE_2.dat",
                     f"{root_path}/server-65/CAAFE-gemini-1.5/Experiment1_LLM_CAAFE.dat",
                     f"{root_path}/server-65/AutoML/Experiment3_AutoML_tmp1.dat",
                     f"{root_path}/server-113/CatDB-llama3/Experiment1_LLM_Pipe_Gen_CatDB.dat",
@@ -56,6 +62,29 @@ def load_merge_all_results(root_path):
 
     return df_merge
 
+def load_merge_all_errors(root_path):
+    columns = ["row_id", "dataset_name", "llm_model", "config", "sub_task", "error_class", "error_type",
+                        "error_value", "error_detail", "error_exception", "file_name", "timestamp"]
+
+    results_path = [#f"{root_path}/server-16/Error/LLM_Pipe_Error_1.dat",
+                    f"{root_path}/server-16/Error/LLM_Pipe_Error_2.dat",
+                    f"{root_path}/server-35/Error/LLM_Pipe_Error_1.dat",
+                    f"{root_path}/server-35/Error/LLM_Pipe_Error_2.dat",
+                    f"{root_path}/server-65/Error/LLM_Pipe_Error_1.dat",
+                    f"{root_path}/server-65/Error/LLM_Pipe_Error_2.dat",
+                    f"{root_path}/server-65/Error/LLM_Pipe_Error_3.dat",
+                    f"{root_path}/server-113/Error/LLM_Pipe_Error_1.dat",
+                    ] 
+    #results_path = [f"{root_path}/server-16/Error/LLM_Pipe_Error_2.dat"] 
+      
+    df_merge = pd.DataFrame(columns = columns)
+    
+    for rp in results_path:
+        df_tmp = load_results(rp)    
+        df_merge = merge_raw_data(df_result=df_merge, df_tmp=df_tmp)
+
+    return df_merge
+
 def get_top_k_binary(df, config, k):
     df_binary = df.loc[(df['train_auc'] >=0) &
                        (df['test_auc'] >=0) &
@@ -64,7 +93,7 @@ def get_top_k_binary(df, config, k):
         return df_binary
     else:
        df_binary = df_binary.sort_values(by='test_auc', ascending=False).reset_index(drop=True)
-       return  df_binary.head(10)
+       return  df_binary.head(k)
 
 def get_top_k_multiclass(df, config,k):
      df_multi = df.loc[(df['train_auc_ovr'] >=0) &

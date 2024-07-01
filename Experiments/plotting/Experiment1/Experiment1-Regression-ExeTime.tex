@@ -1,0 +1,103 @@
+\begin{tikzpicture}
+
+   \newcommand{\myaddplotexe}[6]{
+        \addplot[xshift=#6,fill=#5, draw=black,line width=0.5pt] table[y=#1, col sep=comma, x=dataset_name_orig, discard if singlconfig={No}{#2}{#3}{#4}]{../archive/SIGMOD2025-Results/ExeResults.csv};
+        \label{#2_#1}    
+    };
+
+\pgfplotsset{
+    discard if singlconfig/.style n args={4}{
+        x filter/.code={
+            \edef\tempa{\thisrow{has_description}}
+            \edef\tempb{#1}
+            \ifx\tempa\tempb
+              \edef\tempc{\thisrow{llm_model}}
+              \edef\tempd{#2}
+                  \ifx\tempc\tempd      
+                  %
+                  \edef\tempe{\thisrow{task}}
+                  \edef\tempf{#3}
+                  \ifx\tempe\tempf
+                  %
+                    \edef\tempg{\thisrow{samples}}
+                    \edef\temph{#4}
+                    \ifx\tempg\temph                                      
+                    \else
+                    \def\pgfmathresult{inf}
+                    \fi
+                  %      
+                  \else
+                  \def\pgfmathresult{inf}
+                  \fi
+                  %            
+                  \else
+                  \def\pgfmathresult{inf}
+                  \fi
+            \else
+            \def\pgfmathresult{inf}
+            \fi			
+        }
+    },
+};   
+
+
+\begin{axis}[ 
+    ybar, 
+    ymode=log,      
+    %yminorticks=true,  
+  y tick label style={/pgf/number format/1000 sep={}},
+  x tick label style={/pgf/number format/1000 sep={}},  
+  scaled y ticks=false,
+  axis line style={black, line width=0.4pt},
+  enlarge y limits={0.1,upper},
+  enlarge x limits=0.095,
+  ylabel={Execution Time [min.]},
+  xlabel={},
+  log ticks with fixed point,
+  xtick align=outside,
+  xtick pos=left,
+  ytick pos=left,
+  yticklabel style = {font=\large},
+  ylabel style = {font=\large, yshift=-2pt, xshift=-7pt},
+  height=0.5\columnwidth,
+  width=1.6\columnwidth,
+  ymajorgrids=true,
+  grid style=dotted,
+  minor grid style={gray!70},
+  nodes near coords,
+  every node near coord/.append style={font=\fontsize{0.1pt}{0.1}, rotate=90, xshift=8pt, yshift=0pt},
+  every axis plot/.append style={line width=0.8pt,mark options={scale=1.5,solid}},  
+  xticklabel style = {font=\large, xshift=-5pt, yshift=16pt, rotate=0, anchor=north east},  
+  legend image post style={line width=.5pt},   
+  log origin y=infty,  
+  max space between ticks=5,
+  bar width=8pt,   
+              ymin=0.1, %0.001, 
+              ytick={0.1,1,10,100,1000,10000},
+              yticklabels={0, 1,10,$10^2$,$10^3$,$10^4$},                   
+              every x tick/.style={ thick,gray, xshift=-3pt,yshift=1.5pt},
+              xtick = data,
+              symbolic x coords={Black-Friday,Bike-Sharing,House-Sales,NYC,Airlines-DepDelay, Balance-Scale,Breast-w,CMC,Credit-g,Diabetes,Tic-Tac-Toe,Eucalyptus,PC1,Jungle-Chess,Higgs,Skin,Traffic,Walking-Activity},
+              legend image code/.code={\draw [#1] (0cm,-0.1cm) rectangle (0.25cm,0.1cm); }, 
+              xticklabel style = {font=\large, xshift=0pt, yshift=-15pt, rotate=0, anchor=north},
+]
+
+\myaddplotexe{CatDB_min}{gemini-1.5-pro-latest}{regression}{0}{tug}{4pt};
+\myaddplotexe{CatDBChain_min}{gemini-1.5-pro-latest}{regression}{0}{tugb}{2pt};
+
+\myaddplotexe{CatDB_min}{llama3-70b-8192}{regression}{0}{color3}{0pt};
+\myaddplotexe{CatDBChain_min}{llama3-70b-8192}{regression}{0}{color4}{-2pt};
+
+% \myaddplotexe{CatDB_min}{llama3-70b-8192}{regression}{0}{color7}{-4pt};
+% \myaddplotexe{CatDBChain_min}{llama3-70b-8192}{regression}{0}{color6}{-6pt};
+ 
+
+\node [draw=none,inner sep=0, font=\large, anchor=west] (l1) at (rel axis cs: 0.03,0.80) {\shortstack[r]{
+  Gemini-1.5: \ref{gemini-1.5-pro-latest_CatDB_min} CatDB \ \ \ \ \ref{gemini-1.5-pro-latest_CatDBChain_min} CatDB Chain \\ \\
+  Llama3-70b: \ref{llama3-70b-8192_CatDB_min} CatDB \ \ \ \ \ref{llama3-70b-8192_CatDBChain_min} CatDB Chain %\\ \\
+  %GPT-4o: \ref{gpt-4o_CatDB_min} CatDB \ \ \ \ \ref{gpt-4o_CatDBChain_min} CatDB Chain \\ \\
+  }};
+
+\end{axis}
+
+\end{tikzpicture}

@@ -6,6 +6,8 @@ import csv
 
 def load_results(path):
     df = pd.read_csv(path, low_memory=False, encoding='utf-8')
+    if "number_of_samples" not in df.columns:
+        df["number_of_samples"] = 0
     return df
 
 def load_results2(path):
@@ -30,7 +32,7 @@ def load_merge_all_results(root_path):
                 "time_total", "time_execution", "train_auc","train_auc_ovo","train_auc_ovr", "train_accuracy",
                 "train_f1_score", "train_log_loss", "train_r_squared", "train_rmse", "test_auc","test_auc_ovo",
                 "test_auc_ovr", "test_accuracy", "test_f1_score", "test_log_loss", "test_r_squared", "test_rmse",
-                "prompt_token_count","all_token_count", "operation"]
+                "prompt_token_count","all_token_count", "operation","number_of_samples"]
 
     results_path = [f"{root_path}/server-16/CatDB-gemini-1.5-orig/Experiment1_LLM_Pipe_Gen_CatDB.dat",
                     f"{root_path}/server-16/CatDB-gemini-1.5-orig/Experiment1_LLM_Pipe_Gen_CatDBChain.dat",

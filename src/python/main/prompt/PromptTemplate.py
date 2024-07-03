@@ -8,6 +8,7 @@ class SingleBasicPrompt(BasicPrompt):
         self.ds_attribute_prefix = "Schema, and Data Profiling Info"
         self.ds_attribute_prefix_label = "Schema, and Data Profiling Info:"
         self.question = "Provide a complete pipeline code that can be executed in a multi-threaded environment."
+        self.config = None
 
     def format_system_message(self):
         from util.Config import _system_delimiter
@@ -17,30 +18,46 @@ class SingleBasicPrompt(BasicPrompt):
         else:
             algorithm = "regressor"
 
-        randomforest_param = 500
-        rules = [f"{_system_delimiter} {StaticValues.Rule_task.format(self.ds_attribute_prefix)}",
-                 f"{_system_delimiter} {StaticValues.Rule_input}",
-                 f"{_system_delimiter} {StaticValues.Rule_output}",
-                 f"# 1: {StaticValues.Rule_1}",
-                 f"# 2: {StaticValues.Rule_2.format(self.data_source_train_path, self.data_source_test_path)}",
-                 f"# 3: {StaticValues.Rule_3}",
-                 f"# 4: {StaticValues.Rule_4.format(self.ds_attribute_prefix, self.ds_attribute_prefix_label)}",
-                 f"# 5: {StaticValues.Rule_5}",
-                 f"# 6: {StaticValues.Rule_12}",
-                 f"# 7: {StaticValues.Rule_6}",
-                 f"# 8: {StaticValues.Rule_7.format(self.target_attribute)}",
-                 f"# 9: {StaticValues.Rule_8.format(algorithm, self.target_attribute)}",
-                 f"# 10: {StaticValues.Rule_9}",
-                 f"# 11: {StaticValues.CODE_FORMATTING_IMPORT}",
-                 f"# 12: {StaticValues.CODE_FORMATTING_ADDING.format(self.target_attribute, self.schema_keys[0], self.schema_keys[1])}",
-                 f"# 13: {StaticValues.CODE_FORMATTING_DROPPING}",
-                 f"# 14: {StaticValues.CODE_FORMATTING_TECHNIQUE.format(algorithm)}",
-                 f"# 15: {self.evaluation_text}",
-                 f"# 16: {StaticValues.Rule_10}",
-                 f"# 17: {StaticValues.Rule_11}",
-                 f"# 18: {StaticValues.Rule_13.format(randomforest_param)}",
-                 f"# 19: {StaticValues.rule_code_block}"
-                 ]
+        if self.config == "CatDB":
+            randomforest_param = 500
+            rules = [f"{_system_delimiter} {StaticValues.Rule_task.format(self.ds_attribute_prefix)}",
+                     f"{_system_delimiter} {StaticValues.Rule_input}",
+                     f"{_system_delimiter} {StaticValues.Rule_output}",
+                     f"# 1: {StaticValues.Rule_1}",
+                     f"# 2: {StaticValues.Rule_2.format(self.data_source_train_path, self.data_source_test_path)}",
+                     f"# 3: {StaticValues.Rule_3}",
+                     f"# 4: {StaticValues.Rule_4.format(self.ds_attribute_prefix, self.ds_attribute_prefix_label)}",
+                     f"# 5: {StaticValues.Rule_5}",
+                     f"# 6: {StaticValues.Rule_12}",
+                     f"# 7: {StaticValues.Rule_6}",
+                     f"# 8: {StaticValues.Rule_7.format(self.target_attribute)}",
+                     f"# 9: {StaticValues.Rule_8.format(algorithm, self.target_attribute)}",
+                     f"# 10: {StaticValues.Rule_9}",
+                     f"# 11: {StaticValues.CODE_FORMATTING_IMPORT}",
+                     f"# 12: {StaticValues.CODE_FORMATTING_ADDING.format(self.target_attribute, self.schema_keys[0], self.schema_keys[1])}",
+                     f"# 13: {StaticValues.CODE_FORMATTING_DROPPING}",
+                     f"# 14: {StaticValues.CODE_FORMATTING_TECHNIQUE.format(algorithm)}",
+                     f"# 15: {self.evaluation_text}",
+                     f"# 16: {StaticValues.Rule_10}",
+                     f"# 17: {StaticValues.Rule_11}",
+                     f"# 18: {StaticValues.Rule_13.format(randomforest_param)}",
+                     f"# 19: {StaticValues.rule_code_block}"
+                     ]
+        else:
+            rules = [f"{_system_delimiter} {StaticValues.Rule_task.format(self.ds_attribute_prefix)}",
+                     f"{_system_delimiter} {StaticValues.Rule_input}",
+                     f"{_system_delimiter} {StaticValues.Rule_output}",
+                     f"# 1: {StaticValues.Rule_2.format(self.data_source_train_path, self.data_source_test_path)}",
+                     f"# 2: {StaticValues.Rule_3}",
+                     f"# 3: {StaticValues.CODE_FORMATTING_IMPORT}",
+                     f"# 4: {StaticValues.CODE_FORMATTING_ADDING.format(self.target_attribute, self.schema_keys[0], self.schema_keys[1])}",
+                     f"# 5: {StaticValues.CODE_FORMATTING_DROPPING}",
+                     f"# 6: {StaticValues.CODE_FORMATTING_TECHNIQUE.format(algorithm)}",
+                     f"# 7: {self.evaluation_text}",
+                     f"# 8: {StaticValues.Rule_10}",
+                     f"# 9: {StaticValues.Rule_11}",
+                     f"# 10: {StaticValues.rule_code_block}"
+                     ]
 
         rule_msg = "\n".join(rules)
         return rule_msg
@@ -53,10 +70,12 @@ class SchemaPrompt(SingleBasicPrompt):
                                    flag_missing_value_frequency=False,
                                    flag_distinct_value_count=False,
                                    flag_statistical_number=False,
-                                   flag_dataset_description=True,
-                                   flag_samples=True,
+                                   flag_dataset_description=False,
+                                   flag_samples=False,
                                    flag_previous_result=False,
                                    *args, **kwargs)
+        self.ds_attribute_prefix = "Schema Info"
+        self.ds_attribute_prefix_label = "Schema Info:"
 
 
 class SchemaDistinctValuePrompt(SingleBasicPrompt):
@@ -66,10 +85,13 @@ class SchemaDistinctValuePrompt(SingleBasicPrompt):
                                    flag_missing_value_frequency=False,
                                    flag_distinct_value_count=True,
                                    flag_statistical_number=False,
-                                   flag_dataset_description=True,
-                                   flag_samples=True,
+                                   flag_dataset_description=False,
+                                   flag_samples=False,
                                    flag_previous_result=False,
                                    *args, **kwargs)
+
+        self.ds_attribute_prefix = "Schema, and Distinct Value Info"
+        self.ds_attribute_prefix_label = "Schema, and Distinct Value Info:"
 
 
 class SchemaMissingValueFrequencyPrompt(SingleBasicPrompt):
@@ -79,10 +101,12 @@ class SchemaMissingValueFrequencyPrompt(SingleBasicPrompt):
                                    flag_missing_value_frequency=True,
                                    flag_distinct_value_count=False,
                                    flag_statistical_number=False,
-                                   flag_dataset_description=True,
-                                   flag_samples=True,
+                                   flag_dataset_description=False,
+                                   flag_samples=False,
                                    flag_previous_result=False,
                                    *args, **kwargs)
+        self.ds_attribute_prefix = "Schema, and Missing Value Info"
+        self.ds_attribute_prefix_label = "Schema, and Missing Value Info:"
 
 
 class SchemaStatisticNumericPrompt(SingleBasicPrompt):
@@ -92,10 +116,13 @@ class SchemaStatisticNumericPrompt(SingleBasicPrompt):
                                    flag_missing_value_frequency=False,
                                    flag_distinct_value_count=False,
                                    flag_statistical_number=True,
-                                   flag_dataset_description=True,
-                                   flag_samples=True,
+                                   flag_dataset_description=False,
+                                   flag_samples=False,
                                    flag_previous_result=False,
                                    *args, **kwargs)
+
+        self.ds_attribute_prefix = "Schema, and Statistic Info"
+        self.ds_attribute_prefix_label = "Schema, and Statistic Info:"
 
 
 class SchemaCategoricalValuesPrompt(SingleBasicPrompt):
@@ -105,10 +132,13 @@ class SchemaCategoricalValuesPrompt(SingleBasicPrompt):
                                    flag_missing_value_frequency=False,
                                    flag_distinct_value_count=False,
                                    flag_statistical_number=False,
-                                   flag_dataset_description=True,
-                                   flag_samples=True,
+                                   flag_dataset_description=False,
+                                   flag_samples=False,
                                    flag_previous_result=False,
                                    *args, **kwargs)
+
+        self.ds_attribute_prefix = "Schema, and Categorical Columns Info"
+        self.ds_attribute_prefix_label = "Schema, and Categorical Columns Info:"
 
 
 class SchemaDistinctValueCountMissingValueFrequencyPrompt(SingleBasicPrompt):
@@ -118,10 +148,13 @@ class SchemaDistinctValueCountMissingValueFrequencyPrompt(SingleBasicPrompt):
                                    flag_missing_value_frequency=True,
                                    flag_distinct_value_count=True,
                                    flag_statistical_number=False,
-                                   flag_dataset_description=True,
-                                   flag_samples=True,
+                                   flag_dataset_description=False,
+                                   flag_samples=False,
                                    flag_previous_result=False,
                                    *args, **kwargs)
+
+        self.ds_attribute_prefix = "Schema, and Data Profiling Info"
+        self.ds_attribute_prefix_label = "Schema, and Data Profiling Info:"
 
 
 class SchemaDistinctValueCountStatisticNumericPrompt(SingleBasicPrompt):
@@ -131,10 +164,12 @@ class SchemaDistinctValueCountStatisticNumericPrompt(SingleBasicPrompt):
                                    flag_missing_value_frequency=False,
                                    flag_distinct_value_count=True,
                                    flag_statistical_number=True,
-                                   flag_dataset_description=True,
-                                   flag_samples=True,
+                                   flag_dataset_description=False,
+                                   flag_samples=False,
                                    flag_previous_result=False,
                                    *args, **kwargs)
+        self.ds_attribute_prefix = "Schema, and Data Profiling Info"
+        self.ds_attribute_prefix_label = "Schema, and Data Profiling Info:"
 
 
 class SchemaMissingValueFrequencyStatisticNumericPrompt(SingleBasicPrompt):
@@ -144,10 +179,12 @@ class SchemaMissingValueFrequencyStatisticNumericPrompt(SingleBasicPrompt):
                                    flag_missing_value_frequency=True,
                                    flag_distinct_value_count=False,
                                    flag_statistical_number=True,
-                                   flag_dataset_description=True,
-                                   flag_samples=True,
+                                   flag_dataset_description=False,
+                                   flag_samples=False,
                                    flag_previous_result=False,
                                    *args, **kwargs)
+        self.ds_attribute_prefix = "Schema, and Data Profiling Info"
+        self.ds_attribute_prefix_label = "Schema, and Data Profiling Info:"
 
 
 class SchemaMissingValueFrequencyCategoricalValuesPrompt(SingleBasicPrompt):
@@ -157,10 +194,12 @@ class SchemaMissingValueFrequencyCategoricalValuesPrompt(SingleBasicPrompt):
                                    flag_missing_value_frequency=True,
                                    flag_distinct_value_count=False,
                                    flag_statistical_number=False,
-                                   flag_dataset_description=True,
-                                   flag_samples=True,
+                                   flag_dataset_description=False,
+                                   flag_samples=False,
                                    flag_previous_result=False,
                                    *args, **kwargs)
+        self.ds_attribute_prefix = "Schema, and Data Profiling Info"
+        self.ds_attribute_prefix_label = "Schema, and Data Profiling Info:"
 
 
 class SchemaStatisticNumericCategoricalValuesPrompt(SingleBasicPrompt):
@@ -170,10 +209,12 @@ class SchemaStatisticNumericCategoricalValuesPrompt(SingleBasicPrompt):
                                    flag_missing_value_frequency=False,
                                    flag_distinct_value_count=False,
                                    flag_statistical_number=True,
-                                   flag_dataset_description=True,
-                                   flag_samples=True,
+                                   flag_dataset_description=False,
+                                   flag_samples=False,
                                    flag_previous_result=False,
                                    *args, **kwargs)
+        self.ds_attribute_prefix = "Schema, and Data Profiling Info"
+        self.ds_attribute_prefix_label = "Schema, and Data Profiling Info:"
 
 
 class AllPrompt(SingleBasicPrompt):
@@ -183,10 +224,13 @@ class AllPrompt(SingleBasicPrompt):
                                    flag_missing_value_frequency=True,
                                    flag_distinct_value_count=True,
                                    flag_statistical_number=True,
-                                   flag_dataset_description=True,
-                                   flag_samples=True,
+                                   flag_dataset_description=False,
+                                   flag_samples=False,
                                    flag_previous_result=False,
                                    *args, **kwargs)
+
+        self.ds_attribute_prefix = "Schema, and Data Profiling Info"
+        self.ds_attribute_prefix_label = "Schema, and Data Profiling Info:"
 
 
 class CatDBPrompt(SingleBasicPrompt):
@@ -202,3 +246,4 @@ class CatDBPrompt(SingleBasicPrompt):
                              *args, **kwargs)
         self.ds_attribute_prefix = "Schema, and Data Profiling Info"
         self.ds_attribute_prefix_label = "Schema, and Data Profiling Info:"
+        self.config = "CatDB"

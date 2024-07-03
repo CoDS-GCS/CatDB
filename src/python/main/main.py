@@ -421,6 +421,7 @@ if __name__ == '__main__':
     ti = 0
     t = args.prompt_number_iteration * 2
 
+    prompt_representation_type_orig = args.prompt_representation_type
     while begin_iteration < args.prompt_number_iteration + end_iteration:
         if args.prompt_representation_type == "CatDBChain":
             final_status, code = operation(args=args, catalog=catalog, run_mode=__validation_run_mode,
@@ -447,6 +448,7 @@ if __name__ == '__main__':
                                                time_catalog=time_catalog, iteration=begin_iteration)
                 if final_status:
                     begin_iteration += 1
+            args.prompt_representation_type = prompt_representation_type_orig
         else:
             final_status, code = operation(args=args, catalog=catalog, run_mode=__gen_run_mode,
                                            time_catalog=time_catalog, iteration=begin_iteration)

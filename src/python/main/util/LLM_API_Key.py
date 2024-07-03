@@ -62,3 +62,4 @@ class LLM_API_Key(object):
             log = f'{_llm_platform},{ID},{self.platform_keys[_llm_platform][ID]["count"]},{datetime.datetime.utcnow().isoformat()}'
             with open(_system_log_file, "a") as log_file:
                 log_file.write(log+"\n")
+                log_file.close()

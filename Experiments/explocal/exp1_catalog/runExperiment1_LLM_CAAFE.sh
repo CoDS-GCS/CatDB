@@ -8,7 +8,7 @@ classifier=$3
 with_dataset_description=$4
 
 metadata_path="${data_path}/${dataset}/${dataset}.yaml"
-number_iteration=1
+number_iteration=10
 result_output_path="${exp_path}/caafe-results/${dataset}"
 
 date=$(date '+%Y-%m-%d-%H-%M-%S')

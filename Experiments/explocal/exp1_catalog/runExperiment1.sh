@@ -26,7 +26,8 @@ CMD=./explocal/exp1_catalog/runExperiment1_LLM_Pipe_Gen.sh
 # $CMD ${dataset} ${data_profile_path} AUTO Random 0 ${task_type} gpt-4 No
 # $CMD ${dataset} ${data_profile_path} AUTO Random 0 ${task_type} gpt-4o No
 # $CMD ${dataset} ${data_profile_path} AUTO Random 0 ${task_type} gpt-3.5-turbo No
-# $CMD ${dataset} ${data_profile_path} AUTO Random 0 ${task_type} llama3-70b-8192 No
+$CMD ${dataset} ${data_profile_path} AUTO Random 0 ${task_type} gemini-1.5-pro-latest No
+$CMD ${dataset} ${data_profile_path} AUTO Random 0 ${task_type} llama3-70b-8192 No
 
 # $CMD ${dataset} ${data_profile_path} CatDB Random 0 ${task_type} gpt-4 Yes
 # $CMD ${dataset} ${data_profile_path} CatDB Random 0 ${task_type} gpt-4o Yes
@@ -41,10 +42,10 @@ CMD=./explocal/exp1_catalog/runExperiment1_LLM_Pipe_Gen.sh
 # $CMD ${dataset} ${data_profile_path} CatDB Random 0 ${task_type} gpt-4 No
 # $CMD ${dataset} ${data_profile_path} CatDB Random 0 ${task_type} gpt-4o No
 # $CMD ${dataset} ${data_profile_path} CatDB Random 0 ${task_type} gpt-3.5-turbo No
-$CMD ${dataset} ${data_profile_path} CatDB Random 10 ${task_type} llama3-70b-8192 No
-$CMD ${dataset} ${data_profile_path} CatDB Random 10 ${task_type} gemini-1.5-pro-latest No
-$CMD ${dataset} ${data_profile_path} CatDB Random 0 ${task_type} llama3-70b-8192 No
-$CMD ${dataset} ${data_profile_path} CatDB Random 0 ${task_type} gemini-1.5-pro-latest No
+# $CMD ${dataset} ${data_profile_path} CatDB Random 10 ${task_type} llama3-70b-8192 No
+# $CMD ${dataset} ${data_profile_path} CatDB Random 10 ${task_type} gemini-1.5-pro-latest No
+# $CMD ${dataset} ${data_profile_path} CatDB Random 0 ${task_type} llama3-70b-8192 No
+# $CMD ${dataset} ${data_profile_path} CatDB Random 0 ${task_type} gemini-1.5-pro-latest No
 
 
 # $CMD ${dataset} ${data_profile_path} CatDBChain Random 0 ${task_type} gpt-4 Yes
@@ -60,10 +61,10 @@ $CMD ${dataset} ${data_profile_path} CatDB Random 0 ${task_type} gemini-1.5-pro-
 # $CMD ${dataset} ${data_profile_path} CatDBChain Random 0 ${task_type} gpt-4 No
 # $CMD ${dataset} ${data_profile_path} CatDBChain Random 0 ${task_type} gpt-4o No
 # $CMD ${dataset} ${data_profile_path} CatDBChain Random 0 ${task_type} gpt-3.5-turbo No
-$CMD ${dataset} ${data_profile_path} CatDBChain Random 10 ${task_type} llama3-70b-8192 No
-$CMD ${dataset} ${data_profile_path} CatDBChain Random 10 ${task_type} gemini-1.5-pro-latest No
-$CMD ${dataset} ${data_profile_path} CatDBChain Random 0 ${task_type} llama3-70b-8192 No
-$CMD ${dataset} ${data_profile_path} CatDBChain Random 0 ${task_type} gemini-1.5-pro-latest No
+# $CMD ${dataset} ${data_profile_path} CatDBChain Random 10 ${task_type} llama3-70b-8192 No
+# $CMD ${dataset} ${data_profile_path} CatDBChain Random 10 ${task_type} gemini-1.5-pro-latest No
+# $CMD ${dataset} ${data_profile_path} CatDBChain Random 0 ${task_type} llama3-70b-8192 No
+# $CMD ${dataset} ${data_profile_path} CatDBChain Random 0 ${task_type} gemini-1.5-pro-latest No
 
 # Run Generated Pipeline
 # CMD=./explocal/exp1_catalog/runExperiment1_Run_Pipe.sh
@@ -72,7 +73,7 @@ $CMD ${dataset} ${data_profile_path} CatDBChain Random 0 ${task_type} gemini-1.5
 # $CMD ${dataset} ${data_profile_path} CatDB Random 0 ${task_type} gemini-1.5-pro-latest Yes 4
 
 # CAAFE
-#$CMDCAAFE ${dataset} gemini-1.5-pro-latest TabPFN Yes
+# $CMDCAAFE ${dataset} gemini-1.5-pro-latest TabPFN Yes
 #$CMDCAAFE ${dataset} gemini-1.5-pro-latest RandomForest Yes
 
 # $CMDCAAFE ${dataset} gemini-1.5-pro-latest TabPFN No

@@ -35,7 +35,8 @@ class LogResults(object):
                  test_rmse: float = -2,
                  prompt_token_count: int = 0,
                  all_token_count: int = 0,
-                 operation: str="Run-AutoML"
+                 operation: str="Run-AutoML",
+                 number_of_samples: int = 0
                  ):
         self.config = config
         self.sub_task = sub_task
@@ -70,13 +71,14 @@ class LogResults(object):
         self.prompt_token_count = prompt_token_count
         self.all_token_count = all_token_count
         self.operation = operation
+        self.number_of_samples = number_of_samples
 
         self.columns = ["dataset_name", "config", "sub_task", "llm_model", "classifier", "task_type", "status",
                         "number_iteration","number_iteration_error", "has_description", "time_catalog_load", "time_pipeline_generate",
                         "time_total", "time_execution", "train_auc","train_auc_ovo","train_auc_ovr", "train_accuracy",
                         "train_f1_score", "train_log_loss", "train_r_squared", "train_rmse", "test_auc","test_auc_ovo",
                         "test_auc_ovr", "test_accuracy", "test_f1_score", "test_log_loss", "test_r_squared", "test_rmse",
-                        "prompt_token_count","all_token_count", "operation"]
+                        "prompt_token_count","all_token_count", "operation","number_of_samples"]
 
     def save_results(self, result_output_path: str):
         try:
@@ -117,6 +119,7 @@ class LogResults(object):
                                          self.test_rmse,
                                          self.prompt_token_count,
                                          self.all_token_count,
-                                         self.operation]
+                                         self.operation,
+                                         self.number_of_samples]
 
         df_result.to_csv(result_output_path, index=False)

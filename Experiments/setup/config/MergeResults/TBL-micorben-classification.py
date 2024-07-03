@@ -36,7 +36,8 @@ if __name__ == '__main__':
         ds_name, ds_rnc_name, index = ds
         datasets.append((ds_rnc_name, f"{ds_name}", index))
 
-    
+    llms = ["gemini-1.5-pro-latest","llama3-70b-8192"]
+
     wins = { "gemini-1.5-pro-latest":{ "CatDB_train_auc":0,"CatDB_test_auc":0,
                         "CatDBChain_train_auc":0,"CatDBChain_test_auc":0,
                         "CAAFETabPFN_train_auc":0,"CAAFETabPFN_test_auc":0,
@@ -54,9 +55,13 @@ if __name__ == '__main__':
                         "Flaml_train_auc":0,"Flaml_test_auc":0,
                         "Autogluon_train_auc":0,"Autogluon_test_auc":0}}
     
-
-    #llms = ["gpt-4", "gpt-4o", "llama3-70b-8192", "gemini-1.5-pro-latest"]
-    llms = ["gemini-1.5-pro-latest","llama3-70b-8192"]
+    wins2 = dict()
+    for llm in llms:
+        llm_key = dict()
+        for key in wins[llm].keys():
+            llm_key[key] = 0
+        wins2[llm] = llm_key    
+    
     classifier = ["Auto", "TabPFN", "RandomForest"]
 
     llms_shorname = {"gemini-1.5-pro-latest":"Gemini-1.5","llama3-70b-8192":"Llama3-70b"}
@@ -170,19 +175,37 @@ if __name__ == '__main__':
                      df_micro.at[cindex,k] = "& --" 
                 else:
                     df_micro.at[cindex,k] = f"& {tbl_data[k]/1000}"
-            
-            catdb_value =(tbl_data["CatDB_test_auc"]-max_other)/1000
-            catdb_chain_value = (tbl_data["CatDBChain_test_auc"]-max_other) / 1000
-            
-            if catdb_value <0:
-                catdb_value_str = f"${catdb_value}$"
-            else:
-               catdb_value_str = f"$+{catdb_value}$"
 
-            if catdb_chain_value <0:
-                catdb_chain_value_str = f"${catdb_chain_value}$"
+                if tbl_data[k] is  not None:   
+                 if "test" in k and tbl_data[k]+4 >= max_test:
+                    wins2[llm][k] +=1
+                 elif "train" in k and tbl_data[k]+4 >= max_train:
+                    wins2[llm][k] +=1      
+            
+            if tbl_data["CatDB_test_auc"] > 0: 
+                catdb_value =(tbl_data["CatDB_test_auc"]-max_other)/1000
+                
+                if catdb_value < 0:
+                    catdb_value_str = f"${catdb_value}$"
+                elif catdb_value> 0:
+                    catdb_value_str = f"$+{catdb_value}$"
+                else:
+                    catdb_value_str = "0.0"     
             else:
-                catdb_chain_value_str = f"$+{catdb_chain_value}$"
+                 catdb_value_str = "--"
+
+
+            if tbl_data["CatDBChain_test_auc"] > 0:     
+                catdb_chain_value = (tbl_data["CatDBChain_test_auc"]-max_other) / 1000            
+
+                if catdb_chain_value < 0:
+                    catdb_chain_value_str = f"${catdb_chain_value}$"
+                elif catdb_chain_value > 0:
+                    catdb_chain_value_str = f"$+{catdb_chain_value}$"
+                else:                 
+                    catdb_chain_value_str = "0.0"        
+            else:
+                 catdb_chain_value_str = "--"       
 
             df_micro.at[cindex,"CatDB_test_auc_diff"] = f'& {catdb_value_str}'
             df_micro.at[cindex,"CatDBChain_test_auc_diff"] = f'& {catdb_chain_value_str} \\\\ {tbl_line}'
@@ -204,6 +227,22 @@ if __name__ == '__main__':
 
         df_micro.at[cindex,"CatDB_test_auc_diff"] = "& "
         df_micro.at[cindex,"CatDBChain_test_auc_diff"] = "& \\\\"
+    
+    # for llm in llms:
+    #     cindex = len(df_micro)
+    #     df_micro.loc[cindex] = [None for ti in micor_tbl_cols]
+
+    #     if llm == "gemini-1.5-pro-latest":
+    #          df_micro.at[cindex,"dataset_name"] = "Leader"      
+    #     else:
+    #         df_micro.at[cindex,"dataset_name"] = "Board 2" 
+
+    #     df_micro.at[cindex,"llm_model"] = "& "+llms_shorname[llm]
+    #     for k in tbl_data.keys():
+    #         df_micro.at[cindex,k] = f"& {wins2[llm][k]}"
+
+    #     df_micro.at[cindex,"CatDB_test_auc_diff"] = "& "
+    #     df_micro.at[cindex,"CatDBChain_test_auc_diff"] = "& \\\\"
     
 
     fname = f"{root_path}/tbl_micro_classification.txt"

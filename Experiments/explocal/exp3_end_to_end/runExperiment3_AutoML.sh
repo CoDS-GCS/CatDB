@@ -5,13 +5,14 @@ framework=$2
 max_runtime_seconds=$3
 iteration=$4
 llm_model=$5
-jvm_memory=128
+correspond_config=$6
+jvm_memory=135
 
 exp_path="$(pwd)"
 data_path="${exp_path}/data"
 metadata_path="${data_path}/${dataset}/${dataset}.yaml"
 output_dir="${exp_path}/results/AutoML"
-output_path="${exp_path}/results/Experiment3_AutoML.dat"
+output_path="${exp_path}/results/Experiment3_AutoML_${correspond_config}.dat"
 exe_runtime_path="${exp_path}/archive/SIGMOD2025-Results/ExeResults.csv"
 
 mkdir -p ${output_dir}
@@ -26,7 +27,8 @@ CMD="python -Wignore main${framework}.py --metadata-path ${metadata_path} \
     --output-dir ${output_dir} \
     --iteration ${iteration} \
     --exe-runtime-path ${exe_runtime_path} \
-    --llm-model ${llm_model}"
+    --llm-model ${llm_model} \
+    --correspond-config ${correspond_config}"
 
 cd "${framework}AutoML"
 source venv/bin/activate

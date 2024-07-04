@@ -14,8 +14,8 @@
 };
     
 \newcommand{\addboxplot}[6]{
-  \myaddplot{train}{train_auc}{../archive/SIGMOD2025-Results/seperate/#1-#2-#3#4-No.csv}{#5}{#3}{#1};
-  \myaddplot{test}{test_auc}{../archive/SIGMOD2025-Results/seperate/#1-#2-#3#4-No.csv}{#6}{#3}{#1};
+  \myaddplot{train}{train_auc}{../archive/SIGMOD2025-Results/seperate/#1-#2-#3#4-0-No.csv}{#5}{#3}{#1};
+  \myaddplot{test}{test_auc}{../archive/SIGMOD2025-Results/seperate/#1-#2-#3#4-0-No.csv}{#6}{#3}{#1};
 };
 
 \newcommand{\myaddplotcost}[4]{ %postaction={pattern=horizontal lines, pattern color=#3}
@@ -93,23 +93,23 @@
   legend image code/.code={\draw [#1] (0cm,-0.1cm) rectangle (0.2cm,0.1cm); },  
 %}
 ]  
-  \addboxplot{CatDB}{Credit-g}{gemini-1.5-pro-latest}{}{white}{white}; %{color4!60}{color4}
-  \addboxplot{CatDB}{Credit-g}{gemini-1.5-pro-latest}{}{tug!50}{tug};
-  \addboxplot{CatDB}{Credit-g}{llama3-70b-8192}{}{tugb}{tugb!150};
+  \addboxplot{CatDB}{Credit-g}{gpt-4o}{}{dblue2}{dblue1};
+  \addboxplot{CatDB}{Credit-g}{gemini-1.5-pro-latest}{}{dred2}{dred1};
+  \addboxplot{CatDB}{Credit-g}{llama3-70b-8192}{}{teal2}{teal1};
   
 
-  \addboxplot{CatDBChain}{Credit-g}{gemini-1.5-pro-latest}{}{white}{white};
-  \addboxplot{CatDBChain}{Credit-g}{gemini-1.5-pro-latest}{}{tug!50}{tug};
-  \addboxplot{CatDBChain}{Credit-g}{llama3-70b-8192}{}{tugb}{tugb!150};
+  \addboxplot{CatDBChain}{Credit-g}{gpt-4o}{}{dblue2}{dblue1}
+  \addboxplot{CatDBChain}{Credit-g}{gemini-1.5-pro-latest}{}{dred2}{dred1};
+  \addboxplot{CatDBChain}{Credit-g}{llama3-70b-8192}{}{teal2}{teal1};
   
 
-  \addboxplot{CAAFE}{Credit-g}{gemini-1.5-pro-latest}{-TabPFN}{white}{white};
-  \addboxplot{CAAFE}{Credit-g}{gemini-1.5-pro-latest}{-TabPFN}{tug!50}{tug};
-  \addboxplot{CAAFE}{Credit-g}{llama3-70b-8192}{-TabPFN}{tugb}{tugb!150};
+  \addboxplot{CAAFE}{Credit-g}{gpt-4o}{-TabPFN}{dblue2}{dblue1};
+  \addboxplot{CAAFE}{Credit-g}{gemini-1.5-pro-latest}{-TabPFN}{dred2}{dred1};
+  \addboxplot{CAAFE}{Balance-Scale}{llama3-70b-8192}{-TabPFN}{teal2}{teal1};
   
-  \addboxplot{CAAFE}{Credit-g}{gemini-1.5-pro-latest}{-RandomForest}{white}{white};
-  \addboxplot{CAAFE}{Credit-g}{gemini-1.5-pro-latest}{-RandomForest}{tug!50}{tug};
-  \addboxplot{CAAFE}{Credit-g}{llama3-70b-8192}{-RandomForest}{tugb}{tugb!150};
+  \addboxplot{CAAFE}{Credit-g}{gpt-4o}{-RandomForest}{dblue2}{dblue1};
+  \addboxplot{CAAFE}{Credit-g}{gemini-1.5-pro-latest}{-RandomForest}{dred2}{dred1};
+  \addboxplot{CAAFE}{Credit-g}{llama3-70b-8192}{-RandomForest}{teal2}{teal1};
   
   \coordinate (top1) at (axis cs:6.49,\pgfkeysvalueof{/pgfplots/ymax});
   \coordinate (bot1) at (axis cs:6.49,\pgfkeysvalueof{/pgfplots/ymin});
@@ -124,6 +124,18 @@
   \draw[black!50, thick] (top2) -- (bot2);
   \draw[black!50, thick] (top3) -- (bot3);
 
+  \draw[gray, densely dotted] (axis cs:2.5,\pgfkeysvalueof{/pgfplots/ymax}) -- (axis cs:2.5,\pgfkeysvalueof{/pgfplots/ymin});
+  \draw[gray, densely dotted] (axis cs:4.45,\pgfkeysvalueof{/pgfplots/ymax}) -- (axis cs:4.45,\pgfkeysvalueof{/pgfplots/ymin});
+
+  \draw[gray, densely dotted] (axis cs:8.55,\pgfkeysvalueof{/pgfplots/ymax}) -- (axis cs:8.55,\pgfkeysvalueof{/pgfplots/ymin});
+  \draw[gray, densely dotted] (axis cs:10.5,\pgfkeysvalueof{/pgfplots/ymax}) -- (axis cs:10.5,\pgfkeysvalueof{/pgfplots/ymin});
+
+  \draw[gray, densely dotted] (axis cs:14.6,\pgfkeysvalueof{/pgfplots/ymax}) -- (axis cs:14.6,\pgfkeysvalueof{/pgfplots/ymin});
+  \draw[gray, densely dotted] (axis cs:16.55,\pgfkeysvalueof{/pgfplots/ymax}) -- (axis cs:16.55,\pgfkeysvalueof{/pgfplots/ymin});
+
+  \draw[gray, densely dotted] (axis cs:20.65,\pgfkeysvalueof{/pgfplots/ymax}) -- (axis cs:20.65,\pgfkeysvalueof{/pgfplots/ymin});
+  \draw[gray, densely dotted] (axis cs:22.6,\pgfkeysvalueof{/pgfplots/ymax}) -- (axis cs:22.6,\pgfkeysvalueof{/pgfplots/ymin});
+
 \end{axis}
 
 \begin{axis}[
@@ -135,7 +147,7 @@
   x tick label style={/pgf/number format/1000 sep={}},
   scaled y ticks=false,
   enlarge y limits={1.3,upper},
-  enlarge x limits=0.18,
+  enlarge x limits=0.164,
   ylabel={},
   xlabel={},
   ytick={},
@@ -148,20 +160,22 @@
   every axis plot/.append style={line width=0.8pt,mark options={scale=1.5,solid}},  
   legend image post style={line width=.5pt},   
   boxplot/draw direction=y,
-  bar width=13pt,
+  bar width=15pt,
   xtick = data,
   symbolic x coords={CatDB,CatDBChain, CAAFETabPFN,CAAFERandomForest},
   legend image code/.code={\draw [#1] (0cm,-0.1cm) rectangle (0.2cm,0.1cm); }, 
   ]   
 
-    %\addcost{Credit-g}{gemini-1.5-pro-latest}{color8!5}{0pt};
-    \addcost{Credit-g}{gemini-1.5-pro-latest}{color8!30}{0pt};
-    \addcost{Credit-g}{llama3-70b-8192}{color8!70!}{0pt};
+    \addcost{Credit-g}{gpt-4o}{gray}{-.5pt};
+    \addcost{Credit-g}{gemini-1.5-pro-latest}{lightgray}{0.5pt};
+    \addcost{Credit-g}{llama3-70b-8192}{white}{1.4pt};
     
 \end{axis}
 
-\node [draw=none,inner sep=0, font=\small, anchor=west] (leg1) at (rel axis cs: 0.25,1.15) {\shortstack[r]{
+\node [draw=none,inner sep=0, font=\small, anchor=west] (leg1) at (rel axis cs: 0.25,1.20) {\shortstack[r]{
+  GPT-4o ( \ref{gpt-4o_CatDB_train} Train \ref{gpt-4o_CatDB_test} Test \ \ \ \ref{gpt-4o} Tokens) \\
   Gemini-1.5-pro ( \ref{gemini-1.5-pro-latest_CatDB_train} Train \ref{gemini-1.5-pro-latest_CatDB_test} Test \ \ \ \ref{gemini-1.5-pro-latest} Tokens) \\
-  Llama3-70b-8192 ( \ref{llama3-70b-8192_CatDB_train} Train \ref{llama3-70b-8192_CatDB_test} Test \ \ \ \ref{llama3-70b-8192} Tokens)}};
+  Llama3-70b-8192 ( \ref{llama3-70b-8192_CatDB_train} Train \ref{llama3-70b-8192_CatDB_test} Test \ \ \ \ref{llama3-70b-8192} Tokens)  
+  }};
 
 \end{tikzpicture}

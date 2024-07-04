@@ -49,7 +49,7 @@ if __name__ == '__main__':
         #datasets.append((ds_name, ds_name, index))
         datasets.append((ds_rnc_name, f"{ds_name}",task_type , index))
 
-    llms = ["gemini-1.5-pro-latest","llama3-70b-8192"]
+    llms = ["gemini-1.5-pro-latest","llama3-70b-8192", "gpt-4o"]
     classifier = ["Auto", "TabPFN", "RandomForest"]
 
     configs = ["CatDB", "CatDBChain", "CAAFE"]    
@@ -219,7 +219,7 @@ if __name__ == '__main__':
                             tsk = "regression"                  
 
                         dataset_load_time = df_csv_read.loc[df_csv_read['dataset']==ds]["time"].values[0] / 1000
-                        df_exe.loc[len(df_cost)] = [ ds, ds_title, prompt_exe["CatDB"], prompt_exe["CatDBChain"], prompt_exe["CAAFETabPFN"],prompt_exe["CAAFERandomForest"],
+                        df_exe.loc[len(df_exe)] = [ ds, ds_title, prompt_exe["CatDB"], prompt_exe["CatDBChain"], prompt_exe["CAAFETabPFN"],prompt_exe["CAAFERandomForest"],
                                                     prompt_exe["CatDB_min"], prompt_exe["CatDBChain_min"], prompt_exe["CAAFETabPFN_min"],prompt_exe["CAAFERandomForest_min"], dataset_load_time, llm, des, task_type, tsk, samples]      
 
               

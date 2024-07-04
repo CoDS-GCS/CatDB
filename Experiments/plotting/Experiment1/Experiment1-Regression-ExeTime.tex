@@ -84,25 +84,25 @@
   xticklabel style = {font=\large, xshift=0pt, yshift=-15pt, rotate=0, anchor=north},
 ]
 
-\myaddplotexe{CatDB_min}{gemini-1.5-pro-latest}{regression}{0}{tug}{4pt}{};
-\myaddplotexe{CatDBChain_min}{gemini-1.5-pro-latest}{regression}{0}{tug}{2pt}{pattern=north east lines, pattern color=white};
+\myaddplotexe{CatDB_min}{gemini-1.5-pro-latest}{regression}{0}{dblue1}{4pt}{};
+\myaddplotexe{CatDBChain_min}{gemini-1.5-pro-latest}{regression}{0}{dblue3}{2pt}{};%pattern=north east lines, pattern color=white
 
-\myaddplotexe{CatDB_min}{llama3-70b-8192}{regression}{0}{tugb}{0pt}{};
-\myaddplotexe{CatDBChain_min}{llama3-70b-8192}{regression}{0}{tugb}{-2pt}{pattern=north east lines, pattern color=black};
+\myaddplotexe{CatDB_min}{llama3-70b-8192}{regression}{0}{dred1}{0pt}{};
+\myaddplotexe{CatDBChain_min}{llama3-70b-8192}{regression}{0}{dred3}{-2pt}{};
 
-% \myaddplotexe{CatDB_min}{llama3-70b-8192}{regression}{0}{color4}{-4pt}{};
-% \myaddplotexe{CatDBChain_min}{llama3-70b-8192}{regression}{0}{color4}{-6pt}{pattern=north east lines, pattern color=black};
+\myaddplotexe{CatDB_min}{gpt-4o}{regression}{0}{teal1}{-4pt}{};
+\myaddplotexe{CatDBChain_min}{gpt-4o}{regression}{0}{teal3}{-6pt}{};
  
 \node [draw=none,inner sep=0, font=\large, anchor=west] (l1) at (rel axis cs: 0.03,0.75) {\shortstack[l]{
   \ref{gemini-1.5-pro-latest_CatDB_min} CatDB+Gemini-1.5 \\ \\ 
-  \ref{llama3-70b-8192_CatDB_min} CatDB+Llama3-70b %\\ \\
-  %\ref{llama3-70b-8192_CatDB_min} CatDB+GPT-4o
+  \ref{llama3-70b-8192_CatDB_min} CatDB+Llama3-70b \\ \\
+  \ref{gpt-4o_CatDB_min} CatDB+GPT-4o
   }};
 
   \node [draw=none,inner sep=0, font=\large, anchor=east, right=of l1, xshift=-15pt] (l2) {\shortstack[l]{
     \ref{gemini-1.5-pro-latest_CatDBChain_min} CatDB Chain+Gemini-1.5 \\ \\ 
-    \ref{llama3-70b-8192_CatDBChain_min} CatDB Chain+Llama3-70b %\\ \\
-    %\ref{llama3-70b-8192_CatDBChain_min} CatDB Chain+GPT-4o
+    \ref{llama3-70b-8192_CatDBChain_min} CatDB Chain+Llama3-70b \\ \\
+    \ref{gpt-4o_CatDBChain_min} CatDB Chain+GPT-4o
   }};  
 \end{axis}
 \end{tikzpicture}

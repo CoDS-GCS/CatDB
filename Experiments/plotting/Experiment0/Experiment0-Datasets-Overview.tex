@@ -1,17 +1,17 @@
 \newcommand{\addplotStatistics}[1]{
-	   \addplot[xshift=0pt,draw=none,line width=0.15pt, fill=tug]
+	   \addplot[xshift=0pt,draw=none,line width=0.15pt, fill=dred1]
 	   table[ y=number_string, col sep=comma, x=dataset_name] {#1};
      \label{string}; 
 
-     \addplot[xshift=0pt,draw=none,line width=0.15pt, fill=tugb]
+     \addplot[xshift=0pt,draw=none,line width=0.15pt, fill=dblue1]
 	   table[ y=number_int, col sep=comma, x=dataset_name] {#1};
      \label{int};  
      
-     \addplot[xshift=0pt,draw=none,line width=0.15pt, fill=color3]
+     \addplot[xshift=0pt,draw=none,line width=0.15pt, fill=teal1]
 	   table[ y=number_float, col sep=comma, x=dataset_name] {#1};
      \label{float};
 
-     \addplot[xshift=0pt,draw=none,line width=0.15pt, fill=color4]
+     \addplot[xshift=0pt,draw=none,line width=0.15pt, fill=black]
 	   table[ y=number_bool, col sep=comma, x=dataset_name] {#1};
      \label{bool};
 };
@@ -40,7 +40,7 @@
     grid style=dotted,   
     minor grid style={gray!50}, 
     xtick = data,
-    symbolic x coords={"Balance-Scale","Breast-w","CMC","Credit-g","Diabetes","Tic-Tac-Toe","Eucalyptus","PC1","Jungle-Chess","Higgs","Skin","Traffic","Walking-Activity","Black-Friday","Bike-Sharing","House-Sales","NYC","Airlines-DepDelay"}, 
+    symbolic x coords={Balance-Scale,Breast-w,CMC,Credit-g,Diabetes,Tic-Tac-Toe,Eucalyptus,PC1,Jungle-Chess,Higgs,Skin,Traffic,Walking-Activity,Black-Friday,Bike-Sharing,House-Sales,NYC,Airlines-DepDelay}, 
     legend image code/.code={\draw [#1] (0cm,-0.1cm) rectangle (0.2cm,0.15cm); },
     ] 
     \addplotStatistics{../archive/SIGMOD2025-Results/statistics/dataset_overview.dat}

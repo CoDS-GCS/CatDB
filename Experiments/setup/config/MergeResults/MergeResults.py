@@ -68,6 +68,17 @@ def load_merge_all_results(root_path):
 
     return df_merge
 
+def load_merde_AUTO_results(root_path, df):   
+
+    results_path = [f"{root_path}/server-113/CatDB-Auto/Experiment1_LLM_Pipe_Gen_AUTO.dat"]    
+   
+    
+    for rp in results_path:
+        df_tmp = load_results(rp)    
+        df = merge_raw_data(df_result=df, df_tmp=df_tmp)
+
+    return df
+
 def load_merge_all_errors(root_path):
     columns = ["row_id", "dataset_name", "llm_model", "config", "sub_task", "error_class", "error_type",
                         "error_value", "error_detail", "error_exception", "file_name", "timestamp"]

@@ -1,0 +1,123 @@
+\makeatletter
+\newcommand\resetstackedplots{
+\makeatletter
+\pgfplots@stacked@isfirstplottrue
+\makeatother
+\addplot [forget plot,draw=none] coordinates{(gemini-1.5-pro-latest, 0) (llama3-70b-8192, 0) (gpt-4o, 0)};
+}
+\makeatother
+
+\begin{tikzpicture}
+
+   \newcommand{\myaddplotauc}[6]{ 
+      \addplot[xshift=#6,fill=#5, draw=black,line width=0.3pt] 
+      table[y=test_auc_ovr, col sep=comma, x=llm_model, discard if singlconfig={No}{#1}{#2}{#3}{#4}]%, 
+      {../archive/SIGMOD2025-Results/MicroResults.csv};
+      \label{#2}       
+    };
+
+    \newcommand{\myaddplotdsg}[8]{
+      \resetstackedplots
+      \myaddplotauc{#1}{S}{#2}{0}{white}{#3};
+      \resetstackedplots
+      \myaddplotauc{#1}{SDVC}{#2}{0}{dred1!10}{#4};
+      \resetstackedplots
+      \myaddplotauc{#1}{SSN}{#2}{0}{dred1!35}{#5};
+      \resetstackedplots
+      \myaddplotauc{#1}{SCV}{#2}{0}{dred1!60}{#6};
+      \resetstackedplots
+      \myaddplotauc{#1}{SDVCSN}{#2}{0}{dred1}{#7};      
+      \resetstackedplots
+      \myaddplotauc{#1}{CatDBChain}{#2}{0}{dblue1}{#8};
+    };
+
+    \pgfplotsset{
+      discard if singlconfig/.style n args={5}{
+          x filter/.code={
+              \edef\tempa{\thisrow{has_description}}
+              \edef\tempb{#1}
+              \ifx\tempa\tempb
+                \edef\tempc{\thisrow{llm_model}}
+                  \edef\tempd{#2}
+                    \ifx\tempc\tempd  
+                    %
+                      \edef\tempe{\thisrow{config}}
+                      \edef\tempf{#3}
+                      \ifx\tempe\tempf  
+                      %
+                        \edef\tempg{\thisrow{dataset_name}}
+                        \edef\temph{#4}
+                        \ifx\tempg\temph
+                        
+                          \edef\tempi{\thisrow{number_of_samples}}
+                          \edef\tempj{#5}
+                          \ifx\tempi\tempj                                      
+                          \else
+                          \def\pgfmathresult{inf}
+                          \fi
+                             
+                        \else
+                        \def\pgfmathresult{inf}
+                        \fi
+                    %           
+                      \else
+                      \def\pgfmathresult{inf}
+                    \fi
+                    %                
+                    \else
+                    \def\pgfmathresult{inf}
+                    \fi
+              \else
+              \def\pgfmathresult{inf}
+              \fi			
+          }
+      },
+  };   
+
+\begin{axis}[
+  ybar stacked,
+  ymin=0,
+  ymax=1,
+  y tick label style={/pgf/number format/1000 sep={}},
+  x tick label style={/pgf/number format/1000 sep={}},  
+  scaled y ticks=false,
+  axis line style={black, line width=0.3pt},
+  enlarge y limits={0.42,upper},
+  enlarge x limits=0.07,
+  ylabel={Test AUC $\%$},
+  xlabel={},
+  log ticks with fixed point,
+  xtick align=outside,
+  xtick pos=left,
+  ytick pos=left,
+  yticklabel style = {font=\normalsize},
+  ylabel style = {font=\normalsize, yshift=-3pt, xshift=-3pt},
+  height=.55\columnwidth,
+  width=1\columnwidth,
+  ymajorgrids=true,
+  grid style=dotted,
+  minor grid style={gray!70},
+  every axis plot/.append style={line width=0.4pt,mark options={scale=1.5,solid}},  
+  xticklabel style = {font=\normalsize, xshift=0pt, yshift=3pt},
+  legend image post style={line width=.5pt},          
+  bar width=6pt,         
+  ytick={0,0.2,0.4,0.6,0.8,1},
+  yticklabels={0, 20, 40, 60, 80, 100},               
+  every x tick/.style={ draw=none},
+  xtick = data,
+  symbolic x coords={gemini-1.5-pro-latest, llama3-70b-8192, gpt-4o},
+  xticklabels={\hspace{1cm}Gemini-1.5, \hspace{0.1cm}Llama3-70b, \hspace{-0.64cm}GPT-4o},
+  legend image code/.code={\draw [#1] (0cm,-0.08cm) rectangle (0.15cm,0.08cm); }, 
+]
+\myaddplotdsg{gpt-4o}{Walking-Activity}{-38pt}{-32pt}{-26pt}{-20pt}{-14pt}{-8pt}
+\myaddplotdsg{llama3-70b-8192}{Walking-Activity}{-16pt}{-10pt}{-4pt}{2pt}{8pt}{14pt}
+\myaddplotdsg{gemini-1.5-pro-latest}{Walking-Activity}{0pt}{6pt}{12pt}{18pt}{24pt}{30pt}
+\end{axis}
+
+\node [draw=none,inner sep=0, font=\scriptsize, anchor=west] (leg1) at (rel axis cs: 0.1,0.86) {\shortstack[l]{
+  \ref{S} Schema \ \ \ \ \ref{SDVC} Schema + Distinct Value Count\\
+  \ref{SSN} Schema + Statistical Number \ \ \ \ \ref{SCV} Schema + Categorical Values\\
+  \ref{SDVCSN}  Schema + Distinct Value Count + Statistical Number \ \ \ \ \ref{CatDBChain} CatDB Chain
+  }};
+
+\end{tikzpicture}

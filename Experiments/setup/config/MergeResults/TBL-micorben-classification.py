@@ -227,10 +227,12 @@ if __name__ == '__main__':
         cindex = len(df_micro)
         df_micro.loc[cindex] = [None for ti in micor_tbl_cols]
 
-        if llm == "gpt-40":
+        if llm == "gpt-4o":
              df_micro.at[cindex,"dataset_name"] = "Leader"      
-        elif llm == "llama3-70b-8192":
+        elif llm == "gemini-1.5-pro-latest":
             df_micro.at[cindex,"dataset_name"] = "Board" 
+        else:
+            df_micro.at[cindex,"dataset_name"] = ""    
 
         df_micro.at[cindex,"llm_model"] = "& "+llms_shorname[llm]
         for k in tbl_data.keys():

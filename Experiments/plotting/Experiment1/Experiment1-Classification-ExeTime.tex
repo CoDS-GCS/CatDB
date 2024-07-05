@@ -63,20 +63,21 @@
   xtick align=outside,
   xtick pos=left,
   ytick pos=left,
-  yticklabel style = {font=\Large},
+  yticklabel style = {font=\LARGE},
   ylabel style = {font=\Large, yshift=0pt, xshift=50pt},
-  height=0.4\columnwidth,
+  height=0.45\columnwidth,
   width=2\columnwidth,
   ymajorgrids=true,
   grid style=dotted,
   minor grid style={gray!70},
-  nodes near coords,
-  every node near coord/.append style={font=\fontsize{0.1pt}{0.1}, rotate=90, xshift=8pt, yshift=0pt},
+  %nodes near coords,
+  %every node near coord/.append style={font=\fontsize{0.1pt}{0.1}, rotate=90, xshift=8pt, yshift=0pt},
   every axis plot/.append style={line width=0.8pt,mark options={scale=1.5,solid}},  
   xticklabel style = {font=\large, xshift=-3.5pt, yshift=16pt, rotate=0, anchor=north east},
   legend image post style={line width=.5pt},   
   log origin y=infty,  
-  max space between ticks=5
+  max space between ticks=5,
+  legend image code/.code={\draw [#1] (0cm,-0.15cm) rectangle (0.30cm,0.15cm); }, 
 ]
 \nextgroupplot[bar width=7pt,   
               ymin=0.1, %0.001, 
@@ -88,8 +89,6 @@
               xticklabels={},
               ylabel={},
               xtick style={draw=none},
-              legend image code/.code={\draw [#1] (0cm,-0.1cm) rectangle (0.25cm,0.1cm); 
-  }, 
   xticklabel style = {font=\Large, xshift=0pt, yshift=-10pt, rotate=35, anchor=north east},] 
  \myaddplotexe{CatDB_min}{gpt-4o}{classification}{0}{dred1}{0pt};
  \myaddplotexe{CatDBChain_min}{gpt-4o}{classification}{0}{dred3}{-2pt};
@@ -107,8 +106,6 @@
               xticklabels={},
               ylabel={},
               xtick style={draw=none},
-              legend image code/.code={\draw [#1] (0cm,-0.1cm) rectangle (0.25cm,0.1cm); 
-  }, 
   xticklabel style = {font=\Large, xshift=0pt, yshift=-10pt, rotate=35, anchor=north east},] 
  \myaddplotexe{CatDB_min}{llama3-70b-8192}{classification}{0}{dred1}{0pt};
  \myaddplotexe{CatDBChain_min}{llama3-70b-8192}{classification}{0}{dred3}{-2pt};
@@ -124,7 +121,7 @@
               every x tick/.style={ thick,gray, xshift=-3pt,yshift=1.5pt},
               xtick = data,
               symbolic x coords={Balance-Scale,Breast-w,CMC,Credit-g,Diabetes,Tic-Tac-Toe,Eucalyptus,PC1,Jungle-Chess,Higgs,Skin,Traffic,Walking-Activity,Black-Friday,Bike-Sharing,House-Sales,NYC,Airlines-DepDelay},
-              legend image code/.code={\draw [#1] (0cm,-0.1cm) rectangle (0.25cm,0.1cm); }, 
+              xticklabels={\shortstack[c]{Balance\\Scale},\shortstack[c]{\ \\ \\ Breast-w},CMC,Credit-g,Diabetes,Tic-Tac-Toe,Eucalyptus,PC1,\shortstack[c]{Jungle\\Chess},Higgs,Skin,Traffic,\shortstack[c]{Walking\\Activity},Black-Friday,Bike-Sharing,House-Sales,NYC,Airlines-DepDelay},
               xticklabel style = {font=\large, xshift=0pt, yshift=-10pt, rotate=25, anchor=north east},] 
  \myaddplotexe{CatDB_min}{gemini-1.5-pro-latest}{classification}{0}{dred1}{0pt};
  \myaddplotexe{CatDBChain_min}{gemini-1.5-pro-latest}{classification}{0}{dred3}{-2pt};
@@ -132,7 +129,6 @@
  \myaddplotexe{CAAFETabPFN_min}{gemini-1.5-pro-latest}{classification}{0}{dblue3}{-6pt};
 
  \node [draw=none,inner sep=0, font=\Large, anchor=west ,align=right, text width=85pt] (leg1) at (rel axis cs: 0.8,0.87){Gemini-1.5-pro};
- %\draw[gray, densely dotted] (axis cs:Balance-Scale,\pgfkeysvalueof{/pgfplots/ymax}) -- (axis cs:Balance-Scale,\pgfkeysvalueof{/pgfplots/ymin});
 
 \end{groupplot}%
 

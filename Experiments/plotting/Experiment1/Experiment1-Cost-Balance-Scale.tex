@@ -111,29 +111,29 @@
   xtick pos=left,
   ytick pos=left,
   yticklabel style = {font=\large},
-  ylabel style = {font=\large, yshift=0pt, xshift=0pt},
+  ylabel style = {font=\large, yshift=0pt, xshift=-3pt},
   height=.5\columnwidth,
-  width=.65\columnwidth,
+  width=.66\columnwidth,
   ymajorgrids=true,
   grid style=dotted,
   minor grid style={gray!70},
-  nodes near coords,
-  every node near coord/.append style={font=\fontsize{0.1pt}{0.1}, rotate=90, xshift=8pt, yshift=0pt},
+  %nodes near coords,
+  %every node near coord/.append style={font=\fontsize{0.1pt}{0.1}, rotate=90, xshift=8pt, yshift=0pt},
   every axis plot/.append style={line width=0.4pt,mark options={scale=1.5,solid}},  
-  xticklabel style = {font=\normalsize, xshift=30pt, yshift=3pt, rotate=0, anchor=north east},
+  xticklabel style = {font=\normalsize, xshift=0pt, yshift=3pt},
   legend image post style={line width=.5pt},          
-  bar width=7pt,         
+  bar width=8pt,         
   ytick={0,1000,2000,3000,4000,5000,6000,7000,8000},
   yticklabels={0, 1k, 2k, 3k, 4k, 5k,6k,7k,8k},               
   every x tick/.style={ draw=none},
   xtick = data,
   symbolic x coords={gemini-1.5-pro-latest, llama3-70b-8192, gpt-4o},
-  xticklabels={Gemini-1.5, Llama3-70b, \hspace{-2.3cm}GPT-4o},
+  xticklabels={\hspace{0.3cm}Gemini-1.5, \hspace{0.1cm}Llama3-70b, \hspace{-0.64cm}GPT-4o},
   legend image code/.code={\draw [#1] (0cm,-0.1cm) rectangle (0.25cm,0.1cm); }, 
 ]
-\myaddplotds{gemini-1.5-pro-latest}{Balance-Scale}{0pt}{7pt}{14pt}{21pt}
-\myaddplotds{llama3-70b-8192}{Balance-Scale}{-10pt}{-3pt}{4pt}{11pt}
-\myaddplotds{gpt-4o}{Balance-Scale}{-20pt}{-13pt}{-6pt}{1pt}
+\myaddplotds{gemini-1.5-pro-latest}{Balance-Scale}{0pt}{8pt}{16pt}{24pt}
+\myaddplotds{llama3-70b-8192}{Balance-Scale}{-11pt}{-3pt}{5pt}{13pt}
+\myaddplotds{gpt-4o}{Balance-Scale}{-22pt}{-14pt}{-6pt}{2pt}
 \end{axis}
 
 \end{tikzpicture}

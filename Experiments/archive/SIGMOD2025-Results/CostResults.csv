@@ -103,7 +103,7 @@ oml_dataset_10_rnc,Jungle-Chess,CatDB,14110,0,0,1411,0,0,0,0,0,0,0,0,0,0,0,llama
 oml_dataset_10_rnc,Jungle-Chess,CatDBChain,16609,16870,13550,1291,611,1355,0,1076,0,1,1,0,0,0,0,llama3-70b-8192,No,multiclass,classification,0
 oml_dataset_10_rnc,Jungle-Chess,CAAFERandomForest,12575,0,0,994,0,0,0,0,0,0,0,0,0,0,0,llama3-70b-8192,No,multiclass,classification,0
 oml_dataset_10_rnc,Jungle-Chess,CatDB,14070,0,0,1407,0,0,0,0,0,0,0,0,0,0,0,gpt-4o,No,multiclass,classification,0
-oml_dataset_10_rnc,Jungle-Chess,CatDBChain,2576,3304,1914,1288,608,957,0,1044,0,1,1,0,0,0,0,gpt-4o,No,multiclass,classification,0
+oml_dataset_10_rnc,Jungle-Chess,CatDBChain,12880,16520,9570,1288,608,957,0,1044,0,1,1,0,0,0,0,gpt-4o,No,multiclass,classification,0
 oml_dataset_11_rnc,Higgs,CatDB,5860,0,0,2930,0,0,0,0,0,0,0,0,0,0,0,gemini-1.5-pro-latest,No,binary,classification,0
 oml_dataset_11_rnc,Higgs,CatDBChain,1795,4708,2552,1795,2151,2552,0,2557,0,1,1,0,0,0,0,gemini-1.5-pro-latest,No,binary,classification,0
 oml_dataset_11_rnc,Higgs,CAAFERandomForest,2920,0,0,2920,0,0,0,0,0,0,0,0,0,0,0,gemini-1.5-pro-latest,No,binary,classification,0

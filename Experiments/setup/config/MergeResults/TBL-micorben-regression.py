@@ -39,12 +39,18 @@ if __name__ == '__main__':
                         "AutoSklearn_train_r_squared":0,"AutoSklearn_test_r_squared":0,
                         "H2O_train_r_squared":0,"H2O_test_r_squared":0,
                         "Flaml_train_r_squared":0,"Flaml_test_r_squared":0,
-                        "Autogluon_train_r_squared":0,"Autogluon_test_r_squared":0}}
+                        "Autogluon_train_r_squared":0,"Autogluon_test_r_squared":0},
+            "gpt-4o":{"CatDB_train_r_squared":0,"CatDB_test_r_squared":0,
+                        "CatDBChain_train_r_squared":0,"CatDBChain_test_r_squared":0,                        
+                        "AutoSklearn_train_r_squared":0,"AutoSklearn_test_r_squared":0,
+                        "H2O_train_r_squared":0,"H2O_test_r_squared":0,
+                        "Flaml_train_r_squared":0,"Flaml_test_r_squared":0,
+                        "Autogluon_train_r_squared":0,"Autogluon_test_r_squared":0}            }
     
 
     #llms = ["gpt-4", "gpt-4o", "llama3-70b-8192", "gemini-1.5-pro-latest"]
-    llms = ["gemini-1.5-pro-latest","llama3-70b-8192"]
-    llms_shorname = {"gemini-1.5-pro-latest":"Gemini-1.5","llama3-70b-8192":"Llama3-70b"}
+    llms = ["gpt-4o", "gemini-1.5-pro-latest","llama3-70b-8192",]
+    llms_shorname = {"gpt-4o":"GPT-4o","gemini-1.5-pro-latest":"Gemini-1.5","llama3-70b-8192":"Llama3-70b"}
 
     configs = ["CatDB", "CatDBChain", "CAAFE","AutoSklearn","H2O","Flaml","Autogluon"]    
     ds_id = None
@@ -111,11 +117,14 @@ if __name__ == '__main__':
             df_micro.loc[cindex] = [None for ti in micor_tbl_cols]
             
             tbl_line = "" #"\\cmidrule{2-16}"
-            if llm == "gemini-1.5-pro-latest":
-             df_micro.at[cindex,"dataset_name"] = "\multirow{2}{*}{"+ds_title+"}"         
+            if llm == "gpt-4o":
+             df_micro.at[cindex,"dataset_name"] = "\multirow{3}{*}{"+ds_title+"}"         
             else:
                 df_micro.at[cindex,"dataset_name"] = "" 
+            
+            if llm == "llama3-70b-8192":    
                 tbl_line = "\\chline"
+                
             df_micro.at[cindex,"llm_model"] = "& "+llms_shorname[llm]
             for k in tbl_data.keys():
                 if tbl_data[k] is None:
@@ -153,8 +162,8 @@ if __name__ == '__main__':
         cindex = len(df_micro)
         df_micro.loc[cindex] = [None for ti in micor_tbl_cols]
 
-        if llm == "gemini-1.5-pro-latest":
-             df_micro.at[cindex,"dataset_name"] = "\multirow{2}{*}{$\\#$ Leader Board}"      
+        if llm == "gpt-4o":
+             df_micro.at[cindex,"dataset_name"] = "\multirow{3}{*}{Leader Board}"      
         else:
             df_micro.at[cindex,"dataset_name"] = "" 
 

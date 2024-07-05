@@ -1,3 +1,13 @@
+\makeatletter
+\newcommand\resetstackedplots{
+\makeatletter
+\pgfplots@stacked@isfirstplottrue
+\makeatother
+\addplot [forget plot,draw=none] coordinates{(ValueError,0.00001) (TypeError,0.00001) (KeyError,0.00001) (AttributeError,0.00001) (FileNotFoundError,0.00001) (NameError,0.00001) (ModuleNotFoundError,0.00001) (IndexError,0.00001) (InvalidIndexError,0.00001) (SyntaxError,0.00001) (MemoryError,0.00001) (UFuncTypeError,0.00001) (PicklingError,0.00001) (ImportError,0.00001) (IndentationError,0.00001) (AxisError,0.00001) (InvalidParameterError,0.00001) (NotFittedError,0.00001) (RecursionError,0.00001) (OutOfBoundsDatetime,0.00001) (AssertionError,0.00001) (NotImplementedError,0.00001) (IntCastingNaNError,0.00001) (ZeroDivisionError,0.00001)};
+}
+\makeatother
+
+
 \begin{tikzpicture}
 
    \newcommand{\myaddploterror}[3]{ 
@@ -22,11 +32,12 @@
 
 
 \begin{axis}[  
-  ymin=0, 
+  ymin=0.0005, 
   ymax=100, 
   ybar, %stacked,
-  ytick={0,20,40,60,80,100},
-  yticklabels={0,20,40,60,80,100},               
+  ymode=log,
+  %ytick={0,20,40,60,80,100},
+  %yticklabels={0,20,40,60,80,100},               
   every x tick/.style={ xshift=-1pt}, 
   %%%%%%%%%%
   y tick label style={/pgf/number format/1000 sep={}},
@@ -42,31 +53,33 @@
   xtick pos=left,
   ytick pos=left,
   yticklabel style = {font=\footnotesize},
-  ylabel style = {font=\footnotesize, yshift=0pt, xshift=0pt},
-  height=0.45\columnwidth,
+  ylabel style = {font=\footnotesize, yshift=-5pt, xshift=0pt},
+  height=0.42\columnwidth,
   width=1.4\columnwidth,
   ymajorgrids=true,
   grid style=dotted,
   minor grid style={gray!70},
-  nodes near coords,
-  every node near coord/.append style={font=\fontsize{5.5pt}{0.1}, rotate=90, xshift=8.5pt, yshift=-4.5pt},
-  nodes near coords style={/pgf/number format/.cd,precision=4},
+  %nodes near coords,
+  %every node near coord/.append style={font=\fontsize{5.5pt}{0.1}, rotate=90, xshift=8.5pt, yshift=-4.5pt},
+  %nodes near coords style={/pgf/number format/.cd,precision=4},
   every axis plot/.append style={line width=0.8pt,mark options={scale=1.5,solid}},  
-  xticklabel style = {font=\normalsize, xshift=-8pt, yshift=0pt, rotate=90, anchor=north east},
+  xticklabel style = {font=\footnotesize, xshift=-8pt, yshift=0pt, rotate=90, anchor=north east},
   legend image post style={line width=.3pt},
   bar width=5pt,   
   xtick = data,
   symbolic x coords={ValueError, TypeError, KeyError, AttributeError, FileNotFoundError, NameError, ModuleNotFoundError, IndexError, InvalidIndexError, SyntaxError, MemoryError, UFuncTypeError,PicklingError, ImportError, IndentationError, AxisError, InvalidParameterError, NotFittedError, RecursionError, OutOfBoundsDatetime, AssertionError, NotImplementedError, IntCastingNaNError, ZeroDivisionError},
-  %xticklabels={Value, Type, Key, Attribute, FileNotFound, Name, ModuleNotFound, Index, InvalidIndex, Syntax, Memory, UFuncType,Pickling, Import, Indentation, Axis, InvalidParameter, NotFitted, Recursion, OutOfBoundsDatetime, Assertion, NotImplemented, IntCastingNaN, ZeroDivision},
   legend image code/.code={\draw [#1] (0cm,-0.1cm) rectangle (0.15cm,0.1cm); }, 
+  log origin y=infty, 
+  max space between ticks=5,
 ]
-\myaddploterror{llama3-70b-8192}{0pt}{tugb};
-\myaddploterror{gemini-1.5-pro-latest}{-2pt}{tug};
+\resetstackedplots
+\myaddploterror{llama3-70b-8192}{0pt}{dred1};
+\myaddploterror{gemini-1.5-pro-latest}{-2pt}{dblue1};
 
 \end{axis}
 
-\node [draw=none,inner sep=0, font=\normalsize, anchor=west] (l1) at (rel axis cs: 0.4,0.65) {\shortstack[l]{  
-  \ref{llama3-70b-8192} Llama3-70b-8192 (Total Requestes = 17,827) \\ \\
+\node [draw=none,inner sep=0, font=\footnotesize, anchor=west] (l1) at (rel axis cs: 0.55,1.4) {\shortstack[l]{  
+  \ref{llama3-70b-8192} Llama3-70b-8192 (Total Requestes = 17,827) \\ 
   \ref{gemini-1.5-pro-latest} Gemini-1.5 (Total Requestes = 8,779)}};
 
 

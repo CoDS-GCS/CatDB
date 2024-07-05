@@ -7,40 +7,41 @@
   ymax=0.4, 
   legend columns=10,
   legend style={draw=white!15!black,legend cell align=left},
-  legend style={draw=none, nodes={scale=1.2, transform shape,}, font=\LARGE},    
-  legend image post style={line width=1pt,scale=1.7},
+  legend style={draw=none, nodes={scale=1, transform shape,}, font=\huge},    
+  legend image post style={line width=0.5pt,scale=1},
   legend cell align={left},   
-  /tikz/every even column/.append style={column sep=2em},
-  legend image code/.code={\draw [#1] (0cm,-0.1cm) rectangle (0.25cm,0.1cm); }, 
+  /tikz/every even column/.append style={column sep=0.5em},
+  legend image code/.code={\draw [#1] (0cm,-0.23cm) rectangle (0.35cm,0.23cm); }, 
   ]
-  \addlegendimage{tug,draw=black, fill=tug,line width=0.3pt}
+  \addlegendimage{dblue1,draw=black, fill=dblue1,line width=0.3pt}
   \addlegendentry{CatDB};
-  \addlegendimage{tug,draw=black, fill=none,line width=0.3pt, postaction={pattern=crosshatch, pattern color=tug}}
+  \addlegendimage{dblue1,draw=black, fill=none,line width=0.3pt, postaction={pattern=crosshatch, pattern color=dblue1}}
   \addlegendentry{CatDB Error};
 
-  \addlegendimage{tugb,draw=black, fill=tugb,line width=0.3pt}
+  \addlegendimage{dred1,draw=black, fill=dred1,line width=0.3pt}
   \addlegendentry{CatDB Chain};
 
-  \addlegendimage{tugb,draw=black, fill=tugb,line width=0.3pt}
+  \addlegendimage{dred1,draw=black, fill=none,line width=0.3pt, postaction={pattern=crosshatch, pattern color=dred1}}
   \addlegendentry{CatDB Chain Error};
 
-  \addlegendimage{tugb!50,draw=black, fill=tugb!50,line width=0.3pt}
+  \addlegendimage{dred2,draw=black, fill=dred2,line width=0.3pt}
   \addlegendentry{CatDB Chain PP$^{*}$};
 
-  \addlegendimage{tugb,draw=black, fill=none,line width=0.3pt, postaction={pattern=crosshatch, pattern color=tugb!50}}
+  \addlegendimage{dred2,draw=black, fill=none,line width=0.3pt, postaction={pattern=crosshatch, pattern color=dred2}}
   \addlegendentry{CatDB Chain PP$^{*}$ Error};
 
-  \addlegendimage{tugb!10,draw=black, fill=tugb!10,line width=0.3pt}
+  \addlegendimage{dred3,draw=black, fill=dred3,line width=0.3pt}
   \addlegendentry{CatDB Chain FE$^{*}$};
 
-  \addlegendimage{tugb,draw=black, fill=none,line width=0.3pt, postaction={pattern=crosshatch, pattern color=lightgray}}
+  \addlegendimage{black,draw=black, fill=none,line width=0.3pt, postaction={pattern=crosshatch, pattern color=black}}
   \addlegendentry{CatDB FE$^{*}$ Error};
 
-  \addlegendimage{color4,draw=black, fill=color4,line width=0.3pt}
+  \addlegendimage{teal2,draw=black, fill=teal2,line width=0.3pt}
   \addlegendentry{CAAFE RandomForest};
-  \addlegendimage{color3,draw=black, fill=color3,line width=0.3pt}
+
+  \addlegendimage{teal3,draw=black, fill=color3,line width=0.3pt}
   \addlegendentry{CAAFE TabPFN};
   
   \end{axis}
-  \node[font=\huge, xshift=0pt] at (rel axis cs: -5,0.8){PP$^{*}$ = Pre-processing  \ \ \ \ \ FE $^{*}$ = Feature Engineering};  
+  \node[font=\huge, xshift=0pt] at (rel axis cs: -4.19,0.78){PP$^{*}$ = Pre-processing  \ \ \ \ \ FE $^{*}$ = Feature Engineering};  
 \end{tikzpicture}

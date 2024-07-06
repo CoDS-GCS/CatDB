@@ -38,8 +38,8 @@
   ymajorgrids,
   grid style=dotted,
   minor grid style={gray!80, dotted},
-  nodes near coords,
-  every node near coord/.style={font=\fontsize{0.1pt}{0.1}, rotate=0},
+  %nodes near coords,
+  %every node near coord/.style={font=\fontsize{0.1pt}{0.1}, rotate=0},
   every axis plot/.append style={line width=0.8pt,mark options={scale=1.5,solid}},  
   legend image post style={line width=.5pt},  
   xtick = data,
@@ -47,7 +47,7 @@
   legend image code/.code={\draw [#1] (0cm,-0.1cm) rectangle (0.2cm,0.1cm); },  
 %}
 ]  
-  \myaddplot{dblue1};
+  \myaddplot{tugb};
 
 \end{axis}
 
@@ -70,15 +70,15 @@
   yticklabel style = {font=\large},
   ylabel style = {font=\large, yshift=-3pt},
   xticklabel style = {font=\footnotesize, xshift=0pt, yshift=4pt, rotate=35, anchor=north east},
-  nodes near coords,
-  every node near coord/.style={font=\fontsize{0.1pt}{0.1}, rotate=0},
+  %nodes near coords,
+  %every node near coord/.style={font=\fontsize{0.1pt}{0.1}, rotate=0},
   every axis plot/.append style={line width=0.8pt,mark options={scale=1.5,solid}},  
   legend image post style={line width=.5pt},  
   xtick = data,
   symbolic x coords={Balance-Scale,Breast-w,CMC,Credit-g,Diabetes,Tic-Tac-Toe,Eucalyptus,PC1,Jungle-Chess,Higgs,Skin,Traffic,Walking-Activity,Black-Friday,Bike-Sharing,House-Sales,NYC,Airlines-DepDelay},
-  legend image code/.code={\draw [#1] (0cm,-0.1cm) rectangle (0.2cm,0.1cm); }, 
+  legend image code/.code={\draw [#1] (0cm,-0.12cm) rectangle (0.25cm,0.12cm); }, 
   ]   
-  \addplotreader{dred1};
+  \addplotreader{tug};
     
 \end{axis}
 

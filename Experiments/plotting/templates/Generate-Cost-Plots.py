@@ -59,8 +59,8 @@ def extract_performance_plots(root, out):
     plot_template = read_template("Experiment1-Cost-Template.tex")
     exp_micro = read_template("Exp_Dataset_Attribute_Template.tex")
     
-    ytick_1="0,5000,10000,15000,20000,25000,30000,35000"
-    yticklabels_1="0, 5k, 10k, 15k, 20k, 25k,30k,35k" 
+    ytick_1="0,5000,10000,15000,20000,25000,30000,35000,40000"
+    yticklabels_1="0, 5k, 10k, 15k, 20k, 25k,30k,35k,40k" 
 
     ytick_2="0,2000,4000,6000,8000,10000,12000,14000,16000"
     yticklabels_2="0, 2k, 4k, 6k, 8k, 10k,12k,14k,16k"

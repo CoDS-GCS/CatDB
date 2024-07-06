@@ -80,19 +80,18 @@
   every x tick/.style={ thick,gray, xshift=-3pt,yshift=1.5pt},
   xtick = data,
   symbolic x coords={Black-Friday,Bike-Sharing,House-Sales,NYC,Airlines-DepDelay, Balance-Scale,Breast-w,CMC,Credit-g,Diabetes,Tic-Tac-Toe,Eucalyptus,PC1,Jungle-Chess,Higgs,Skin,Traffic,Walking-Activity},
-  legend image code/.code={\draw [#1] (0cm,-0.1cm) rectangle (0.25cm,0.1cm); }, 
+  legend image code/.code={\draw [#1] (0cm,-0.12cm) rectangle (0.25cm,0.12cm); }, 
   xticklabel style = {font=\large, xshift=0pt, yshift=-15pt, rotate=0, anchor=north},
 ]
+\myaddplotexe{CatDB_min}{gemini-1.5-pro-latest}{regression}{0}{tugb}{4pt}{};
+\myaddplotexe{CatDBChain_min}{gemini-1.5-pro-latest}{regression}{0}{tug}{2pt}{};%pattern=north east lines, pattern color=white
 
-\myaddplotexe{CatDB_min}{gemini-1.5-pro-latest}{regression}{0}{dblue1}{4pt}{};
-\myaddplotexe{CatDBChain_min}{gemini-1.5-pro-latest}{regression}{0}{dblue3}{2pt}{};%pattern=north east lines, pattern color=white
+\myaddplotexe{CatDB_min}{llama3-70b-8192}{regression}{0}{color7}{0pt}{};
+\myaddplotexe{CatDBChain_min}{llama3-70b-8192}{regression}{0}{color4}{-2pt}{};
 
-\myaddplotexe{CatDB_min}{llama3-70b-8192}{regression}{0}{dred1}{0pt}{};
-\myaddplotexe{CatDBChain_min}{llama3-70b-8192}{regression}{0}{dred3}{-2pt}{};
+\myaddplotexe{CatDB_min}{gpt-4o}{regression}{0}{color6}{-4pt}{};
+\myaddplotexe{CatDBChain_min}{gpt-4o}{regression}{0}{black}{-6pt}{};
 
-\myaddplotexe{CatDB_min}{gpt-4o}{regression}{0}{teal1}{-4pt}{};
-\myaddplotexe{CatDBChain_min}{gpt-4o}{regression}{0}{teal3}{-6pt}{};
- 
 \node [draw=none,inner sep=0, font=\large, anchor=west] (l1) at (rel axis cs: 0.03,0.75) {\shortstack[l]{
   \ref{gemini-1.5-pro-latest_CatDB_min} CatDB+Gemini-1.5 \\ \\ 
   \ref{llama3-70b-8192_CatDB_min} CatDB+Llama3-70b \\ \\

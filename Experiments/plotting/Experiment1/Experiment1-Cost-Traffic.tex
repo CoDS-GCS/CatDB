@@ -9,49 +9,49 @@
 
 \begin{tikzpicture}
 
-   \newcommand{\myaddplotcost}[6]{ 
-      \addplot+[xshift=#4,fill=#3, draw=black,line width=0.3pt] 
-      table[y=token_count_it1, col sep=comma, x=llm_model, discard if singlconfig={No}{#2}{#1}{#5}{#6}]
-      {../archive/SIGMOD2025-Results/CostResults.csv};
-      \label{#1_prompt}  
+  \newcommand{\myaddplotcost}[7]{ 
+    \addplot+[xshift=#4,fill=#3, draw=black,line width=0.3pt] 
+    table[y=token_count_it1, col sep=comma, x=llm_model, discard if singlconfig={No}{#2}{#1}{#5}{#6}]
+    {../archive/SIGMOD2025-Results/CostResults.csv};
+    \label{#1_prompt}  
 
-      \addplot+[xshift=#4,fill=none, draw=black,line width=0.3pt, postaction={pattern=crosshatch, pattern color=#3}] 
-      table[y=token_count_err_it1, col sep=comma, x=llm_model, discard if singlconfig={No}{#2}{#1}{#5}{#6}]
-      {../archive/SIGMOD2025-Results/CostResults.csv};
-      \label{#1_err}  
+    \addplot+[xshift=#4,fill=#7, draw=black,line width=0.3pt] 
+    table[y=token_count_err_it1, col sep=comma, x=llm_model, discard if singlconfig={No}{#2}{#1}{#5}{#6}]
+    {../archive/SIGMOD2025-Results/CostResults.csv};
+    \label{#1_err}  
 
-        
-      \addplot+[xshift=#4,fill=dred2, draw=black,line width=0.3pt] 
-      table[y=pp_token_count_it1, col sep=comma, x=llm_model, discard if singlconfig={No}{#2}{#1}{#5}{#6}]
-      {../archive/SIGMOD2025-Results/CostResults.csv};
-      \label{#1_pp_prompt}  
-        
-      \addplot+[xshift=#4,fill=none, draw=black,line width=0.3pt, postaction={pattern=crosshatch, pattern color=dred2}] 
-      table[y=pp_token_count_err_it1, col sep=comma, x=llm_model, discard if singlconfig={No}{#2}{#1}{#5}{#6}]
-      {../archive/SIGMOD2025-Results/CostResults.csv};
-      \label{#1_pp_err}  
+      
+    \addplot+[xshift=#4,fill=dblue2, draw=black,line width=0.3pt] 
+    table[y=pp_token_count_it1, col sep=comma, x=llm_model, discard if singlconfig={No}{#2}{#1}{#5}{#6}]
+    {../archive/SIGMOD2025-Results/CostResults.csv};
+    \label{#1_pp_prompt}  
+      
+    \addplot+[xshift=#4,fill=dred2, draw=black,line width=0.3pt] 
+    table[y=pp_token_count_err_it1, col sep=comma, x=llm_model, discard if singlconfig={No}{#2}{#1}{#5}{#6}]
+    {../archive/SIGMOD2025-Results/CostResults.csv};
+    \label{#1_pp_err}  
 
-      \addplot+[xshift=#4,fill=dred3, draw=black,line width=0.3pt] 
-      table[y=fe_token_count_it1, col sep=comma, x=llm_model, discard if singlconfig={No}{#2}{#1}{#5}{#6}]
-      {../archive/SIGMOD2025-Results/CostResults.csv};
-      \label{#1_fe_prompt}  
+    \addplot+[xshift=#4,fill=dblue3, draw=black,line width=0.3pt] 
+    table[y=fe_token_count_it1, col sep=comma, x=llm_model, discard if singlconfig={No}{#2}{#1}{#5}{#6}]
+    {../archive/SIGMOD2025-Results/CostResults.csv};
+    \label{#1_fe_prompt}  
 
-      \addplot+[xshift=#4,fill=none, draw=black,line width=0.3pt, postaction={pattern=crosshatch, pattern color=black}] 
-      table[y=fe_token_count_err_it1, col sep=comma, x=llm_model, discard if singlconfig={No}{#2}{#1}{#5}{#6}]
-      {../archive/SIGMOD2025-Results/CostResults.csv};
-      \label{#1_fe_err}         
-    };
+    \addplot+[xshift=#4,fill=dred3, draw=black,line width=0.3pt] 
+    table[y=fe_token_count_err_it1, col sep=comma, x=llm_model, discard if singlconfig={No}{#2}{#1}{#5}{#6}]
+    {../archive/SIGMOD2025-Results/CostResults.csv};
+    \label{#1_fe_err}         
+  };
 
-    \newcommand{\myaddplotds}[6]{
-      \resetstackedplots
-      \myaddplotcost{CatDBChain}{#1}{dred1}{#3}{#2}{0};
-      \resetstackedplots
-      \myaddplotcost{CatDB}{#1}{dblue2}{#4}{#2}{0};
-      \resetstackedplots
-      \myaddplotcost{CAAFERandomForest}{#1}{teal2}{#5}{#2}{0};
-      \resetstackedplots
-      \myaddplotcost{CAAFETabPFN}{#1}{color3}{#6}{#2}{0};
-    };
+  \newcommand{\myaddplotds}[6]{
+    \resetstackedplots
+    \myaddplotcost{CatDBChain}{#1}{dblue1}{#3}{#2}{0}{dred1};
+    \resetstackedplots
+    \myaddplotcost{CatDB}{#1}{color6}{#4}{#2}{0}{tug};
+    \resetstackedplots
+    \myaddplotcost{CAAFERandomForest}{#1}{color4}{#5}{#2}{0}{color4};
+    \resetstackedplots
+    \myaddplotcost{CAAFETabPFN}{#1}{black}{#6}{#2}{0}{black};
+  };
 \pgfplotsset{
     discard if singlconfig/.style n args={5}{
         x filter/.code={
@@ -102,7 +102,7 @@
   x tick label style={/pgf/number format/1000 sep={}},  
   scaled y ticks=false,
   axis line style={black, line width=0.3pt},
-  enlarge y limits={0.1,upper},
+  enlarge y limits={0.09,upper},
   enlarge x limits=0.07,
   ylabel={Number of Tokens},
   xlabel={},
@@ -112,7 +112,7 @@
   ytick pos=left,
   yticklabel style = {font=\large},
   ylabel style = {font=\large, yshift=0pt, xshift=-3pt},
-  height=.5\columnwidth,
+  height=.53\columnwidth,
   width=.66\columnwidth,
   ymajorgrids=true,
   grid style=dotted,
@@ -123,8 +123,8 @@
   xticklabel style = {font=\normalsize, xshift=0pt, yshift=3pt},
   legend image post style={line width=.5pt},          
   bar width=8pt,         
-  ytick={0,5000,10000,15000,20000,25000,30000,35000, 40000},
-  yticklabels={0, 5k, 10k, 15k, 20k, 25k,30k,35k, 40k},               
+  ytick={0,5000,10000,15000,20000,25000,30000,35000,40000},
+  yticklabels={0, 5k, 10k, 15k, 20k, 25k,30k,35k,40k},               
   every x tick/.style={ draw=none},
   xtick = data,
   symbolic x coords={gemini-1.5-pro-latest, llama3-70b-8192, gpt-4o},

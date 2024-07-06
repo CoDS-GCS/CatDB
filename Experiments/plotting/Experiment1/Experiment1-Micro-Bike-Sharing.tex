@@ -106,8 +106,8 @@
   every x tick/.style={ draw=none},
   xtick = data,
   symbolic x coords={gemini-1.5-pro-latest, llama3-70b-8192, gpt-4o},
-  xticklabels={\hspace{1cm}Gemini-1.5, \hspace{0.1cm}Llama3-70b, \hspace{-0.64cm}GPT-4o},
-  legend image code/.code={\draw [#1] (0cm,-0.08cm) rectangle (0.15cm,0.08cm); }, 
+  xticklabels={\hspace{1cm}Gemini-1.5, \hspace{-0.8cm}Llama3-70b, \hspace{-0.64cm}GPT-4o},
+  legend image code/.code={\draw [#1] (0cm,-0.1cm) rectangle (0.15cm,0.1cm); }, 
 ]
 
 \myaddplotdsg{gpt-4o}{Bike-Sharing}{-40pt}{-32pt}{-24pt}{-16pt}{-8pt}{0pt}
@@ -116,9 +116,9 @@
 
 \end{axis}
 
-\node [draw=none,inner sep=0, font=\scriptsize, anchor=west] (leg1) at (rel axis cs: 0.07,0.86) {\shortstack[l]{
-  \ref{SSN} Schema + Statistical Number \ \ \ \ \ref{S} Schema  \ \ \ \ \ref{SDVCSN}  Schema + Distinct Value Count + Statistical Number \\
-  \ref{SDVC} Schema + Distinct Value Count \ref{SCV} Schema + Categorical Values \ \ \ \ \ref{CatDBChain} CatDB Chain
+\node [draw=none,inner sep=0, font=\footnotesize, anchor=west] (leg1) at (rel axis cs: 0.07,0.86) {\shortstack[l]{
+  \ref{SSN} Schema+Statistical Numbers \ \ref{S} Schema \  \ref{SDVCSN} Schema+Unique Count+Statistical Numbers \\
+  \ref{SDVC} Schema+Unique Count \ \ref{SCV} Schema+Categorical Values \ \ref{CatDBChain} CatDB Chain
   }}; 
 
 \end{tikzpicture}

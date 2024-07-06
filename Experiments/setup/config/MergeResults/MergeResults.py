@@ -40,24 +40,28 @@ def load_merge_all_results(root_path):
                     f"{root_path}/server-16/AutoML/Experiment3_AutoML_larges_part1.dat",
                     f"{root_path}/server-16/AutoML/Experiment3_AutoML_larges_part2.dat",
                     f"{root_path}/server-16/AutoML/Experiment3_AutoML_tmp1.dat",
+                    f"{root_path}/server-16/AutoML/Experiment3_AutoML_tmp1.dat",
                     f"{root_path}/server-16/AutoML/Experiment3_AutoML-autogluon.dat",                    
                     f"{root_path}/server-35/CatDB-gemini-1.5-rnc/Experiment1_LLM_Pipe_Gen_CatDB.dat",
                     f"{root_path}/server-35/CatDB-gemini-1.5-rnc/Experiment1_LLM_Pipe_Gen_CatDBChain.dat",
                     f"{root_path}/server-35/CAAFE-llama3/Experiment1_LLM_CAAFE.dat",
                     f"{root_path}/server-35/CAAFE-mix/Experiment1_LLM_CAAFE.dat",
-                     f"{root_path}/server-35/CAAFE-mix/Experiment1_LLM_CAAFE_2.dat",
+                    f"{root_path}/server-35/CAAFE-mix/Experiment1_LLM_CAAFE_2.dat",
                     f"{root_path}/server-65/CAAFE-gemini-1.5/Experiment1_LLM_CAAFE.dat",
                     f"{root_path}/server-65/AutoML/Experiment3_AutoML_tmp1.dat",
                     f"{root_path}/server-65/part3-gpt-4o/Experiment1_LLM_Pipe_Gen_CatDB.dat",
                     f"{root_path}/server-65/part3-gpt-4o/Experiment1_LLM_Pipe_Gen_CatDBChain.dat",
                     f"{root_path}/server-65/part3-gpt-4o/Experiment1_LLM_Pipe_Gen_CatDBChain_2.dat",
                     f"{root_path}/server-65/part3-gpt-4o/Experiment1_LLM_CAAFE.dat",
+                    f"{root_path}/server-65/AutoML-GPT-4o/Experiment3_AutoML_CatDBChain.dat",                    
                     f"{root_path}/server-113/CatDB-llama3/Experiment1_LLM_Pipe_Gen_CatDB.dat",
                     f"{root_path}/server-113/CatDB-llama3/Experiment1_LLM_Pipe_Gen_CatDBChain.dat",
                     f"{root_path}/server-113/CatDB-llama3/Experiment1_LLM_Pipe_Gen_CatDBChain-part2.dat", 
                     f"{root_path}/server-113/CatDB-llama3/Experiment1_LLM_Pipe_Gen_CatDBChain_part3.dat", 
                     f"{root_path}/server-113/CatDB-llama3/Experiment1_LLM_Pipe_Gen_CatDB_part3.dat",
-                    f"{root_path}/server-113/CatDB-llama3/Experiment1_LLM_Pipe_Gen_CatDB_tmp1.dat"
+                    f"{root_path}/server-113/CatDB-llama3/Experiment1_LLM_Pipe_Gen_CatDB_tmp1.dat",
+                    f"{root_path}/server-113/CatDB-gpt-4o/Experiment1_LLM_Pipe_Gen_CatDBChain.dat",
+                    f"{root_path}/server-113/CatDB-gemini-1.5/Experiment1_LLM_Pipe_Gen_CatDB.dat"                   
                     ] 
     
     df_merge = pd.DataFrame(columns = columns)

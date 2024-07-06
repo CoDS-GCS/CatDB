@@ -32,12 +32,12 @@ oml_dataset_11_rnc,Higgs,491.94,501.32,0,0,8.20,8.36,0.001,0.001,76.784,gpt-4o,N
 oml_dataset_12_rnc,Skin,250.48,93.55,0,272.82,4.17,1.56,0.001,4.55,0.9,gemini-1.5-pro-latest,No,binary,classification,0
 oml_dataset_12_rnc,Skin,62.05,18.22,0,191.90,1.03,0.30,0.001,3.20,0.9,llama3-70b-8192,No,binary,classification,0
 oml_dataset_12_rnc,Skin,15.00,21.51,0,0,0.25,0.36,0.001,0.001,0.9,gpt-4o,No,binary,classification,0
-oml_dataset_19_rnc,Traffic,0,128.53,0,31679.66,0.001,2.14,0.001,527.99,18.136,gemini-1.5-pro-latest,No,multiclass,classification,0
+oml_dataset_19_rnc,Traffic,721.61,128.53,0,31679.66,12.03,2.14,0.001,527.99,18.136,gemini-1.5-pro-latest,No,multiclass,classification,0
 oml_dataset_19_rnc,Traffic,43.98,97.65,0,4171.21,0.73,1.63,0.001,69.52,18.136,llama3-70b-8192,No,multiclass,classification,0
 oml_dataset_19_rnc,Traffic,767.58,1471.55,0,0,12.79,24.53,0.001,0.001,18.136,gpt-4o,No,multiclass,classification,0
 oml_dataset_20_rnc,Walking-Activity,30.60,47.55,0,3588.45,0.51,0.79,0.001,59.81,0.826,gemini-1.5-pro-latest,No,multiclass,classification,0
 oml_dataset_20_rnc,Walking-Activity,24.52,45.26,0,0,0.41,0.75,0.001,0.001,0.826,llama3-70b-8192,No,multiclass,classification,0
-oml_dataset_20_rnc,Walking-Activity,22.97,18.61,0,0,0.38,0.31,0.001,0.001,0.826,gpt-4o,No,multiclass,classification,0
+oml_dataset_20_rnc,Walking-Activity,22.97,16.35,0,0,0.38,0.27,0.001,0.001,0.826,gpt-4o,No,multiclass,classification,0
 oml_dataset_21_rnc,Black-Friday,128.99,43.18,0,0,2.15,0.72,0.001,0.001,1.077,gemini-1.5-pro-latest,No,regression,regression,0
 oml_dataset_21_rnc,Black-Friday,87.04,178.52,0,0,1.45,2.98,0.001,0.001,1.077,llama3-70b-8192,No,regression,regression,0
 oml_dataset_21_rnc,Black-Friday,259.72,52.24,0,0,4.33,0.87,0.001,0.001,1.077,gpt-4o,No,regression,regression,0

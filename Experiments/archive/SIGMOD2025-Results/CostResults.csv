@@ -120,6 +120,7 @@ oml_dataset_12_rnc,Skin,CatDBChain,4079,1707,3426,1314,569,1142,0,0,0,0,0,0,0,0,
 oml_dataset_12_rnc,Skin,CAAFERandomForest,816,0,0,816,0,0,0,0,0,0,0,0,0,0,0,llama3-70b-8192,No,binary,classification,0
 oml_dataset_12_rnc,Skin,CatDB,1264,0,0,1264,0,0,0,0,0,0,0,0,0,0,0,gpt-4o,No,binary,classification,0
 oml_dataset_12_rnc,Skin,CatDBChain,1414,548,1148,1414,548,1148,0,0,0,0,0,0,0,0,0,gpt-4o,No,binary,classification,0
+oml_dataset_19_rnc,Traffic,CatDB,2614,0,0,2614,0,0,37444,0,0,12,0,0,0,0,0,gemini-1.5-pro-latest,No,multiclass,classification,0
 oml_dataset_19_rnc,Traffic,CatDBChain,2516,1755,2198,2516,1755,2198,0,0,0,0,0,0,0,0,0,gemini-1.5-pro-latest,No,multiclass,classification,0
 oml_dataset_19_rnc,Traffic,CAAFERandomForest,4009,0,0,4009,0,0,0,0,0,0,0,0,0,0,0,gemini-1.5-pro-latest,No,multiclass,classification,0
 oml_dataset_19_rnc,Traffic,CatDB,2261,0,0,2261,0,0,22546,0,0,9,0,0,0,0,0,llama3-70b-8192,No,multiclass,classification,0
@@ -133,7 +134,7 @@ oml_dataset_20_rnc,Walking-Activity,CAAFERandomForest,974,0,0,974,0,0,0,0,0,0,0,
 oml_dataset_20_rnc,Walking-Activity,CatDB,1450,0,0,1450,0,0,6318,0,0,4,0,0,0,0,0,llama3-70b-8192,No,multiclass,classification,0
 oml_dataset_20_rnc,Walking-Activity,CatDBChain,1474,4159,2513,1474,650,1071,15434,3509,1442,13,3,1,0,0,0,llama3-70b-8192,No,multiclass,classification,0
 oml_dataset_20_rnc,Walking-Activity,CatDB,1444,0,0,1444,0,0,0,0,0,0,0,0,0,0,0,gpt-4o,No,multiclass,classification,0
-oml_dataset_20_rnc,Walking-Activity,CatDBChain,1268,645,1122,1268,645,1122,0,0,0,0,0,0,0,0,0,gpt-4o,No,multiclass,classification,0
+oml_dataset_20_rnc,Walking-Activity,CatDBChain,8220,3870,6732,1250,645,1122,0,0,0,0,0,0,0,0,0,gpt-4o,No,multiclass,classification,0
 oml_dataset_21_rnc,Black-Friday,CatDB,1631,0,0,1631,0,0,7661,0,0,5,0,0,0,0,0,gemini-1.5-pro-latest,No,regression,regression,0
 oml_dataset_21_rnc,Black-Friday,CatDBChain,1430,912,5646,1430,912,1329,2977,0,4317,5,0,3,0,0,0,gemini-1.5-pro-latest,No,regression,regression,0
 oml_dataset_21_rnc,Black-Friday,CatDB,1438,0,0,1438,0,0,8646,0,0,6,0,0,0,0,0,llama3-70b-8192,No,regression,regression,0

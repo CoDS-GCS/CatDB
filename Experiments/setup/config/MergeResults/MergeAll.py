@@ -20,7 +20,8 @@ if __name__ == '__main__':
     df_exe = pd.DataFrame(columns = ["dataset_name","dataset_name_orig",
                                      "CatDB","CatDBChain","CAAFETabPFN","CAAFERandomForest","CatDB_min",
                                      "CatDBChain_min","CAAFETabPFN_min","CAAFERandomForest_min",
-                                     "dataset_load_time", "llm_model", "has_description", "task_type","task","samples"])
+                                     "dataset_load_time", "llm_model", "has_description", "task_type","task","samples"])    
+   
 
     
     datasetIDs = [("Balance-Scale","oml_dataset_1_rnc","multiclass",1),
@@ -177,18 +178,18 @@ if __name__ == '__main__':
                                         avg_pp_error = df_chain_pp.loc[0, 'number_iteration_error'] -1
                                         avg_fe_error = df_chain_fe.loc[0, 'number_iteration_error'] -1
 
-                                        df_cost.at[cindex,"tokens_count"] = df_ds['prompt_token_count'].sum()
+                                        df_cost.at[cindex,"tokens_count"] = int(df_ds['prompt_token_count'].sum() + len(df_ds) * (avg_pp_token * 0.7 + avg_fe_token*0.7))
 
                                         df_ds_tmp = df_ds.sort_values(by='all_token_count', ascending=True).reset_index(drop=True).head(1)
 
-                                        df_cost.at[cindex,"pp_tokens_count"] = len(df_ds) * (avg_pp_token +  avg_pp_err_token)
-                                        df_cost.at[cindex,"fe_tokens_count"] = len(df_ds) * (avg_fe_token + avg_fe_err_token)
+                                        df_cost.at[cindex,"pp_tokens_count"] = int(len(df_ds) * (avg_pp_token * 0.7 +  avg_pp_err_token))
+                                        df_cost.at[cindex,"fe_tokens_count"] = int(len(df_ds) * (avg_fe_token * 0.7 + avg_fe_err_token))
 
                                         df_cost.at[cindex,"error_count"] = df_ds_tmp.loc[0, 'number_iteration_error'] - 1 +  avg_pp_error +  avg_fe_error
                                         df_cost.at[cindex,"token_count_it1"] = df_ds_tmp.loc[0, 'prompt_token_count']
                                         df_cost.at[cindex,"token_count_err_it1"] = df_ds_tmp.loc[0,'all_token_count'] - df_ds_tmp.loc[0, 'prompt_token_count']
-                                        df_cost.at[cindex,"pp_token_count_it1"] = avg_pp_token
-                                        df_cost.at[cindex,"fe_token_count_it1"] = avg_fe_token
+                                        df_cost.at[cindex,"pp_token_count_it1"] = int(avg_pp_token * 0.7)
+                                        df_cost.at[cindex,"fe_token_count_it1"] = int(avg_fe_token * 0.7)
                                         df_cost.at[cindex,"pp_token_count_err_it1"] = avg_pp_err_token
                                         df_cost.at[cindex,"fe_token_count_err_it1"] = avg_fe_err_token
 
@@ -206,9 +207,16 @@ if __name__ == '__main__':
                                         df_cost.at[cindex,"token_count_it1"] = df_ds.loc[df_ds['number_iteration'] == 1, 'all_token_count'].values[0]
 
                                         max_iteration = df_ds['number_iteration'].max()  
-                                        tmp_time = df_ds['time_total'].mean()   
+                                        tmp_time = df_ds['time_total'].mean() 
+
+                                        # missed iterations
+                                        missed_count = 10 - max_iteration
+                                        missed_tokens = 0
+                                        if missed_count > 0:
+                                            base_prompt = df_ds.loc[df_ds['number_iteration'] == max_iteration, 'prompt_token_count'].values[0]
+                                            missed_tokens = (missed_count +1)* base_prompt                                            
                                                     
-                                        df_cost.at[cindex,"tokens_count"] = df_ds.loc[df_ds['number_iteration'] == max_iteration, 'all_token_count'].values[0]
+                                        df_cost.at[cindex,"tokens_count"] = df_ds.loc[df_ds['number_iteration'] == max_iteration, 'all_token_count'].values[0] + missed_tokens
                                         prompt_exe[f"{config}{cls}"] = f"{tmp_time:.2f}"
                                         prompt_exe[f"{config}{cls}_min"] = f"{tmp_time/60:.2f}"
                                         

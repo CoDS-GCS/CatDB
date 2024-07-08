@@ -16,6 +16,7 @@ if __name__ == '__main__':
                       "Autogluon_train_r_squared","Autogluon_test_r_squared",
                       "CatDB_test_r_squared_diff","CatDBChain_test_r_squared_diff"]
     df_micro = pd.DataFrame(columns = micor_tbl_cols)   
+    df_overall = pd.DataFrame(columns = ["dataset_name","llm_model","CatDB","CatDBChain","max_other"])
     
     datasetIDs = [("Black-Friday","oml_dataset_21_rnc",14),
                   ("Bike-Sharing","oml_dataset_22_rnc",15),
@@ -156,6 +157,8 @@ if __name__ == '__main__':
             df_micro.at[cindex,"CatDB_test_r_squared_diff"] = f'& {catdb_value_str}'
             df_micro.at[cindex,"CatDBChain_test_r_squared_diff"] = f'& {catdb_chain_value_str} \\\\ {tbl_line}'
 
+            df_overall.loc[len(df_overall)] = [ds_title, llm, tbl_data["CatDB_test_r_squared"] /1000, tbl_data["CatDBChain_test_r_squared"] /1000, max_other/1000]
+
             
     # add leader board:
     for llm in llms:
@@ -178,4 +181,6 @@ if __name__ == '__main__':
     fname = f"{root_path}/tbl_micro_regression.txt"
     df_micro.to_csv(fname, index=False, header=None)
     replace_comma(fname=fname)
+
+    df_overall.to_csv(f"{root_path}/OverallResults_Regression.csv", index=False)
     

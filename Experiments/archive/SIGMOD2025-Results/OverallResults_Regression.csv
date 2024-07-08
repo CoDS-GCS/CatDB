@@ -1,0 +1,16 @@
+dataset_name,llm_model,CatDB,CatDBChain,max_other
+Black-Friday,gpt-4o,52.723,52.771,54.51
+Black-Friday,gemini-1.5-pro-latest,52.734,52.707,54.218
+Black-Friday,llama3-70b-8192,52.717,52.731,54.573
+Bike-Sharing,gpt-4o,90.624,99.999,94.727
+Bike-Sharing,gemini-1.5-pro-latest,92.99,91.058,93.821
+Bike-Sharing,llama3-70b-8192,90.983,91.038,94.327
+House-Sales,gpt-4o,87.31,87.322,89.979
+House-Sales,gemini-1.5-pro-latest,87.308,87.227,89.648
+House-Sales,llama3-70b-8192,100.0,87.368,89.834
+NYC,gpt-4o,64.888,60.697,70.661
+NYC,gemini-1.5-pro-latest,64.831,64.859,68.552
+NYC,llama3-70b-8192,64.839,66.95,70.859
+Airlines-DepDelay,gpt-4o,3.146,2.923,5.844
+Airlines-DepDelay,gemini-1.5-pro-latest,3.524,3.183,5.547
+Airlines-DepDelay,llama3-70b-8192,3.46,3.472,0.0

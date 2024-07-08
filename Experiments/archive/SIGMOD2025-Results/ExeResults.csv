@@ -25,7 +25,7 @@ oml_dataset_8_rnc,PC1,15.00,15.00,407.31,149.04,0.25,0.25,6.79,2.48,0.684,llama3
 oml_dataset_8_rnc,PC1,15.20,21.86,326.24,104.11,0.25,0.36,5.44,1.74,0.684,gpt-4o,No,binary,classification,0
 oml_dataset_10_rnc,Jungle-Chess,15.00,25.12,156776.01,759.85,0.25,0.42,2612.93,12.66,0.71,gemini-1.5-pro-latest,No,multiclass,classification,0
 oml_dataset_10_rnc,Jungle-Chess,15.00,15.00,0,347.68,0.25,0.25,0.001,5.79,0.71,llama3-70b-8192,No,multiclass,classification,0
-oml_dataset_10_rnc,Jungle-Chess,15.00,30.82,0,0,0.25,0.51,0.001,0.001,0.71,gpt-4o,No,multiclass,classification,0
+oml_dataset_10_rnc,Jungle-Chess,15.00,30.82,201214.17,237.80,0.25,0.51,3353.57,3.96,0.71,gpt-4o,No,multiclass,classification,0
 oml_dataset_11_rnc,Higgs,6322.83,1609.05,0,93263.74,105.38,26.82,0.001,1554.40,76.784,gemini-1.5-pro-latest,No,binary,classification,0
 oml_dataset_11_rnc,Higgs,7418.21,8209.18,0,95099.46,123.64,136.82,0.001,1584.99,76.784,llama3-70b-8192,No,binary,classification,0
 oml_dataset_11_rnc,Higgs,491.94,501.32,0,0,8.20,8.36,0.001,0.001,76.784,gpt-4o,No,binary,classification,0
@@ -36,7 +36,7 @@ oml_dataset_19_rnc,Traffic,721.61,128.53,0,31679.66,12.03,2.14,0.001,527.99,18.1
 oml_dataset_19_rnc,Traffic,43.98,97.65,0,4171.21,0.73,1.63,0.001,69.52,18.136,llama3-70b-8192,No,multiclass,classification,0
 oml_dataset_19_rnc,Traffic,767.58,1471.55,0,0,12.79,24.53,0.001,0.001,18.136,gpt-4o,No,multiclass,classification,0
 oml_dataset_20_rnc,Walking-Activity,30.60,47.55,0,3588.45,0.51,0.79,0.001,59.81,0.826,gemini-1.5-pro-latest,No,multiclass,classification,0
-oml_dataset_20_rnc,Walking-Activity,24.52,45.26,0,0,0.41,0.75,0.001,0.001,0.826,llama3-70b-8192,No,multiclass,classification,0
+oml_dataset_20_rnc,Walking-Activity,24.52,45.26,0,572.25,0.41,0.75,0.001,9.54,0.826,llama3-70b-8192,No,multiclass,classification,0
 oml_dataset_20_rnc,Walking-Activity,22.97,16.35,0,0,0.38,0.27,0.001,0.001,0.826,gpt-4o,No,multiclass,classification,0
 oml_dataset_21_rnc,Black-Friday,128.99,43.18,0,0,2.15,0.72,0.001,0.001,1.077,gemini-1.5-pro-latest,No,regression,regression,0
 oml_dataset_21_rnc,Black-Friday,87.04,178.52,0,0,1.45,2.98,0.001,0.001,1.077,llama3-70b-8192,No,regression,regression,0

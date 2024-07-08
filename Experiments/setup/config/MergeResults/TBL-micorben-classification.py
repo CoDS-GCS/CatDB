@@ -31,6 +31,9 @@ if __name__ == '__main__':
                   ("Traffic","oml_dataset_19_rnc",12),
                   ("Walking-Activity","oml_dataset_20_rnc",13)
                 ]
+    
+    df_overall = pd.DataFrame(columns = ["dataset_name","llm_model","CatDB", "CatDBChain","max_other"])
+    
     datasets = []
     for ds in datasetIDs:
         ds_name, ds_rnc_name, index = ds
@@ -162,9 +165,10 @@ if __name__ == '__main__':
 
             
             cindex = len(df_micro)
-            df_micro.loc[cindex] = [None for ti in micor_tbl_cols]
+            df_micro.loc[cindex] = [None for ti in micor_tbl_cols]            
             
-            tbl_line = "" #"\\cmidrule{2-20}"
+            
+            tbl_line = "" 
             if llm == "gpt-4o":
              df_micro.at[cindex,"dataset_name"] = "\multirow{3}{*}{"+ds_title+"}"         
             else:
@@ -221,6 +225,8 @@ if __name__ == '__main__':
             df_micro.at[cindex,"CatDB_test_auc_diff"] = f'& {catdb_value_str}'
             df_micro.at[cindex,"CatDBChain_test_auc_diff"] = f'& {catdb_chain_value_str} \\\\ {tbl_line}'
 
+            df_overall.loc[len(df_overall)] = [ds_title, llm,tbl_data["CatDB_test_auc"] /1000, tbl_data["CatDBChain_test_auc"] /1000, max_other/1000]
+
             
     # add leader board:
     for llm in llms:
@@ -261,3 +267,7 @@ if __name__ == '__main__':
     fname = f"{root_path}/tbl_micro_classification.txt"
     df_micro.to_csv(fname, index=False, header=None)
     replace_comma(fname=fname)
+
+    #df_overall = df_overall.sort_values(by='CatDB', ascending=False).reset_index(drop=True)
+    df_overall.to_csv(f"{root_path}/OverallResults.csv", index=False)
+    

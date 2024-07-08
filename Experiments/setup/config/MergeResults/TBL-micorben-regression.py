@@ -22,7 +22,8 @@ if __name__ == '__main__':
                   ("Bike-Sharing","oml_dataset_22_rnc",15),
                   ("House-Sales","oml_dataset_23_rnc",16),
                   ("NYC","oml_dataset_24_rnc",17),
-                  ("Airlines-DepDelay","oml_dataset_25_rnc",18)]
+                  #("Airlines-DepDelay","oml_dataset_25_rnc",18)
+                  ]
     datasets = []
     for ds in datasetIDs:
         ds_name, ds_rnc_name, index = ds

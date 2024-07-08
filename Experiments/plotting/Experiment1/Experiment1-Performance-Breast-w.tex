@@ -49,11 +49,11 @@
 
 \begin{tikzpicture}[
   every axis/.style={
-  height=0.6\columnwidth,
+  height=0.5\columnwidth,
   width=1.1\columnwidth,  
   }]
  \begin{axis}[   
-  axis y line*=left,	
+  %axis y line*=left,	
   every major tick/.append style={ thick,major tick length=2.5pt, gray},
   axis line style={black},
   ybar,        
@@ -105,7 +105,7 @@
 
   \addboxplot{CAAFE}{Breast-w}{gpt-4o}{-TabPFN}{dblue2}{dblue1};
   \addboxplot{CAAFE}{Breast-w}{gemini-1.5-pro-latest}{-TabPFN}{dred2}{dred1};
-  \addboxplot{CAAFE}{Balance-Scale}{llama3-70b-8192}{-TabPFN}{teal2}{teal1};
+  \addboxplot{CAAFE}{Breast-w}{llama3-70b-8192}{-TabPFN}{teal2}{teal1};
   
   \addboxplot{CAAFE}{Breast-w}{gpt-4o}{-RandomForest}{dblue2}{dblue1};
   \addboxplot{CAAFE}{Breast-w}{gemini-1.5-pro-latest}{-RandomForest}{dred2}{dred1};
@@ -138,44 +138,10 @@
 
 \end{axis}
 
-\begin{axis}[
-  axis y line*=right,
-  axis x line=none,  
-  ybar,  
-  ymin=0.5,
-  y tick label style={/pgf/number format/1000 sep={}},
-  x tick label style={/pgf/number format/1000 sep={}},
-  scaled y ticks=false,
-  enlarge y limits={0.97,upper},
-  enlarge x limits=0.164,
-  ylabel={},
-  xlabel={},
-  ytick={},
-  yticklabels={},
-  ytick style={draw=none},
-  ytick align=outside,
-  nodes near coords,
-  nodes near coords align={vertical},
-  every node near coord/.append style={font=\fontsize{7.5pt}{0.1}, rotate=90, xshift=-11pt, yshift=-6pt},%, rotate=90, xshift=-10pt, yshift=-5pt
-  every axis plot/.append style={line width=0.8pt,mark options={scale=1.5,solid}},  
-  legend image post style={line width=.5pt},   
-  boxplot/draw direction=y,
-  bar width=15pt,
-  xtick = data,
-  symbolic x coords={CatDB,CatDBChain, CAAFETabPFN,CAAFERandomForest},
-  legend image code/.code={\draw [#1] (0cm,-0.1cm) rectangle (0.2cm,0.1cm); }, 
-  ]   
-
-    \addcost{Breast-w}{gpt-4o}{color4!10}{-.5pt};
-    \addcost{Breast-w}{gemini-1.5-pro-latest}{color4!60}{0.5pt};
-    \addcost{Breast-w}{llama3-70b-8192}{color4}{1.4pt};
-    
-\end{axis}
-
-\node [draw=none,inner sep=0, font=\small, anchor=west] (leg1) at (rel axis cs: 0.25,1.20) {\shortstack[r]{
-  GPT-4o ( \ref{gpt-4o_CatDB_train} Train \ref{gpt-4o_CatDB_test} Test \ \ \ \ref{gpt-4o} Tokens) \\
-  Gemini-1.5-pro ( \ref{gemini-1.5-pro-latest_CatDB_train} Train \ref{gemini-1.5-pro-latest_CatDB_test} Test \ \ \ \ref{gemini-1.5-pro-latest} Tokens) \\
-  Llama3-70b-8192 ( \ref{llama3-70b-8192_CatDB_train} Train \ref{llama3-70b-8192_CatDB_test} Test \ \ \ \ref{llama3-70b-8192} Tokens)  
+\node [draw=none,inner sep=0, font=\normalsize, anchor=west] (leg1) at (rel axis cs: 0.25,1.22) {\shortstack[r]{
+  GPT-4o ( \ref{gpt-4o_CatDB_train} Train \ref{gpt-4o_CatDB_test} Test) \\
+  Gemini-1.5-pro ( \ref{gemini-1.5-pro-latest_CatDB_train} Train \ref{gemini-1.5-pro-latest_CatDB_test} Test) \\
+  Llama3-70b-8192 ( \ref{llama3-70b-8192_CatDB_train} Train \ref{llama3-70b-8192_CatDB_test} Test)  
   }};
 
 \end{tikzpicture}

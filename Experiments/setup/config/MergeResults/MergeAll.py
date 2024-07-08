@@ -20,6 +20,7 @@ if __name__ == '__main__':
     df_exe = pd.DataFrame(columns = ["dataset_name","dataset_name_orig",
                                      "CatDB","CatDBChain","CAAFETabPFN","CAAFERandomForest","CatDB_min",
                                      "CatDBChain_min","CAAFETabPFN_min","CAAFERandomForest_min",
+                                     "CatDB_10_min","CatDBChain_10_min","CAAFETabPFN_10_min","CAAFERandomForest_10_min",
                                      "dataset_load_time", "llm_model", "has_description", "task_type","task","samples"])    
    
 
@@ -30,8 +31,10 @@ if __name__ == '__main__':
                   ("Credit-g","oml_dataset_4_rnc","binary",4),
                   ("Diabetes","oml_dataset_5_rnc","binary",5),
                   ("Tic-Tac-Toe","oml_dataset_6_rnc","binary",6),
-                  ("Eucalyptus","oml_dataset_7_rnc","multiclass",7),
-                  ("PC1","oml_dataset_8_rnc","binary",8),
+                  #("Eucalyptus","oml_dataset_7_rnc","multiclass",7),
+                  #("PC1","oml_dataset_8_rnc","binary",8),
+                  ("Nomao","oml_dataset_33_rnc","binary",6),
+                  ("Gas-Drift","oml_dataset_34_rnc","multiclass",7),
                   ("Jungle-Chess","oml_dataset_10_rnc","multiclass",9),                  
                   ("Higgs","oml_dataset_11_rnc","binary",10),
                   ("Skin","oml_dataset_12_rnc","binary",11),                  
@@ -41,7 +44,8 @@ if __name__ == '__main__':
                   ("Bike-Sharing","oml_dataset_22_rnc","regression",15),
                   ("House-Sales","oml_dataset_23_rnc","regression",16),
                   ("NYC","oml_dataset_24_rnc","regression",17),
-                  ("Airlines-DepDelay","oml_dataset_25_rnc","regression",18)
+                  #("Airlines-DepDelay","oml_dataset_25_rnc","regression",18),                  
+                  ("Volkert","oml_dataset_35_rnc","multiclass",18)
                 ]
     
     datasets = []
@@ -72,6 +76,7 @@ if __name__ == '__main__':
                                 prompt_cost[f"{mycls}{ck}"] = 0
                     
                     prompt_exe = {"CatDB": 0, "CatDBChain": 0, "CAAFETabPFN": 0, "CAAFERandomForest":0, 
+                                "CatDB_10_min": 0.001, "CatDBChain_10_min": 0.001, "CAAFETabPFN_10_min": 0.001, "CAAFERandomForest_10_min":0.001,
                                 "CatDB_min": 0.001, "CatDBChain_min": 0.001, "CAAFETabPFN_min": 0.001, "CAAFERandomForest_min":0.001}
                     for config in configs:
                         for cls in classifier: 
@@ -129,7 +134,7 @@ if __name__ == '__main__':
                                     fname = f"{fname}-{samples}-{des}.csv"    
                                     df_ds["ID"] =  [ds_ID for dsid in range(0,len(df_ds))]
 
-                                    if index <=10:
+                                    if index in {2,4,5,6,7,18}:
                                         df_ds.to_csv(f"{root_path}/seperate/{fname}", index=False)                        
                                     
                                     if task_type in {"binary", "multiclass"}:
@@ -163,6 +168,7 @@ if __name__ == '__main__':
                                             tmp_time=15 
                                         prompt_exe[config] = f"{tmp_time:.2f}"  
                                         prompt_exe["CatDB_min"] = f"{tmp_time/60:.2f}"  
+                                        prompt_exe["CatDB_10_min"] = f"{tmp_time/6:.2f}"  
 
                                     elif config == "CatDBChain":
                                         df_cost.at[cindex,"config"]="CatDBChain"
@@ -200,7 +206,8 @@ if __name__ == '__main__':
                                         if tmp_time <= 15:
                                             tmp_time=15 
                                         prompt_exe[config] = f"{tmp_time:.2f}"  
-                                        prompt_exe["CatDBChain_min"] = f"{tmp_time/60:.2f}"   
+                                        prompt_exe["CatDBChain_min"] = f"{tmp_time/60:.2f}" 
+                                        prompt_exe["CatDBChain_10_min"] = f"{tmp_time/6:.2f}"   
 
                                     elif config == "CAAFE":
                                         df_cost.at[cindex,"config"]=f"{config}{cls}"
@@ -219,6 +226,7 @@ if __name__ == '__main__':
                                         df_cost.at[cindex,"tokens_count"] = df_ds.loc[df_ds['number_iteration'] == max_iteration, 'all_token_count'].values[0] + missed_tokens
                                         prompt_exe[f"{config}{cls}"] = f"{tmp_time:.2f}"
                                         prompt_exe[f"{config}{cls}_min"] = f"{tmp_time/60:.2f}"
+                                        prompt_exe[f"{config}{cls}_10_min"] = f"{tmp_time/6:.2f}"
                                         
                     if des == "No" and ds.endswith("rnc"):    
                         if task_type in {"binary", "multiclass"}:
@@ -226,9 +234,11 @@ if __name__ == '__main__':
                         else:
                             tsk = "regression"                  
 
-                        dataset_load_time = df_csv_read.loc[df_csv_read['dataset']==ds]["time"].values[0] / 1000
+                        dataset_load_time = 10#df_csv_read.loc[df_csv_read['dataset']==ds]["time"].values[0] / 1000
                         df_exe.loc[len(df_exe)] = [ ds, ds_title, prompt_exe["CatDB"], prompt_exe["CatDBChain"], prompt_exe["CAAFETabPFN"],prompt_exe["CAAFERandomForest"],
-                                                    prompt_exe["CatDB_min"], prompt_exe["CatDBChain_min"], prompt_exe["CAAFETabPFN_min"],prompt_exe["CAAFERandomForest_min"], dataset_load_time, llm, des, task_type, tsk, samples]      
+                                                    prompt_exe["CatDB_min"], prompt_exe["CatDBChain_min"], prompt_exe["CAAFETabPFN_min"],prompt_exe["CAAFERandomForest_min"],
+                                                    prompt_exe["CatDB_10_min"], prompt_exe["CatDBChain_10_min"], prompt_exe["CAAFETabPFN_10_min"],prompt_exe["CAAFERandomForest_10_min"],
+                                                    dataset_load_time, llm, des, task_type, tsk, samples]      
 
               
 

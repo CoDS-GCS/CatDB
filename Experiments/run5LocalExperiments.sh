@@ -64,10 +64,10 @@ CMD=./explocal/exp1_catalog/runExperiment1.sh
 # $CMD oml_dataset_24_rnc regression # NYC
 # $CMD oml_dataset_25_rnc regression # Airlines-DepDelay
 
-$CMD oml_dataset_33_rnc multiclass # Nomao
-$CMD oml_dataset_34_rnc binary # Gas-Drift
-$CMD oml_dataset_35_rnc binary # Volkert
-$CMD oml_dataset_36_rnc binary # Arrhythmia
+$CMD oml_dataset_33_rnc binary # Nomao
+$CMD oml_dataset_34_rnc multiclass # Gas-Drift
+$CMD oml_dataset_35_rnc multiclass # Volkert
+$CMD oml_dataset_36_rnc multiclass # Arrhythmia
 
 ######################################################
 # $CMD Airlines binary # Airlines

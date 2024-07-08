@@ -14,8 +14,8 @@
 };
     
 \newcommand{\addboxplot}[6]{
-  \myaddplot{train}{train_auc}{../archive/SIGMOD2025-Results/seperate/#1-#2-#3#4-0-No.csv}{#5}{#3}{#1};
-  \myaddplot{test}{test_auc}{../archive/SIGMOD2025-Results/seperate/#1-#2-#3#4-0-No.csv}{#6}{#3}{#1};
+  \myaddplot{train}{train_auc_ovr}{../archive/SIGMOD2025-Results/seperate/#1-#2-#3#4-0-No.csv}{#5}{#3}{#1};
+  \myaddplot{test}{test_auc_ovr}{../archive/SIGMOD2025-Results/seperate/#1-#2-#3#4-0-No.csv}{#6}{#3}{#1};
 };
 
 \newcommand{\myaddplotcost}[4]{ %postaction={pattern=horizontal lines, pattern color=#3}
@@ -66,7 +66,7 @@
   scaled y ticks=false,
   enlarge y limits={0.02,upper},
   enlarge x limits=0.005,
-  ylabel={AUC $\%$},
+  ylabel={AUC-ovr $\%$},
   xlabel={},
   ytick={0,0.2,0.4,0.6,0.8,1.0},
   yticklabels={0, 20, 40, 60, 80, 100},
@@ -93,23 +93,23 @@
   legend image code/.code={\draw [#1] (0cm,-0.1cm) rectangle (0.2cm,0.1cm); },  
 %}
 ]  
-  \addboxplot{CatDB}{Diabetes}{gpt-4o}{}{dblue2}{dblue1};
-  \addboxplot{CatDB}{Diabetes}{gemini-1.5-pro-latest}{}{dred2}{dred1};
-  \addboxplot{CatDB}{Diabetes}{llama3-70b-8192}{}{teal2}{teal1};
+  \addboxplot{CatDB}{Volkert}{gpt-4o}{}{dblue2}{dblue1};
+  \addboxplot{CatDB}{Volkert}{gemini-1.5-pro-latest}{}{dred2}{dred1};
+  \addboxplot{CatDB}{Volkert}{llama3-70b-8192}{}{teal2}{teal1};
   
 
-  \addboxplot{CatDBChain}{Diabetes}{gpt-4o}{}{dblue2}{dblue1}
-  \addboxplot{CatDBChain}{Diabetes}{gemini-1.5-pro-latest}{}{dred2}{dred1};
-  \addboxplot{CatDBChain}{Diabetes}{llama3-70b-8192}{}{teal2}{teal1};
+  \addboxplot{CatDBChain}{Volkert}{gpt-4o}{}{dblue2}{dblue1}
+  \addboxplot{CatDBChain}{Volkert}{gemini-1.5-pro-latest}{}{dred2}{dred1};
+  \addboxplot{CatDBChain}{Volkert}{llama3-70b-8192}{}{teal2}{teal1};
   
 
-  \addboxplot{CAAFE}{Diabetes}{gpt-4o}{-TabPFN}{dblue2}{dblue1};
-  \addboxplot{CAAFE}{Diabetes}{gemini-1.5-pro-latest}{-TabPFN}{dred2}{dred1};
-  \addboxplot{CAAFE}{Diabetes}{llama3-70b-8192}{-TabPFN}{teal2}{teal1};
+  \addboxplot{CAAFE}{Volkert}{gpt-4o}{-TabPFN}{dblue2}{dblue1};
+  \addboxplot{CAAFE}{Volkert}{gemini-1.5-pro-latest}{-TabPFN}{dred2}{dred1};
+  \addboxplot{CAAFE}{Volkert}{llama3-70b-8192}{-TabPFN}{teal2}{teal1};
   
-  \addboxplot{CAAFE}{Diabetes}{gpt-4o}{-RandomForest}{dblue2}{dblue1};
-  \addboxplot{CAAFE}{Diabetes}{gemini-1.5-pro-latest}{-RandomForest}{dred2}{dred1};
-  \addboxplot{CAAFE}{Diabetes}{llama3-70b-8192}{-RandomForest}{teal2}{teal1};
+  \addboxplot{CAAFE}{Volkert}{gpt-4o}{-RandomForest}{dblue2}{dblue1};
+  \addboxplot{CAAFE}{Volkert}{gemini-1.5-pro-latest}{-RandomForest}{dred2}{dred1};
+  \addboxplot{CAAFE}{Volkert}{llama3-70b-8192}{-RandomForest}{teal2}{teal1};
   
   \coordinate (top1) at (axis cs:6.49,\pgfkeysvalueof{/pgfplots/ymax});
   \coordinate (bot1) at (axis cs:6.49,\pgfkeysvalueof{/pgfplots/ymin});

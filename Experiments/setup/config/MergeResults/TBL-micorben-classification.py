@@ -23,13 +23,16 @@ if __name__ == '__main__':
                   ("Credit-g","oml_dataset_4_rnc",4),
                   ("Diabetes","oml_dataset_5_rnc",5),
                   ("Tic-Tac-Toe","oml_dataset_6_rnc",6),
-                  ("Eucalyptus","oml_dataset_7_rnc",7),
-                  ("PC1","oml_dataset_8_rnc",8),
+                  #("Eucalyptus","oml_dataset_7_rnc",7),
+                  #("PC1","oml_dataset_8_rnc",8),
+                  ("Nomao","oml_dataset_33_rnc",7),
+                  ("Gas-Drift","oml_dataset_34_rnc",8),                  
                   ("Jungle-Chess","oml_dataset_10_rnc",9),                  
                   ("Higgs","oml_dataset_11_rnc",10),
                   ("Skin","oml_dataset_12_rnc",11),                  
                   ("Traffic","oml_dataset_19_rnc",12),
-                  ("Walking-Activity","oml_dataset_20_rnc",13)
+                  ("Walking-Activity","oml_dataset_20_rnc",13),
+                  ("Volkert","oml_dataset_36_rnc",14)
                 ]
     
     df_overall = pd.DataFrame(columns = ["dataset_name","llm_model","CatDB", "CatDBChain","max_other"])

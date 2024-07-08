@@ -37,17 +37,19 @@ def get_figure(name:str, caption:str):
     """
     return figure.replace("@NAME", name).replace("@CAPTION", caption)
 
-
 def extract_performance_plots(root, out):
-    datasetIDs = [("Balance-Scale","multiclass"),
+    datasetIDs = [#("Balance-Scale","multiclass"),
                   ("Breast-w","binary"),
-                  ("CMC","multiclass"),
+                  #("CMC","multiclass"),
                   ("Credit-g","binary"),
                   ("Diabetes","binary"),
-                  ("Tic-Tac-Toe","binary"),
-                  ("Eucalyptus","multiclass"),
-                  ("PC1","binary"),
-                  ("Jungle-Chess","multiclass")
+                  #("Tic-Tac-Toe","binary"),
+                  #("Eucalyptus","multiclass"),
+                  #("PC1","binary"),
+                  #("Jungle-Chess","multiclass"),
+                  ("Nomao","binary"),
+                  ("Gas-Drift","multiclass"),
+                  ("Volkert","multiclass"),
                 ]    
    
     plot_template = read_template("Experiment1-Performance-Template.tex")

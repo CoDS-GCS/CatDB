@@ -86,10 +86,10 @@ def extract_performance_plots(root, out):
            
 
         plot_cost = plot_template.replace("@DATASET",ds).replace("@YTICKLABELs",yticklabels).replace("@YTICK",ytick)
-        plot_name = f"Experiment1-Exe-{ds}"
+        plot_name = f"Experiment2-Exe-{ds}"
         save_template(plot_cost, f"{out}/{plot_name}.tex")        
 
-        plots.append(get_figure(plot_name, f"Experiment1-Exe-{ds}"))
+        plots.append(get_figure(plot_name, f"Experiment2-Exe-{ds}"))
 
         print("\\subfigure["+ds+"]{\\label{exp1a}\includegraphics[scale=0.55]{plots/Experiment2-Exe-"+ds+"}}")
 

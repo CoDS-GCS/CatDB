@@ -93,23 +93,42 @@
   legend image code/.code={\draw [#1] (0cm,-0.1cm) rectangle (0.2cm,0.1cm); },  
 %}
 ]  
-  \addboxplot{CatDB}{Nomao}{gpt-4o}{}{dblue2}{dblue1};
+  % \addboxplot{CatDB}{Nomao}{gpt-4o}{}{dblue2}{dblue1};
+  % \addboxplot{CatDB}{Nomao}{gemini-1.5-pro-latest}{}{dred2}{dred1};
+  % \addboxplot{CatDB}{Nomao}{llama3-70b-8192}{}{teal2}{teal1};
+  
+
+  % \addboxplot{CatDBChain}{Nomao}{gpt-4o}{}{dblue2}{dblue1}
+  % \addboxplot{CatDBChain}{Nomao}{gemini-1.5-pro-latest}{}{dred2}{dred1};
+  % \addboxplot{CatDBChain}{Nomao}{llama3-70b-8192}{}{teal2}{teal1};
+  
+
+  % \addboxplot{CAAFE}{Nomao}{gpt-4o}{-TabPFN}{dblue2}{dblue1};
+  % \addboxplot{CAAFE}{Nomao}{gemini-1.5-pro-latest}{-TabPFN}{dred2}{dred1};
+  % \addboxplot{CAAFE}{Nomao}{llama3-70b-8192}{-TabPFN}{teal2}{teal1};
+  
+  % \addboxplot{CAAFE}{Nomao}{gpt-4o}{-RandomForest}{dblue2}{dblue1};
+  % \addboxplot{CAAFE}{Nomao}{gemini-1.5-pro-latest}{-RandomForest}{dred2}{dred1};
+  % \addboxplot{CAAFE}{Nomao}{llama3-70b-8192}{-RandomForest}{teal2}{teal1};
+
+  \addboxplot{CatDB}{Nomao}{gemini-1.5-pro-latest}{}{dblue2}{dblue1};
   \addboxplot{CatDB}{Nomao}{gemini-1.5-pro-latest}{}{dred2}{dred1};
   \addboxplot{CatDB}{Nomao}{llama3-70b-8192}{}{teal2}{teal1};
   
 
-  \addboxplot{CatDBChain}{Nomao}{gpt-4o}{}{dblue2}{dblue1}
+  \addboxplot{CatDBChain}{Nomao}{gemini-1.5-pro-latest}{}{dblue2}{dblue1}
   \addboxplot{CatDBChain}{Nomao}{gemini-1.5-pro-latest}{}{dred2}{dred1};
   \addboxplot{CatDBChain}{Nomao}{llama3-70b-8192}{}{teal2}{teal1};
+
+  \addboxplot{CatDB}{Nomao}{gemini-1.5-pro-latest}{}{white}{white};
+  \addboxplot{CatDB}{Nomao}{gemini-1.5-pro-latest}{}{white}{white};
+  \addboxplot{CatDB}{Nomao}{gemini-1.5-pro-latest}{}{white}{white};
   
 
-  \addboxplot{CAAFE}{Nomao}{gpt-4o}{-TabPFN}{dblue2}{dblue1};
-  \addboxplot{CAAFE}{Nomao}{gemini-1.5-pro-latest}{-TabPFN}{dred2}{dred1};
-  \addboxplot{CAAFE}{Nomao}{llama3-70b-8192}{-TabPFN}{teal2}{teal1};
-  
-  \addboxplot{CAAFE}{Nomao}{gpt-4o}{-RandomForest}{dblue2}{dblue1};
+  \addboxplot{CatDBChain}{Nomao}{gemini-1.5-pro-latest}{}{white}{white}
   \addboxplot{CAAFE}{Nomao}{gemini-1.5-pro-latest}{-RandomForest}{dred2}{dred1};
-  \addboxplot{CAAFE}{Nomao}{llama3-70b-8192}{-RandomForest}{teal2}{teal1};
+  \addboxplot{CatDBChain}{Nomao}{gemini-1.5-pro-latest}{}{white}{white};
+  
   
   \coordinate (top1) at (axis cs:6.49,\pgfkeysvalueof{/pgfplots/ymax});
   \coordinate (bot1) at (axis cs:6.49,\pgfkeysvalueof{/pgfplots/ymin});
@@ -139,7 +158,7 @@
 \end{axis}
 
 \node [draw=none,inner sep=0, font=\normalsize, anchor=west] (leg1) at (rel axis cs: 0.25,1.22) {\shortstack[r]{
-  GPT-4o ( \ref{gpt-4o_CatDB_train} Train \ref{gpt-4o_CatDB_test} Test) \\
+  %GPT-4o ( \ref{gpt-4o_CatDB_train} Train \ref{gpt-4o_CatDB_test} Test) \\
   Gemini-1.5-pro ( \ref{gemini-1.5-pro-latest_CatDB_train} Train \ref{gemini-1.5-pro-latest_CatDB_test} Test) \\
   Llama3-70b-8192 ( \ref{llama3-70b-8192_CatDB_train} Train \ref{llama3-70b-8192_CatDB_test} Test)  
   }};

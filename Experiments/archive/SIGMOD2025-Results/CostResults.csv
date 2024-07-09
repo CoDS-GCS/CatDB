@@ -79,6 +79,7 @@ oml_dataset_33_rnc,Nomao,CatDBChain,69874,20919,53821,5269,4183,4241,0,0,6523,1,
 oml_dataset_34_rnc,Gas-Drift,CatDB,93290,0,0,9329,0,0,0,0,0,0,0,0,0,0,0,gemini-1.5-pro-latest,No,multiclass,classification,0
 oml_dataset_34_rnc,Gas-Drift,CatDBChain,163231,59157,62419,3642,5915,6241,0,0,0,0,0,0,0,0,0,gemini-1.5-pro-latest,No,multiclass,classification,0
 oml_dataset_34_rnc,Gas-Drift,CAAFERandomForest,220852,0,0,11699,0,0,0,0,0,0,0,0,0,0,0,gemini-1.5-pro-latest,No,multiclass,classification,0
+oml_dataset_34_rnc,Gas-Drift,CatDB,65380,0,0,6538,0,0,1501,0,0,1,0,0,0,0,0,llama3-70b-8192,No,multiclass,classification,0
 oml_dataset_10_rnc,Jungle-Chess,CatDB,15420,0,0,1542,0,0,0,0,0,0,0,0,0,0,0,gemini-1.5-pro-latest,No,multiclass,classification,0
 oml_dataset_10_rnc,Jungle-Chess,CatDBChain,25068,4697,6874,1260,469,687,0,0,0,0,0,0,0,0,0,gemini-1.5-pro-latest,No,multiclass,classification,0
 oml_dataset_10_rnc,Jungle-Chess,CAAFETabPFN,17014,0,0,1037,0,0,0,0,0,0,0,0,0,0,0,gemini-1.5-pro-latest,No,multiclass,classification,0
@@ -153,3 +154,4 @@ oml_dataset_24_rnc,NYC,CatDBChain,3423,2118,1033,1682,708,1033,0,1410,0,1,1,0,0,
 oml_dataset_35_rnc,Volkert,CatDB,91300,0,0,9130,0,0,0,0,0,0,0,0,0,0,0,gemini-1.5-pro-latest,No,multiclass,classification,0
 oml_dataset_35_rnc,Volkert,CatDBChain,104116,34675,40412,3991,5779,6735,0,0,0,0,0,0,0,0,0,gemini-1.5-pro-latest,No,multiclass,classification,0
 oml_dataset_35_rnc,Volkert,CAAFERandomForest,148747,0,0,14355,0,0,0,0,0,0,0,0,0,0,0,gemini-1.5-pro-latest,No,multiclass,classification,0
+oml_dataset_35_rnc,Volkert,CatDB,68740,0,0,6874,0,0,6937,0,0,1,0,0,0,0,0,llama3-70b-8192,No,multiclass,classification,0

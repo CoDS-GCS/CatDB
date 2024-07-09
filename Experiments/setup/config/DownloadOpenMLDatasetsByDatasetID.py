@@ -57,10 +57,11 @@ if __name__ == '__main__':
                     # (23517,"Numerai28.6","binary",30),
                     # (1475,"First-Order","multiclass",31),
                     # (41169,"Helena","multiclass",32),
-                    (1486,"Nomao","binary",33),
-                    (1476,"Gas-Drift","multiclass",34),
-                    (41166,"Volkert","multiclass",35),
-                    (5,"Arrhythmia","multiclass",36)
+                    #(1486,"Nomao","binary",33),
+                    #(1476,"Gas-Drift","multiclass",34),
+                    #(41166,"Volkert","multiclass",35),
+                    #(5,"Arrhythmia","multiclass",36),
+                    (43734,"Nashville","regression",37)
                 ]
    
     dataset_list =  pd.DataFrame(columns=["Row","ID","dataset_name", "orig_name","nrows","ncols","nclasses","target"])
@@ -76,6 +77,7 @@ if __name__ == '__main__':
         data, y, categorical_indicator, attribute_names = dataset.get_data()
         target_attribute = dataset.default_target_attribute
 
+        print(f">>>>>>>>>>>>>>>>>> {dataset.default_target_attribute}")
         n_classes = data[dataset.default_target_attribute].nunique()           
 
          # Split and save original dataset

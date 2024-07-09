@@ -5,8 +5,6 @@ CMC,3,7,0,0
 Credit-g,0,7,0,14
 Diabetes,0,6,2,1
 Tic-Tac-Toe,0,0,0,10
-Eucalyptus,0,6,8,6
-PC1,1,4,17,0
 Jungle-Chess,0,6,0,1
 Higgs,1,0,28,0
 Skin,0,4,0,0
@@ -16,7 +14,3 @@ Black-Friday,1,5,0,4
 Bike-Sharing,3,5,4,0
 House-Sales,2,12,4,0
 NYC,3,11,3,0
-Airlines-DepDelay,0,7,0,3
-Nomao,0,30,119,0
-Gas-Drift,0,1,129,0
-Volkert,0,34,181,0

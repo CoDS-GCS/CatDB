@@ -18,10 +18,10 @@ if __name__ == '__main__':
     df_micro = pd.DataFrame(columns = micor_tbl_cols)   
     df_overall = pd.DataFrame(columns = ["dataset_name","llm_model","CatDB","CatDBChain","max_other"])
     
-    datasetIDs = [("Black-Friday","oml_dataset_21_rnc",14),
-                  ("Bike-Sharing","oml_dataset_22_rnc",15),
-                  ("House-Sales","oml_dataset_23_rnc",16),
+    datasetIDs = [("Black-Friday","oml_dataset_21_rnc",15),
+                  ("Bike-Sharing","oml_dataset_22_rnc",16),
                   ("NYC","oml_dataset_24_rnc",17),
+                  ("House-Sales","oml_dataset_23_rnc",18),                  
                   #("Airlines-DepDelay","oml_dataset_25_rnc",18)
                   ]
     datasets = []

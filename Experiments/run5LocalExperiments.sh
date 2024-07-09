@@ -15,8 +15,8 @@ echo "dataset,llm_model,prompt_representation_type,prompt_example_type,prompt_nu
 
 cd ${exp_path}
 
-#CMD=./explocal/exp0_statistics/runExperiment0.sh
-CMD=./explocal/exp1_catalog/runExperiment1.sh
+CMD=./explocal/exp0_statistics/runExperiment0.sh
+#CMD=./explocal/exp1_catalog/runExperiment1.sh
 #CMD=./explocal/exp2_micro_benchmark/runExperiment2.sh 
 #CMD=./explocal/exp3_end_to_end/runExperiment3.sh 
 
@@ -67,7 +67,7 @@ CMD=./explocal/exp1_catalog/runExperiment1.sh
 $CMD oml_dataset_33_rnc binary # Nomao
 $CMD oml_dataset_34_rnc multiclass # Gas-Drift
 $CMD oml_dataset_35_rnc multiclass # Volkert
-$CMD oml_dataset_36_rnc multiclass # Arrhythmia
+# $CMD oml_dataset_36_rnc multiclass # Arrhythmia
 
 ######################################################
 # $CMD Airlines binary # Airlines

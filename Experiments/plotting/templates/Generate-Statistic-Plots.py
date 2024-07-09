@@ -148,7 +148,7 @@ def getXTicks(max:int):
     return xtick
 
 def extract_dataset_propertis_mv(root, out):
-    datasets = ["Balance-Scale","Breast-w","CMC","Credit-g","Diabetes","Tic-Tac-Toe","Eucalyptus","PC1","Jungle-Chess","Higgs","Skin","Traffic","Walking-Activity","Black-Friday","Bike-Sharing","House-Sales","NYC","Airlines-DepDelay"]
+    datasets = ["Breast-w","CMC","Credit-g","Diabetes","Tic-Tac-Toe","Nomao","Volkert","Gas-Drift","Jungle-Chess","Higgs","Skin","Traffic","Walking-Activity","Black-Friday","Bike-Sharing","House-Sales","NYC"]
 
     miss_value_template = read_template("Missing_Distinct_Values_Template.tex")
     exp_statistics = read_template("Exp_Dataset_Attribute_Template.tex")

@@ -22,8 +22,8 @@
     axis line style={gray},
     ymin=0,
     %xmin=1,
-    xmax=10,
-    ymax=166821,
+    xmax=119,
+    ymax=34465,
     tick label style={/pgf/number format/fixed},
     %y tick label style={/pgf/number format/1000 sep={}},
     %x tick label style={/pgf/number format/1000 sep={}},
@@ -34,9 +34,9 @@
     enlarge y limits=false,
     ylabel={Samples},
     xlabel={\# Column},
-    xtick={2,4,6,8,10},
-    ytick={0,30000,60000,90000,120000,150000},
-    yticklabels={0,3e4,6e4,9e4,12e4,15e4},
+    xtick={1,50,100,150,200},
+    ytick={0,10000,20000,30000,40000,50000},
+    yticklabels={0,1e4,2e4,3e4,4e4,5e4},
     ytick align=outside,
     xtick align=outside,
     xtick pos=left,
@@ -46,7 +46,7 @@
     xticklabel style = {font=\normalsize, xshift=0pt},
     height=0.4\columnwidth,
     width=0.38\columnwidth,    
-    bar width=0.03333333333333333\columnwidth,	 
+    bar width=0.0028011204481792717\columnwidth,	 
     %ymajorgrids=true,
     %grid style=dotted,   
     %minor grid style={gray!50}, 
@@ -55,11 +55,11 @@
 ]
 
 \begin{axis}
-  \addplotStatistics{../archive/SIGMOD2025-Results/statistics/Black-Friday_statistics.dat};	  	  
+  \addplotStatistics{../archive/SIGMOD2025-Results/statistics/Nomao_statistics.dat};	  	  
 \end{axis}
 
 \begin{axis} [hide axis]
-  \addplotDistinct{../archive/SIGMOD2025-Results/statistics/Black-Friday_statistics.dat};	  	  
+  \addplotDistinct{../archive/SIGMOD2025-Results/statistics/Nomao_statistics.dat};	  	  
 \end{axis}
 
 \node [draw=none,inner sep=0, font=\footnotesize, anchor=west] (leg1) at (rel axis cs: -0.65,1.16) {\shortstack[l]{

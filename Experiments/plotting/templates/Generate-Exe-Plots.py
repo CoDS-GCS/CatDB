@@ -72,17 +72,20 @@ def extract_performance_plots(root, out):
    
     plots = []
     for ds in datasets:
-        if ds in {"Higgs","Nomao","Walking-Activity","Jungle-Chess","Traffic","Gas-Drift","Volkert","Black-Friday",
-                "Bike-Sharing",
-                "House-Sales"}:
+        if ds in {"Higgs","Nomao","Walking-Activity","Jungle-Chess","Traffic","Gas-Drift","Volkert"}:
            ytick = ytick_3
            yticklabels = yticklabels_3    
-           plot_template = read_template("Experiment2-Exe-Template-Log.tex")    
+           plot_template = read_template("Experiment2-Exe-Template-Log.tex")            
+
+        elif ds in {"Black-Friday", "Bike-Sharing", "House-Sales", "NYC"}:
+             ytick = ytick_1
+             yticklabels = yticklabels_1 
+             plot_template = read_template("Experiment2-Exe-Template_Reg.tex")
+
         else:
              ytick = ytick_1
              yticklabels = yticklabels_1 
-             plot_template = read_template("Experiment2-Exe-Template.tex")
-
+             plot_template = read_template("Experiment2-Exe-Template.tex")     
            
 
         plot_cost = plot_template.replace("@DATASET",ds).replace("@YTICKLABELs",yticklabels).replace("@YTICK",ytick)

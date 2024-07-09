@@ -17,13 +17,9 @@
 
   \newcommand{\myaddplotds}[6]{
     \resetstackedplots
-    \myaddplotcost{CatDBChain_min}{#1}{tug}{#3}{#2}{0}{dred1};
+    \myaddplotcost{CatDBChain_min}{#1}{dblue1}{#3}{#2}{0}{dred1};
     \resetstackedplots
-    \myaddplotcost{CatDB_min}{#1}{dblue1}{#4}{#2}{0}{tug};
-    \resetstackedplots
-    \myaddplotcost{CAAFERandomForest_min}{#1}{color4}{#5}{#2}{0}{color4};
-    \resetstackedplots
-    \myaddplotcost{CAAFETabPFN_min}{#1}{black}{#6}{#2}{0}{black};
+    \myaddplotcost{CatDB_min}{#1}{color6}{#4}{#2}{0}{tug};   
   };
 \pgfplotsset{
     discard if singlconfig/.style n args={4}{
@@ -87,18 +83,18 @@
   every axis plot/.append style={line width=0.4pt,mark options={scale=1.5,solid}},  
   xticklabel style = {font=\normalsize, xshift=0pt, yshift=3pt},
   legend image post style={line width=.5pt},          
-  bar width=8pt,         
-  ytick={0,1,2,3,4,5,6,7,8,9,10},
-  yticklabels={0,1,2,3,4,5,6,7,8,9,10},              
+  bar width=12pt,         
+  ytick={0,5,10,15,20,25,30,35},
+  yticklabels={0,5,10,15,20,25,30,35},              
   every x tick/.style={ draw=none},
   xtick = data,
   symbolic x coords={gemini-1.5-pro-latest, llama3-70b-8192, gpt-4o},
   xticklabels={\hspace{0.3cm}Gemini-1.5, \hspace{0.1cm}Llama3-70b, \hspace{-0.64cm}GPT-4o},
   legend image code/.code={\draw [#1] (0cm,-0.1cm) rectangle (0.25cm,0.1cm); }, 
 ]
- \myaddplotds{gemini-1.5-pro-latest}{NYC}{0pt}{8pt}{16pt}{24pt}
- \myaddplotds{llama3-70b-8192}{NYC}{-11pt}{-3pt}{5pt}{13pt}
- \myaddplotds{gpt-4o}{NYC}{-22pt}{-14pt}{-6pt}{2pt}
+\myaddplotds{gemini-1.5-pro-latest}{NYC}{2pt}{14pt}{20pt}{30pt}
+\myaddplotds{llama3-70b-8192}{NYC}{-7pt}{5pt}{10pt}{20pt}
+\myaddplotds{gpt-4o}{NYC}{-13pt}{-1pt}{-10pt}{7pt}
 \end{axis}
 
 \end{tikzpicture}

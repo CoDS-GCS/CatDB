@@ -84,17 +84,17 @@
   xticklabel style = {font=\normalsize, xshift=0pt, yshift=3pt},
   legend image post style={line width=.5pt},          
   bar width=12pt,         
-  ytick={0,0.5,1,1.5,2,2.5},
-  yticklabels={0,0.5,1,1.5,2,2.5},              
+  ytick={@YTICK},
+  yticklabels={@YTICKLABELs},              
   every x tick/.style={ draw=none},
   xtick = data,
   symbolic x coords={gemini-1.5-pro-latest, llama3-70b-8192, gpt-4o},
   xticklabels={\hspace{0.3cm}Gemini-1.5, \hspace{0.1cm}Llama3-70b, \hspace{-0.64cm}GPT-4o},
   legend image code/.code={\draw [#1] (0cm,-0.1cm) rectangle (0.25cm,0.1cm); }, 
 ]
-\myaddplotds{gemini-1.5-pro-latest}{House-Sales}{2pt}{14pt}{20pt}{30pt}
-\myaddplotds{llama3-70b-8192}{House-Sales}{-7pt}{5pt}{10pt}{20pt}
-\myaddplotds{gpt-4o}{House-Sales}{-13pt}{-1pt}{-10pt}{7pt}
+\myaddplotds{gemini-1.5-pro-latest}{@DATASET}{2pt}{14pt}{20pt}{30pt}
+\myaddplotds{llama3-70b-8192}{@DATASET}{-7pt}{5pt}{10pt}{20pt}
+\myaddplotds{gpt-4o}{@DATASET}{-13pt}{-1pt}{-10pt}{7pt}
 \end{axis}
 
 \end{tikzpicture}

@@ -39,22 +39,22 @@ def get_figure(name:str, caption:str):
 
 def extract_performance_plots(root, out):
     datasets = ["Skin",
-                "Diabetes",
+                #"Diabetes",
                 "Tic-Tac-Toe",
-                "Breast-w",
-                "Credit-g",
+                #"Breast-w",
+                #"Credit-g",
                 "Higgs",
-                "Nomao",
+                #"Nomao",
                 "Balance-Scale",
                 "Walking-Activity",
                 "Jungle-Chess",
                 "CMC",
                 "Traffic",
-                "Gas-Drift",
-                "Volkert"
+                #"Gas-Drift",
+                #"Volkert",
                 "Black-Friday",
                 "Bike-Sharing",
-                "NYC"
+                "NYC",
                 "House-Sales",
                    ]    
    
@@ -67,14 +67,13 @@ def extract_performance_plots(root, out):
     ytick_2="0,10,20,30,40,50,60,70,80,90,100"
     yticklabels_2="0,10,20,30,40,50,60,70,80,90,100"
 
-    ytick_3="0,1,10,100,1000,10000"
-    yticklabels_3="0,1,10,100,1000,10000"
+    ytick_3="0.1,1,10,100,1000,10000"
+    yticklabels_3="0,1,10,$10^2$,$10^3$,$10^4$"
    
     plots = []
     for ds in datasets:
         if ds in {"Higgs","Nomao","Walking-Activity","Jungle-Chess","Traffic","Gas-Drift","Volkert","Black-Friday",
                 "Bike-Sharing",
-                "NYC"
                 "House-Sales"}:
            ytick = ytick_3
            yticklabels = yticklabels_3    
@@ -92,11 +91,11 @@ def extract_performance_plots(root, out):
 
         plots.append(get_figure(plot_name, f"Experiment1-Exe-{ds}"))
 
-        print("\\subfigure["+ds+"]{\\label{exp1a}\includegraphics[scale=0.55]{plots/Experiment1-Exe-"+ds+"}}")
+        print("\\subfigure["+ds+"]{\\label{exp1a}\includegraphics[scale=0.55]{plots/Experiment2-Exe-"+ds+"}}")
 
     plots_tex = "\n".join(plots)    
     inc_plots = exp_micro.replace("@PLOT", plots_tex)
-    save_template(inc_plots,f"../exp1_benchmark_it_1.tex")
+    save_template(inc_plots,f"../exp_exe_benchmark_it_1.tex")
 
 
 if __name__ == '__main__':

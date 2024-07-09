@@ -31,7 +31,7 @@ def get_figure(name:str, caption:str):
     \\tikzsetnextfilename{@NAME} 
         \\begin{figure}[!ht]
             \\centering
-            \\input{Experiment1/@NAME.tex}
+            \\input{Experiment2/@NAME.tex}
             \\caption{@CAPTION}
         \\end{figure}  
     """
@@ -39,25 +39,26 @@ def get_figure(name:str, caption:str):
 
 def extract_performance_plots(root, out):
     datasets = ["Skin",
-                "Diabetes",
+                #"Diabetes",
                 "Tic-Tac-Toe",
-                "Breast-w",
-                "Credit-g",
-                "Higgs","Nomao",
+                #"Breast-w",
+                #"Credit-g",
+                "Higgs",
+                #"Nomao",
                 "Balance-Scale",
                 "Walking-Activity",
                 "Jungle-Chess",
                 "CMC",
                 "Traffic",
-                "Gas-Drift",
-                "Volkert"
+                #"Gas-Drift",
+                #"Volkert",
                 "Black-Friday",
                 "Bike-Sharing",
-                "NYC"
+                "NYC",
                 "House-Sales",
                    ]    
    
-    plot_template = read_template("Experiment1-Cost-Template.tex")
+    plot_template = read_template("Experiment2-Cost-Template.tex")
     exp_micro = read_template("Exp_Dataset_Attribute_Template.tex")
     
     ytick_1="0,5000,10000,15000,20000,25000,30000,35000,40000"
@@ -82,9 +83,9 @@ def extract_performance_plots(root, out):
              yticklabels = yticklabels_3 
 
         if ds in {"Black-Friday","Bike-Sharing","House-Sales","NYC"}:
-             plot_template = read_template("Experiment1-Cost-Template-Reg.tex")
+             plot_template = read_template("Experiment2-Cost-Template-Reg.tex")
         else:
-             plot_template = read_template("Experiment1-Cost-Template.tex")
+             plot_template = read_template("Experiment2-Cost-Template.tex")
 
                 
 
@@ -92,19 +93,19 @@ def extract_performance_plots(root, out):
         plot_name = f"Experiment1-Cost-{ds}"
         save_template(plot_cost, f"{out}/{plot_name}.tex")        
 
-        plots.append(get_figure(plot_name, f"Experiment1-Cost-{ds}"))
+        plots.append(get_figure(plot_name, f"Experiment2-Cost-{ds}"))
 
-        print("\\subfigure["+ds+"]{\\label{exp1a}\includegraphics[scale=0.55]{plots/Experiment1-Cost-"+ds+"}}")
+        print("\\subfigure["+ds+"]{\\label{exp1a}\includegraphics[scale=0.55]{plots/Experiment2-Cost-"+ds+"}}")
 
     plots_tex = "\n".join(plots)    
     inc_plots = exp_micro.replace("@PLOT", plots_tex)
-    save_template(inc_plots,f"../exp1_micorbenchmark2.tex")
+    save_template(inc_plots,f"../exp_cost_benchmark_it_1.tex")
 
 
 if __name__ == '__main__':
     
     root = "../results"
-    out = "../Experiment1"
+    out = "../Experiment2"
 
     extract_performance_plots(root=root, out=out)
 

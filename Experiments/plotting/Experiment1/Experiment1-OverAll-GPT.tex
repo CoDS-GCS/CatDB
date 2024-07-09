@@ -3,7 +3,7 @@
 \makeatletter
 \pgfplots@stacked@isfirstplottrue
 \makeatother
-\addplot [forget plot,draw=none] coordinates{(Balance-Scale, 0) (Breast-w, 0) (CMC, 0) (Credit-g, 0) (Diabetes, 0) (Tic-Tac-Toe, 0) (Eucalyptus, 0) (PC1, 0) (Jungle-Chess, 0) (Higgs, 0) (Skin, 0) (Traffic, 0) (Walking-Activity, 0) (Black-Friday, 0) (Bike-Sharing, 0) (House-Sales, 0) (NYC, 0) (Airlines-DepDelay,0)};
+\addplot [forget plot,draw=none] coordinates{(Skin,0) (Diabetes,0) (Tic-Tac-Toe,0) (Breast-w,0) (Credit-g,0 )(Higgs,0) (Nomao,0) (Balance-Scale,0) (Walking-Activity,0) (Jungle-Chess,0) (CMC,0) (Traffic,0) (Gas-Drift,0) (Volkert,0) (Black-Friday,0) (Bike-Sharing,0)(NYC,0) (House-Sales,0)};
 }
 \makeatother
 
@@ -68,7 +68,7 @@
   yticklabels={0, 20, 40, 60, 80, 100},               
   every x tick/.style={ draw=none},
   xtick = data,
-  symbolic x coords={Balance-Scale,Breast-w,CMC,Credit-g,Diabetes,Tic-Tac-Toe,Eucalyptus,PC1,Jungle-Chess,Higgs,Skin,Traffic,Walking-Activity,Black-Friday,Bike-Sharing,House-Sales,NYC,Airlines-DepDelay},
+  symbolic x coords={Skin,Diabetes,Tic-Tac-Toe,Breast-w,Credit-g,Higgs,Nomao,Balance-Scale,Walking-Activity,Jungle-Chess,CMC,Traffic,Gas-Drift,Volkert,Black-Friday,Bike-Sharing,NYC,House-Sales},
   xticklabels={1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18},
   legend image code/.code={\draw [#1] (0cm,-0.1cm) rectangle (0.15cm,0.1cm); }, 
 ]

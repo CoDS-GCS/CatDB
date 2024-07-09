@@ -31,7 +31,7 @@ def get_figure(name:str, caption:str):
     \\tikzsetnextfilename{@NAME} 
         \\begin{figure}[!ht]
             \\centering
-            \\input{Experiment1/@NAME.tex}
+            \\input{Experiment2/@NAME.tex}
             \\caption{@CAPTION}
         \\end{figure}  
     """
@@ -43,7 +43,8 @@ def extract_performance_plots(root, out):
                 "Tic-Tac-Toe",
                 "Breast-w",
                 "Credit-g",
-                "Higgs","Nomao",
+                "Higgs",
+                "Nomao",
                 "Balance-Scale",
                 "Walking-Activity",
                 "Jungle-Chess",
@@ -57,54 +58,51 @@ def extract_performance_plots(root, out):
                 "House-Sales",
                    ]    
    
-    plot_template = read_template("Experiment1-Cost-Template.tex")
+    plot_template = read_template("Experiment2-Exe-Template.tex")
     exp_micro = read_template("Exp_Dataset_Attribute_Template.tex")
     
-    ytick_1="0,5000,10000,15000,20000,25000,30000,35000,40000"
-    yticklabels_1="0, 5k, 10k, 15k, 20k, 25k,30k,35k,40k" 
+    ytick_1="0,1,2,3,4,5,6,7,8,9,10"
+    yticklabels_1="0,1,2,3,4,5,6,7,8,9,10" 
 
-    ytick_2="0,2000,4000,6000,8000,10000,12000,14000,16000"
-    yticklabels_2="0, 2k, 4k, 6k, 8k, 10k,12k,14k,16k"
+    ytick_2="0,10,20,30,40,50,60,70,80,90,100"
+    yticklabels_2="0,10,20,30,40,50,60,70,80,90,100"
 
-    ytick_3="0,1000,2000,3000,4000,5000,6000,7000,8000"
-    yticklabels_3="0, 1k, 2k, 3k, 4k, 5k,6k,7k,8k"
+    ytick_3="0,1,10,100,1000,10000"
+    yticklabels_3="0,1,10,100,1000,10000"
    
     plots = []
     for ds in datasets:
-        if ds in {"Higgs","Traffic","Walking-Activity","House-Sales","Bike-Sharing"}:
-           ytick = ytick_1
-           yticklabels = yticklabels_1
-        elif ds in {"Skin","Black-Friday","NYC"}:
-              ytick = ytick_2
-              yticklabels = yticklabels_2 
+        if ds in {"Higgs","Nomao","Walking-Activity","Jungle-Chess","Traffic","Gas-Drift","Volkert","Black-Friday",
+                "Bike-Sharing",
+                "NYC"
+                "House-Sales"}:
+           ytick = ytick_3
+           yticklabels = yticklabels_3    
+           plot_template = read_template("Experiment2-Exe-Template-Log.tex")    
         else:
-             ytick = ytick_3
-             yticklabels = yticklabels_3 
+             ytick = ytick_1
+             yticklabels = yticklabels_1 
+             plot_template = read_template("Experiment2-Exe-Template.tex")
 
-        if ds in {"Black-Friday","Bike-Sharing","House-Sales","NYC"}:
-             plot_template = read_template("Experiment1-Cost-Template-Reg.tex")
-        else:
-             plot_template = read_template("Experiment1-Cost-Template.tex")
-
-                
+           
 
         plot_cost = plot_template.replace("@DATASET",ds).replace("@YTICKLABELs",yticklabels).replace("@YTICK",ytick)
-        plot_name = f"Experiment1-Cost-{ds}"
+        plot_name = f"Experiment1-Exe-{ds}"
         save_template(plot_cost, f"{out}/{plot_name}.tex")        
 
-        plots.append(get_figure(plot_name, f"Experiment1-Cost-{ds}"))
+        plots.append(get_figure(plot_name, f"Experiment1-Exe-{ds}"))
 
-        print("\\subfigure["+ds+"]{\\label{exp1a}\includegraphics[scale=0.55]{plots/Experiment1-Cost-"+ds+"}}")
+        print("\\subfigure["+ds+"]{\\label{exp1a}\includegraphics[scale=0.55]{plots/Experiment1-Exe-"+ds+"}}")
 
     plots_tex = "\n".join(plots)    
     inc_plots = exp_micro.replace("@PLOT", plots_tex)
-    save_template(inc_plots,f"../exp1_micorbenchmark2.tex")
+    save_template(inc_plots,f"../exp1_benchmark_it_1.tex")
 
 
 if __name__ == '__main__':
     
     root = "../results"
-    out = "../Experiment1"
+    out = "../Experiment2"
 
     extract_performance_plots(root=root, out=out)
 

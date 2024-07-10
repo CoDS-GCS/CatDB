@@ -17,14 +17,14 @@ oml_dataset_5_rnc,Diabetes,21.12,26.29,184.67,91.36,0.35,0.44,3.08,1.52,3.52,4.3
 oml_dataset_6_rnc,Tic-Tac-Toe,33.65,24.95,268.40,251.80,0.56,0.42,4.47,4.20,5.61,4.16,44.73,41.97,10,gemini-1.5-pro-latest,No,binary,classification,0
 oml_dataset_6_rnc,Tic-Tac-Toe,15.00,15.00,284.64,114.56,0.25,0.25,4.74,1.91,2.50,2.50,47.44,19.09,10,llama3-70b-8192,No,binary,classification,0
 oml_dataset_6_rnc,Tic-Tac-Toe,15.00,16.14,226.34,81.17,0.25,0.27,3.77,1.35,2.50,2.69,37.72,13.53,10,gpt-4o,No,binary,classification,0
-oml_dataset_33_rnc,Nomao,43.09,25.27,0,591.36,0.72,0.42,0.001,9.86,7.18,4.21,0.001,98.56,10,gemini-1.5-pro-latest,No,binary,classification,0
+oml_dataset_33_rnc,Nomao,43.09,25.27,107458.48,591.36,0.72,0.42,1790.97,9.86,7.18,4.21,17909.75,98.56,10,gemini-1.5-pro-latest,No,binary,classification,0
 oml_dataset_33_rnc,Nomao,61.66,45.96,0,0,1.03,0.77,0.001,0.001,10.28,7.66,0.001,0.001,10,llama3-70b-8192,No,binary,classification,0
 oml_dataset_33_rnc,Nomao,0,0,0,0,0.001,0.001,0.001,0.001,0.001,0.001,0.001,0.001,10,gpt-4o,No,binary,classification,0
 oml_dataset_34_rnc,Gas-Drift,15.14,34.01,0,1137.34,0.25,0.57,0.001,18.96,2.52,5.67,0.001,189.56,10,gemini-1.5-pro-latest,No,multiclass,classification,0
-oml_dataset_34_rnc,Gas-Drift,37.31,0,0,0,0.62,0.001,0.001,0.001,6.22,0.001,0.001,0.001,10,llama3-70b-8192,No,multiclass,classification,0
+oml_dataset_34_rnc,Gas-Drift,37.31,15.02,0,0,0.62,0.25,0.001,0.001,6.22,2.50,0.001,0.001,10,llama3-70b-8192,No,multiclass,classification,0
 oml_dataset_34_rnc,Gas-Drift,0,0,0,0,0.001,0.001,0.001,0.001,0.001,0.001,0.001,0.001,10,gpt-4o,No,multiclass,classification,0
 oml_dataset_10_rnc,Jungle-Chess,15.00,25.12,156776.01,759.85,0.25,0.42,2612.93,12.66,2.50,4.19,26129.33,126.64,10,gemini-1.5-pro-latest,No,multiclass,classification,0
-oml_dataset_10_rnc,Jungle-Chess,15.00,15.00,0,347.68,0.25,0.25,0.001,5.79,2.50,2.50,0.001,57.95,10,llama3-70b-8192,No,multiclass,classification,0
+oml_dataset_10_rnc,Jungle-Chess,15.00,15.00,216334.45,347.68,0.25,0.25,3605.57,5.79,2.50,2.50,36055.74,57.95,10,llama3-70b-8192,No,multiclass,classification,0
 oml_dataset_10_rnc,Jungle-Chess,15.00,30.82,201214.17,237.80,0.25,0.51,3353.57,3.96,2.50,5.14,33535.69,39.63,10,gpt-4o,No,multiclass,classification,0
 oml_dataset_11_rnc,Higgs,6322.83,1609.05,0,93263.74,105.38,26.82,0.001,1554.40,1053.80,268.17,0.001,15543.96,10,gemini-1.5-pro-latest,No,binary,classification,0
 oml_dataset_11_rnc,Higgs,7418.21,8209.18,0,95099.46,123.64,136.82,0.001,1584.99,1236.37,1368.20,0.001,15849.91,10,llama3-70b-8192,No,binary,classification,0
@@ -50,6 +50,6 @@ oml_dataset_23_rnc,House-Sales,74.61,15.20,0,0,1.24,0.25,0.001,0.001,12.44,2.53,
 oml_dataset_24_rnc,NYC,124.64,107.63,0,0,2.08,1.79,0.001,0.001,20.77,17.94,0.001,0.001,10,gemini-1.5-pro-latest,No,regression,regression,0
 oml_dataset_24_rnc,NYC,624.81,833.12,0,0,10.41,13.89,0.001,0.001,104.14,138.85,0.001,0.001,10,llama3-70b-8192,No,regression,regression,0
 oml_dataset_24_rnc,NYC,1649.86,133.75,0,0,27.50,2.23,0.001,0.001,274.98,22.29,0.001,0.001,10,gpt-4o,No,regression,regression,0
-oml_dataset_35_rnc,Volkert,31.97,99.58,0,2877.82,0.53,1.66,0.001,47.96,5.33,16.60,0.001,479.64,10,gemini-1.5-pro-latest,No,multiclass,classification,0
+oml_dataset_35_rnc,Volkert,28.11,212.70,0,2877.82,0.47,3.54,0.001,47.96,4.69,35.45,0.001,479.64,10,gemini-1.5-pro-latest,No,multiclass,classification,0
 oml_dataset_35_rnc,Volkert,30.64,0,0,0,0.51,0.001,0.001,0.001,5.11,0.001,0.001,0.001,10,llama3-70b-8192,No,multiclass,classification,0
 oml_dataset_35_rnc,Volkert,0,0,0,0,0.001,0.001,0.001,0.001,0.001,0.001,0.001,0.001,10,gpt-4o,No,multiclass,classification,0

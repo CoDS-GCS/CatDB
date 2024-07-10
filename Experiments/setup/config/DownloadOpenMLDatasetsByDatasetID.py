@@ -61,7 +61,14 @@ if __name__ == '__main__':
                     #(1476,"Gas-Drift","multiclass",34),
                     #(41166,"Volkert","multiclass",35),
                     #(5,"Arrhythmia","multiclass",36),
-                    (43734,"Nashville","regression",37)
+                    (43044,"Drug","multiclass",37),
+                    (42803,"Road-Safety","multiclass",38),
+                    (45567,"Hcdr","binary",39),
+                    (293,"Covertype","binary",40),
+                    (45049,"MD-MIX-Mini","multiclass",41),
+                    (42734,"Okcupid-Stem","multiclass",42),
+                    (42468,"Hls4ml","multiclass",43),
+                    (41147,"Albert","binary",44),
                 ]
    
     dataset_list =  pd.DataFrame(columns=["Row","ID","dataset_name", "orig_name","nrows","ncols","nclasses","target"])
@@ -77,7 +84,6 @@ if __name__ == '__main__':
         data, y, categorical_indicator, attribute_names = dataset.get_data()
         target_attribute = dataset.default_target_attribute
 
-        print(f">>>>>>>>>>>>>>>>>> {dataset.default_target_attribute}")
         n_classes = data[dataset.default_target_attribute].nunique()           
 
          # Split and save original dataset

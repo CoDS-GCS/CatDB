@@ -79,6 +79,7 @@ oml_dataset_33_rnc,Nomao,CatDB,67000,0,0,6700,0,0,0,0,0,0,0,0,0,0,0,llama3-70b-8
 oml_dataset_33_rnc,Nomao,CatDBChain,69874,20919,53821,5269,4183,4241,0,0,6523,1,0,1,0,0,0,llama3-70b-8192,No,binary,classification,0
 oml_dataset_34_rnc,Gas-Drift,CatDB,93290,0,0,9329,0,0,0,0,0,0,0,0,0,0,0,gemini-1.5-pro-latest,No,multiclass,classification,0
 oml_dataset_34_rnc,Gas-Drift,CatDBChain,163231,59157,62419,3642,5915,6241,0,0,0,0,0,0,0,0,0,gemini-1.5-pro-latest,No,multiclass,classification,0
+oml_dataset_34_rnc,Gas-Drift,CAAFETabPFN,145792,0,0,11699,0,0,0,0,0,0,0,0,0,0,0,gemini-1.5-pro-latest,No,multiclass,classification,0
 oml_dataset_34_rnc,Gas-Drift,CAAFERandomForest,220852,0,0,11699,0,0,0,0,0,0,0,0,0,0,0,gemini-1.5-pro-latest,No,multiclass,classification,0
 oml_dataset_34_rnc,Gas-Drift,CatDB,65380,0,0,6538,0,0,1501,0,0,1,0,0,0,0,0,llama3-70b-8192,No,multiclass,classification,0
 oml_dataset_34_rnc,Gas-Drift,CatDBChain,22069,8033,8477,2440,4016,4238,0,0,0,0,0,0,0,0,0,llama3-70b-8192,No,multiclass,classification,0

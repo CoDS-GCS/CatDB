@@ -36,7 +36,7 @@ Traffic,gpt-4o,84.818,95.453,98.949
 Traffic,gemini-1.5-pro-latest,95.504,84.736,95.294
 Traffic,llama3-70b-8192,85.501,95.271,95.253
 Gas-Drift,gpt-4o,0.0,0.0,0.0
-Gas-Drift,gemini-1.5-pro-latest,99.942,99.959,87.308
+Gas-Drift,gemini-1.5-pro-latest,99.942,99.959,99.972
 Gas-Drift,llama3-70b-8192,100.0,99.919,0.0
 Volkert,gpt-4o,0.0,0.0,0.0
 Volkert,gemini-1.5-pro-latest,99.999,91.651,71.52

@@ -60,17 +60,24 @@ class BasicPrompt(object):
         if scaler_prompt is not None:
             prompt_items.append(scaler_prompt)
 
+        prompt_items.append(f'Remove all outlier from data based on statistical data we mentioned in """{self.ds_attribute_prefix_label}""".')
+
         # Encode categorical values:
         if self.flag_categorical_values and len(self.catalog.columns_categorical) > 0:
             categorical_columns = []
             for cc in self.catalog.columns_categorical:
                 if cc != self.target_attribute:
                     categorical_columns.append(cc)
-            categorical_column_prompt = (f'Encode categorical values by "on-hot-encoder" for the following '
+            categorical_column_prompt = (f'Transformer the categorical data for the following (e.g., One-Hot Encoding, Ordinal Encoder, Polynomial Encoder, Count Encoder, ... ) '
                                          f'columns:\n\t# Columns: {",".join(categorical_columns)}')
+            # categorical_column_prompt = (f'Encode categorical values by "on-hot-encoder" for the following '
+            #                              f'columns:\n\t# Columns: {",".join(categorical_columns)}')
             prompt_items.append(categorical_column_prompt)
 
         prompt_items.append(f"Dataset Attribute:\n# Number of samples (rows) in training dataset: {self.catalog.nrows}")
+
+        prompt_items.append(f'Dataset is a structured/tabular data, select a high performance ML model. For example, Gradient Boosting Machines (e.g., XGBoost, LightGBM), RandomForest, ...')
+        #prompt_items.append("Use and optimal Neural Networks based model building techniques based on a CPU with 32 Core and 140 GB maximum memory.")
         prompt_items.append(f'Question: {self.question}')
         return f"\n\n{_user_delimiter}".join(prompt_items), schema_data
 

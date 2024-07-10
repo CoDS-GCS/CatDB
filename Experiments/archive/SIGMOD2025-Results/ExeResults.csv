@@ -20,7 +20,7 @@ oml_dataset_6_rnc,Tic-Tac-Toe,15.00,16.14,226.34,81.17,0.25,0.27,3.77,1.35,2.50,
 oml_dataset_33_rnc,Nomao,43.09,25.27,107458.48,591.36,0.72,0.42,1790.97,9.86,7.18,4.21,17909.75,98.56,10,gemini-1.5-pro-latest,No,binary,classification,0
 oml_dataset_33_rnc,Nomao,61.66,45.96,0,0,1.03,0.77,0.001,0.001,10.28,7.66,0.001,0.001,10,llama3-70b-8192,No,binary,classification,0
 oml_dataset_33_rnc,Nomao,0,0,0,0,0.001,0.001,0.001,0.001,0.001,0.001,0.001,0.001,10,gpt-4o,No,binary,classification,0
-oml_dataset_34_rnc,Gas-Drift,15.14,34.01,0,1137.34,0.25,0.57,0.001,18.96,2.52,5.67,0.001,189.56,10,gemini-1.5-pro-latest,No,multiclass,classification,0
+oml_dataset_34_rnc,Gas-Drift,15.14,34.01,21912.67,1137.34,0.25,0.57,365.21,18.96,2.52,5.67,3652.11,189.56,10,gemini-1.5-pro-latest,No,multiclass,classification,0
 oml_dataset_34_rnc,Gas-Drift,37.31,15.02,0,0,0.62,0.25,0.001,0.001,6.22,2.50,0.001,0.001,10,llama3-70b-8192,No,multiclass,classification,0
 oml_dataset_34_rnc,Gas-Drift,0,0,0,0,0.001,0.001,0.001,0.001,0.001,0.001,0.001,0.001,10,gpt-4o,No,multiclass,classification,0
 oml_dataset_10_rnc,Jungle-Chess,15.00,25.12,156776.01,759.85,0.25,0.42,2612.93,12.66,2.50,4.19,26129.33,126.64,10,gemini-1.5-pro-latest,No,multiclass,classification,0

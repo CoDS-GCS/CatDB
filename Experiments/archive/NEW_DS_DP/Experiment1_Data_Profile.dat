@@ -1,0 +1,12 @@
+dataset,task_type,platform,time
+Nomao,binary,kglidsplus,45080
+Gas-Drift,multiclass,kglidsplus,42843
+Volkert,multiclass,kglidsplus,53238
+Drug,multiclass,kglidsplus,89990
+Road-Safety,multiclass,kglidsplus,73417
+Hcdr,binary,kglidsplus,91074
+Covertype,binary,kglidsplus,40889
+MD-MIX-Mini,multiclass,kglidsplus,69273
+Okcupid-Stem,multiclass,kglidsplus,54504
+Hls4ml,multiclass,kglidsplus,53767
+Albert,binary,kglidsplus,56928

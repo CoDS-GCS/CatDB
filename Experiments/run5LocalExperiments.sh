@@ -109,62 +109,62 @@ CMD=./explocal/exp1_catalog/runExperiment1.sh
 # $CMD oml_dataset_18_rnc multiclass # Drug-Directory
 
 #####################################################
-$CMD gen_dataset_50-out-0.02-np-0-nc-0-mv-0_rnc binary # adult
-$CMD gen_dataset_50-out-0.04-np-0-nc-0-mv-0_rnc binary # adult
-$CMD gen_dataset_50-out-0.06-np-0-nc-0-mv-0_rnc binary # adult
-$CMD gen_dataset_51-out-0.02-np-0-nc-0-mv-0_rnc binary # bank
-$CMD gen_dataset_51-out-0.04-np-0-nc-0-mv-0_rnc binary # bank
-$CMD gen_dataset_51-out-0.06-np-0-nc-0-mv-0_rnc binary # bank
-$CMD gen_dataset_52-out-0.02-np-0-nc-0-mv-0_rnc binary # br2000
-$CMD gen_dataset_52-out-0.04-np-0-nc-0-mv-0_rnc binary # br2000
-$CMD gen_dataset_52-out-0.06-np-0-nc-0-mv-0_rnc binary # br2000
+# $CMD gen_dataset_50-out-0.02-np-0-nc-0-mv-0_rnc binary # adult
+# $CMD gen_dataset_50-out-0.04-np-0-nc-0-mv-0_rnc binary # adult
+# $CMD gen_dataset_50-out-0.06-np-0-nc-0-mv-0_rnc binary # adult
+# $CMD gen_dataset_51-out-0.02-np-0-nc-0-mv-0_rnc binary # bank
+# $CMD gen_dataset_51-out-0.04-np-0-nc-0-mv-0_rnc binary # bank
+# $CMD gen_dataset_51-out-0.06-np-0-nc-0-mv-0_rnc binary # bank
+# $CMD gen_dataset_52-out-0.02-np-0-nc-0-mv-0_rnc binary # br2000
+# $CMD gen_dataset_52-out-0.04-np-0-nc-0-mv-0_rnc binary # br2000
+# $CMD gen_dataset_52-out-0.06-np-0-nc-0-mv-0_rnc binary # br2000
 
-$CMD gen_dataset_50-out-0-np-0.8-nc-11-mv-0.1_rnc binary # adult
-$CMD gen_dataset_50-out-0-np-0.8-nc-11-mv-0.2_rnc binary # adult
-$CMD gen_dataset_50-out-0-np-0.8-nc-11-mv-0.3_rnc binary # adult
+#$CMD gen_dataset_50-out-0-np-0.8-nc-11-mv-0.1_rnc binary # adult
+#$CMD gen_dataset_50-out-0-np-0.8-nc-11-mv-0.2_rnc binary # adult
+#$CMD gen_dataset_50-out-0-np-0.8-nc-11-mv-0.3_rnc binary # adult
 $CMD gen_dataset_50-out-0-np-0.8-nc-11-mv-0.4_rnc binary # adult
-$CMD gen_dataset_51-out-0-np-0.8-nc-12-mv-0.1_rnc binary # bank
-$CMD gen_dataset_51-out-0-np-0.8-nc-12-mv-0.2_rnc binary # bank
-$CMD gen_dataset_51-out-0-np-0.8-nc-12-mv-0.3_rnc binary # bank
-$CMD gen_dataset_51-out-0-np-0.8-nc-12-mv-0.4_rnc binary # bank
-$CMD gen_dataset_52-out-0-np-0.8-nc-10-mv-0.1_rnc binary # br2000
-$CMD gen_dataset_52-out-0-np-0.8-nc-10-mv-0.2_rnc binary # br2000
-$CMD gen_dataset_52-out-0-np-0.8-nc-10-mv-0.3_rnc binary # br2000
-$CMD gen_dataset_52-out-0-np-0.8-nc-10-mv-0.4_rnc binary # br2000
+# $CMD gen_dataset_51-out-0-np-0.8-nc-12-mv-0.1_rnc binary # bank
+# $CMD gen_dataset_51-out-0-np-0.8-nc-12-mv-0.2_rnc binary # bank
+# $CMD gen_dataset_51-out-0-np-0.8-nc-12-mv-0.3_rnc binary # bank
+# $CMD gen_dataset_51-out-0-np-0.8-nc-12-mv-0.4_rnc binary # bank
+# $CMD gen_dataset_52-out-0-np-0.8-nc-10-mv-0.1_rnc binary # br2000
+# $CMD gen_dataset_52-out-0-np-0.8-nc-10-mv-0.2_rnc binary # br2000
+# $CMD gen_dataset_52-out-0-np-0.8-nc-10-mv-0.3_rnc binary # br2000
+# $CMD gen_dataset_52-out-0-np-0.8-nc-10-mv-0.4_rnc binary # br2000
 
-$CMD gen_dataset_50-out-0.02-np-0.8-nc-11-mv-0.1_rnc binary # adult
-$CMD gen_dataset_50-out-0.04-np-0.8-nc-11-mv-0.1_rnc binary # adult
-$CMD gen_dataset_50-out-0.06-np-0.8-nc-11-mv-0.1_rnc binary # adult
-$CMD gen_dataset_50-out-0.02-np-0.8-nc-11-mv-0.2_rnc binary # adult
-$CMD gen_dataset_50-out-0.04-np-0.8-nc-11-mv-0.2_rnc binary # adult
-$CMD gen_dataset_50-out-0.06-np-0.8-nc-11-mv-0.2_rnc binary # adult
-$CMD gen_dataset_50-out-0.02-np-0.8-nc-11-mv-0.3_rnc binary # adult
-$CMD gen_dataset_50-out-0.04-np-0.8-nc-11-mv-0.3_rnc binary # adult
-$CMD gen_dataset_50-out-0.06-np-0.8-nc-11-mv-0.3_rnc binary # adult
-$CMD gen_dataset_50-out-0.02-np-0.8-nc-11-mv-0.4_rnc binary # adult
-$CMD gen_dataset_50-out-0.04-np-0.8-nc-11-mv-0.4_rnc binary # adult
-$CMD gen_dataset_50-out-0.06-np-0.8-nc-11-mv-0.4_rnc binary # adult
-$CMD gen_dataset_51-out-0.02-np-0.8-nc-12-mv-0.1_rnc binary # bank
-$CMD gen_dataset_51-out-0.04-np-0.8-nc-12-mv-0.1_rnc binary # bank
-$CMD gen_dataset_51-out-0.06-np-0.8-nc-12-mv-0.1_rnc binary # bank
-$CMD gen_dataset_51-out-0.02-np-0.8-nc-12-mv-0.2_rnc binary # bank
-$CMD gen_dataset_51-out-0.04-np-0.8-nc-12-mv-0.2_rnc binary # bank
-$CMD gen_dataset_51-out-0.06-np-0.8-nc-12-mv-0.2_rnc binary # bank
-$CMD gen_dataset_51-out-0.02-np-0.8-nc-12-mv-0.3_rnc binary # bank
-$CMD gen_dataset_51-out-0.04-np-0.8-nc-12-mv-0.3_rnc binary # bank
-$CMD gen_dataset_51-out-0.06-np-0.8-nc-12-mv-0.3_rnc binary # bank
-$CMD gen_dataset_51-out-0.02-np-0.8-nc-12-mv-0.4_rnc binary # bank
-$CMD gen_dataset_51-out-0.04-np-0.8-nc-12-mv-0.4_rnc binary # bank
-$CMD gen_dataset_51-out-0.06-np-0.8-nc-12-mv-0.4_rnc binary # bank
-$CMD gen_dataset_52-out-0.02-np-0.8-nc-10-mv-0.1_rnc binary # br2000
-$CMD gen_dataset_52-out-0.04-np-0.8-nc-10-mv-0.1_rnc binary # br2000
-$CMD gen_dataset_52-out-0.06-np-0.8-nc-10-mv-0.1_rnc binary # br2000
-$CMD gen_dataset_52-out-0.02-np-0.8-nc-10-mv-0.2_rnc binary # br2000
-$CMD gen_dataset_52-out-0.04-np-0.8-nc-10-mv-0.2_rnc binary # br2000
-$CMD gen_dataset_52-out-0.06-np-0.8-nc-10-mv-0.2_rnc binary # br2000
-$CMD gen_dataset_52-out-0.02-np-0.8-nc-10-mv-0.3_rnc binary # br2000
-$CMD gen_dataset_52-out-0.04-np-0.8-nc-10-mv-0.3_rnc binary # br2000
-$CMD gen_dataset_52-out-0.06-np-0.8-nc-10-mv-0.3_rnc binary # br2000
-$CMD gen_dataset_52-out-0.02-np-0.8-nc-10-mv-0.4_rnc binary # br2000
-$CMD gen_dataset_52-out-0.04-np-0.8-nc-10-mv-0.4_rnc binary # br2000
-$CMD gen_dataset_52-out-0.06-np-0.8-nc-10-mv-0.4_rnc binary # br2000
+# $CMD gen_dataset_50-out-0.02-np-0.8-nc-11-mv-0.1_rnc binary # adult
+# $CMD gen_dataset_50-out-0.04-np-0.8-nc-11-mv-0.1_rnc binary # adult
+# $CMD gen_dataset_50-out-0.06-np-0.8-nc-11-mv-0.1_rnc binary # adult
+# $CMD gen_dataset_50-out-0.02-np-0.8-nc-11-mv-0.2_rnc binary # adult
+# $CMD gen_dataset_50-out-0.04-np-0.8-nc-11-mv-0.2_rnc binary # adult
+# $CMD gen_dataset_50-out-0.06-np-0.8-nc-11-mv-0.2_rnc binary # adult
+# $CMD gen_dataset_50-out-0.02-np-0.8-nc-11-mv-0.3_rnc binary # adult
+# $CMD gen_dataset_50-out-0.04-np-0.8-nc-11-mv-0.3_rnc binary # adult
+# $CMD gen_dataset_50-out-0.06-np-0.8-nc-11-mv-0.3_rnc binary # adult
+# $CMD gen_dataset_50-out-0.02-np-0.8-nc-11-mv-0.4_rnc binary # adult
+# $CMD gen_dataset_50-out-0.04-np-0.8-nc-11-mv-0.4_rnc binary # adult
+# $CMD gen_dataset_50-out-0.06-np-0.8-nc-11-mv-0.4_rnc binary # adult
+# $CMD gen_dataset_51-out-0.02-np-0.8-nc-12-mv-0.1_rnc binary # bank
+# $CMD gen_dataset_51-out-0.04-np-0.8-nc-12-mv-0.1_rnc binary # bank
+# $CMD gen_dataset_51-out-0.06-np-0.8-nc-12-mv-0.1_rnc binary # bank
+# $CMD gen_dataset_51-out-0.02-np-0.8-nc-12-mv-0.2_rnc binary # bank
+# $CMD gen_dataset_51-out-0.04-np-0.8-nc-12-mv-0.2_rnc binary # bank
+# $CMD gen_dataset_51-out-0.06-np-0.8-nc-12-mv-0.2_rnc binary # bank
+# $CMD gen_dataset_51-out-0.02-np-0.8-nc-12-mv-0.3_rnc binary # bank
+# $CMD gen_dataset_51-out-0.04-np-0.8-nc-12-mv-0.3_rnc binary # bank
+# $CMD gen_dataset_51-out-0.06-np-0.8-nc-12-mv-0.3_rnc binary # bank
+#$CMD gen_dataset_51-out-0.02-np-0.8-nc-12-mv-0.4_rnc binary # bank
+# $CMD gen_dataset_51-out-0.04-np-0.8-nc-12-mv-0.4_rnc binary # bank
+# $CMD gen_dataset_51-out-0.06-np-0.8-nc-12-mv-0.4_rnc binary # bank
+# $CMD gen_dataset_52-out-0.02-np-0.8-nc-10-mv-0.1_rnc binary # br2000
+# $CMD gen_dataset_52-out-0.04-np-0.8-nc-10-mv-0.1_rnc binary # br2000
+# $CMD gen_dataset_52-out-0.06-np-0.8-nc-10-mv-0.1_rnc binary # br2000
+# $CMD gen_dataset_52-out-0.02-np-0.8-nc-10-mv-0.2_rnc binary # br2000
+# $CMD gen_dataset_52-out-0.04-np-0.8-nc-10-mv-0.2_rnc binary # br2000
+# $CMD gen_dataset_52-out-0.06-np-0.8-nc-10-mv-0.2_rnc binary # br2000
+# $CMD gen_dataset_52-out-0.02-np-0.8-nc-10-mv-0.3_rnc binary # br2000
+# $CMD gen_dataset_52-out-0.04-np-0.8-nc-10-mv-0.3_rnc binary # br2000
+# $CMD gen_dataset_52-out-0.06-np-0.8-nc-10-mv-0.3_rnc binary # br2000
+# $CMD gen_dataset_52-out-0.02-np-0.8-nc-10-mv-0.4_rnc binary # br2000
+# $CMD gen_dataset_52-out-0.04-np-0.8-nc-10-mv-0.4_rnc binary # br2000
+# $CMD gen_dataset_52-out-0.06-np-0.8-nc-10-mv-0.4_rnc binary # br2000

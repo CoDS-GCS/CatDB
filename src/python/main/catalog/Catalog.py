@@ -83,22 +83,22 @@ def load_data_source_profile(data_source_path: str, file_format: str, target_att
 
             if profile.is_categorical:
                 columns_categorical.append(profile.column_name)
-                if profile.nrows > profile.total_values_count:
+                if profile.missing_values_count > 0:
                     columns_categorical_missing_values.append(profile.column_name)
 
             elif profile.short_data_type in {"int", "float"}:
                 columns_numerical.append(profile.column_name)
-                if profile.nrows > profile.total_values_count:
+                if profile.missing_values_count > 0:
                     columns_numerical_missing_values.append(profile.column_name)
 
             elif profile.short_data_type == "bool":
                 columns_bool.append(profile.column_name)
-                if profile.nrows > profile.total_values_count:
+                if profile.missing_values_count > 0:
                     columns_bool_missing_values.append(profile.column_name)
 
             else:
                 columns_others.append(profile.column_name)
-                if profile.nrows > profile.total_values_count:
+                if profile.missing_values_count > 0:
                     columns_others_missing_values.append(profile.column_name)
 
     orig_profile_size = len(schema_info)

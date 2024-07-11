@@ -55,12 +55,13 @@ def introduce_missing_values(df, col, missing_percentage=0.1):
 
 if __name__ == '__main__':
     args = parse_arguments() 
-    datasetIDs = [("adult", "income", "binary",50),
-                  ("bank", "y", "binary",51),
-                  ("br2000", "a14", "binary",52)]
+    datasetIDs = [#("adult", "income", "binary",50),
+    #               ("bank", "y", "binary",51),
+    #               ("br2000", "a14", "binary",52),
+                  ("NYC", "tip_amount", "regression",53)]
 
-    missing_percentages = [0.1, 0.2, 0.3, 0.4]
-    outliers_percentage = [0.02,0.04,0.06]
+    missing_percentages = [0.1, 0.2, 0.3, 0.4,0.5]
+    outliers_percentage = [0.02,0.04,0.06,0.08,0.1]
   
 
     script_list_1 =""
@@ -79,7 +80,7 @@ if __name__ == '__main__':
             script_list_1 += f"$CMD {dataset_out_name} {task_type} # {dataset_name}\n"
 
         
-        for cols_percentage in [0.8]:
+        for cols_percentage in [1]:
             n_features = len(df.columns)
             index = 0
             feature_indices = []

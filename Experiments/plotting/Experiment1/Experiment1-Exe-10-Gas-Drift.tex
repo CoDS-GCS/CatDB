@@ -17,9 +17,9 @@
 
   \newcommand{\myaddplotds}[6]{
     \resetstackedplots
-    \myaddplotcost{CatDBChain_10_min}{#1}{tug}{#3}{#2}{0}{dred1};
+    \myaddplotcost{CatDB_10_min}{#1}{dblue1}{#3}{#2}{0}{tug};
     \resetstackedplots
-    \myaddplotcost{CatDB_10_min}{#1}{dblue1}{#4}{#2}{0}{tug};
+    \myaddplotcost{CatDBChain_10_min}{#1}{tug}{#4}{#2}{0}{dred1};    
     \resetstackedplots
     \myaddplotcost{CAAFERandomForest_10_min}{#1}{color4}{#5}{#2}{0}{color4};
     \resetstackedplots
@@ -91,8 +91,8 @@
   bar width=8pt,  
   log origin y=infty,  
   max space between ticks=5,     
-  ytick={0.1,1,10,100,1000},
-  yticklabels={0,1,10,100,1000},               
+  ytick={0.1,1,10,100,1000,10000},
+  yticklabels={0,1,10,$10^2$,$10^3$,$10^4$},               
   every x tick/.style={ draw=none},
   xtick = data,
   symbolic x coords={gemini-1.5-pro-latest, llama3-70b-8192, gpt-4o},

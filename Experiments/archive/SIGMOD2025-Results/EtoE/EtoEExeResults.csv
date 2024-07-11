@@ -35,6 +35,9 @@ gen_dataset_52-out-0.06-np-0.8-nc-10-mv-0.3_rnc,Br2000,48.27,0,1,gemini-1.5-pro-
 gen_dataset_52-out-0.02-np-0.8-nc-10-mv-0.4_rnc,Br2000,58.80,0,1,gemini-1.5-pro-latest,No,binary,classification,0
 gen_dataset_52-out-0.04-np-0.8-nc-10-mv-0.4_rnc,Br2000,27.83,0,1,gemini-1.5-pro-latest,No,binary,classification,0
 gen_dataset_52-out-0.06-np-0.8-nc-10-mv-0.4_rnc,Br2000,110.35,0,1,gemini-1.5-pro-latest,No,binary,classification,0
+gen_dataset_53-out-0.1-np-0-nc-0-mv-0_rnc,NYC,75.03,0,40,gemini-1.5-pro-latest,No,regression,regression,0
+gen_dataset_53-out-0-np-1-nc-16-mv-0.5_rnc,NYC,848.42,0,40,gemini-1.5-pro-latest,No,regression,regression,0
+gen_dataset_53-out-0.1-np-1-nc-16-mv-0.5_rnc,NYC,643.77,0,40,gemini-1.5-pro-latest,No,regression,regression,0
 gen_dataset_50-out-0.02-np-0-nc-0-mv-0_rnc,Adult,45.22,0,1,gemini-1.5-pro-latest,No,binary,classification,0
 gen_dataset_50-out-0.04-np-0-nc-0-mv-0_rnc,Adult,87.75,0,1,gemini-1.5-pro-latest,No,binary,classification,0
 gen_dataset_50-out-0.06-np-0-nc-0-mv-0_rnc,Adult,48.85,0,1,gemini-1.5-pro-latest,No,binary,classification,0

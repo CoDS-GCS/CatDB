@@ -19,7 +19,7 @@ Higgs,gemini-1.5-pro-latest,78.931,71.594,85.687
 Higgs,llama3-70b-8192,70.854,79.058,84.633
 Nomao,gpt-4o,0.0,0.0,0.0
 Nomao,gemini-1.5-pro-latest,99.377,99.363,99.162
-Nomao,llama3-70b-8192,100.0,97.076,0.0
+Nomao,llama3-70b-8192,100.0,97.076,96.162
 Balance-Scale,gpt-4o,87.307,91.535,99.865
 Balance-Scale,gemini-1.5-pro-latest,78.745,76.027,99.769
 Balance-Scale,llama3-70b-8192,78.205,93.805,99.899
@@ -37,7 +37,7 @@ Traffic,gemini-1.5-pro-latest,95.504,84.736,95.294
 Traffic,llama3-70b-8192,85.501,95.271,95.253
 Gas-Drift,gpt-4o,0.0,0.0,0.0
 Gas-Drift,gemini-1.5-pro-latest,99.942,99.959,99.972
-Gas-Drift,llama3-70b-8192,100.0,99.919,0.0
+Gas-Drift,llama3-70b-8192,100.0,99.919,96.972
 Volkert,gpt-4o,0.0,0.0,0.0
 Volkert,gemini-1.5-pro-latest,99.999,91.651,71.52
-Volkert,llama3-70b-8192,99.164,0.0,0.0
+Volkert,llama3-70b-8192,99.164,91.223,68.52

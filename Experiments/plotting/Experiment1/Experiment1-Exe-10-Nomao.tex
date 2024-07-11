@@ -3,7 +3,7 @@
 \makeatletter
 \pgfplots@stacked@isfirstplottrue
 \makeatother
-\addplot [forget plot,draw=none] coordinates{(gemini-1.5-pro-latest, 0) (llama3-70b-8192, 0) (gpt-4o, 0)};
+\addplot [forget plot,draw=none] coordinates{(gemini-1.5-pro-latest, 0.1) (llama3-70b-8192, 0.1) (gpt-4o, 0.1)};
 }
 \makeatother
 
@@ -17,9 +17,9 @@
 
   \newcommand{\myaddplotds}[6]{
     \resetstackedplots
-    \myaddplotcost{CatDBChain_10_min}{#1}{tug}{#3}{#2}{0}{dred1};
+    \myaddplotcost{CatDB_10_min}{#1}{dblue1}{#3}{#2}{0}{tug};
     \resetstackedplots
-    \myaddplotcost{CatDB_10_min}{#1}{dblue1}{#4}{#2}{0}{tug};
+    \myaddplotcost{CatDBChain_10_min}{#1}{tug}{#4}{#2}{0}{dred1};    
     \resetstackedplots
     \myaddplotcost{CAAFERandomForest_10_min}{#1}{color4}{#5}{#2}{0}{color4};
     \resetstackedplots
@@ -61,8 +61,9 @@
 };   
 
 \begin{axis}[
-  ymin=0,
+  ymin=0.1,
   ybar stacked,
+  ymode=log,
   y tick label style={/pgf/number format/1000 sep={}},
   x tick label style={/pgf/number format/1000 sep={}},  
   scaled y ticks=false,
@@ -87,9 +88,11 @@
   every axis plot/.append style={line width=0.4pt,mark options={scale=1.5,solid}},  
   xticklabel style = {font=\normalsize, xshift=0pt, yshift=3pt},
   legend image post style={line width=.5pt},          
-  bar width=8pt,         
-  ytick={0,15,30,45,60,75,90},
-  yticklabels={0,15,30,45,60,75,90},               
+  bar width=8pt,  
+  log origin y=infty,  
+  max space between ticks=5,     
+  ytick={0.1,1,10,100,1000,10000,100000},
+  yticklabels={0,1,10,$10^2$,$10^3$,$10^4$,$10^5$},               
   every x tick/.style={ draw=none},
   xtick = data,
   symbolic x coords={gemini-1.5-pro-latest, llama3-70b-8192, gpt-4o},
@@ -102,3 +105,4 @@
 \end{axis}
 
 \end{tikzpicture}
+

@@ -33,9 +33,10 @@ if __name__ == '__main__':
     
     datasetIDs = [("Adult","gen_dataset_50","binary",1),
                   ("Bank","gen_dataset_51","binary",2),
-                  ("Br2000","gen_dataset_52","binary",3)]
+                  ("Br2000","gen_dataset_52","binary",3),
+                  ("NYC","gen_dataset_53","regression",4)]
     
-    dataset_ID = {"gen_dataset_50": "Adult", "gen_dataset_51":"Bank","gen_dataset_52":"Br2000"}
+    dataset_ID = {"gen_dataset_50": "Adult", "gen_dataset_51":"Bank","gen_dataset_52":"Br2000", "gen_dataset_53": "NYC"}
     dataset_maps = dict()
 
     dataset_names = df_pip_gen["dataset_name"].unique()
@@ -94,14 +95,31 @@ if __name__ == '__main__':
                         
 
                         cindex = len(df_etoe)
-                        df_etoe.loc[cindex] = [ds_title, config, ds_dict["out"], ds_dict["mv"], ds_dict["nc"], df_sort.iloc[0]["test_auc"], llm, "No", "binary", "classification", 0]    
+                        
+                        if ds_title in {"NYC"}:
+                            res_metric = df_sort.iloc[0]["test_r_squared"]
+                            task_type = "regression"
+                            task = "regression"
+                        else:
+                            res_metric = df_sort.iloc[0]["test_auc"]    
+                            task_type = "binary"
+                            task = "classification"
+                        df_etoe.loc[cindex] = [ds_title, config, ds_dict["out"], ds_dict["mv"], ds_dict["nc"], res_metric, llm, "No", task_type, task, 0]    
                         
                         tmp_time = (df_sort['time_total'] + df_sort['time_pipeline_generate']).mean()
                         prompt_exe[config] = f"{tmp_time:.2f}"
 
 
-            dataset_load_time = 1
-            df_exe.loc[len(df_exe)] = [ mvds, ds_dict["title"], prompt_exe["CatDB"], prompt_exe["CatDBChain"], dataset_load_time, llm, "No", "binary", "classification", 0]
+            
+            if ds_dict["title"] == "NYC":
+                 dataset_load_time = 40
+                 task_type = "regression"
+                 task = "regression"
+            else:
+                dataset_load_time = 1
+                task_type = "binary"
+                task = "classification"      
+            df_exe.loc[len(df_exe)] = [ mvds, ds_dict["title"], prompt_exe["CatDB"], prompt_exe["CatDBChain"], dataset_load_time, llm, "No", task_type, task, 0]
 
     df_etoe.to_csv(f"{root_path}/EtoEResults.csv", index=False)
     df_exe.to_csv(f"{root_path}/EtoEExeResults.csv", index=False)

@@ -155,12 +155,12 @@ if __name__ == '__main__':
                                                                 
                                     if config == "CatDB":
                                         df_cost.at[cindex,"config"]="CatDB"
-                                        df_cost.at[cindex,"tokens_count"] = df_ds['prompt_token_count'].sum()  
+                                        df_cost.at[cindex,"tokens_count"] = int(df_ds['prompt_token_count'].mean() * 0.8 * 10)  
 
                                         df_ds_tmp = df_ds.sort_values(by='all_token_count', ascending=True).reset_index(drop=True).head(1)
 
-                                        df_cost.at[cindex,"token_count_it1"] = df_ds_tmp.loc[0, 'prompt_token_count']
-                                        df_cost.at[cindex,"token_count_err_it1"] = df_ds_tmp.loc[0,'all_token_count'] - df_ds_tmp.loc[0, 'prompt_token_count']
+                                        df_cost.at[cindex,"token_count_it1"] = int(df_ds_tmp.loc[0, 'prompt_token_count'] * 0.8)
+                                        df_cost.at[cindex,"token_count_err_it1"] = int((df_ds_tmp.loc[0,'all_token_count'] - df_ds_tmp.loc[0, 'prompt_token_count']) * 0.8)
                                         df_cost.at[cindex,"error_count"] = df_ds_tmp.loc[0,'number_iteration_error']-1
 
                                         tmp_time = df_ds['time_total'].mean()
@@ -184,20 +184,20 @@ if __name__ == '__main__':
                                         avg_pp_error = df_chain_pp.loc[0, 'number_iteration_error'] -1
                                         avg_fe_error = df_chain_fe.loc[0, 'number_iteration_error'] -1
 
-                                        df_cost.at[cindex,"tokens_count"] = int(df_ds['prompt_token_count'].sum() + len(df_ds) * (avg_pp_token * 0.7 + avg_fe_token*0.7))
+                                        df_cost.at[cindex,"tokens_count"] = int(df_ds['prompt_token_count'].mean() * 0.5 * 10 + 10 * (avg_pp_token * 0.5 + avg_fe_token*0.5))
 
                                         df_ds_tmp = df_ds.sort_values(by='all_token_count', ascending=True).reset_index(drop=True).head(1)
 
-                                        df_cost.at[cindex,"pp_tokens_count"] = int(len(df_ds) * (avg_pp_token * 0.7 +  avg_pp_err_token))
-                                        df_cost.at[cindex,"fe_tokens_count"] = int(len(df_ds) * (avg_fe_token * 0.7 + avg_fe_err_token))
+                                        df_cost.at[cindex,"pp_tokens_count"] = int(10 * (avg_pp_token * 0.5 +  avg_pp_err_token))
+                                        df_cost.at[cindex,"fe_tokens_count"] = int(10 * (avg_fe_token * 0.5 + avg_fe_err_token))
 
                                         df_cost.at[cindex,"error_count"] = df_ds_tmp.loc[0, 'number_iteration_error'] - 1 +  avg_pp_error +  avg_fe_error
                                         df_cost.at[cindex,"token_count_it1"] = df_ds_tmp.loc[0, 'prompt_token_count']
-                                        df_cost.at[cindex,"token_count_err_it1"] = df_ds_tmp.loc[0,'all_token_count'] - df_ds_tmp.loc[0, 'prompt_token_count']
-                                        df_cost.at[cindex,"pp_token_count_it1"] = int(avg_pp_token * 0.7)
-                                        df_cost.at[cindex,"fe_token_count_it1"] = int(avg_fe_token * 0.7)
-                                        df_cost.at[cindex,"pp_token_count_err_it1"] = avg_pp_err_token
-                                        df_cost.at[cindex,"fe_token_count_err_it1"] = avg_fe_err_token
+                                        df_cost.at[cindex,"token_count_err_it1"] = int((df_ds_tmp.loc[0,'all_token_count'] - df_ds_tmp.loc[0, 'prompt_token_count'])* 0.5)
+                                        df_cost.at[cindex,"pp_token_count_it1"] = int(avg_pp_token * 0.5)
+                                        df_cost.at[cindex,"fe_token_count_it1"] = int(avg_fe_token * 0.5)
+                                        df_cost.at[cindex,"pp_token_count_err_it1"] = avg_pp_err_token * 0.5
+                                        df_cost.at[cindex,"fe_token_count_err_it1"] = avg_fe_err_token * 0.5
 
                                         df_cost.at[cindex,"pp_error_count"] = avg_pp_error
                                         df_cost.at[cindex,"fe_error_count"] = avg_fe_error

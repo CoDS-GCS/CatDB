@@ -69,7 +69,8 @@ def load_merge_all_results(root_path):
                     f"{root_path}/server-16/New_DS/Experiment1_LLM_Pipe_Gen_CatDBChain.dat",
                     f"{root_path}/server-113/New_DS/Experiment1_LLM_Pipe_Gen_CatDB.dat",
                     f"{root_path}/server-113/New_DS/Experiment1_LLM_Pipe_Gen_CatDBChain.dat",
-                    f"{root_path}/server-35/New_DS/Experiment1_LLM_CAAFE.dat",  
+                    f"{root_path}/server-35/New_DS/Experiment1_LLM_CAAFE.dat",
+                    f"{root_path}/server-35/New_DS/Experiment1_LLM_CAAFE_Extra.dat",                      
                     ] 
     
     df_merge = pd.DataFrame(columns = columns)

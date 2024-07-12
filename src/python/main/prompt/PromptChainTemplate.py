@@ -24,12 +24,14 @@ class DataPreprocessingChainPrompt(BasicPrompt):
                       f'#2 : {StaticValues.dp_rule_2.format(self.data_source_train_path, self.data_source_test_path)}',
                       f'#3 : {StaticValues.dp_rule_3}',
                       f'#4 : {StaticValues.dp_rule_4.format(self.ds_attribute_prefix, self.ds_attribute_prefix_label)}',
-                      f'#5 : {StaticValues.dp_rule_5}',
-                      f'#6 : {StaticValues.dp_rule_6}',
-                      f'#7 : {StaticValues.dp_rule_7.format(self.target_attribute)}',
-                      f'#8 : {StaticValues.dp_rule_8}',
-                      f'#9 : {StaticValues.rule_code_block}',
-                      f'#10 : {StaticValues.chain_rule_1}']
+                      f'#5 : {StaticValues.dp_rule_6}',
+                      f'#6 : {StaticValues.dp_rule_6_1}',
+                      f'#7 : {StaticValues.dp_rule_6_2}',
+                      f'#8 : {StaticValues.dp_rule_7.format(self.target_attribute)}',
+                      f'#9 : {StaticValues.dp_rule_8}',
+                      f'#10 : {StaticValues.dp_rule_5}',
+                      f'#11 : {StaticValues.rule_code_block}',
+                      f'#12 : {StaticValues.chain_rule_1}']
 
         self.question = "Provide a pipeline code that do data preprocessing in a multi-threaded environment."
 
@@ -59,13 +61,14 @@ class FeatureEngineeringChainPrompt(BasicPrompt):
         self.rules = [f'{_system_delimiter} {StaticValues.fe_rule_task.format(self.target_attribute)}',
                       f'{_system_delimiter} {StaticValues.fe_rule_input}',
                       f'{_system_delimiter} {StaticValues.fe_rule_output}',
-                      f'#1 : {StaticValues.fe_rule_1.format(self.target_attribute)}',
-                      f'#2 : {StaticValues.fe_rule_2.format(algorithm, self.target_attribute)}',
-                      f'#3 : {StaticValues.fe_rule_3}',
-                      f'#4 : {StaticValues.fe_rule_4}',
-                      f'#5 : {StaticValues.rule_code_block}',
-                      f'#6 : {StaticValues.chain_rule_1}',
-                      f'#7 : {StaticValues.dp_rule_2.format(self.data_source_train_path, self.data_source_test_path)}',]
+                      f'#1 : {StaticValues.fe_rule_1}',
+                      f'#2 : {StaticValues.fe_rule_1_1.format(self.target_attribute)}',
+                      f'#3 : {StaticValues.fe_rule_2.format(algorithm, self.target_attribute)}',
+                      f'#4 : {StaticValues.fe_rule_3}',
+                      f'#5 : {StaticValues.fe_rule_4}',
+                      f'#6 : {StaticValues.rule_code_block}',
+                      f'#7 : {StaticValues.chain_rule_1}',
+                      f'#8 : {StaticValues.dp_rule_2.format(self.data_source_train_path, self.data_source_test_path)}',]
 
         self.question = ("Provide a pipeline code that modify the Data Preprocessing code by adding Feature Engineering"
                          " tasks in a multi-threaded environment.")
@@ -98,11 +101,11 @@ class ModelSelectionChainPrompt(BasicPrompt):
                       f'{_system_delimiter} {StaticValues.ms_rule_input}',
                       f'{_system_delimiter} {StaticValues.ms_rule_output}',
                       f'#1 : {StaticValues.ms_rule_1.format(algorithm, self.target_attribute)}',
-                      f'#2 : {StaticValues.ms_rule_2.format(randomforest_param)}',
-                      f'#3 : {self.evaluation_text}',
-                      f'#4 : {StaticValues.ms_rule_3}',
-                      f'#5 : {StaticValues.rule_code_block}',
-                      f'#6 : {StaticValues.chain_rule_1}',
-                      f'#7 : {StaticValues.dp_rule_2.format(self.data_source_train_path, self.data_source_test_path)}']
+                      #f'#2 : {StaticValues.ms_rule_2.format(randomforest_param)}',
+                      f'#2 : {self.evaluation_text}',
+                      f'#3 : {StaticValues.ms_rule_3}',
+                      f'#4 : {StaticValues.rule_code_block}',
+                      f'#5 : {StaticValues.chain_rule_1}',
+                      f'#6 : {StaticValues.dp_rule_2.format(self.data_source_train_path, self.data_source_test_path)}']
 
         self.question = ("Provide a complete pipeline code that can be executed in a multi-threaded environment.")

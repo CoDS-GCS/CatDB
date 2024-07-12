@@ -9,12 +9,14 @@ dp_rule_1 = "Import the necessary libraries and modules."
 dp_rule_2 = ('Load the training and test datasets. For the training data, utilize the variable """train_data={}""", '
           'and for the test data, employ the variable """test_data={}""". Utilize pandas\' CSV readers to load the '
           'datasets.')
-dp_rule_3 = "Don't split the train_data into train and test sets. Use only the given datasets."
+dp_rule_3 = "Explicitly don't split the train_data into train and test sets. Use only the given datasets."
 dp_rule_4 = ('The user will provide the {} of the dataset with columns appropriately named as attributes, enclosed in '
              'triple quotes, and preceded by the prefix "{}".')
 
 dp_rule_5 = 'If the question is not relevant to the dataset or the task, the output should be: "Insufficient information."'
-dp_rule_6 = 'Utilize data augmentation techniques on the dataset to enhance accuracy and mitigate overfitting.'
+dp_rule_6 = "Explicitly analyze feature based on the provided data profiling information and implement data preprocessing tasks: i) handel missing values, ii) select appropriate data transfer for each column specifically (categorical values and numerical values based on min, max, mean, median values), ii) and apply data cleaning based on data profiling information."
+dp_rule_6_1 = "Explicitly implement Outlier removal based on the provided data profiling information."
+dp_rule_6_2 = 'Explicitly do data augmentation techniques based on the data profiling information (use your knowledge to chose best technique).'
 dp_rule_7 = 'The target feature in the dataset is \"{}\".'
 dp_rule_8 = "Don't display the first few rows of the datasets."
 
@@ -30,7 +32,8 @@ fe_rule_input = ('Input: first draft version of pipline with a Data Preprocessin
                  'of the dataset, and a data profiling info that summarizes the statistics and quality of the dataset.')
 
 fe_rule_output = "Output: A modified Python 3.10 code with additional feature enginnering tasks that performs the following steps:"
-fe_rule_1 = 'The target feature in the dataset is \"{}\".'
+fe_rule_1 = "Explicitly analyze feature based on the provided data profiling information and implement feature engineering task."
+fe_rule_1_1 = 'The target feature in the dataset is \"{}\".'
 fe_rule_2 = ("Perform drops columns, if these may be redundant and hurt the predictive performance of the downstream {} "
           "(Feature selection). Dropping columns may help as the chance of overfitting is lower, especially if the "
           "dataset is small. The {} will be trained on the dataset with the generated columns and evaluated on a "
@@ -44,7 +47,7 @@ ms_rule_input = ('Input: first draft version of pipline with a Data Preprocessin
                  '"<CODE> pipline code will be here. </CODE>", and a schema that describes the columns and data types '
                  'of the dataset, and a data profiling info that summarizes the statistics and quality of the dataset.')
 ms_rule_output = "Output: A modified Python 3.10 code with a Machine Learning algorithm task that performs the following steps:"
-ms_rule_1 = 'Select {} algorithm (such as RandomForestClassifier/XGBoost and so on) predicting "{}".'
+ms_rule_1 =  'Explicitly select a best {} model based on the data profiling information for  predicting "{}".'
 ms_rule_2 = ('Select a suitable hyperparameters for the selected algorithm. If the algorithm is RandomForestClassifier '
              'then pass max_leaf_nodes={} as parameter.')
 ms_rule_3 = "Don't report validation evaluation. We don't need it."
@@ -70,8 +73,11 @@ Rule_2 = ('Load the training and test datasets. For the training data, utilize t
 Rule_3 = "Don't split the train_data into train and test sets. Use only the given datasets."
 Rule_4 = ('The user will provide the {} of the dataset with columns appropriately named as attributes, enclosed in '
           'triple quotes, and preceded by the prefix "{}".')
-Rule_5 = "Perform data cleaning and preprocessing."
-Rule_6 = "Perform feature processing (e.g., encode categorical values by dummyEncode)."
+Rule_5 = "Explicitly analyze feature based on the provided data profiling information and implement data preprocessing tasks: i) handel missing values, ii) select appropriate data transfer for each column specifically (categorical values and numerical values based on min, max, mean, median values), ii) and apply data cleaning based on data profiling information."
+Rule_5_1 = "Explicitly implement Outlier removal based on the provided data profiling information."
+Rule_5_2 = 'Explicitly do data augmentation techniques based on the data profiling information (use your knowledge to chose best technique).'
+Rule_5_3 = "Explicitly analyze feature based on the provided data profiling information and implement feature engineering task."
+Rule_6 = "Explicitly select a best model based on the data profiling information."
 Rule_7 = ('Select the appropriate features and target variables for the question. '
           'Additional columns add new semantic information, additional columns that are useful for a downstream algorithm'
           'predicting "{}". They can e.g. be feature combinations, transformations, aggregations where the '
@@ -87,8 +93,8 @@ Rule_9 = ("In order to avoid runtime error for unseen value on the target featur
           "train and test dataset.")
 Rule_10 = 'If the question is not relevant to the dataset or the task, the output should be: "Insufficient information."'
 Rule_11 = "Don't report validation evaluation. We don't need it."
-Rule_12 = 'Utilize data augmentation techniques (sophisticated techniques) on the dataset to enhance accuracy and mitigate overfitting.'
-Rule_13 = 'If the algorithm is RandomForestClassifier then pass max_leaf_nodes={} as parameter.'
+
+# Rule_13 = 'If the algorithm is RandomForestClassifier then pass max_leaf_nodes={} as parameter.'
 dataset_description = "Description of the dataset:\n{}\n"
 
 CODE_FORMATTING_IMPORT = f"""Code formatting for all required packages and pipeline format:

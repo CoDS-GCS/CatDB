@@ -163,10 +163,10 @@ if __name__ == '__main__':
                                         df_cost.at[cindex,"token_count_err_it1"] = int((df_ds_tmp.loc[0,'all_token_count'] - df_ds_tmp.loc[0, 'prompt_token_count']) * 0.8)
                                         df_cost.at[cindex,"error_count"] = df_ds_tmp.loc[0,'number_iteration_error']-1
 
-                                        tmp_time = df_ds['time_total'].mean()
-                                        if tmp_time <= 15:
-                                            tmp_time=15 
-                                        prompt_exe[config] = f"{tmp_time:.2f}"  
+                                        tmp_time = df_ds['time_total'].mean()                                        
+                                        prompt_exe[config] = f"{tmp_time:.2f}" 
+                                        if tmp_time <= 10:
+                                            tmp_time=10  
                                         prompt_exe["CatDB_min"] = f"{tmp_time/60:.2f}"  
                                         prompt_exe["CatDB_10_min"] = f"{tmp_time/6:.2f}"  
 
@@ -203,9 +203,10 @@ if __name__ == '__main__':
                                         df_cost.at[cindex,"fe_error_count"] = avg_fe_error
 
                                         tmp_time = (df_ds['time_total']+df_ds['time_pipeline_generate']).mean()
-                                        if tmp_time <= 15:
-                                            tmp_time=15 
+                                        
                                         prompt_exe[config] = f"{tmp_time:.2f}"  
+                                        if tmp_time <= 10:
+                                            tmp_time=10 
                                         prompt_exe["CatDBChain_min"] = f"{tmp_time/60:.2f}" 
                                         prompt_exe["CatDBChain_10_min"] = f"{tmp_time/6:.2f}"   
 

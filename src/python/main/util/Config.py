@@ -147,6 +147,12 @@ def set_config(model, delay, system_log):
         _user_delimiter = __Gemini_user_delimiter
         _system_delimiter = __Gemini_system_delimiter
 
+    elif model == "gemma-2-27b-it":
+        _llm_platform = _GOOGLE
+        _max_token_limit = __Gemini
+        _user_delimiter = __Gemini_user_delimiter
+        _system_delimiter = __Gemini_system_delimiter
+
     else:
         raise Exception(f"Model {model} is not implemented yet!")
 

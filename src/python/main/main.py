@@ -341,8 +341,9 @@ def run_pipeline(args, catalog, run_mode: str = None, sub_task: str = '', previo
     # Generate LLM code
     time_start = time.time()
     code = read_text_file_line_by_line(f"{file_name}.py")
-    prompt_token_count = GenerateLLMCode.get_number_tokens(user_message=prompt_user_message,
-                                                           system_message=prompt_system_message)
+    # prompt_token_count = GenerateLLMCode.get_number_tokens(user_message=prompt_user_message,
+    #                                                        system_message=prompt_system_message)
+    prompt_token_count = 0
     time_end = time.time()
     time_generate += time_end - time_start
 
@@ -368,7 +369,8 @@ def run_pipeline(args, catalog, run_mode: str = None, sub_task: str = '', previo
                              time_execution=time_execute,
                              prompt_token_count=prompt_token_count,
                              all_token_count=all_token_count + prompt_token_count,
-                             operation="Run-Pipeline")
+                             operation="Run-Pipeline",
+                             number_of_samples=args.prompt_number_samples)
 
     if run_mode == __gen_run_mode:
         _, results = result.parse_results()
@@ -409,6 +411,7 @@ if __name__ == '__main__':
         operation = run_pipeline
         begin_iteration = args.prompt_number_iteration
         end_iteration = 1
+        print(f">>>>>>>>>>>>>>>>>>>>>>>>  {operation}")
 
     time_total_start = time_start = time.time()
     catalog = load_data_source_profile(data_source_path=args.data_profile_path,

@@ -1,0 +1,52 @@
+# ```python
+import pandas as pd
+from sklearn.preprocessing import OneHotEncoder, StandardScaler
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.metrics import r2_score, mean_squared_error
+from sklearn.model_selection import train_test_split
+from sklearn.multioutput import MultiOutputRegressor
+
+train_data = pd.read_csv("../../../data/gen_dataset_53-out-0.02-np-0-nc-0-mv-0_rnc/gen_dataset_53-out-0.02-np-0-nc-0-mv-0_rnc_train.csv")
+test_data = pd.read_csv("../../../data/gen_dataset_53-out-0.02-np-0-nc-0-mv-0_rnc/gen_dataset_53-out-0.02-np-0-nc-0-mv-0_rnc_test.csv")
+
+for col in ["c_9", "c_7", "c_11", "c_13", "c_16", "c_14", "c_17"]:
+    Q1 = train_data[col].quantile(0.25)
+    Q3 = train_data[col].quantile(0.75)
+    IQR = Q3 - Q1
+    train_data = train_data[~((train_data[col] < (Q1 - 1.5 * IQR)) | (train_data[col] > (Q3 + 1.5 * IQR)))]
+
+categorical_cols = ['c_5', 'c_3', 'c_1', 'c_6', 'c_10', 'c_12', 'c_15', 'c_4', 'c_8', 'c_2']
+ohe = OneHotEncoder(handle_unknown='ignore')
+ohe.fit(train_data[categorical_cols])
+
+train_cat_features = ohe.transform(train_data[categorical_cols])
+test_cat_features = ohe.transform(test_data[categorical_cols])
+
+train_cat_df = pd.DataFrame(train_cat_features.toarray(), columns=[f"ohe_{i}" for i in range(train_cat_features.shape[1])])
+test_cat_df = pd.DataFrame(test_cat_features.toarray(), columns=[f"ohe_{i}" for i in range(test_cat_features.shape[1])])
+
+train_data = pd.concat([train_data.reset_index(drop=True), train_cat_df], axis=1)
+test_data = pd.concat([test_data.reset_index(drop=True), test_cat_df], axis=1)
+
+X_train = train_data.drop(columns=['c_17'] + categorical_cols)
+y_train = train_data['c_17']
+X_test = test_data.drop(columns=['c_17'] + categorical_cols)
+y_test = test_data['c_17']
+
+regressor = RandomForestRegressor(n_estimators=100, random_state=42, n_jobs=-1)
+
+regressor.fit(X_train, y_train)
+
+y_pred_train = regressor.predict(X_train)
+y_pred_test = regressor.predict(X_test)
+
+Train_R_Squared = r2_score(y_train, y_pred_train)
+Train_RMSE = mean_squared_error(y_train, y_pred_train, squared=False)
+Test_R_Squared = r2_score(y_test, y_pred_test)
+Test_RMSE = mean_squared_error(y_test, y_pred_test, squared=False)
+
+print(f"Train_R_Squared:{Train_R_Squared}")
+print(f"Train_RMSE:{Train_RMSE}")
+print(f"Test_R_Squared:{Test_R_Squared}")
+print(f"Test_RMSE:{Test_RMSE}")
+# ```end

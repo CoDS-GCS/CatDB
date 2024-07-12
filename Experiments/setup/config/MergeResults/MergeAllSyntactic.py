@@ -6,9 +6,11 @@ if __name__ == '__main__':
     
     root_path = "/home/saeed/Documents/Github/CatDB/Experiments/archive/SIGMOD2025-Results/EtoE" 
 
-    results_path = [f"{root_path}/Experiment1_LLM_Pipe_Gen_CatDB_16.dat",
-                    f"{root_path}/Experiment3_AutoML_CatDB_65.dat",
-                    f"{root_path}/Experiment1_LLM_Pipe_Gen_CatDB_65.dat",]  
+    # results_path = [f"{root_path}/Experiment1_LLM_Pipe_Gen_CatDB_16.dat",
+    #                 f"{root_path}/Experiment3_AutoML_CatDB_65.dat",
+    #                 f"{root_path}/Experiment1_LLM_Pipe_Gen_CatDB_65.dat",] 
+    
+    results_path = [f"{root_path}/Experiment1_LLM_Pipe_Gen_CatDB_65.dat",]   
 
     columns = ["dataset_name", "config", "sub_task", "llm_model", "classifier", "task_type", "status",
                 "number_iteration","number_iteration_error", "has_description", "time_catalog_load", "time_pipeline_generate",

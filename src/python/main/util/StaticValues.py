@@ -15,7 +15,7 @@ dp_rule_4 = ('The user will provide the {} of the dataset with columns appropria
 
 dp_rule_5 = 'If the question is not relevant to the dataset or the task, the output should be: "Insufficient information."'
 dp_rule_6 = "Explicitly analyze feature based on the provided data profiling information and implement data preprocessing tasks: i) handel missing values, ii) select appropriate data transfer for each column specifically (categorical values and numerical values based on min, max, mean, median values), ii) and apply data cleaning based on data profiling information."
-dp_rule_6_1 = "Explicitly implement Outlier removal based on the provided data profiling information."
+dp_rule_6_1 = "Explicitly implement Outlier removal for Train and Test data based on the provided data profiling information."
 dp_rule_6_2 = 'Explicitly do data augmentation techniques based on the data profiling information (use your knowledge to chose best technique).'
 dp_rule_7 = 'The target feature in the dataset is \"{}\".'
 dp_rule_8 = "Don't display the first few rows of the datasets."
@@ -74,7 +74,7 @@ Rule_3 = "Don't split the train_data into train and test sets. Use only the give
 Rule_4 = ('The user will provide the {} of the dataset with columns appropriately named as attributes, enclosed in '
           'triple quotes, and preceded by the prefix "{}".')
 Rule_5 = "Explicitly analyze feature based on the provided data profiling information and implement data preprocessing tasks: i) handel missing values, ii) select appropriate data transfer for each column specifically (categorical values and numerical values based on min, max, mean, median values), ii) and apply data cleaning based on data profiling information."
-Rule_5_1 = "Explicitly implement Outlier removal based on the provided data profiling information."
+Rule_5_1 = "Explicitly implement Outlier removal for Train and Test data based on the provided data profiling information."
 Rule_5_2 = 'Explicitly do data augmentation techniques based on the data profiling information (use your knowledge to chose best technique).'
 Rule_5_3 = "Explicitly analyze feature based on the provided data profiling information and implement feature engineering task."
 Rule_6 = "Explicitly select a best model based on the data profiling information."

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # clean original results
-rm -rf results/*;
+#rm -rf results/*;
 mkdir -p results;
 mkdir -p catdb-results;
 
@@ -43,7 +43,7 @@ CMD=./explocal/exp1_catalog/runExperiment1.sh
 # $CMD Airlines-DepDelay regression # Airlines-DepDelay
 
 
-#$CMD oml_dataset_1_rnc multiclass # Balance-Scale
+$CMD oml_dataset_1_rnc multiclass # Balance-Scale
 # $CMD oml_dataset_2_rnc binary # Breast-w
 # $CMD oml_dataset_3_rnc multiclass # CMC
 # $CMD oml_dataset_4_rnc binary # Credit-g
@@ -170,39 +170,39 @@ CMD=./explocal/exp1_catalog/runExperiment1.sh
 # $CMD gen_dataset_52-out-0.06-np-0.8-nc-10-mv-0.4_rnc binary # br2000
 
 
-$CMD gen_dataset_53-out-0.02-np-0-nc-0-mv-0_rnc regression # NYC
-$CMD gen_dataset_53-out-0.04-np-0-nc-0-mv-0_rnc regression # NYC
-$CMD gen_dataset_53-out-0.06-np-0-nc-0-mv-0_rnc regression # NYC
-$CMD gen_dataset_53-out-0.08-np-0-nc-0-mv-0_rnc regression # NYC
-$CMD gen_dataset_53-out-0-np-1-nc-16-mv-0.1_rnc regression # NYC
-$CMD gen_dataset_53-out-0-np-1-nc-16-mv-0.2_rnc regression # NYC
-$CMD gen_dataset_53-out-0-np-1-nc-16-mv-0.3_rnc regression # NYC
-$CMD gen_dataset_53-out-0-np-1-nc-16-mv-0.4_rnc regression # NYC
-$CMD gen_dataset_53-out-0.02-np-1-nc-16-mv-0.1_rnc regression # NYC
-$CMD gen_dataset_53-out-0.04-np-1-nc-16-mv-0.1_rnc regression # NYC
-$CMD gen_dataset_53-out-0.06-np-1-nc-16-mv-0.1_rnc regression # NYC
-$CMD gen_dataset_53-out-0.08-np-1-nc-16-mv-0.1_rnc regression # NYC
-$CMD gen_dataset_53-out-0.1-np-1-nc-16-mv-0.1_rnc regression # NYC
-$CMD gen_dataset_53-out-0.02-np-1-nc-16-mv-0.2_rnc regression # NYC
-$CMD gen_dataset_53-out-0.04-np-1-nc-16-mv-0.2_rnc regression # NYC
-$CMD gen_dataset_53-out-0.06-np-1-nc-16-mv-0.2_rnc regression # NYC
-$CMD gen_dataset_53-out-0.08-np-1-nc-16-mv-0.2_rnc regression # NYC
+# $CMD gen_dataset_53-out-0.02-np-0-nc-0-mv-0_rnc regression # NYC
+# $CMD gen_dataset_53-out-0.04-np-0-nc-0-mv-0_rnc regression # NYC
+# $CMD gen_dataset_53-out-0.06-np-0-nc-0-mv-0_rnc regression # NYC
+# $CMD gen_dataset_53-out-0.08-np-0-nc-0-mv-0_rnc regression # NYC
+# $CMD gen_dataset_53-out-0-np-1-nc-16-mv-0.1_rnc regression # NYC
+# $CMD gen_dataset_53-out-0-np-1-nc-16-mv-0.2_rnc regression # NYC
+# $CMD gen_dataset_53-out-0-np-1-nc-16-mv-0.3_rnc regression # NYC
+# $CMD gen_dataset_53-out-0-np-1-nc-16-mv-0.4_rnc regression # NYC
+# $CMD gen_dataset_53-out-0.02-np-1-nc-16-mv-0.1_rnc regression # NYC
+# $CMD gen_dataset_53-out-0.04-np-1-nc-16-mv-0.1_rnc regression # NYC
+# $CMD gen_dataset_53-out-0.06-np-1-nc-16-mv-0.1_rnc regression # NYC
+# $CMD gen_dataset_53-out-0.08-np-1-nc-16-mv-0.1_rnc regression # NYC
+# $CMD gen_dataset_53-out-0.1-np-1-nc-16-mv-0.1_rnc regression # NYC
+# $CMD gen_dataset_53-out-0.02-np-1-nc-16-mv-0.2_rnc regression # NYC
+# $CMD gen_dataset_53-out-0.04-np-1-nc-16-mv-0.2_rnc regression # NYC
+# $CMD gen_dataset_53-out-0.06-np-1-nc-16-mv-0.2_rnc regression # NYC
+# $CMD gen_dataset_53-out-0.08-np-1-nc-16-mv-0.2_rnc regression # NYC
 
-$CMD gen_dataset_53-out-0.1-np-1-nc-16-mv-0.2_rnc regression # NYC
-$CMD gen_dataset_53-out-0.02-np-1-nc-16-mv-0.3_rnc regression # NYC
-$CMD gen_dataset_53-out-0.04-np-1-nc-16-mv-0.3_rnc regression # NYC
-$CMD gen_dataset_53-out-0.06-np-1-nc-16-mv-0.3_rnc regression # NYC
-$CMD gen_dataset_53-out-0.08-np-1-nc-16-mv-0.3_rnc regression # NYC
-$CMD gen_dataset_53-out-0.1-np-1-nc-16-mv-0.3_rnc regression # NYC
-$CMD gen_dataset_53-out-0.02-np-1-nc-16-mv-0.4_rnc regression # NYC
-$CMD gen_dataset_53-out-0.04-np-1-nc-16-mv-0.4_rnc regression # NYC
-$CMD gen_dataset_53-out-0.06-np-1-nc-16-mv-0.4_rnc regression # NYC
-$CMD gen_dataset_53-out-0.08-np-1-nc-16-mv-0.4_rnc regression # NYC
-$CMD gen_dataset_53-out-0.1-np-1-nc-16-mv-0.4_rnc regression # NYC
-$CMD gen_dataset_53-out-0.02-np-1-nc-16-mv-0.5_rnc regression # NYC
-$CMD gen_dataset_53-out-0.04-np-1-nc-16-mv-0.5_rnc regression # NYC
-$CMD gen_dataset_53-out-0.06-np-1-nc-16-mv-0.5_rnc regression # NYC
-$CMD gen_dataset_53-out-0.08-np-1-nc-16-mv-0.5_rnc regression # NYC
+# $CMD gen_dataset_53-out-0.1-np-1-nc-16-mv-0.2_rnc regression # NYC
+# $CMD gen_dataset_53-out-0.02-np-1-nc-16-mv-0.3_rnc regression # NYC
+# $CMD gen_dataset_53-out-0.04-np-1-nc-16-mv-0.3_rnc regression # NYC
+# $CMD gen_dataset_53-out-0.06-np-1-nc-16-mv-0.3_rnc regression # NYC
+# $CMD gen_dataset_53-out-0.08-np-1-nc-16-mv-0.3_rnc regression # NYC
+# $CMD gen_dataset_53-out-0.1-np-1-nc-16-mv-0.3_rnc regression # NYC
+# $CMD gen_dataset_53-out-0.02-np-1-nc-16-mv-0.4_rnc regression # NYC
+# $CMD gen_dataset_53-out-0.04-np-1-nc-16-mv-0.4_rnc regression # NYC
+# $CMD gen_dataset_53-out-0.06-np-1-nc-16-mv-0.4_rnc regression # NYC
+# $CMD gen_dataset_53-out-0.08-np-1-nc-16-mv-0.4_rnc regression # NYC
+# $CMD gen_dataset_53-out-0.1-np-1-nc-16-mv-0.4_rnc regression # NYC
+# $CMD gen_dataset_53-out-0.02-np-1-nc-16-mv-0.5_rnc regression # NYC
+# $CMD gen_dataset_53-out-0.04-np-1-nc-16-mv-0.5_rnc regression # NYC
+# $CMD gen_dataset_53-out-0.06-np-1-nc-16-mv-0.5_rnc regression # NYC
+# $CMD gen_dataset_53-out-0.08-np-1-nc-16-mv-0.5_rnc regression # NYC
 
 ###############$CMD gen_dataset_53-out-0-np-1-nc-16-mv-0.5_rnc regression # NYC
 ##############$CMD gen_dataset_53-out-0.1-np-0-nc-0-mv-0_rnc regression # NYC

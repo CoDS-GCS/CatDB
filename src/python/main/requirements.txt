@@ -7,3 +7,4 @@ scikit-learn
 xgboost
 google-generativeai
 imbalanced-learn
+dask[complete]

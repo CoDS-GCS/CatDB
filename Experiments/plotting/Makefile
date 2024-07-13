@@ -3,7 +3,7 @@ all: create clean
 create:	
 	 #pdflatex -shell-escap exp0_dataset
 	#pdflatex -shell-escap exp1_micorbenchmark
-	#pdflatex -shell-escap exp_cost_benchmark_it_1
+	pdflatex -shell-escap exp_cost_benchmark_it_1
 	pdflatex -shell-escap exp_exe_benchmark_it_1
 
 clean:

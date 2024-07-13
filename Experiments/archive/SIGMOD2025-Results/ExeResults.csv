@@ -26,13 +26,13 @@ oml_dataset_34_rnc,Gas-Drift,0,0,0,0,0.001,0.001,0.001,0.001,0.001,0.001,0.001,0
 oml_dataset_10_rnc,Jungle-Chess,11.85,25.12,156776.01,759.85,0.20,0.42,2612.93,12.66,1.98,4.19,26129.33,126.64,10,gemini-1.5-pro-latest,No,multiclass,classification,0
 oml_dataset_10_rnc,Jungle-Chess,14.49,8.72,216334.45,347.68,0.24,0.17,3605.57,5.79,2.42,1.67,36055.74,57.95,10,llama3-70b-8192,No,multiclass,classification,0
 oml_dataset_10_rnc,Jungle-Chess,14.80,30.82,201214.17,237.80,0.25,0.51,3353.57,3.96,2.47,5.14,33535.69,39.63,10,gpt-4o,No,multiclass,classification,0
-oml_dataset_11_rnc,Higgs,6322.83,1609.05,0,93263.74,105.38,26.82,0.001,1554.40,1053.80,268.17,0.001,15543.96,10,gemini-1.5-pro-latest,No,binary,classification,0
+oml_dataset_11_rnc,Higgs,2480.61,1609.05,0,93263.74,41.34,26.82,0.001,1554.40,413.43,268.17,0.001,15543.96,10,gemini-1.5-pro-latest,No,binary,classification,0
 oml_dataset_11_rnc,Higgs,7418.21,8209.18,0,95099.46,123.64,136.82,0.001,1584.99,1236.37,1368.20,0.001,15849.91,10,llama3-70b-8192,No,binary,classification,0
 oml_dataset_11_rnc,Higgs,491.94,501.32,0,110246.23,8.20,8.36,0.001,1837.44,81.99,83.55,0.001,18374.37,10,gpt-4o,No,binary,classification,0
 oml_dataset_12_rnc,Skin,250.48,93.55,0,272.82,4.17,1.56,0.001,4.55,41.75,15.59,0.001,45.47,10,gemini-1.5-pro-latest,No,binary,classification,0
 oml_dataset_12_rnc,Skin,62.05,18.22,0,191.90,1.03,0.30,0.001,3.20,10.34,3.04,0.001,31.98,10,llama3-70b-8192,No,binary,classification,0
 oml_dataset_12_rnc,Skin,13.88,21.51,0,203.57,0.23,0.36,0.001,3.39,2.31,3.59,0.001,33.93,10,gpt-4o,No,binary,classification,0
-oml_dataset_19_rnc,Traffic,721.61,128.53,0,31679.66,12.03,2.14,0.001,527.99,120.27,21.42,0.001,5279.94,10,gemini-1.5-pro-latest,No,multiclass,classification,0
+oml_dataset_19_rnc,Traffic,3281.53,128.53,0,31679.66,54.69,2.14,0.001,527.99,546.92,21.42,0.001,5279.94,10,gemini-1.5-pro-latest,No,multiclass,classification,0
 oml_dataset_19_rnc,Traffic,43.98,97.65,0,4171.21,0.73,1.63,0.001,69.52,7.33,16.27,0.001,695.20,10,llama3-70b-8192,No,multiclass,classification,0
 oml_dataset_19_rnc,Traffic,767.58,1471.55,0,4431.68,12.79,24.53,0.001,73.86,127.93,245.26,0.001,738.61,10,gpt-4o,No,multiclass,classification,0
 oml_dataset_20_rnc,Walking-Activity,30.60,47.55,0,3588.45,0.51,0.79,0.001,59.81,5.10,7.93,0.001,598.08,10,gemini-1.5-pro-latest,No,multiclass,classification,0

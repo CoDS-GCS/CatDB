@@ -81,6 +81,7 @@ oml_dataset_33_rnc,Nomao,CAAFETabPFN,115146,0,0,9187,0,0,0,0.0,0.0,0,0,0,0,0,0,l
 oml_dataset_33_rnc,Nomao,CAAFERandomForest,117943,0,0,9187,0,0,0,0.0,0.0,0,0,0,0,0,0,llama3-70b-8192,No,binary,classification,0
 oml_dataset_33_rnc,Nomao,CatDB,54776,0,0,5477,0,0,15989,0.0,0.0,3,0,0,0,0,0,gpt-4o,No,binary,classification,0
 oml_dataset_33_rnc,Nomao,CatDBChain,96850,30740,242920,6296,3074,3463,0,0.0,10414.5,3,0,3,0,0,0,gpt-4o,No,binary,classification,0
+oml_dataset_33_rnc,Nomao,CAAFETabPFN,103276,0,0,9375,0,0,0,0.0,0.0,0,0,0,0,0,0,gpt-4o,No,binary,classification,0
 oml_dataset_33_rnc,Nomao,CAAFERandomForest,94724,0,0,8618,0,0,0,0.0,0.0,0,0,0,0,0,0,gpt-4o,No,binary,classification,0
 oml_dataset_34_rnc,Gas-Drift,CatDB,74632,0,0,7463,0,0,0,0.0,0.0,0,0,0,0,0,0,gemini-1.5-pro-latest,No,multiclass,classification,0
 oml_dataset_34_rnc,Gas-Drift,CatDBChain,107667,42255,44585,3642,4225,4458,0,0.0,0.0,0,0,0,0,0,0,gemini-1.5-pro-latest,No,multiclass,classification,0
@@ -92,6 +93,7 @@ oml_dataset_34_rnc,Gas-Drift,CAAFETabPFN,142876,0,0,11465,0,0,0,0.0,0.0,0,0,0,0,
 oml_dataset_34_rnc,Gas-Drift,CAAFERandomForest,216434,0,0,11465,0,0,0,0.0,0.0,0,0,0,0,0,0,llama3-70b-8192,No,multiclass,classification,0
 oml_dataset_34_rnc,Gas-Drift,CatDB,53528,0,0,5352,0,0,0,0.0,0.0,0,0,0,0,0,0,gpt-4o,No,multiclass,classification,0
 oml_dataset_34_rnc,Gas-Drift,CatDBChain,75895,93605,31740,2922,2954,3174,0,3203.0,0.0,1,1,0,0,0,0,gpt-4o,No,multiclass,classification,0
+oml_dataset_34_rnc,Gas-Drift,CAAFETabPFN,129049,0,0,11699,0,0,0,0.0,0.0,0,0,0,0,0,0,gpt-4o,No,multiclass,classification,0
 oml_dataset_34_rnc,Gas-Drift,CAAFERandomForest,102882,0,0,9462,0,0,0,0.0,0.0,0,0,0,0,0,0,gpt-4o,No,multiclass,classification,0
 oml_dataset_10_rnc,Jungle-Chess,CatDB,12336,0,0,1233,0,0,0,0.0,0.0,0,0,0,0,0,0,gemini-1.5-pro-latest,No,multiclass,classification,0
 oml_dataset_10_rnc,Jungle-Chess,CatDBChain,15013,3355,4910,1260,335,491,0,0.0,0.0,0,0,0,0,0,0,gemini-1.5-pro-latest,No,multiclass,classification,0

@@ -4,16 +4,18 @@ from MergeResults import  get_top_k_binary, get_top_k_multiclass, get_top_k_regr
 
 if __name__ == '__main__':
     
-    root_path = "/home/saeed/Documents/Github/CatDB/Experiments/archive/SIGMOD2025-Results/EtoE" 
+    root_path = "/home/saeed/Documents/Github/CatDB/Experiments/archive/SIGMOD2025-Results/EtoE/ds2" 
 
     # results_path = [f"{root_path}/Experiment1_LLM_Pipe_Gen_CatDB_16.dat",
     #                 f"{root_path}/Experiment3_AutoML_CatDB_65.dat",
     #                 f"{root_path}/Experiment1_LLM_Pipe_Gen_CatDB_65.dat",] 
     
-    results_path = [f"{root_path}/Experiment1_LLM_Pipe_Gen_CatDB_65.dat",
-                    f"{root_path}/Experiment1_LLM_Pipe_Gen_CatDB_113.dat",
-                    f"{root_path}/Experiment1_LLM_Pipe_Gen_CatDB_16.dat",
-                    f"{root_path}/Experiment3_AutoML_CatDB_113.dat",]   
+    # results_path = [f"{root_path}/Experiment1_LLM_Pipe_Gen_CatDB_65.dat",
+    #                 f"{root_path}/Experiment1_LLM_Pipe_Gen_CatDB_113.dat",
+    #                 f"{root_path}/Experiment1_LLM_Pipe_Gen_CatDB_16.dat",
+    #                 f"{root_path}/Experiment3_AutoML_CatDB_113.dat",]   
+
+    results_path = [f"{root_path}/Experiment1_LLM_Pipe_Gen_CatDB.dat"]  
 
     columns = ["dataset_name", "config", "sub_task", "llm_model", "classifier", "task_type", "status",
                 "number_iteration","number_iteration_error", "has_description", "time_catalog_load", "time_pipeline_generate",
@@ -39,9 +41,10 @@ if __name__ == '__main__':
     datasetIDs = [("Adult","gen_dataset_50","binary",1),
                   ("Bank","gen_dataset_51","binary",2),
                   ("Br2000","gen_dataset_52","binary",3),
-                  ("NYC","gen_dataset_53","regression",4)]
+                  ("NYC","gen_dataset_53","regression",4),
+                  ("Volkert","gen_dataset_54","multiclass",5)]
     
-    dataset_ID = {"gen_dataset_50": "Adult", "gen_dataset_51":"Bank","gen_dataset_52":"Br2000", "gen_dataset_53": "NYC"}
+    dataset_ID = {"gen_dataset_50": "Adult", "gen_dataset_51":"Bank","gen_dataset_52":"Br2000", "gen_dataset_53": "NYC", "gen_dataset_54":"Volkert"}
     dataset_maps = dict()
 
     dataset_names = df_pip_gen["dataset_name"].unique()
@@ -98,24 +101,27 @@ if __name__ == '__main__':
                         df_multi["dataset_name"] = ds_title
                         mergse_dfs(df_sort, df_multi)
 
+
                         # Regression Tasks
                         df_reg = get_top_k_regression(df=df, config=config, k=1)
                         df_reg["number_iteration"] = [ki for ki in range(1, len(df_reg)+1)]
                         df_reg["dataset_name"] = ds_title
                         mergse_dfs(df_sort, df_reg)
 
-                        if ds_dict["out"] == 0.1:
-                            print("======================")
-                            continue
                                
                         cindex = len(df_etoe)
                         
                         if len(df_sort) == 0 :
+                            print("HHHHHHHHHHHHHHHHHH")
                             continue
                         if ds_title in {"NYC"}:
                             res_metric = df_sort.iloc[0]["test_r_squared"]
                             task_type = "regression"
                             task = "regression"
+                        elif ds_title in {"Volkert"}:
+                            res_metric = df_sort.iloc[0]["test_auc_ovr"]
+                            task_type = "multiclass"
+                            task = "classification"    
                         else:
                             res_metric = df_sort.iloc[0]["test_auc"]    
                             task_type = "binary"
@@ -131,6 +137,10 @@ if __name__ == '__main__':
                  dataset_load_time = 40
                  task_type = "regression"
                  task = "regression"
+            elif ds_dict["title"] == "Volkert":
+                 dataset_load_time = 58
+                 task_type = "multiclass"
+                 task = "classification"     
             else:
                 dataset_load_time = 1
                 task_type = "binary"

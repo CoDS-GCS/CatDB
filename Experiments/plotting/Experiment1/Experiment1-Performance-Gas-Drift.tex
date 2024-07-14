@@ -49,7 +49,7 @@
 
 \begin{tikzpicture}[
   every axis/.style={
-  height=0.5\columnwidth,
+  height=0.45\columnwidth,
   width=1.1\columnwidth,  
   }]
  \begin{axis}[   
@@ -93,45 +93,25 @@
   legend image code/.code={\draw [#1] (0cm,-0.1cm) rectangle (0.2cm,0.1cm); },  
 %}
 ]  
-  % \addboxplot{CatDB}{Gas-Drift}{gpt-4o}{}{dblue2}{dblue1};
-  % \addboxplot{CatDB}{Gas-Drift}{gemini-1.5-pro-latest}{}{dred2}{dred1};
-  % \addboxplot{CatDB}{Gas-Drift}{llama3-70b-8192}{}{teal2}{teal1};
-  
-
-  % \addboxplot{CatDBChain}{Gas-Drift}{gpt-4o}{}{dblue2}{dblue1}
-  % \addboxplot{CatDBChain}{Gas-Drift}{gemini-1.5-pro-latest}{}{dred2}{dred1};
-  % \addboxplot{CatDBChain}{Gas-Drift}{llama3-70b-8192}{}{teal2}{teal1};
-  
-
-  % \addboxplot{CAAFE}{Gas-Drift}{gpt-4o}{-TabPFN}{dblue2}{dblue1};
-  % \addboxplot{CAAFE}{Gas-Drift}{gemini-1.5-pro-latest}{-TabPFN}{dred2}{dred1};
-  % \addboxplot{CAAFE}{Gas-Drift}{llama3-70b-8192}{-TabPFN}{teal2}{teal1};
-  
-  % \addboxplot{CAAFE}{Gas-Drift}{gpt-4o}{-RandomForest}{dblue2}{dblue1};
-  % \addboxplot{CAAFE}{Gas-Drift}{gemini-1.5-pro-latest}{-RandomForest}{dred2}{dred1};
-  % \addboxplot{CAAFE}{Gas-Drift}{llama3-70b-8192}{-RandomForest}{teal2}{teal1};
-
-  \addboxplot{CatDB}{Gas-Drift}{gemini-1.5-pro-latest}{}{white}{white};
+  \addboxplot{CatDB}{Gas-Drift}{gpt-4o}{}{dblue2}{dblue1};
   \addboxplot{CatDB}{Gas-Drift}{gemini-1.5-pro-latest}{}{dred2}{dred1};
   \addboxplot{CatDB}{Gas-Drift}{llama3-70b-8192}{}{teal2}{teal1};
   
 
-  \addboxplot{CatDBChain}{Gas-Drift}{gemini-1.5-pro-latest}{}{white}{white}
+  \addboxplot{CatDBChain}{Gas-Drift}{gpt-4o}{}{dblue2}{dblue1}
   \addboxplot{CatDBChain}{Gas-Drift}{gemini-1.5-pro-latest}{}{dred2}{dred1};
-  \addboxplot{CatDBChain}{Gas-Drift}{gemini-1.5-pro-latest}{}{white}{white};
+  \addboxplot{CatDBChain}{Gas-Drift}{llama3-70b-8192}{}{teal2}{teal1};
   
 
+  \addboxplot{CAAFE}{Gas-Drift}{gpt-4o}{-TabPFN}{dblue2}{dblue1};
+  \addboxplot{CAAFE}{Gas-Drift}{gemini-1.5-pro-latest}{-TabPFN}{dred2}{dred1};
+  \addboxplot{CAAFE}{Gas-Drift}{llama3-70b-8192}{-TabPFN}{teal2}{teal1};
   
-  \addboxplot{CatDB}{Gas-Drift}{gemini-1.5-pro-latest}{}{white}{white};
-  \addboxplot{CatDB}{Gas-Drift}{gemini-1.5-pro-latest}{}{white}{white};
-  \addboxplot{CatDB}{Gas-Drift}{gemini-1.5-pro-latest}{}{white}{white};
-  
-  \addboxplot{CAAFE}{Gas-Drift}{gemini-1.5-pro-latest}{-RandomForest}{white}{white};
+  \addboxplot{CAAFE}{Gas-Drift}{gpt-4o}{-RandomForest}{dblue2}{dblue1};
   \addboxplot{CAAFE}{Gas-Drift}{gemini-1.5-pro-latest}{-RandomForest}{dred2}{dred1};
-  \addboxplot{CAAFE}{Gas-Drift}{gemini-1.5-pro-latest}{-RandomForest}{white}{white};
+  \addboxplot{CAAFE}{Gas-Drift}{llama3-70b-8192}{-RandomForest}{teal2}{teal1};
 
-  
-  
+    
   \coordinate (top1) at (axis cs:6.49,\pgfkeysvalueof{/pgfplots/ymax});
   \coordinate (bot1) at (axis cs:6.49,\pgfkeysvalueof{/pgfplots/ymin});
 
@@ -159,10 +139,15 @@
 
 \end{axis}
 
-\node [draw=none,inner sep=0, font=\normalsize, anchor=west] (leg1) at (rel axis cs: 0.25,1.22) {\shortstack[r]{
-  GPT-4o ( \ref{gpt-4o_CatDB_train} Train \ref{gpt-4o_CatDB_test} Test) \\
-  Gemini-1.5-pro ( \ref{gemini-1.5-pro-latest_CatDB_train} Train \ref{gemini-1.5-pro-latest_CatDB_test} Test) \\
-  Llama3-70b-8192 ( \ref{llama3-70b-8192_CatDB_train} Train \ref{llama3-70b-8192_CatDB_test} Test)  
-  }};
+% \node [draw=none,inner sep=0, font=\normalsize, anchor=west] (leg1) at (rel axis cs: 0.25,1.22) {\shortstack[r]{
+%   GPT-4o ( \ref{gpt-4o_CatDB_train} Train \ref{gpt-4o_CatDB_test} Test) \\
+%   Gemini-1.5-pro ( \ref{gemini-1.5-pro-latest_CatDB_train} Train \ref{gemini-1.5-pro-latest_CatDB_test} Test) \\
+%   Llama3-70b-8192 ( \ref{llama3-70b-8192_CatDB_train} Train \ref{llama3-70b-8192_CatDB_test} Test)  
+%   }};
+
+\node [draw=none,inner sep=0, font=\normalsize, anchor=west] (leg1) at (rel axis cs: 0.08,1.20) {\shortstack[r]{
+  Train (\ref{gpt-4o_CatDB_train} GPT-4o \ \ \ref{gemini-1.5-pro-latest_CatDB_train} Gemini-1.5 \ \ \ref{llama3-70b-8192_CatDB_train} Llama3-70b) \\
+  Test (\ref{gpt-4o_CatDB_test} GPT-4o \ \ \ref{gemini-1.5-pro-latest_CatDB_test} Gemini-1.5 \ \ \ref{llama3-70b-8192_CatDB_test} Llama3-70b)  
+}};
 
 \end{tikzpicture}

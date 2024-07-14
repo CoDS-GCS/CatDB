@@ -19,10 +19,10 @@ oml_dataset_6_rnc,Tic-Tac-Toe,10.29,5.06,284.64,114.56,0.17,0.17,4.74,1.91,1.71,
 oml_dataset_6_rnc,Tic-Tac-Toe,0.29,16.14,226.34,81.17,0.17,0.27,3.77,1.35,1.67,2.69,37.72,13.53,10,gpt-4o,No,binary,classification,0
 oml_dataset_33_rnc,Nomao,43.09,25.27,107458.48,591.36,0.72,0.42,1790.97,9.86,7.18,4.21,17909.75,98.56,10,gemini-1.5-pro-latest,No,binary,classification,0
 oml_dataset_33_rnc,Nomao,61.66,45.96,118203.53,649.75,1.03,0.77,1970.06,10.83,10.28,7.66,19700.59,108.29,10,llama3-70b-8192,No,binary,classification,0
-oml_dataset_33_rnc,Nomao,37.95,27.74,0,551.08,0.63,0.46,0.001,9.18,6.32,4.62,0.001,91.85,10,gpt-4o,No,binary,classification,0
+oml_dataset_33_rnc,Nomao,37.95,27.74,24609.16,551.08,0.63,0.46,410.15,9.18,6.32,4.62,4101.53,91.85,10,gpt-4o,No,binary,classification,0
 oml_dataset_34_rnc,Gas-Drift,15.14,34.01,21912.67,1137.34,0.25,0.57,365.21,18.96,2.52,5.67,3652.11,189.56,10,gemini-1.5-pro-latest,No,multiclass,classification,0
 oml_dataset_34_rnc,Gas-Drift,37.31,15.02,24103.47,1250.64,0.62,0.25,401.72,20.84,6.22,2.50,4017.25,208.44,10,llama3-70b-8192,No,multiclass,classification,0
-oml_dataset_34_rnc,Gas-Drift,10.86,88.39,0,1240.36,0.18,1.47,0.001,20.67,1.81,14.73,0.001,206.73,10,gpt-4o,No,multiclass,classification,0
+oml_dataset_34_rnc,Gas-Drift,10.86,88.39,4615.19,1240.36,0.18,1.47,76.92,20.67,1.81,14.73,769.20,206.73,10,gpt-4o,No,multiclass,classification,0
 oml_dataset_10_rnc,Jungle-Chess,11.85,25.12,156776.01,759.85,0.20,0.42,2612.93,12.66,1.98,4.19,26129.33,126.64,10,gemini-1.5-pro-latest,No,multiclass,classification,0
 oml_dataset_10_rnc,Jungle-Chess,14.49,8.72,216334.45,347.68,0.24,0.17,3605.57,5.79,2.42,1.67,36055.74,57.95,10,llama3-70b-8192,No,multiclass,classification,0
 oml_dataset_10_rnc,Jungle-Chess,14.80,30.82,201214.17,237.80,0.25,0.51,3353.57,3.96,2.47,5.14,33535.69,39.63,10,gpt-4o,No,multiclass,classification,0

@@ -24,7 +24,7 @@ def parse_arguments():
     return args
 
 # Function to introduce outliers
-def introduce_outliers(df, outlier_percentage=0.01, outlier_factor=10):
+def introduce_outliers(df, outlier_percentage=0.01, outlier_factor=10, label_col_index = 0):
     df_with_outliers = df.copy()
     n_samples, n_features = df_with_outliers.shape
     n_outlier_samples = int(np.floor(outlier_percentage * n_samples * n_features))
@@ -32,8 +32,8 @@ def introduce_outliers(df, outlier_percentage=0.01, outlier_factor=10):
     outlier_indices = np.random.choice(n_samples * n_features, n_outlier_samples, replace=False)
     for index in outlier_indices:
         row = index // n_features
-        col = index % n_features
-        if np.issubdtype(df_with_outliers.dtypes[col], np.number):
+        col = index % n_features        
+        if col != label_col_index and np.issubdtype(df_with_outliers.dtypes[col], np.number):
             df_with_outliers.iat[row, col] *= outlier_factor
     
     return df_with_outliers
@@ -62,35 +62,36 @@ if __name__ == '__main__':
                   ("Volkert", "class", "multiclass",54)]
 
     missing_percentages = [0.1, 0.2, 0.3, 0.4,0.5]
-    outliers_percentage = [0.01, 0.02, 0.03, 0.05, 0.06, 0.07, 0.08, 0.09, 0.1]
-  
+    outliers_percentage = [0.01, 0.02, 0.03, 0.4, 0.05, 0.06, 0.07, 0.08, 0.09, 0.1]
+    selected_outlier = 0.05
 
     script_list_1 =""
     script_list_2 =""
-    script_list_3 =""
+    script_list_3 =""    
      
     for (dataset_name, target_attribute,task_type, dataset_index) in datasetIDs:     
-        df = pd.read_csv(f"{args.data_in_path}/{dataset_name}.csv")         
+        df = pd.read_csv(f"{args.data_in_path}/{dataset_name}.csv") 
+        label_col_index = -1 
 
-        for outlier_percentage in outliers_percentage:
-            df_tmp = introduce_outliers(df=df, outlier_percentage=outlier_percentage, outlier_factor=10)
-            dataset_out_name = f"gen_dataset_{dataset_index}-out-{outlier_percentage}-np-0-nc-0-mv-0_rnc"
-            target_attribute_rn, nrows, ncols, number_classes = rename_col_names(data=df_tmp, ds_name=dataset_out_name, target_attribute=target_attribute, out_path=args.data_out_path)
-            save_config(dataset_name=dataset_out_name, target=target_attribute_rn, task_type=task_type, data_out_path=args.data_out_path, description="")
-
-            script_list_1 += f"$CMD {dataset_out_name} {task_type} # {dataset_name}\n"
-
-        
         for cols_percentage in [1]:
             n_features = len(df.columns)
             index = 0
             feature_indices = []
             for col in df.columns:
                 if col == target_attribute:
-                    index += 1
+                    label_col_index = index
+                    index += 1                    
                     continue
                 feature_indices.append(index)
-                index += 1
+                index += 1       
+
+        for outlier_percentage in outliers_percentage:
+            df_tmp = introduce_outliers(df=df, outlier_percentage=outlier_percentage, outlier_factor=10, label_col_index=label_col_index)
+            dataset_out_name = f"gen_dataset_{dataset_index}-out-{outlier_percentage}-np-0-nc-0-mv-0_rnc"
+            target_attribute_rn, nrows, ncols, number_classes = rename_col_names(data=df_tmp, ds_name=dataset_out_name, target_attribute=target_attribute, out_path=args.data_out_path)
+            save_config(dataset_name=dataset_out_name, target=target_attribute_rn, task_type=task_type, data_out_path=args.data_out_path, description="")
+
+            script_list_1 += f"$CMD {dataset_out_name} {task_type} # {dataset_name}\n"        
 
 
             missing_col_indices = random.sample(range(0, len(feature_indices)), int(cols_percentage * len(feature_indices)))     
@@ -107,8 +108,8 @@ if __name__ == '__main__':
                 script_list_2 += f"$CMD {dataset_out_name} {task_type} # {dataset_name}\n"
 
                 ###############
-                for outlier_percentage in outliers_percentage:
-                    df_tmp_both = introduce_outliers(df=df_tmp, outlier_percentage=outlier_percentage, outlier_factor=10)
+                for outlier_percentage in [selected_outlier]:
+                    df_tmp_both = introduce_outliers(df=df_tmp, outlier_percentage=outlier_percentage, outlier_factor=10, label_col_index=label_col_index)
                     dataset_out_name = f"gen_dataset_{dataset_index}-out-{outlier_percentage}-np-{cols_percentage}-nc-{len(missing_col_indices)}-mv-{perc}_rnc"
                     target_attribute_rn, nrows, ncols, number_classes = rename_col_names(data=df_tmp_both, ds_name=dataset_out_name, target_attribute=target_attribute, out_path=args.data_out_path)
                     save_config(dataset_name=dataset_out_name, target=target_attribute_rn, task_type=task_type, data_out_path=args.data_out_path, description="")

@@ -1,16 +1,6 @@
-\makeatletter
-\newcommand\resetstackedplots{
-\makeatletter
-\pgfplots@stacked@isfirstplottrue
-\makeatother
-\addplot [forget plot,draw=none] coordinates{(0,0) (0.01,0) (0.02,0) (0.03,0) (0.04,0 )(0.05,0)};
-}
-\makeatother
-
 \begin{tikzpicture}
-
   \newcommand{\myaddplotds}[3]{ 
-    \addplot[color=#2,mark=#3, line width=0.3pt] 
+    \addplot[color=#2,mark=#3, line width=0.7pt] 
     table[y=Result, col sep=comma, x=OUT, discard if singlconfig={0.0}{gemini-1.5-pro-latest}{#1}]
     {../archive/SIGMOD2025-Results/EtoE/EtoEResults.csv};
     \label{#1}  
@@ -47,16 +37,15 @@
 };   
 
 \begin{axis}[
-  ymin=0,
+  ymin=-0.08,
   ymax=1,
   xmax=0.05,
-  % ybar stacked,
   y tick label style={/pgf/number format/1000 sep={}},
   x tick label style={/pgf/number format/1000 sep={}},  
   scaled x ticks=false,
   axis line style={black, line width=0.3pt},
   enlarge y limits={0.3,upper},
-  enlarge x limits=0.1,
+  enlarge x limits=0.05,
   ylabel={AUC-ovr $\%$},
   xlabel={Outlier Percentage},
   log ticks with fixed point,
@@ -64,31 +53,36 @@
   xtick pos=left,
   ytick pos=left,
   yticklabel style = {font=\large},
-  ylabel style = {font=\large, yshift=0pt, xshift=-3pt},
-  height=.6\columnwidth,
-  width=1\columnwidth,
+  ylabel style = {font=\large, yshift=-2pt, xshift=-3pt},
+  height=.5\columnwidth,
+  width=0.8\columnwidth,
   ymajorgrids=true,
   grid style=dotted,
   minor grid style={gray!70},
-  %nodes near coords,
-  %every node near coord/.append style={font=\fontsize{0.1pt}{0.1}, rotate=90, xshift=8pt, yshift=0pt},
-  every axis plot/.append style={line width=0.4pt,mark options={scale=1.5,solid}},  
+  every axis plot/.append style={line width=0.7pt,mark options={scale=1,solid, line width=0.7pt}},  
   xticklabel style = {font=\normalsize, xshift=0pt, yshift=2pt},
   legend image post style={line width=.5pt},          
   bar width=8pt,         
   ytick={0,0.2, 0.4, 0.6, 0.8, 1},
   yticklabels={0, 20, 40, 60, 80, 100},               
-  %every x tick/.style={ draw=none},
-  %xtick = data,
   xtick={0, 0.01, 0.02, 0.03, 0.04, 0.05},
-  xticklabels={Original Data,$1\%$, $2\%$, $3\%$, $4\%$, $5\%$},  
-  %legend image code/.code={\draw [#1] (0cm,-0.1cm) rectangle (0.25cm,0.1cm); }, 
+  xticklabels={$0\%$,$1\%$, $2\%$, $3\%$, $4\%$, $5\%$},  
 ]
-\resetstackedplots
 \myaddplotds{CatDB}{tug}{square*};
+\myaddplotds{Flaml}{color4}{square*};
+\myaddplotds{Autogluon}{dblue1}{triangle*};
+\myaddplotds{AutoSklearn}{black}{*};
+
+ \myaddplotds{H2O}{tugb}{triangle*};
 \end{axis}
 
-\node [draw=none,inner sep=0, font=\normalsize, anchor=west] (leg1) at (rel axis cs: 0.1,0.9) {\shortstack[l]{
-  \ref{CatDB} CatDB}};
+\node [draw=none,inner sep=0, font=\normalsize, anchor=west] (leg1) at (rel axis cs: 0.1,0.80) {\shortstack[l]{
+  \ref{CatDB} CatDB\\
+  \ref{Flaml} Flaml \\
+  \ref{H2O} H2O}};
+
+\node [draw=none,inner sep=0, font=\normalsize, anchor=west] (leg1) at (rel axis cs: 0.6,0.83) {\shortstack[l]{
+  \ref{Autogluon} Autogluon \\
+  \ref{AutoSklearn} AutoSklearn}};
 
 \end{tikzpicture}

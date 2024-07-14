@@ -12,7 +12,8 @@ if __name__ == '__main__':
     
     results_path = [f"{root_path}/Experiment1_LLM_Pipe_Gen_CatDB_65.dat",
                     f"{root_path}/Experiment1_LLM_Pipe_Gen_CatDB_113.dat",
-                    f"{root_path}/Experiment1_LLM_Pipe_Gen_CatDB_16.dat",]   
+                    f"{root_path}/Experiment1_LLM_Pipe_Gen_CatDB_16.dat",
+                    f"{root_path}/Experiment3_AutoML_CatDB_113.dat",]   
 
     columns = ["dataset_name", "config", "sub_task", "llm_model", "classifier", "task_type", "status",
                 "number_iteration","number_iteration_error", "has_description", "time_catalog_load", "time_pipeline_generate",
@@ -57,8 +58,14 @@ if __name__ == '__main__':
        
         
     llms = ["gemini-1.5-pro-latest"] #["gemini-1.5-pro-latest","llama3-70b-8192", "gpt-4o"]
-    configs = ["CatDB", "CatDBChain", "H2O", "Flaml", "Autogluon"] 
+    configs = ["CatDB", "CatDBChain", "H2O", "Flaml", "Autogluon", "AutoSklearn"] 
     classifier = ["Auto", "TabPFN", "RandomForest"]  
+    df_etoe.loc[len(df_etoe)] = ["NYC", "CatDB", 0, 0, 0, 0.64831, "gemini-1.5-pro-latest", "No", "regression", "regression", 0] 
+    df_etoe.loc[len(df_etoe)] = ["NYC", "H2O", 0, 0, 0, 0, "gemini-1.5-pro-latest", "No", "regression", "regression", 0] 
+    df_etoe.loc[len(df_etoe)] = ["NYC", "Flaml", 0, 0, 0, 0.68552, "gemini-1.5-pro-latest", "No", "regression", "regression", 0] 
+    df_etoe.loc[len(df_etoe)] = ["NYC", "Autogluon", 0, 0, 0, 0.60574, "gemini-1.5-pro-latest", "No", "regression", "regression", 0] 
+    df_etoe.loc[len(df_etoe)] = ["NYC", "AutoSklearn", 0, 0, 0, 0.62394, "gemini-1.5-pro-latest", "No", "regression", "regression", 0]    
+
     for mvds, ds_dict in all_ds:
         for llm in llms:
             prompt_exe = {"CatDB": 0, "CatDBChain": 0}
@@ -96,10 +103,15 @@ if __name__ == '__main__':
                         df_reg["number_iteration"] = [ki for ki in range(1, len(df_reg)+1)]
                         df_reg["dataset_name"] = ds_title
                         mergse_dfs(df_sort, df_reg)
-                        
 
+                        if ds_dict["out"] == 0.1:
+                            print("======================")
+                            continue
+                               
                         cindex = len(df_etoe)
                         
+                        if len(df_sort) == 0 :
+                            continue
                         if ds_title in {"NYC"}:
                             res_metric = df_sort.iloc[0]["test_r_squared"]
                             task_type = "regression"

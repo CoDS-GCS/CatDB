@@ -1,6 +1,6 @@
 dataset_name,dataset_name_orig,CatDB,CatDBChain,dataset_load_time,llm_model,has_description,task_type,task,samples
 gen_dataset_53-out-0.02-np-0-nc-0-mv-0_rnc,NYC,436.45,0,40,gemini-1.5-pro-latest,No,regression,regression,0
-gen_dataset_53-out-0.1-np-0-nc-0-mv-0_rnc,NYC,219.06,0,40,gemini-1.5-pro-latest,No,regression,regression,0
+gen_dataset_53-out-0.1-np-0-nc-0-mv-0_rnc,NYC,0,0,40,gemini-1.5-pro-latest,No,regression,regression,0
 gen_dataset_53-out-0-np-1-nc-16-mv-0.1_rnc,NYC,102.00,0,40,gemini-1.5-pro-latest,No,regression,regression,0
 gen_dataset_53-out-0-np-1-nc-16-mv-0.2_rnc,NYC,28.74,0,40,gemini-1.5-pro-latest,No,regression,regression,0
 gen_dataset_53-out-0-np-1-nc-16-mv-0.3_rnc,NYC,1299.95,0,40,gemini-1.5-pro-latest,No,regression,regression,0

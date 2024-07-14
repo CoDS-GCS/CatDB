@@ -58,10 +58,11 @@ if __name__ == '__main__':
     datasetIDs = [#("adult", "income", "binary",50),
     #               ("bank", "y", "binary",51),
     #               ("br2000", "a14", "binary",52),
-                  ("NYC", "tip_amount", "regression",53)]
+    #              ("NYC", "tip_amount", "regression",53),
+                  ("Volkert", "class", "multiclass",54)]
 
     missing_percentages = [0.1, 0.2, 0.3, 0.4,0.5]
-    outliers_percentage = [0.005,0.01,0.025,0.03,0.035]
+    outliers_percentage = [0.01, 0.02, 0.03, 0.05, 0.06, 0.07, 0.08, 0.09, 0.1]
   
 
     script_list_1 =""
@@ -72,10 +73,10 @@ if __name__ == '__main__':
         df = pd.read_csv(f"{args.data_in_path}/{dataset_name}.csv")         
 
         for outlier_percentage in outliers_percentage:
-            #df_tmp = introduce_outliers(df=df, outlier_percentage=outlier_percentage, outlier_factor=10)
+            df_tmp = introduce_outliers(df=df, outlier_percentage=outlier_percentage, outlier_factor=10)
             dataset_out_name = f"gen_dataset_{dataset_index}-out-{outlier_percentage}-np-0-nc-0-mv-0_rnc"
-            # target_attribute_rn, nrows, ncols, number_classes = rename_col_names(data=df_tmp, ds_name=dataset_out_name, target_attribute=target_attribute, out_path=args.data_out_path)
-            # save_config(dataset_name=dataset_out_name, target=target_attribute_rn, task_type=task_type, data_out_path=args.data_out_path, description="")
+            target_attribute_rn, nrows, ncols, number_classes = rename_col_names(data=df_tmp, ds_name=dataset_out_name, target_attribute=target_attribute, out_path=args.data_out_path)
+            save_config(dataset_name=dataset_out_name, target=target_attribute_rn, task_type=task_type, data_out_path=args.data_out_path, description="")
 
             script_list_1 += f"$CMD {dataset_out_name} {task_type} # {dataset_name}\n"
 
@@ -94,23 +95,23 @@ if __name__ == '__main__':
 
             missing_col_indices = random.sample(range(0, len(feature_indices)), int(cols_percentage * len(feature_indices)))     
             for perc in missing_percentages:
-                # df_tmp = df.copy()
-                # for colin in missing_col_indices:
-                #     df_tmp = introduce_missing_values(df=df_tmp, col=colin, missing_percentage=perc)
+                df_tmp = df.copy()
+                for colin in missing_col_indices:
+                    df_tmp = introduce_missing_values(df=df_tmp, col=colin, missing_percentage=perc)
 
                 # Rename cols and dataset name, then split and save it
                 dataset_out_name = f"gen_dataset_{dataset_index}-out-0-np-{cols_percentage}-nc-{len(missing_col_indices)}-mv-{perc}_rnc"
-                # target_attribute_rn, nrows, ncols, number_classes = rename_col_names(data=df_tmp, ds_name=dataset_out_name, target_attribute=target_attribute, out_path=args.data_out_path)
-                # save_config(dataset_name=dataset_out_name, target=target_attribute_rn, task_type=task_type, data_out_path=args.data_out_path, description="") 
+                target_attribute_rn, nrows, ncols, number_classes = rename_col_names(data=df_tmp, ds_name=dataset_out_name, target_attribute=target_attribute, out_path=args.data_out_path)
+                save_config(dataset_name=dataset_out_name, target=target_attribute_rn, task_type=task_type, data_out_path=args.data_out_path, description="") 
 
                 script_list_2 += f"$CMD {dataset_out_name} {task_type} # {dataset_name}\n"
 
                 ###############
                 for outlier_percentage in outliers_percentage:
-                    #df_tmp_both = introduce_outliers(df=df_tmp, outlier_percentage=outlier_percentage, outlier_factor=10)
+                    df_tmp_both = introduce_outliers(df=df_tmp, outlier_percentage=outlier_percentage, outlier_factor=10)
                     dataset_out_name = f"gen_dataset_{dataset_index}-out-{outlier_percentage}-np-{cols_percentage}-nc-{len(missing_col_indices)}-mv-{perc}_rnc"
-                    # target_attribute_rn, nrows, ncols, number_classes = rename_col_names(data=df_tmp_both, ds_name=dataset_out_name, target_attribute=target_attribute, out_path=args.data_out_path)
-                    # save_config(dataset_name=dataset_out_name, target=target_attribute_rn, task_type=task_type, data_out_path=args.data_out_path, description="")
+                    target_attribute_rn, nrows, ncols, number_classes = rename_col_names(data=df_tmp_both, ds_name=dataset_out_name, target_attribute=target_attribute, out_path=args.data_out_path)
+                    save_config(dataset_name=dataset_out_name, target=target_attribute_rn, task_type=task_type, data_out_path=args.data_out_path, description="")
 
                     script_list_3 += f"$CMD {dataset_out_name} {task_type} # {dataset_name}\n"
 

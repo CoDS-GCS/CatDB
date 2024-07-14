@@ -1,7 +1,13 @@
 dataset_name,Config,OUT,MV,NC,Result,llm_model,has_description,task_type,task,samples
-NYC,CatDB,0.02,0.0,0,0.657401734033828,gemini-1.5-pro-latest,No,regression,regression,0
-NYC,CatDB,0.1,0.0,0,0.6692984740921488,gemini-1.5-pro-latest,No,regression,regression,0
 NYC,CatDB,0.0,0.1,16,0.6041404852789527,gemini-1.5-pro-latest,No,regression,regression,0
 NYC,CatDB,0.0,0.2,16,1.0,gemini-1.5-pro-latest,No,regression,regression,0
 NYC,CatDB,0.0,0.3,16,0.4555472730581487,gemini-1.5-pro-latest,No,regression,regression,0
 NYC,CatDB,0.0,0.4,16,0.3633381328304118,gemini-1.5-pro-latest,No,regression,regression,0
+NYC,CatDB,0.0,0.5,16,0.2751830829996027,gemini-1.5-pro-latest,No,regression,regression,0
+NYC,CatDB,0.01,0.0,0,0.6813922839655662,gemini-1.5-pro-latest,No,regression,regression,0
+NYC,CatDB,0.02,0.0,0,0.657401734033828,gemini-1.5-pro-latest,No,regression,regression,0
+NYC,CatDB,0.02,0.4,16,0.9999981011701452,gemini-1.5-pro-latest,No,regression,regression,0
+NYC,CatDB,0.03,0.0,0,0.6879993852287939,gemini-1.5-pro-latest,No,regression,regression,0
+NYC,CatDB,0.04,0.0,0,0.6893733077364386,gemini-1.5-pro-latest,No,regression,regression,0
+NYC,CatDB,0.05,0.0,0,0.6883159347430654,gemini-1.5-pro-latest,No,regression,regression,0
+NYC,CatDB,0.1,0.0,0,0.6692984740921488,gemini-1.5-pro-latest,No,regression,regression,0

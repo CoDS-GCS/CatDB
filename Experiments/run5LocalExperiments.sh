@@ -208,3 +208,37 @@ $CMD gen_dataset_53-out-0.02-np-0-nc-0-mv-0_rnc regression # NYC
 # $CMD gen_dataset_53-out-0.04-np-1-nc-16-mv-0.3_rnc regression # NYC
 # $CMD gen_dataset_53-out-0.04-np-1-nc-16-mv-0.4_rnc regression # NYC
 # $CMD gen_dataset_53-out-0.04-np-1-nc-16-mv-0.5_rnc regression # NYC
+
+
+$CMD gen_dataset_53-out-0.005-np-0-nc-0-mv-0_rnc regression # NYC
+$CMD gen_dataset_53-out-0.01-np-0-nc-0-mv-0_rnc regression # NYC
+$CMD gen_dataset_53-out-0.025-np-0-nc-0-mv-0_rnc regression # NYC
+$CMD gen_dataset_53-out-0.03-np-0-nc-0-mv-0_rnc regression # NYC
+$CMD gen_dataset_53-out-0.035-np-0-nc-0-mv-0_rnc regression # NYC
+
+$CMD gen_dataset_53-out-0.01-np-1-nc-16-mv-0.1_rnc regression # NYC
+$CMD gen_dataset_53-out-0.01-np-1-nc-16-mv-0.2_rnc regression # NYC
+$CMD gen_dataset_53-out-0.01-np-1-nc-16-mv-0.3_rnc regression # NYC
+$CMD gen_dataset_53-out-0.01-np-1-nc-16-mv-0.4_rnc regression # NYC
+$CMD gen_dataset_53-out-0.01-np-1-nc-16-mv-0.5_rnc regression # NYC
+
+# $CMD gen_dataset_53-out-0.005-np-1-nc-16-mv-0.1_rnc regression # NYC
+# $CMD gen_dataset_53-out-0.025-np-1-nc-16-mv-0.1_rnc regression # NYC
+# $CMD gen_dataset_53-out-0.03-np-1-nc-16-mv-0.1_rnc regression # NYC
+# $CMD gen_dataset_53-out-0.035-np-1-nc-16-mv-0.1_rnc regression # NYC
+# $CMD gen_dataset_53-out-0.005-np-1-nc-16-mv-0.2_rnc regression # NYC
+# $CMD gen_dataset_53-out-0.025-np-1-nc-16-mv-0.2_rnc regression # NYC
+# $CMD gen_dataset_53-out-0.03-np-1-nc-16-mv-0.2_rnc regression # NYC
+# $CMD gen_dataset_53-out-0.035-np-1-nc-16-mv-0.2_rnc regression # NYC
+# $CMD gen_dataset_53-out-0.005-np-1-nc-16-mv-0.3_rnc regression # NYC
+# $CMD gen_dataset_53-out-0.025-np-1-nc-16-mv-0.3_rnc regression # NYC
+# $CMD gen_dataset_53-out-0.03-np-1-nc-16-mv-0.3_rnc regression # NYC
+# $CMD gen_dataset_53-out-0.035-np-1-nc-16-mv-0.3_rnc regression # NYC
+# $CMD gen_dataset_53-out-0.005-np-1-nc-16-mv-0.4_rnc regression # NYC
+# $CMD gen_dataset_53-out-0.025-np-1-nc-16-mv-0.4_rnc regression # NYC
+# $CMD gen_dataset_53-out-0.03-np-1-nc-16-mv-0.4_rnc regression # NYC
+# $CMD gen_dataset_53-out-0.035-np-1-nc-16-mv-0.4_rnc regression # NYC
+# $CMD gen_dataset_53-out-0.005-np-1-nc-16-mv-0.5_rnc regression # NYC
+# $CMD gen_dataset_53-out-0.025-np-1-nc-16-mv-0.5_rnc regression # NYC
+# $CMD gen_dataset_53-out-0.03-np-1-nc-16-mv-0.5_rnc regression # NYC
+# $CMD gen_dataset_53-out-0.035-np-1-nc-16-mv-0.5_rnc regression # NYC

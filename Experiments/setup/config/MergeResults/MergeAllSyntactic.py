@@ -10,7 +10,9 @@ if __name__ == '__main__':
     #                 f"{root_path}/Experiment3_AutoML_CatDB_65.dat",
     #                 f"{root_path}/Experiment1_LLM_Pipe_Gen_CatDB_65.dat",] 
     
-    results_path = [f"{root_path}/Experiment1_LLM_Pipe_Gen_CatDB_65.dat",]   
+    results_path = [f"{root_path}/Experiment1_LLM_Pipe_Gen_CatDB_65.dat",
+                    f"{root_path}/Experiment1_LLM_Pipe_Gen_CatDB_113.dat",
+                    f"{root_path}/Experiment1_LLM_Pipe_Gen_CatDB_16.dat",]   
 
     columns = ["dataset_name", "config", "sub_task", "llm_model", "classifier", "task_type", "status",
                 "number_iteration","number_iteration_error", "has_description", "time_catalog_load", "time_pipeline_generate",
@@ -123,5 +125,7 @@ if __name__ == '__main__':
                 task = "classification"      
             df_exe.loc[len(df_exe)] = [ mvds, ds_dict["title"], prompt_exe["CatDB"], prompt_exe["CatDBChain"], dataset_load_time, llm, "No", task_type, task, 0]
 
+
+    df_etoe = df_etoe.sort_values(by=['OUT','MV'], ascending=True).reset_index(drop=True)    
     df_etoe.to_csv(f"{root_path}/EtoEResults.csv", index=False)
     df_exe.to_csv(f"{root_path}/EtoEExeResults.csv", index=False)

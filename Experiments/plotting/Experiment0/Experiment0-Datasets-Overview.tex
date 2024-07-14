@@ -39,13 +39,13 @@
     yticklabel style = {font=\normalsize},
     ylabel style = {font=\normalsize, yshift=0pt, xshift=-2pt},
     xticklabel style = {font=\footnotesize, xshift=0pt, yshift=4pt, rotate=35, anchor=north east},
-    height=0.47\columnwidth,      
+    height=0.42\columnwidth,      
     ymajorgrids=true,
     grid style=dotted,   
     minor grid style={gray!50}, 
     xtick = data,
     %symbolic x coords={Nomao,Gas-Drift,Volkert,Black}, 
-    legend image code/.code={\draw [#1] (0cm,-0.12cm) rectangle (0.25cm,0.12cm); }, 
+    legend image code/.code={\draw [#1] (0cm,-0.1cm) rectangle (0.2cm,0.1cm); }, 
 ]
 
 \nextgroupplot[
@@ -73,7 +73,7 @@
 ]
 \addplotStatistics{../archive/SIGMOD2025-Results/statistics/dataset_overview_large.dat}
 \end{groupplot}
-  \node [draw=none,inner sep=0, xshift=30pt, font=\normalsize, anchor=west] (leg1) at (rel axis cs: 1.1,1.07) {\shortstack[l]{
+  \node [draw=none,inner sep=0, xshift=10pt, font=\normalsize, anchor=west] (leg1) at (rel axis cs: 1.1,1.07) {\shortstack[l]{
 			\ref{string} String \ \ \ \  \ref{int} Int \ \ \ \  \ref{float} Float \ \ \ \  \ref{bool} Bool				 			
 	}};
 

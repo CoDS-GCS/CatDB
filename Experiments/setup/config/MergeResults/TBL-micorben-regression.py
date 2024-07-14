@@ -94,8 +94,8 @@ if __name__ == '__main__':
                                     tbl_data[key_test] = None
                                     continue
 
-                                tbl_data[key_train] = int(df_ds.iloc[0][col_train] * 100000)
-                                tbl_data[key_test] = int(df_ds.iloc[0][col_test] * 100000)
+                                tbl_data[key_train] = int(df_ds.iloc[0][col_train] * 10000)
+                                tbl_data[key_test] = int(df_ds.iloc[0][col_test] * 10000)
                                 
 
             max_train = 0
@@ -132,18 +132,18 @@ if __name__ == '__main__':
                 if tbl_data[k] is None:
                     df_micro.at[cindex,k] = "& N/A"   
                 elif "test" in k and tbl_data[k] >= max_test:
-                    df_micro.at[cindex,k] = "& \\textbf{"+f"{tbl_data[k]/1000}"+"}"
+                    df_micro.at[cindex,k] = "& \\textbf{"+f"{tbl_data[k]/100}"+"}"
                     wins[llm][k] +=1
                 elif "train" in k and tbl_data[k] >= max_train:
-                    df_micro.at[cindex,k] = "& \\textbf{"+f"{tbl_data[k]/1000}"+"}"
+                    df_micro.at[cindex,k] = "& \\textbf{"+f"{tbl_data[k]/100}"+"}"
                     wins[llm][k] +=1  
                 elif tbl_data[k] == 0:
                      df_micro.at[cindex,k] = "& --" 
                 else:
-                    df_micro.at[cindex,k] = f"& {tbl_data[k]/1000}"
+                    df_micro.at[cindex,k] = f"& {tbl_data[k]/100}"
             
-            catdb_value =(tbl_data["CatDB_test_r_squared"]-max_other)/1000
-            catdb_chain_value = (tbl_data["CatDBChain_test_r_squared"]-max_other) / 1000
+            catdb_value =(tbl_data["CatDB_test_r_squared"]-max_other)/100
+            catdb_chain_value = (tbl_data["CatDBChain_test_r_squared"]-max_other) / 100
             
             if catdb_value <0:
                 catdb_value_str = f"${catdb_value}$"
@@ -158,7 +158,7 @@ if __name__ == '__main__':
             df_micro.at[cindex,"CatDB_test_r_squared_diff"] = f'& {catdb_value_str}'
             df_micro.at[cindex,"CatDBChain_test_r_squared_diff"] = f'& {catdb_chain_value_str} \\\\ {tbl_line}'
 
-            df_overall.loc[len(df_overall)] = [ds_title, llm, tbl_data["CatDB_test_r_squared"] /1000, tbl_data["CatDBChain_test_r_squared"] /1000, max_other/1000]
+            df_overall.loc[len(df_overall)] = [ds_title, llm, tbl_data["CatDB_test_r_squared"] /100, tbl_data["CatDBChain_test_r_squared"] /100, max_other/100]
 
             
     # add leader board:

@@ -37,7 +37,7 @@
 };   
 
 \begin{axis}[
-  ymin=-0.08,
+  ymin=-0,
   ymax=1,
   y tick label style={/pgf/number format/1000 sep={}},
   x tick label style={/pgf/number format/1000 sep={}},  
@@ -46,19 +46,19 @@
   enlarge y limits={0.3,upper},
   enlarge x limits=0.05,
   ylabel={AUC-ovr $\%$},
-  xlabel={Outlier Percentage},
+  xlabel={Missing Percentage},
   log ticks with fixed point,
   xtick align=outside,
   xtick pos=left,
   ytick pos=left,
   yticklabel style = {font=\large},
-  ylabel style = {font=\large, yshift=-2pt, xshift=-3pt},
-  height=.5\columnwidth,
+  ylabel style = {font=\large, yshift=-3pt, xshift=-3pt},
+  height=.55\columnwidth,
   width=0.8\columnwidth,
-  ymajorgrids=true,
+  grid=both,
   grid style=dotted,
   minor grid style={gray!70},
-  every axis plot/.append style={line width=0.7pt,mark options={scale=1,solid, line width=0.7pt}},  
+  every axis plot/.append style={line width=0.2pt,mark options={scale=1,solid, line width=0.9pt}},  
   xticklabel style = {font=\normalsize, xshift=0pt, yshift=2pt},
   legend image post style={line width=.5pt},          
   bar width=8pt,         
@@ -74,98 +74,13 @@
  \myaddplotds{H2O}{tugb}{triangle*};
 \end{axis}
 
-\node [draw=none,inner sep=0, font=\normalsize, anchor=west] (leg1) at (rel axis cs: 0.1,0.80) {\shortstack[l]{
-  \ref{CatDB} CatDB\\
+\node [draw=none,inner sep=0, font=\normalsize, anchor=west] (leg1) at (rel axis cs: 0.06,0.80) {\shortstack[l]{
+  \ref{CatDB} CatDB (Gemini)\\
   \ref{Flaml} Flaml \\
   \ref{H2O} H2O}};
 
-\node [draw=none,inner sep=0, font=\normalsize, anchor=west] (leg1) at (rel axis cs: 0.6,0.83) {\shortstack[l]{
+\node [draw=none,inner sep=0, font=\normalsize, anchor=north, right=of leg1, xshift=-28pt, yshift=4pt] (leg1) {\shortstack[l]{
   \ref{Autogluon} Autogluon \\
   \ref{AutoSklearn} AutoSklearn}};
 
 \end{tikzpicture}
-
-
-% \begin{tikzpicture}
-
-%   \newcommand{\myaddplotds}[3]{ 
-%     \addplot[color=#2,mark=#3, line width=0.3pt] 
-%     table[y=Result, col sep=comma, x=MV, discard if singlconfig={0.0}{gemini-1.5-pro-latest}{#1}]
-%     {../archive/SIGMOD2025-Results/EtoE/EtoEResults.csv};
-%     \label{#1}  
-   
-%   };
-
-
-% \pgfplotsset{
-%     discard if singlconfig/.style n args={3}{
-%         x filter/.code={
-%             \edef\tempa{\thisrow{OUT}}
-%             \edef\tempb{#1}
-%             \ifx\tempa\tempb
-%               \edef\tempc{\thisrow{llm_model}}
-%                 \edef\tempd{#2}
-%                   \ifx\tempc\tempd  
-%                   %
-%                     \edef\tempe{\thisrow{Config}} 
-%                     \edef\tempf{#3}
-%                     \ifx\tempe\tempf 
-        
-%                     \else
-%                     \def\pgfmathresult{inf}
-%                   \fi
-%                   %                
-%                   \else
-%                   \def\pgfmathresult{inf}
-%                   \fi
-%             \else
-%             \def\pgfmathresult{inf}
-%             \fi			
-%         }
-%     },
-% };   
-
-% \begin{axis}[
-%   ymin=0,
-%   ymax=1,
-%   % ybar stacked,
-%   y tick label style={/pgf/number format/1000 sep={}},
-%   x tick label style={/pgf/number format/1000 sep={}},  
-%   scaled y ticks=false,
-%   axis line style={black, line width=0.3pt},
-%   enlarge y limits={0.3,upper},
-%   enlarge x limits=0.1,
-%   ylabel={AUC-ovr $\%$},
-%   xlabel={Missing Percentage},
-%   log ticks with fixed point,
-%   xtick align=outside,
-%   xtick pos=left,
-%   ytick pos=left,
-%   yticklabel style = {font=\large},
-%   ylabel style = {font=\large, yshift=0pt, xshift=-3pt},
-%   height=.6\columnwidth,
-%   width=1\columnwidth,
-%   ymajorgrids=true,
-%   grid style=dotted,
-%   minor grid style={gray!70},
-%   %nodes near coords,
-%   %every node near coord/.append style={font=\fontsize{0.1pt}{0.1}, rotate=90, xshift=8pt, yshift=0pt},
-%   every axis plot/.append style={line width=0.4pt,mark options={scale=1.5,solid}},  
-%   xticklabel style = {font=\normalsize, xshift=0pt, yshift=2pt},
-%   legend image post style={line width=.5pt},          
-%   bar width=8pt,         
-%   ytick={0,0.2, 0.4, 0.6, 0.8, 1},
-%   yticklabels={0, 20, 40, 60, 80, 100},               
-%   %every x tick/.style={ draw=none},
-%   %xtick = data,
-%   xtick={0, 0.1, 0.2, 0.3, 0.4, 0.5},
-%   xticklabels={Original Data,$10\%$, $20\%$, $30\%$, $40\%$, $50\%$},  
-%   %legend image code/.code={\draw [#1] (0cm,-0.1cm) rectangle (0.25cm,0.1cm); }, 
-% ]
-% \myaddplotds{CatDB}{tug}{square*};
-% \end{axis}
-
-% \node [draw=none,inner sep=0, font=\normalsize, anchor=west] (leg1) at (rel axis cs: 0.1,0.9) {\shortstack[l]{
-%   \ref{CatDB} CatDB}};
-
-% \end{tikzpicture}

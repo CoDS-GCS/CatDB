@@ -37,7 +37,7 @@
 };   
 
 \begin{axis}[
-  ymin=-0.08,
+  ymin=-0,
   ymax=1,
   xmax=0.05,
   y tick label style={/pgf/number format/1000 sep={}},
@@ -53,8 +53,8 @@
   xtick pos=left,
   ytick pos=left,
   yticklabel style = {font=\large},
-  ylabel style = {font=\large, yshift=-2pt, xshift=-3pt},
-  height=.5\columnwidth,
+  ylabel style = {font=\large, yshift=-3pt, xshift=-3pt},
+  height=.55\columnwidth,
   width=0.8\columnwidth,
   ymajorgrids=true,
   grid style=dotted,
@@ -76,12 +76,12 @@
  \myaddplotds{H2O}{tugb}{triangle*};
 \end{axis}
 
-\node [draw=none,inner sep=0, font=\normalsize, anchor=west] (leg1) at (rel axis cs: 0.1,0.80) {\shortstack[l]{
-  \ref{CatDB} CatDB\\
+\node [draw=none,inner sep=0, font=\normalsize, anchor=west] (leg1) at (rel axis cs: 0.06,0.80) {\shortstack[l]{
+  \ref{CatDB} CatDB (Gemini)\\
   \ref{Flaml} Flaml \\
   \ref{H2O} H2O}};
 
-\node [draw=none,inner sep=0, font=\normalsize, anchor=west] (leg1) at (rel axis cs: 0.6,0.83) {\shortstack[l]{
+\node [draw=none,inner sep=0, font=\normalsize, anchor=north, right=of leg1, xshift=-28pt, yshift=4pt] (leg1) {\shortstack[l]{
   \ref{Autogluon} Autogluon \\
   \ref{AutoSklearn} AutoSklearn}};
 

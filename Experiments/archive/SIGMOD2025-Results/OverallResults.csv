@@ -17,7 +17,7 @@ Credit-g,llama3-70b-8192,79.796,79.628,80.545
 Higgs,gpt-4o,79.062,74.548,84.596
 Higgs,gemini-1.5-pro-latest,83.755,71.594,85.687
 Higgs,llama3-70b-8192,70.854,79.058,84.633
-Nomao,gpt-4o,0.0,0.0,0.0
+Nomao,gpt-4o,99.434,98.866,0.0
 Nomao,gemini-1.5-pro-latest,99.377,99.363,99.549
 Nomao,llama3-70b-8192,100.0,97.076,99.549
 Balance-Scale,gpt-4o,87.307,91.535,99.865

@@ -12,7 +12,7 @@ exp_path="$(pwd)"
 data_path="${exp_path}/data"
 metadata_path="${data_path}/${dataset}/${dataset}.yaml"
 output_dir="${exp_path}/results/AutoML"
-output_path="${exp_path}/results/Experiment3_AutoML_${correspond_config}.dat"
+output_path="${exp_path}/results/Experiment3_AutoML.dat"
 exe_runtime_path="${exp_path}/archive/SIGMOD2025-Results/ExeResults.csv"
 
 mkdir -p ${output_dir}
@@ -27,8 +27,7 @@ CMD="python -Wignore main${framework}.py --metadata-path ${metadata_path} \
     --output-dir ${output_dir} \
     --iteration ${iteration} \
     --exe-runtime-path ${exe_runtime_path} \
-    --llm-model ${llm_model} \
-    --correspond-config ${correspond_config}"
+    --llm-model ${llm_model}"
 
 cd "${framework}AutoML"
 source venv/bin/activate

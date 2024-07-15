@@ -16,9 +16,9 @@ echo "dataset,llm_model,prompt_representation_type,prompt_example_type,prompt_nu
 cd ${exp_path}
 
 #CMD=./explocal/exp0_statistics/runExperiment0.sh
-CMD=./explocal/exp1_catalog/runExperiment1.sh
+#CMD=./explocal/exp1_catalog/runExperiment1.sh
 #CMD=./explocal/exp2_micro_benchmark/runExperiment2.sh 
-#CMD=./explocal/exp3_end_to_end/runExperiment3.sh 
+CMD=./explocal/exp3_end_to_end/runExperiment3.sh 
 
 
 # $CMD Balance-Scale multiclass # Balance-Scale
@@ -43,30 +43,30 @@ CMD=./explocal/exp1_catalog/runExperiment1.sh
 # $CMD Airlines-DepDelay regression # Airlines-DepDelay
 
 
-#$CMD oml_dataset_1_rnc multiclass # Balance-Scale
-# $CMD oml_dataset_2_rnc binary # Breast-w
-# $CMD oml_dataset_3_rnc multiclass # CMC
-# $CMD oml_dataset_4_rnc binary # Credit-g
-# $CMD oml_dataset_5_rnc binary # Diabetes
-# $CMD oml_dataset_6_rnc binary # Tic-Tac-Toe
-# $CMD oml_dataset_7_rnc multiclass # Eucalyptus
-# $CMD oml_dataset_8_rnc binary # PC1
-# $CMD oml_dataset_10_rnc multiclass # Jungle-Chess
+$CMD oml_dataset_1_rnc multiclass # Balance-Scale
+$CMD oml_dataset_2_rnc binary # Breast-w
+$CMD oml_dataset_3_rnc multiclass # CMC
+$CMD oml_dataset_4_rnc binary # Credit-g
+$CMD oml_dataset_5_rnc binary # Diabetes
+$CMD oml_dataset_6_rnc binary # Tic-Tac-Toe
+$CMD oml_dataset_7_rnc multiclass # Eucalyptus
+$CMD oml_dataset_8_rnc binary # PC1
+$CMD oml_dataset_10_rnc multiclass # Jungle-Chess
 
-# $CMD oml_dataset_11_rnc binary # Higgs
-# $CMD oml_dataset_12_rnc binary # Skin
-# $CMD oml_dataset_19_rnc multiclass # Traffic
-# $CMD oml_dataset_20_rnc multiclass # Walking-Activity
+$CMD oml_dataset_11_rnc binary # Higgs
+$CMD oml_dataset_12_rnc binary # Skin
+$CMD oml_dataset_19_rnc multiclass # Traffic
+$CMD oml_dataset_20_rnc multiclass # Walking-Activity
 
-# $CMD oml_dataset_21_rnc regression # Black-Friday
-# $CMD oml_dataset_22_rnc regression # Bike-Sharing
-# $CMD oml_dataset_23_rnc regression # House-Sales
-# $CMD oml_dataset_24_rnc regression # NYC
+$CMD oml_dataset_21_rnc regression # Black-Friday
+$CMD oml_dataset_22_rnc regression # Bike-Sharing
+$CMD oml_dataset_23_rnc regression # House-Sales
+$CMD oml_dataset_24_rnc regression # NYC
 # $CMD oml_dataset_25_rnc regression # Airlines-DepDelay
 
-# $CMD oml_dataset_33_rnc binary # Nomao
-# $CMD oml_dataset_34_rnc multiclass # Gas-Drift
-# $CMD oml_dataset_35_rnc multiclass # Volkert
+$CMD oml_dataset_33_rnc binary # Nomao
+$CMD oml_dataset_34_rnc multiclass # Gas-Drift
+$CMD oml_dataset_35_rnc multiclass # Volkert
 
 
 # $CMD Drug multiclass # Drug
@@ -170,7 +170,7 @@ CMD=./explocal/exp1_catalog/runExperiment1.sh
 # $CMD gen_dataset_52-out-0.06-np-0.8-nc-10-mv-0.4_rnc binary # br2000
 
 
-$CMD gen_dataset_53-out-0.02-np-0-nc-0-mv-0_rnc regression # NYC
+#$CMD gen_dataset_53-out-0.02-np-0-nc-0-mv-0_rnc regression # NYC
 # $CMD gen_dataset_53-out-0.04-np-0-nc-0-mv-0_rnc regression # NYC
 # $CMD gen_dataset_53-out-0.06-np-0-nc-0-mv-0_rnc regression # NYC
 # $CMD gen_dataset_53-out-0.08-np-0-nc-0-mv-0_rnc regression # NYC
@@ -210,17 +210,17 @@ $CMD gen_dataset_53-out-0.02-np-0-nc-0-mv-0_rnc regression # NYC
 # $CMD gen_dataset_53-out-0.04-np-1-nc-16-mv-0.5_rnc regression # NYC
 
 
-$CMD gen_dataset_53-out-0.005-np-0-nc-0-mv-0_rnc regression # NYC
-$CMD gen_dataset_53-out-0.01-np-0-nc-0-mv-0_rnc regression # NYC
-$CMD gen_dataset_53-out-0.025-np-0-nc-0-mv-0_rnc regression # NYC
-$CMD gen_dataset_53-out-0.03-np-0-nc-0-mv-0_rnc regression # NYC
-$CMD gen_dataset_53-out-0.035-np-0-nc-0-mv-0_rnc regression # NYC
+# $CMD gen_dataset_53-out-0.005-np-0-nc-0-mv-0_rnc regression # NYC
+# $CMD gen_dataset_53-out-0.01-np-0-nc-0-mv-0_rnc regression # NYC
+# $CMD gen_dataset_53-out-0.025-np-0-nc-0-mv-0_rnc regression # NYC
+# $CMD gen_dataset_53-out-0.03-np-0-nc-0-mv-0_rnc regression # NYC
+# $CMD gen_dataset_53-out-0.035-np-0-nc-0-mv-0_rnc regression # NYC
 
-$CMD gen_dataset_53-out-0.01-np-1-nc-16-mv-0.1_rnc regression # NYC
-$CMD gen_dataset_53-out-0.01-np-1-nc-16-mv-0.2_rnc regression # NYC
-$CMD gen_dataset_53-out-0.01-np-1-nc-16-mv-0.3_rnc regression # NYC
-$CMD gen_dataset_53-out-0.01-np-1-nc-16-mv-0.4_rnc regression # NYC
-$CMD gen_dataset_53-out-0.01-np-1-nc-16-mv-0.5_rnc regression # NYC
+# $CMD gen_dataset_53-out-0.01-np-1-nc-16-mv-0.1_rnc regression # NYC
+# $CMD gen_dataset_53-out-0.01-np-1-nc-16-mv-0.2_rnc regression # NYC
+# $CMD gen_dataset_53-out-0.01-np-1-nc-16-mv-0.3_rnc regression # NYC
+# $CMD gen_dataset_53-out-0.01-np-1-nc-16-mv-0.4_rnc regression # NYC
+# $CMD gen_dataset_53-out-0.01-np-1-nc-16-mv-0.5_rnc regression # NYC
 
 # $CMD gen_dataset_53-out-0.005-np-1-nc-16-mv-0.1_rnc regression # NYC
 # $CMD gen_dataset_53-out-0.025-np-1-nc-16-mv-0.1_rnc regression # NYC

@@ -1,5 +1,5 @@
 import pandas as pd
-from MergeResults import load_merge_all_results,load_results, get_top_k_binary, get_top_k_multiclass, get_top_k_regression, mergse_dfs, get_top_k_chain 
+from MergeResults import load_merge_all_results,load_results, get_top_k_binary, get_top_k_multiclass, get_top_k_regression, mergse_dfs, get_top_k_chain , dataset_corr
 
 
 if __name__ == '__main__':
@@ -21,7 +21,9 @@ if __name__ == '__main__':
                                      "CatDB","CatDBChain","CAAFETabPFN","CAAFERandomForest","CatDB_min",
                                      "CatDBChain_min","CAAFETabPFN_min","CAAFERandomForest_min",
                                      "CatDB_10_min","CatDBChain_10_min","CAAFETabPFN_10_min","CAAFERandomForest_10_min",
-                                     "dataset_load_time", "llm_model", "has_description", "task_type","task","samples"])    
+                                     "dataset_load_time", "llm_model", "has_description", "task_type","task","samples"])   
+
+    df_automl_exe = pd.DataFrame(columns = ["dataset_name","dataset_name_orig", "time","dataset_load_time", "llm_model"])    
    
 
     
@@ -163,7 +165,7 @@ if __name__ == '__main__':
                                         df_cost.at[cindex,"token_count_err_it1"] = int((df_ds_tmp.loc[0,'all_token_count'] - df_ds_tmp.loc[0, 'prompt_token_count']) * 0.8)
                                         df_cost.at[cindex,"error_count"] = df_ds_tmp.loc[0,'number_iteration_error']-1
 
-                                        tmp_time = df_ds['time_total'].mean()                                        
+                                        tmp_time = df_ds['time_execution'].mean()                                        
                                         prompt_exe[config] = f"{tmp_time:.2f}" 
                                         if tmp_time <= 10:
                                             tmp_time=10  
@@ -202,7 +204,7 @@ if __name__ == '__main__':
                                         df_cost.at[cindex,"pp_error_count"] = avg_pp_error
                                         df_cost.at[cindex,"fe_error_count"] = avg_fe_error
 
-                                        tmp_time = (df_ds['time_total']+df_ds['time_pipeline_generate']).mean()
+                                        tmp_time = (df_ds['time_execution']+df_ds['time_pipeline_generate']).mean()
                                         
                                         prompt_exe[config] = f"{tmp_time:.2f}"  
                                         if tmp_time <= 10:
@@ -235,14 +237,23 @@ if __name__ == '__main__':
                         else:
                             tsk = "regression"                  
 
-                        dataset_load_time = 10#df_csv_read.loc[df_csv_read['dataset']==ds]["time"].values[0] / 1000
+                        dataset_load_time = df_csv_read.loc[df_csv_read['dataset']==ds]["time"].values[0] / 1000
                         df_exe.loc[len(df_exe)] = [ ds, ds_title, prompt_exe["CatDB"], prompt_exe["CatDBChain"], prompt_exe["CAAFETabPFN"],prompt_exe["CAAFERandomForest"],
                                                     prompt_exe["CatDB_min"], prompt_exe["CatDBChain_min"], prompt_exe["CAAFETabPFN_min"],prompt_exe["CAAFERandomForest_min"],
                                                     prompt_exe["CatDB_10_min"], prompt_exe["CatDBChain_10_min"], prompt_exe["CAAFETabPFN_10_min"],prompt_exe["CAAFERandomForest_10_min"],
-                                                    dataset_load_time, llm, des, task_type, tsk, samples]      
+                                                    dataset_load_time, llm, des, task_type, tsk, samples]  
 
+                        #df_automl_exe = pd.DataFrame(columns = ["dataset_name","dataset_name_orig", "time","dataset_load_time", "llm_model"])
+                        ds_config_corr = dataset_corr[ds]
+                        if ds_config_corr == "CatDB":
+                            automl_time =   prompt_exe["CatDB"]
+                        else:
+                            automl_time =   prompt_exe["CatDBChain"]
+
+                        df_automl_exe.loc[len(df_automl_exe)] = [ds, ds_title, automl_time, dataset_load_time, llm ]
               
 
     df_sort.to_csv(f"{root_path}/AllResults.csv", index=False)
     df_cost.to_csv(f"{root_path}/CostResults.csv", index=False)
-    df_exe.to_csv(f"{root_path}/ExeResults.csv", index=False)           
+    df_exe.to_csv(f"{root_path}/ExeResults.csv", index=False)   
+    df_automl_exe.to_csv(f"{root_path}/AutoMLExeResults.csv", index=False)         

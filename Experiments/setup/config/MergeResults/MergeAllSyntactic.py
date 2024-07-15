@@ -63,11 +63,11 @@ if __name__ == '__main__':
     llms = ["gemini-1.5-pro-latest"] #["gemini-1.5-pro-latest","llama3-70b-8192", "gpt-4o"]
     configs = ["CatDB", "CatDBChain", "H2O", "Flaml", "Autogluon", "AutoSklearn"] 
     classifier = ["Auto", "TabPFN", "RandomForest"]  
-    df_etoe.loc[len(df_etoe)] = ["NYC", "CatDB", 0, 0, 0, 0.64831, "gemini-1.5-pro-latest", "No", "regression", "regression", 0] 
-    df_etoe.loc[len(df_etoe)] = ["NYC", "H2O", 0, 0, 0, 0, "gemini-1.5-pro-latest", "No", "regression", "regression", 0] 
-    df_etoe.loc[len(df_etoe)] = ["NYC", "Flaml", 0, 0, 0, 0.68552, "gemini-1.5-pro-latest", "No", "regression", "regression", 0] 
-    df_etoe.loc[len(df_etoe)] = ["NYC", "Autogluon", 0, 0, 0, 0.60574, "gemini-1.5-pro-latest", "No", "regression", "regression", 0] 
-    df_etoe.loc[len(df_etoe)] = ["NYC", "AutoSklearn", 0, 0, 0, 0.62394, "gemini-1.5-pro-latest", "No", "regression", "regression", 0]    
+    # df_etoe.loc[len(df_etoe)] = ["NYC", "CatDB", 0, 0, 0, 0.64831, "gemini-1.5-pro-latest", "No", "regression", "regression", 0] 
+    # df_etoe.loc[len(df_etoe)] = ["NYC", "H2O", 0, 0, 0, 0, "gemini-1.5-pro-latest", "No", "regression", "regression", 0] 
+    # df_etoe.loc[len(df_etoe)] = ["NYC", "Flaml", 0, 0, 0, 0.68552, "gemini-1.5-pro-latest", "No", "regression", "regression", 0] 
+    # df_etoe.loc[len(df_etoe)] = ["NYC", "Autogluon", 0, 0, 0, 0.60574, "gemini-1.5-pro-latest", "No", "regression", "regression", 0] 
+    # df_etoe.loc[len(df_etoe)] = ["NYC", "AutoSklearn", 0, 0, 0, 0.62394, "gemini-1.5-pro-latest", "No", "regression", "regression", 0]    
 
     for mvds, ds_dict in all_ds:
         for llm in llms:
@@ -111,8 +111,7 @@ if __name__ == '__main__':
                                
                         cindex = len(df_etoe)
                         
-                        if len(df_sort) == 0 :
-                            print("HHHHHHHHHHHHHHHHHH")
+                        if len(df_sort) == 0 :                            
                             continue
                         if ds_title in {"NYC"}:
                             res_metric = df_sort.iloc[0]["test_r_squared"]
@@ -128,7 +127,7 @@ if __name__ == '__main__':
                             task = "classification"
                         df_etoe.loc[cindex] = [ds_title, config, ds_dict["out"], ds_dict["mv"], ds_dict["nc"], res_metric, llm, "No", task_type, task, 0]    
                         
-                        tmp_time = (df_sort['time_total'] + df_sort['time_pipeline_generate']).mean()
+                        tmp_time = (df_sort['time_execution']).mean()
                         prompt_exe[config] = f"{tmp_time:.2f}"
 
 
@@ -138,7 +137,7 @@ if __name__ == '__main__':
                  task_type = "regression"
                  task = "regression"
             elif ds_dict["title"] == "Volkert":
-                 dataset_load_time = 58
+                 dataset_load_time = 2
                  task_type = "multiclass"
                  task = "classification"     
             else:

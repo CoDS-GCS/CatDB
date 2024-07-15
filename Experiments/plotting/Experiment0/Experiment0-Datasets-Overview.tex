@@ -37,9 +37,9 @@
     xtick pos=left,
     ytick pos=left,
     yticklabel style = {font=\normalsize},
-    ylabel style = {font=\normalsize, yshift=0pt, xshift=-2pt},
+    ylabel style = {font=\normalsize, yshift=-3pt, xshift=-2pt},
     xticklabel style = {font=\footnotesize, xshift=0pt, yshift=4pt, rotate=35, anchor=north east},
-    height=0.42\columnwidth,      
+    height=0.4\columnwidth,      
     ymajorgrids=true,
     grid style=dotted,   
     minor grid style={gray!50}, 
@@ -51,13 +51,13 @@
 \nextgroupplot[
   ymin=0,
   ymax=50,
-  xlabel style = {yshift=8pt, xshift=0pt},
-  xlabel={|Features| < 50},
+  %xlabel style = {yshift=8pt, xshift=0pt},
+  xlabel={},%{|Features| < 50},
   ytick={0,10,20,30,40,50},
   xtick = data,
   enlarge x limits=0.035,
   width=1\columnwidth,   
-  symbolic x coords={Skin,Diabetes,Tic-Tac-Toe,Breast-w,Credit-g,Higgs,Balance-Scale,Walking-Activity,Jungle-Chess,CMC,Traffic,Black-Friday,Bike-Sharing,NYC,House-Sales}
+  symbolic x coords={Skin,Diabetes,Tic-Tac-Toe,Breast-w,Credit-g,Balance-Scale,Walking-Activity,Jungle-Chess,CMC,Higgs,Traffic,Black-Friday,Bike-Sharing,NYC,House-Sales}
 ]
 \addplotStatistics{../archive/SIGMOD2025-Results/statistics/dataset_overview_small.dat}
 %
@@ -65,8 +65,8 @@
   ymin=0,
   ymax=200,
   enlarge x limits=0.23,
-  xlabel style = {yshift=-6pt, xshift=0pt},
-  xlabel={|Features| > 100},  
+  %xlabel style = {yshift=-6pt, xshift=0pt},
+  xlabel={},%{|Features| > 100},  
   xtick = data,
   width=0.35\columnwidth,   
   symbolic x coords={Nomao,Gas-Drift,Volkert,Black}

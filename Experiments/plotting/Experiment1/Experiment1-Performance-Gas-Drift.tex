@@ -49,7 +49,7 @@
 
 \begin{tikzpicture}[
   every axis/.style={
-  height=0.45\columnwidth,
+  height=0.35\columnwidth,
   width=1.1\columnwidth,  
   }]
  \begin{axis}[   
@@ -58,18 +58,18 @@
   axis line style={black},
   ybar,        
   ybar=0pt,
-  ymin=0,
+  ymin=0.4,
   ymax=1,
   log ticks with fixed point,
   y tick label style={/pgf/number format/1000 sep={}},
   x tick label style={/pgf/number format/1000 sep={}},
   scaled y ticks=false,
-  enlarge y limits={0.02,upper},
+  enlarge y limits={0.05,upper},
   enlarge x limits=0.005,
   ylabel={AUC-ovr $\%$},
   xlabel={},
-  ytick={0,0.2,0.4,0.6,0.8,1.0},
-  yticklabels={0, 20, 40, 60, 80, 100},
+  ytick={0.4,0.6,0.8,1.0},
+  yticklabels={40, 60, 80, 100},
   xtick style={draw=none},
   xtick pos=left,
   ytick pos=left,
@@ -139,13 +139,7 @@
 
 \end{axis}
 
-% \node [draw=none,inner sep=0, font=\normalsize, anchor=west] (leg1) at (rel axis cs: 0.25,1.22) {\shortstack[r]{
-%   GPT-4o ( \ref{gpt-4o_CatDB_train} Train \ref{gpt-4o_CatDB_test} Test) \\
-%   Gemini-1.5-pro ( \ref{gemini-1.5-pro-latest_CatDB_train} Train \ref{gemini-1.5-pro-latest_CatDB_test} Test) \\
-%   Llama3-70b-8192 ( \ref{llama3-70b-8192_CatDB_train} Train \ref{llama3-70b-8192_CatDB_test} Test)  
-%   }};
-
-\node [draw=none,inner sep=0, font=\normalsize, anchor=west] (leg1) at (rel axis cs: 0.08,1.20) {\shortstack[r]{
+\node [draw=none,inner sep=0, font=\normalsize, anchor=west] (leg1) at (rel axis cs: 0.08,1.26) {\shortstack[r]{
   Train (\ref{gpt-4o_CatDB_train} GPT-4o \ \ \ref{gemini-1.5-pro-latest_CatDB_train} Gemini-1.5 \ \ \ref{llama3-70b-8192_CatDB_train} Llama3-70b) \\
   Test (\ref{gpt-4o_CatDB_test} GPT-4o \ \ \ref{gemini-1.5-pro-latest_CatDB_test} Gemini-1.5 \ \ \ref{llama3-70b-8192_CatDB_test} Llama3-70b)  
 }};

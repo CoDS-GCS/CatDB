@@ -15,7 +15,8 @@ if __name__ == '__main__':
     #                 f"{root_path}/Experiment1_LLM_Pipe_Gen_CatDB_16.dat",
     #                 f"{root_path}/Experiment3_AutoML_CatDB_113.dat",]   
 
-    results_path = [f"{root_path}/Experiment1_LLM_Pipe_Gen_CatDB.dat"]  
+    results_path = [f"{root_path}/Experiment1_LLM_Pipe_Gen_CatDB.dat",
+                    f"{root_path}/Experiment1_LLM_Pipe_Gen_CatDBChain.dat"]  
 
     columns = ["dataset_name", "config", "sub_task", "llm_model", "classifier", "task_type", "status",
                 "number_iteration","number_iteration_error", "has_description", "time_catalog_load", "time_pipeline_generate",
@@ -32,11 +33,9 @@ if __name__ == '__main__':
 
     df_sort = pd.DataFrame(columns = df_pip_gen.columns)    
 
-    df_etoe = pd.DataFrame(columns = ["dataset_name","Config","OUT","MV","NC","Result","llm_model", "has_description", "task_type","task","samples"])
-    
-    df_exe = pd.DataFrame(columns = ["dataset_name","dataset_name_orig", "CatDB","CatDBChain","dataset_load_time", "llm_model", "has_description", "task_type","task","samples"])    
-   
-
+    df_etoe = pd.DataFrame(columns = ["dataset_name","Config","OUT","MV","NC","Result","llm_model", "has_description", "task_type","task","samples"])    
+    df_automl_exe = pd.DataFrame(columns = ["dataset_name","dataset_name_orig", "time","dataset_load_time", "llm_model"])    
+    df_csv_read = load_results(f"{root_path}/Experiment1_CSVDataReader.dat")
     
     datasetIDs = [("Adult","gen_dataset_50","binary",1),
                   ("Bank","gen_dataset_51","binary",2),
@@ -63,11 +62,11 @@ if __name__ == '__main__':
     llms = ["gemini-1.5-pro-latest"] #["gemini-1.5-pro-latest","llama3-70b-8192", "gpt-4o"]
     configs = ["CatDB", "CatDBChain", "H2O", "Flaml", "Autogluon", "AutoSklearn"] 
     classifier = ["Auto", "TabPFN", "RandomForest"]  
-    # df_etoe.loc[len(df_etoe)] = ["NYC", "CatDB", 0, 0, 0, 0.64831, "gemini-1.5-pro-latest", "No", "regression", "regression", 0] 
-    # df_etoe.loc[len(df_etoe)] = ["NYC", "H2O", 0, 0, 0, 0, "gemini-1.5-pro-latest", "No", "regression", "regression", 0] 
-    # df_etoe.loc[len(df_etoe)] = ["NYC", "Flaml", 0, 0, 0, 0.68552, "gemini-1.5-pro-latest", "No", "regression", "regression", 0] 
-    # df_etoe.loc[len(df_etoe)] = ["NYC", "Autogluon", 0, 0, 0, 0.60574, "gemini-1.5-pro-latest", "No", "regression", "regression", 0] 
-    # df_etoe.loc[len(df_etoe)] = ["NYC", "AutoSklearn", 0, 0, 0, 0.62394, "gemini-1.5-pro-latest", "No", "regression", "regression", 0]    
+    df_etoe.loc[len(df_etoe)] = ["NYC", "CatDB", 0, 0, 0, 0.64831, "gemini-1.5-pro-latest", "No", "regression", "regression", 0] 
+    df_etoe.loc[len(df_etoe)] = ["NYC", "H2O", 0, 0, 0, 0, "gemini-1.5-pro-latest", "No", "regression", "regression", 0] 
+    df_etoe.loc[len(df_etoe)] = ["NYC", "Flaml", 0, 0, 0, 0.68552, "gemini-1.5-pro-latest", "No", "regression", "regression", 0] 
+    df_etoe.loc[len(df_etoe)] = ["NYC", "Autogluon", 0, 0, 0, 0.60574, "gemini-1.5-pro-latest", "No", "regression", "regression", 0] 
+    df_etoe.loc[len(df_etoe)] = ["NYC", "AutoSklearn", 0, 0, 0, 0.62394, "gemini-1.5-pro-latest", "No", "regression", "regression", 0]    
 
     for mvds, ds_dict in all_ds:
         for llm in llms:
@@ -113,10 +112,12 @@ if __name__ == '__main__':
                         
                         if len(df_sort) == 0 :                            
                             continue
+
                         if ds_title in {"NYC"}:
                             res_metric = df_sort.iloc[0]["test_r_squared"]
                             task_type = "regression"
                             task = "regression"
+
                         elif ds_title in {"Volkert"}:
                             res_metric = df_sort.iloc[0]["test_auc_ovr"]
                             task_type = "multiclass"
@@ -131,22 +132,31 @@ if __name__ == '__main__':
                         prompt_exe[config] = f"{tmp_time:.2f}"
 
 
-            
+            # dataset_load_time = df_csv_read.loc[df_csv_read['dataset']==mvds]["time"].values[0] / 1000
+            ds_corr = None
             if ds_dict["title"] == "NYC":
-                 dataset_load_time = 40
                  task_type = "regression"
                  task = "regression"
+                 ds_corr = "CatDB"
+                 dataset_load_time = 1.7
             elif ds_dict["title"] == "Volkert":
-                 dataset_load_time = 2
                  task_type = "multiclass"
-                 task = "classification"     
+                 task = "classification"
+                 ds_corr = "CatDBChain"   
+                 dataset_load_time = 2.5  
             else:
-                dataset_load_time = 1
                 task_type = "binary"
-                task = "classification"      
-            df_exe.loc[len(df_exe)] = [ mvds, ds_dict["title"], prompt_exe["CatDB"], prompt_exe["CatDBChain"], dataset_load_time, llm, "No", task_type, task, 0]
+                task = "classification"
+                dataset_load_time = 0
+            
+            automl_exe_time = 0
+            if ds_corr == "CatDB":
+                automl_exe_time = prompt_exe["CatDB"]
+            else:
+                automl_exe_time = prompt_exe["CatDBChain"]    
 
+            df_automl_exe.loc[len(df_automl_exe)] = [mvds, ds_dict["title"], automl_exe_time, dataset_load_time, llm ]
 
     df_etoe = df_etoe.sort_values(by=['OUT','MV'], ascending=True).reset_index(drop=True)    
     df_etoe.to_csv(f"{root_path}/EtoEResults.csv", index=False)
-    df_exe.to_csv(f"{root_path}/EtoEExeResults.csv", index=False)
+    df_automl_exe.to_csv(f"{root_path}/EtoEAutoMLExeResults.csv", index=False)

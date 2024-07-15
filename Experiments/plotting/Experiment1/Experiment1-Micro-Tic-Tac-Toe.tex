@@ -89,7 +89,7 @@
   yticklabel style = {font=\normalsize},
   ylabel style = {font=\normalsize, yshift=-3pt, xshift=-3pt},
   height=.5\columnwidth,
-  width=0.77\columnwidth,
+  width=0.9\columnwidth,
   ymajorgrids=true,
   grid style=dotted,
   minor grid style={gray!70},
@@ -111,10 +111,9 @@
 
 \end{axis}
 
-\node [draw=none,inner sep=0, font=\normalsize, anchor=west] (leg1) at (rel axis cs: 0.07,0.80) {\shortstack[l]{
-  \ref{SDVC} Schema+Unique Count \ \ \ref{S} Schema \\ 
-  \ref{SCV} Schema+Categorical Values \\
-  \ref{CatDBChain} CatDB Chain
+\node [draw=none,inner sep=0, font=\normalsize, anchor=west] (leg1) at (rel axis cs: 0.07,0.83) {\shortstack[l]{
+  \ref{SDVC} Schema+Unique Count \hspace{0.5cm} \ref{S} Schema \\ 
+  \ref{SCV} Schema+Categorical Values  \ref{CatDBChain} CatDB Chain
   }};
 
 \end{tikzpicture}

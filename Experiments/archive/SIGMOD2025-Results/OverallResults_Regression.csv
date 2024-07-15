@@ -1,7 +1,7 @@
 dataset_name,llm_model,CatDB,CatDBChain,max_other
-Black-Friday,gpt-4o,52.72,52.77,54.51
-Black-Friday,gemini-1.5-pro-latest,52.73,52.7,54.21
-Black-Friday,llama3-70b-8192,52.71,52.73,54.57
+Black-Friday,gpt-4o,52.72,52.77,54.59
+Black-Friday,gemini-1.5-pro-latest,52.73,52.7,53.58
+Black-Friday,llama3-70b-8192,52.71,52.73,53.13
 Bike-Sharing,gpt-4o,90.62,99.99,94.72
 Bike-Sharing,gemini-1.5-pro-latest,92.99,91.05,93.82
 Bike-Sharing,llama3-70b-8192,90.98,91.03,94.32

@@ -1,5 +1,5 @@
 import pandas as pd
-from MergeResults import load_merge_all_results, get_top_k_binary, get_top_k_multiclass, replace_comma, mergse_dfs
+from MergeResults import load_merge_all_results, get_top_k_binary, get_top_k_multiclass, replace_comma, mergse_dfs, dataset_corr
 
 
 if __name__ == '__main__':
@@ -180,18 +180,63 @@ if __name__ == '__main__':
                 tbl_line = "\\chline"
             df_micro.at[cindex,"llm_model"] = "& "+llms_shorname[llm]
             for k in tbl_data.keys():
+                htext = ""
+                corr_config = dataset_corr[ds]
+
+               
+                if (corr_config in {"CatDB"} and k in {"CatDB_train_auc", "CatDB_test_auc"}) or (corr_config in {"CatDBChain"} and k in {"CatDBChain_train_auc", "CatDBChain_test_auc"}):
+                        htext="\\cellcolor{lightgray!50}"        
+
                 if tbl_data[k] is None:
                     df_micro.at[cindex,k] = "& N/A"   
                 elif "test" in k and tbl_data[k] >= max_test:
-                    df_micro.at[cindex,k] = "& \\textbf{"+f"{tbl_data[k]/100}"+"}"
+                    df_micro.at[cindex,k] = "&"+htext+"\\textbf{"+f"{tbl_data[k]/100}"+"}"
                     wins[llm][k] +=1
                 elif "train" in k and tbl_data[k] >= max_train:
-                    df_micro.at[cindex,k] = "& \\textbf{"+f"{tbl_data[k]/100}"+"}"
+                    df_micro.at[cindex,k] = "& "+htext+" \\textbf{"+f"{tbl_data[k]/100}"+"}"
                     wins[llm][k] +=1  
                 elif tbl_data[k] == 0:
-                     df_micro.at[cindex,k] = "& --" 
+                    if ds_title in {"Skin", "Higgs", "Walking-Activity", "Traffic", "Volkert"} and k in {"CAAFETabPFN_train_auc", "CAAFETabPFN_test_auc"}:
+                        if llm=="gemini-1.5-pro-latest":
+                            if k == "CAAFETabPFN_train_auc":
+                                df_micro.at[cindex,k] = "& \multicolumn{2}{c|}{Out of Mem.}"
+                            else:
+                                df_micro.at[cindex,k] = ""    
+                        else:
+                           df_micro.at[cindex,k] = "&" 
+
+                    elif ds_title in {"Higgs", "CMC", "Traffic"} and k in {"AutoSklearn_train_auc","AutoSklearn_test_auc"}:
+                            if llm=="gemini-1.5-pro-latest":    
+                                if k == "AutoSklearn_train_auc":                                
+                                    df_micro.at[cindex,k] = "& \multicolumn{2}{c|}{Out of Mem.}"
+                                else:
+                                  df_micro.at[cindex,k] = ""     
+                            else:
+                             df_micro.at[cindex,k] = "&"
+
+                    elif ds_title in {"Diabetes", "Tic-Tac-Toe", "Breast-w", "Credit-g", "Balance-Scale", "Jungle-Chess"} and k in {"AutoSklearn_train_auc","AutoSklearn_test_auc"}:
+                            if llm=="gemini-1.5-pro-latest":    
+                                if k == "AutoSklearn_train_auc":                                
+                                    df_micro.at[cindex,k] = "& \multicolumn{2}{c|}{Out of Time}"
+                                else:
+                                  df_micro.at[cindex,k] = ""     
+                            else:
+                             df_micro.at[cindex,k] = "&"  
+
+                    elif ds_title in {"Tic-Tac-Toe"} and k in {"H2O_train_auc","H2O_test_auc"}:
+                            if llm=="gemini-1.5-pro-latest":    
+                                if k == "H2O_train_auc":                                
+                                    df_micro.at[cindex,k] = "& \multicolumn{2}{c|}{Out of Time}"
+                                else:
+                                  df_micro.at[cindex,k] = ""     
+                            else:
+                             df_micro.at[cindex,k] = "&"                              
+                    elif "train_auc" in k:       
+                      df_micro.at[cindex,k] = "& \multicolumn{2}{c|}{Out of Time}"
+                    else:
+                       df_micro.at[cindex,k] = ""     
                 else:
-                    df_micro.at[cindex,k] = f"& {tbl_data[k]/100}"
+                    df_micro.at[cindex,k] = f"& {htext} {tbl_data[k]/100}"
 
                 if tbl_data[k] is  not None:   
                  if "test" in k and tbl_data[k]+4 >= max_test:
@@ -201,8 +246,11 @@ if __name__ == '__main__':
             
             if tbl_data["CatDB_test_auc"] > 0: 
                 catdb_value =(tbl_data["CatDB_test_auc"]-max_other)/100
+
+                if -1< catdb_value <1:
+                    catdb_value_str = f"\char`\~\ 0"
                 
-                if catdb_value < 0:
+                elif catdb_value < 0:
                     catdb_value_str = f"${catdb_value}$"
                 elif catdb_value> 0:
                     catdb_value_str = f"$+{catdb_value}$"
@@ -213,9 +261,12 @@ if __name__ == '__main__':
 
 
             if tbl_data["CatDBChain_test_auc"] > 0:     
-                catdb_chain_value = (tbl_data["CatDBChain_test_auc"]-max_other) / 100            
+                catdb_chain_value = (tbl_data["CatDBChain_test_auc"]-max_other) / 100   
 
-                if catdb_chain_value < 0:
+                if -1< catdb_chain_value <1:
+                    catdb_chain_value_str = f"\char`\~\ 0"         
+
+                elif catdb_chain_value < 0:
                     catdb_chain_value_str = f"${catdb_chain_value}$"
                 elif catdb_chain_value > 0:
                     catdb_chain_value_str = f"$+{catdb_chain_value}$"
@@ -247,24 +298,8 @@ if __name__ == '__main__':
             df_micro.at[cindex,k] = f"& {wins[llm][k]}"
 
         df_micro.at[cindex,"CatDB_test_auc_diff"] = "& "
-        df_micro.at[cindex,"CatDBChain_test_auc_diff"] = "& \\\\"
-    
-    # for llm in llms:
-    #     cindex = len(df_micro)
-    #     df_micro.loc[cindex] = [None for ti in micor_tbl_cols]
-
-    #     if llm == "gemini-1.5-pro-latest":
-    #          df_micro.at[cindex,"dataset_name"] = "Leader"      
-    #     else:
-    #         df_micro.at[cindex,"dataset_name"] = "Board 2" 
-
-    #     df_micro.at[cindex,"llm_model"] = "& "+llms_shorname[llm]
-    #     for k in tbl_data.keys():
-    #         df_micro.at[cindex,k] = f"& {wins2[llm][k]}"
-
-    #     df_micro.at[cindex,"CatDB_test_auc_diff"] = "& "
-    #     df_micro.at[cindex,"CatDBChain_test_auc_diff"] = "& \\\\"
-    
+        df_micro.at[cindex,"CatDBChain_test_auc_diff"] = "& \\\\"    
+   
 
     fname = f"{root_path}/tbl_micro_classification.txt"
     df_micro.to_csv(fname, index=False, header=None)

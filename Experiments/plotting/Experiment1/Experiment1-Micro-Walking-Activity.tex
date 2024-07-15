@@ -82,7 +82,7 @@
   x tick label style={/pgf/number format/1000 sep={}},  
   scaled y ticks=false,
   axis line style={black, line width=0.3pt},
-  enlarge y limits={0.54,upper},
+  enlarge y limits={0.67,upper},
   enlarge x limits=0.07,
   ylabel={Test AUC-ovr $\%$},
   xlabel={},
@@ -92,7 +92,7 @@
   ytick pos=left,
   yticklabel style = {font=\normalsize},
   ylabel style = {font=\normalsize, yshift=-3pt, xshift=-3pt},
-  height=.6\columnwidth,
+  height=.5\columnwidth,
   width=1.27\columnwidth,
   ymajorgrids=true,
   grid style=dotted,
@@ -114,7 +114,7 @@
 \myaddplotdsg{gemini-1.5-pro-latest}{Walking-Activity}{-4pt}{4pt}{12pt}{20pt}{28pt}{36pt}
 \end{axis}
 
-\node [draw=none,inner sep=0, font=\normalsize, anchor=west] (leg1) at (rel axis cs: 0.07,0.83) {\shortstack[l]{
+\node [draw=none,inner sep=0, font=\normalsize, anchor=west] (leg1) at (rel axis cs: 0.07,0.79) {\shortstack[l]{
   \ref{S} Schema \hspace{3.5cm}  \ref{SDVC} Schema+Unique Count\\
   \ref{SSN} Schema+Statistical Numbers  \hspace{0.8cm} \ref{SCV} Schema+Categorical Values\\
   \ref{SDVCSN}  Schema+Unique Count+Statistical Numbers \ \ \ \ \ref{CatDBChain} CatDB Chain

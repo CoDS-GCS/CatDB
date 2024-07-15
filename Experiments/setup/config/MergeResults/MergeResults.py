@@ -4,6 +4,8 @@ import pandas as pd
 import numpy as np
 import csv
 
+dataset_corr = {"oml_dataset_12_rnc":"CatDB", "oml_dataset_5_rnc":"CatDBChain","oml_dataset_6_rnc":"CatDB","oml_dataset_2_rnc":"CatDB","oml_dataset_4_rnc":"CatDB","oml_dataset_33_rnc":"CatDBChain","oml_dataset_1_rnc":"CatDBChain","oml_dataset_20_rnc":"CatDBChain","oml_dataset_10_rnc":"CatDB","oml_dataset_3_rnc":"CatDBChain","oml_dataset_11_rnc":"CatDB","oml_dataset_19_rnc":"CatDBChain","oml_dataset_34_rnc":"CatDBChain","oml_dataset_35_rnc":"CatDBChain","oml_dataset_21_rnc":"CatDB","oml_dataset_22_rnc":"CatDBChain","oml_dataset_24_rnc":"CatDBChain","oml_dataset_23_rnc":"CatDBChain"}
+
 def load_results(path):
     df = pd.read_csv(path, low_memory=False, encoding='utf-8')
     if "number_of_samples" not in df.columns:
@@ -56,15 +58,13 @@ def load_merge_all_results(root_path):
                     f"{root_path}/server-113/CatDB-gpt-4o/Experiment1_LLM_Pipe_Gen_CatDBChain.dat",
                     f"{root_path}/server-113/CatDB-gemini-1.5/Experiment1_LLM_Pipe_Gen_CatDB.dat",
                     f"{root_path}/server-113/CatDB-gemini-1.5/Experiment1_LLM_Pipe_Gen_CatDB_NP.dat",
-                    f"{root_path}/server-113/AutoML/Experiment3_AutoML_CatDBChain.dat",
-                    f"{root_path}/server-113/CAAFE/Experiment1_LLM_CAAFE.dat",####
-                    f"{root_path}/server-16/AutoML-2/Experiment3_AutoML_CatDBChain.dat", 
-                    f"{root_path}/server-35/AutoML/Experiment3_AutoML_CatDBChain.dat",  ### NEW Datasets  
+                    f"{root_path}/server-113/CatDB-gemini-1.5/Experiment1_LLM_Pipe_Gen_CatDBChain_NP2.dat",
+                    f"{root_path}/server-113/CatDB-gemini-1.5/Experiment1_LLM_Pipe_Gen_CatDBChain_NP3.dat",
+                    f"{root_path}/server-113/CAAFE/Experiment1_LLM_CAAFE.dat",
                     f"{root_path}/server-16/New_DS/Experiment1_LLM_Pipe_Gen_CatDB.dat",
                     f"{root_path}/server-16/New_DS/Experiment1_LLM_Pipe_Gen_CatDBChain.dat",
                     f"{root_path}/server-113/New_DS/Experiment1_LLM_Pipe_Gen_CatDB.dat",
                     f"{root_path}/server-113/New_DS/Experiment1_LLM_Pipe_Gen_CatDBChain.dat",
-                    f"{root_path}/server-113/New_DS/Experiment3_AutoML_CatDBChain.dat",
                     f"{root_path}/server-35/New_DS/Experiment1_LLM_CAAFE.dat",
                     f"{root_path}/server-35/New_DS/Experiment1_LLM_CAAFE_Extra.dat",                      
                     ] 
@@ -75,7 +75,53 @@ def load_merge_all_results(root_path):
         df_tmp = load_results(rp)    
         df_merge = merge_raw_data(df_result=df_merge, df_tmp=df_tmp)
 
+    df_merge = merge_raw_data(df_tmp=load_merge_AutoML_results(root_path=root_path), df_result=df_merge)
     return df_merge
+
+def load_merge_AutoML_results(root_path):
+    columns = ["dataset_name", "config", "sub_task", "llm_model", "classifier", "task_type", "status",
+                "number_iteration","number_iteration_error", "has_description", "time_catalog_load", "time_pipeline_generate",
+                "time_total", "time_execution", "train_auc","train_auc_ovo","train_auc_ovr", "train_accuracy",
+                "train_f1_score", "train_log_loss", "train_r_squared", "train_rmse", "test_auc","test_auc_ovo",
+                "test_auc_ovr", "test_accuracy", "test_f1_score", "test_log_loss", "test_r_squared", "test_rmse",
+                "prompt_token_count","all_token_count", "operation","number_of_samples"]
+
+    results_path_CatDB = [f"{root_path}/server-113/AutoML/Experiment3_AutoML_CatDB.dat",  
+                    f"{root_path}/server-113/New_DS/Experiment3_AutoML_CatDB.dat"  ,                  
+                    f"{root_path}/server-16/AutoML-2/Experiment3_AutoML_CatDB.dat", 
+                    f"{root_path}/server-35/AutoML/Experiment3_AutoML_CatDB.dat"] 
+    
+    results_path_CatDBChain = [f"{root_path}/server-113/AutoML/Experiment3_AutoML_CatDBChain.dat",  
+                    f"{root_path}/server-113/New_DS/Experiment3_AutoML_CatDBChain.dat",
+                    f"{root_path}/server-113/New_DS/Experiment3_AutoML_CatDBChain_2.dat",                    
+                    f"{root_path}/server-16/AutoML-2/Experiment3_AutoML_CatDBChain.dat", 
+                    f"{root_path}/server-35/AutoML/Experiment3_AutoML_CatDBChain.dat"]    
+
+    
+    df_merge_CatDB = pd.DataFrame(columns = columns)
+    df_merge_CatDBChain = pd.DataFrame(columns = columns)
+    df_merge = pd.DataFrame(columns = columns)
+    
+    for rp in results_path_CatDB:
+        df_tmp = load_results(rp)    
+        df_merge_CatDB = merge_raw_data(df_result=df_merge_CatDB, df_tmp=df_tmp)
+
+    for rp in results_path_CatDBChain:
+        df_tmp = load_results(rp)    
+        df_merge_CatDBChain = merge_raw_data(df_result=df_merge_CatDBChain, df_tmp=df_tmp)    
+
+    for ds in dataset_corr.keys():
+        data_corr = dataset_corr[ds]
+        if data_corr == "CatDB":
+            df_pip_gen = df_merge_CatDB
+        else:
+            df_pip_gen = df_merge_CatDBChain    
+
+        df_tmp = df_pip_gen.loc[(df_pip_gen['dataset_name'] == ds)]
+        df_merge = merge_raw_data(df_result=df_merge, df_tmp=df_tmp)
+
+    return df_merge
+
 
 def load_merde_AUTO_results(root_path, df):   
 

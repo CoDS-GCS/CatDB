@@ -1,5 +1,5 @@
 import pandas as pd
-from MergeResults import load_merge_all_results, get_top_k_regression, replace_comma
+from MergeResults import load_merge_all_results, get_top_k_regression, replace_comma, dataset_corr
 
 
 if __name__ == '__main__':
@@ -129,28 +129,50 @@ if __name__ == '__main__':
                 
             df_micro.at[cindex,"llm_model"] = "& "+llms_shorname[llm]
             for k in tbl_data.keys():
+                htext = ""
+                corr_config = dataset_corr[ds]               
+                if (corr_config in {"CatDB"} and k in {"CatDB_train_r_squared", "CatDB_test_r_squared"}) or (corr_config in {"CatDBChain"} and k in {"CatDBChain_train_r_squared", "CatDBChain_test_r_squared"}):
+                        htext="\\cellcolor{lightgray!50}" 
+
                 if tbl_data[k] is None:
                     df_micro.at[cindex,k] = "& N/A"   
                 elif "test" in k and tbl_data[k] >= max_test:
-                    df_micro.at[cindex,k] = "& \\textbf{"+f"{tbl_data[k]/100}"+"}"
+                    df_micro.at[cindex,k] = "&"+htext+" \\textbf{"+f"{tbl_data[k]/100}"+"}"
                     wins[llm][k] +=1
                 elif "train" in k and tbl_data[k] >= max_train:
-                    df_micro.at[cindex,k] = "& \\textbf{"+f"{tbl_data[k]/100}"+"}"
+                    df_micro.at[cindex,k] = "&"+htext+" \\textbf{"+f"{tbl_data[k]/100}"+"}"
                     wins[llm][k] +=1  
                 elif tbl_data[k] == 0:
-                     df_micro.at[cindex,k] = "& --" 
+                    if ds_title in {"House-Sales"} and k in {"AutoSklearn_test_r_squared","AutoSklearn_train_r_squared"}:
+                            if llm=="gemini-1.5-pro-latest":    
+                                if k == "AutoSklearn_train_r_squared":                                
+                                    df_micro.at[cindex,k] = "& \multicolumn{2}{c|}{Out of Time}"
+                                else:
+                                  df_micro.at[cindex,k] = ""     
+                            else:
+                             df_micro.at[cindex,k] = "&"  
+                    elif "train_r_squared" in k:       
+                      df_micro.at[cindex,k] = "& \multicolumn{2}{c|}{Out of Time}"
+                    else:
+                       df_micro.at[cindex,k] = "" 
                 else:
-                    df_micro.at[cindex,k] = f"& {tbl_data[k]/100}"
+                    df_micro.at[cindex,k] = f"& {htext} {tbl_data[k]/100}"
             
             catdb_value =(tbl_data["CatDB_test_r_squared"]-max_other)/100
             catdb_chain_value = (tbl_data["CatDBChain_test_r_squared"]-max_other) / 100
             
-            if catdb_value <0:
+            if -1< catdb_value <1:
+                    catdb_value_str = f"\char`\~\ 0"
+
+            elif catdb_value <0:
                 catdb_value_str = f"${catdb_value}$"
             else:
                catdb_value_str = f"$+{catdb_value}$"
 
-            if catdb_chain_value <0:
+            if -1< catdb_chain_value <1:
+                    catdb_chain_value_str = f"\char`\~\ 0"  
+
+            elif catdb_chain_value <0:
                 catdb_chain_value_str = f"${catdb_chain_value}$"
             else:
                 catdb_chain_value_str = f"$+{catdb_chain_value}$"

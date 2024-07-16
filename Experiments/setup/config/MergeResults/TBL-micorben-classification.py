@@ -196,45 +196,46 @@ if __name__ == '__main__':
                     df_micro.at[cindex,k] = "& "+htext+" \\textbf{"+f"{tbl_data[k]/100}"+"}"
                     wins[llm][k] +=1  
                 elif tbl_data[k] == 0:
-                    if ds_title in {"Skin", "Higgs", "Walking-Activity", "Traffic", "Volkert"} and k in {"CAAFETabPFN_train_auc", "CAAFETabPFN_test_auc"}:
-                        if llm=="gemini-1.5-pro-latest":
-                            if k == "CAAFETabPFN_train_auc":
-                                df_micro.at[cindex,k] = "& \multicolumn{2}{c|}{Out of Mem.}"
-                            else:
-                                df_micro.at[cindex,k] = ""    
-                        else:
-                           df_micro.at[cindex,k] = "&" 
+                    # if ds_title in {"Skin", "Higgs", "Walking-Activity", "Traffic", "Volkert"} and k in {"CAAFETabPFN_train_auc", "CAAFETabPFN_test_auc"}:
+                    #     if llm=="gemini-1.5-pro-latest":
+                    #         if k == "CAAFETabPFN_train_auc":
+                    #             df_micro.at[cindex,k] = "& \multicolumn{2}{c|}{Out of Mem.}"
+                    #         else:
+                    #             df_micro.at[cindex,k] = ""    
+                    #     else:
+                    #        df_micro.at[cindex,k] = "&" 
 
-                    elif ds_title in {"Higgs", "CMC", "Traffic"} and k in {"AutoSklearn_train_auc","AutoSklearn_test_auc"}:
-                            if llm=="gemini-1.5-pro-latest":    
-                                if k == "AutoSklearn_train_auc":                                
-                                    df_micro.at[cindex,k] = "& \multicolumn{2}{c|}{Out of Mem.}"
-                                else:
-                                  df_micro.at[cindex,k] = ""     
-                            else:
-                             df_micro.at[cindex,k] = "&"
+                    # elif ds_title in {"Higgs", "CMC", "Traffic"} and k in {"AutoSklearn_train_auc","AutoSklearn_test_auc"}:
+                    #         if llm=="gemini-1.5-pro-latest":    
+                    #             if k == "AutoSklearn_train_auc":                                
+                    #                 df_micro.at[cindex,k] = "& \multicolumn{2}{c|}{Out of Mem.}"
+                    #             else:
+                    #               df_micro.at[cindex,k] = ""     
+                    #         else:
+                    #          df_micro.at[cindex,k] = "&"
 
-                    elif ds_title in {"Diabetes", "Tic-Tac-Toe", "Breast-w", "Credit-g", "Balance-Scale", "Jungle-Chess"} and k in {"AutoSklearn_train_auc","AutoSklearn_test_auc"}:
-                            if llm=="gemini-1.5-pro-latest":    
-                                if k == "AutoSklearn_train_auc":                                
-                                    df_micro.at[cindex,k] = "& \multicolumn{2}{c|}{Out of Time}"
-                                else:
-                                  df_micro.at[cindex,k] = ""     
-                            else:
-                             df_micro.at[cindex,k] = "&"  
+                    # elif ds_title in {"Diabetes", "Tic-Tac-Toe", "Breast-w", "Credit-g", "Balance-Scale", "Jungle-Chess"} and k in {"AutoSklearn_train_auc","AutoSklearn_test_auc"}:
+                    #         if llm=="gemini-1.5-pro-latest":    
+                    #             if k == "AutoSklearn_train_auc":                                
+                    #                 df_micro.at[cindex,k] = "& \multicolumn{2}{c|}{Out of Time}"
+                    #             else:
+                    #               df_micro.at[cindex,k] = ""     
+                    #         else:
+                    #          df_micro.at[cindex,k] = "&"  
 
-                    elif ds_title in {"Tic-Tac-Toe"} and k in {"H2O_train_auc","H2O_test_auc"}:
-                            if llm=="gemini-1.5-pro-latest":    
-                                if k == "H2O_train_auc":                                
-                                    df_micro.at[cindex,k] = "& \multicolumn{2}{c|}{Out of Time}"
-                                else:
-                                  df_micro.at[cindex,k] = ""     
-                            else:
-                             df_micro.at[cindex,k] = "&"                              
-                    elif "train_auc" in k:       
-                      df_micro.at[cindex,k] = "& \multicolumn{2}{c|}{Out of Time}"
-                    else:
-                       df_micro.at[cindex,k] = ""     
+                    # elif ds_title in {"Tic-Tac-Toe"} and k in {"H2O_train_auc","H2O_test_auc"}:
+                    #         if llm=="gemini-1.5-pro-latest":    
+                    #             if k == "H2O_train_auc":                                
+                    #                 df_micro.at[cindex,k] = "& \multicolumn{2}{c|}{Out of Time}"
+                    #             else:
+                    #               df_micro.at[cindex,k] = ""     
+                    #         else:
+                    #          df_micro.at[cindex,k] = "&"                              
+                    # elif "train_auc" in k:       
+                    #   df_micro.at[cindex,k] = "& \multicolumn{2}{c|}{Out of Time}"
+                    # else:
+                    #    df_micro.at[cindex,k] = ""   
+                    df_micro.at[cindex,k] = "&--"  
                 else:
                     df_micro.at[cindex,k] = f"& {htext} {tbl_data[k]/100}"
 

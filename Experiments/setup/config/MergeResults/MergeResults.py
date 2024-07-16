@@ -53,6 +53,7 @@ def load_merge_all_results(root_path):
                     f"{root_path}/server-113/CatDB-llama3/Experiment1_LLM_Pipe_Gen_CatDBChain.dat",
                     f"{root_path}/server-113/CatDB-llama3/Experiment1_LLM_Pipe_Gen_CatDBChain-part2.dat", 
                     f"{root_path}/server-113/CatDB-llama3/Experiment1_LLM_Pipe_Gen_CatDBChain_part3.dat", 
+                    f"{root_path}/server-113/CatDB-llama3/Experiment1_LLM_Pipe_Gen_CatDBChain_part4.dat", 
                     f"{root_path}/server-113/CatDB-llama3/Experiment1_LLM_Pipe_Gen_CatDB_part3.dat",
                     f"{root_path}/server-113/CatDB-llama3/Experiment1_LLM_Pipe_Gen_CatDB_tmp1.dat",
                     f"{root_path}/server-113/CatDB-gpt-4o/Experiment1_LLM_Pipe_Gen_CatDBChain.dat",
@@ -66,7 +67,8 @@ def load_merge_all_results(root_path):
                     f"{root_path}/server-113/New_DS/Experiment1_LLM_Pipe_Gen_CatDB.dat",
                     f"{root_path}/server-113/New_DS/Experiment1_LLM_Pipe_Gen_CatDBChain.dat",
                     f"{root_path}/server-35/New_DS/Experiment1_LLM_CAAFE.dat",
-                    f"{root_path}/server-35/New_DS/Experiment1_LLM_CAAFE_Extra.dat",                      
+                    f"{root_path}/server-35/New_DS/Experiment1_LLM_CAAFE_Extra.dat", 
+                    f"{root_path}/server-35/AutoML/Experiment3_AutoML.dat",                      
                     ] 
     
     df_merge = pd.DataFrame(columns = columns)
@@ -75,7 +77,7 @@ def load_merge_all_results(root_path):
         df_tmp = load_results(rp)    
         df_merge = merge_raw_data(df_result=df_merge, df_tmp=df_tmp)
 
-    df_merge = merge_raw_data(df_tmp=load_merge_AutoML_results(root_path=root_path), df_result=df_merge)
+    #df_merge = merge_raw_data(df_tmp=load_merge_AutoML_results(root_path=root_path), df_result=df_merge)
     return df_merge
 
 def load_merge_AutoML_results(root_path):

@@ -1,7 +1,7 @@
 \begin{tikzpicture}
   \newcommand{\myaddplotds}[3]{ 
     \addplot[color=#2,mark=#3, line width=0.7pt] 
-    table[y=Result, col sep=comma, x=MV, discard if singlconfig={0.0}{gemini-1.5-pro-latest}{#1}]
+    table[y=Result, col sep=comma, x=MV, discard if singlconfig={0.0}{gemini-1.5-pro-latest}{#1}{NYC}]
     {../archive/SIGMOD2025-Results/EtoE/EtoEResults.csv};
     \label{#1}  
    
@@ -9,7 +9,7 @@
 
 
 \pgfplotsset{
-    discard if singlconfig/.style n args={3}{
+    discard if singlconfig/.style n args={4}{
         x filter/.code={
             \edef\tempa{\thisrow{OUT}}
             \edef\tempb{#1}
@@ -21,7 +21,15 @@
                     \edef\tempe{\thisrow{Config}} 
                     \edef\tempf{#3}
                     \ifx\tempe\tempf 
+                    %
+                    \edef\tempg{\thisrow{dataset_name}} 
+                    \edef\temph{#4}
+                    \ifx\tempg\temph 
         
+                    \else
+                    \def\pgfmathresult{inf}
+                    \fi
+                    %
                     \else
                     \def\pgfmathresult{inf}
                   \fi
@@ -37,50 +45,48 @@
 };   
 
 \begin{axis}[
-  ymin=-0,
+  ymin=-0.2,
   ymax=1,
+  %xmax=0.05,
   y tick label style={/pgf/number format/1000 sep={}},
   x tick label style={/pgf/number format/1000 sep={}},  
   scaled x ticks=false,
   axis line style={black, line width=0.3pt},
-  enlarge y limits={0.3,upper},
+  enlarge y limits={0.4,upper},
   enlarge x limits=0.05,
-  ylabel={AUC-ovr $\%$},
+  ylabel={$R^2$ $\%$},
   xlabel={Missing Percentage},
   log ticks with fixed point,
   xtick align=outside,
   xtick pos=left,
   ytick pos=left,
   yticklabel style = {font=\large},
-  ylabel style = {font=\large, yshift=-3pt, xshift=-3pt},
-  height=.55\columnwidth,
-  width=0.8\columnwidth,
+  ylabel style = {font=\large, yshift=-12pt, xshift=-3pt},
+  height=.53\columnwidth,
+  width=0.75\columnwidth,
   grid=both,
   grid style=dotted,
   minor grid style={gray!70},
-  every axis plot/.append style={line width=0.2pt,mark options={scale=1,solid, line width=0.9pt}},  
+  every axis plot/.append style={line width=0.7pt,mark options={scale=1,solid, line width=0.7pt}},  
   xticklabel style = {font=\normalsize, xshift=0pt, yshift=2pt},
   legend image post style={line width=.5pt},          
   bar width=8pt,         
-  ytick={0,0.2, 0.4, 0.6, 0.8, 1},
-  yticklabels={0, 20, 40, 60, 80, 100},               
+  ytick={-0.15,0,0.2, 0.4, 0.6, 0.8, 1},
+  yticklabels={Failed,0, 20, 40, 60, 80, 100},               
   xtick={0, 0.1, 0.2, 0.3, 0.4, 0.5},
   xticklabels={$0\%$,$10\%$, $20\%$, $30\%$, $40\%$, $50\%$},  
 ]
 \myaddplotds{CatDB}{tug}{square*};
 \myaddplotds{Flaml}{color4}{square*};
 \myaddplotds{Autogluon}{dblue1}{triangle*};
-\myaddplotds{AutoSklearn}{black}{*};
- \myaddplotds{H2O}{tugb}{triangle*};
+\myaddplotds{AutoSklearn}{black}{o};
+\myaddplotds{H2O}{tugb}{triangle};
+
+\draw[gray, thick,densely dotted] (axis cs:-0.1,0) -- (axis cs:1,0);
 \end{axis}
 
-\node [draw=none,inner sep=0, font=\normalsize, anchor=west] (leg1) at (rel axis cs: 0.06,0.80) {\shortstack[l]{
-  \ref{CatDB} CatDB (Gemini)\\
-  \ref{Flaml} Flaml \\
-  \ref{H2O} H2O}};
-
-\node [draw=none,inner sep=0, font=\normalsize, anchor=north, right=of leg1, xshift=-28pt, yshift=4pt] (leg1) {\shortstack[l]{
-  \ref{Autogluon} Autogluon \\
-  \ref{AutoSklearn} AutoSklearn}};
+\node [draw=none,inner sep=0, font=\footnotesize, anchor=west] (leg1) at (rel axis cs: 0.06,0.87) {\shortstack[l]{
+  \ref{CatDB} CatDB Chain \  \ref{Autogluon} Autogluon  \\
+  \ref{AutoSklearn} AutoSklearn \ \ref{Flaml} Flaml \ \ref{H2O} H2O}};
 
 \end{tikzpicture}

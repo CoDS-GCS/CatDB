@@ -32,7 +32,7 @@ oml_dataset_11_rnc,Higgs,482.28,501.29,0,110246.23,8.04,8.35,0.001,1837.44,80.38
 oml_dataset_12_rnc,Skin,250.47,27.80,0,272.82,4.17,0.46,0.001,4.55,41.75,4.63,0.001,45.47,0.9,gemini-1.5-pro-latest,No,binary,classification,0
 oml_dataset_12_rnc,Skin,58.04,18.21,0,191.90,0.97,0.30,0.001,3.20,9.67,3.04,0.001,31.98,0.9,llama3-70b-8192,No,binary,classification,0
 oml_dataset_12_rnc,Skin,13.88,21.51,0,203.57,0.23,0.36,0.001,3.39,2.31,3.58,0.001,33.93,0.9,gpt-4o,No,binary,classification,0
-oml_dataset_19_rnc,Traffic,3029.72,2465.21,0,31679.66,50.50,41.09,0.001,527.99,504.95,410.87,0.001,5279.94,18.136,gemini-1.5-pro-latest,No,multiclass,classification,0
+oml_dataset_19_rnc,Traffic,3029.72,1323.88,0,31679.66,50.50,22.06,0.001,527.99,504.95,220.65,0.001,5279.94,18.136,gemini-1.5-pro-latest,No,multiclass,classification,0
 oml_dataset_19_rnc,Traffic,14.27,97.58,0,4171.21,0.24,1.63,0.001,69.52,2.38,16.26,0.001,695.20,18.136,llama3-70b-8192,No,multiclass,classification,0
 oml_dataset_19_rnc,Traffic,767.53,1471.50,0,4431.68,12.79,24.52,0.001,73.86,127.92,245.25,0.001,738.61,18.136,gpt-4o,No,multiclass,classification,0
 oml_dataset_20_rnc,Walking-Activity,30.59,40.59,0,3588.45,0.51,0.68,0.001,59.81,5.10,6.77,0.001,598.08,0.826,gemini-1.5-pro-latest,No,multiclass,classification,0
@@ -46,10 +46,10 @@ oml_dataset_22_rnc,Bike-Sharing,25.62,31.35,0,0,0.43,0.52,0.001,0.001,4.27,5.22,
 oml_dataset_22_rnc,Bike-Sharing,32.53,19.83,0,0,0.54,0.33,0.001,0.001,5.42,3.30,0.001,0.001,0.753,gpt-4o,No,regression,regression,0
 oml_dataset_23_rnc,House-Sales,13.88,24.64,0,0,0.23,0.41,0.001,0.001,2.31,4.11,0.001,0.001,0.801,gemini-1.5-pro-latest,No,regression,regression,0
 oml_dataset_23_rnc,House-Sales,13.72,11.95,0,0,0.23,0.20,0.001,0.001,2.29,1.99,0.001,0.001,0.801,llama3-70b-8192,No,regression,regression,0
-oml_dataset_23_rnc,House-Sales,65.25,15.18,0,0,1.09,0.25,0.001,0.001,10.88,2.53,0.001,0.001,0.801,gpt-4o,No,regression,regression,0
+oml_dataset_23_rnc,House-Sales,65.25,18.42,0,0,1.09,0.31,0.001,0.001,10.88,3.07,0.001,0.001,0.801,gpt-4o,No,regression,regression,0
 oml_dataset_24_rnc,NYC,38.02,107.61,0,0,0.63,1.79,0.001,0.001,6.34,17.93,0.001,0.001,1.571,gemini-1.5-pro-latest,No,regression,regression,0
 oml_dataset_24_rnc,NYC,619.65,832.31,0,0,10.33,13.87,0.001,0.001,103.28,138.72,0.001,0.001,1.571,llama3-70b-8192,No,regression,regression,0
-oml_dataset_24_rnc,NYC,1640.88,133.73,0,0,27.35,2.23,0.001,0.001,273.48,22.29,0.001,0.001,1.571,gpt-4o,No,regression,regression,0
-oml_dataset_35_rnc,Volkert,20.21,51.76,0,2877.82,0.34,0.86,0.001,47.96,3.37,8.63,0.001,479.64,2.146,gemini-1.5-pro-latest,No,multiclass,classification,0
+oml_dataset_24_rnc,NYC,1640.88,111.94,0,0,27.35,1.87,0.001,0.001,273.48,18.66,0.001,0.001,1.571,gpt-4o,No,regression,regression,0
+oml_dataset_35_rnc,Volkert,20.21,39.16,0,2877.82,0.34,0.65,0.001,47.96,3.37,6.53,0.001,479.64,2.146,gemini-1.5-pro-latest,No,multiclass,classification,0
 oml_dataset_35_rnc,Volkert,12.51,20.70,0,3163.36,0.21,0.35,0.001,52.72,2.08,3.45,0.001,527.23,2.146,llama3-70b-8192,No,multiclass,classification,0
 oml_dataset_35_rnc,Volkert,41.83,14.06,0,2606.33,0.70,0.23,0.001,43.44,6.97,2.34,0.001,434.39,2.146,gpt-4o,No,multiclass,classification,0

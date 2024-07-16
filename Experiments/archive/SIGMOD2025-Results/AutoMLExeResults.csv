@@ -32,7 +32,7 @@ oml_dataset_11_rnc,Higgs,482.28,76.784,gpt-4o
 oml_dataset_12_rnc,Skin,250.47,0.9,gemini-1.5-pro-latest
 oml_dataset_12_rnc,Skin,58.04,0.9,llama3-70b-8192
 oml_dataset_12_rnc,Skin,13.88,0.9,gpt-4o
-oml_dataset_19_rnc,Traffic,2465.21,18.136,gemini-1.5-pro-latest
+oml_dataset_19_rnc,Traffic,1323.88,18.136,gemini-1.5-pro-latest
 oml_dataset_19_rnc,Traffic,97.58,18.136,llama3-70b-8192
 oml_dataset_19_rnc,Traffic,1471.50,18.136,gpt-4o
 oml_dataset_20_rnc,Walking-Activity,40.59,0.826,gemini-1.5-pro-latest
@@ -46,10 +46,10 @@ oml_dataset_22_rnc,Bike-Sharing,31.35,0.753,llama3-70b-8192
 oml_dataset_22_rnc,Bike-Sharing,19.83,0.753,gpt-4o
 oml_dataset_23_rnc,House-Sales,24.64,0.801,gemini-1.5-pro-latest
 oml_dataset_23_rnc,House-Sales,11.95,0.801,llama3-70b-8192
-oml_dataset_23_rnc,House-Sales,15.18,0.801,gpt-4o
+oml_dataset_23_rnc,House-Sales,18.42,0.801,gpt-4o
 oml_dataset_24_rnc,NYC,107.61,1.571,gemini-1.5-pro-latest
 oml_dataset_24_rnc,NYC,832.31,1.571,llama3-70b-8192
-oml_dataset_24_rnc,NYC,133.73,1.571,gpt-4o
-oml_dataset_35_rnc,Volkert,51.76,2.146,gemini-1.5-pro-latest
+oml_dataset_24_rnc,NYC,111.94,1.571,gpt-4o
+oml_dataset_35_rnc,Volkert,39.16,2.146,gemini-1.5-pro-latest
 oml_dataset_35_rnc,Volkert,20.70,2.146,llama3-70b-8192
 oml_dataset_35_rnc,Volkert,14.06,2.146,gpt-4o

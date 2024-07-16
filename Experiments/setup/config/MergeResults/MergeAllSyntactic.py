@@ -4,19 +4,14 @@ from MergeResults import  get_top_k_binary, get_top_k_multiclass, get_top_k_regr
 
 if __name__ == '__main__':
     
-    root_path = "/home/saeed/Documents/Github/CatDB/Experiments/archive/SIGMOD2025-Results/EtoE/ds2" 
+    root_path = "/home/saeed/Documents/Github/CatDB/Experiments/archive/SIGMOD2025-Results/EtoE/" 
 
-    # results_path = [f"{root_path}/Experiment1_LLM_Pipe_Gen_CatDB_16.dat",
-    #                 f"{root_path}/Experiment3_AutoML_CatDB_65.dat",
-    #                 f"{root_path}/Experiment1_LLM_Pipe_Gen_CatDB_65.dat",] 
-    
-    # results_path = [f"{root_path}/Experiment1_LLM_Pipe_Gen_CatDB_65.dat",
-    #                 f"{root_path}/Experiment1_LLM_Pipe_Gen_CatDB_113.dat",
-    #                 f"{root_path}/Experiment1_LLM_Pipe_Gen_CatDB_16.dat",
-    #                 f"{root_path}/Experiment3_AutoML_CatDB_113.dat",]   
-
-    results_path = [f"{root_path}/Experiment1_LLM_Pipe_Gen_CatDB.dat",
-                    f"{root_path}/Experiment1_LLM_Pipe_Gen_CatDBChain.dat"]  
+    results_path = [f"{root_path}/Experiment1_LLM_Pipe_Gen_CatDB_Volkert.dat",
+                    f"{root_path}/Experiment1_LLM_Pipe_Gen_CatDBChain_Volkert.dat",
+                    f"{root_path}/Experiment3_AutoML_Volkert.dat",
+                    f"{root_path}/Experiment1_LLM_Pipe_Gen_CatDB_NYC.dat",
+                    f"{root_path}/Experiment3_AutoML_NYC.dat",
+                    f"{root_path}/Experiment1_LLM_CAAFE.dat"]  
 
     columns = ["dataset_name", "config", "sub_task", "llm_model", "classifier", "task_type", "status",
                 "number_iteration","number_iteration_error", "has_description", "time_catalog_load", "time_pipeline_generate",
@@ -43,7 +38,7 @@ if __name__ == '__main__':
                   ("NYC","gen_dataset_53","regression",4),
                   ("Volkert","gen_dataset_54","multiclass",5)]
     
-    dataset_ID = {"gen_dataset_50": "Adult", "gen_dataset_51":"Bank","gen_dataset_52":"Br2000", "gen_dataset_53": "NYC", "gen_dataset_54":"Volkert"}
+    dataset_ID = {"gen_dataset_53": "NYC", "gen_dataset_54":"Volkert"}
     dataset_maps = dict()
 
     dataset_names = df_pip_gen["dataset_name"].unique()
@@ -57,16 +52,24 @@ if __name__ == '__main__':
         mv = float(sub_names[8])
         ds_dict = {"title": dataset_ID[sub_names[0]], "out": out, "np": np, "nc": nc, "mv": mv, "ismv": True}
         all_ds.append((dn, ds_dict))
+
        
         
     llms = ["gemini-1.5-pro-latest"] #["gemini-1.5-pro-latest","llama3-70b-8192", "gpt-4o"]
-    configs = ["CatDB", "CatDBChain", "H2O", "Flaml", "Autogluon", "AutoSklearn"] 
+    configs = ["CatDB", "CatDBChain", "H2O", "Flaml", "Autogluon", "AutoSklearn", "CAAFE"] 
     classifier = ["Auto", "TabPFN", "RandomForest"]  
     df_etoe.loc[len(df_etoe)] = ["NYC", "CatDB", 0, 0, 0, 0.64831, "gemini-1.5-pro-latest", "No", "regression", "regression", 0] 
     df_etoe.loc[len(df_etoe)] = ["NYC", "H2O", 0, 0, 0, 0, "gemini-1.5-pro-latest", "No", "regression", "regression", 0] 
     df_etoe.loc[len(df_etoe)] = ["NYC", "Flaml", 0, 0, 0, 0.68552, "gemini-1.5-pro-latest", "No", "regression", "regression", 0] 
     df_etoe.loc[len(df_etoe)] = ["NYC", "Autogluon", 0, 0, 0, 0.60574, "gemini-1.5-pro-latest", "No", "regression", "regression", 0] 
-    df_etoe.loc[len(df_etoe)] = ["NYC", "AutoSklearn", 0, 0, 0, 0.62394, "gemini-1.5-pro-latest", "No", "regression", "regression", 0]    
+    df_etoe.loc[len(df_etoe)] = ["NYC", "AutoSklearn", 0, 0, 0, 0.62394, "gemini-1.5-pro-latest", "No", "regression", "regression", 0]   
+
+    df_etoe.loc[len(df_etoe)] = ["Volkert", "CatDBChain", 0, 0, 0, 0.9165, "gemini-1.5-pro-latest", "No", "multiclass", "classification", 0]
+    df_etoe.loc[len(df_etoe)] = ["Volkert", "CAAFE", 0, 0, 0, 0.7152, "gemini-1.5-pro-latest", "No", "multiclass", "classification", 0] 
+    df_etoe.loc[len(df_etoe)] = ["Volkert", "H2O", 0, 0, 0, 0.9074, "gemini-1.5-pro-latest", "No", "multiclass", "classification", 0] 
+    df_etoe.loc[len(df_etoe)] = ["Volkert", "Flaml", 0, 0, 0, 0.9357, "gemini-1.5-pro-latest", "No", "multiclass", "classification", 0] 
+    df_etoe.loc[len(df_etoe)] = ["Volkert", "Autogluon", 0, 0, 0, 0.9515, "gemini-1.5-pro-latest", "No", "multiclass", "classification", 0] 
+    df_etoe.loc[len(df_etoe)] = ["Volkert", "AutoSklearn", 0, 0, 0, 0.9322, "gemini-1.5-pro-latest", "No", "multiclass", "classification", 0]  
 
     for mvds, ds_dict in all_ds:
         for llm in llms:
@@ -78,12 +81,12 @@ if __name__ == '__main__':
                                             (df_pip_gen['status'] == True) &
                                             #(df_pip_gen['classifier'] == "Auto") &
                                             (df_pip_gen['has_description'] == "No") &
-                                            (df_pip_gen['number_of_samples'] == 0)]
-                                                
-                    df_chain = tmp_df.loc[(tmp_df['sub_task'] == 'DataPreprocessing') | 
-                                          (tmp_df['sub_task'] == 'FeatureEngineering')]
-                                
+                                            (df_pip_gen['number_of_samples'] == 0)]                                                
+                               
                     df = tmp_df.loc[(tmp_df['sub_task'] == 'ModelSelection') | (pd.isnull(tmp_df['sub_task']))]
+
+                    if ds_dict["out"] >= 0.06:
+                            continue
 
                     if len(df) > 0: 
                         df_sort = pd.DataFrame(columns = df_pip_gen.columns)   
@@ -108,9 +111,10 @@ if __name__ == '__main__':
                         mergse_dfs(df_sort, df_reg)
 
                                
-                        cindex = len(df_etoe)
+                        cindex = len(df_etoe)                    
                         
-                        if len(df_sort) == 0 :                            
+                        if len(df_sort) == 0 :  
+                            df_etoe.loc[cindex] = [ds_title, config, ds_dict["out"], ds_dict["mv"], ds_dict["nc"], -0.15, llm, "No", None, None, 0]                            
                             continue
 
                         if ds_title in {"NYC"}:
@@ -126,11 +130,13 @@ if __name__ == '__main__':
                             res_metric = df_sort.iloc[0]["test_auc"]    
                             task_type = "binary"
                             task = "classification"
+
                         df_etoe.loc[cindex] = [ds_title, config, ds_dict["out"], ds_dict["mv"], ds_dict["nc"], res_metric, llm, "No", task_type, task, 0]    
                         
                         tmp_time = (df_sort['time_execution']).mean()
                         prompt_exe[config] = f"{tmp_time:.2f}"
-
+                    else:
+                        df_etoe.loc[len(df_etoe)] = [ds_title, config, ds_dict["out"], ds_dict["mv"], ds_dict["nc"], -0.15, llm, "No", None, None, 0]  
 
             # dataset_load_time = df_csv_read.loc[df_csv_read['dataset']==mvds]["time"].values[0] / 1000
             ds_corr = None
@@ -159,4 +165,4 @@ if __name__ == '__main__':
 
     df_etoe = df_etoe.sort_values(by=['OUT','MV'], ascending=True).reset_index(drop=True)    
     df_etoe.to_csv(f"{root_path}/EtoEResults.csv", index=False)
-    df_automl_exe.to_csv(f"{root_path}/EtoEAutoMLExeResults.csv", index=False)
+    #df_automl_exe.to_csv(f"{root_path}/EtoEAutoMLExeResults.csv", index=False)

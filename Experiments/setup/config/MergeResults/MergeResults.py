@@ -68,7 +68,8 @@ def load_merge_all_results(root_path):
                     f"{root_path}/server-113/New_DS/Experiment1_LLM_Pipe_Gen_CatDBChain.dat",
                     f"{root_path}/server-35/New_DS/Experiment1_LLM_CAAFE.dat",
                     f"{root_path}/server-35/New_DS/Experiment1_LLM_CAAFE_Extra.dat", 
-                    f"{root_path}/server-35/AutoML/Experiment3_AutoML.dat",                      
+                    f"{root_path}/server-35/AutoML/Experiment3_AutoML.dat",
+                    f"{root_path}/server-35/AutoML/Experiment3_AutoML_Higgs.dat",                      
                     ] 
     
     df_merge = pd.DataFrame(columns = columns)

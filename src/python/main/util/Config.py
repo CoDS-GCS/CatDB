@@ -31,6 +31,7 @@ __GPT_4o_Limit = 4096
 __GPT_3_5_Turbo_limit = 4096
 __Llama2_70b = 4096
 __Llama3_70b_8192 = 8192
+__Llama3_1_70b_versatile = 131072
 __Llama3_8b_8192 = 8192
 __Mixtral_8x7b_32768 = 32768
 __Gemma_7b_it = 8192
@@ -114,6 +115,12 @@ def set_config(model, delay, system_log):
     elif model == "llama3-70b-8192":
         _llm_platform = _META
         _max_token_limit = __Llama3_70b_8192
+        _user_delimiter = __Llama_user_delimiter
+        _system_delimiter = __Llama_system_delimiter
+
+    elif model == "llama-3.1-70b-versatile":
+        _llm_platform = _META
+        _max_token_limit = __Llama3_1_70b_versatile
         _user_delimiter = __Llama_user_delimiter
         _system_delimiter = __Llama_system_delimiter
 

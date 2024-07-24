@@ -16,9 +16,9 @@ echo "dataset,llm_model,prompt_representation_type,prompt_example_type,prompt_nu
 cd ${exp_path}
 
 #CMD=./explocal/exp0_statistics/runExperiment0.sh
-#CMD=./explocal/exp1_catalog/runExperiment1.sh
+CMD=./explocal/exp1_catalog/runExperiment1.sh
 #CMD=./explocal/exp2_micro_benchmark/runExperiment2.sh 
-CMD=./explocal/exp3_end_to_end/runExperiment3.sh 
+#CMD=./explocal/exp3_end_to_end/runExperiment3.sh 
 
 
 # $CMD Balance-Scale multiclass # Balance-Scale
@@ -53,40 +53,19 @@ CMD=./explocal/exp3_end_to_end/runExperiment3.sh
 # $CMD oml_dataset_8_rnc binary # PC1
 # $CMD oml_dataset_10_rnc multiclass # Jungle-Chess
 
-# $CMD oml_dataset_11_rnc binary # Higgs
-# $CMD oml_dataset_12_rnc binary # Skin
-# $CMD oml_dataset_19_rnc multiclass # Traffic
-# $CMD oml_dataset_20_rnc multiclass # Walking-Activity
+$CMD oml_dataset_21_rnc regression # Black-Friday
+$CMD oml_dataset_22_rnc regression # Bike-Sharing
+$CMD oml_dataset_23_rnc regression # House-Sales
+$CMD oml_dataset_24_rnc regression # NYC
 
-# $CMD oml_dataset_21_rnc regression # Black-Friday
-# $CMD oml_dataset_22_rnc regression # Bike-Sharing
-# $CMD oml_dataset_23_rnc regression # House-Sales
-# $CMD oml_dataset_24_rnc regression # NYC
-# # $CMD oml_dataset_25_rnc regression # Airlines-DepDelay
+$CMD oml_dataset_11_rnc binary # Higgs
+$CMD oml_dataset_12_rnc binary # Skin
+$CMD oml_dataset_19_rnc multiclass # Traffic
+$CMD oml_dataset_20_rnc multiclass # Walking-Activity
 
-# $CMD oml_dataset_33_rnc binary # Nomao
-# $CMD oml_dataset_34_rnc multiclass # Gas-Drift
-# $CMD oml_dataset_35_rnc multiclass # Volkert
-
-
-# $CMD Drug multiclass # Drug
-# $CMD Road-Safety multiclass # Road-Safety
-# $CMD Hcdr binary # Hcdr
-# $CMD Covertype binary # Covertype
-# $CMD MD-MIX-Mini multiclass # MD-MIX-Mini
-# $CMD Okcupid-Stem multiclass # Okcupid-Stem
-# $CMD Hls4ml multiclass # Hls4ml
-# $CMD Albert binary # Albert
-
-
-# $CMD oml_dataset_37_rnc multiclass # Drug
-# $CMD oml_dataset_38_rnc multiclass # Road-Safety
-# $CMD oml_dataset_39_rnc binary # Hcdr
-# $CMD oml_dataset_40_rnc binary # Covertype
-# $CMD oml_dataset_41_rnc multiclass # MD-MIX-Mini
-# $CMD oml_dataset_42_rnc multiclass # Okcupid-Stem
-# $CMD oml_dataset_43_rnc multiclass # Hls4ml
-# $CMD oml_dataset_44_rnc binary # Albert
+$CMD oml_dataset_33_rnc binary # Nomao
+$CMD oml_dataset_34_rnc multiclass # Gas-Drift
+$CMD oml_dataset_35_rnc multiclass # Volkert
 
 
 ######################################################
@@ -109,26 +88,26 @@ CMD=./explocal/exp3_end_to_end/runExperiment3.sh
 # $CMD oml_dataset_18_rnc multiclass # Drug-Directory
 
 #####################################################
-$CMD gen_dataset_54-out-0.05-np-1-nc-180-mv-0.1_rnc multiclass # Volkert
-$CMD gen_dataset_54-out-0.05-np-1-nc-180-mv-0.2_rnc multiclass # Volkert
-$CMD gen_dataset_54-out-0.05-np-1-nc-180-mv-0.3_rnc multiclass # Volkert
-$CMD gen_dataset_54-out-0.05-np-1-nc-180-mv-0.4_rnc multiclass # Volkert
-$CMD gen_dataset_54-out-0.05-np-1-nc-180-mv-0.5_rnc multiclass # Volkert
+# $CMD gen_dataset_54-out-0.05-np-1-nc-180-mv-0.1_rnc multiclass # Volkert
+# $CMD gen_dataset_54-out-0.05-np-1-nc-180-mv-0.2_rnc multiclass # Volkert
+# $CMD gen_dataset_54-out-0.05-np-1-nc-180-mv-0.3_rnc multiclass # Volkert
+# $CMD gen_dataset_54-out-0.05-np-1-nc-180-mv-0.4_rnc multiclass # Volkert
+# $CMD gen_dataset_54-out-0.05-np-1-nc-180-mv-0.5_rnc multiclass # Volkert
 
-$CMD gen_dataset_54-out-0.01-np-0-nc-0-mv-0_rnc multiclass # Volkert
-$CMD gen_dataset_54-out-0.02-np-0-nc-0-mv-0_rnc multiclass # Volkert
-$CMD gen_dataset_54-out-0.03-np-0-nc-0-mv-0_rnc multiclass # Volkert
-$CMD gen_dataset_54-out-0.05-np-0-nc-0-mv-0_rnc multiclass # Volkert
-$CMD gen_dataset_54-out-0.06-np-0-nc-0-mv-0_rnc multiclass # Volkert
-$CMD gen_dataset_54-out-0.07-np-0-nc-0-mv-0_rnc multiclass # Volkert
-$CMD gen_dataset_54-out-0.08-np-0-nc-0-mv-0_rnc multiclass # Volkert
-$CMD gen_dataset_54-out-0.09-np-0-nc-0-mv-0_rnc multiclass # Volkert
-$CMD gen_dataset_54-out-0.1-np-0-nc-0-mv-0_rnc multiclass # Volkert
+# $CMD gen_dataset_54-out-0.01-np-0-nc-0-mv-0_rnc multiclass # Volkert
+# $CMD gen_dataset_54-out-0.02-np-0-nc-0-mv-0_rnc multiclass # Volkert
+# $CMD gen_dataset_54-out-0.03-np-0-nc-0-mv-0_rnc multiclass # Volkert
+# $CMD gen_dataset_54-out-0.05-np-0-nc-0-mv-0_rnc multiclass # Volkert
+# $CMD gen_dataset_54-out-0.06-np-0-nc-0-mv-0_rnc multiclass # Volkert
+# $CMD gen_dataset_54-out-0.07-np-0-nc-0-mv-0_rnc multiclass # Volkert
+# $CMD gen_dataset_54-out-0.08-np-0-nc-0-mv-0_rnc multiclass # Volkert
+# $CMD gen_dataset_54-out-0.09-np-0-nc-0-mv-0_rnc multiclass # Volkert
+# $CMD gen_dataset_54-out-0.1-np-0-nc-0-mv-0_rnc multiclass # Volkert
 
-$CMD gen_dataset_54-out-0-np-1-nc-180-mv-0.1_rnc multiclass # Volkert
-$CMD gen_dataset_54-out-0-np-1-nc-180-mv-0.2_rnc multiclass # Volkert
-$CMD gen_dataset_54-out-0-np-1-nc-180-mv-0.3_rnc multiclass # Volkert
-$CMD gen_dataset_54-out-0-np-1-nc-180-mv-0.4_rnc multiclass # Volkert
-$CMD gen_dataset_54-out-0-np-1-nc-180-mv-0.5_rnc multiclass # Volkert
+# $CMD gen_dataset_54-out-0-np-1-nc-180-mv-0.1_rnc multiclass # Volkert
+# $CMD gen_dataset_54-out-0-np-1-nc-180-mv-0.2_rnc multiclass # Volkert
+# $CMD gen_dataset_54-out-0-np-1-nc-180-mv-0.3_rnc multiclass # Volkert
+# $CMD gen_dataset_54-out-0-np-1-nc-180-mv-0.4_rnc multiclass # Volkert
+# $CMD gen_dataset_54-out-0-np-1-nc-180-mv-0.5_rnc multiclass # Volkert
 
 

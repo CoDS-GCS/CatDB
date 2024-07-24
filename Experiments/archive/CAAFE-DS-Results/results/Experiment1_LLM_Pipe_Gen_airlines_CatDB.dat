@@ -1,2 +1,0 @@
-dataset_name,config,status,number_iteration,pipeline_gen_time,execution_time,train_accuracy,train_f1_score,train_log_loss,train_r_squared,train_rmse,test_accuracy,test_f1_score,test_log_loss,test_r_squared,test_rmse
-airlines,CatDB,True,1,17.568023443222046,1.0104286670684814,0.9973333333333333,0.9971098265895953,-1,-1,-1,0.63,0.5727482678983834,-1,-1,-1

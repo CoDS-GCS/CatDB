@@ -1,2 +1,0 @@
-dataset_name,config,status,number_iteration,pipeline_gen_time,execution_time,train_accuracy,train_f1_score,train_log_loss,train_r_squared,train_rmse,test_accuracy,test_f1_score,test_log_loss,test_r_squared,test_rmse
-diabetes,CatDB,True,1,25.048672437667847,0.7683742046356201,1.0,1.0,-1,-1,-1,0.8072916666666666,0.7086614173228346,-1,-1,-1

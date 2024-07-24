@@ -1,0 +1,69 @@
+\begin{tikzpicture}[scale=1, node distance=6.0mm]
+    \newcommand{\myaddplot}[9]{
+        \addplot[draw=#5, discard if singlplatform={#1}{#2}{#3}{#4}{#9}] 
+        table[y=#7, col sep=comma, x=number_iteration]{#8};
+        %\label{#1_#6}  
+        % boxplot,     
+    };
+    
+    \newcommand{\addCatDBPerformance}[7]{
+      %\myaddplot{#1}{#2}{#3}{#4}{#5}{train}{train_auc}{/home/saeed/Documents/Github/CatDB/Experiments/archive/SIGMOD2025-Results/Experiment1_Iteration_CatDBID.dat}{#7};
+
+      \myaddplot{#1}{#2}{#3}{#4}{#6}{test}{test_auc}{/home/saeed/Documents/Github/CatDB/Experiments/archive/SIGMOD2025-Results/Experiment1_Iteration_CatDBID.dat}{#7};
+  
+        % \node [draw=none,inner sep=0, font=\footnotesize	, anchor=west] (leg1) at (rel axis cs: 0.1,0.10) {\shortstack[r]{
+        %     CatDB (\ref{CatDB_train} Train \ref{CatDB_test} Test)%\\
+        %     %CatDBChain (\ref{CatDBChain_train} Train \ref{CatDBChain_test} Test)
+        % }};       
+   };
+  
+   \pgfplotsset{
+    discard if singlplatform/.style n args={5}{
+        x filter/.code={
+        \edef\tempa{\thisrow{config}}
+        \edef\tempb{#1}
+        \ifx\tempa\tempb
+          \edef\tempc{\thisrow{task_type}}
+          \edef\tempd{#2}
+          \ifx\tempc\tempd
+            \edef\tempe{\thisrow{llm_model}}
+            \edef\tempf{#3}
+            \ifx\tempe\tempf
+              \edef\tempg{\thisrow{has_description}}
+              \edef\temph{#4}
+              \ifx\tempg\temph 
+                \edef\tempi{\thisrow{dataset_name}}
+                \edef\tempj{#5}
+                \ifx\tempi\tempj
+                \else % dataset_name
+                  \def\pgfmathresult{inf}
+                \fi                                  
+              \else % has_description
+                \def\pgfmathresult{inf}
+              \fi
+            \else % llm_model
+              \def\pgfmathresult{inf}
+            \fi
+          \else % task_type
+            \def\pgfmathresult{inf}
+          \fi
+        \else % config
+          \def\pgfmathresult{inf}
+        \fi			
+      }
+    },
+    %every non boxed x axis/.style={}
+  };
+
+\begin{axis}[
+  %xtick={0,1,2,...,6},
+  %boxplot/draw direction=y,
+  xtick=data,    
+  % symbolic x coords={Higgs, Albert, Click-Prediction, Census, Heart-Statlog, KDDCup99, Road-Safety, Drug-Directory, Okcupid-Stem, Walking-Activity, PASS, Aloi, MD-MIX-Mini, Dionis, Meta-Album-BRD, Balance-Scale, Breast-w, CMC, Credit-g, Diabetes, Tic-Tac-Toe, Eucalyptus, PC1, Airlines, Jungle-Chess}, 
+    % legend image code/.code={\draw [#1] (0cm,-0.1cm) rectangle (0.1cm,0.08cm); },   
+	]
+   \addCatDBPerformance{CatDB}{binary}{gemini-1.5-pro-latest}{Yes}{tug}{tugb}{Breast-w};	
+   %\addCatDBPerformance{CatDB}{reg}{gemini-1.5-pro-latest}{Yes}{tug}{tugb}{Credit-g};	
+   		
+\end{axis}
+\end{tikzpicture}

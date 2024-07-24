@@ -1,0 +1,93 @@
+\newcommand{\addplotTokens}[5]{
+	   \addplot[xshift=#1,draw=none,line width=0.15pt, fill=#5, discard if singlplatform={#2}{#3},postaction={#4}] 
+	   table[ y=number_tokens, col sep=comma, x=dataset_name] {results/dataset_overview.dat};
+	   \label{plat_#2#3};
+};
+
+
+\pgfplotsset{
+    discard if singlplatform/.style n args={2}{
+        x filter/.code={
+            \edef\tempa{\thisrow{prompt_representation_type}}
+            \edef\tempb{#1}
+            \ifx\tempa\tempb
+              \edef\tempc{\thisrow{has_description}}
+                \edef\tempd{#2}
+                  \ifx\tempc\tempd
+                  \else
+                  \def\pgfmathresult{inf}
+                  \fi
+            \else
+            \def\pgfmathresult{inf}
+            \fi			
+        }
+    },
+    every non boxed x axis/.style={}
+};
+
+\begin{tikzpicture}%
+  \begin{groupplot}[
+    group style={
+        group name=my fancy plots,
+        group size=1 by 2,
+        xticklabels at=edge bottom,
+        vertical sep=0pt
+    },
+    every axis plot post/.style={/pgf/number format/fixed},
+    major x tick style = {draw=none},
+    xtick style={draw=none},		
+    every major tick/.append style={ line width=0.10mm,major tick length=2pt, gray},
+    axis line style={gray, line width=0.10mm},
+    ybar,        
+    log ticks with fixed point,
+    x tick label style={/pgf/number format/1000 sep={}},
+    scaled y ticks=false,
+    enlarge x limits=0.03,
+    ylabel={},
+    ytick align=outside,
+    xtick pos=left,
+    ytick pos=left,
+    yticklabel style = {font=\scriptsize},
+    ylabel style = {font=\scriptsize, yshift=-1pt},
+    xticklabel style = {font=\scriptsize, xshift=-3pt,yshift=3pt ,rotate=90},
+    height=0.5\columnwidth,
+    width=1\columnwidth,     
+    ymajorgrids=true,
+    grid style=dotted,   
+    minor grid style={gray!50}, 
+    xtick = data,
+    symbolic x coords={Higgs,Albert,Click-Prediction,Census,Heart-Statlog,KDDCup99,Road-Safety,Drug-Directory,Okcupid-Stem,Walking-Activity,PASS,Aloi,MD-MIX-Mini,Dionis,Meta-Album-BRD,Balance-Scale,Breast-w,CMC,Credit-g,Diabetes,Tic-Tac-Toe,Eucalyptus,PC1,Airlines,Jungle-Chess}, 
+    legend image code/.code={\draw [#1] (0cm,-0.1cm) rectangle (0.1cm,0.08cm); },
+]%
+% top
+\nextgroupplot[ymin=5000,ymax=100000,
+               ytick={5000,50000,100000},
+               yticklabels={5k,50k, 100k},
+               axis x line=top, 
+               axis y discontinuity=crunch,
+               height=0.25\columnwidth,
+               bar width=3pt,
+               ]%
+\addplotTokens{0pt}{CatDB}{Yes}{}{tug};	  	  
+\addplotTokens{-2.5pt}{CAAFE}{Yes}{}{tugb};             
+% bellow
+\nextgroupplot[ymin=0,ymax=5000,overlay,
+               ytick={0,3000},
+               yticklabels={0,3k},
+               axis x line=bottom,
+               height=0.25\columnwidth,
+               bar width=3pt,
+               ylabel={Token's Count},
+               ]
+               %
+%
+\addplotTokens{0pt}{CatDB}{Yes}{}{tug};	  	  
+\addplotTokens{-2.5pt}{CAAFE}{Yes}{}{tugb};
+%\end{axis}               
+\end{groupplot}%
+\path(current axis.south) -- ++(-4.2cm,-1.7cm);
+\node [draw=none,inner sep=0, font=\scriptsize, anchor=west] (leg1) at (rel axis cs: 0.75,0.75) {\shortstack[l]{
+			\ref{plat_CatDBYes} CatDB \ \ \ 
+      \ref{plat_CAAFEYes} CAAFE 			 			
+	}};
+\end{tikzpicture}

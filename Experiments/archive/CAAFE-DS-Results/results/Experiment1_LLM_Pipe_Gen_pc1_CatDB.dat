@@ -1,0 +1,2 @@
+dataset_name,config,status,number_iteration,pipeline_gen_time,execution_time,train_accuracy,train_f1_score,train_log_loss,train_r_squared,train_rmse,test_accuracy,test_f1_score,test_log_loss,test_r_squared,test_rmse
+pc1,CatDB,True,1,18.533414602279663,0.9560480117797852,0.9951865222623345,0.9655172413793104,-1,-1,-1,0.935251798561151,0.3076923076923077,-1,-1,-1

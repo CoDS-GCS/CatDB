@@ -1,0 +1,154 @@
+\newcommand{\addplotEtoE}[9]{
+  \nextgroupplot[ymin=0,ymax=1,
+      ytick={0,0.2,0.4,0.6,0.8,1.0},
+      yticklabels={#7},
+      height=0.35\columnwidth,
+      width=.41\columnwidth,
+      bar width=5.5pt,
+      enlarge x limits=0.1,
+      scaled y ticks=false,
+      enlarge y limits={0.1,upper},
+      ylabel={#8},
+      tick style={#6},
+      xlabel={#9},     
+    ]
+  % add train accuracy
+	\addplot[xshift=4pt,draw=black,line width=0.15pt, fill=tug, discard if singlplatform={#1}{no}{#2}{#3}{#4},postaction={#5}] 
+	  table[ y=train_accuracy, col sep=comma, x=config] {results/Experiment3_EtoE.dat};
+	\label{plat_#1_train_acc_no};
+  
+  \addplot[xshift=2pt,draw=black,line width=0.15pt, fill=tugb, discard if singlplatform={#1}{no}{#2}{#3}{#4},postaction={#5}] 
+	  table[ y=train_f1_score, col sep=comma, x=config] {results/Experiment3_EtoE.dat};
+	\label{plat_#1_train_f1_no};
+
+  \addplot[xshift=0pt,draw=black,line width=0.15pt, fill=color4, discard if singlplatform={#1}{yes}{#2}{#3}{#4},postaction={#5}] 
+	  table[ y=train_accuracy, col sep=comma, x=config] {results/Experiment3_EtoE.dat};
+	\label{plat_#1_train_acc_yes};
+
+  \addplot[xshift=-2pt,draw=black,line width=0.15pt, fill=color6, discard if singlplatform={#1}{yes}{#2}{#3}{#4},postaction={#5}] 
+	  table[ y=train_f1_score, col sep=comma, x=config] {results/Experiment3_EtoE.dat};
+	\label{plat_#1_train_f1_yes};
+
+  %------------
+  \addplot[xshift=2pt,draw=black,line width=0.15pt, fill=tug, discard if singlplatform={#1}{no}{#2}{#3}{#4},postaction={pattern=north east lines}] 
+	  table[ y=test_accuracy, col sep=comma, x=config] {results/Experiment3_EtoE.dat};
+	\label{plat_#1_test_acc_no};
+  
+  \addplot[xshift=0pt,draw=black,line width=0.15pt, fill=tugb, discard if singlplatform={#1}{no}{#2}{#3}{#4},postaction={pattern=north east lines}] 
+	  table[ y=test_f1_score, col sep=comma, x=config] {results/Experiment3_EtoE.dat};
+	\label{plat_#1_test_f1_no};
+
+  \addplot[xshift=-2pt,draw=black,line width=0.15pt, fill=color4, discard if singlplatform={#1}{yes}{#2}{#3}{#4},postaction={pattern=north east lines}] 
+	  table[ y=test_accuracy, col sep=comma, x=config] {results/Experiment3_EtoE.dat};
+	\label{plat_#1_test_acc_yes};
+
+  \addplot[xshift=-4pt,draw=black,line width=0.15pt, fill=color8, discard if singlplatform={#1}{yes}{#2}{#3}{#4},postaction={pattern=north east lines}] 
+	  table[ y=test_f1_score, col sep=comma, x=config] {results/Experiment3_EtoE.dat};
+	\label{plat_#1_test_f1_yes};
+};
+
+\pgfplotsset{
+    discard if singlplatform/.style n args={5}{
+        x filter/.code={
+            \edef\tempa{\thisrow{config}}
+            \edef\tempb{#1}
+            \ifx\tempa\tempb
+              \edef\tempc{\thisrow{has_description}}
+                \edef\tempd{#2}
+                  \ifx\tempc\tempd
+                  %
+                  \edef\tempe{\thisrow{classifier}}
+                  \edef\tempf{#3}
+                    \ifx\tempe\tempf
+                    %
+                    \edef\tempg{\thisrow{task_type}}
+                    \edef\temph{#4}
+                      \ifx\tempg\temph 
+                           \edef\tempi{\thisrow{dataset_name}}
+                      \edef\tempj{#5}
+                        \ifx\tempi\tempj                      
+                        \else
+                        \def\pgfmathresult{inf}                        
+                        \fi                     
+                      \else
+                      \def\pgfmathresult{inf}
+                      \fi    
+                    %
+                    \else
+                    \def\pgfmathresult{inf}
+                    \fi    
+                  %
+                  \else
+                  \def\pgfmathresult{inf}
+                  \fi
+            \else
+            \def\pgfmathresult{inf}
+            \fi			
+        }
+    },
+    every non boxed x axis/.style={}
+};
+
+
+\begin{tikzpicture}[node distance=0mm]%
+  \begin{groupplot}[
+    group style={
+        group name=my fancy plots,
+        group size=2 by 1,
+        %xticklabels at=edge bottom,
+        horizontal sep=1pt,
+        %height=.3\columnwidth,
+    },
+    every axis plot post/.style={/pgf/number format/fixed},
+    major x tick style = {draw=none},
+    xtick style={draw=none},		
+    every major tick/.append style={ line width=0.10mm,major tick length=2pt, gray},
+    axis line style={gray, line width=0.10mm}, 
+    ybar,      
+    log ticks with fixed point,
+    x tick label style={/pgf/number format/1000 sep={}},
+    scaled y ticks=false,
+   % enlarge y limits={0.013,upper},
+   % ylabel={},
+    ytick align=outside,
+    xtick pos=left,
+    ytick pos=left,
+    yticklabel style = {font=\scriptsize},
+    ylabel style = {font=\scriptsize, yshift=-4pt},
+    xlabel style = {font=\scriptsize, yshift=10pt}, 
+    %width=0.5\columnwidth,
+    %bar width=3pt,     
+    ymajorgrids=true,
+    grid style=dotted,   
+    minor grid style={gray!50}, 
+    xtick = data,
+    symbolic x coords={CatDB, CAAFE}, 
+    legend image code/.code={\draw [#1] (0cm,-0.1cm) rectangle (0.15cm,0.1cm); },
+    xticklabels={}
+]
+\addplotEtoE{CatDB}{automatic}{binary}{Tic-Tac-Toe}{}{}{0,20,40,60,80,100}{Accuracy ($\%$)}{CatDB};
+\addplotEtoE{CAAFE}{TabPFN}{binary}{Tic-Tac-Toe}{}{draw=none}{}{}{CAAFE (TabPFN)};
+%\addplotEtoE{CAAFE}{RandomForest}{binary}{Breast-w}{}{draw=none}{}{}{CAAFE (RandomForest)};
+\end{groupplot}
+
+
+  \node [draw=none,inner sep=0, font=\scriptsize, anchor=west] (leg1) at (rel axis cs: 0.2,1.3) {\shortstack[l]{
+			\ref{plat_CatDB_train_acc_no} Accuracy \\  
+      \ref{plat_CatDB_train_f1_no} F1 Score 	 			
+	}};
+
+  \node [draw=none,inner sep=0, xshift=2pt, font=\scriptsize, anchor=west, right=of leg1] (leg2) {\shortstack[l]{
+			\ref{plat_CatDB_train_acc_yes} Accuracy w/ Description \\
+      \ref{plat_CatDB_train_f1_yes} F1 Score w/ Description 		 			
+	}};
+
+  \draw[draw=black, line width=0.2pt] ($(leg2.north east)+(11pt,-0.5pt)$) rectangle ($(leg2.north east)+(6.75pt,-6.5pt)$);
+
+  \draw[draw=black, line width=0.2pt, pattern=north east lines] ($(leg2.north east)+(11pt,-9.5pt)$) rectangle ($(leg2.north east)+(6.75pt,-15.5pt)$);
+
+  \node [draw=none,inner sep=0, xshift=12pt, font=\scriptsize, anchor=west, right=of leg2] (leg3) {\shortstack[l]{
+			Train \\ \\
+      Test 		 			
+	}};
+
+\end{tikzpicture}

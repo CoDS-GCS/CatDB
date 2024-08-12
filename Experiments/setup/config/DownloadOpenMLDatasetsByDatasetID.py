@@ -24,8 +24,7 @@ def parse_arguments():
 if __name__ == '__main__':
     args = parse_arguments()    
     
-    datasetIDs = [
-        #(11,"Balance-Scale","multiclass",1),
+    datasetIDs = [(11,"Balance-Scale","multiclass",1),
     #               (15,"Breast-w","binary",2),
     #               (23,"CMC","multiclass",3),
     #               (31,"Credit-g","binary",4),
@@ -50,25 +49,7 @@ if __name__ == '__main__':
     #               (44051,"House-Sales","regression",23),
     #               (44065,"NYC","regression",24),
     #               (42728,"Airlines-DepDelay","regression",25),
-    #               (1590,"Adult","binary",26),
-                    #(42705,"Yolanda","multiclass",27),
-                   # (42732,"SF-Police-Incidents","binary",28),
-                    # (42742,"Porto-Seguro", "binary", 29),
-                    # (23517,"Numerai28.6","binary",30),
-                    # (1475,"First-Order","multiclass",31),
-                    # (41169,"Helena","multiclass",32),
-                    #(1486,"Nomao","binary",33),
-                    #(1476,"Gas-Drift","multiclass",34),
-                    #(41166,"Volkert","multiclass",35),
-                    #(5,"Arrhythmia","multiclass",36),
-                    (43044,"Drug","multiclass",37),
-                    (42803,"Road-Safety","multiclass",38),
-                    (45567,"Hcdr","binary",39),
-                    (293,"Covertype","binary",40),
-                    (45049,"MD-MIX-Mini","multiclass",41),
-                    (42734,"Okcupid-Stem","multiclass",42),
-                    (42468,"Hls4ml","multiclass",43),
-                    (41147,"Albert","binary",44),
+    #               (1590,"Adult","binary",26)
                 ]
    
     dataset_list =  pd.DataFrame(columns=["Row","ID","dataset_name", "orig_name","nrows","ncols","nclasses","target"])
@@ -87,10 +68,10 @@ if __name__ == '__main__':
         n_classes = data[dataset.default_target_attribute].nunique()           
 
          # Split and save original dataset
-        nrows, ncols, number_classes = get_metadata(data=data, target_attribute=target_attribute)
-        split_data_save(data=data, ds_name=dataset_name,out_path= args.data_out_path)
-        save_config(dataset_name=dataset_name, target=target_attribute, task_type=task_type, data_out_path=args.data_out_path, description=dataset_description)
-        dataset_out_name = dataset_name
+        # nrows, ncols, number_classes = get_metadata(data=data, target_attribute=target_attribute)
+        # split_data_save(data=data, ds_name=dataset_name,out_path= args.data_out_path)
+        # save_config(dataset_name=dataset_name, target=target_attribute, task_type=task_type, data_out_path=args.data_out_path, description=dataset_description)
+        # dataset_out_name = dataset_name
 
         # # Split and rename dataset-name, then save  
         # dataset_out_name = f"oml_dataset_{dataset_index}"
@@ -102,7 +83,6 @@ if __name__ == '__main__':
         target_attribute, nrows, ncols, number_classes = rename_col_names(data=data, ds_name=dataset_out_name, target_attribute=target_attribute, out_path=args.data_out_path)
         save_config(dataset_name=dataset_out_name, target=target_attribute, task_type=task_type, data_out_path=args.data_out_path, description=dataset_description) 
 
-        # "Row","ID","dataset_name", "orig_name","nrows","ncols","nclasses","target"
         dataset_list.loc[len(dataset_list)] = [dataset_index, dataset_id, dataset_out_name, dataset_name, nrows, ncols, number_classes, target_attribute]
         dataset_list.to_csv(f"{args.data_out_path}/dataset_list.csv") 
 

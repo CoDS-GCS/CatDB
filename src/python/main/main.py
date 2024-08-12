@@ -5,7 +5,7 @@ from llm.GenerateLLMCode import GenerateLLMCode
 from runcode.RunCode import RunCode
 from util.FileHandler import save_prompt
 from util.FileHandler import save_text_file, read_text_file_line_by_line
-from util.Config import set_config
+from util.Config import load_config
 from util.LogResults import LogResults
 from util.ErrorResults import ErrorResults
 from pipegen.Metadata import Metadata
@@ -13,13 +13,12 @@ import time
 import datetime
 import yaml
 import os
-import re
-import numpy as np
 
 
 def parse_arguments():
     parser = ArgumentParser()
     parser.add_argument('--metadata-path', type=str, default=None)
+    parser.add_argument('--root-data-path', type=str, default=None)
     parser.add_argument('--data-profile-path', type=str, default=None)
     parser.add_argument('--dataset-description', type=str, default="yes")
     parser.add_argument('--prompt-representation-type', type=str, default=None)
@@ -30,7 +29,6 @@ def parse_arguments():
     parser.add_argument('--output-path', type=str, default=None)
     parser.add_argument('--llm-model', type=str, default=None)
     parser.add_argument('--enable-reduction', type=bool, default=False)
-    parser.add_argument('--delay', type=int, default=20)
     parser.add_argument('--result-output-path', type=str, default="/tmp/results.csv")
     parser.add_argument('--error-output-path', type=str, default="/tmp/catdb_error.csv")
     parser.add_argument('--run-code', type=bool, default=False)
@@ -40,6 +38,9 @@ def parse_arguments():
 
     if args.metadata_path is None:
         raise Exception("--metadata-path is a required parameter!")
+
+    if args.root_data_path is None:
+        raise Exception("--root-data-path is a required parameter!")
 
     if args.data_profile_path is None:
         raise Exception("--data-profile-path is a required parameter!")
@@ -52,10 +53,9 @@ def parse_arguments():
             args.target_attribute = config_data[0].get('dataset').get('target')
             args.task_type = config_data[0].get('dataset').get('type')
             try:
-                args.data_source_train_path = "../../../" + config_data[0].get('dataset').get('train').replace(
-                    "{user}/", "")
-                args.data_source_test_path = "../../../" + config_data[0].get('dataset').get('test').replace("{user}/",
-                                                                                                             "")
+                args.data_source_train_path = f"{args.root_data_path}/{config_data[0].get('dataset').get('train')}"
+                args.data_source_test_path = f"{args.root_data_path}/{config_data[0].get('dataset').get('test')}"
+                args.data_source_verify_path = f"{args.root_data_path}/{config_data[0].get('dataset').get('verify')}"
             except Exception as ex:
                 raise Exception(ex)
 
@@ -79,46 +79,13 @@ def parse_arguments():
 
     if args.dataset_description.lower() == "yes":
         dataset_description_path = args.metadata_path.replace(".yaml", ".txt")
-        args.description = refactor_openml_description(read_text_file_line_by_line(fname=dataset_description_path))
+        args.description = read_text_file_line_by_line(fname=dataset_description_path)
         args.dataset_description = 'Yes'
     else:
         args.description = None
         args.dataset_description = 'No'
 
     return args
-
-
-def refactor_openml_description(description):
-    """Refactor the description of an openml dataset to remove the irrelevant parts."""
-    if description is None:
-        return None
-    splits = re.split("\n", description)
-    blacklist = [
-        "Please cite",
-        "Author",
-        "Source",
-        "Author:",
-        "Source:",
-        "Please cite:",
-    ]
-    sel = ~np.array(
-        [
-            np.array([blacklist_ in splits[i] for blacklist_ in blacklist]).any()
-            for i in range(len(splits))
-        ]
-    )
-    description = str.join("\n", np.array(splits)[sel].tolist())
-
-    splits = re.split("###", description)
-    blacklist = ["Relevant Papers"]
-    sel = ~np.array(
-        [
-            np.array([blacklist_ in splits[i] for blacklist_ in blacklist]).any()
-            for i in range(len(splits))
-        ]
-    )
-    description = str.join("\n\n", np.array(splits)[sel].tolist())
-    return description
 
 
 def clean_up(args, prompt_file_name):
@@ -144,7 +111,7 @@ def clean_up(args, prompt_file_name):
             pass
 
 
-def generate_and_run_pipeline(args, catalog, run_mode: str = None, sub_task: str = '', previous_result: str = None,
+def generate_and_verify_pipeline(args, catalog, run_mode: str = None, sub_task: str = '', previous_result: str = None,
                               time_catalog: float = 0, iteration: int = 1):
     all_token_count = 0
     from util.Config import __gen_run_mode
@@ -202,6 +169,9 @@ def generate_and_run_pipeline(args, catalog, run_mode: str = None, sub_task: str
     iteration_error = 0
     results_verified = False
     for i in range(iteration_error, args.prompt_number_iteration_error):
+        # Replace Original Train Data with Verify Data
+        code = code.replace(args.data_source_train_path, args.data_source_verify_path)
+
         if len(code) > 500:
             pipeline_fname = f"{file_name}_draft.py"
             save_text_file(fname=pipeline_fname, data=code)
@@ -277,7 +247,7 @@ def generate_and_run_pipeline(args, catalog, run_mode: str = None, sub_task: str
                              time_execution=time_execute,
                              prompt_token_count=prompt_token_count,
                              all_token_count=all_token_count + prompt_token_count,
-                             operation="Gen-and-Run-Pipeline",
+                             operation="Gen-and-Verify-Pipeline",
                              number_of_samples=args.prompt_number_samples)
     if run_mode == __gen_run_mode and results_verified:
         log_results.train_auc = results["Train_AUC"]
@@ -397,21 +367,21 @@ def run_pipeline(args, catalog, run_mode: str = None, sub_task: str = '', previo
 
 
 if __name__ == '__main__':
+
     from util.Config import __validation_run_mode, __gen_run_mode, __sub_task_data_preprocessing, \
         __sub_task_feature_engineering, __sub_task_model_selection
 
     args = parse_arguments()
-    set_config(model=args.llm_model, delay=args.delay, system_log=args.system_log)
+    load_config(system_log=args.system_log, llm_model=args.llm_model)
 
     if args.run_code == False:
-        operation = generate_and_run_pipeline
+        operation = generate_and_verify_pipeline
         begin_iteration = 1
         end_iteration = 1
     else:
         operation = run_pipeline
         begin_iteration = args.prompt_number_iteration
         end_iteration = 1
-        print(f">>>>>>>>>>>>>>>>>>>>>>>>  {operation}")
 
     time_total_start = time_start = time.time()
     catalog = load_data_source_profile(data_source_path=args.data_profile_path,

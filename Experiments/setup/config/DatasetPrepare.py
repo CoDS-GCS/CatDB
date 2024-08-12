@@ -3,6 +3,8 @@ from sklearn.model_selection import train_test_split
 from pathlib import Path
 import pandas as pd
 from argparse import ArgumentParser
+import re
+import numpy as np
 
 def parse_arguments():
     parser = ArgumentParser()
@@ -33,11 +35,13 @@ def parse_arguments():
 
 def split_data_save(data, ds_name, out_path):
     data_train, data_test = train_test_split(data, test_size=0.3, random_state=42)
+    _, data_verify =  train_test_split(data_train, test_size=0.1, random_state=42)
     Path(f"{out_path}/{ds_name}").mkdir(parents=True, exist_ok=True)
 
     data.to_csv(f'{out_path}/{ds_name}/{ds_name}.csv', index=False)
     data_train.to_csv(f'{out_path}/{ds_name}/{ds_name}_train.csv', index=False)
     data_test.to_csv(f'{out_path}/{ds_name}/{ds_name}_test.csv', index=False)
+    data_verify.to_csv(f'{out_path}/{ds_name}/{ds_name}_verify.csv', index=False)
 
 def get_metadata(data, target_attribute):
     (nrows, ncols) = data.shape
@@ -64,14 +68,48 @@ def rename_col_names(data, ds_name, target_attribute, out_path):
     
     return target_attribute, nrows, ncols, number_classes    
 
+
+def refactor_openml_description(description):
+    """Refactor the description of an openml dataset to remove the irrelevant parts."""
+    if description is None:
+        return None
+    splits = re.split("\n", description)
+    blacklist = [
+        "Please cite",
+        "Author",
+        "Source",
+        "Author:",
+        "Source:",
+        "Please cite:",
+    ]
+    sel = ~np.array(
+        [
+            np.array([blacklist_ in splits[i] for blacklist_ in blacklist]).any()
+            for i in range(len(splits))
+        ]
+    )
+    description = str.join("\n", np.array(splits)[sel].tolist())
+
+    splits = re.split("###", description)
+    blacklist = ["Relevant Papers"]
+    sel = ~np.array(
+        [
+            np.array([blacklist_ in splits[i] for blacklist_ in blacklist]).any()
+            for i in range(len(splits))
+        ]
+    )
+    description = str.join("\n\n", np.array(splits)[sel].tolist())
+    return description
+
+
 def save_config(dataset_name,target, task_type, data_out_path, description=None):
     config_strs = [f"- name: {dataset_name}",
                        "  dataset:",
-                       f"    train: \'{{user}}/data/{dataset_name}/{dataset_name}_train.csv\'",
-                       f"    test: \'{{user}}/data/{dataset_name}/{dataset_name}_test.csv\'",
+                       f"    train: \'{dataset_name}/{dataset_name}_train.csv\'",
+                       f"    test: \'{dataset_name}/{dataset_name}_test.csv\'",
+                       f"    verify: \'{dataset_name}/{dataset_name}_verify.csv\'",
                        f"    target: {target}",
-                       f"    type: {task_type}",
-                       "  folds: 1",
+                       f"    type: {task_type}"
                        "\n"]
     config_str = "\n".join(config_strs)
 
@@ -84,11 +122,14 @@ def save_config(dataset_name,target, task_type, data_out_path, description=None)
     des = description
     if description is None:
         des = ""
+    else:
+        des = refactor_openml_description(description=description)    
         
     description_file = f'{data_out_path}/{dataset_name}/{dataset_name}.txt'
     f = open(description_file, 'w')
     f.write(des)
     f.close()
+
 
 if __name__ == '__main__':
     args = parse_arguments()

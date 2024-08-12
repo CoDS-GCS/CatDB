@@ -20,11 +20,11 @@ class GenerateLLMCodeGPT:
 
     @staticmethod
     def __submit_Request_OpenAI_LLM(messages, client):
-        from util.Config import _llm_model
+        from util.Config import _llm_model, _temperature
         completion = client.chat.completions.create(
             messages=messages,
             model=_llm_model,
-            temperature=0
+            temperature = _temperature
         )
         code = completion.choices[0].message.content
         # Refine code, keep all codes are between ```python and ```end

@@ -19,13 +19,13 @@ class GenerateLLMCodeLLaMa:
 
     @staticmethod
     def __submit_Request_LLaMa_LLM(messages, client):
-        from util.Config import _llm_model, _LLM_API_Key
+        from util.Config import _llm_model, _LLM_API_Key, _temperature
         try:
             time_start = time.time()
             completion = client.chat.completions.create(
-                model=_llm_model,
-                messages=messages,
-                temperature=0.5
+                model = _llm_model,
+                messages = messages,
+                temperature = _temperature
             )
             content = completion.choices[0].message.content
             content = GenerateLLMCodeLLaMa.__refine_text(content)

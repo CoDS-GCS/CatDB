@@ -12,9 +12,8 @@ llm_model=$7
 with_dataset_description=$8
 
 metadata_path="${data_path}/${dataset}/${dataset}.yaml"
-number_iteration=5
+number_iteration=1
 number_iteration_error=20
-delay=60
 
 log_file_name="${exp_path}/results/Experiment1_LLM_Pipe_Gen.dat"
 date=$(date '+%Y-%m-%d-%H-%M-%S')
@@ -30,6 +29,7 @@ cd "${exp_path}/setup/Baselines/CatDB/"
 source venv/bin/activate
 
 SCRIPT="python -Wignore main.py --metadata-path ${metadata_path} \
+        --root-data-path ${data_path} \
         --data-profile-path ${data_profile_path} \
         --prompt-representation-type ${prompt_representation_type} \
         --prompt-samples-type ${prompt_samples_type} \
@@ -41,7 +41,6 @@ SCRIPT="python -Wignore main.py --metadata-path ${metadata_path} \
         --result-output-path ${result_output_path} \
         --dataset-description ${with_dataset_description} \
         --error-output-path ${error_output_path} \
-        --delay ${delay} \
         --system-log ${system_log}"
 
 
@@ -50,5 +49,3 @@ echo ${SCRIPT}
 start=$(date +%s%N)
 $SCRIPT
 end=$(date +%s%N)
-
-echo "${dataset},${llm_model},${prompt_representation_type},${prompt_samples_type},${prompt_number_samples},${task_type},$((($end - $start) / 1000000))" >> ${log_file_name}  

@@ -1,0 +1,18 @@
+--- 
+ 
+- llm_platform: OpenAI
+  key_1: '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'
+
+- llm_platform: Meta
+  key_1: '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'
+  key_2: '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'
+
+- llm_platform: Google
+  key_1: 'AIzaSyBR1nuRg0tItfY00TuDPmxW49vRh8jsxHc'
+  key_2: 'AIzaSyCFZE38Ke0Nsy81h_nW0H1ntq31fyMWFFE'
+  key_3: 'AIzaSyB0v_AE9ArUh9wZpGqasQbjwzlfsCj8Azk'
+
+
+
+
+

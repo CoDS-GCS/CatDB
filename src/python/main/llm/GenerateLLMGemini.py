@@ -16,15 +16,15 @@ class GenerateLLMGemini:
 
     @staticmethod
     def __submit_Request_Gemini_LLM(messages):
-        from util.Config import _LLM_API_Key, _llm_model
+        from util.Config import _LLM_API_Key, _llm_model, _temperature, _top_p, _top_k, _max_out_token_limit
 
         time_start = time.time()
 
         generation_config = {
-            "temperature": 0,
-            "top_p": 1,
-            "top_k": 64,
-            "max_output_tokens": 8192,
+            "temperature": _temperature,
+            "top_p": _top_p,
+            "top_k": _top_k,
+            "max_output_tokens": _max_out_token_limit,
         }
 
         safety_settings = [
@@ -63,13 +63,13 @@ class GenerateLLMGemini:
 
     @staticmethod
     def get_number_tokens(messages: str):
-        from util.Config import _llm_model
+        from util.Config import _llm_model, _temperature, _top_p, _top_k, _max_out_token_limit
 
         generation_config = {
-            "temperature": 0.5,
-            "top_p": 0.95,
-            "top_k": 64,
-            "max_output_tokens": 8192,
+            "temperature": _temperature,
+            "top_p": _top_p,
+            "top_k": _top_k,
+            "max_output_tokens": _max_out_token_limit,
         }
 
         safety_settings = [

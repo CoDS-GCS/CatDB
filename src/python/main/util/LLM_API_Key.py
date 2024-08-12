@@ -1,30 +1,37 @@
 import os
 import time
 import datetime
+import yaml
 
 
 class LLM_API_Key(object):
-    def __init__(self):
-        from .Config import _llm_platform, _OPENAI, _GOOGLE, _META, _delay
-        key = ""
-        if _llm_platform == _OPENAI:
-            key = "OPENAI_API_KEY"
-        elif _llm_platform == _GOOGLE:
-            key = "GOOGLE_API_KEY"
-        elif _llm_platform == _META:
-            key = "GROQ_API_KEY"
-
+    def __init__(self, api_config_path: str):
+        from .Config import _llm_platform
         self.platform_keys = {}
         aks = dict()
-        for ki in range(1, 10):
+        with open(api_config_path, "r") as f:
             try:
-                ID = f"{key}_{ki}"
-                api_key = os.environ.get(ID)
-                if api_key is None:
-                    continue
-                aks[ID] = {"count": 0, "last_time": time.time(), "api_key": api_key}
-            except Exception:
-                continue
+                configs = yaml.load(f, Loader=yaml.FullLoader)
+                for conf in configs:
+                    plt = conf.get('llm_platform')
+                    if plt != _llm_platform:
+                        continue
+                    print(plt)
+                    try:
+                        if conf.get('llm_platform') is not None:
+                            for ki in range(1, 10):
+                                ID = f"key_{ki}"
+                                api_key = conf.get(ID)
+                                if api_key is None:
+                                    continue
+                                aks[ID] = {"count": 0, "last_time": time.time(), "api_key": api_key}
+                    except:
+                        pass
+
+            except yaml.YAMLError as ex:
+                raise Exception(ex)
+
+        print(aks)
         self.platform_keys[_llm_platform] = aks
         self.begin = True
 
@@ -42,7 +49,7 @@ class LLM_API_Key(object):
                 selectedID = ID
                 break
             else:
-                sleep_time = min(_delay-diff_time, sleep_time)
+                sleep_time = min(_delay - diff_time, sleep_time)
 
         if selectedID is not None:
             self.set_update(ID=selectedID, save_log=True)
@@ -53,7 +60,7 @@ class LLM_API_Key(object):
             time.sleep(sleep_time)
             return self.get_API_Key()
 
-    def set_update(self, ID, save_log: bool=False):
+    def set_update(self, ID, save_log: bool = False):
         from .Config import _llm_platform, _system_log_file
         self.platform_keys[_llm_platform][ID]["count"] += 1
         self.platform_keys[_llm_platform][ID]["last_time"] = time.time()
@@ -61,5 +68,5 @@ class LLM_API_Key(object):
         if save_log:
             log = f'{_llm_platform},{ID},{self.platform_keys[_llm_platform][ID]["count"]},{datetime.datetime.utcnow().isoformat()}'
             with open(_system_log_file, "a") as log_file:
-                log_file.write(log+"\n")
+                log_file.write(log + "\n")
                 log_file.close()

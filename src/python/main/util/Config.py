@@ -14,6 +14,7 @@ from prompt.PromptTemplate import AllPrompt
 from prompt.PromptChainTemplate import DataPreprocessingChainPrompt
 from prompt.PromptChainTemplate import FeatureEngineeringChainPrompt
 from prompt.PromptChainTemplate import ModelSelectionChainPrompt
+import yaml
 
 from .LLM_API_Key import LLM_API_Key
 
@@ -24,146 +25,113 @@ __sub_task_data_preprocessing = "DataPreprocessing"
 __sub_task_feature_engineering = "FeatureEngineering"
 __sub_task_model_selection = "ModelSelection"
 
-__GPT_4_Limit = 8192
-__GPT_4_1106_Preview_Limit = 4096
-__GPT_4_Turbo_Limit = 4096
-__GPT_4o_Limit = 4096
-__GPT_3_5_Turbo_limit = 4096
-__Llama2_70b = 4096
-__Llama3_70b_8192 = 8192
-__Llama3_1_70b_versatile = 131072
-__Llama3_8b_8192 = 8192
-__Mixtral_8x7b_32768 = 32768
-__Gemma_7b_it = 8192
-__Gemini = 8192
-
+default_max_token_limit = 4096
+default_max_output_tokens = 8192
+default_delay = 0
+default_temperature = 0
+default_top_p = 0.95
+default_top_k = 64
+default_system_delimiter = "### "
+default_user_delimiter = "### "
 
 _OPENAI = "OpenAI"
-__GPT_system_delimiter = "### "
-__GPT_user_delimiter = "### "
-
 _META = "Meta"
-__Llama_system_delimiter = "### "
-__Llama_user_delimiter = "### "
-
 _GOOGLE = "Google"
-__Gemini_system_delimiter = "### "
-__Gemini_user_delimiter = "### "
 
 _llm_model = None
 _llm_platform = None
 _system_delimiter = None
 _user_delimiter = None
 _max_token_limit = None
-_delay = 75
+_max_out_token_limit = None
+_delay = None
+_temperature = None
+_top_p = None
+_top_k = None
 _last_API_Key = None
 _LLM_API_Key = None
 _system_log_file = None
 
 
-def set_config(model, delay, system_log):
+def load_config(system_log: str, llm_model: str = None, config_path: str = "Config.yaml", api_config_path: str = "APIKeys.yaml"):
     global _llm_model
     global _llm_platform
     global _system_delimiter
     global _user_delimiter
     global _max_token_limit
+    global _max_out_token_limit
     global _delay
     global _last_API_Key
     global _LLM_API_Key
     global _system_log_file
-
-    _llm_model = model
-    _delay = delay
+    global _temperature
+    global _top_k
+    global _top_p
     _system_log_file = system_log
 
-    if model == "gpt-4":
-        _llm_platform = _OPENAI
-        _max_token_limit = __GPT_4_Limit
-        _user_delimiter = __GPT_user_delimiter
-        _system_delimiter = __GPT_system_delimiter
+    with open(config_path, "r") as f:
+        try:
+            configs = yaml.load(f, Loader=yaml.FullLoader)
+            for conf in configs:
+                plt = conf.get("llm_platform")
+                try:
+                    if conf.get(llm_model) is not None:
+                        _llm_model = llm_model
+                        _llm_platform = plt
 
-    elif model == "gpt-4-1106-preview_":
-        _llm_platform = _OPENAI
-        _max_token_limit = __GPT_4_1106_Preview_Limit
-        _user_delimiter = __GPT_user_delimiter
-        _system_delimiter = __GPT_system_delimiter
+                        try:
+                            _system_delimiter = conf.get(llm_model).get('system_delimiter')
+                        except:
+                            _system_delimiter = default_system_delimiter
 
-    elif model == "gpt-4-turbo":
-        _llm_platform = _OPENAI
-        _max_token_limit = __GPT_4_Turbo_Limit
-        _user_delimiter = __GPT_user_delimiter
-        _system_delimiter = __GPT_system_delimiter
+                        try:
+                            _user_delimiter = conf.get(llm_model).get('user_delimiter')
+                        except:
+                            _user_delimiter = default_user_delimiter
 
-    elif model == "gpt-4o":
-        _llm_platform = _OPENAI
-        _max_token_limit = __GPT_4o_Limit
-        _user_delimiter = __GPT_user_delimiter
-        _system_delimiter = __GPT_system_delimiter
+                        try:
+                            _max_token_limit = int(conf.get(llm_model).get('token_limit'))
+                        except:
+                            _max_token_limit = default_max_token_limit
 
-    elif model == "gpt-3.5-turbo":
-        _llm_platform = _OPENAI
-        _max_token_limit = __GPT_3_5_Turbo_limit
-        _user_delimiter = __GPT_user_delimiter
-        _system_delimiter = __GPT_system_delimiter
+                        try:
+                            _max_out_token_limit = int(conf.get(llm_model).get('max_output_tokens'))
+                        except:
+                            _max_out_token_limit = default_max_output_tokens
 
-    elif model == "llama2-70b":
-        _llm_platform = _META
-        _max_token_limit = __Llama2_70b
-        _user_delimiter = __Llama_user_delimiter
-        _system_delimiter = __Llama_system_delimiter
+                        try:
+                            _delay = int(conf.get(llm_model).get('delay'))
+                        except:
+                            _delay = default_delay
 
-    elif model == "llama3-70b-8192":
-        _llm_platform = _META
-        _max_token_limit = __Llama3_70b_8192
-        _user_delimiter = __Llama_user_delimiter
-        _system_delimiter = __Llama_system_delimiter
+                        try:
+                            _temperature = float(conf.get(llm_model).get('temperature'))
+                        except:
+                            _temperature = default_temperature
 
-    elif model == "llama-3.1-70b-versatile":
-        _llm_platform = _META
-        _max_token_limit = __Llama3_1_70b_versatile
-        _user_delimiter = __Llama_user_delimiter
-        _system_delimiter = __Llama_system_delimiter
+                        try:
+                            _top_k = int(conf.get(llm_model).get('top_k'))
+                        except:
+                            _top_k = default_top_k
 
-    elif model == "llama3-8b-8192":
-        _llm_platform = _META
-        _max_token_limit = __Llama3_8b_8192
-        _user_delimiter = __Llama_user_delimiter
-        _system_delimiter = __Llama_system_delimiter
+                        try:
+                            _top_p = float(conf.get(llm_model).get('top_p'))
+                        except:
+                            _top_p = default_top_p
 
-    elif model == "mixtral-8x7b-32768":
-        _llm_platform = _META
-        _max_token_limit = __Mixtral_8x7b_32768
-        _user_delimiter = __Llama_user_delimiter
-        _system_delimiter = __Llama_system_delimiter
+                        break
+                except Exception as ex:
+                    print(ex)
+                    pass
 
-    elif model == "gemma-7b-it":
-        _llm_platform = _GOOGLE
-        _max_token_limit = __Gemma_7b_it
-        _user_delimiter = __Gemini_user_delimiter
-        _system_delimiter = __Gemini_system_delimiter
+        except yaml.YAMLError as ex:
+            raise Exception(ex)
 
-    elif model == "gemini-1.0-pro-latest":
-        _llm_platform = _GOOGLE
-        _max_token_limit = __Gemini
-        _user_delimiter = __Gemini_user_delimiter
-        _system_delimiter = __Gemini_system_delimiter
+        if _llm_model is None:
+            raise Exception(f'Error: model "{llm_model}" is not in the Config.yaml list!')
 
-    elif model == "gemini-1.5-pro-latest":
-        _llm_platform = _GOOGLE
-        _max_token_limit = __Gemini
-        _user_delimiter = __Gemini_user_delimiter
-        _system_delimiter = __Gemini_system_delimiter
+        _LLM_API_Key = LLM_API_Key(api_config_path=api_config_path)
 
-    elif model == "gemma-2-27b-it":
-        _llm_platform = _GOOGLE
-        _max_token_limit = __Gemini
-        _user_delimiter = __Gemini_user_delimiter
-        _system_delimiter = __Gemini_system_delimiter
-
-    else:
-        raise Exception(f"Model {model} is not implemented yet!")
-
-    _LLM_API_Key = LLM_API_Key()
 
 CATEGORICAL_RATIO: float = 0.01
 LOW_RATIO_THRESHOLD = 0.1

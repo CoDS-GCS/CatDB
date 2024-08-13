@@ -6,7 +6,7 @@ from runcode.RunCode import RunCode
 from util.FileHandler import save_prompt
 from util.FileHandler import save_text_file, read_text_file_line_by_line
 from util.Config import load_config
-from util.LogResults import LogResults
+from util.LogResults import save_log
 from util.ErrorResults import ErrorResults
 from pipegen.Metadata import Metadata
 import time
@@ -100,27 +100,28 @@ def clean_up(args, prompt_file_name):
         error_fname = f"{file_name}_{i}.error"
         pipeline_fname = f"{file_name}_{i}.python"
         prompt_fname_error = f"{file_name}_Error_{i}.prompt"
+        prompt_results_fname_error = f"{file_name}_Error_Results_{i}.prompt"
         file_names.append(error_fname)
         file_names.append(pipeline_fname)
         file_names.append(prompt_fname_error)
+        file_names.append(prompt_results_fname_error)
 
     for fn in file_names:
         try:
             os.remove(fn)
-        except Exception as ex:
+        except:
             pass
 
 
 def generate_and_verify_pipeline(args, catalog, run_mode: str = None, sub_task: str = '', previous_result: str = None,
                               time_catalog: float = 0, iteration: int = 1):
     all_token_count = 0
-    from util.Config import __gen_run_mode
     time_generate = 0
     time_execute = 0
     final_status = False
     time_total = 0
 
-    time_start = time.time()  # Start Time
+    time_start_1 = time.time()  # Start Time
     prompt = prompt_factory(catalog=catalog,
                             representation_type=f"{args.prompt_representation_type}{sub_task}",
                             samples_type=args.prompt_samples_type,
@@ -133,9 +134,8 @@ def generate_and_verify_pipeline(args, catalog, run_mode: str = None, sub_task: 
                             dataset_description=args.description,
                             previous_result=previous_result)
 
-    time_end = time.time()  # End time
-    time_generate += time_end - time_start  # Add prompt construction time to pipeline generate time
-    time_total += time_generate
+    time_end_1 = time.time()  # End time
+    time_generate += time_end_1 - time_start_1  # Add prompt construction time to pipeline generate time
 
     prompt_format = prompt.format()
     prompt_system_message = prompt_format["system_message"]
@@ -147,8 +147,6 @@ def generate_and_verify_pipeline(args, catalog, run_mode: str = None, sub_task: 
     file_name = f'{args.output_path}/{prompt_file_name}'
 
     clean_up(args=args, prompt_file_name=prompt_file_name)
-    # if sub_task != '':
-    #     file_name = f"{file_name}-{sub_task}"
 
     prompt_fname = f"{file_name}.prompt"
     save_prompt(fname=prompt_fname, system_message=prompt_system_message, user_message=prompt_user_message)
@@ -156,38 +154,41 @@ def generate_and_verify_pipeline(args, catalog, run_mode: str = None, sub_task: 
     # Generate LLM code
     code, prompt_token_count, time_tmp_gen = GenerateLLMCode.generate_llm_code(user_message=prompt_user_message,
                                                                                system_message=prompt_system_message)
+    time_generate_extra = 0
     for i in range(5):
         if code == "Insufficient information.":
             code, tokens_count, time_tmp_gen = GenerateLLMCode.generate_llm_code(user_message=prompt_user_message,
                                                                                  system_message=prompt_system_message)
             all_token_count += tokens_count
-            time_total += time_tmp_gen
+            time_generate_extra += time_tmp_gen
         else:
             break
     time_generate += time_tmp_gen
 
     iteration_error = 0
     results_verified = False
-    for i in range(iteration_error, args.prompt_number_iteration_error):
+    results = None
+    final_pipeline_file_name = None
+    for i in range(0, args.prompt_number_iteration_error):
         # Replace Original Train Data with Verify Data
-        #code = code.replace(args.data_source_train_path, args.data_source_verify_path)
+        code = code.replace(args.data_source_train_path, args.data_source_verify_path)
 
         if len(code) > 500:
             pipeline_fname = f"{file_name}_draft.py"
             save_text_file(fname=pipeline_fname, data=code)
 
-        time_start = time.time()
+        time_start_2 = time.time()
         result = RunCode.execute_code(src=code, parse=None, run_mode=run_mode)
-        time_end = time.time()
+        time_end_2 = time.time()
         if result.get_status():
             results_verified, results = result.parse_results()
             pipeline_fname = f"{file_name}.py"
             save_text_file(fname=pipeline_fname, data=code)
             if results_verified:
-                time_execute = time_end - time_start
-                time_total += time_execute
+                time_execute = time_end_2 - time_start_2
                 final_status = True
-                iteration_error = i + 1
+                iteration_error = i
+                final_pipeline_file_name = file_name
                 break
             else:
                 system_message, user_message = result_error_prompt_factory(pipeline_code=code, task_type=args.task_type,
@@ -198,8 +199,8 @@ def generate_and_verify_pipeline(args, catalog, run_mode: str = None, sub_task: 
                 new_code, tokens_count, time_tmp_gen = GenerateLLMCode.generate_llm_code(system_message=system_message,
                                                                                          user_message=user_message)
                 time_total += time_tmp_gen
-                all_token_count += tokens_count
                 if len(new_code) > 500:
+                    all_token_count += tokens_count
                     code = new_code
                 else:
                     i -= 1
@@ -220,7 +221,8 @@ def generate_and_verify_pipeline(args, catalog, run_mode: str = None, sub_task: 
             save_text_file(fname=pipeline_fname, data=code)
 
             system_message, user_message = error_prompt_factory(pipeline_code=code,
-                                                                pipeline_error=f"{result.get_error_class()}: {result.get_error_detail()}",
+                                                                pipeline_error_class = result.get_error_class(),
+                                                                pipeline_error_detail = result.get_error_detail(),
                                                                 schema_data=schema_data,
                                                                 task_type=args.task_type,
                                                                 data_source_train_path=args.data_source_train_path,
@@ -231,144 +233,108 @@ def generate_and_verify_pipeline(args, catalog, run_mode: str = None, sub_task: 
             new_code, tokens_count, time_tmp_gen = GenerateLLMCode.generate_llm_code(system_message=system_message,
                                                                                      user_message=user_message)
             time_total += time_tmp_gen
-            all_token_count += tokens_count
             if len(new_code) > 500:
+                all_token_count += tokens_count
                 code = new_code
             else:
                 i -= 1
 
-    log_results = LogResults(dataset_name=args.dataset_name, config=args.prompt_representation_type, sub_task=sub_task,
-                             llm_model=args.llm_model, classifier="Auto", task_type=args.task_type,
-                             status=f"{final_status}", number_iteration=iteration,
-                             number_iteration_error=iteration_error,
-                             has_description=args.dataset_description,
-                             time_catalog_load=time_catalog, time_pipeline_generate=time_generate,
-                             time_total=time_total,
-                             time_execution=time_execute,
-                             prompt_token_count=prompt_token_count,
-                             all_token_count=all_token_count + prompt_token_count,
-                             operation="Gen-and-Verify-Pipeline",
-                             number_of_samples=args.prompt_number_samples)
-    if run_mode == __gen_run_mode and results_verified:
-        log_results.train_auc = results["Train_AUC"]
-        log_results.train_auc_ovo = results["Train_AUC_OVO"]
-        log_results.train_auc_ovr = results["Train_AUC_OVR"]
-        log_results.train_accuracy = results["Train_Accuracy"]
-        log_results.train_f1_score = results["Train_F1_score"]
-        log_results.train_log_loss = results["Train_Log_loss"]
-        log_results.train_r_squared = results["Train_R_Squared"]
-        log_results.train_rmse = results["Train_RMSE"]
-        log_results.test_auc = results["Test_AUC"]
-        log_results.test_auc_ovo = results["Test_AUC_OVO"]
-        log_results.test_auc_ovr = results["Test_AUC_OVR"]
-        log_results.test_accuracy = results["Test_Accuracy"]
-        log_results.test_f1_score = results["Test_F1_score"]
-        log_results.test_log_loss = results["Test_Log_loss"]
-        log_results.test_r_squared = results["Test_R_Squared"]
-        log_results.test_rmse = results["Test_RMSE"]
+    save_log(args=args, sub_task=sub_task, iteration=iteration, iteration_error=iteration_error, time_catalog=time_catalog,
+             time_generate=time_generate, time_total=time_total+time_generate_extra+time_generate+time_execute, time_execute=time_execute,
+             prompt_token_count=prompt_token_count, all_token_count=all_token_count, operation_tag='Gen-and-Verify-Pipeline',
+             run_mode=run_mode,results_verified=results_verified, results=results, final_status=final_status)
 
-    if final_status:
-        log_results.save_results(result_output_path=args.result_output_path)
+    if run_mode == __execute_mode :
+        final_status, code = run_pipeline(args=args, file_name=final_pipeline_file_name, code=code, schema_data=schema_data,
+                     run_mode=__execute_mode, sub_task=sub_task, iteration=iteration)
 
     return final_status, code
 
 
-def run_pipeline(args, catalog, run_mode: str = None, sub_task: str = '', previous_result: str = None,
-                 time_catalog: float = 0, iteration: int = 1):
+def run_pipeline(args, file_name, code, schema_data, run_mode, sub_task: str = '', iteration: int = 1):
     all_token_count = 0
-    from util.Config import __gen_run_mode
-    time_generate = 0
     time_execute = 0
     final_status = False
+    time_total = 0
 
-    time_total_start = time.time()
-    time_start = time.time()  # Start Time
-    prompt = prompt_factory(catalog=catalog,
-                            representation_type=f"{args.prompt_representation_type}{sub_task}",
-                            samples_type=args.prompt_samples_type,
-                            number_samples=args.prompt_number_samples,
-                            task_type=args.task_type,
-                            number_iteration=args.prompt_number_iteration,
-                            target_attribute=args.target_attribute,
-                            data_source_train_path=args.data_source_train_path,
-                            data_source_test_path=args.data_source_test_path,
-                            dataset_description=args.description,
-                            previous_result=previous_result)
+    # Run pipeline with original data
+    code = code.replace(args.data_source_verify_path, args.data_source_train_path)
 
-    time_end = time.time()  # End time
-    time_generate += time_end - time_start  # Add prompt construction time to pipeline generate time
+    iteration_error = 0
+    results_verified = False
+    results = None
+    for i in range(0, args.prompt_number_iteration_error):
+        time_start_1 = time.time()
+        result = RunCode.execute_code(src=code, parse=None, run_mode=run_mode)
+        time_end_1 = time.time()
+        if result.get_status():
+            results_verified, results = result.parse_results()
+            pipeline_fname = f"{file_name}-RUN.py"
+            save_text_file(fname=pipeline_fname, data=code)
+            if results_verified:
+                time_execute = time_end_1 - time_start_1
+                final_status = True
+                iteration_error = i
+                break
+            else:
+                system_message, user_message = result_error_prompt_factory(pipeline_code=code, task_type=args.task_type,
+                                                                           data_source_train_path=args.data_source_train_path,
+                                                                           data_source_test_path=args.data_source_test_path)
+                prompt_fname_error = f"{file_name}_Error_Results_{i}_RUN.prompt"
+                save_prompt(fname=prompt_fname_error, system_message=system_message, user_message=user_message)
+                new_code, tokens_count, time_tmp_gen = GenerateLLMCode.generate_llm_code(system_message=system_message,
+                                                                                         user_message=user_message)
+                time_total += time_tmp_gen
+                if len(new_code) > 500:
+                    all_token_count += tokens_count
+                    code = new_code
+                else:
+                    i -= 1
 
-    prompt_format = prompt.format()
-    prompt_system_message = prompt_format["system_message"]
-    prompt_user_message = prompt_format["user_message"]
+        else:
+            # add error to error lists:
+            ErrorResults(error_class=result.get_error_class(), error_exception=result.error_exception,
+                         error_type=result.get_error_type(), error_value=result.get_error_value(),
+                         error_detail=result.get_error_detail(), dataset_name=args.dataset_name,
+                         llm_model=args.llm_model,
+                         config=args.prompt_representation_type, sub_task=sub_task,
+                         file_name=f"{file_name}_{i}_RUN.python",
+                         timestamp=datetime.datetime.utcnow().isoformat()).save_error(args.error_output_path)
 
-    # Save prompt:
-    file_name = f'{args.output_path}/{args.llm_model}-{prompt.class_name}-{args.dataset_description}-iteration-{iteration}'
+            error_fname = f"{file_name}_{i}_RUN.error"
+            pipeline_fname = f"{file_name}_{i}_RUN.python"
+            save_text_file(error_fname, f"{result.get_exception()}")
+            save_text_file(fname=pipeline_fname, data=code)
 
-    # prompt_fname = f"{file_name}.prompt"
-    # save_prompt(fname=prompt_fname, system_message=prompt_system_message, user_message=prompt_user_message)
+            system_message, user_message = error_prompt_factory(pipeline_code=code,
+                                                                pipeline_error_class = result.get_error_class(),
+                                                                pipeline_error_detail = result.get_error_detail(),
+                                                                schema_data=schema_data,
+                                                                task_type=args.task_type,
+                                                                data_source_train_path=args.data_source_train_path,
+                                                                data_source_test_path=args.data_source_test_path)
+            prompt_fname_error = f"{file_name}_Error_{i}_RUN.prompt"
+            save_prompt(fname=prompt_fname_error, system_message=system_message, user_message=user_message)
 
-    # Generate LLM code
-    time_start = time.time()
-    code = read_text_file_line_by_line(f"{file_name}.py")
-    # prompt_token_count = GenerateLLMCode.get_number_tokens(user_message=prompt_user_message,
-    #                                                        system_message=prompt_system_message)
-    prompt_token_count = 0
-    time_end = time.time()
-    time_generate += time_end - time_start
+            new_code, tokens_count, time_tmp_gen = GenerateLLMCode.generate_llm_code(system_message=system_message,
+                                                                                     user_message=user_message)
+            time_total += time_tmp_gen
+            if len(new_code) > 500:
+                all_token_count += tokens_count
+                code = new_code
+            else:
+                i -= 1
 
-    time_start = time.time()
-    result = RunCode.execute_code(src=code, parse=None, run_mode=run_mode)
-    time_end = time.time()
-    print(result)
-
-    if result.get_status():
-        time_execute = time_end - time_start
-        final_status = True
-
-    time_total_end = time.time()
-    time_total = time_total_end - time_total_start
-
-    log_results = LogResults(dataset_name=args.dataset_name, config=args.prompt_representation_type, sub_task=sub_task,
-                             llm_model=args.llm_model, classifier="Auto", task_type=args.task_type,
-                             status=f"{final_status}", number_iteration=iteration,
-                             number_iteration_error=0,
-                             has_description=args.dataset_description,
-                             time_catalog_load=time_catalog, time_pipeline_generate=time_generate,
-                             time_total=time_total,
-                             time_execution=time_execute,
-                             prompt_token_count=prompt_token_count,
-                             all_token_count=all_token_count + prompt_token_count,
-                             operation="Run-Pipeline",
-                             number_of_samples=args.prompt_number_samples)
-
-    if run_mode == __gen_run_mode:
-        _, results = result.parse_results()
-        log_results.train_auc = results["Train_AUC"]
-        log_results.train_auc_ovo = results["Train_AUC_OVO"]
-        log_results.train_auc_ovr = results["Train_AUC_OVR"]
-        log_results.train_accuracy = results["Train_Accuracy"]
-        log_results.train_f1_score = results["Train_F1_score"]
-        log_results.train_log_loss = results["Train_Log_loss"]
-        log_results.train_r_squared = results["Train_R_Squared"]
-        log_results.train_rmse = results["Train_RMSE"]
-        log_results.test_auc = results["Test_AUC"]
-        log_results.test_auc_ovo = results["Test_AUC_OVO"]
-        log_results.test_auc_ovr = results["Test_AUC_OVR"]
-        log_results.test_accuracy = results["Test_Accuracy"]
-        log_results.test_f1_score = results["Test_F1_score"]
-        log_results.test_log_loss = results["Test_Log_loss"]
-        log_results.test_r_squared = results["Test_R_Squared"]
-        log_results.test_rmse = results["Test_RMSE"]
-
-    log_results.save_results(result_output_path=args.result_output_path)
+    save_log(args=args, sub_task=sub_task, iteration=iteration, iteration_error=iteration_error,
+             time_catalog=0, time_generate=0, time_total=time_total+time_execute, time_execute=time_execute,
+             prompt_token_count=0, all_token_count=all_token_count, operation_tag='Run-Pipeline',
+             run_mode=run_mode, results_verified=results_verified, results=results, final_status=final_status)
 
     return final_status, code
 
 
 if __name__ == '__main__':
-
-    from util.Config import __validation_run_mode, __gen_run_mode, __sub_task_data_preprocessing, \
+    from util.Config import __execute_mode, __gen_verify_mode, __sub_task_data_preprocessing, \
         __sub_task_feature_engineering, __sub_task_model_selection
 
     args = parse_arguments()
@@ -397,34 +363,23 @@ if __name__ == '__main__':
     prompt_representation_type_orig = args.prompt_representation_type
     while begin_iteration < args.prompt_number_iteration + end_iteration:
         if args.prompt_representation_type == "CatDBChain":
-            final_status, code = operation(args=args, catalog=catalog, run_mode=__validation_run_mode,
-                                           sub_task=__sub_task_data_preprocessing,
-                                           time_catalog=time_catalog, iteration=begin_iteration)
+            final_status, code = operation(args=args, catalog=catalog, run_mode=__gen_verify_mode, sub_task=__sub_task_data_preprocessing, time_catalog=time_catalog, iteration=begin_iteration)
             if final_status:
-                final_status, code = operation(args=args, catalog=catalog,
-                                               run_mode=__validation_run_mode,
-                                               sub_task=__sub_task_feature_engineering,
-                                               previous_result=code, time_catalog=time_catalog,
-                                               iteration=begin_iteration)
+                final_status, code = operation(args=args, catalog=catalog, run_mode=__gen_verify_mode, sub_task=__sub_task_feature_engineering, previous_result=code, time_catalog=time_catalog, iteration=begin_iteration)
                 if final_status:
-                    final_status, code = operation(args=args, catalog=catalog, run_mode=__gen_run_mode,
-                                                   sub_task=__sub_task_model_selection,
-                                                   previous_result=code, time_catalog=time_catalog,
-                                                   iteration=begin_iteration)
+                    final_status, code = operation(args=args, catalog=catalog, run_mode=__execute_mode, sub_task=__sub_task_model_selection, previous_result=code, time_catalog=time_catalog, iteration=begin_iteration)
                     if final_status:
                         begin_iteration += 1
         elif args.prompt_representation_type == "AUTO":
             combinations = Metadata(catalog=catalog).get_combinations()
             for cmb in combinations:
                 args.prompt_representation_type = cmb
-                final_status, code = operation(args=args, catalog=catalog, run_mode=__gen_run_mode,
-                                               time_catalog=time_catalog, iteration=begin_iteration)
+                final_status, code = operation(args=args, catalog=catalog, run_mode=__execute_mode, time_catalog=time_catalog, iteration=begin_iteration)
                 if final_status:
                     begin_iteration += 1
             args.prompt_representation_type = prompt_representation_type_orig
         else:
-            final_status, code = operation(args=args, catalog=catalog, run_mode=__gen_run_mode,
-                                           time_catalog=time_catalog, iteration=begin_iteration)
+            final_status, code = operation(args=args, catalog=catalog, run_mode=__execute_mode, time_catalog=time_catalog, iteration=begin_iteration)
             if final_status:
                 begin_iteration += 1
 

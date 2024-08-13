@@ -2,7 +2,7 @@ from util import StaticValues
 
 
 class BasicErrorPrompt(object):
-    def __init__(self, pipeline_code: str, pipeline_error: str, schema_data: str, *args, **kwargs):
+    def __init__(self, pipeline_code: str, pipeline_error: str, schema_data: str = None, *args, **kwargs):
         self.rules = []
         self.pipeline_code = pipeline_code
         self.pipeline_error = pipeline_error
@@ -75,6 +75,28 @@ class RuntimeErrorPrompt(BasicErrorPrompt):
         self.small_error_msg = self.pipeline_error[:min_length]
 
 
+class SyntaxErrorPrompt(BasicErrorPrompt):
+    def __init__(self, *args, **kwargs):
+        BasicErrorPrompt.__init__(self, *args, **kwargs)
+        self.rules = ['Task: You are expert in coding assistant. Your task is fix the error of this pipeline code.',
+                      'Input: The user will provide a pipeline code enclosed in "<CODE> pipline code will be here. </CODE>", '
+                      'and an error message enclosed in "<ERROR> error message will be here. </ERROR>".']
+
+        min_length = min(len(self.pipeline_error), 2000)
+        self.small_error_msg = self.pipeline_error[:min_length]
+
+    def format_user_message(self):
+        from util.Config import _user_delimiter
+        code = f"<CODE>\n{self.pipeline_code}\n</CODE>"
+        error = f"<ERROR>\n{self.small_error_msg}\n</ERROR>"
+        question = ("Question: Fix the code error provided and return only the corrected pipeline without "
+                    "additional explanations regarding the resolved error."
+                    )
+        prompt_items = [code, error, question]
+
+        return f"\n\n{_user_delimiter}".join(prompt_items)
+
+
 class ResultsErrorPrompt(BasicResultErrorPrompt):
     def __init__(self, evaluation_text: str, data_source_train_path: str, data_source_test_path: str, *args, **kwargs):
         BasicResultErrorPrompt.__init__(self, *args, **kwargs)
@@ -85,3 +107,4 @@ class ResultsErrorPrompt(BasicResultErrorPrompt):
                       f"Rule 1: {evaluation_text}",
                       f'Rule 2: {StaticValues.dp_rule_2.format(data_source_train_path, data_source_test_path)}'
                       ]
+

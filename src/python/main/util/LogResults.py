@@ -123,3 +123,42 @@ class LogResults(object):
                                          self.number_of_samples]
 
         df_result.to_csv(result_output_path, index=False)
+
+
+def save_log(args, sub_task, final_status, iteration, iteration_error, time_catalog, time_generate, time_total,
+             time_execute, prompt_token_count, all_token_count, operation_tag, run_mode, results_verified, results):
+    from util.Config import __execute_mode
+    log_results = LogResults(dataset_name=args.dataset_name, config=args.prompt_representation_type, sub_task=sub_task,
+                             llm_model=args.llm_model, classifier="Auto", task_type=args.task_type,
+                             status=f"{final_status}", number_iteration=iteration,
+                             number_iteration_error=iteration_error,
+                             has_description=args.dataset_description,
+                             time_catalog_load=time_catalog, time_pipeline_generate=time_generate,
+                             time_total=time_total,
+                             time_execution=time_execute,
+                             prompt_token_count=prompt_token_count,
+                             all_token_count=all_token_count + prompt_token_count,
+                             operation=operation_tag,
+                             number_of_samples=args.prompt_number_samples)
+
+
+    if run_mode == __execute_mode and results_verified:
+        log_results.train_auc = results["Train_AUC"]
+        log_results.train_auc_ovo = results["Train_AUC_OVO"]
+        log_results.train_auc_ovr = results["Train_AUC_OVR"]
+        log_results.train_accuracy = results["Train_Accuracy"]
+        log_results.train_f1_score = results["Train_F1_score"]
+        log_results.train_log_loss = results["Train_Log_loss"]
+        log_results.train_r_squared = results["Train_R_Squared"]
+        log_results.train_rmse = results["Train_RMSE"]
+        log_results.test_auc = results["Test_AUC"]
+        log_results.test_auc_ovo = results["Test_AUC_OVO"]
+        log_results.test_auc_ovr = results["Test_AUC_OVR"]
+        log_results.test_accuracy = results["Test_Accuracy"]
+        log_results.test_f1_score = results["Test_F1_score"]
+        log_results.test_log_loss = results["Test_Log_loss"]
+        log_results.test_r_squared = results["Test_R_Squared"]
+        log_results.test_rmse = results["Test_RMSE"]
+
+    if final_status:
+        log_results.save_results(result_output_path=args.result_output_path)

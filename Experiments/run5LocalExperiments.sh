@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # clean original results
-#rm -rf results/*;
+rm -rf results/*;
 mkdir -p results;
 mkdir -p catdb-results;
 
@@ -19,7 +19,7 @@ CMD=./explocal/exp1_catalog/runExperiment1.sh
 #CMD=./explocal/exp3_end_to_end/runExperiment3.sh 
 
 
-$CMD oml_dataset_1_rnc multiclass # Balance-Scale
+# $CMD oml_dataset_1_rnc multiclass # Balance-Scale
 # $CMD oml_dataset_2_rnc binary # Breast-w
 # $CMD oml_dataset_3_rnc multiclass # CMC
 # $CMD oml_dataset_4_rnc binary # Credit-g
@@ -31,7 +31,7 @@ $CMD oml_dataset_1_rnc multiclass # Balance-Scale
 
 # $CMD oml_dataset_21_rnc regression # Black-Friday
 # $CMD oml_dataset_22_rnc regression # Bike-Sharing
-# $CMD oml_dataset_23_rnc regression # House-Sales
+$CMD oml_dataset_23_rnc regression # House-Sales
 # $CMD oml_dataset_24_rnc regression # NYC
 
 # $CMD oml_dataset_11_rnc binary # Higgs

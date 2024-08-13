@@ -1,6 +1,6 @@
 class CodeResultTemplate(object):
     def __init__(self, status: bool = True, result=None, exception: Exception = None,
-                 run_mode: str = 'generate-and-run', code: str = None,
+                 run_mode: str = None, code: str = None,
                  error_class=None, error_type=None, error_value=None, error_detail=None, error_exception=None):
         self.status = status
         self.result = result
@@ -62,8 +62,9 @@ class CodeResultTemplate(object):
         return self.error_exception
 
     def parse_results(self):
-        print(self.result)
-        if self.run_mode == 'generate-and-run':  # __gen_run_mode:
+        #from util.Config import __execute_mode
+        if self.run_mode == 'execute': #__execute_mode
+            print(self.result)
             pipeline_evl = {"Train_AUC": -2,
                             "Train_AUC_OVO": -2,
                             "Train_AUC_OVR": -2,

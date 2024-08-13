@@ -72,8 +72,7 @@ class BasicPrompt(object):
 
         prompt_items.append(f"Dataset Attribute:\n# Number of samples (rows) in training dataset: {self.catalog.nrows}")
 
-        prompt_items.append(f'Dataset is a structured/tabular data, select a high performance ML model. For example, Gradient Boosting Machines (e.g., XGBoost, LightGBM), ...')
-        prompt_items.append("Don't select RandomForest as ML Model.")
+        prompt_items.append(f'Dataset is a structured/tabular data, select a high performance ML model. For example, Gradient Boosting Machines (e.g., XGBoost, LightGBM, ...), RandomForest, ...')
         prompt_items.append(f'Question: {self.question}')
         return f"\n\n{_user_delimiter}".join(prompt_items), schema_data
 
@@ -159,7 +158,7 @@ class BasicPrompt(object):
             else:
                 transfer_columns.append(cc)
         transfer_column_prompt = (
-            f'Transformer the following columns by Adaptive Binning method:\n '
+            f'Transformer the following columns by Adaptive Binning or Scaler method (do it base on the min-max, mean, and median values are in the "Schema, and Data Profiling Info"):\n '
             f'\t# Columns: {",".join(transfer_columns)}')
         if len(transfer_columns) > 0:
             return transfer_column_prompt

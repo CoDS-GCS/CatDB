@@ -18,8 +18,8 @@ import yaml
 
 from .LLM_API_Key import LLM_API_Key
 
-__gen_run_mode = 'generate-and-run'
-__validation_run_mode = 'validation'
+__gen_verify_mode = 'generate-and-verify'
+__execute_mode = 'execute'
 
 __sub_task_data_preprocessing = "DataPreprocessing"
 __sub_task_feature_engineering = "FeatureEngineering"

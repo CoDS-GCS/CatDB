@@ -24,7 +24,7 @@ def parse_arguments():
 if __name__ == '__main__':
     args = parse_arguments()    
     
-    datasetIDs = [(11,"Balance-Scale","multiclass",1),
+    datasetIDs = [#(11,"Balance-Scale","multiclass",1),
     #               (15,"Breast-w","binary",2),
     #               (23,"CMC","multiclass",3),
     #               (31,"Credit-g","binary",4),
@@ -46,7 +46,7 @@ if __name__ == '__main__':
     #               (1509,"Walking-Activity","multiclass",20),
     #               (41540,"Black-Friday","regression",21),
     #               (44048,"Bike-Sharing","regression",22),
-    #               (44051,"House-Sales","regression",23),
+                   (44051,"House-Sales","regression",23),
     #               (44065,"NYC","regression",24),
     #               (42728,"Airlines-DepDelay","regression",25),
     #               (1590,"Adult","binary",26)

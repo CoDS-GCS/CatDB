@@ -1,10 +1,6 @@
 from catalog.Catalog import CatalogInfo
-from util.StaticValues import CODE_FORMATTING_BINARY_EVALUATION
-from util.StaticValues import CODE_FORMATTING_MULTICLASS_EVALUATION
-from util.StaticValues import CODE_FORMATTING_REGRESSION_EVALUATION
 from util.Config import PROMPT_FUNC
-from .ErrorPromptTemplate import RuntimeErrorPrompt
-from .ErrorPromptTemplate import ResultsErrorPrompt
+from .ErrorPromptTemplate import RuntimeErrorPrompt, ResultsErrorPrompt, SyntaxErrorPrompt
 
 
 def get_representation_class(repr_type: str):
@@ -57,22 +53,30 @@ def prompt_factory(catalog: CatalogInfo,
 
 
 def get_evaluation_text(task_type: str):
+    from util.Config import _CODE_FORMATTING_BINARY_EVALUATION
+    from util.Config import _CODE_FORMATTING_MULTICLASS_EVALUATION
+    from util.Config import _CODE_FORMATTING_REGRESSION_EVALUATION
+
     if task_type == "binary" or task_type == "multiclass":
         if task_type == "binary":
-            return CODE_FORMATTING_BINARY_EVALUATION
+            return _CODE_FORMATTING_BINARY_EVALUATION
         else:
-            return CODE_FORMATTING_MULTICLASS_EVALUATION
+            return _CODE_FORMATTING_MULTICLASS_EVALUATION
     else:
-        return CODE_FORMATTING_REGRESSION_EVALUATION
+        return _CODE_FORMATTING_REGRESSION_EVALUATION
 
 
-def error_prompt_factory(pipeline_code: str, pipeline_error, schema_data: str, task_type: str,
+def error_prompt_factory(pipeline_code: str, pipeline_error_class: str, pipeline_error_detail: str, schema_data: str, task_type: str,
                          data_source_train_path: str, data_source_test_path: str):
-    evaluation_text = get_evaluation_text(task_type=task_type)
-    error_prompt = RuntimeErrorPrompt(pipeline_code=pipeline_code, pipeline_error=pipeline_error,
-                                      schema_data=schema_data, evaluation_text=evaluation_text,
-                                      data_source_train_path=data_source_train_path,
-                                      data_source_test_path=data_source_test_path).format_prompt()
+    if pipeline_error_class in {'NameError','InvalidIndexError'}:
+        error_prompt = SyntaxErrorPrompt(pipeline_code=pipeline_code, pipeline_error=f"{pipeline_error_class}: {pipeline_error_detail}").format_prompt()
+
+    else:
+        evaluation_text = get_evaluation_text(task_type=task_type)
+        error_prompt = RuntimeErrorPrompt(pipeline_code=pipeline_code, pipeline_error=f"{pipeline_error_class}: {pipeline_error_detail}",
+                                          schema_data=schema_data, evaluation_text=evaluation_text,
+                                          data_source_train_path=data_source_train_path,
+                                          data_source_test_path=data_source_test_path).format_prompt()
     return error_prompt['system_message'], error_prompt['user_message']
 
 

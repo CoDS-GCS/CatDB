@@ -1,0 +1,87 @@
+--- 
+ 
+- Config: CatDB
+  task: 'Task: Generate a data science pipeline in Python 3.10 that answers a question based on a given dataset, {}.'
+  input: 'Input: A dataset in CSV format, a schema that describes the columns and data types of the dataset, and a data profiling info that summarizes the statistics and quality of the dataset. A question that requires data analysis or modeling to answer.'
+  output: 'Output: A Python 3.10 code that performs the following steps:'
+  Rule_1: 'Import the necessary libraries and modules.'
+  Rule_2: 'Load the training and test datasets. For the training data, utilize the variable """train_data={}""", and for the test data, employ the variable """test_data={}""". Utilize pandas CSV readers to load the datasets.'
+  Rule_3: 'Do not split the train_data into train and test sets. Use only the given datasets.'
+  Rule_4: 'The user will provide the {} of the dataset with columns appropriately named as attributes, enclosed in triple quotes, and preceded by the prefix "{}".'
+  Rule_5: 'Explicitly analyze feature based on the provided data profiling information and implement data preprocessing tasks: i) handel missing values, ii) select appropriate data transfer for each column specifically (categorical values and numerical values based on min, max, mean, median values), iii) apply data cleaning based on data profiling information.'
+  Rule_6: 'Explicitly implement Outlier removal for Train and Test data based on the provided data profiling information.'
+  Rule_7: 'Explicitly do data augmentation techniques based on the data profiling information (use your knowledge to chose best technique).'
+  Rule_8: 'Explicitly analyze feature based on the provided data profiling information and implement feature engineering task.'
+  Rule_9: 'Explicitly select a best model based on the data profiling information.'
+  Rule_10: 'Select the appropriate features and target variables for the question. Additional columns add new semantic information, additional columns that are useful for a downstream algorithm predicting "{}". They can e.g. be feature combinations, transformations, aggregations where the new column is a function of the existing columns. Use appropriate scale factor for columns are need to transfer.'
+  Rule_11: 'Perform drops columns, if these may be redundant and hurt the predictive performance of the downstream {} (Feature selection). Dropping columns may help as the chance of overfitting is lower, especially if the dataset is small. The {} will be trained on the dataset with the generated columns and evaluated on a holdout set.'
+  Rule_12: 'In order to avoid runtime error for unseen value on the target feature, do preprocessing based on union of train and test dataset.'
+  Rule_13: 'If the question is not relevant to the dataset or the task, the output should be: "Insufficient information."'
+  Rule_14: 'Do not report validation evaluation. We do not need it.'
+
+- Config: CodeFormat
+  CODE_FORMATTING_IMPORT: |
+    Code formatting for all required packages and pipeline format:
+    # Import all required packages  
+    # Do not use "if __name__ == __main__:" style, use only flat mode.
+
+  CODE_FORMATTING_PREPROCESSING: |
+    Code formatting for data preprocessing:
+    # List all required tasks
+
+  CODE_FORMATTING_ADDING: |
+    Code formatting for each added column:
+    # (Feature name and description)
+    # Usefulness: (Description why this adds useful real world knowledge to classify "{}" according to dataset description and attributes.) (Some pandas code using "{}", "{}", ... to add a new column for each row in df)
+
+  CODE_FORMATTING_DROPPING: |
+    Code formatting for dropping columns:
+    # Explanation why the column XX is dropped
+    # df.drop(columns=['XX'], inplace=True)
+
+  CODE_FORMATTING_TECHNIQUE: |
+    'Code formatting for training technique:
+    # Choose the suitable machine learning algorithm or technique ({}).
+    # Explanation why the solution is selected.
+    trn = ... 
+
+  CODE_FORMATTING_BINARY_EVALUATION: |
+    'Code formatting for binary classification evaluation:
+    # Report evaluation based on train and test dataset
+    # Calculate the model accuracy, represented by a value between 0 and 1, where 0 indicates low accuracy and 1 signifies higher accuracy. Store the accuracy value in a variable labeled as "Train_Accuracy=..." and "Test_Accuracy=...".
+    # Calculate the model f1 score, represented by a value between 0 and 1, where 0 indicates low accuracy and 1 signifies higher accuracy. Store the f1 score value in a variable labeled as "Train_F1_score=..." and "Test_F1_score=...".
+    # Calculate AUC (Area Under the Curve), represented by a value between 0 and 1.
+    print(f"Train_AUC:{{Train_AUC}}")
+    print(f"Train_Accuracy:{{Train_Accuracy}}")   
+    print(f"Train_F1_score:{{Train_F1_score}}")
+    print(f"Test_AUC:{{Test_AUC}}")
+    print(f"Test_Accuracy:{{Test_Accuracy}}")   
+    print(f"Test_F1_score:{{Test_F1_score}}")
+
+  CODE_FORMATTING_MULTICLASS_EVALUATION: | 
+    Code formatting for multiclass classification evaluation:
+    # Report evaluation based on train and test dataset
+    # Calculate the model accuracy, represented by a value between 0 and 1, where 0 indicates low accuracy and 1 signifies higher accuracy. Store the accuracy value in a variable labeled as "Train_Accuracy=..." and "Test_Accuracy=...".
+    # Calculate the model log loss, a lower log-loss value means better predictions. Store the  log loss value in a variable labeled as "Train_Log_loss=..." and "Test_Log_loss=...".
+    # Calculate AUC_OVO (Area Under the Curve One-vs-One), represented by a value between 0 and 1.
+    # Calculate AUC_OVR (Area Under the Curve One-vs-Rest), represented by a value between 0 and 1.
+    # print(f"Train_AUC_OVO:{{Train_AUC_OVO}}")
+    # print(f"Train_AUC_OVR:{{Train_AUC_OVR}}")
+    # print(f"Train_Accuracy:{{Train_Accuracy}}")   
+    # print(f"Train_Log_loss:{{Train_Log_loss}}") 
+    # print(f"Test_AUC_OVO:{{Test_AUC_OVO}}")
+    # print(f"Test_AUC_OVR:{{Test_AUC_OVR}}")
+    # print(f"Test_Accuracy:{{Test_Accuracy}}")   
+    # print(f"Test_Log_loss:{{Test_Log_loss}}")
+
+  CODE_FORMATTING_REGRESSION_EVALUATION: |
+    Code formatting for regression evaluation:
+    # Report evaluation based on train and test dataset
+    # Calculate the model R-Squared, represented by a value between 0 and 1, where 0 indicates low and 1 ndicates more variability is explained by the model. Store the R-Squared value in a variable labeled as "Train_R_Squared=..." and "Test_R_Squared=...".
+    # Calculate the model Root Mean Squared Error, where the lower the value of the Root Mean Squared Error, the better the model is.. Store the model Root Mean Squared Error value in a variable labeled as "Train_RMSE=..." and "Test_RMSE=...".
+    # print(f"Train_R_Squared:{{Train_R_Squared}}")   
+    # print(f"Train_RMSE:{{Train_RMSE}}") 
+    # print(f"Test_R_Squared:{{Test_R_Squared}}")   
+    # print(f"Test_RMSE:{{Test_RMSE}}")
+
+  CODE_BLOCK: 'Each codeblock ends with "```end" and starts with "```python".'

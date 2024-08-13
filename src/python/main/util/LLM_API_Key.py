@@ -16,7 +16,6 @@ class LLM_API_Key(object):
                     plt = conf.get('llm_platform')
                     if plt != _llm_platform:
                         continue
-                    print(plt)
                     try:
                         if conf.get('llm_platform') is not None:
                             for ki in range(1, 10):
@@ -31,7 +30,6 @@ class LLM_API_Key(object):
             except yaml.YAMLError as ex:
                 raise Exception(ex)
 
-        print(aks)
         self.platform_keys[_llm_platform] = aks
         self.begin = True
 

@@ -11,7 +11,8 @@ class SingleBasicPrompt(BasicPrompt):
         self.config = None
 
     def format_system_message(self):
-        from util.Config import _system_delimiter
+        from util.Config import (_system_delimiter, _catdb_rules, _CODE_FORMATTING_IMPORT, _CODE_FORMATTING_ADDING,
+                                 _CODE_FORMATTING_DROPPING, _CODE_FORMATTING_TECHNIQUE, _CODE_BLOCK)
         self.schema_keys = [_ for _ in self.catalog.schema_info.keys()]
         if self.task_type == "binary classification" or self.task_type == "multiclass classification":
             algorithm = "classifier"
@@ -19,46 +20,44 @@ class SingleBasicPrompt(BasicPrompt):
             algorithm = "regressor"
 
         if self.config == "CatDB":
-            randomforest_param = 500
-            rules = [f"{_system_delimiter} {StaticValues.Rule_task.format(self.ds_attribute_prefix)}",
-                     f"{_system_delimiter} {StaticValues.Rule_input}",
-                     f"{_system_delimiter} {StaticValues.Rule_output}",
-                     f"# 1: {StaticValues.Rule_1}",
-                     f"# 2: {StaticValues.Rule_2.format(self.data_source_train_path, self.data_source_test_path)}",
-                     f"# 3: {StaticValues.Rule_3}",
-                     f"# 4: {StaticValues.Rule_4.format(self.ds_attribute_prefix, self.ds_attribute_prefix_label)}",
-                     f"# 5: {StaticValues.Rule_5}",
-                     f"# 6: {StaticValues.Rule_5_1}",
-                     f"# 7: {StaticValues.Rule_5_2}",
-                     f"# 8: {StaticValues.Rule_5_3}",
-                     f"# 9: {StaticValues.Rule_6}",
-                     f"# 10: {StaticValues.Rule_7.format(self.target_attribute)}",
-                     f"# 11: {StaticValues.Rule_8.format(algorithm, self.target_attribute)}",
-                     f"# 12: {StaticValues.Rule_9}",
-                     f"# 13: {StaticValues.CODE_FORMATTING_IMPORT}",
-                     f"# 14: {StaticValues.CODE_FORMATTING_ADDING.format(self.target_attribute, self.schema_keys[0], self.schema_keys[1])}",
-                     f"# 15: {StaticValues.CODE_FORMATTING_DROPPING}",
-                     f"# 16: {StaticValues.CODE_FORMATTING_TECHNIQUE.format(algorithm)}",
+            rules = [f"{_system_delimiter} {_catdb_rules['task'].format(self.ds_attribute_prefix)}",
+                     f"{_system_delimiter} {_catdb_rules['input']}",
+                     f"{_system_delimiter} {_catdb_rules['output']}",
+                     f"# 1: {_catdb_rules['Rule_1']}",
+                     f"# 2: {_catdb_rules['Rule_2'].format(self.data_source_train_path, self.data_source_test_path)}",
+                     f"# 3: {_catdb_rules['Rule_3']}",
+                     f"# 4: {_catdb_rules['Rule_4'].format(self.ds_attribute_prefix, self.ds_attribute_prefix_label)}",
+                     f"# 5: {_catdb_rules['Rule_5']}",
+                     f"# 6: {_catdb_rules['Rule_6']}",
+                     f"# 7: {_catdb_rules['Rule_7']}",
+                     f"# 8: {_catdb_rules['Rule_8']}",
+                     f"# 9: {_catdb_rules['Rule_9']}",
+                     f"# 10: {_catdb_rules['Rule_10'].format(self.target_attribute)}",
+                     f"# 11: {_catdb_rules['Rule_11'].format(algorithm, self.target_attribute)}",
+                     f"# 12: {_catdb_rules['Rule_12']}",
+                     f"# 13: {_CODE_FORMATTING_IMPORT}",
+                     f"# 14: {_CODE_FORMATTING_ADDING.format(self.target_attribute, self.schema_keys[0], self.schema_keys[1])}",
+                     f"# 15: {_CODE_FORMATTING_DROPPING}",
+                     f"# 16: {_CODE_FORMATTING_TECHNIQUE.format(algorithm)}",
                      f"# 17: {self.evaluation_text}",
-                     f"# 18: {StaticValues.Rule_10}",
-                     f"# 19: {StaticValues.Rule_11}",
-                     #f"# 18: {StaticValues.Rule_13.format(randomforest_param)}",
-                     f"# 20: {StaticValues.rule_code_block}"
+                     f"# 18: {_catdb_rules['Rule_13']}",
+                     f"# 19: {_catdb_rules['Rule_14']}",
+                     f"# 20: {_CODE_BLOCK}"
                      ]
         else:
-            rules = [f"{_system_delimiter} {StaticValues.Rule_task.format(self.ds_attribute_prefix)}",
-                     f"{_system_delimiter} {StaticValues.Rule_input}",
-                     f"{_system_delimiter} {StaticValues.Rule_output}",
-                     f"# 1: {StaticValues.Rule_2.format(self.data_source_train_path, self.data_source_test_path)}",
-                     f"# 2: {StaticValues.Rule_3}",
-                     f"# 3: {StaticValues.CODE_FORMATTING_IMPORT}",
-                     f"# 4: {StaticValues.CODE_FORMATTING_ADDING.format(self.target_attribute, self.schema_keys[0], self.schema_keys[1])}",
-                     f"# 5: {StaticValues.CODE_FORMATTING_DROPPING}",
-                     f"# 6: {StaticValues.CODE_FORMATTING_TECHNIQUE.format(algorithm)}",
+            rules = [f"{_system_delimiter} {_catdb_rules['task'].format(self.ds_attribute_prefix)}",
+                     f"{_system_delimiter} {_catdb_rules['input']}",
+                     f"{_system_delimiter} {_catdb_rules['output']}",
+                     f"# 1: {_catdb_rules['Rule_2']}",
+                     f"# 2: {_catdb_rules['Rule_3']}",
+                     f"# 3: {_CODE_FORMATTING_IMPORT}",
+                     f"# 4: {_CODE_FORMATTING_ADDING.format(self.target_attribute, self.schema_keys[0], self.schema_keys[1])}",
+                     f"# 5: {_CODE_FORMATTING_DROPPING}",
+                     f"# 6: {_CODE_FORMATTING_TECHNIQUE.format(algorithm)}",
                      f"# 7: {self.evaluation_text}",
-                     f"# 8: {StaticValues.Rule_10}",
-                     f"# 9: {StaticValues.Rule_11}",
-                     f"# 10: {StaticValues.rule_code_block}"
+                     f"# 8: {_catdb_rules['Rule_13']}",
+                     f"# 9: {_catdb_rules['Rule_14']}",
+                     f"# 10: {_CODE_BLOCK}"
                      ]
 
         rule_msg = "\n".join(rules)

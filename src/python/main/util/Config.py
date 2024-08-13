@@ -34,6 +34,10 @@ default_top_k = 64
 default_system_delimiter = "### "
 default_user_delimiter = "### "
 
+CATEGORICAL_RATIO: float = 0.01
+LOW_RATIO_THRESHOLD = 0.1
+DISTINCT_THRESHOLD = 0.5
+
 _OPENAI = "OpenAI"
 _META = "Meta"
 _GOOGLE = "Google"
@@ -52,8 +56,23 @@ _last_API_Key = None
 _LLM_API_Key = None
 _system_log_file = None
 
+_catdb_rules = dict()
+_catdb_chain_DP_rules = dict()
+_catdb_chain_FE_rules = dict()
+_catdb_chain_MS_rules = dict()
+_CODE_FORMATTING_IMPORT = None
+_CODE_FORMATTING_PREPROCESSING = None
+_CODE_FORMATTING_ADDING = None
+_CODE_FORMATTING_DROPPING = None
+_CODE_FORMATTING_TECHNIQUE = None
+_CODE_FORMATTING_BINARY_EVALUATION = None
+_CODE_FORMATTING_MULTICLASS_EVALUATION = None
+_CODE_FORMATTING_REGRESSION_EVALUATION = None
+_CODE_BLOCK = None
 
-def load_config(system_log: str, llm_model: str = None, config_path: str = "Config.yaml", api_config_path: str = "APIKeys.yaml"):
+
+def load_config(system_log: str, llm_model: str = None, config_path: str = "Config.yaml",
+                api_config_path: str = "APIKeys.yaml", rules_path: str = "Rules.yaml"):
     global _llm_model
     global _llm_platform
     global _system_delimiter
@@ -121,7 +140,6 @@ def load_config(system_log: str, llm_model: str = None, config_path: str = "Conf
 
                         break
                 except Exception as ex:
-                    print(ex)
                     pass
 
         except yaml.YAMLError as ex:
@@ -131,11 +149,58 @@ def load_config(system_log: str, llm_model: str = None, config_path: str = "Conf
             raise Exception(f'Error: model "{llm_model}" is not in the Config.yaml list!')
 
         _LLM_API_Key = LLM_API_Key(api_config_path=api_config_path)
+        load_rules(rules_path=rules_path)
 
 
-CATEGORICAL_RATIO: float = 0.01
-LOW_RATIO_THRESHOLD = 0.1
-DISTINCT_THRESHOLD = 0.5
+def load_rules(rules_path: str):
+    global _catdb_rules
+    global _catdb_chain_DP_rules
+    global _catdb_chain_FE_rules
+    global _catdb_chain_MS_rules
+    global _CODE_FORMATTING_IMPORT
+    global _CODE_FORMATTING_PREPROCESSING
+    global _CODE_FORMATTING_ADDING
+    global _CODE_FORMATTING_DROPPING
+    global _CODE_FORMATTING_TECHNIQUE
+    global _CODE_FORMATTING_BINARY_EVALUATION
+    global _CODE_FORMATTING_MULTICLASS_EVALUATION
+    global _CODE_FORMATTING_REGRESSION_EVALUATION
+    global _CODE_BLOCK
+
+    with (open(rules_path, "r") as f):
+        try:
+            configs = yaml.load(f, Loader=yaml.FullLoader)
+            for conf in configs:
+                plt = conf.get("Config")
+                if plt != 'CodeFormat':
+                    rls = dict()
+                    for k, v in conf.items():
+                        rls[k] = v
+                        if plt == "CatDB":
+                            _catdb_rules = rls
+
+                else:
+                    for k, v in conf.items():
+                        if k == 'CODE_FORMATTING_IMPORT':
+                            _CODE_FORMATTING_IMPORT = v
+                        elif k =='CODE_FORMATTING_PREPROCESSING':
+                            _CODE_FORMATTING_PREPROCESSING = v
+                        elif k == 'CODE_FORMATTING_ADDING':
+                            _CODE_FORMATTING_ADDING = v
+                        elif k == 'CODE_FORMATTING_DROPPING':
+                            _CODE_FORMATTING_DROPPING = v
+                        elif k == 'CODE_FORMATTING_TECHNIQUE':
+                            _CODE_FORMATTING_TECHNIQUE = v
+                        elif k == 'CODE_FORMATTING_BINARY_EVALUATION':
+                            _CODE_FORMATTING_BINARY_EVALUATION = v
+                        elif k == 'CODE_FORMATTING_MULTICLASS_EVALUATION':
+                            _CODE_FORMATTING_MULTICLASS_EVALUATION = v
+                        elif k == 'CODE_FORMATTING_REGRESSION_EVALUATION':
+                            _CODE_FORMATTING_REGRESSION_EVALUATION = v
+                        elif k == 'CODE_BLOCK':
+                            _CODE_BLOCK = v
+        except yaml.YAMLError as ex:
+            raise Exception(ex)
 
 # 10000 : Schema = S
 # 11000 : Schema + Distinct Value Count = S + DVC = SDVC

@@ -8,3 +8,4 @@ xgboost
 google-generativeai
 imbalanced-learn
 dask[complete]
+feature_engine

@@ -170,7 +170,7 @@ def generate_and_verify_pipeline(args, catalog, run_mode: str = None, sub_task: 
     results_verified = False
     for i in range(iteration_error, args.prompt_number_iteration_error):
         # Replace Original Train Data with Verify Data
-        code = code.replace(args.data_source_train_path, args.data_source_verify_path)
+        #code = code.replace(args.data_source_train_path, args.data_source_verify_path)
 
         if len(code) > 500:
             pipeline_fname = f"{file_name}_draft.py"

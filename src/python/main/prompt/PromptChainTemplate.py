@@ -1,10 +1,9 @@
 from .BasicPrompt import BasicPrompt
-from util import StaticValues
 
 
 class DataPreprocessingChainPrompt(BasicPrompt):
     def __init__(self, *args, **kwargs):
-        from util.Config import _system_delimiter
+        from util.Config import _system_delimiter, _catdb_chain_DP_rules, _CODE_BLOCK, _CHAIN_RULE
         BasicPrompt.__init__(self,
                              flag_categorical_values=True,
                              flag_missing_value_frequency=True,
@@ -17,28 +16,28 @@ class DataPreprocessingChainPrompt(BasicPrompt):
         self.ds_attribute_prefix = "Schema, and Data Profiling Info"
         self.ds_attribute_prefix_label = "Schema, and Data Profiling Info:"
 
-        self.rules = [f'{_system_delimiter} {StaticValues.dp_rule_task}',
-                      f'{_system_delimiter} {StaticValues.dp_rule_input}',
-                      f'{_system_delimiter} {StaticValues.dp_rule_output}',
-                      f'#1 : {StaticValues.dp_rule_1}',
-                      f'#2 : {StaticValues.dp_rule_2.format(self.data_source_train_path, self.data_source_test_path)}',
-                      f'#3 : {StaticValues.dp_rule_3}',
-                      f'#4 : {StaticValues.dp_rule_4.format(self.ds_attribute_prefix, self.ds_attribute_prefix_label)}',
-                      f'#5 : {StaticValues.dp_rule_6}',
-                      f'#6 : {StaticValues.dp_rule_6_1}',
-                      f'#7 : {StaticValues.dp_rule_6_2}',
-                      f'#8 : {StaticValues.dp_rule_7.format(self.target_attribute)}',
-                      f'#9 : {StaticValues.dp_rule_8}',
-                      f'#10 : {StaticValues.dp_rule_5}',
-                      f'#11 : {StaticValues.rule_code_block}',
-                      f'#12 : {StaticValues.chain_rule_1}']
+        self.rules = [f'{_system_delimiter} {_catdb_chain_DP_rules["task"]}',
+                      f'{_system_delimiter} {_catdb_chain_DP_rules["input"]}',
+                      f'{_system_delimiter} {_catdb_chain_DP_rules["output"]}',
+                      f'#1 : {_catdb_chain_DP_rules["Rule_1"]}',
+                      f'#2 : {_catdb_chain_DP_rules["Rule_2"].format(self.data_source_train_path, self.data_source_test_path)}',
+                      f'#3 : {_catdb_chain_DP_rules["Rule_3"]}',
+                      f'#4 : {_catdb_chain_DP_rules["Rule_4"].format(self.ds_attribute_prefix, self.ds_attribute_prefix_label)}',
+                      f'#5 : {_catdb_chain_DP_rules["Rule_5"]}',
+                      f'#6 : {_catdb_chain_DP_rules["Rule_6"]}',
+                      f'#7 : {_catdb_chain_DP_rules["Rule_7"]}',
+                      f'#8 : {_catdb_chain_DP_rules["Rule_8"].format(self.target_attribute)}',
+                      f'#9 : {_catdb_chain_DP_rules["Rule_9"]}',
+                      f'#10 : {_catdb_chain_DP_rules["Rule_10"]}',
+                      f'#11 : {_CODE_BLOCK}',
+                      f'#12 : {_CHAIN_RULE}']
 
         self.question = "Provide a pipeline code that do data preprocessing in a multi-threaded environment."
 
 
 class FeatureEngineeringChainPrompt(BasicPrompt):
     def __init__(self, *args, **kwargs):
-        from util.Config import _system_delimiter
+        from util.Config import _system_delimiter, _catdb_chain_FE_rules, _CODE_BLOCK, _CHAIN_RULE
         BasicPrompt.__init__(self,
                              flag_categorical_values=True,
                              flag_missing_value_frequency=False,
@@ -58,17 +57,17 @@ class FeatureEngineeringChainPrompt(BasicPrompt):
 
         self.previous_result_format = f"<CODE>\n{self.previous_result}\n</CODE>"
 
-        self.rules = [f'{_system_delimiter} {StaticValues.fe_rule_task.format(self.target_attribute)}',
-                      f'{_system_delimiter} {StaticValues.fe_rule_input}',
-                      f'{_system_delimiter} {StaticValues.fe_rule_output}',
-                      f'#1 : {StaticValues.fe_rule_1}',
-                      f'#2 : {StaticValues.fe_rule_1_1.format(self.target_attribute)}',
-                      f'#3 : {StaticValues.fe_rule_2.format(algorithm, self.target_attribute)}',
-                      f'#4 : {StaticValues.fe_rule_3}',
-                      f'#5 : {StaticValues.fe_rule_4}',
-                      f'#6 : {StaticValues.rule_code_block}',
-                      f'#7 : {StaticValues.chain_rule_1}',
-                      f'#8 : {StaticValues.dp_rule_2.format(self.data_source_train_path, self.data_source_test_path)}',]
+        self.rules = [f'{_system_delimiter} {_catdb_chain_FE_rules["task"].format(self.target_attribute)}',
+                      f'{_system_delimiter} {_catdb_chain_FE_rules["input"]}',
+                      f'{_system_delimiter} {_catdb_chain_FE_rules["output"]}',
+                      f'#1 : {_catdb_chain_FE_rules["Rule_1"].format(self.data_source_train_path, self.data_source_test_path)}',
+                      f'#2 : {_catdb_chain_FE_rules["Rule_2"]}',
+                      f'#3 : {_catdb_chain_FE_rules["Rule_3"].format(self.target_attribute)}',
+                      f'#4 : {_catdb_chain_FE_rules["Rule_4"].format(algorithm, self.target_attribute)}',
+                      f'#5 : {_catdb_chain_FE_rules["Rule_5"]}',
+                      f'#6 : {_catdb_chain_FE_rules["Rule_6"]}',
+                      f'#7 : {_CODE_BLOCK}',
+                      f'#8 : {_CHAIN_RULE}']
 
         self.question = ("Provide a pipeline code that modify the Data Preprocessing code by adding Feature Engineering"
                          " tasks in a multi-threaded environment.")
@@ -76,7 +75,7 @@ class FeatureEngineeringChainPrompt(BasicPrompt):
 
 class ModelSelectionChainPrompt(BasicPrompt):
     def __init__(self, *args, **kwargs):
-        from util.Config import _system_delimiter
+        from util.Config import _system_delimiter, _catdb_chain_MS_rules, _CODE_BLOCK, _CHAIN_RULE
         BasicPrompt.__init__(self,
                              flag_categorical_values=True,
                              flag_missing_value_frequency=False,
@@ -94,18 +93,17 @@ class ModelSelectionChainPrompt(BasicPrompt):
         else:
             algorithm = "regressor"
 
-        randomforest_param = 500
         self.previous_result_format = f"<CODE>\n{self.previous_result}\n</CODE>"
 
-        self.rules = [f'{_system_delimiter} {StaticValues.ms_rule_task.format(algorithm)}',
-                      f'{_system_delimiter} {StaticValues.ms_rule_input}',
-                      f'{_system_delimiter} {StaticValues.ms_rule_output}',
-                      f'#1 : {StaticValues.ms_rule_1.format(algorithm, self.target_attribute)}',
-                      #f'#2 : {StaticValues.ms_rule_2.format(randomforest_param)}',
-                      f'#2 : {self.evaluation_text}',
-                      f'#3 : {StaticValues.ms_rule_3}',
-                      f'#4 : {StaticValues.rule_code_block}',
-                      f'#5 : {StaticValues.chain_rule_1}',
-                      f'#6 : {StaticValues.dp_rule_2.format(self.data_source_train_path, self.data_source_test_path)}']
+        self.rules = [f'{_system_delimiter} {_catdb_chain_MS_rules["task"].format(algorithm)}',
+                      f'{_system_delimiter} {_catdb_chain_MS_rules["input"]}',
+                      f'{_system_delimiter} {_catdb_chain_MS_rules["output"]}',
+                      f'#1 : {_catdb_chain_MS_rules["Rule_1"].format(self.data_source_train_path, self.data_source_test_path)}',
+                      f'#2 : {_catdb_chain_MS_rules["Rule_2"].format(algorithm, self.target_attribute)}',
+                      f'#3 : {self.evaluation_text}',
+                      f'#4 : {_catdb_chain_MS_rules["Rule_3"]}',
+                      f'#5 : {_catdb_chain_MS_rules["Rule_4"]}'
+                      f'#6 : {_CODE_BLOCK}',
+                      f'#7 : {_CHAIN_RULE}']
 
         self.question = ("Provide a complete pipeline code that can be executed in a multi-threaded environment.")

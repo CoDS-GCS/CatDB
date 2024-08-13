@@ -69,7 +69,8 @@ _CODE_FORMATTING_BINARY_EVALUATION = None
 _CODE_FORMATTING_MULTICLASS_EVALUATION = None
 _CODE_FORMATTING_REGRESSION_EVALUATION = None
 _CODE_BLOCK = None
-
+_CHAIN_RULE = None
+_DATASET_DESCRIPTION = None
 
 def load_config(system_log: str, llm_model: str = None, config_path: str = "Config.yaml",
                 api_config_path: str = "APIKeys.yaml", rules_path: str = "Rules.yaml"):
@@ -166,6 +167,8 @@ def load_rules(rules_path: str):
     global _CODE_FORMATTING_MULTICLASS_EVALUATION
     global _CODE_FORMATTING_REGRESSION_EVALUATION
     global _CODE_BLOCK
+    global _CHAIN_RULE
+    global _DATASET_DESCRIPTION
 
     with (open(rules_path, "r") as f):
         try:
@@ -178,12 +181,18 @@ def load_rules(rules_path: str):
                         rls[k] = v
                         if plt == "CatDB":
                             _catdb_rules = rls
+                        elif plt == "CatDBChainDP":
+                            _catdb_chain_DP_rules = rls
+                        elif plt == "CatDBChainFE":
+                            _catdb_chain_FE_rules = rls
+                        elif plt == "CatDBChainMS":
+                            _catdb_chain_MS_rules = rls
 
                 else:
                     for k, v in conf.items():
                         if k == 'CODE_FORMATTING_IMPORT':
                             _CODE_FORMATTING_IMPORT = v
-                        elif k =='CODE_FORMATTING_PREPROCESSING':
+                        elif k == 'CODE_FORMATTING_PREPROCESSING':
                             _CODE_FORMATTING_PREPROCESSING = v
                         elif k == 'CODE_FORMATTING_ADDING':
                             _CODE_FORMATTING_ADDING = v
@@ -199,6 +208,10 @@ def load_rules(rules_path: str):
                             _CODE_FORMATTING_REGRESSION_EVALUATION = v
                         elif k == 'CODE_BLOCK':
                             _CODE_BLOCK = v
+                        elif k == 'CHAIN_RULE':
+                            _CHAIN_RULE = v
+                        elif k == 'DATASET_DESCRIPTION':
+                            _DATASET_DESCRIPTION = v
         except yaml.YAMLError as ex:
             raise Exception(ex)
 

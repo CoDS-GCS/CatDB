@@ -1,4 +1,3 @@
-from util import StaticValues
 from .BasicPrompt import BasicPrompt
 
 

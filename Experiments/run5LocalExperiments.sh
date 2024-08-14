@@ -25,8 +25,6 @@ $CMD oml_dataset_3_rnc multiclass # CMC
 $CMD oml_dataset_4_rnc binary # Credit-g
 $CMD oml_dataset_5_rnc binary # Diabetes
 $CMD oml_dataset_6_rnc binary # Tic-Tac-Toe
-$CMD oml_dataset_7_rnc multiclass # Eucalyptus
-$CMD oml_dataset_8_rnc binary # PC1
 $CMD oml_dataset_10_rnc multiclass # Jungle-Chess
 
 $CMD oml_dataset_11_rnc binary # Higgs
@@ -42,6 +40,7 @@ $CMD oml_dataset_21_rnc regression # Black-Friday
 $CMD oml_dataset_22_rnc regression # Bike-Sharing
 $CMD oml_dataset_23_rnc regression # House-Sales
 $CMD oml_dataset_24_rnc regression # NYC
+
 
 ######################################################
 # $CMD Airlines binary # Airlines

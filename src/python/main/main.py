@@ -239,23 +239,26 @@ def generate_and_verify_pipeline(args, catalog, run_mode: str = None, sub_task: 
             else:
                 i -= 1
 
+    time_total = time_total+time_generate_extra+time_generate+time_execute
     save_log(args=args, sub_task=sub_task, iteration=iteration, iteration_error=iteration_error, time_catalog=time_catalog,
-             time_generate=time_generate, time_total=time_total+time_generate_extra+time_generate+time_execute, time_execute=time_execute,
+             time_generate=time_generate, time_total=time_total, time_execute=time_execute,
              prompt_token_count=prompt_token_count, all_token_count=all_token_count, operation_tag='Gen-and-Verify-Pipeline',
-             run_mode=run_mode,results_verified=results_verified, results=results, final_status=final_status)
+             run_mode=run_mode, results_verified=results_verified, results=results, final_status=final_status)
 
     if run_mode == __execute_mode :
         final_status, code = run_pipeline(args=args, file_name=final_pipeline_file_name, code=code, schema_data=schema_data,
-                     run_mode=__execute_mode, sub_task=sub_task, iteration=iteration)
+                     run_mode=__execute_mode, sub_task=sub_task, iteration=iteration, time_total=time_total,
+                     time_catalog=time_catalog, time_generate=time_generate, all_token_count=all_token_count,
+                    prompt_token_count=prompt_token_count)
 
     return final_status, code
 
 
-def run_pipeline(args, file_name, code, schema_data, run_mode, sub_task: str = '', iteration: int = 1):
-    all_token_count = 0
+def run_pipeline(args, file_name, code, schema_data, run_mode, sub_task: str = '', iteration: int = 1,
+                 time_total: int = 0, time_catalog: float = 0, time_generate: int = 0, all_token_count: int = 0,
+                 prompt_token_count: int = 0):
     time_execute = 0
     final_status = False
-    time_total = 0
 
     # Run pipeline with original data
     code = code.replace(args.data_source_verify_path, args.data_source_train_path)
@@ -326,8 +329,8 @@ def run_pipeline(args, file_name, code, schema_data, run_mode, sub_task: str = '
                 i -= 1
 
     save_log(args=args, sub_task=sub_task, iteration=iteration, iteration_error=iteration_error,
-             time_catalog=0, time_generate=0, time_total=time_total+time_execute, time_execute=time_execute,
-             prompt_token_count=0, all_token_count=all_token_count, operation_tag='Run-Pipeline',
+             time_catalog=time_catalog, time_generate=time_generate, time_total=time_total+time_execute, time_execute=time_execute,
+             prompt_token_count=prompt_token_count, all_token_count=all_token_count, operation_tag='Run-Pipeline',
              run_mode=run_mode, results_verified=results_verified, results=results, final_status=final_status)
 
     return final_status, code

@@ -72,6 +72,7 @@ _CODE_BLOCK = None
 _CHAIN_RULE = None
 _DATASET_DESCRIPTION = None
 
+
 def load_config(system_log: str, llm_model: str = None, config_path: str = "Config.yaml",
                 api_config_path: str = "APIKeys.yaml", rules_path: str = "Rules.yaml"):
     global _llm_model
@@ -214,6 +215,7 @@ def load_rules(rules_path: str):
                             _DATASET_DESCRIPTION = v
         except yaml.YAMLError as ex:
             raise Exception(ex)
+
 
 # 10000 : Schema = S
 # 11000 : Schema + Distinct Value Count = S + DVC = SDVC

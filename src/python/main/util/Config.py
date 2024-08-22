@@ -1,3 +1,5 @@
+import pandas as pd
+
 from prompt.PromptTemplate import SchemaPrompt
 from prompt.PromptTemplate import SchemaDistinctValuePrompt
 from prompt.PromptTemplate import SchemaMissingValueFrequencyPrompt
@@ -20,6 +22,13 @@ from .LLM_API_Key import LLM_API_Key
 
 __gen_verify_mode = 'generate-and-verify'
 __execute_mode = 'execute'
+
+Google_SCOPES = ['https://www.googleapis.com/auth/cloud-platform',
+                 'https://www.googleapis.com/auth/generative-language.tuning']
+_google_token_file_path = None
+_google_client_secret_file_path = None
+_fintune_train_data = None
+_fintune_train_data_target_attribute = None
 
 __sub_task_data_preprocessing = "DataPreprocessing"
 __sub_task_feature_engineering = "FeatureEngineering"
@@ -215,6 +224,24 @@ def load_rules(rules_path: str):
                             _DATASET_DESCRIPTION = v
         except yaml.YAMLError as ex:
             raise Exception(ex)
+
+
+def set_finetune_file_path(google_client_secret_file_path: str=None, google_token_file_path: str=None,
+                           dataset_path: str=None, target_attribute:str=None, task_type: str=None):
+    global _google_token_file_path
+    global _google_client_secret_file_path
+    global _fintune_train_data
+    global _fintune_train_data_target_attribute
+
+    _google_token_file_path = google_token_file_path
+    _google_client_secret_file_path = google_client_secret_file_path
+    _fintune_train_data_target_attribute = target_attribute
+
+    df = pd.read_csv(dataset_path)
+    if task_type in {'binary', 'multiclass'}:
+        _fintune_train_data = df.groupby(target_attribute).sample(100, replace=True)
+    else:
+        _fintune_train_data = df.sample(1000, replace=True)
 
 
 # 10000 : Schema = S

@@ -2,6 +2,7 @@ from argparse import ArgumentParser
 from catalog.Catalog import load_data_source_profile
 from prompt.PromptBuilder import prompt_factory_missing_values
 from llmdataprepare.DataPrepareLLM import DataPrepareLLM
+
 from runcode.RunCode import RunCode
 from util.FileHandler import save_prompt
 from util.FileHandler import save_text_file, read_text_file_line_by_line
@@ -91,14 +92,14 @@ def parse_arguments():
     return args
 
 
-def missing_value_imputation(args, data, catalog):
+def missing_value_imputation(args, data, catalog, missed_value_cols):
     from util.Config import _missing_value_train_data_samples, _missing_value_train_data
-
+    idc = 0
+    predict_values = pd.DataFrame(columns = [missed_value_cols])
     nsamples_request = args.prompt_number_request_samples
     for i in range(0, len(data), nsamples_request):
         target_samples_size = min(i+nsamples_request, len(data))
         tmp_df = data[i: target_samples_size]
-        results = dict()
         cols = list(tmp_df.columns[tmp_df.isna().any()].values)
         target_samples = convert_df_to_string(df=tmp_df, row_prefix="### Row")
         prompt = prompt_factory_missing_values(catalog=catalog,
@@ -124,8 +125,17 @@ def missing_value_imputation(args, data, catalog):
 
         result, prompt_token_count, time_tmp_gen = DataPrepareLLM.data_prepare_llm(user_message=prompt_user_message,
                                                                                    system_message=prompt_system_message)
-        print(result)
-        break
+        results = DataPrepareLLM.extract_row_col_values(result)
+        for ki in results.keys():
+            col_keys = results[ki].keys()
+            print(missed_value_cols)
+            for ck in col_keys:
+                 predict_values.at[ki, ck] = results[ki][ck]
+
+        idc += len(tmp_df)
+        if idc >= 100:
+            break
+    predict_values.to_csv("/home/saeed/Downloads/tmp/predict_nan_19.csv", index=True)
 
 if __name__ == '__main__':
     from util.Config import __execute_mode, __gen_verify_mode, __sub_task_data_preprocessing, \
@@ -162,12 +172,19 @@ if __name__ == '__main__':
     if len(catalog.columns_others_missing_values) > 0:
         missed_value_cols.extend(catalog.columns_others_missing_values)
 
+    dropped_columns_names = catalog.drop_schema_info.keys()
+    update_missed_columns = []
+    for k in catalog.schema_info.keys():
+        if k in dropped_columns_names or k not in missed_value_cols:
+            continue
+        else:
+            update_missed_columns.append(k)
+
+    missed_value_cols = update_missed_columns
+
     if len(missed_value_cols) > 0:
         df = pd.read_csv(args.data_source_path)
         load_missing_value_dataset(data=df, target_attribute=args.target_attribute, task_type=args.task_type,
                                    number_samples=args.prompt_number_samples)
         na_data = df[df.isna().any(axis=1)]
-
-        missing_value_imputation(args=args, catalog=catalog, data=na_data)
-
-    # print(missed_value_cols)
+        missing_value_imputation(args=args, catalog=catalog, data=na_data, missed_value_cols=missed_value_cols)

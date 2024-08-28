@@ -19,14 +19,24 @@ class DataPrepareLLM:
         else:
             raise Exception(f"Model {_llm_platform} is not implemented yet!")
 
-    # @staticmethod
-    # def refine_source_code(code: str):
-    #     final_code = []
-    #     for line in code.splitlines():
-    #         if not line.startswith('#'):
-    #             final_code.append(line)
-    #     final_code = "\n".join(final_code)
-    #     return final_code.replace("@ ```", "# ```")
+    @staticmethod
+    def extract_row_col_values(result: str):
+        rows = result.splitlines()
+        values = dict()
+        for row in rows:
+            rds = row.split(":")
+            row_index = int(rds[0].replace("### Row ", ""))
+            cds = rds[1].split(",")
+            col_values = dict()
+            for col in cds:
+                cs = col.split("=")
+                cname = cs[0].replace(" ", "")
+                cvalue = cs[1]
+                col_values[cname] = cvalue
+            values[row_index] = col_values
+
+        return values
+
 
     # def get_number_tokens(user_message: str, system_message: str):
     #     from util.Config import _llm_platform, _OPENAI, _META, _GOOGLE

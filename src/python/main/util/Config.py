@@ -233,13 +233,14 @@ def load_rules(rules_path: str):
 
 
 def convert_df_to_string(df, row_prefix:str=None):
+    indexes = df.index.tolist()
     x = df.to_string(header=True, index=False, index_names=False).split('\n')
     xl = [','.join(ele.split()) for ele in x]
     if row_prefix is not None:
         nxl = []
         for index, val in enumerate(xl):
             if index > 0 :
-               nxl.append(f"{row_prefix} {index}: {val}")
+               nxl.append(f"{row_prefix} {indexes[index-1]}: {val}")
             else:
                 nxl.append(f"### Header: {val}")
         xl = nxl

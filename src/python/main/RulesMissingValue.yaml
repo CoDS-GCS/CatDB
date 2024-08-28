@@ -1,0 +1,11 @@
+--- 
+ 
+- Config: CatDB
+  task: 'Predict missing values based on the user-provided dataset and LLM knowledge.'
+  input: 'A tabular dataset with comma separators, where the first row is the header of the dataset.'
+  output: 'A scalar value or values for missing items.'
+  Rule_1: 'The user will provide the {} of the dataset with columns appropriately named as attributes, enclosed in triple quotes, and preceded by the prefix "{}".'
+  Rule_2: 'Carefully read the user-provided data and create and identify data dependencies and relationships.'
+  Rule_3: 'Carefully predict the items requested by the user and return them.'
+  Rule_4: 'If you predict a value, report it based on this template: for example, if the user asks to predict the value for column "c_1", your response should be "c_1: <PREDICT_VALUE>".'
+  Rule_5: 'Do not return extra messages or explanations.'

@@ -52,6 +52,34 @@ def prompt_factory(catalog: CatalogInfo,
     return PromptClass()
 
 
+def prompt_factory_missing_values(catalog: CatalogInfo,
+                                  representation_type: str,
+                                  number_samples: int,
+                                  samples_missed_values,
+                                  columns_has_missing_values,
+                                  dataset_description: str,
+                                  target_attribute: str,
+                                  target_samples: str
+                                  ):
+    repr_cls = get_representation_class(f'{representation_type}MissingValue')
+    class_name = f"{representation_type}-MissingValueImputation-{number_samples}-SHOT"
+    assert repr_cls is not None
+
+    class PromptClass(repr_cls):
+        def __init__(self, *args, **kwargs):
+            self.class_name = class_name
+            self.catalog = catalog
+            self.number_samples = 0
+            self.samples_missed_values = samples_missed_values
+            self.missed_columns = columns_has_missing_values
+            self.dataset_description = dataset_description
+            self.target_attribute = target_attribute
+            self.target_samples = target_samples
+            repr_cls.__init__(self, *args, **kwargs)
+
+    return PromptClass()
+
+
 def get_evaluation_text(task_type: str):
     from util.Config import _CODE_FORMATTING_BINARY_EVALUATION
     from util.Config import _CODE_FORMATTING_MULTICLASS_EVALUATION
@@ -66,14 +94,17 @@ def get_evaluation_text(task_type: str):
         return _CODE_FORMATTING_REGRESSION_EVALUATION
 
 
-def error_prompt_factory(pipeline_code: str, pipeline_error_class: str, pipeline_error_detail: str, schema_data: str, task_type: str,
+def error_prompt_factory(pipeline_code: str, pipeline_error_class: str, pipeline_error_detail: str, schema_data: str,
+                         task_type: str,
                          data_source_train_path: str, data_source_test_path: str):
-    if pipeline_error_class in {'NameError','InvalidIndexError'}:
-        error_prompt = SyntaxErrorPrompt(pipeline_code=pipeline_code, pipeline_error=f"{pipeline_error_class}: {pipeline_error_detail}").format_prompt()
+    if pipeline_error_class in {'NameError', 'InvalidIndexError'}:
+        error_prompt = SyntaxErrorPrompt(pipeline_code=pipeline_code,
+                                         pipeline_error=f"{pipeline_error_class}: {pipeline_error_detail}").format_prompt()
 
     else:
         evaluation_text = get_evaluation_text(task_type=task_type)
-        error_prompt = RuntimeErrorPrompt(pipeline_code=pipeline_code, pipeline_error=f"{pipeline_error_class}: {pipeline_error_detail}",
+        error_prompt = RuntimeErrorPrompt(pipeline_code=pipeline_code,
+                                          pipeline_error=f"{pipeline_error_class}: {pipeline_error_detail}",
                                           schema_data=schema_data, evaluation_text=evaluation_text,
                                           data_source_train_path=data_source_train_path,
                                           data_source_test_path=data_source_test_path).format_prompt()

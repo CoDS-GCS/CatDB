@@ -17,11 +17,10 @@ cd ${exp_path}
 #CMD=./explocal/exp1_catalog/runExperiment1.sh
 #CMD=./explocal/exp2_micro_benchmark/runExperiment2.sh 
 #CMD=./explocal/exp3_end_to_end/runExperiment3.sh
+#CMD=./explocal/exp4_finetune/runExperiment4.sh
+CMD=./explocal/exp5_dataprepare/runExperiment5.sh
 
-CMD=./explocal/exp4_finetune/runExperiment4.sh
-
-
-$CMD oml_dataset_1_rnc multiclass # Balance-Scale
+# $CMD oml_dataset_1_rnc multiclass # Balance-Scale
 # $CMD oml_dataset_2_rnc binary # Breast-w
 # $CMD oml_dataset_3_rnc multiclass # CMC
 # $CMD oml_dataset_4_rnc binary # Credit-g
@@ -33,7 +32,7 @@ $CMD oml_dataset_1_rnc multiclass # Balance-Scale
 # $CMD oml_dataset_12_rnc binary # Skin
 # $CMD oml_dataset_33_rnc binary # Nomao
 
-# $CMD oml_dataset_19_rnc multiclass # Traffic
+$CMD oml_dataset_19_rnc multiclass # Traffic
 # $CMD oml_dataset_20_rnc multiclass # Walking-Activity
 # $CMD oml_dataset_34_rnc multiclass # Gas-Drift
 # $CMD oml_dataset_35_rnc multiclass # Volkert

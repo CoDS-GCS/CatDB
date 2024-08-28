@@ -232,9 +232,17 @@ def load_rules(rules_path: str):
             raise Exception(ex)
 
 
-def convert_df_to_string(df):
+def convert_df_to_string(df, row_prefix:str=None):
     x = df.to_string(header=True, index=False, index_names=False).split('\n')
     xl = [','.join(ele.split()) for ele in x]
+    if row_prefix is not None:
+        nxl = []
+        for index, val in enumerate(xl):
+            if index > 0 :
+               nxl.append(f"{row_prefix} {index}: {val}")
+            else:
+                nxl.append(f"### Header: {val}")
+        xl = nxl
     return "\n".join(xl)
 
 
@@ -247,8 +255,9 @@ def load_missing_value_dataset(data, target_attribute:str=None, task_type: str=N
 
     df = data.dropna(how='any', axis=0)
     if task_type in {'binary', 'multiclass'}:
-        df = df.groupby(target_attribute).sample(20, replace=True)
-        _missing_value_train_data = convert_df_to_string(df)
+        df = df.groupby(target_attribute).sample(number_samples, replace=True)
+        _missing_value_train_data_samples = len(df)
+        #_missing_value_train_data = convert_df_to_string(df)
         # classes = df[target_attribute].unique()
         # _missing_value_train_data = dict()
         # for c in classes:
@@ -259,7 +268,7 @@ def load_missing_value_dataset(data, target_attribute:str=None, task_type: str=N
     else:
         df = df.sample(number_samples, replace=True)
         _missing_value_train_data_samples = len(df)
-        _missing_value_train_data = convert_df_to_string(df)
+    _missing_value_train_data = convert_df_to_string(df=df)
 
 
 def set_finetune_file_path(google_client_secret_file_path: str=None, google_token_file_path: str=None,

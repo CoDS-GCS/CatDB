@@ -106,4 +106,4 @@ class CatDBMissingValuePrompt(MissingValuePrompt):
         self.ds_attribute_prefix = "Schema, and Data Profiling Info"
         self.ds_attribute_prefix_label = "Schema, and Data Profiling Info:"
         self.config = "CatDB"
-        self.question = f'Predict missed values of {self.missed_columns}, and return scaler value(s) for the following 10 samples:\n {self.target_samples}'
+        self.question = f'Predict missed values of {self.missed_columns}, and return scaler value(s) for the following {self.target_samples_size} samples:\n {self.target_samples}'

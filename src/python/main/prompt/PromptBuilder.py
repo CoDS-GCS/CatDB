@@ -59,7 +59,8 @@ def prompt_factory_missing_values(catalog: CatalogInfo,
                                   columns_has_missing_values,
                                   dataset_description: str,
                                   target_attribute: str,
-                                  target_samples: str
+                                  target_samples: str,
+                                  target_samples_size: int
                                   ):
     repr_cls = get_representation_class(f'{representation_type}MissingValue')
     class_name = f"{representation_type}-MissingValueImputation-{number_samples}-SHOT"
@@ -75,6 +76,7 @@ def prompt_factory_missing_values(catalog: CatalogInfo,
             self.dataset_description = dataset_description
             self.target_attribute = target_attribute
             self.target_samples = target_samples
+            self.target_samples_size = target_samples_size
             repr_cls.__init__(self, *args, **kwargs)
 
     return PromptClass()

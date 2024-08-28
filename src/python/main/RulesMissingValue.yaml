@@ -7,5 +7,5 @@
   Rule_1: 'The user will provide the {} of the dataset with columns appropriately named as attributes, enclosed in triple quotes, and preceded by the prefix "{}".'
   Rule_2: 'Carefully read the user-provided data and create and identify data dependencies and relationships.'
   Rule_3: 'Carefully predict the items requested by the user and return them.'
-  Rule_4: 'If you predict a value, report it based on this template: for example, if the user asks to predict the value for column "c_1", your response should be "c_1: <PREDICT_VALUE>".'
+  Rule_4: 'If you predict a value, report it based on this template: for example, if the user asks to predict the value for column "c_1" and "c_2", your response should be "### Row <INDEX>: c_1=<PREDICT_VALUE>, c_2=<PREDICT_VALUE>". For the next rows follow the same format.'
   Rule_5: 'Do not return extra messages or explanations.'

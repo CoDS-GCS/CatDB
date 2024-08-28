@@ -1,7 +1,7 @@
 from argparse import ArgumentParser
 from catalog.Catalog import load_data_source_profile
 from prompt.PromptBuilder import prompt_factory_missing_values
-from llm.GenerateLLMCode import GenerateLLMCode
+from llmdataprepare.DataPrepareLLM import DataPrepareLLM
 from runcode.RunCode import RunCode
 from util.FileHandler import save_prompt
 from util.FileHandler import save_text_file, read_text_file_line_by_line
@@ -25,6 +25,7 @@ def parse_arguments():
     parser.add_argument('--prompt-representation-type', type=str, default=None)
     parser.add_argument('--prompt-samples-type', type=str, default=None)
     parser.add_argument('--prompt-number-samples', type=int, default=0)
+    parser.add_argument('--prompt-number-request-samples', type=int, default=1)
     parser.add_argument('--prompt-number-iteration', type=int, default=1)
     parser.add_argument('--prompt-number-iteration-error', type=int, default=1)
     parser.add_argument('--output-path', type=str, default=None)
@@ -90,32 +91,41 @@ def parse_arguments():
     return args
 
 
-def missing_value_imputation(args, data, catalog, columns_has_missing_values):
+def missing_value_imputation(args, data, catalog):
     from util.Config import _missing_value_train_data_samples, _missing_value_train_data
-    results = dict()
-    if args.task_type in {'binary', 'multiclass'} and "f"=="S":
-        # for index, row in data.iterrows():
-        pass
-    else:
-        tmp_df = data.head(10)
+
+    nsamples_request = args.prompt_number_request_samples
+    for i in range(0, len(data), nsamples_request):
+        target_samples_size = min(i+nsamples_request, len(data))
+        tmp_df = data[i: target_samples_size]
+        results = dict()
         cols = list(tmp_df.columns[tmp_df.isna().any()].values)
-        target_samples = convert_df_to_string(tmp_df)
+        target_samples = convert_df_to_string(df=tmp_df, row_prefix="### Row")
         prompt = prompt_factory_missing_values(catalog=catalog,
                                 representation_type=args.prompt_representation_type,
                                 number_samples=_missing_value_train_data_samples,
                                 samples_missed_values=_missing_value_train_data,
-                                columns_has_missing_values= cols, #columns_has_missing_values,
+                                columns_has_missing_values=cols,
                                 dataset_description=args.description,
                                 target_attribute=args.target_attribute,
-                                target_samples=target_samples)
+                                target_samples=target_samples,
+                                target_samples_size = target_samples_size)
 
         prompt_format = prompt.format()
         prompt_system_message = prompt_format["system_message"]
         prompt_user_message = prompt_format["user_message"]
         schema_data = prompt_format["schema_data"]
 
+        # Save prompt:
+        prompt_file_name = f"{args.llm_model}-{prompt.class_name}-{args.dataset_description}"
+        file_name = f'{args.output_path}/{prompt_file_name}'
+        prompt_fname = f"{file_name}.prompt"
+        save_prompt(fname=prompt_fname, system_message=prompt_system_message, user_message=prompt_user_message)
 
-        print(prompt_user_message)
+        result, prompt_token_count, time_tmp_gen = DataPrepareLLM.data_prepare_llm(user_message=prompt_user_message,
+                                                                                   system_message=prompt_system_message)
+        print(result)
+        break
 
 if __name__ == '__main__':
     from util.Config import __execute_mode, __gen_verify_mode, __sub_task_data_preprocessing, \
@@ -158,6 +168,6 @@ if __name__ == '__main__':
                                    number_samples=args.prompt_number_samples)
         na_data = df[df.isna().any(axis=1)]
 
-        missing_value_imputation(args=args, catalog=catalog, columns_has_missing_values=missed_value_cols, data=na_data)
+        missing_value_imputation(args=args, catalog=catalog, data=na_data)
 
     # print(missed_value_cols)

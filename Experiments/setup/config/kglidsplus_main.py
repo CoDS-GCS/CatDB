@@ -68,7 +68,7 @@ def main():
             filenames.append(f"{data_source.path}/{data_source.name}.{data_source.file_type}")
         else:
             for filename in glob.glob(os.path.join(data_source.path, '**/*.' + data_source.file_type), recursive=True):
-                if filename.endswith("_train.csv") or filename.endswith("_test.csv") or filename.endswith("_verify.csv"):
+                if filename in {f"{args.data_source_name}_train.{data_source.file_type}", f"{args.data_source_name}_test.{data_source.file_type}", f"{args.data_source_name}_verify.{data_source.file_type}"}:
                     continue
                 else:
                     filenames.append(filename)

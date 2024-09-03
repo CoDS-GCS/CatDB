@@ -127,7 +127,7 @@ if __name__ == '__main__':
     args = parse_arguments()
     
     # Read dataset
-    data = pd.read_csv(f"{args.dataset_root_path}/{args.dataset_name}/{args.target_table}.csv")
+    data = pd.read_csv(f"{args.dataset_root_path}/{args.dataset_name}/{args.target_table}.csv", low_memory=False)
 
     # Split and save original dataset
     nrows, ncols, number_classes = get_metadata(data=data, target_attribute=args.target_attribute)

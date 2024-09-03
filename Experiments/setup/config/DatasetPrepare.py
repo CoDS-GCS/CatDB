@@ -21,15 +21,18 @@ def parse_arguments():
     return args
 
 
-def split_data_save(data, ds_name, out_path):
+def split_data_save(data, ds_name, out_path, target_table: str=None, write_data: bool=True):
+    if target_table is None:
+        target_table = ds_name
     data_train, data_test = train_test_split(data, test_size=0.3, random_state=42)
     _, data_verify =  train_test_split(data_train, test_size=0.1, random_state=42)
     Path(f"{out_path}/{ds_name}").mkdir(parents=True, exist_ok=True)
 
-    data.to_csv(f'{out_path}/{ds_name}/{ds_name}.csv', index=False)
-    data_train.to_csv(f'{out_path}/{ds_name}/{ds_name}_train.csv', index=False)
-    data_test.to_csv(f'{out_path}/{ds_name}/{ds_name}_test.csv', index=False)
-    data_verify.to_csv(f'{out_path}/{ds_name}/{ds_name}_verify.csv', index=False)
+    if write_data:
+        data.to_csv(f'{out_path}/{ds_name}/{target_table}.csv', index=False)
+    data_train.to_csv(f'{out_path}/{ds_name}/{target_table}_train.csv', index=False)
+    data_test.to_csv(f'{out_path}/{ds_name}/{target_table}_test.csv', index=False)
+    data_verify.to_csv(f'{out_path}/{ds_name}/{target_table}_verify.csv', index=False)
 
 def get_metadata(data, target_attribute):
     (nrows, ncols) = data.shape
@@ -93,12 +96,13 @@ def refactor_openml_description(description):
 def save_config(dataset_name,target, task_type, data_out_path, description=None, multi_table: bool=False, target_table: str=None):
     if target_table is None:
         target_table=dataset_name
+
     config_strs = [f"- name: {dataset_name}",
                        "  dataset:",
                        f"    multi_table: {multi_table}",
-                       f"    train: \'{dataset_name}/{dataset_name}_train.csv\'",
-                       f"    test: \'{dataset_name}/{dataset_name}_test.csv\'",
-                       f"    verify: \'{dataset_name}/{dataset_name}_verify.csv\'",
+                       f"    train: \'{dataset_name}/{target_table}_train.csv\'",
+                       f"    test: \'{dataset_name}/{target_table}_test.csv\'",
+                       f"    verify: \'{dataset_name}/{target_table}_verify.csv\'",
                        f"    target_table: {target_table}",
                        f"    target: {target}",
                        f"    type: {task_type}"
@@ -131,5 +135,5 @@ if __name__ == '__main__':
 
     # Split and save original dataset
     nrows, ncols, number_classes = get_metadata(data=data, target_attribute=args.target_attribute)
-    split_data_save(data=data, ds_name=args.dataset_name,out_path= args.data_out_path)
+    split_data_save(data=data, ds_name=args.dataset_name,out_path= args.data_out_path, target_table=args.target_table, write_data=False)
     save_config(dataset_name=args.dataset_name, target=args.target_attribute, task_type=args.task_type, data_out_path=args.data_out_path, description=args.dataset_description, target_table=args.target_table, multi_table=args.multi_table)

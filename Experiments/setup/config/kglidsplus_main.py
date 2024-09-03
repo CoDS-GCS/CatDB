@@ -68,7 +68,9 @@ def main():
             filenames.append(f"{data_source.path}/{data_source.name}.{data_source.file_type}")
         else:
             for filename in glob.glob(os.path.join(data_source.path, '**/*.' + data_source.file_type), recursive=True):
-                if filename in {f"{args.data_source_name}_train.{data_source.file_type}", f"{args.data_source_name}_test.{data_source.file_type}", f"{args.data_source_name}_verify.{data_source.file_type}"}:
+                if (filename.endswith(f"_train.{data_source.file_type}") or 
+                        filename.endswith(f"_test.{data_source.file_type}") or 
+                        filename.endswith(f"_verify.{data_source.file_type}")):
                     continue
                 else:
                     filenames.append(filename)
@@ -83,7 +85,7 @@ def main():
                               dataset_name=dataset_base_dir.name)
                 # read only the header
                 if len(filenames) > 1:
-                    out_path = f"{args.output_path}/{table.table_name.replace('.csv','')}"
+                    out_path = f"{args.output_path}/{table.table_name.replace(f'.{data_source.file_type}','')}"
                 else:
                     out_path = args.output_path
                 header = pd.read_csv(table.get_table_path(), nrows=0, engine='python', encoding_errors='replace')

@@ -52,7 +52,7 @@ class BasicPromptMultiTable(object):
         for cat in self.catalog:
             if cat.table_name == self.target_table:
                 nrows = cat.nrows
-            schema_data.append(self.format_schema_data(cat.table_name))
+            schema_data.append(self.format_schema_data(table_name= cat.table_name))
             if len(cat.columns_categorical) > 0:
                 columns_categorical.extend(cat.columns_categorical)
 
@@ -111,7 +111,7 @@ class BasicPromptMultiTable(object):
         content = []
         df_content = self.df_content[table_name]
         target_text = "**This is a target column**"
-        for r in range(0, len(self.df_content)):
+        for r in range(0, len(df_content)):
             if df_content.loc[r]["column_name"] == self.target_attribute:
                 row_msg_1 = f'# \"{df_content.loc[r]["column_name"]}\" ({df_content.loc[r]["column_data_type"]}, {target_text})'
             else:

@@ -51,7 +51,7 @@ default_system_delimiter = "### "
 default_user_delimiter = "### "
 
 CATEGORICAL_RATIO: float = 0.01
-LOW_RATIO_THRESHOLD = 0.1
+LOW_RATIO_THRESHOLD = 0.05
 DISTINCT_THRESHOLD = 0.5
 
 _OPENAI = "OpenAI"

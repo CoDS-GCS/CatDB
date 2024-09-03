@@ -28,7 +28,7 @@ error_output_path="${exp_path}/LLM_Pipe_Error.dat"
 cd "${exp_path}/setup/Baselines/CatDB/"
 source venv/bin/activate
 
-SCRIPT="python -Wignore main_MT.py --metadata-path ${metadata_path} \
+SCRIPT="python -Wignore main.py --metadata-path ${metadata_path} \
         --root-data-path ${data_path} \
         --catalog-path ${catalog_path} \
         --prompt-representation-type ${prompt_representation_type} \

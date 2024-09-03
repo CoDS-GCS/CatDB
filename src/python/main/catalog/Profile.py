@@ -26,7 +26,7 @@ class ProfileInfo(object):
                  category_values=None,
                  category_values_ratio=None,
                  samples=None,
-                 nrows: int = 0,
+                 nrows: int = 0
                  ):
         self.distinct_values_count = distinct_values_count
         self.data_source = data_source

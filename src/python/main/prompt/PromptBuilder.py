@@ -1,5 +1,5 @@
 from catalog.Catalog import CatalogInfo
-from util.Config import PROMPT_FUNC
+from util.Config import PROMPT_FUNC, PROMPT_FUNC_MULTI_TABLE
 from .ErrorPromptTemplate import RuntimeErrorPrompt, ResultsErrorPrompt, SyntaxErrorPrompt
 
 
@@ -10,7 +10,14 @@ def get_representation_class(repr_type: str):
     return representation_class
 
 
-def prompt_factory(catalog: CatalogInfo,
+def get_representation_class_multi_table(repr_type: str):
+    representation_class = PROMPT_FUNC_MULTI_TABLE[repr_type]
+    if representation_class is None:
+        raise ValueError(f"{repr_type} is not supported yet")
+    return representation_class
+
+
+def prompt_factory(catalog: [],
                    representation_type: str,
                    samples_type: str,
                    number_samples: int,
@@ -20,9 +27,19 @@ def prompt_factory(catalog: CatalogInfo,
                    data_source_train_path: str,
                    data_source_test_path: str,
                    dataset_description: str,
-                   previous_result: str):
-    repr_cls = get_representation_class(representation_type)
-    file_format = catalog.file_format
+                   previous_result: str,
+                   target_table: str):
+    cat = None
+    file_format = None
+    if len(catalog) == 1:
+        repr_cls = get_representation_class(representation_type)
+        cat = catalog[0]
+        file_format = cat.file_format
+    else:
+        repr_cls = get_representation_class_multi_table(representation_type)
+        file_format = catalog[0].file_format
+        cat = catalog
+
     evaluation_text = None
     evaluation_text = get_evaluation_text(task_type=task_type)
     if task_type == "binary" or task_type == "multiclass":
@@ -36,7 +53,7 @@ def prompt_factory(catalog: CatalogInfo,
     class PromptClass(repr_cls):
         def __init__(self, *args, **kwargs):
             self.class_name = class_name
-            self.catalog = catalog
+            self.catalog = cat
             self.data_source_train_path = data_source_train_path
             self.data_source_test_path = data_source_test_path
             self.file_format = file_format
@@ -47,9 +64,11 @@ def prompt_factory(catalog: CatalogInfo,
             self.evaluation_text = evaluation_text
             self.dataset_description = dataset_description
             self.previous_result = previous_result
+            self.target_table = target_table
             repr_cls.__init__(self, *args, **kwargs)
 
     return PromptClass()
+
 
 
 def prompt_factory_missing_values(catalog: CatalogInfo,

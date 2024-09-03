@@ -12,6 +12,7 @@ from prompt.PromptTemplate import SchemaMissingValueFrequencyCategoricalValuesPr
 from prompt.PromptTemplate import SchemaStatisticNumericCategoricalValuesPrompt
 from prompt.PromptTemplate import CatDBPrompt
 from prompt.PromptTemplate import AllPrompt
+from prompt.PromptTemplateMultiTable import CatDBMultiTablePrompt
 
 from prompt.PromptChainTemplate import DataPreprocessingChainPrompt
 from prompt.PromptChainTemplate import FeatureEngineeringChainPrompt
@@ -329,6 +330,14 @@ PROMPT_FUNC = {"S": SchemaPrompt,
                "SSNCV": SchemaStatisticNumericCategoricalValuesPrompt,
                "ALL": AllPrompt,
                "CatDB": CatDBPrompt,
+               "CatDBChainDataPreprocessing": DataPreprocessingChainPrompt,
+               "CatDBChainFeatureEngineering": FeatureEngineeringChainPrompt,
+               "CatDBChainModelSelection": ModelSelectionChainPrompt,
+               "CatDBMissingValue": CatDBMissingValuePrompt
+               }
+
+PROMPT_FUNC_MULTI_TABLE = {
+               "CatDB": CatDBMultiTablePrompt,
                "CatDBChainDataPreprocessing": DataPreprocessingChainPrompt,
                "CatDBChainFeatureEngineering": FeatureEngineeringChainPrompt,
                "CatDBChainModelSelection": ModelSelectionChainPrompt,

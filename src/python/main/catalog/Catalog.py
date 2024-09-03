@@ -1,6 +1,7 @@
 import os
 from .Profile import load_JSON_profile_info
 from .DimensionReduction import ReduceDimension
+from .Dependency import Dependency
 
 
 class CatalogInfo(object):
@@ -8,6 +9,7 @@ class CatalogInfo(object):
                  nrows: int,
                  ncols: int,
                  dataset_name: str,
+                 table_name: str,
                  data_source_path,
                  file_format: str,
                  schema_info: dict,
@@ -21,7 +23,8 @@ class CatalogInfo(object):
                  columns_bool: list,
                  columns_bool_missing_values: list,
                  columns_others: list,
-                 columns_others_missing_values: list):
+                 columns_others_missing_values: list,
+                 dependency: Dependency = None):
         self.profile_info = profile_info
         self.schema_info = schema_info
         self.file_format = file_format
@@ -43,9 +46,12 @@ class CatalogInfo(object):
         self.columns_bool_missing_values = columns_bool_missing_values
         self.columns_others = columns_others
         self.columns_others_missing_values = columns_others_missing_values
+        self.table_name = table_name
+        self.dependency = dependency
 
 
-def load_data_source_profile(data_source_path: str, file_format: str, target_attribute: str, enable_reduction: bool):
+def load_data_source_profile(data_source_path: str, file_format: str, target_attribute: str, enable_reduction: bool,
+                             dependency: Dependency=None):
     profile_info = dict()
     schema_info = dict()
     ncols = 0
@@ -62,11 +68,13 @@ def load_data_source_profile(data_source_path: str, file_format: str, target_att
     columns_bool_missing_values = []
     columns_others = []
     columns_others_missing_values = []
+    table_name = None
 
     for d in os.listdir(data_source_path):
         files = [f for f in os.listdir(f'{data_source_path}/{d}/')]
         for f in files:
             profile = load_JSON_profile_info(f'{data_source_path}/{d}/{f}')
+            table_name = profile.table_name
             profile_info[profile.column_name] = profile
             schema_info[profile.column_name] = profile.short_data_type
 
@@ -137,6 +145,7 @@ def load_data_source_profile(data_source_path: str, file_format: str, target_att
                        ncols=ncols,
                        file_format="csv",
                        dataset_name=dataset_name,
+                       table_name=table_name,
                        schema_info=schema_info,
                        profile_info=profile_info,
                        data_source_path=source_path,
@@ -149,5 +158,6 @@ def load_data_source_profile(data_source_path: str, file_format: str, target_att
                        columns_bool=columns_bool,
                        columns_bool_missing_values=columns_bool_missing_values,
                        columns_others=columns_others,
-                       columns_others_missing_values=columns_others_missing_values
+                       columns_others_missing_values=columns_others_missing_values,
+                       dependency=dependency
                        )

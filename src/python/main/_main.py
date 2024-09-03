@@ -1,6 +1,5 @@
 from argparse import ArgumentParser
 from catalog.Catalog import load_data_source_profile
-from catalog.Dependency import load_dependency_info
 from prompt.PromptBuilder import prompt_factory, error_prompt_factory, result_error_prompt_factory
 from llm.GenerateLLMCode import GenerateLLMCode
 from runcode.RunCode import RunCode
@@ -20,7 +19,7 @@ def parse_arguments():
     parser = ArgumentParser()
     parser.add_argument('--metadata-path', type=str, default=None)
     parser.add_argument('--root-data-path', type=str, default=None)
-    parser.add_argument('--catalog-path', type=str, default=None)
+    parser.add_argument('--data-profile-path', type=str, default=None)
     parser.add_argument('--dataset-description', type=str, default="yes")
     parser.add_argument('--prompt-representation-type', type=str, default=None)
     parser.add_argument('--prompt-samples-type', type=str, default=None)
@@ -43,8 +42,8 @@ def parse_arguments():
     if args.root_data_path is None:
         raise Exception("--root-data-path is a required parameter!")
 
-    if args.catalog_path is None:
-        raise Exception("--catalog-path is a required parameter!")
+    if args.data_profile_path is None:
+        raise Exception("--data-profile-path is a required parameter!")
 
     # read .yaml file and extract values:
     with open(args.metadata_path, "r") as f:
@@ -53,11 +52,6 @@ def parse_arguments():
             args.dataset_name = config_data[0].get('name')
             args.target_attribute = config_data[0].get('dataset').get('target')
             args.task_type = config_data[0].get('dataset').get('type')
-            args.multi_table = config_data[0].get('dataset').get('multi_table')
-            args.target_table = config_data[0].get('dataset').get('target_table')
-            if args.multi_table is None or args.multi_table not in {True, False}:
-                args.multi_table = False
-
             try:
                 args.data_source_train_path = f"{args.root_data_path}/{config_data[0].get('dataset').get('train')}"
                 args.data_source_test_path = f"{args.root_data_path}/{config_data[0].get('dataset').get('test')}"
@@ -138,8 +132,7 @@ def generate_and_verify_pipeline(args, catalog, run_mode: str = None, sub_task: 
                             data_source_train_path=args.data_source_train_path,
                             data_source_test_path=args.data_source_test_path,
                             dataset_description=args.description,
-                            previous_result=previous_result,
-                            target_table=args.target_table)
+                            previous_result=previous_result)
 
     time_end_1 = time.time()  # End time
     time_generate += time_end_1 - time_start_1  # Add prompt construction time to pipeline generate time
@@ -158,108 +151,107 @@ def generate_and_verify_pipeline(args, catalog, run_mode: str = None, sub_task: 
     prompt_fname = f"{file_name}.prompt"
     save_prompt(fname=prompt_fname, system_message=prompt_system_message, user_message=prompt_user_message)
 
-    # # Generate LLM code
-    # code, prompt_token_count, time_tmp_gen = GenerateLLMCode.generate_llm_code(user_message=prompt_user_message,
-    #                                                                            system_message=prompt_system_message)
-    # time_generate_extra = 0
-    # for i in range(5):
-    #     if code == "Insufficient information.":
-    #         code, tokens_count, time_tmp_gen = GenerateLLMCode.generate_llm_code(user_message=prompt_user_message,
-    #                                                                              system_message=prompt_system_message)
-    #         all_token_count += tokens_count
-    #         time_generate_extra += time_tmp_gen
-    #     else:
-    #         break
-    # time_generate += time_tmp_gen
-    #
-    # iteration_error = 0
-    # results_verified = False
-    # results = None
-    # final_pipeline_file_name = None
-    # for i in range(0, args.prompt_number_iteration_error):
-    #     # Replace Original Train Data with Verify Data
-    #     code = code.replace(args.data_source_train_path, args.data_source_verify_path)
-    #
-    #     if len(code) > 500:
-    #         pipeline_fname = f"{file_name}_draft.py"
-    #         save_text_file(fname=pipeline_fname, data=code)
-    #
-    #     time_start_2 = time.time()
-    #     result = RunCode.execute_code(src=code, parse=None, run_mode=run_mode)
-    #     time_end_2 = time.time()
-    #     if result.get_status():
-    #         results_verified, results = result.parse_results()
-    #         pipeline_fname = f"{file_name}.py"
-    #         save_text_file(fname=pipeline_fname, data=code)
-    #         if results_verified:
-    #             time_execute = time_end_2 - time_start_2
-    #             final_status = True
-    #             iteration_error = i
-    #             final_pipeline_file_name = file_name
-    #             break
-    #         else:
-    #             system_message, user_message = result_error_prompt_factory(pipeline_code=code, task_type=args.task_type,
-    #                                                                        data_source_train_path=args.data_source_train_path,
-    #                                                                        data_source_test_path=args.data_source_test_path)
-    #             prompt_fname_error = f"{file_name}_Error_Results_{i}.prompt"
-    #             save_prompt(fname=prompt_fname_error, system_message=system_message, user_message=user_message)
-    #             new_code, tokens_count, time_tmp_gen = GenerateLLMCode.generate_llm_code(system_message=system_message,
-    #                                                                                      user_message=user_message)
-    #             time_total += time_tmp_gen
-    #             if len(new_code) > 500:
-    #                 all_token_count += tokens_count
-    #                 code = new_code
-    #             else:
-    #                 i -= 1
-    #
-    #     else:
-    #         # add error to error lists:
-    #         ErrorResults(error_class=result.get_error_class(), error_exception=result.error_exception,
-    #                      error_type=result.get_error_type(), error_value=result.get_error_value(),
-    #                      error_detail=result.get_error_detail(), dataset_name=args.dataset_name,
-    #                      llm_model=args.llm_model,
-    #                      config=args.prompt_representation_type, sub_task=sub_task,
-    #                      file_name=f"{prompt_file_name}_{i}.python",
-    #                      timestamp=datetime.datetime.utcnow().isoformat()).save_error(args.error_output_path)
-    #
-    #         error_fname = f"{file_name}_{i}.error"
-    #         pipeline_fname = f"{file_name}_{i}.python"
-    #         save_text_file(error_fname, f"{result.get_exception()}")
-    #         save_text_file(fname=pipeline_fname, data=code)
-    #
-    #         system_message, user_message = error_prompt_factory(pipeline_code=code,
-    #                                                             pipeline_error_class = result.get_error_class(),
-    #                                                             pipeline_error_detail = result.get_error_detail(),
-    #                                                             schema_data=schema_data,
-    #                                                             task_type=args.task_type,
-    #                                                             data_source_train_path=args.data_source_train_path,
-    #                                                             data_source_test_path=args.data_source_test_path)
-    #         prompt_fname_error = f"{file_name}_Error_{i}.prompt"
-    #         save_prompt(fname=prompt_fname_error, system_message=system_message, user_message=user_message)
-    #
-    #         new_code, tokens_count, time_tmp_gen = GenerateLLMCode.generate_llm_code(system_message=system_message,
-    #                                                                                  user_message=user_message)
-    #         time_total += time_tmp_gen
-    #         if len(new_code) > 500:
-    #             all_token_count += tokens_count
-    #             code = new_code
-    #         else:
-    #             i -= 1
-    #
-    # time_total = time_total+time_generate_extra+time_generate+time_execute
-    # save_log(args=args, sub_task=sub_task, iteration=iteration, iteration_error=iteration_error, time_catalog=time_catalog,
-    #          time_generate=time_generate, time_total=time_total, time_execute=time_execute,
-    #          prompt_token_count=prompt_token_count, all_token_count=all_token_count, operation_tag='Gen-and-Verify-Pipeline',
-    #          run_mode=run_mode, results_verified=results_verified, results=results, final_status=final_status)
-    #
-    # if run_mode == __execute_mode :
-    #     final_status, code = run_pipeline(args=args, file_name=final_pipeline_file_name, code=code, schema_data=schema_data,
-    #                  run_mode=__execute_mode, sub_task=sub_task, iteration=iteration, time_total=time_total,
-    #                  time_catalog=time_catalog, time_generate=time_generate, all_token_count=all_token_count,
-    #                 prompt_token_count=prompt_token_count)
-    #
-    # return final_status, code
-    return True, "aaaa"
+    # Generate LLM code
+    code, prompt_token_count, time_tmp_gen = GenerateLLMCode.generate_llm_code(user_message=prompt_user_message,
+                                                                               system_message=prompt_system_message)
+    time_generate_extra = 0
+    for i in range(5):
+        if code == "Insufficient information.":
+            code, tokens_count, time_tmp_gen = GenerateLLMCode.generate_llm_code(user_message=prompt_user_message,
+                                                                                 system_message=prompt_system_message)
+            all_token_count += tokens_count
+            time_generate_extra += time_tmp_gen
+        else:
+            break
+    time_generate += time_tmp_gen
+
+    iteration_error = 0
+    results_verified = False
+    results = None
+    final_pipeline_file_name = None
+    for i in range(0, args.prompt_number_iteration_error):
+        # Replace Original Train Data with Verify Data
+        code = code.replace(args.data_source_train_path, args.data_source_verify_path)
+
+        if len(code) > 500:
+            pipeline_fname = f"{file_name}_draft.py"
+            save_text_file(fname=pipeline_fname, data=code)
+
+        time_start_2 = time.time()
+        result = RunCode.execute_code(src=code, parse=None, run_mode=run_mode)
+        time_end_2 = time.time()
+        if result.get_status():
+            results_verified, results = result.parse_results()
+            pipeline_fname = f"{file_name}.py"
+            save_text_file(fname=pipeline_fname, data=code)
+            if results_verified:
+                time_execute = time_end_2 - time_start_2
+                final_status = True
+                iteration_error = i
+                final_pipeline_file_name = file_name
+                break
+            else:
+                system_message, user_message = result_error_prompt_factory(pipeline_code=code, task_type=args.task_type,
+                                                                           data_source_train_path=args.data_source_train_path,
+                                                                           data_source_test_path=args.data_source_test_path)
+                prompt_fname_error = f"{file_name}_Error_Results_{i}.prompt"
+                save_prompt(fname=prompt_fname_error, system_message=system_message, user_message=user_message)
+                new_code, tokens_count, time_tmp_gen = GenerateLLMCode.generate_llm_code(system_message=system_message,
+                                                                                         user_message=user_message)
+                time_total += time_tmp_gen
+                if len(new_code) > 500:
+                    all_token_count += tokens_count
+                    code = new_code
+                else:
+                    i -= 1
+
+        else:
+            # add error to error lists:
+            ErrorResults(error_class=result.get_error_class(), error_exception=result.error_exception,
+                         error_type=result.get_error_type(), error_value=result.get_error_value(),
+                         error_detail=result.get_error_detail(), dataset_name=args.dataset_name,
+                         llm_model=args.llm_model,
+                         config=args.prompt_representation_type, sub_task=sub_task,
+                         file_name=f"{prompt_file_name}_{i}.python",
+                         timestamp=datetime.datetime.utcnow().isoformat()).save_error(args.error_output_path)
+
+            error_fname = f"{file_name}_{i}.error"
+            pipeline_fname = f"{file_name}_{i}.python"
+            save_text_file(error_fname, f"{result.get_exception()}")
+            save_text_file(fname=pipeline_fname, data=code)
+
+            system_message, user_message = error_prompt_factory(pipeline_code=code,
+                                                                pipeline_error_class = result.get_error_class(),
+                                                                pipeline_error_detail = result.get_error_detail(),
+                                                                schema_data=schema_data,
+                                                                task_type=args.task_type,
+                                                                data_source_train_path=args.data_source_train_path,
+                                                                data_source_test_path=args.data_source_test_path)
+            prompt_fname_error = f"{file_name}_Error_{i}.prompt"
+            save_prompt(fname=prompt_fname_error, system_message=system_message, user_message=user_message)
+
+            new_code, tokens_count, time_tmp_gen = GenerateLLMCode.generate_llm_code(system_message=system_message,
+                                                                                     user_message=user_message)
+            time_total += time_tmp_gen
+            if len(new_code) > 500:
+                all_token_count += tokens_count
+                code = new_code
+            else:
+                i -= 1
+
+    time_total = time_total+time_generate_extra+time_generate+time_execute
+    save_log(args=args, sub_task=sub_task, iteration=iteration, iteration_error=iteration_error, time_catalog=time_catalog,
+             time_generate=time_generate, time_total=time_total, time_execute=time_execute,
+             prompt_token_count=prompt_token_count, all_token_count=all_token_count, operation_tag='Gen-and-Verify-Pipeline',
+             run_mode=run_mode, results_verified=results_verified, results=results, final_status=final_status)
+
+    if run_mode == __execute_mode :
+        final_status, code = run_pipeline(args=args, file_name=final_pipeline_file_name, code=code, schema_data=schema_data,
+                     run_mode=__execute_mode, sub_task=sub_task, iteration=iteration, time_total=time_total,
+                     time_catalog=time_catalog, time_generate=time_generate, all_token_count=all_token_count,
+                    prompt_token_count=prompt_token_count)
+
+    return final_status, code
 
 
 def run_pipeline(args, file_name, code, schema_data, run_mode, sub_task: str = '', iteration: int = 1,
@@ -349,6 +341,7 @@ if __name__ == '__main__':
         __sub_task_feature_engineering, __sub_task_model_selection
 
     args = parse_arguments()
+    load_config(system_log=args.system_log, llm_model=args.llm_model)
 
     if args.run_code == False:
         operation = generate_and_verify_pipeline
@@ -359,32 +352,11 @@ if __name__ == '__main__':
         begin_iteration = args.prompt_number_iteration
         end_iteration = 1
 
-    data_profile_path = f"{args.catalog_path}/data_profile"
-    catalog = []
-    time_start = time.time()
-
-    if args.multi_table:
-        load_config(system_log=args.system_log, llm_model=args.llm_model, rules_path="RulesMultiTable.yaml")
-        dependency_file = f"{args.catalog_path}/dependency.yaml"
-        dependencies = load_dependency_info(dependency_file=dependency_file, datasource_name=args.dataset_name)
-        for tbl in dependencies.keys():
-            tbl_dp_path = f"{data_profile_path}/{tbl}"
-            enable_reduction = False
-            if tbl == args.target_table:
-                enable_reduction = True
-            cat = load_data_source_profile(data_source_path=tbl_dp_path,
-                                           file_format="JSON",
-                                           target_attribute=args.target_attribute,
-                                           enable_reduction=enable_reduction,
-                                           dependency=dependencies[tbl])
-            cat.table_name = tbl
-            catalog.append(cat)
-    else:
-        load_config(system_log=args.system_log, llm_model=args.llm_model, rules_path="Rules.yaml")
-        catalog.append(load_data_source_profile(data_source_path=args.data_profile_path,
-                                                file_format="JSON",
-                                                target_attribute=args.target_attribute,
-                                                enable_reduction=args.enable_reduction))
+    time_total_start = time_start = time.time()
+    catalog = load_data_source_profile(data_source_path=args.data_profile_path,
+                                       file_format="JSON",
+                                       target_attribute=args.target_attribute,
+                                       enable_reduction=args.enable_reduction)
 
     time_end = time.time()
     time_catalog = time_end - time_start

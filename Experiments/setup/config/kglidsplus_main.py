@@ -6,6 +6,7 @@ from pathlib import Path
 import shutil
 from typing import Tuple
 import warnings
+
 warnings.simplefilter('ignore')
 
 import pandas as pd
@@ -32,16 +33,16 @@ def main():
         profiler_config.data_sources.append(extra_source)
     if args.output_path:
         profiler_config.output_path = args.output_path
-    
+
     start_time = datetime.now()
     print(datetime.now(), ': Initializing Spark')
-    
+
     # initialize spark
     if profiler_config.is_spark_local_mode:
         spark = SparkContext(conf=SparkConf().setMaster(f'local[{profiler_config.n_workers}]')
                              .set('spark.driver.memory', f'{profiler_config.max_memory}g'))
     else:
-        
+
         spark = SparkSession.builder.appName("KGLiDSProfiler").getOrCreate().sparkContext
         # add python dependencies
         for pyfile in glob.glob('./**/*.py', recursive=True):
@@ -62,8 +63,18 @@ def main():
     print(datetime.now(), ': Creating tables, Getting columns')
     columns_and_tables = []
     for data_source in profiler_config.data_sources:
-            filename = f"{data_source.path}/{data_source.name}.{data_source.file_type}"
-            if os.path.isfile(filename) and os.path.getsize(filename) > 0:   # if not an empty file
+        filenames = []
+        if os.path.isfile(f"{args.data_source_path}/{args.data_source_name}.{data_source.file_type}"):
+            filenames.append(f"{data_source.path}/{data_source.name}.{data_source.file_type}")
+        else:
+            for filename in glob.glob(os.path.join(data_source.path, '**/*.' + data_source.file_type), recursive=True):
+                if filename.endswith("_train.csv") or filename.endswith("_test.csv") or filename.endswith("_verify.csv"):
+                    continue
+                else:
+                    filenames.append(filename)
+
+        for filename in filenames:
+            if os.path.isfile(filename) and os.path.getsize(filename) > 0:  # if not an empty file
                 dataset_base_dir = Path(filename).resolve()
                 while dataset_base_dir.parent != Path(data_source.path).resolve():
                     dataset_base_dir = dataset_base_dir.parent
@@ -71,13 +82,17 @@ def main():
                               table_path=filename,
                               dataset_name=dataset_base_dir.name)
                 # read only the header
+                if len(filenames) > 1:
+                    out_path = f"{args.output_path}/{table.table_name.replace('.csv','')}"
+                else:
+                    out_path = args.output_path
                 header = pd.read_csv(table.get_table_path(), nrows=0, engine='python', encoding_errors='replace')
-                columns_and_tables.extend([(col, table, args.categorical_ratio) for col in header.columns])
+                columns_and_tables.extend([(col, table, args.categorical_ratio, out_path) for col in header.columns])
 
     columns_and_tables_rdd = spark.parallelize(columns_and_tables)
-    
+
     # profile the columns with Spark.
-    print(datetime.now(), f': Profiling {len(columns_and_tables)} columns')    
+    print(datetime.now(), f': Profiling {len(columns_and_tables)} columns')
     columns_and_tables_rdd.map(column_worker).collect()
 
     print(datetime.now(), f': {len(columns_and_tables)} columns profiled and saved to {profiler_config.output_path}')
@@ -85,7 +100,7 @@ def main():
 
 
 def column_worker(column_name_and_table):
-    column_name, table, categorical_ratio = column_name_and_table
+    column_name, table, categorical_ratio, out_path = column_name_and_table
     # read the column from the table file. Use the Python engine if there are issues reading the file
     try:
         try:
@@ -116,7 +131,8 @@ def column_worker(column_name_and_table):
     column_profile.set_samples(column_category['samples'])
     column_profile.set_nrows(nrows)
     # store the profile
-    column_profile.save_profile(profiler_config.output_path)
+    # column_profile.save_profile(profiler_config.output_path)
+    column_profile.save_profile(out_path)
 
 
 if __name__ == '__main__':

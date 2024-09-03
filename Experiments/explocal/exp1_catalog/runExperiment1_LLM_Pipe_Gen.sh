@@ -3,7 +3,7 @@
 exp_path="$(pwd)"
 data_path="${exp_path}/data"
 dataset=$1
-data_profile_path=$2
+catalog_path=$2
 prompt_representation_type=$3
 prompt_samples_type=$4
 prompt_number_samples=$5
@@ -12,7 +12,7 @@ llm_model=$7
 with_dataset_description=$8
 
 metadata_path="${data_path}/${dataset}/${dataset}.yaml"
-number_iteration=10
+number_iteration=1
 number_iteration_error=20
 
 log_file_name="${exp_path}/results/Experiment1_LLM_Pipe_Gen.dat"
@@ -28,9 +28,9 @@ error_output_path="${exp_path}/LLM_Pipe_Error.dat"
 cd "${exp_path}/setup/Baselines/CatDB/"
 source venv/bin/activate
 
-SCRIPT="python -Wignore main.py --metadata-path ${metadata_path} \
+SCRIPT="python -Wignore main_MT.py --metadata-path ${metadata_path} \
         --root-data-path ${data_path} \
-        --data-profile-path ${data_profile_path} \
+        --catalog-path ${catalog_path} \
         --prompt-representation-type ${prompt_representation_type} \
         --prompt-samples-type ${prompt_samples_type} \
         --prompt-number-samples ${prompt_number_samples} \

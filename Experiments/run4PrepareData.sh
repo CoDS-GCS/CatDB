@@ -1,7 +1,7 @@
 #!/bin/bash
 
 root_path="$(pwd)"
-data_path="/home/saeed/Downloads/RDB-Export/"
+data_path="${root_path}/data"
 data_out_path="${root_path}/data"
 config_path="${root_path}/setup/config"
 

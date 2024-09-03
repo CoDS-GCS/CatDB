@@ -6,7 +6,7 @@ task_type=$2
 exp_path="$(pwd)"
 log_file_name="${exp_path}/results/Experiment1_Data_Profile.dat"
 data_source="${exp_path}/data"
-metadata_source="${exp_path}/metadata"
+metadata_source="${exp_path}/catalog"
 
 mkdir -p ${metadata_source}
 mkdir -p "${metadata_source}/${dataset}"

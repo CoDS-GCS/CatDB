@@ -44,15 +44,15 @@ CMD=./explocal/exp1_catalog/runExperiment1.sh
 
 # Multi Table Datasets:
 $CMD Accidents multiclass 
-# $CMD Airline multiclass 
-# $CMD Financial multiclass 
-# $CMD Hockey multiclass 
-# $CMD IMDB binary 
-# $CMD IMDB_IJS binary 
-# $CMD Lahman-2014 regression 
-# $CMD Walmart regression 
-# $CMD Walmart-2014 regression 
-# $CMD Yelp regression 
+$CMD Airline multiclass 
+$CMD Financial multiclass 
+$CMD Hockey multiclass 
+$CMD IMDB binary 
+$CMD IMDB_IJS binary 
+$CMD Lahman-2014 regression 
+$CMD Walmart regression 
+$CMD Walmart-2014 regression 
+$CMD Yelp regression 
 
 ######################################################
 # $CMD Airlines binary # Airlines

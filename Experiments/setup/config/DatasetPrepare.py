@@ -8,28 +8,16 @@ import numpy as np
 
 def parse_arguments():
     parser = ArgumentParser()
-    parser.add_argument('--dataset-info', type=str, default=None)
-    parser.add_argument('--data-out-path', type=str, default=None)
-    parser.add_argument('--setting-out-path', type=str, default=None)
+    parser.add_argument('--dataset-root-path', type=str, default=None)
+    parser.add_argument('--dataset-name', type=str, default=None)
+    parser.add_argument('--target-attribute', type=str, default=None)
+    parser.add_argument('--task-type', type=str, default=None)
+    parser.add_argument('--target-table', type=str, default=None)
+    parser.add_argument('--multi-table', type=str, default=None)
+    parser.add_argument('--dataset-description', type=str, default="")
+    parser.add_argument('--data-out-path', type=str, default=None)    
     
     args = parser.parse_args()
-
-    if args.dataset_info is None:
-        raise Exception("--dataset-name is a required parameter!")
-    else:
-        info = args.dataset_info.split(",")
-        args.fname = info[0]
-        args.dataset_name = info[1]
-        args.dataset_out_name = info[2]
-        args.target_attribute = info[3]
-        args.task_type = info[4]
-
-    if args.data_out_path is None:
-        raise Exception("--data-out-path is a required parameter!")    
-    
-    if args.setting_out_path is None:
-        raise Exception("--setting-out-path is a required parameter!")
-    
     return args
 
 
@@ -102,12 +90,16 @@ def refactor_openml_description(description):
     return description
 
 
-def save_config(dataset_name,target, task_type, data_out_path, description=None):
+def save_config(dataset_name,target, task_type, data_out_path, description=None, multi_table: bool=False, target_table: str=None):
+    if target_table is None:
+        target_table=dataset_name
     config_strs = [f"- name: {dataset_name}",
                        "  dataset:",
+                       f"    multi_table: {multi_table}",
                        f"    train: \'{dataset_name}/{dataset_name}_train.csv\'",
                        f"    test: \'{dataset_name}/{dataset_name}_test.csv\'",
                        f"    verify: \'{dataset_name}/{dataset_name}_verify.csv\'",
+                       f"    target_table: {target_table}",
                        f"    target: {target}",
                        f"    type: {task_type}"
                        "\n"]
@@ -135,18 +127,9 @@ if __name__ == '__main__':
     args = parse_arguments()
     
     # Read dataset
-    data = pd.read_csv(f"{args.fname}.csv")
+    data = pd.read_csv(f"{args.dataset_root_path}/{args.dataset_name}/{args.target_table}.csv")
 
     # Split and save original dataset
     nrows, ncols, number_classes = get_metadata(data=data, target_attribute=args.target_attribute)
     split_data_save(data=data, ds_name=args.dataset_name,out_path= args.data_out_path)
-    save_config(dataset_name=args.dataset_name, target=args.target_attribute, task_type=args.task_type, data_out_path=args.data_out_path, setting_out_path=args.setting_out_path)
-
-    # Split and rename dataset-name, then save  
-    split_data_save(data=data, ds_name=args.dataset_out_name,out_path= args.data_out_path)
-    save_config(dataset_name=args.dataset_out_name, target=args.target_attribute, task_type=args.task_type, data_out_path=args.data_out_path, setting_out_path=args.setting_out_path)
-
-    # Rename cols and dataset name, then split and save it
-    dataset_out_name = f"{args.dataset_out_name}_rnc"
-    target_attribute, nrows, ncols, number_classes = rename_col_names(data=data, ds_name=dataset_out_name, target_attribute=args.target_attribute, out_path=args.data_out_path)
-    save_config(dataset_name=dataset_out_name, target=target_attribute, task_type=args.task_type, data_out_path=args.data_out_path, setting_out_path=args.setting_out_path)   
+    save_config(dataset_name=args.dataset_name, target=args.target_attribute, task_type=args.task_type, data_out_path=args.data_out_path, description=args.dataset_description, target_table=args.target_table, multi_table=args.multi_table)

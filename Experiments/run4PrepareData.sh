@@ -5,6 +5,19 @@ data_path="${root_path}/data"
 data_out_path="${root_path}/data"
 config_path="${root_path}/setup/config"
 
+# Extract data profile info
+cd "${root_path}/catalog"
+unzip Accidents/data_profile.zip -d Accidents/
+unzip Airline/data_profile.zip -d Airline/
+unzip Financial/data_profile.zip -d Financial/
+# unzip Hockey/data_profile.zip -d Hockey/
+unzip IMDB-IJS/data_profile.zip -d IMDB-IJS/
+unzip IMDB/data_profile.zip -d IMDB/
+unzip Lahman-2014/data_profile.zip -d Lahman-2014/
+unzip Walmart-2014/data_profile.zip -d Walmart-2014/
+unzip Walmart/data_profile.zip -d Walmart/
+unzip Yelp/data_profile.zip -d Yelp/
+
 cd ${data_path}
 unzip Accidents.zip  
 unzip Airline.zip 
@@ -17,12 +30,12 @@ unzip Walmart-2014.zip
 unzip Walmart.zip
 unzip Yelp.zip
 
-cd ${config_path}
-source venv/bin/activate
+# cd ${config_path}
+# source venv/bin/activate
 
-CMD="python DatasetPrepare.py --dataset-root-path ${data_path} \
-        --multi-table True \
-        --data-out-path ${data_out_path}"
+# CMD="python DatasetPrepare.py --dataset-root-path ${data_path} \
+#         --multi-table True \
+#         --data-out-path ${data_out_path}"
 
  
 # $CMD --dataset-name Accidents --target-attribute klas_nesreca --task-type multiclass --target-table nesreca 

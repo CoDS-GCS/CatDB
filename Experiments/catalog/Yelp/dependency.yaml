@@ -1,0 +1,14 @@
+--- 
+ 
+- name: Yelp
+  tables:
+    Business:
+      PK: business_id
+    Checkins:
+      PK: business_id
+      FK: (business_id) references Business (business_id)
+    Reviews:
+      PK: review_id
+      FK: (business_id) references Business (business_id),(user_id) references Users (user_id)
+    Users:
+      PK: user_id

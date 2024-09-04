@@ -1,0 +1,27 @@
+--- 
+ 
+- name: Financial
+  tables:
+    account:
+      PK: account_id
+      FK: (district_id) references district (district_id)
+    card:
+      PK: card_id
+      FK: (disp_id) references disp (disp_id)
+    client:
+      PK: client_id
+      FK: (district_id) references district (district_id)
+    disp:
+      PK: disp_id
+      FK: (account_id) references account (account_id),(client_id) references client (client_id)
+    district:
+      PK: district_id 
+    loan:
+      PK: loan_id
+      FK: (account_id) references account (account_id)
+    order:
+      PK: order_id
+      FK: (account_id) references account (account_id)
+    trans:
+      PK: trans_id
+      FK: (account_id) references account (account_id)

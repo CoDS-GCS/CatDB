@@ -1,0 +1,23 @@
+--- 
+ 
+- name: IMDB-IJS
+  tables:
+    actors:
+      PK: id
+    directors:
+      PK: id
+    directors_genres:
+      PK: director_id,genre      
+      FK: (director_id) references directors (id)
+    movies:
+      PK: id
+    movies_directors:
+      PK: director_id,movie_id
+      FK: (director_id) references directors (id),(movie_id) references movies (id)
+    movies_genres:
+      PK: movie_id,genre
+      FK: (movie_id) references movies (id)
+    roles:
+      PK: actor_id,movie_id,role
+      FK: (actor_id) references actors (id),(movie_id) references movies (id)
+

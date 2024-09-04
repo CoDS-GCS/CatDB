@@ -1,0 +1,12 @@
+--- 
+ 
+- name: Walmart-2014
+  tables:
+    features:
+      PK: Store,Date
+      FK: (Store) references stores (Store)
+    stores:
+      PK: Store
+    train:
+      PK: Store,Dept,Date
+      FK: (Store) references stores (Store)

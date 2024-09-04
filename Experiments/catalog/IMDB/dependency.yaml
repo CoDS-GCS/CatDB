@@ -1,0 +1,55 @@
+--- 
+ 
+- name: IMDB
+  tables:
+    actors:
+      PK: actorid
+    business:
+      PK: movieid
+      FK: (movieid) references movies (movieid)
+    countries:
+      PK: country,movieid
+      FK: (movieid) references movies (movieid)
+    directors:
+      PK: directorid
+    distributors:
+      PK: name,movieid
+      FK: (movieid) references movies (movieid)
+    editors:
+      PK: editorid
+    genres:
+      PK: genre,movieid
+      FK: (movieid) references movies (movieid)
+    language:
+      PK: language,movieid
+      FK: (movieid) references movies (movieid)
+    movies:
+      PK: movieid
+    movies2actors:
+      PK: actorid,movieid
+      FK: (movieid) references movies (movieid),(actorid) references actors (actorid) 
+    movies2directors:
+      PK: movieid,directorid
+      FK: (movieid) references movies (movieid),(directorid) references directors (directorid) 
+    movies2editors:
+      PK: editorid,movieid
+      FK: (movieid) references movies (movieid),(editorid) references editors (editorid)
+    movies2producers:
+      PK: addition,producerid,movieid
+      FK: (movieid) references movies (movieid),(producerid) references producers (producerid)
+    movies2writers:
+      PK: addition,writerid,movieid
+      FK: (movieid) references movies (movieid),(writerid) references writers (writerid)
+    prodcompanies:
+      PK: name,movieid
+      FK: (movieid) references movies (movieid)
+    producers:
+      PK: producerid
+    ratings:
+      PK: movieid
+      FK: (movieid) references movies (movieid)
+    runningtimes:
+      PK: addition,time,movieid
+      FK: (movieid) references movies (movieid)
+    writers:
+      PK: writerid

@@ -48,7 +48,7 @@ $CMD Accidents multiclass
 # $CMD Financial multiclass 
 # $CMD Hockey multiclass 
 # $CMD IMDB binary 
-# $CMD IMDB_IJS binary 
+# $CMD IMDB-IJS binary 
 # $CMD Lahman-2014 regression 
 # $CMD Walmart regression 
 # $CMD Walmart-2014 regression 

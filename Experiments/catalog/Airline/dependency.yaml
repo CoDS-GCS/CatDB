@@ -1,0 +1,42 @@
+--- 
+ 
+- name: Airline
+  tables:
+    L_AIRLINE_ID:
+      PK: Code
+    L_AIRPORT:
+      PK: Code
+    L_AIRPORT_ID:
+      PK: Code
+    L_AIRPORT_SEQ_ID:
+      PK: Code
+    L_CANCELLATION:
+      PK: Code
+    L_CITY_MARKET_ID:
+      PK: Code
+    L_DEPARRBLK:
+      PK: Code
+    L_DISTANCE_GROUP_250:
+      PK: Code
+    L_DIVERSIONS:
+      PK: Code
+    L_MONTHS:
+      PK: Code
+    L_ONTIME_DELAY_GROUPS:
+      PK: Code
+    L_QUARTERS:
+      PK: Code
+    L_STATE_ABR_AVIATION:
+      PK: Code
+    L_STATE_FIPS:
+      PK: Code
+    L_UNIQUE_CARRIERS:
+      PK: Code
+    L_WEEKDAYS:
+      PK: Code
+    L_WORLD_AREA_CODES:
+      PK: Code
+    L_YESNO_RESP:
+      PK: Code
+    On_Time_On_Time_Performance_2016_1:
+      FK: (AirlineID) references L_AIRLINE_ID (Code),(ArrDel15) references L_YESNO_RESP (Code),(ArrivalDelayGroups) references L_ONTIME_DELAY_GROUPS (Code),(CancellationCode) references L_CANCELLATION (Code),(Cancelled) references L_YESNO_RESP (Code),(DayOfWeek) references L_WEEKDAYS (Code),(DepartureDelayGroups) references L_ONTIME_DELAY_GROUPS (Code),(DepDel15) references L_YESNO_RESP (Code),(DepTimeBlk) references L_DEPARRBLK (Code),(DestAirportID) references L_AIRPORT_ID (Code),(DestAirportSeqID) references L_AIRPORT_SEQ_ID (Code),(DestCityMarketID) references L_CITY_MARKET_ID (Code),(DestStateFips) references L_STATE_FIPS (Code),(DestState) references L_STATE_ABR_AVIATION (Code),(DestWac) references L_WORLD_AREA_CODES (Code),(Dest) references L_AIRPORT (Code),(DistanceGroup) references L_DISTANCE_GROUP_250 (Code),(Div1AirportID) references L_AIRPORT_ID (Code),(Div1AirportSeqID) references L_AIRPORT_SEQ_ID (Code),(Div2AirportID) references L_AIRPORT_ID (Code),(Div2AirportSeqID) references L_AIRPORT_SEQ_ID (Code),(DivAirportLandings) references L_DIVERSIONS (Code),(Diverted) references L_YESNO_RESP (Code),(Month) references L_MONTHS (Code),(OriginAirportID) references L_AIRPORT_ID (Code),(OriginAirportSeqID) references L_AIRPORT_SEQ_ID (Code),(OriginCityMarketID) references L_CITY_MARKET_ID (Code),(OriginStateFips) references L_STATE_FIPS (Code),(OriginState) references L_STATE_ABR_AVIATION (Code),(OriginWac) references L_WORLD_AREA_CODES (Code),(Origin) references L_AIRPORT (Code),(Quarter) references L_QUARTERS (Code),(UniqueCarrier) references L_UNIQUE_CARRIERS (Code)

@@ -1,0 +1,15 @@
+--- 
+ 
+- name: Walmart
+  tables:
+    key:
+      PK: store_nbr
+      FK: (station_nbr) references station (station_nbr)
+    station:
+      PK: station_nbr
+    train:
+      PK: store_nbr,date,item_nbr
+      FK: (store_nbr) references key (store_nbr)
+    weather:
+      PK: station_nbr,date
+      FK: (station_nbr) references station (station_nbr)

@@ -1,0 +1,74 @@
+--- 
+ 
+- name: Lahman-2014
+  tables:
+    allstarfull:
+      PK: gameNum,yearID,playerID
+      FK: (teamID) references teams (teamID)
+    appearances:
+      PK: playerID,teamID,yearID
+      FK: (playerID) references players (playerID)
+    awardsmanagers:
+      PK: managerID,lgID,awardID,yearID
+      FK: (managerID) references managers (managerID)
+    awardsplayers:
+      PK: playerID,lgID,awardID,yearID
+      FK: (playerID) references players (playerID)
+    awardssharemanagers:
+      PK: awardID,yearID,managerID,lgID
+      FK: (managerID) references managers (managerID)
+    awardsshareplayers:
+      PK: playerID,lgID,yearID,awardID
+      FK: (playerID) references players (playerID)
+    batting:
+      PK: stint,yearID,playerID
+      FK: (teamID) references teams (teamID),(playerID) references players (playerID)
+    battingpost:
+      PK: playerID,yearID,round
+      FK: (teamID) references teams (teamID),(playerID) references players (playerID)
+    fielding:
+      PK: POS,stint,yearID,playerID
+      FK: (teamID) references teams (teamID),(playerID) references players (playerID)
+    fieldingof:
+      PK: stint,yearID,playerID
+      FK: (playerID) references players (playerID)
+    fieldingpost:
+      PK: POS,round,yearID,playerID
+      FK: (teamID) references teams (teamID),(playerID) references players (playerID)
+    halloffame:
+      PK: yearID,hofID
+    managers:
+      PK: yearID,teamID,inseason
+      FK: (teamID) references teams (teamID)
+    managershalf:
+      PK: half,managerID,teamID,yearID
+      FK: (teamID) references teams (teamID),(managerID) references managers (managerID)
+    pitching:
+      PK: stint,yearID,playerID
+      FK: (teamID) references teams (teamID),(playerID) references players (playerID)
+    pitchingpost:
+      PK: playerID,yearID,round
+      FK: (teamID) references teams (teamID),(playerID) references players (playerID)
+    players:
+      PK: lahmanID
+      FK: (hofID) references halloffame (hofID)
+    salaries:
+      PK: playerID,lgID,teamID,yearID
+      FK: (teamID) references teams (teamID)
+    schools:
+      PK: schoolID
+    schoolsplayers:
+      PK: schoolID,playerID
+      FK: (schoolID) references schools (schoolID),(playerID) references players (playerID)
+    seriespost:
+      PK: round,yearID
+      FK: (teamIDwinner) references teams (teamID),(teamIDloser) references teams (teamID)
+    teams:
+      PK: teamID,lgID,yearID
+    teamsfranchises:
+      PK: franchID
+    teamshalf:
+      PK: teamID,lgID,Half,yearID
+      FK: (teamID) references teams (teamID)
+    els_teamnames:
+      FK: (teamid) references teams (teamID),(franchid) references teamsfranchises (franchID)

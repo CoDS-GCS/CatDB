@@ -76,6 +76,8 @@ _catdb_rules = dict()
 _catdb_chain_DP_rules = dict()
 _catdb_chain_FE_rules = dict()
 _catdb_chain_MS_rules = dict()
+_catdb_data_cleaning_rules = dict()
+
 _CODE_FORMATTING_IMPORT = None
 _CODE_FORMATTING_PREPROCESSING = None
 _CODE_FORMATTING_ADDING = None
@@ -90,7 +92,7 @@ _DATASET_DESCRIPTION = None
 
 
 def load_config(system_log: str, llm_model: str = None, config_path: str = "Config.yaml",
-                api_config_path: str = "APIKeys.yaml", rules_path: str = "Rules.yaml"):
+                api_config_path: str = "APIKeys.yaml", rules_path: str = "Rules.yaml", data_cleaning_rules_path="RulesDataCleaning.yaml"):
     global _llm_model
     global _llm_platform
     global _system_delimiter
@@ -168,6 +170,7 @@ def load_config(system_log: str, llm_model: str = None, config_path: str = "Conf
 
         _LLM_API_Key = LLM_API_Key(api_config_path=api_config_path)
         load_rules(rules_path=rules_path)
+        load_data_cleaning_rules(rules_path=data_cleaning_rules_path)
 
 
 def load_rules(rules_path: str):
@@ -233,22 +236,39 @@ def load_rules(rules_path: str):
             raise Exception(ex)
 
 
-def convert_df_to_string(df, row_prefix:str=None):
+def load_data_cleaning_rules(rules_path: str):
+    global _catdb_data_cleaning_rules
+
+    with (open(rules_path, "r") as f):
+        try:
+            configs = yaml.load(f, Loader=yaml.FullLoader)
+            for conf in configs:
+                plt = conf.get("Config")
+                categorical_rls = dict()
+                for k, v in conf.get("Categorical").items():
+                    categorical_rls[k] = v
+                if plt == "CatDB":
+                    _catdb_data_cleaning_rules = categorical_rls
+        except yaml.YAMLError as ex:
+            raise Exception(ex)
+
+
+def convert_df_to_string(df, row_prefix: str = None):
     indexes = df.index.tolist()
     x = df.to_string(header=True, index=False, index_names=False).split('\n')
     xl = [','.join(ele.split()) for ele in x]
     if row_prefix is not None:
         nxl = []
         for index, val in enumerate(xl):
-            if index > 0 :
-               nxl.append(f"{row_prefix} {indexes[index-1]}: {val}")
+            if index > 0:
+                nxl.append(f"{row_prefix} {indexes[index - 1]}: {val}")
             else:
                 nxl.append(f"### Header: {val}")
         xl = nxl
     return "\n".join(xl)
 
 
-def load_missing_value_dataset(data, target_attribute:str=None, task_type: str=None, number_samples: int=0):
+def load_missing_value_dataset(data, target_attribute: str = None, task_type: str = None, number_samples: int = 0):
     global _missing_value_train_data
     global _missing_value_train_data_target_attribute
     global _missing_value_train_data_samples
@@ -259,7 +279,7 @@ def load_missing_value_dataset(data, target_attribute:str=None, task_type: str=N
     if task_type in {'binary', 'multiclass'}:
         df = df.groupby(target_attribute).sample(number_samples, replace=True)
         _missing_value_train_data_samples = len(df)
-        #_missing_value_train_data = convert_df_to_string(df)
+        # _missing_value_train_data = convert_df_to_string(df)
         # classes = df[target_attribute].unique()
         # _missing_value_train_data = dict()
         # for c in classes:
@@ -273,8 +293,8 @@ def load_missing_value_dataset(data, target_attribute:str=None, task_type: str=N
     _missing_value_train_data = convert_df_to_string(df=df)
 
 
-def set_finetune_file_path(google_client_secret_file_path: str=None, google_token_file_path: str=None,
-                           dataset_path: str=None, target_attribute:str=None, task_type: str=None):
+def set_finetune_file_path(google_client_secret_file_path: str = None, google_token_file_path: str = None,
+                           dataset_path: str = None, target_attribute: str = None, task_type: str = None):
     global _google_token_file_path
     global _google_client_secret_file_path
     global _fintune_train_data
@@ -289,8 +309,6 @@ def set_finetune_file_path(google_client_secret_file_path: str=None, google_toke
         _fintune_train_data = df.groupby(target_attribute).sample(100, replace=True)
     else:
         _fintune_train_data = df.sample(1000, replace=True)
-
-
 
 
 # 10000 : Schema = S
@@ -337,9 +355,9 @@ PROMPT_FUNC = {"S": SchemaPrompt,
                }
 
 PROMPT_FUNC_MULTI_TABLE = {
-               "CatDB": CatDBMultiTablePrompt,
-               "CatDBChainDataPreprocessing": DataPreprocessingChainPrompt,
-               "CatDBChainFeatureEngineering": FeatureEngineeringChainPrompt,
-               "CatDBChainModelSelection": ModelSelectionChainPrompt,
-               "CatDBMissingValue": CatDBMissingValuePrompt
-               }
+    "CatDB": CatDBMultiTablePrompt,
+    "CatDBChainDataPreprocessing": DataPreprocessingChainPrompt,
+    "CatDBChainFeatureEngineering": FeatureEngineeringChainPrompt,
+    "CatDBChainModelSelection": ModelSelectionChainPrompt,
+    "CatDBMissingValue": CatDBMissingValuePrompt
+}

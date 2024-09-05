@@ -129,9 +129,12 @@ def save_config(dataset_name,target, task_type, data_out_path, description=None,
 
 if __name__ == '__main__':
     args = parse_arguments()
+
+    if args.target_table is None:
+        args.target_table = args.dataset_name
     
     # Read dataset
-    data = pd.read_csv(f"{args.dataset_root_path}/{args.dataset_name}/{args.target_table}.csv", low_memory=False)
+    data = pd.read_csv(f"{args.dataset_root_path}/{args.dataset_name}/{args.target_table}.csv", low_memory=False, encoding="ISO-8859-1")
 
     # Split and save original dataset
     nrows, ncols, number_classes = get_metadata(data=data, target_attribute=args.target_attribute)

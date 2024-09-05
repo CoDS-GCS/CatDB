@@ -1,0 +1,19 @@
+--- 
+ 
+- Config: CatDB
+  Categorical:
+    task: Clean the categorical columns values basd on the LLM-knowledge.
+    input: Categorical features of Tables(s) and values of them.
+    output: A mapped clean version of features.
+    Rule_1: The user will provide the categorical features of the dataset with columns appropriately named as attributes, enclosed in triple quotes, and preceded by the prefix "Schema, and Categorical Data:".
+    Rule_2: Carefully read the user-provided data and create and identify data dependencies and relationships.
+    Rule_3: Check the duplication of values by Capitalization (e.g., "United States" , "united States")
+    Rule_4: Check the duplication of values by Misspellings (e.g., "Male" , "Mail" , "Make" , "msle")
+    Rule_5: Check the duplication of values by Abbreviation (e.g., "California" , "CA")
+    Rule_6: Check the duplication of values by Difference of Special Characters (e.g., "Black/Blue" , "Black-Blue")
+    Rule_7: Check the duplication of values by Different Ordering (e.g., “GoldWhite“ , “WhiteGold”)
+    Rule_8: Check the duplication of values by Synonyms (e.g., "Female" , "Woman")
+    Rule_9: Check the duplication of values by Presence of Extra Information (e.g., "Houston" , "Houston TX", "Houston TX 77055")
+    Rule_10: Check the duplication of values by Different grammar (e.g., "triColor" , "tricolored")
+    Rule_11: If you find a clean mapping, report it as a pieces of Python code in order to apply for dataframe.
+    Rule_12: Do not return extra messages or explanations.

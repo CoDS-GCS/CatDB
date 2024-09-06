@@ -3,40 +3,59 @@
 - name: Airline
   tables:
     L_AIRLINE_ID:
+      columns: Code,Description
       PK: Code
     L_AIRPORT:
+      columns: Code,Description
       PK: Code
     L_AIRPORT_ID:
+      columns: Code,Description
       PK: Code
     L_AIRPORT_SEQ_ID:
+      columns: Code,Description
       PK: Code
     L_CANCELLATION:
+      columns: Code,Description
       PK: Code
     L_CITY_MARKET_ID:
+      columns: Code,Description
       PK: Code
     L_DEPARRBLK:
+      columns: Code,Description
       PK: Code
     L_DISTANCE_GROUP_250:
+      columns: Code,Description
       PK: Code
     L_DIVERSIONS:
+      columns: Code,Description
       PK: Code
     L_MONTHS:
+      columns: Code,Description
       PK: Code
     L_ONTIME_DELAY_GROUPS:
+      columns: Code,Description
       PK: Code
     L_QUARTERS:
+      columns: Code,Description
       PK: Code
     L_STATE_ABR_AVIATION:
+      columns: Code,Description
       PK: Code
     L_STATE_FIPS:
+      columns: Code,Description
       PK: Code
     L_UNIQUE_CARRIERS:
+      columns: Code,Description
       PK: Code
     L_WEEKDAYS:
+      columns: Code,Description
       PK: Code
     L_WORLD_AREA_CODES:
+      columns: Code,Description
       PK: Code
     L_YESNO_RESP:
+      columns: Code,Description
       PK: Code
     On_Time_On_Time_Performance_2016_1:
+      columns: Year,Quarter,Month,DayofMonth,DayOfWeek,FlightDate,UniqueCarrier,AirlineID,Carrier,TailNum,FlightNum,OriginAirportID,OriginAirportSeqID,OriginCityMarketID,Origin,OriginCityName,OriginState,OriginStateFips,OriginStateName,OriginWac,DestAirportID,DestAirportSeqID,DestCityMarketID,Dest,DestCityName,DestState,DestStateFips,DestStateName,DestWac,CRSDepTime,DepTime,DepDelay,DepDelayMinutes,DepDel15,DepartureDelayGroups,DepTimeBlk,TaxiOut,WheelsOff,WheelsOn,TaxiIn,CRSArrTime,ArrTime,ArrDelay,ArrDelayMinutes,ArrDel15,ArrivalDelayGroups,ArrTimeBlk,Cancelled,CancellationCode,Diverted,CRSElapsedTime,ActualElapsedTime,AirTime,Flights,Distance,DistanceGroup,CarrierDelay,WeatherDelay,NASDelay,SecurityDelay,LateAircraftDelay,FirstDepTime,TotalAddGTime,LongestAddGTime,DivAirportLandings,DivReachedDest,DivActualElapsedTime,DivArrDelay,DivDistance,Div1Airport,Div1AirportID,Div1AirportSeqID,Div1WheelsOn,Div1TotalGTime,Div1LongestGTime,Div1WheelsOff,Div1TailNum,Div2Airport,Div2AirportID,Div2AirportSeqID,Div2WheelsOn,Div2TotalGTi
       FK: (AirlineID) references L_AIRLINE_ID (Code),(ArrDel15) references L_YESNO_RESP (Code),(ArrivalDelayGroups) references L_ONTIME_DELAY_GROUPS (Code),(CancellationCode) references L_CANCELLATION (Code),(Cancelled) references L_YESNO_RESP (Code),(DayOfWeek) references L_WEEKDAYS (Code),(DepartureDelayGroups) references L_ONTIME_DELAY_GROUPS (Code),(DepDel15) references L_YESNO_RESP (Code),(DepTimeBlk) references L_DEPARRBLK (Code),(DestAirportID) references L_AIRPORT_ID (Code),(DestAirportSeqID) references L_AIRPORT_SEQ_ID (Code),(DestCityMarketID) references L_CITY_MARKET_ID (Code),(DestStateFips) references L_STATE_FIPS (Code),(DestState) references L_STATE_ABR_AVIATION (Code),(DestWac) references L_WORLD_AREA_CODES (Code),(Dest) references L_AIRPORT (Code),(DistanceGroup) references L_DISTANCE_GROUP_250 (Code),(Div1AirportID) references L_AIRPORT_ID (Code),(Div1AirportSeqID) references L_AIRPORT_SEQ_ID (Code),(Div2AirportID) references L_AIRPORT_ID (Code),(Div2AirportSeqID) references L_AIRPORT_SEQ_ID (Code),(DivAirportLandings) references L_DIVERSIONS (Code),(Diverted) references L_YESNO_RESP (Code),(Month) references L_MONTHS (Code),(OriginAirportID) references L_AIRPORT_ID (Code),(OriginAirportSeqID) references L_AIRPORT_SEQ_ID (Code),(OriginCityMarketID) references L_CITY_MARKET_ID (Code),(OriginStateFips) references L_STATE_FIPS (Code),(OriginState) references L_STATE_ABR_AVIATION (Code),(OriginWac) references L_WORLD_AREA_CODES (Code),(Origin) references L_AIRPORT (Code),(Quarter) references L_QUARTERS (Code),(UniqueCarrier) references L_UNIQUE_CARRIERS (Code)

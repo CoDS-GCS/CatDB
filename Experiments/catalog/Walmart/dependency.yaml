@@ -3,13 +3,17 @@
 - name: Walmart
   tables:
     key:
+      columns: store_nbr,station_nbr
       PK: store_nbr
       FK: (station_nbr) references station (station_nbr)
     station:
+      columns: station_nbr
       PK: station_nbr
     train:
+      columns: date,store_nbr,item_nbr,units
       PK: store_nbr,date,item_nbr
       FK: (store_nbr) references key (store_nbr)
     weather:
+      columns: station_nbr,date,tmax,tmin,tavg,depart,dewpoint,wetbulb,heat,cool,sunrise,sunset,codesum,snowfall,preciptotal,stnpressure,sealevel,resultspeed,resultdir,avgspeed
       PK: station_nbr,date
       FK: (station_nbr) references station (station_nbr)

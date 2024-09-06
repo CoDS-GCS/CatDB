@@ -3,53 +3,73 @@
 - name: IMDB
   tables:
     actors:
+      columns: actorid,name,sex
       PK: actorid
     business:
+      columns: movieid,businesstext
       PK: movieid
       FK: (movieid) references movies (movieid)
     countries:
+      columns: movieid,country
       PK: country,movieid
       FK: (movieid) references movies (movieid)
     directors:
+      columns: directorid,name,rate,gross,num
       PK: directorid
     distributors:
+      columns: movieid,name
       PK: name,movieid
       FK: (movieid) references movies (movieid)
     editors:
+      columns: editorid,name
       PK: editorid
     genres:
+      columns: movieid,genre
       PK: genre,movieid
       FK: (movieid) references movies (movieid)
     language:
+      columns: movieid,language
       PK: language,movieid
       FK: (movieid) references movies (movieid)
     movies:
+      columns: movieid,title,year
       PK: movieid
     movies2actors:
+      columns: movieid,actorid,as_character,leading
       PK: actorid,movieid
       FK: (movieid) references movies (movieid),(actorid) references actors (actorid) 
     movies2directors:
+      columns: movieid,directorid,genre
       PK: movieid,directorid
       FK: (movieid) references movies (movieid),(directorid) references directors (directorid) 
     movies2editors:
+      columns: movieid,editorid,addition
       PK: editorid,movieid
       FK: (movieid) references movies (movieid),(editorid) references editors (editorid)
     movies2producers:
+      columns: movieid,producerid,addition
       PK: addition,producerid,movieid
       FK: (movieid) references movies (movieid),(producerid) references producers (producerid)
     movies2writers:
+      columns: movieid,writerid,addition
       PK: addition,writerid,movieid
       FK: (movieid) references movies (movieid),(writerid) references writers (writerid)
     prodcompanies:
+      columns: movieid,name
       PK: name,movieid
       FK: (movieid) references movies (movieid)
     producers:
+      columns: producerid,name
       PK: producerid
     ratings:
+      columns: movieid,rank,votes,distribution
       PK: movieid
       FK: (movieid) references movies (movieid)
     runningtimes:
+      columns: movieid,time,addition,time1
       PK: addition,time,movieid
       FK: (movieid) references movies (movieid)
     writers:
+      columns: writerid,name
       PK: writerid
+     

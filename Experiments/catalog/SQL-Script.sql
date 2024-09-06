@@ -16,3 +16,10 @@ FROM
   INFORMATION_SCHEMA.KEY_COLUMN_USAGE
 WHERE
   REFERENCED_TABLE_SCHEMA = 'Yelp' 
+
+
+
+select TABLE_NAME, concat('columns: ', group_concat(column_name order by ordinal_position))
+from information_schema.columns
+where table_schema = 'Yelp'
+group by  TABLE_NAME; -- and table_name = 'table_name'

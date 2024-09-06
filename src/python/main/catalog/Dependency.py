@@ -4,12 +4,14 @@ import yaml
 class Dependency(object):
     def __init__(self,
                  table_name: str = None,
-                 primary_keys=None,
-                 foreign_keys=None,
+                 columns: [] = None,
+                 primary_keys = None,
+                 foreign_keys = None,
                  ):
         self.table_name = table_name
         self.primary_keys = primary_keys
         self.foreign_keys = foreign_keys
+        self.columns = columns
 
     def set_primary_keys(self, primary_keys):
         self.primary_keys = primary_keys
@@ -20,6 +22,9 @@ class Dependency(object):
     def set_table_name(self, table_name):
         self.table_name = table_name
 
+    def set_columns(self, columns):
+        self.columns = columns
+
 
 def load_dependency_info(dependency_file: str, datasource_name: str):
     with open(dependency_file, "r") as f:
@@ -29,9 +34,10 @@ def load_dependency_info(dependency_file: str, datasource_name: str):
             if ds_name == datasource_name:
                 tbls = dict()
                 for k, v in dep[0].get('tables').items():
+                    cols = dep[0].get('tables').get(k).get('columns')
                     PKs = dep[0].get('tables').get(k).get('PK')
                     FKs = dep[0].get('tables').get(k).get('FK')
-                    d = Dependency(table_name=k)
+                    d = Dependency(table_name=k, columns=cols)
                     if PKs is not None:
                         d.set_primary_keys(PKs.split(","))
 
@@ -39,7 +45,6 @@ def load_dependency_info(dependency_file: str, datasource_name: str):
                         d.set_foreign_keys(FKs.split(","))
 
                     tbls[k] = d
-
                 return tbls
 
         except yaml.YAMLError as ex:

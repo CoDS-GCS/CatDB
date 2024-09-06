@@ -29,7 +29,8 @@ def prompt_factory(catalog: [],
                    data_source_test_path: str,
                    dataset_description: str,
                    previous_result: str,
-                   target_table: str):
+                   target_table: str,
+                   dependency: dict()):
     cat = None
     file_format = None
     if len(catalog) == 1:
@@ -66,6 +67,7 @@ def prompt_factory(catalog: [],
             self.dataset_description = dataset_description
             self.previous_result = previous_result
             self.target_table = target_table
+            self.dependency = dependency
             repr_cls.__init__(self, *args, **kwargs)
 
     return PromptClass()

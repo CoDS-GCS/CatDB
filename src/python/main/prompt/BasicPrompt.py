@@ -48,6 +48,7 @@ class BasicPrompt(object):
 
         schema_data = self.format_schema_data()
         prompt_items.append(schema_data)
+        prompt_items.append(self.get_multi_table_relationships())
 
         if self.flag_missing_value_frequency:
             missing_values_rules = self.get_missing_values_rules()
@@ -193,6 +194,29 @@ class BasicPrompt(object):
             return f"{drop_column_prompt}{','.join(names)}\n"
         else:
             return None
+
+    def get_multi_table_relationships(self):
+        if self.dependency is None:
+            return None
+        else:
+            dependency_items = [
+                f'The dataset is a multitable dataset with {len(self.dependency)} tables. The tables have their schema and following relationships are between Tables. This relation define by Primary Keys and Forigin Keys.']
+
+            for tbl in self.dependency.keys():
+               ditem = f"# Table {tbl} ({','.join(self.dependency[tbl].columns)})."
+               if self.dependency[tbl].primary_keys is not None:
+                    if len(self.dependency[tbl].primary_keys) > 1:
+                        tmp_txt = "are"
+                        ditem = f"{ditem} {','.join(self.dependency[tbl].primary_keys)} {tmp_txt} primary key."
+
+                    if self.dependency[tbl].foreign_keys is not None:
+                        tmp_txt = "is"
+                        if len(self.dependency[tbl].foreign_keys) > 1:
+                            tmp_txt = "are"
+                        ditem = f"{ditem} {','.join(self.dependency[tbl].foreign_keys)} {tmp_txt} foreign key."
+                dependency_items.append(ditem)
+            dependency_items = "\n".join(dependency_items)
+           return dependency_items
 
     def set_schema_content(self):
         self.df_content = pd.DataFrame(columns=["column_name",

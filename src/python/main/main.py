@@ -120,40 +120,41 @@ def clean_up(args, prompt_file_name):
 
 
 def generate_and_verify_pipeline(args, catalog, run_mode: str = None, sub_task: str = '', previous_result: str = None,
-                              time_catalog: float = 0, iteration: int = 1):
+                              time_catalog: float = 0, iteration: int = 1, dependency: dict() = None):
     all_token_count = 0
     time_generate = 0
     time_execute = 0
     final_status = False
     time_total = 0
 
-    #---------------------------------------
-    data_cleaning_prompt = prompt_factory_data_cleaning(catalog=catalog)
-    prompt_format = data_cleaning_prompt.format()
-    prompt_system_message = prompt_format["system_message"]
-    prompt_user_message = prompt_format["user_message"]
-
-
-    # Save prompt:
-    prompt_file_name = f"{args.llm_model}-{data_cleaning_prompt.class_name}-{args.dataset_description}-iteration-{iteration}"
-    file_name = f'{args.output_path}/{prompt_file_name}'
-    prompt_fname = f"{file_name}.prompt"
-    save_prompt(fname=prompt_fname, system_message=prompt_system_message, user_message=prompt_user_message)
-    #---------------------------------------
+    # #---------------------------------------
+    # data_cleaning_prompt = prompt_factory_data_cleaning(catalog=catalog)
+    # prompt_format = data_cleaning_prompt.format()
+    # prompt_system_message = prompt_format["system_message"]
+    # prompt_user_message = prompt_format["user_message"]
+    #
+    #
+    # # Save prompt:
+    # prompt_file_name = f"{args.llm_model}-{data_cleaning_prompt.class_name}-{args.dataset_description}-iteration-{iteration}"
+    # file_name = f'{args.output_path}/{prompt_file_name}'
+    # prompt_fname = f"{file_name}.prompt"
+    # save_prompt(fname=prompt_fname, system_message=prompt_system_message, user_message=prompt_user_message)
+    # #---------------------------------------
 
     # time_start_1 = time.time()  # Start Time
-    # prompt = prompt_factory(catalog=catalog,
-    #                         representation_type=f"{args.prompt_representation_type}{sub_task}",
-    #                         samples_type=args.prompt_samples_type,
-    #                         number_samples=args.prompt_number_samples,
-    #                         task_type=args.task_type,
-    #                         number_iteration=args.prompt_number_iteration,
-    #                         target_attribute=args.target_attribute,
-    #                         data_source_train_path=args.data_source_train_path,
-    #                         data_source_test_path=args.data_source_test_path,
-    #                         dataset_description=args.description,
-    #                         previous_result=previous_result,
-    #                         target_table=args.target_table)
+    prompt = prompt_factory(catalog=catalog,
+                            representation_type=f"{args.prompt_representation_type}{sub_task}",
+                            samples_type=args.prompt_samples_type,
+                            number_samples=args.prompt_number_samples,
+                            task_type=args.task_type,
+                            number_iteration=args.prompt_number_iteration,
+                            target_attribute=args.target_attribute,
+                            data_source_train_path=args.data_source_train_path,
+                            data_source_test_path=args.data_source_test_path,
+                            dataset_description=args.description,
+                            previous_result=previous_result,
+                            target_table=args.target_table,
+                            dependency= dependency)
     #
     # time_end_1 = time.time()  # End time
     # time_generate += time_end_1 - time_start_1  # Add prompt construction time to pipeline generate time
@@ -376,11 +377,11 @@ if __name__ == '__main__':
     data_profile_path = f"{args.catalog_path}/data_profile"
     catalog = []
     time_start = time.time()
+    dependency_file = f"{args.catalog_path}/dependency.yaml"
+    dependencies = load_dependency_info(dependency_file=dependency_file, datasource_name=args.dataset_name)
 
     if args.multi_table:
         load_config(system_log=args.system_log, llm_model=args.llm_model, rules_path="RulesMultiTable.yaml")
-        dependency_file = f"{args.catalog_path}/dependency.yaml"
-        dependencies = load_dependency_info(dependency_file=dependency_file, datasource_name=args.dataset_name)
         for tbl in dependencies.keys():
             tbl_dp_path = f"{data_profile_path}/{tbl}"
             enable_reduction = False
@@ -408,11 +409,11 @@ if __name__ == '__main__':
     prompt_representation_type_orig = args.prompt_representation_type
     while begin_iteration < args.prompt_number_iteration + end_iteration:
         if args.prompt_representation_type == "CatDBChain":
-            final_status, code = operation(args=args, catalog=catalog, run_mode=__gen_verify_mode, sub_task=__sub_task_data_preprocessing, time_catalog=time_catalog, iteration=begin_iteration)
+            final_status, code = operation(args=args, catalog=catalog, run_mode=__gen_verify_mode, sub_task=__sub_task_data_preprocessing, time_catalog=time_catalog, iteration=begin_iteration, dependency=dependencies)
             if final_status:
-                final_status, code = operation(args=args, catalog=catalog, run_mode=__gen_verify_mode, sub_task=__sub_task_feature_engineering, previous_result=code, time_catalog=time_catalog, iteration=begin_iteration)
+                final_status, code = operation(args=args, catalog=catalog, run_mode=__gen_verify_mode, sub_task=__sub_task_feature_engineering, previous_result=code, time_catalog=time_catalog, iteration=begin_iteration, dependency=dependencies)
                 if final_status:
-                    final_status, code = operation(args=args, catalog=catalog, run_mode=__execute_mode, sub_task=__sub_task_model_selection, previous_result=code, time_catalog=time_catalog, iteration=begin_iteration)
+                    final_status, code = operation(args=args, catalog=catalog, run_mode=__execute_mode, sub_task=__sub_task_model_selection, previous_result=code, time_catalog=time_catalog, iteration=begin_iteration, dependency=dependencies)
                     if final_status:
                         begin_iteration += 1
         elif args.prompt_representation_type == "AUTO":
@@ -424,7 +425,7 @@ if __name__ == '__main__':
                     begin_iteration += 1
             args.prompt_representation_type = prompt_representation_type_orig
         else:
-            final_status, code = operation(args=args, catalog=catalog, run_mode=__execute_mode, time_catalog=time_catalog, iteration=begin_iteration)
+            final_status, code = operation(args=args, catalog=catalog, run_mode=__execute_mode, time_catalog=time_catalog, iteration=begin_iteration, dependency=dependencies)
             if final_status:
                 begin_iteration += 1
 

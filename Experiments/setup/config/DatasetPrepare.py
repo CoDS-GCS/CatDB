@@ -16,9 +16,10 @@ def parse_arguments():
     parser.add_argument('--target-table', type=str, default=None)
     parser.add_argument('--multi-table', type=str, default=None)
     parser.add_argument('--mtos', type=str, default=None)
-    parser.add_argument('--dependency-file', type=str, default=None)
     parser.add_argument('--dataset-description', type=str, default="")
     parser.add_argument('--data-out-path', type=str, default=None)    
+    parser.add_argument('--catalog-root-path', type=str, default=None)
+    
     
     args = parser.parse_args()
     return args
@@ -177,8 +178,8 @@ if __name__ == '__main__':
 
     # Read dataset
     if args.multi_table == 'True' and args.mtos == 'True':
-        args.dependency_file = f"{args.dataset_root_path}/{args.dataset_name}/dependency.yaml"
-        relations = load_dependency_info(dependency_file=args.dependency_file, datasource_name= args.dataset_name)
+        dependency_file = f"{args.catalog_root_path}/{args.dataset_name}/dependency.yaml"
+        relations = load_dependency_info(dependency_file=dependency_file, datasource_name= args.dataset_name)
         data = create_join(root_path=args.dataset_root_path, dataset_name=args.dataset_name, main_table=args.target_table, relations=relations)
         args.multi_table = 'False'
         args.target_table = args.dataset_name

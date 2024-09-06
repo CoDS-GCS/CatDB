@@ -51,7 +51,7 @@ source venv/bin/activate
 CMD="python DatasetPrepare.py --dataset-root-path ${data_path} \
         --multi-table True \
         --data-out-path ${data_out_path} \
-        --catalog-root-path ${catalog-path}"
+        --catalog-root-path ${catalog_path}"
 
  
 $CMD --dataset-name Accidents --target-attribute klas_nesreca --task-type multiclass --target-table nesreca --mtos True

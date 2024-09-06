@@ -5,6 +5,7 @@ import pandas as pd
 from argparse import ArgumentParser
 import re
 import numpy as np
+import yaml
 
 def parse_arguments():
     parser = ArgumentParser()
@@ -14,6 +15,8 @@ def parse_arguments():
     parser.add_argument('--task-type', type=str, default=None)
     parser.add_argument('--target-table', type=str, default=None)
     parser.add_argument('--multi-table', type=str, default=None)
+    parser.add_argument('--mtos', type=str, default=None)
+    parser.add_argument('--dependency-file', type=str, default=None)
     parser.add_argument('--dataset-description', type=str, default="")
     parser.add_argument('--data-out-path', type=str, default=None)    
     
@@ -127,14 +130,61 @@ def save_config(dataset_name,target, task_type, data_out_path, description=None,
     f.close()
 
 
+def load_dependency_info(dependency_file: str, datasource_name: str):
+    with open(dependency_file, "r") as f:
+        try:
+            dep = yaml.load(f, Loader=yaml.FullLoader)
+            ds_name = dep[0].get('name')
+            if ds_name == datasource_name:
+                tbls = dict()
+                for k, v in dep[0].get('tables').items():                    
+                    FKs = dep[0].get('tables').get(k).get('FK')
+                    d = []
+                    if FKs is not None:
+                        d = FKs.split(",")
+
+                    tbls[k] = d
+
+                return tbls
+
+        except yaml.YAMLError as ex:
+            raise Exception(ex)
+        except:
+            return None
+        
+def create_join(root_path: str, dataset_name: str, main_table: str ,relations: dict):
+    
+    path = f'{root_path}/{dataset_name}/{main_table}.csv'
+    data = pd.read_csv(path, low_memory=False, encoding="ISO-8859-1")
+    
+    for fks in relations[main_table]:
+        fk_item = fks.split(" ")
+        fk = fk_item[0][1: len(fk_item[0])-1]
+        ref_tbl = fk_item[2]
+        id = fk_item[3][1: len(fk_item[3])-1]
+        ref_tbl_data = create_join(root_path=root_path, dataset_name=dataset_name, main_table=ref_tbl, relations=relations)
+        data = pd.merge(data,ref_tbl_data, how='left',left_on=[fk],right_on=[id])
+
+    return data           
+
+
 if __name__ == '__main__':
     args = parse_arguments()
 
     if args.target_table is None:
         args.target_table = args.dataset_name
     
+
     # Read dataset
-    data = pd.read_csv(f"{args.dataset_root_path}/{args.dataset_name}/{args.target_table}.csv", low_memory=False, encoding="ISO-8859-1")
+    if args.multi_table == 'True' and args.mtos == 'True':
+        args.dependency_file = f"{args.dataset_root_path}/{args.dataset_name}/dependency.yaml"
+        relations = load_dependency_info(dependency_file=args.dependency_file, datasource_name= args.dataset_name)
+        data = create_join(root_path=args.dataset_root_path, dataset_name=args.dataset_name, main_table=args.target_table, relations=relations)
+        args.multi_table = 'False'
+        args.target_table = args.dataset_name
+
+    else:
+        data = pd.read_csv(f"{args.dataset_root_path}/{args.dataset_name}/{args.target_table}.csv", low_memory=False, encoding="ISO-8859-1")
 
     # Split and save original dataset
     nrows, ncols, number_classes = get_metadata(data=data, target_attribute=args.target_attribute)

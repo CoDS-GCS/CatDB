@@ -1,0 +1,27 @@
+SYSTEM MESSAGE:
+###  Clean the categorical columns values basd on the LLM-knowledge.
+###  Categorical features of Tables(s) and values of them.
+###  A mapped clean version of features.
+# 1: The user will provide the categorical features of the dataset with columns appropriately named as attributes, enclosed in triple quotes, and preceded by the prefix "Schema, and Categorical Data:".
+# 2: Carefully read the user-provided data and create and identify data dependencies and relationships.
+# 3: Check the duplication of values by Capitalization (e.g., "United States" , "united States")
+# 4: Check the duplication of values by Misspellings (e.g., "Male" , "Mail" , "Make" , "msle")
+# 5: Check the duplication of values by Abbreviation (e.g., "California" , "CA")
+# 6: Check the duplication of values by Difference of Special Characters (e.g., "Black/Blue" , "Black-Blue")
+# 7: Check the duplication of values by Different Ordering (e.g., “GoldWhite“ , “WhiteGold”)
+# 8: Check the duplication of values by Synonyms (e.g., "Female" , "Woman")
+# 9: Check the duplication of values by Presence of Extra Information (e.g., "Houston" , "Houston TX", "Houston TX 77055")
+# 10: Check the duplication of values by Different grammar (e.g., "triColor" , "tricolored")
+# 11: If you find a clean mapping, report it as a pieces of Python code in order to apply for dataframe.
+---------------------------------------
+PROMPT TEXT:
+Schema, and Categorical Data:
+"""
+# Column Name is "Household Income", categorical-values [$150,000+,$100,000 - $149,999,$50,000 - $99,999,$25,000 - $49,999,$0 - $24,999]
+# Column Name is "Education", categorical-values [Graduate degree,Associate or bachelor degree,Some college,High school degree,Less than high school degree]
+# Column Name is "Personally identification as a Midwesterner?", categorical-values [Not at all,Not much,Some,A lot]
+# Column Name is "Age", categorical-values [> 60,45-60,30-44,18-29]
+# Column Name is "Location (Census Region)", categorical-values [Pacific,Mountain,West South Central,East South Central,South Atlantic,West North Central,East North Central,Middle Atlantic,New England]
+"""
+
+### Question: Find the categorical data duplication and return a refined values.

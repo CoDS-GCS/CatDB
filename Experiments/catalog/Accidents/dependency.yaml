@@ -8,4 +8,4 @@
       PK: id_nesreca
       FK: (upravna_enota) references upravna_enota (id_upravna_enota)
     oseba:
-      PK: (id_nesreca) references nesreca (id_nesreca),(upravna_enota) references upravna_enota (id_upravna_enota)
+      FK: (id_nesreca) references nesreca (id_nesreca),(upravna_enota) references upravna_enota (id_upravna_enota)

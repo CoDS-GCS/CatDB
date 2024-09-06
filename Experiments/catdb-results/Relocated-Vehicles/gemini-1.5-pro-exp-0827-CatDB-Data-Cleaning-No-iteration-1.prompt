@@ -1,0 +1,29 @@
+SYSTEM MESSAGE:
+###  Clean the categorical columns values basd on the LLM-knowledge.
+###  Categorical features of Tables(s) and values of them.
+###  A mapped clean version of features.
+# 1: The user will provide the categorical features of the dataset with columns appropriately named as attributes, enclosed in triple quotes, and preceded by the prefix "Schema, and Categorical Data:".
+# 2: Carefully read the user-provided data and create and identify data dependencies and relationships.
+# 3: Check the duplication of values by Capitalization (e.g., "United States" , "united States")
+# 4: Check the duplication of values by Misspellings (e.g., "Male" , "Mail" , "Make" , "msle")
+# 5: Check the duplication of values by Abbreviation (e.g., "California" , "CA")
+# 6: Check the duplication of values by Difference of Special Characters (e.g., "Black/Blue" , "Black-Blue")
+# 7: Check the duplication of values by Different Ordering (e.g., “GoldWhite“ , “WhiteGold”)
+# 8: Check the duplication of values by Synonyms (e.g., "Female" , "Woman")
+# 9: Check the duplication of values by Presence of Extra Information (e.g., "Houston" , "Houston TX", "Houston TX 77055")
+# 10: Check the duplication of values by Different grammar (e.g., "triColor" , "tricolored")
+# 11: If you find a clean mapping, report it as a pieces of Python code in order to apply for dataframe.
+---------------------------------------
+PROMPT TEXT:
+Schema, and Categorical Data:
+"""
+# Column Name is "Make", categorical-values [Lexus,Chevrolet,Toyota,Honda,Dodge,Audi,Hyundai,Jeep,Isuzu,Nissan,Ford,Acura,Subaru,Saturn,Mazda,Volkswagen,GMC,Kia Motors Corp,Oldsmobile,Rover,Chrysler,Cadillac,Scion,Pontiac,Bmw,Infiniti,Buick,Lincoln,Mitsubishi,Mercedes,Volvo,Mini,Land Rover,Mercury,Jaguar,Ram,Alfa Romeo,Plymouth,Suzuki,Porsche,Saab,Chevron Cars,Fiat,Dacia]
+# Column Name is "State", categorical-values [IL,IN,WI,SC,WA,MN,MI,OH,TX,MO,NC,PA,GA,AL,CA,NE,FL,TN,LA,NJ,AR,MD,WV,NY,KY,AK,MA,CN,IA,OR,CO,VA,CT,AZ,DC]
+# Column Name is "Relocated From Suffix", categorical-values [ST,DRIVE,DR,RD,AVE,PL,PKWY,PLACE,AVENUE,BLVD,STREET,AV,RIVER,CT,ROAD,TER,PARK,RAMP]
+# Column Name is "Color", categorical-values [Tan,Silver,Blue,Black,White,Gray,Red,Beige,Gold,Maroon,Brown,Green,Bronze,Burgundy,Orange,Multi-Color,Purple,Star,Cream,Yellow,Turquoise,Copper,Unknown]
+# Column Name is "Relocated Reason", categorical-values [Accident,Broken Down,Stalled,Water Management,Pound Transfer,Other,Forestry,Peoples Gas,Film Office,Fire,CDOT 50/50 Sidewalk,CDOT Electricity,Sanitation,CDOT Curb and Gutter,Police,Soldier Field Bears,CDOT Street Resurfacing,Commonwealth Edison,Street Operations,Revenue,Mayor's Office of Special Events]
+# Column Name is "Relocated From Street Direction", categorical-values [E,N,S,W]
+# Column Name is "Relocated To Direction", categorical-values [E,N,W,S]
+"""
+
+### Question: Find the categorical data duplication and return a refined values.

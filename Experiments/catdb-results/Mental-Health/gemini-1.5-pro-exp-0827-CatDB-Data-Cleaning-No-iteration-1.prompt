@@ -1,0 +1,40 @@
+SYSTEM MESSAGE:
+###  Clean the categorical columns values basd on the LLM-knowledge.
+###  Categorical features of Tables(s) and values of them.
+###  A mapped clean version of features.
+# 1: The user will provide the categorical features of the dataset with columns appropriately named as attributes, enclosed in triple quotes, and preceded by the prefix "Schema, and Categorical Data:".
+# 2: Carefully read the user-provided data and create and identify data dependencies and relationships.
+# 3: Check the duplication of values by Capitalization (e.g., "United States" , "united States")
+# 4: Check the duplication of values by Misspellings (e.g., "Male" , "Mail" , "Make" , "msle")
+# 5: Check the duplication of values by Abbreviation (e.g., "California" , "CA")
+# 6: Check the duplication of values by Difference of Special Characters (e.g., "Black/Blue" , "Black-Blue")
+# 7: Check the duplication of values by Different Ordering (e.g., “GoldWhite“ , “WhiteGold”)
+# 8: Check the duplication of values by Synonyms (e.g., "Female" , "Woman")
+# 9: Check the duplication of values by Presence of Extra Information (e.g., "Houston" , "Houston TX", "Houston TX 77055")
+# 10: Check the duplication of values by Different grammar (e.g., "triColor" , "tricolored")
+# 11: If you find a clean mapping, report it as a pieces of Python code in order to apply for dataframe.
+---------------------------------------
+PROMPT TEXT:
+Schema, and Categorical Data:
+"""
+# Column Name is "If you live in the United States, which state or territory do you live in?", categorical-values [IL,IN,TX,TN,MI,OH,CA,CT,MD,NY,NC,MA,IA,PA,WA,WI,UT,NM,OR,FL,MN,MO,AZ,CO,GA,DC,NE,WV,OK,KS,VA,NH,KY,AL,NV,NJ,SC,VT,SD,ID,MS,RI,WY,LA,ME]
+# Column Name is "Country", categorical-values [United States,Canada,United Kingdom,Bulgaria,France,Portugal,Netherlands,Switzerland,Poland,Australia,Germany,Russia,Mexico,Brazil,Slovenia,Costa Rica,Austria,Ireland,India,South Africa,Italy,Sweden,Colombia,Latvia,Romania,Belgium,New Zealand,Zimbabwe,Spain,Finland,Uruguay,Israel,Bosnia and Herzegovina,Hungary,Singapore,Japan,Nigeria,Croatia,Norway,Thailand,Denmark,Bahamas, The,Greece,Moldova,Georgia,China,Czech Republic,Philippines]
+# Column Name is "Gender", categorical-values [Female,M,Male,male,female,m,Male-ish,maile,Trans-female,Cis Female,F,something kinda male?,Cis Male,Woman,f,Mal,Male (CIS),queer/she/they,non-binary,Femake,woman,Make,Nah,All,Enby,fluid,Genderqueer,Female ,Androgyne,Agender,cis-female/femme,Guy (-ish) ^_^,male leaning androgynous,Male ,Man,Trans woman,msle,Neuter,Female (trans),queer,Female (cis),Mail,cis male,A little about you,Malr,p,femail,Cis Man,ostensibly male, unsure what that really means]
+# Column Name is "Is your anonymity protected if you choose to take advantage of mental health or substance abuse treatment resources?", categorical-values [Yes,Don't know,No]
+# Column Name is "Would you bring up a mental health issue with a potential employer in an interview?", categorical-values [No,Yes,Maybe]
+# Column Name is "Do you know the options for mental health care your employer provides?", categorical-values [Not sure,No,Yes]
+# Column Name is "How many employees does your company or organization have?", categorical-values [6-25,More than 1000,26-100,100-500,1-5,500-1000]
+# Column Name is "Do you feel that your employer takes mental health as seriously as physical health?", categorical-values [Yes,Don't know,No]
+# Column Name is "Would you be willing to discuss a mental health issue with your coworkers?", categorical-values [Some of them,No,Yes]
+# Column Name is "If you have a mental health condition, do you feel that it interferes with your work?", categorical-values [Often,Rarely,Never,Sometimes]
+# Column Name is "Would you be willing to discuss a mental health issue with your direct supervisor(s)?", categorical-values [Yes,No,Some of them]
+# Column Name is "Has your employer ever discussed mental health as part of an employee wellness program?", categorical-values [No,Don't know,Yes]
+# Column Name is "Does your employer provide mental health benefits?", categorical-values [Yes,Don't know,No]
+# Column Name is "Do you think that discussing a physical health issue with your employer would have negative consequences?", categorical-values [No,Yes,Maybe]
+# Column Name is "Does your employer provide resources to learn more about mental health issues and how to seek help?", categorical-values [Yes,Don't know,No]
+# Column Name is "Do you think that discussing a mental health issue with your employer would have negative consequences?", categorical-values [No,Maybe,Yes]
+# Column Name is "Would you bring up a physical health issue with a potential employer in an interview?", categorical-values [Maybe,No,Yes]
+# Column Name is "How easy is it for you to take medical leave for a mental health condition?", categorical-values [Somewhat easy,Don't know,Somewhat difficult,Very difficult,Very easy]
+"""
+
+### Question: Find the categorical data duplication and return a refined values.

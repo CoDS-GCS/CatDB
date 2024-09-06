@@ -1,6 +1,7 @@
 from catalog.Catalog import CatalogInfo
 from util.Config import PROMPT_FUNC, PROMPT_FUNC_MULTI_TABLE
 from .ErrorPromptTemplate import RuntimeErrorPrompt, ResultsErrorPrompt, SyntaxErrorPrompt
+from .PromptTemplateDataClean import CatDBCategoricalDataCleanPrompt
 
 
 def get_representation_class(repr_type: str):
@@ -69,6 +70,22 @@ def prompt_factory(catalog: [],
 
     return PromptClass()
 
+
+def prompt_factory_data_cleaning(catalog: []):
+    cat = None
+    repr_cls = CatDBCategoricalDataCleanPrompt
+    cat = catalog[0]
+    class_name = f"CatDB-Data-Cleaning"
+    assert repr_cls is not None
+
+    class PromptClass(repr_cls):
+        def __init__(self, *args, **kwargs):
+            self.class_name = class_name
+            self.catalog = cat
+            self.number_samples = 0
+            repr_cls.__init__(self, *args, **kwargs)
+
+    return PromptClass()
 
 
 def prompt_factory_missing_values(catalog: CatalogInfo,

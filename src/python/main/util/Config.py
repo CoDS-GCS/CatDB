@@ -76,7 +76,7 @@ _catdb_rules = dict()
 _catdb_chain_DP_rules = dict()
 _catdb_chain_FE_rules = dict()
 _catdb_chain_MS_rules = dict()
-_catdb_data_cleaning_rules = dict()
+_catdb_categorical_data_cleaning_rules = dict()
 
 _CODE_FORMATTING_IMPORT = None
 _CODE_FORMATTING_PREPROCESSING = None
@@ -237,7 +237,7 @@ def load_rules(rules_path: str):
 
 
 def load_data_cleaning_rules(rules_path: str):
-    global _catdb_data_cleaning_rules
+    global _catdb_categorical_data_cleaning_rules
 
     with (open(rules_path, "r") as f):
         try:
@@ -248,7 +248,7 @@ def load_data_cleaning_rules(rules_path: str):
                 for k, v in conf.get("Categorical").items():
                     categorical_rls[k] = v
                 if plt == "CatDB":
-                    _catdb_data_cleaning_rules = categorical_rls
+                    _catdb_categorical_data_cleaning_rules = categorical_rls
         except yaml.YAMLError as ex:
             raise Exception(ex)
 

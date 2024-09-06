@@ -204,6 +204,7 @@ class BasicPrompt(object):
                                                 "median",
                                                 "mean",
                                                 "is_categorical",
+                                                "categorical_values_count",
                                                 "categorical_values",
                                                 "categorical_values_ratio",
                                                 "samples"])
@@ -217,6 +218,7 @@ class BasicPrompt(object):
             is_numerical = False
             is_categorical = False
             categorical_values = None
+            categorical_values_count = 0
             categorical_values_ratio = None
             samples_text = None
 
@@ -225,11 +227,13 @@ class BasicPrompt(object):
 
             if cp.categorical_values is not None and k in self.catalog.columns_categorical:
                 is_categorical = True
-                if len(cp.categorical_values) > 10:
-                    categorical_values = [str(val) for val in cp.categorical_values[0: 10]]
-                    categorical_values.append(f"and {len(cp.categorical_values) - 10} more")
-                else:
-                    categorical_values = [str(val) for val in cp.categorical_values]
+                categorical_values_count = len(cp.categorical_values)
+                categorical_values = [str(val) for val in cp.categorical_values]
+                # if len(cp.categorical_values) > 200:
+                #     categorical_values = [str(val) for val in cp.categorical_values[0: 10]]
+                #     categorical_values.append(f"and {len(cp.categorical_values) - 10} more")
+                # else:
+                #     categorical_values = [str(val) for val in cp.categorical_values]
 
                 categorical_values = (",".join(categorical_values)).replace("\"","'")
                 tmp_cc = []
@@ -242,5 +246,5 @@ class BasicPrompt(object):
                 samples_text = ",".join([str(val) for val in cp.samples[0:self.number_samples]])
 
             self.df_content.loc[len(self.df_content)] = [k, cp.short_data_type, cp.distinct_values_count, is_numerical,
-                                                         cp.min_value, cp.max_value, cp.median, cp.mean, is_categorical,
+                                                         cp.min_value, cp.max_value, cp.median, cp.mean, is_categorical, categorical_values_count,
                                                          categorical_values, categorical_values_ratio, samples_text]

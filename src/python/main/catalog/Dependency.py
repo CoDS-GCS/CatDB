@@ -26,7 +26,6 @@ def load_dependency_info(dependency_file: str, datasource_name: str):
         try:
             dep = yaml.load(f, Loader=yaml.FullLoader)
             ds_name = dep[0].get('name')
-            print(ds_name)
             if ds_name == datasource_name:
                 tbls = dict()
                 for k, v in dep[0].get('tables').items():

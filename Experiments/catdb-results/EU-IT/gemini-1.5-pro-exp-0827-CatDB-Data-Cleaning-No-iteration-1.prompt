@@ -1,0 +1,33 @@
+SYSTEM MESSAGE:
+###  Clean the categorical columns values basd on the LLM-knowledge.
+###  Categorical features of Tables(s) and values of them.
+###  A mapped clean version of features.
+# 1: The user will provide the categorical features of the dataset with columns appropriately named as attributes, enclosed in triple quotes, and preceded by the prefix "Schema, and Categorical Data:".
+# 2: Carefully read the user-provided data and create and identify data dependencies and relationships.
+# 3: Check the duplication of values by Capitalization (e.g., "United States" , "united States")
+# 4: Check the duplication of values by Misspellings (e.g., "Male" , "Mail" , "Make" , "msle")
+# 5: Check the duplication of values by Abbreviation (e.g., "California" , "CA")
+# 6: Check the duplication of values by Difference of Special Characters (e.g., "Black/Blue" , "Black-Blue")
+# 7: Check the duplication of values by Different Ordering (e.g., “GoldWhite“ , “WhiteGold”)
+# 8: Check the duplication of values by Synonyms (e.g., "Female" , "Woman")
+# 9: Check the duplication of values by Presence of Extra Information (e.g., "Houston" , "Houston TX", "Houston TX 77055")
+# 10: Check the duplication of values by Different grammar (e.g., "triColor" , "tricolored")
+# 11: If you find a clean mapping, report it as a pieces of Python code in order to apply for dataframe.
+---------------------------------------
+PROMPT TEXT:
+Schema, and Categorical Data:
+"""
+# Column Name is "Main language at work", categorical-values [English,German,English and German,Russian,Polish,50/50,Русский,Czech,Italian,Deuglisch,French,both,Spanish,Russian, English]
+# Column Name is "Years of experience in Germany", categorical-values [3,4,6,1,0.4,2,11,5,9,30,7,15,10,18,0,8,2.5,1,5,1.5,0.5,13,14,4,5,3.5,0.8,1,7,12,3,5,20,0.9,25,< 1,0.25,4 (in Switzerland), 0 (in Germany),16,17,4 month,19,2,5,0,5,26,3 months,4.5,0.1,2.6,3 (in Poland),<1,⁰,0,3,6 (not as a data scientist, but as a lab scientist),0.2,less than year]
+# Column Name is "Total years of experience", categorical-values [5,7,12,4,17,6,8,15,2,25,14,11,18,13,30,10,3,40,26,23,9,19,20,5.5,22,16,0.8,1,1.5,6.5,21,7.5,2.5,28,29,1,5,24,0,4.5,27,1 (as QA Engineer) / 11 in total,2,5,15, thereof 8 as CTO,31,6 (not as a data scientist, but as a lab scientist),383,3.5,less than year]
+# Column Name is "Have you received additional monetary support from your employer due to Work From Home? If yes, how much in 2020 in EUR", categorical-values [600,1000,200,1100,1,5000,500,2000,8000,300,900,1600,1500,850,100,50,250,400,675,No,0,40,10000,750,no,180€,180,700,1200,1300,1750,580,400 / month,350,550,yes,440,75% from government ,40 every month,1700,200 Amazon voucher,460,160,800,540,240,1250.29,340,1800,150,80,600 nett,20%,I was able to move all equipment I need to work to home,140,650,0,00,1670]
+# Column Name is "Number of vacation days", categorical-values [30,28,24,29,27,25,31,26,60,20,22,38,35,32,40,365,36,23,33,21,unlimited,14,unlimited ,(no idea),30 in contract (but theoretically unlimited),0,Unlimited ,15,16,3,45,~25,12,50,23+,99,Unlimited,24 labour days,37.5,1,5,37,39,34,10]
+# Column Name is "Сontract duration", categorical-values [Unlimited contract,Temporary contract,0]
+# Column Name is "Employment status", categorical-values [Full-time employee,Self-employed (freelancer),Company Director,Founder,Part-time employee,working student,Working Student,Full-time position, part-time position, & self-employed (freelancing, tutoring),Intern,full-time, but 32 hours per week (it was my request, I'm a student),Werkstudent]
+# Column Name is "Company size", categorical-values [51-100,101-1000,11-50,1000+,up to 10]
+# Column Name is "Seniority level", categorical-values [Senior,Lead,Junior,Middle,Head,No level,VP,Manager,Work Center Manager,CTO,No level ,Director,Key,C-level executive manager,Principal,intern,Student,no idea, there are no ranges in the firm ,C-Level,Working Student,Entry level,Intern,student,Self employed]
+# Column Name is "Have you lost your job due to the coronavirus outbreak?", categorical-values [No,Yes,i didn't but will be looking for new one because of covid,kurzarbeitzeit for 1.5 months,Have been a freelancer at the beginning of year,No, but there was a salary cut at 10% for 3 months and then at 5% for further 3 months,Lost the job but for different reason,Leads and project inquiries have slowed down,Laid off for a bit,yes but found a new one with better pay / perks]
+# Column Name is "Gender", categorical-values [Male,Female,Diverse]
+"""
+
+### Question: Find the categorical data duplication and return a refined values.

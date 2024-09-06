@@ -65,7 +65,7 @@ class ProfileInfo(object):
         self.categorical_values = None
         self.categorical_values_ratio = None
         self.is_categorical = False
-        if category_values is not None and 0 < len(category_values) < 50:
+        if category_values is not None: #and 0 < len(category_values) < 50:
             self.is_categorical = True
             self.categorical_values = category_values
             self.categorical_values_ratio = category_values_ratio

@@ -152,13 +152,14 @@ if __name__ == '__main__':
             clean_data = pd.read_csv(args.data_source_clean_path)
 
             cols = list(orig_data.columns.values)
+            print(f"===================={args.dataset_name}=========================================")
             for c in cols:
                 on = orig_data[c].nunique()
                 cn = clean_data[c].nunique()
-                print(f"===================={args.dataset_name}=========================================")
+
                 if on - cn != 0 :
                     print(f"{c} : Original Col Values={on}, Clean Col Values={cn}, Diff={on-cn}")
-                print(f"********************************************************************************")
+            print(f"********************************************************************************")
 
         catalog.append(load_data_source_profile(data_source_path=data_profile_path,
                                                 file_format="JSON",

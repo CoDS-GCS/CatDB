@@ -6,20 +6,20 @@ data_out_path="${root_path}/data"
 config_path="${root_path}/setup/config"
 catalog_path="${root_path}/catalog"
 
-# Extract data profile info - Multi-table datasets
-cd "${root_path}/catalog"
-unzip Accidents/data_profile.zip -d Accidents/
-unzip Airline/data_profile.zip -d Airline/
-unzip Financial/data_profile.zip -d Financial/
-unzip IMDB-IJS/data_profile.zip -d IMDB-IJS/
-unzip Yelp/data_profile.zip -d Yelp/
+# # Extract data profile info - Multi-table datasets
+# cd "${root_path}/catalog"
+# unzip Accidents/data_profile.zip -d Accidents/
+# unzip Airline/data_profile.zip -d Airline/
+# unzip Financial/data_profile.zip -d Financial/
+# unzip IMDB-IJS/data_profile.zip -d IMDB-IJS/
+# unzip Yelp/data_profile.zip -d Yelp/
 
-unzip EU-IT/data_profile.zip -d EU-IT/
-unzip Halloween/data_profile.zip -d Halloween/
-unzip Mid-Feed/data_profile.zip -d Mid-Feed/
-unzip Utility/data_profile.zip -d Utility/
-unzip Violations/data_profile.zip -d Violations/
-unzip WiFi/data_profile.zip -d WiFi/
+# unzip EU-IT/data_profile.zip -d EU-IT/
+# unzip Halloween/data_profile.zip -d Halloween/
+# unzip Mid-Feed/data_profile.zip -d Mid-Feed/
+# unzip Utility/data_profile.zip -d Utility/
+# unzip Violations/data_profile.zip -d Violations/
+# unzip WiFi/data_profile.zip -d WiFi/
 
 
 # cd ${data_path}
@@ -36,6 +36,12 @@ unzip WiFi/data_profile.zip -d WiFi/
 # unzip Utility.zip
 # unzip Violations.zip
 # unzip WiFi.zip
+
+unzip Health-Sciences.zip
+unzip Relocated-Vehicles.zip
+unzip Etailing.zip
+unzip Midwest-Survey.zip
+
 
 cd ${config_path}
 source venv/bin/activate
@@ -58,6 +64,10 @@ CMD="python DatasetPrepare.py --dataset-root-path ${data_path} \
 # $CMD --dataset-name Utility --target-attribute CSRI --task-type multiclass --multi-table False
 # $CMD --dataset-name Violations --target-attribute 'Disposition Description' --task-type multiclass --multi-table False
 # $CMD --dataset-name WiFi --target-attribute TechCenter --task-type multiclass --multi-table False
+$CMD --dataset-name Health-Sciences --target-attribute 'Does your lab/research group currently use a naming convention to save your data files? ' --task-type multiclass --multi-table False
+$CMD --dataset-name Relocated-Vehicles --target-attribute 'Relocated To Direction' --task-type multiclass --multi-table False
+$CMD --dataset-name Midwest-Survey --target-attribute 'Location (Census Region)' --task-type multiclass --multi-table False
+$CMD --dataset-name Etailing --target-attribute 'What is the maximum cart value you ever shopped?' --task-type multiclass --multi-table False
 
 
 cd ${root_path}

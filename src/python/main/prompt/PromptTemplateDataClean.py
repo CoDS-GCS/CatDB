@@ -1,5 +1,4 @@
 from .BasicPrompt import BasicPrompt
-import pandas as pd
 
 
 class DataCleaningPrompt(BasicPrompt):
@@ -21,7 +20,6 @@ class DataCleaningPrompt(BasicPrompt):
         prompt_items = []
 
         schema_data = self.format_schema_categorical_data()
-        #schema_data = "\n\n".join(schema_data)
         prompt_items.append(schema_data)
         prompt_items.append(f'Question: {self.question}')
         return f"\n\n{_user_delimiter}".join(prompt_items)

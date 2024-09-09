@@ -51,13 +51,12 @@ CMD=./explocal/exp1_catalog/runExperiment1.sh
 
 # $CMD Mid-Feed multiclass
 # $CMD WiFi multiclass
-# $CMD Etailing multiclass
 # $CMD Utility multiclass
 # $CMD EU-IT multiclass
 # $CMD Violations multiclass
 $CMD Health-Sciences multiclass
 $CMD Midwest-Survey multiclass
-$CMD Mental-Health multiclass
+$CMD Etailing multiclass
 $CMD Relocated-Vehicles multiclass
 
 

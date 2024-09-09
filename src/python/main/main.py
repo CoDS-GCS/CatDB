@@ -166,34 +166,34 @@ if __name__ == '__main__':
                                                 enable_reduction=args.enable_reduction,
                                                 categorical_values_restricted_size=args.categorical_values_restricted_size))
 
-    time_end = time.time()
-    time_catalog = time_end - time_start
-    ti = 0
-    t = args.prompt_number_iteration * 2
-
-    prompt_representation_type_orig = args.prompt_representation_type
-    while begin_iteration < args.prompt_number_iteration + end_iteration:
-        if args.prompt_representation_type == "CatDBChain":
-            final_status, code = operation(args=args, catalog=catalog, run_mode=__gen_verify_mode, sub_task=__sub_task_data_preprocessing, time_catalog=time_catalog, iteration=begin_iteration, dependency=dependencies)
-            if final_status:
-                final_status, code = operation(args=args, catalog=catalog, run_mode=__gen_verify_mode, sub_task=__sub_task_feature_engineering, previous_result=code, time_catalog=time_catalog, iteration=begin_iteration, dependency=dependencies)
-                if final_status:
-                    final_status, code = operation(args=args, catalog=catalog, run_mode=__execute_mode, sub_task=__sub_task_model_selection, previous_result=code, time_catalog=time_catalog, iteration=begin_iteration, dependency=dependencies)
-                    if final_status:
-                        begin_iteration += 1
-        elif args.prompt_representation_type == "AUTO":
-            combinations = Metadata(catalog=catalog[0]).get_combinations()
-            for cmb in combinations:
-                args.prompt_representation_type = cmb
-                final_status, code = operation(args=args, catalog=catalog, run_mode=__execute_mode, time_catalog=time_catalog, iteration=begin_iteration)
-                if final_status:
-                    begin_iteration += 1
-            args.prompt_representation_type = prompt_representation_type_orig
-        else:
-            final_status, code = operation(args=args, catalog=catalog, run_mode=__execute_mode, time_catalog=time_catalog, iteration=begin_iteration, dependency=dependencies)
-            if final_status:
-                begin_iteration += 1
-
-        ti += 1
-        if ti > t:
-            break
+    # time_end = time.time()
+    # time_catalog = time_end - time_start
+    # ti = 0
+    # t = args.prompt_number_iteration * 2
+    #
+    # prompt_representation_type_orig = args.prompt_representation_type
+    # while begin_iteration < args.prompt_number_iteration + end_iteration:
+    #     if args.prompt_representation_type == "CatDBChain":
+    #         final_status, code = operation(args=args, catalog=catalog, run_mode=__gen_verify_mode, sub_task=__sub_task_data_preprocessing, time_catalog=time_catalog, iteration=begin_iteration, dependency=dependencies)
+    #         if final_status:
+    #             final_status, code = operation(args=args, catalog=catalog, run_mode=__gen_verify_mode, sub_task=__sub_task_feature_engineering, previous_result=code, time_catalog=time_catalog, iteration=begin_iteration, dependency=dependencies)
+    #             if final_status:
+    #                 final_status, code = operation(args=args, catalog=catalog, run_mode=__execute_mode, sub_task=__sub_task_model_selection, previous_result=code, time_catalog=time_catalog, iteration=begin_iteration, dependency=dependencies)
+    #                 if final_status:
+    #                     begin_iteration += 1
+    #     elif args.prompt_representation_type == "AUTO":
+    #         combinations = Metadata(catalog=catalog[0]).get_combinations()
+    #         for cmb in combinations:
+    #             args.prompt_representation_type = cmb
+    #             final_status, code = operation(args=args, catalog=catalog, run_mode=__execute_mode, time_catalog=time_catalog, iteration=begin_iteration)
+    #             if final_status:
+    #                 begin_iteration += 1
+    #         args.prompt_representation_type = prompt_representation_type_orig
+    #     else:
+    #         final_status, code = operation(args=args, catalog=catalog, run_mode=__execute_mode, time_catalog=time_catalog, iteration=begin_iteration, dependency=dependencies)
+    #         if final_status:
+    #             begin_iteration += 1
+    #
+    #     ti += 1
+    #     if ti > t:
+    #         break

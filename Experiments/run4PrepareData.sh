@@ -22,7 +22,7 @@ catalog_path="${root_path}/catalog"
 # unzip WiFi/data_profile.zip -d WiFi/
 
 
-# cd ${data_path}
+cd ${data_path}
 
 # unzip Accidents.zip  
 # unzip Airline.zip 

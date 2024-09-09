@@ -1,4 +1,5 @@
 import yaml
+import os
 
 
 class Dependency(object):
@@ -27,6 +28,9 @@ class Dependency(object):
 
 
 def load_dependency_info(dependency_file: str, datasource_name: str):
+    if not os.path.isfile(dependency_file):
+        return None
+
     with open(dependency_file, "r") as f:
         try:
             dep = yaml.load(f, Loader=yaml.FullLoader)
@@ -34,7 +38,7 @@ def load_dependency_info(dependency_file: str, datasource_name: str):
             if ds_name == datasource_name:
                 tbls = dict()
                 for k, v in dep[0].get('tables').items():
-                    cols = dep[0].get('tables').get(k).get('columns')
+                    cols = dep[0].get('tables').get(k).get('columns').split(",")
                     PKs = dep[0].get('tables').get(k).get('PK')
                     FKs = dep[0].get('tables').get(k).get('FK')
                     d = Dependency(table_name=k, columns=cols)

@@ -135,9 +135,8 @@ def get_evaluation_text(task_type: str):
 
 
 def error_prompt_factory(pipeline_code: str, pipeline_error_class: str, pipeline_error_detail: str, schema_data: str,
-                         task_type: str,
-                         data_source_train_path: str, data_source_test_path: str):
-    if pipeline_error_class in {'NameError', 'InvalidIndexError'}:
+                         task_type: str, data_source_train_path: str, data_source_test_path: str, pipeline_type: str = None):
+    if pipeline_error_class in {'NameError', 'InvalidIndexError'} or pipeline_type == "data-cleaning":
         error_prompt = SyntaxErrorPrompt(pipeline_code=pipeline_code,
                                          pipeline_error=f"{pipeline_error_class}: {pipeline_error_detail}").format_prompt()
 

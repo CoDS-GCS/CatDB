@@ -51,7 +51,7 @@ class CatalogInfo(object):
 
 
 def load_data_source_profile(data_source_path: str, file_format: str, target_attribute: str, enable_reduction: bool,
-                             dependency: Dependency=None):
+                             dependency: Dependency=None, categorical_values_restricted_size: int=50):
     profile_info = dict()
     schema_info = dict()
     ncols = 0
@@ -73,7 +73,7 @@ def load_data_source_profile(data_source_path: str, file_format: str, target_att
     for d in os.listdir(data_source_path):
         files = [f for f in os.listdir(f'{data_source_path}/{d}/')]
         for f in files:
-            profile = load_JSON_profile_info(f'{data_source_path}/{d}/{f}')
+            profile = load_JSON_profile_info(f'{data_source_path}/{d}/{f}', categorical_values_restricted_size=categorical_values_restricted_size)
             table_name = profile.table_name
             profile_info[profile.column_name] = profile
             schema_info[profile.column_name] = profile.short_data_type

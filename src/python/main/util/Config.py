@@ -25,6 +25,7 @@ from .LLM_API_Key import LLM_API_Key
 
 __gen_verify_mode = 'generate-and-verify'
 __execute_mode = 'execute'
+_data_cleaning_mode = 'data-cleaning'
 
 Google_SCOPES = ['https://www.googleapis.com/auth/cloud-platform',
                  'https://www.googleapis.com/auth/generative-language.tuning']
@@ -53,6 +54,7 @@ default_user_delimiter = "### "
 CATEGORICAL_RATIO: float = 0.01
 LOW_RATIO_THRESHOLD = 0.05
 DISTINCT_THRESHOLD = 0.5
+CATEGORICAL_VALUES_RESTRICTED_SIZE = 50
 
 _OPENAI = "OpenAI"
 _META = "Meta"

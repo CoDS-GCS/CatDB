@@ -10,6 +10,7 @@ class BasicPrompt(object):
                  flag_dataset_description: bool = False,
                  flag_previous_result: bool = False,
                  flag_samples: bool = False,
+                 categorical_value_size: int = 5,
                  *args, **kwargs):
         self.ds_attribute_prefix = None
         self.ds_attribute_prefix_label = None
@@ -18,7 +19,7 @@ class BasicPrompt(object):
         self.question = None
         self.extra_info = None
         self.df_content = None
-        self.set_schema_content()
+        self.set_schema_content(categorical_values_size=categorical_value_size)
 
         self.flag_distinct_value_count = flag_distinct_value_count
         self.flag_missing_value_frequency = flag_missing_value_frequency
@@ -48,7 +49,9 @@ class BasicPrompt(object):
 
         schema_data = self.format_schema_data()
         prompt_items.append(schema_data)
-        prompt_items.append(self.get_multi_table_relationships())
+        relationships = self.get_multi_table_relationships()
+        if relationships is not None:
+            prompt_items.append(relationships)
 
         if self.flag_missing_value_frequency:
             missing_values_rules = self.get_missing_values_rules()
@@ -203,7 +206,7 @@ class BasicPrompt(object):
                 f'The dataset is a multitable dataset with {len(self.dependency)} tables. The tables have their schema and following relationships are between Tables. This relation define by Primary Keys and Forigin Keys.']
 
             for tbl in self.dependency.keys():
-               ditem = f"# Table {tbl} ({','.join(self.dependency[tbl].columns)})."
+               ditem = f"# Table \"{tbl}\" ({','.join(self.dependency[tbl].columns)})."
                if self.dependency[tbl].primary_keys is not None:
                     if len(self.dependency[tbl].primary_keys) > 1:
                         tmp_txt = "are"
@@ -214,11 +217,12 @@ class BasicPrompt(object):
                         if len(self.dependency[tbl].foreign_keys) > 1:
                             tmp_txt = "are"
                         ditem = f"{ditem} {','.join(self.dependency[tbl].foreign_keys)} {tmp_txt} foreign key."
-                dependency_items.append(ditem)
-            dependency_items = "\n".join(dependency_items)
-           return dependency_items
+               dependency_items.append(ditem)
 
-    def set_schema_content(self):
+            dependency_items = "\n".join(dependency_items)
+            return dependency_items
+
+    def set_schema_content(self, categorical_values_size: int=-1):
         self.df_content = pd.DataFrame(columns=["column_name",
                                                 "column_data_type",
                                                 "distinct_count",
@@ -252,12 +256,14 @@ class BasicPrompt(object):
             if cp.categorical_values is not None and k in self.catalog.columns_categorical:
                 is_categorical = True
                 categorical_values_count = len(cp.categorical_values)
-                categorical_values = [str(val) for val in cp.categorical_values]
-                # if len(cp.categorical_values) > 200:
-                #     categorical_values = [str(val) for val in cp.categorical_values[0: 10]]
-                #     categorical_values.append(f"and {len(cp.categorical_values) - 10} more")
-                # else:
-                #     categorical_values = [str(val) for val in cp.categorical_values]
+                if categorical_values_size == -1:
+                    categorical_values = [str(val) for val in cp.categorical_values]
+                else:
+                    if len(cp.categorical_values) > categorical_values_size:
+                        categorical_values = [str(val) for val in cp.categorical_values[0: categorical_values_size]]
+                        categorical_values.append(f"and {len(cp.categorical_values) - categorical_values_size} more")
+                    else:
+                        categorical_values = [str(val) for val in cp.categorical_values]
 
                 categorical_values = (",".join(categorical_values)).replace("\"","'")
                 tmp_cc = []

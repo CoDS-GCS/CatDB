@@ -1,4 +1,4 @@
-from .PreprocessingLLMGemini import DataPrepareLLMGemini
+from .DataPrepareLLMGemini import DataPrepareLLMGemini
 
 
 class DataPrepareLLM:

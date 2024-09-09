@@ -26,7 +26,8 @@ class ProfileInfo(object):
                  category_values=None,
                  category_values_ratio=None,
                  samples=None,
-                 nrows: int = 0
+                 nrows: int = 0,
+                 categorical_values_restricted_size = -1
                  ):
         self.distinct_values_count = distinct_values_count
         self.data_source = data_source
@@ -65,7 +66,12 @@ class ProfileInfo(object):
         self.categorical_values = None
         self.categorical_values_ratio = None
         self.is_categorical = False
-        if category_values is not None: #and 0 < len(category_values) < 50:
+
+        if category_values is not None and categorical_values_restricted_size == -1:
+            rsize = len(category_values)
+        else:
+            rsize = categorical_values_restricted_size
+        if category_values is not None and 0 < len(category_values) <= rsize:
             self.is_categorical = True
             self.categorical_values = category_values
             self.categorical_values_ratio = category_values_ratio
@@ -76,9 +82,9 @@ class ProfileInfo(object):
         self.is_active = False
 
 
-def load_JSON_profile_info(file_name: str):
+def load_JSON_profile_info(file_name: str, categorical_values_restricted_size):
     with open(file_name, 'r') as file:
         raw_data = file.read().replace('\n', '')
         json_data = json.loads(raw_data)
-        profile_info = ProfileInfo(**json_data)
+        profile_info = ProfileInfo(**json_data, categorical_values_restricted_size=categorical_values_restricted_size)
         return profile_info

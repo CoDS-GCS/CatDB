@@ -42,31 +42,30 @@ CMD=./explocal/exp1_catalog/runExperiment1.sh
 # $CMD oml_dataset_23_rnc regression # House-Sales
 # $CMD oml_dataset_24_rnc regression # NYC
 
-# Multi Table Datasets:
+
 # $CMD Accidents multiclass 
 # $CMD Airline multiclass 
 # $CMD Financial multiclass 
-# # $CMD Hockey multiclass 
-# $CMD IMDB binary 
 # $CMD IMDB-IJS binary 
+# $CMD Yelp regression 
+
+$CMD Mid-Feed multiclass
+$CMD WiFi multiclass
+$CMD Etailing multiclass
+$CMD Utility multiclass
+$CMD EU-IT multiclass
+$CMD Violations multiclass
+
 # $CMD Lahman-2014 regression 
 # $CMD Walmart regression 
 # #$CMD Walmart-2014 regression 
-# $CMD Yelp regression 
-
-# $CMD Mid-Feed multiclass # Selected
-# $CMD WiFi multiclass # selected
-# $CMD Etailing multiclass # selected
-# $CMD Utility multiclass # selected
-# $CMD EU-IT multiclass # selected
-# $CMD Violations multiclass # selected
-
+# $CMD IMDB binary 
 #$CMD Halloween multiclass
 #$CMD Salaries multiclass
 #$CMD US-Labor multiclass
-# $CMD Health-Sciences multiclass
-# $CMD Midwest-Survey multiclass
-# $CMD San-Francisco multiclass
+#$CMD Health-Sciences multiclass
+#$CMD Midwest-Survey multiclass
+#$CMD San-Francisco multiclass
 #$CMD Mental-Health multiclass
 #$CMD Relocated-Vehicles multiclass
 #$CMD TSM-Habitat multiclass

@@ -42,6 +42,7 @@ class DataCleaningPrompt(BasicPrompt):
         return "\n".join(prompt_items)
 
     def format_system_message(self):
+        from util.Config import _CODE_FORMATTING_IMPORT, _CODE_BLOCK
         from util.Config import _system_delimiter, _catdb_categorical_data_cleaning_rules as _catdb_rules
         rules = [f"{_system_delimiter} {_catdb_rules['task']}",
                  f"{_system_delimiter} {_catdb_rules['input']}",
@@ -56,7 +57,14 @@ class DataCleaningPrompt(BasicPrompt):
                  f"# 8: {_catdb_rules['Rule_8']}",
                  f"# 9: {_catdb_rules['Rule_9']}",
                  f"# 10: {_catdb_rules['Rule_10']}",
-                 f"# 11: {_catdb_rules['Rule_11']}"]
+                 f"# 11: {_catdb_rules['Rule_11']}",
+                 f"# 12: {_catdb_rules['Rule_12']}",
+                 f"# 13: {_catdb_rules['Rule_13']}",
+                 f"# 14: {_catdb_rules['Rule_14']}",
+                 f"# 15: {_catdb_rules['Rule_15']}",
+                 f"# 16: {_CODE_FORMATTING_IMPORT}",
+                 f"# 17: {_CODE_BLOCK}"
+                 ]
 
         rule_msg = "\n".join(rules)
         return rule_msg
@@ -74,4 +82,4 @@ class CatDBCategoricalDataCleanPrompt(DataCleaningPrompt):
                              flag_previous_result=False,
                              *args, **kwargs)
         self.data_cleaning_type = 'CategoricalData'
-        self.question = f'Find the categorical data duplication and return a refined values.'
+        self.question = f'Find the categorical data duplication and apply it on the dataframe.'

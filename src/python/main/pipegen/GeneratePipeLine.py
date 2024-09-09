@@ -269,7 +269,7 @@ def run_pipeline(args, file_name, code, schema_data, run_mode, sub_task: str = '
     return final_status, code
 
 
-def clean_categorical_data(args, data_profile_path: str, sub_task: str = '', time_catalog: float = 0,
+def clean_categorical_data(args, data_profile_path: str, time_catalog: float = 0,
                            iteration: int = 1):
     from util.Config import __execute_mode
     all_token_count = 0
@@ -311,11 +311,12 @@ def clean_categorical_data(args, data_profile_path: str, sub_task: str = '', tim
     iteration_error = 0
     results_verified = False
     results = None
-    for ds_name in [args.data_source_train_path, args.data_source_test_path, args.data_source_verify_path]:
+    for (ds_name, title) in [(args.data_source_path, "all-data"), (args.data_source_train_path, "train-data"),
+                             (args.data_source_test_path, "test-data"), (args.data_source_verify_path,'verify-data')]:
         pipeline_fname = f"{file_name}_draft.py"
         save_text_file(fname=pipeline_fname, data=code)
         run_data_cleaning_pipeline(args=args, file_name=file_name, orig_code=code,
-                                   run_mode=__execute_mode, sub_task=sub_task, iteration=iteration,
+                                   run_mode=__execute_mode, sub_task=title, iteration=iteration,
                                    time_total=time_total,
                                    time_catalog=time_catalog, time_generate=time_generate,
                                    all_token_count=all_token_count,

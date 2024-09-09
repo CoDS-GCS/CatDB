@@ -55,12 +55,14 @@ def parse_arguments():
                 args.multi_table = False
 
             try:
+                args.data_source_path = f"{args.root_data_path}/{args.dataset_name}/{args.dataset_name}.csv"
                 args.data_source_train_path = f"{args.root_data_path}/{config_data[0].get('dataset').get('train')}"
                 args.data_source_test_path = f"{args.root_data_path}/{config_data[0].get('dataset').get('test')}"
                 args.data_source_verify_path = f"{args.root_data_path}/{config_data[0].get('dataset').get('verify')}"
                 args.data_source_train_clean_path = f"{args.data_source_train_path.replace('.csv','')}_clean.csv"
                 args.data_source_test_clean_path = f"{args.data_source_test_path.replace('.csv','')}_clean.csv"
                 args.data_source_verify_clean_path = f"{args.data_source_verify_path.replace('.csv','')}_clean.csv"
+                args.data_source_clean_path = f"{args.data_source_path.replace('.csv', '')}_clean.csv"
 
             except Exception as ex:
                 raise Exception(ex)
@@ -132,7 +134,7 @@ if __name__ == '__main__':
             catalog.append(cat)
     else:
         load_config(system_log=args.system_log, llm_model=args.llm_model, rules_path="Rules.yaml")
-        clean_categorical_data(args=args, data_profile_path=data_profile_path, sub_task='', time_catalog=0,
+        clean_categorical_data(args=args, data_profile_path=data_profile_path, time_catalog=0,
                                iteration=begin_iteration)
         # check the data clean is available:
         if os.path.isfile(args.data_source_train_clean_path):
@@ -143,6 +145,20 @@ if __name__ == '__main__':
 
         if os.path.isfile(args.data_source_verify_clean_path):
             args.data_source_verify_path = args.data_source_verify_clean_path
+
+        if os.path.isfile(args.data_source_clean_path):
+            import pandas as pd
+            orig_data = pd.read_csv(args.data_source_path)
+            clean_data = pd.read_csv(args.data_source_clean_path)
+
+            cols = list(orig_data.columns.values)
+            for c in cols:
+                on = orig_data[c].nunique()
+                cn = clean_data[c].nunique()
+                print(f"===================={args.dataset_name}=========================================")
+                if on - cn != 0 :
+                    print(f"{c} : Original Col Values={on}, Clean Col Values={cn}, Diff={on-cn}")
+                print(f"********************************************************************************")
 
         catalog.append(load_data_source_profile(data_source_path=data_profile_path,
                                                 file_format="JSON",

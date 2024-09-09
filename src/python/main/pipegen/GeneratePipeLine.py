@@ -1,19 +1,14 @@
 from catalog.Catalog import load_data_source_profile
-from catalog.Dependency import load_dependency_info
 from prompt.PromptBuilder import prompt_factory, error_prompt_factory, result_error_prompt_factory, \
     prompt_factory_data_cleaning
 from llm.GenerateLLMCode import GenerateLLMCode
-from llmdataprepare.DataPrepareLLM import DataPrepareLLM
 from runcode.RunCode import RunCode
 from util.FileHandler import save_prompt
-from util.FileHandler import save_text_file, read_text_file_line_by_line
-from util.Config import load_config
+from util.FileHandler import save_text_file
 from util.LogResults import save_log
 from util.ErrorResults import ErrorResults
-from pipegen.Metadata import Metadata
 import time
 import datetime
-import yaml
 import os
 
 
@@ -41,6 +36,7 @@ def clean_up(args, prompt_file_name):
         except:
             pass
 
+
 def generate_and_verify_pipeline(args, catalog, run_mode: str = None, sub_task: str = '', previous_result: str = None,
                                  time_catalog: float = 0, iteration: int = 1, dependency: dict() = None):
     from util.Config import __execute_mode
@@ -63,7 +59,7 @@ def generate_and_verify_pipeline(args, catalog, run_mode: str = None, sub_task: 
                             dataset_description=args.description,
                             previous_result=previous_result,
                             target_table=args.target_table,
-                            dependency= dependency)
+                            dependency=dependency)
 
     time_end_1 = time.time()  # End time
     time_generate += time_end_1 - time_start_1  # Add prompt construction time to pipeline generate time
@@ -152,8 +148,8 @@ def generate_and_verify_pipeline(args, catalog, run_mode: str = None, sub_task: 
             save_text_file(fname=pipeline_fname, data=code)
 
             system_message, user_message = error_prompt_factory(pipeline_code=code,
-                                                                pipeline_error_class = result.get_error_class(),
-                                                                pipeline_error_detail = result.get_error_detail(),
+                                                                pipeline_error_class=result.get_error_class(),
+                                                                pipeline_error_detail=result.get_error_detail(),
                                                                 schema_data=schema_data,
                                                                 task_type=args.task_type,
                                                                 data_source_train_path=args.data_source_train_path,
@@ -170,17 +166,22 @@ def generate_and_verify_pipeline(args, catalog, run_mode: str = None, sub_task: 
             else:
                 i -= 1
 
-    time_total = time_total+time_generate_extra+time_generate+time_execute
-    save_log(args=args, sub_task=sub_task, iteration=iteration, iteration_error=iteration_error, time_catalog=time_catalog,
+    time_total = time_total + time_generate_extra + time_generate + time_execute
+    save_log(args=args, sub_task=sub_task, iteration=iteration, iteration_error=iteration_error,
+             time_catalog=time_catalog,
              time_generate=time_generate, time_total=time_total, time_execute=time_execute,
-             prompt_token_count=prompt_token_count, all_token_count=all_token_count, operation_tag='Gen-and-Verify-Pipeline',
+             prompt_token_count=prompt_token_count, all_token_count=all_token_count,
+             operation_tag='Gen-and-Verify-Pipeline',
              run_mode=run_mode, results_verified=results_verified, results=results, final_status=final_status)
 
-    if run_mode == __execute_mode :
-        final_status, code = run_pipeline(args=args, file_name=final_pipeline_file_name, code=code, schema_data=schema_data,
-                     run_mode=__execute_mode, sub_task=sub_task, iteration=iteration, time_total=time_total,
-                     time_catalog=time_catalog, time_generate=time_generate, all_token_count=all_token_count,
-                    prompt_token_count=prompt_token_count)
+    if run_mode == __execute_mode:
+        final_status, code = run_pipeline(args=args, file_name=final_pipeline_file_name, code=code,
+                                          schema_data=schema_data,
+                                          run_mode=__execute_mode, sub_task=sub_task, iteration=iteration,
+                                          time_total=time_total,
+                                          time_catalog=time_catalog, time_generate=time_generate,
+                                          all_token_count=all_token_count,
+                                          prompt_token_count=prompt_token_count)
 
     return final_status, code
 
@@ -268,7 +269,8 @@ def run_pipeline(args, file_name, code, schema_data, run_mode, sub_task: str = '
     return final_status, code
 
 
-def clean_categorical_data(args, data_profile_path: str, sub_task: str = '', time_catalog: float = 0, iteration: int = 1):
+def clean_categorical_data(args, data_profile_path: str, sub_task: str = '', time_catalog: float = 0,
+                           iteration: int = 1):
     from util.Config import __execute_mode
     all_token_count = 0
     time_generate = 0
@@ -313,22 +315,22 @@ def clean_categorical_data(args, data_profile_path: str, sub_task: str = '', tim
         pipeline_fname = f"{file_name}_draft.py"
         save_text_file(fname=pipeline_fname, data=code)
         run_data_cleaning_pipeline(args=args, file_name=file_name, orig_code=code,
-                                              run_mode=__execute_mode, sub_task=sub_task, iteration=iteration,
-                                              time_total=time_total,
-                                              time_catalog=time_catalog, time_generate=time_generate,
-                                              all_token_count=all_token_count,
-                                              prompt_token_count=prompt_token_count, destination_ds_name=ds_name)
+                                   run_mode=__execute_mode, sub_task=sub_task, iteration=iteration,
+                                   time_total=time_total,
+                                   time_catalog=time_catalog, time_generate=time_generate,
+                                   all_token_count=all_token_count,
+                                   prompt_token_count=prompt_token_count, destination_ds_name=ds_name)
 
 
 def run_data_cleaning_pipeline(args, file_name, orig_code, run_mode, sub_task: str = '', iteration: int = 1,
                                time_total: int = 0, time_catalog: float = 0, time_generate: int = 0,
-                               all_token_count: int = 0, prompt_token_count: int = 0, destination_ds_name: str=None):
+                               all_token_count: int = 0, prompt_token_count: int = 0, destination_ds_name: str = None):
     time_execute = 0
     final_status = False
 
     # Run pipeline with original data
     code = orig_code.replace("original_data.csv", destination_ds_name)
-    code = code.replace("clean_data.csv", f"{destination_ds_name.replace('.csv','')}_clean.csv")
+    code = code.replace("clean_data.csv", f"{destination_ds_name.replace('.csv', '')}_clean.csv")
 
     iteration_error = 0
     results_verified = False
@@ -355,7 +357,7 @@ def run_data_cleaning_pipeline(args, file_name, orig_code, run_mode, sub_task: s
                                                                 task_type='',
                                                                 data_source_train_path='',
                                                                 data_source_test_path='',
-                                                                pipeline_type = "data-cleaning"
+                                                                pipeline_type="data-cleaning"
                                                                 )
             prompt_fname_error = f"{file_name}_Error_{i}_RUN.prompt"
             save_prompt(fname=prompt_fname_error, system_message=system_message, user_message=user_message)
@@ -371,7 +373,8 @@ def run_data_cleaning_pipeline(args, file_name, orig_code, run_mode, sub_task: s
     save_log(args=args, sub_task=sub_task, iteration=iteration, iteration_error=iteration_error,
              time_catalog=time_catalog, time_generate=time_generate, time_total=time_total + time_execute,
              time_execute=time_execute,
-             prompt_token_count=prompt_token_count, all_token_count=all_token_count, operation_tag='Run-Data-Cleaning-Pipeline',
+             prompt_token_count=prompt_token_count, all_token_count=all_token_count,
+             operation_tag='Run-Data-Cleaning-Pipeline',
              run_mode=run_mode, results_verified=results_verified, results=results, final_status=final_status)
 
     return final_status, code

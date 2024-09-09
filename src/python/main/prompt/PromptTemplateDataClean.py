@@ -18,7 +18,6 @@ class DataCleaningPrompt(BasicPrompt):
     def format_user_message_categorical_data_clean(self):
         from util.Config import _user_delimiter
         prompt_items = []
-
         schema_data = self.format_schema_categorical_data()
         prompt_items.append(schema_data)
         prompt_items.append(f'Question: {self.question}')

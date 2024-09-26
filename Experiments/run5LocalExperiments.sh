@@ -14,7 +14,8 @@ echo "dataset,time" >> "${exp_path}/results/Experiment1_CSVDataReader.dat"
 cd ${exp_path}
 
 #CMD=./explocal/exp0_statistics/runExperiment0.sh
-CMD=./explocal/exp1_catalog/runExperiment1.sh
+CMD=./explocal/exp1_cleaning/runExperiment1.sh
+#CMD=./explocal/exp1_catalog/runExperiment1.sh
 #CMD=./explocal/exp2_micro_benchmark/runExperiment2.sh 
 #CMD=./explocal/exp3_end_to_end/runExperiment3.sh
 #CMD=./explocal/exp4_finetune/runExperiment4.sh
@@ -49,15 +50,18 @@ CMD=./explocal/exp1_catalog/runExperiment1.sh
 # $CMD IMDB-IJS binary 
 # $CMD Yelp regression 
 
-# $CMD Mid-Feed multiclass
+
 # $CMD WiFi multiclass
 # $CMD Utility multiclass
 # $CMD EU-IT multiclass
-# $CMD Violations multiclass
-$CMD Health-Sciences multiclass
-$CMD Midwest-Survey multiclass
-$CMD Etailing multiclass
-$CMD Relocated-Vehicles multiclass
+# $CMD Midwest-Survey multiclass
+# $CMD Etailing multiclass
+# $CMD Relocated-Vehicles multiclass
+
+$CMD Violations multiclass
+# $CMD Health-Sciences multiclass
+# $CMD Mid-Feed multiclass
+
 
 
 # $CMD Lahman-2014 regression 

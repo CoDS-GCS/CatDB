@@ -2,6 +2,7 @@ from catalog.Catalog import CatalogInfo
 from util.Config import PROMPT_FUNC, PROMPT_FUNC_MULTI_TABLE
 from .ErrorPromptTemplate import RuntimeErrorPrompt, ResultsErrorPrompt, SyntaxErrorPrompt
 from .PromptTemplateDataClean import CatDBCategoricalDataCleanPrompt
+from .PromptTemplateCatalogClean import CatDBCatalogCleanPrompt
 
 
 def get_representation_class(repr_type: str):
@@ -90,6 +91,23 @@ def prompt_factory_data_cleaning(catalog: []):
     return PromptClass()
 
 
+def prompt_factory_data_catalog_cleaning(catalog: []):
+    cat = None
+    repr_cls = CatDBCatalogCleanPrompt
+    cat = catalog[0]
+    class_name = f"CatDB-Data-Catalog-Cleaning"
+    assert repr_cls is not None
+
+    class PromptClass(repr_cls):
+        def __init__(self, *args, **kwargs):
+            self.class_name = class_name
+            self.catalog = cat
+            self.number_samples = 100
+            repr_cls.__init__(self, *args, **kwargs)
+
+    return PromptClass()
+
+
 def prompt_factory_missing_values(catalog: CatalogInfo,
                                   representation_type: str,
                                   number_samples: int,
@@ -135,7 +153,8 @@ def get_evaluation_text(task_type: str):
 
 
 def error_prompt_factory(pipeline_code: str, pipeline_error_class: str, pipeline_error_detail: str, schema_data: str,
-                         task_type: str, data_source_train_path: str, data_source_test_path: str, pipeline_type: str = None):
+                         task_type: str, data_source_train_path: str, data_source_test_path: str,
+                         pipeline_type: str = None):
     if pipeline_error_class in {'NameError', 'InvalidIndexError'} or pipeline_type == "data-cleaning":
         error_prompt = SyntaxErrorPrompt(pipeline_code=pipeline_code,
                                          pipeline_error=f"{pipeline_error_class}: {pipeline_error_detail}").format_prompt()

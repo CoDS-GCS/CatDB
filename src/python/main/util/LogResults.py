@@ -35,8 +35,8 @@ class LogResults(object):
                  test_rmse: float = -2,
                  prompt_token_count: int = 0,
                  all_token_count: int = 0,
-                 operation: str=None,
-                 number_of_samples:int=0
+                 operation: str = None,
+                 number_of_samples: int = 0
                  ):
         self.config = config
         self.sub_task = sub_task
@@ -74,11 +74,13 @@ class LogResults(object):
         self.number_of_samples = number_of_samples
 
         self.columns = ["dataset_name", "config", "sub_task", "llm_model", "classifier", "task_type", "status",
-                        "number_iteration","number_iteration_error", "has_description", "time_catalog_load", "time_pipeline_generate",
-                        "time_total", "time_execution", "train_auc","train_auc_ovo","train_auc_ovr", "train_accuracy",
-                        "train_f1_score", "train_log_loss", "train_r_squared", "train_rmse", "test_auc","test_auc_ovo",
-                        "test_auc_ovr", "test_accuracy", "test_f1_score", "test_log_loss", "test_r_squared", "test_rmse",
-                        "prompt_token_count","all_token_count", "operation", "number_of_samples"]
+                        "number_iteration", "number_iteration_error", "has_description", "time_catalog_load",
+                        "time_pipeline_generate",
+                        "time_total", "time_execution", "train_auc", "train_auc_ovo", "train_auc_ovr", "train_accuracy",
+                        "train_f1_score", "train_log_loss", "train_r_squared", "train_rmse", "test_auc", "test_auc_ovo",
+                        "test_auc_ovr", "test_accuracy", "test_f1_score", "test_log_loss", "test_r_squared",
+                        "test_rmse",
+                        "prompt_token_count", "all_token_count", "operation", "number_of_samples"]
 
     def save_results(self, result_output_path: str):
         try:
@@ -141,7 +143,6 @@ def save_log(args, sub_task, final_status, iteration, iteration_error, time_cata
                              operation=operation_tag,
                              number_of_samples=args.prompt_number_samples)
 
-
     if run_mode == __execute_mode and results_verified:
         log_results.train_auc = results["Train_AUC"]
         log_results.train_auc_ovo = results["Train_AUC_OVO"]
@@ -159,6 +160,98 @@ def save_log(args, sub_task, final_status, iteration, iteration_error, time_cata
         log_results.test_log_loss = results["Test_Log_loss"]
         log_results.test_r_squared = results["Test_R_Squared"]
         log_results.test_rmse = results["Test_RMSE"]
+
+    if final_status:
+        log_results.save_results(result_output_path=args.result_output_path)
+
+
+class LogCleaningResults(object):
+    def __init__(self,
+                 dataset_name: str,
+                 sub_dataset_name: str,
+                 llm_model: str,
+                 status: str,
+                 number_iteration: int,
+                 number_iteration_error: int,
+                 time_catalog_load: float,
+                 time_pipeline_generate: float,
+                 time_total: float,
+                 time_execution: float,
+                 prompt_token_count: int = 0,
+                 all_token_count: int = 0,
+                 operation: str = None,
+                 total_refined_cols: int = 0,
+                 refine_cols: str = None,
+                 total_diffs: int = 0
+                 ):
+        self.llm_model = llm_model
+        self.status = status
+        self.number_iteration = number_iteration
+        self.number_iteration_error = number_iteration_error
+        self.dataset_name = dataset_name
+        self.sub_dataset_name = sub_dataset_name
+        self.time_catalog_load = time_catalog_load
+        self.time_pipeline_generate = time_pipeline_generate
+        self.time_total = time_total
+        self.time_execution = time_execution
+        self.prompt_token_count = prompt_token_count
+        self.all_token_count = all_token_count
+        self.operation = operation
+        self.total_refined_cols = total_refined_cols
+        self.refine_cols: str = refine_cols
+        self.total_diffs = total_diffs
+
+        self.columns = ["dataset_name", "sub_dataset_name", "llm_model", "status", "number_iteration", "number_iteration_error",
+                        "time_catalog_load", "time_pipeline_generate", "time_total", "time_execution",
+                        "prompt_token_count", "all_token_count", "operation", "total_refined_cols", "refine_cols",
+                        "total_diffs"]
+
+    def save_results(self, result_output_path: str):
+        try:
+            df_result = pd.read_csv(result_output_path)
+
+        except Exception as err:
+            df_result = pd.DataFrame(columns=self.columns)
+
+        df_result.loc[len(df_result)] = [self.dataset_name,
+                                         self.sub_dataset_name,
+                                         self.llm_model,
+                                         self.status,
+                                         self.number_iteration,
+                                         self.number_iteration_error,
+                                         self.time_catalog_load,
+                                         self.time_pipeline_generate,
+                                         self.time_total,
+                                         self.time_execution,
+                                         self.prompt_token_count,
+                                         self.all_token_count,
+                                         self.operation,
+                                         self.total_refined_cols,
+                                         self.refine_cols,
+                                         self.total_diffs]
+
+        df_result.to_csv(result_output_path, index=False)
+
+
+def save_cleaning_log(args, final_status, iteration, iteration_error, time_catalog, time_generate, time_total,
+                      time_execute, prompt_token_count, all_token_count, operation_tag, total_refined_cols,
+                      refine_cols, sub_dataset_name, total_diffs):
+    log_results = LogCleaningResults(dataset_name=args.dataset_name,
+                                     llm_model=args.llm_model,
+                                     status=f"{final_status}",
+                                     number_iteration=iteration,
+                                     number_iteration_error=iteration_error,
+                                     time_catalog_load=time_catalog,
+                                     time_pipeline_generate=time_generate,
+                                     time_total=time_total,
+                                     time_execution=time_execute,
+                                     prompt_token_count=prompt_token_count,
+                                     all_token_count=all_token_count + prompt_token_count,
+                                     operation=operation_tag,
+                                     total_refined_cols=total_refined_cols,
+                                     refine_cols=refine_cols,
+                                     sub_dataset_name=sub_dataset_name,
+                                     total_diffs=total_diffs)
 
     if final_status:
         log_results.save_results(result_output_path=args.result_output_path)

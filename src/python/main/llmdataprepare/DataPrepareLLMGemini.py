@@ -50,7 +50,6 @@ class DataPrepareLLMGemini:
 
             response = chat_session.send_message("INSERT_INPUT_HERE")
             result = response.text
-            print(result)
             time_end = time.time()
             return result, number_of_tokens, time_end - time_start
 

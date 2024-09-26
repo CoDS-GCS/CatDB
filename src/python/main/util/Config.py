@@ -79,6 +79,7 @@ _catdb_chain_DP_rules = dict()
 _catdb_chain_FE_rules = dict()
 _catdb_chain_MS_rules = dict()
 _catdb_categorical_data_cleaning_rules = dict()
+_catdb_categorical_catalog_cleaning_rules = dict()
 
 _CODE_FORMATTING_IMPORT = None
 _CODE_FORMATTING_PREPROCESSING = None
@@ -94,7 +95,8 @@ _DATASET_DESCRIPTION = None
 
 
 def load_config(system_log: str, llm_model: str = None, config_path: str = "Config.yaml",
-                api_config_path: str = "APIKeys.yaml", rules_path: str = "Rules.yaml", data_cleaning_rules_path="RulesDataCleaning.yaml"):
+                api_config_path: str = "APIKeys.yaml", rules_path: str = "Rules.yaml",
+                data_cleaning_rules_path="RulesDataCleaning.yaml"):
     global _llm_model
     global _llm_platform
     global _system_delimiter
@@ -240,6 +242,7 @@ def load_rules(rules_path: str):
 
 def load_data_cleaning_rules(rules_path: str):
     global _catdb_categorical_data_cleaning_rules
+    global _catdb_categorical_catalog_cleaning_rules
 
     with (open(rules_path, "r") as f):
         try:
@@ -251,6 +254,8 @@ def load_data_cleaning_rules(rules_path: str):
                     categorical_rls[k] = v
                 if plt == "CatDB":
                     _catdb_categorical_data_cleaning_rules = categorical_rls
+                elif plt == "Type-Infer":
+                    _catdb_categorical_catalog_cleaning_rules = categorical_rls
         except yaml.YAMLError as ex:
             raise Exception(ex)
 

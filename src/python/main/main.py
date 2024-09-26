@@ -59,10 +59,10 @@ def parse_arguments():
                 args.data_source_train_path = f"{args.root_data_path}/{config_data[0].get('dataset').get('train')}"
                 args.data_source_test_path = f"{args.root_data_path}/{config_data[0].get('dataset').get('test')}"
                 args.data_source_verify_path = f"{args.root_data_path}/{config_data[0].get('dataset').get('verify')}"
-                args.data_source_train_clean_path = f"{args.data_source_train_path.replace('.csv','')}_clean.csv"
-                args.data_source_test_clean_path = f"{args.data_source_test_path.replace('.csv','')}_clean.csv"
-                args.data_source_verify_clean_path = f"{args.data_source_verify_path.replace('.csv','')}_clean.csv"
-                args.data_source_clean_path = f"{args.data_source_path.replace('.csv', '')}_clean.csv"
+                args.data_source_train_clean_path = f"{args.data_source_train_path.replace('.csv','')}_LLM_clean.csv"
+                args.data_source_test_clean_path = f"{args.data_source_test_path.replace('.csv','')}_LLM_clean.csv"
+                args.data_source_verify_clean_path = f"{args.data_source_verify_path.replace('.csv','')}_LLM_clean.csv"
+                args.data_source_clean_path = f"{args.data_source_path.replace('.csv', '')}_LLM_clean.csv"
 
             except Exception as ex:
                 raise Exception(ex)
@@ -137,29 +137,15 @@ if __name__ == '__main__':
         clean_categorical_data(args=args, data_profile_path=data_profile_path, time_catalog=0,
                                iteration=begin_iteration)
         # check the data clean is available:
+        from util.Config import _llm_platform
         if os.path.isfile(args.data_source_train_clean_path):
-            args.data_source_train_path = args.data_source_train_clean_path
+            args.data_source_train_path = args.data_source_train_clean_path.replace("LLM", _llm_platform)
 
         if os.path.isfile(args.data_source_test_clean_path):
-            args.data_source_test_path = args.data_source_test_clean_path
+            args.data_source_test_path = args.data_source_test_clean_path.replace("LLM", _llm_platform)
 
         if os.path.isfile(args.data_source_verify_clean_path):
-            args.data_source_verify_path = args.data_source_verify_clean_path
-
-        if os.path.isfile(args.data_source_clean_path):
-            import pandas as pd
-            orig_data = pd.read_csv(args.data_source_path)
-            clean_data = pd.read_csv(args.data_source_clean_path)
-
-            cols = list(orig_data.columns.values)
-            print(f"===================={args.dataset_name}=========================================")
-            for c in cols:
-                on = orig_data[c].nunique()
-                cn = clean_data[c].nunique()
-
-                if on - cn != 0 :
-                    print(f"{c} : Original Col Values={on}, Clean Col Values={cn}, Diff={on-cn}")
-            print(f"********************************************************************************")
+            args.data_source_verify_path = args.data_source_verify_clean_path.replace("LLM", _llm_platform)
 
         catalog.append(load_data_source_profile(data_source_path=data_profile_path,
                                                 file_format="JSON",
@@ -167,34 +153,34 @@ if __name__ == '__main__':
                                                 enable_reduction=args.enable_reduction,
                                                 categorical_values_restricted_size=args.categorical_values_restricted_size))
 
-    # time_end = time.time()
-    # time_catalog = time_end - time_start
-    # ti = 0
-    # t = args.prompt_number_iteration * 2
-    #
-    # prompt_representation_type_orig = args.prompt_representation_type
-    # while begin_iteration < args.prompt_number_iteration + end_iteration:
-    #     if args.prompt_representation_type == "CatDBChain":
-    #         final_status, code = operation(args=args, catalog=catalog, run_mode=__gen_verify_mode, sub_task=__sub_task_data_preprocessing, time_catalog=time_catalog, iteration=begin_iteration, dependency=dependencies)
-    #         if final_status:
-    #             final_status, code = operation(args=args, catalog=catalog, run_mode=__gen_verify_mode, sub_task=__sub_task_feature_engineering, previous_result=code, time_catalog=time_catalog, iteration=begin_iteration, dependency=dependencies)
-    #             if final_status:
-    #                 final_status, code = operation(args=args, catalog=catalog, run_mode=__execute_mode, sub_task=__sub_task_model_selection, previous_result=code, time_catalog=time_catalog, iteration=begin_iteration, dependency=dependencies)
-    #                 if final_status:
-    #                     begin_iteration += 1
-    #     elif args.prompt_representation_type == "AUTO":
-    #         combinations = Metadata(catalog=catalog[0]).get_combinations()
-    #         for cmb in combinations:
-    #             args.prompt_representation_type = cmb
-    #             final_status, code = operation(args=args, catalog=catalog, run_mode=__execute_mode, time_catalog=time_catalog, iteration=begin_iteration)
-    #             if final_status:
-    #                 begin_iteration += 1
-    #         args.prompt_representation_type = prompt_representation_type_orig
-    #     else:
-    #         final_status, code = operation(args=args, catalog=catalog, run_mode=__execute_mode, time_catalog=time_catalog, iteration=begin_iteration, dependency=dependencies)
-    #         if final_status:
-    #             begin_iteration += 1
-    #
-    #     ti += 1
-    #     if ti > t:
-    #         break
+    time_end = time.time()
+    time_catalog = time_end - time_start
+    ti = 0
+    t = args.prompt_number_iteration * 2
+
+    prompt_representation_type_orig = args.prompt_representation_type
+    while begin_iteration < args.prompt_number_iteration + end_iteration:
+        if args.prompt_representation_type == "CatDBChain":
+            final_status, code = operation(args=args, catalog=catalog, run_mode=__gen_verify_mode, sub_task=__sub_task_data_preprocessing, time_catalog=time_catalog, iteration=begin_iteration, dependency=dependencies)
+            if final_status:
+                final_status, code = operation(args=args, catalog=catalog, run_mode=__gen_verify_mode, sub_task=__sub_task_feature_engineering, previous_result=code, time_catalog=time_catalog, iteration=begin_iteration, dependency=dependencies)
+                if final_status:
+                    final_status, code = operation(args=args, catalog=catalog, run_mode=__execute_mode, sub_task=__sub_task_model_selection, previous_result=code, time_catalog=time_catalog, iteration=begin_iteration, dependency=dependencies)
+                    if final_status:
+                        begin_iteration += 1
+        elif args.prompt_representation_type == "AUTO":
+            combinations = Metadata(catalog=catalog[0]).get_combinations()
+            for cmb in combinations:
+                args.prompt_representation_type = cmb
+                final_status, code = operation(args=args, catalog=catalog, run_mode=__execute_mode, time_catalog=time_catalog, iteration=begin_iteration)
+                if final_status:
+                    begin_iteration += 1
+            args.prompt_representation_type = prompt_representation_type_orig
+        else:
+            final_status, code = operation(args=args, catalog=catalog, run_mode=__execute_mode, time_catalog=time_catalog, iteration=begin_iteration, dependency=dependencies)
+            if final_status:
+                begin_iteration += 1
+
+        ti += 1
+        if ti > t:
+            break

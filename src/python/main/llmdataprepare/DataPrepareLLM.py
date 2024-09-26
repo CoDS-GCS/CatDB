@@ -37,6 +37,20 @@ class DataPrepareLLM:
 
         return values
 
+    @staticmethod
+    def extract_catalog_values(result: str):
+        rows = result.splitlines()
+        values = dict()
+        for row in rows:
+            rds = row.split(":")
+            col_name = rds[0]
+            result = False
+            if rds[1].lower() == "yes":
+                result = True
+            values[col_name] = result
+        return values
+
+
 
     # def get_number_tokens(user_message: str, system_message: str):
     #     from util.Config import _llm_platform, _OPENAI, _META, _GOOGLE

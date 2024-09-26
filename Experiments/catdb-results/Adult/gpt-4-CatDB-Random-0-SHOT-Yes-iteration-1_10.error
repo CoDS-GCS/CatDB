@@ -1,5 +1,0 @@
-Traceback (most recent call last):
-  File "/home/saeed/Documents/Github/CatDB/Experiments/setup/Baselines/CatDB/runcode/RunCode.py", line 36, in execute_code
-    exec(compile(parse, filename="<ast>", mode="exec"), loc)
-  File "<ast>", line 56, in <module>
-NameError: name 'end' is not defined

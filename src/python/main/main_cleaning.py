@@ -76,7 +76,7 @@ if __name__ == '__main__':
 
     load_config(system_log=args.system_log, llm_model=args.llm_model, rules_path="Rules.yaml")
 
-    #clean_data_catalog(args=args, data_profile_path=data_profile_path, time_catalog=0, iteration=begin_iteration)
+    clean_data_catalog(args=args, data_profile_path=data_profile_path, time_catalog=0, iteration=begin_iteration)
 
     # check the data clean is available:
-    clean_categorical_data(args=args, data_profile_path=data_profile_path, time_catalog=0, iteration=begin_iteration)
+    # clean_categorical_data(args=args, data_profile_path=data_profile_path, time_catalog=0, iteration=begin_iteration)

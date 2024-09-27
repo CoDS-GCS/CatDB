@@ -74,7 +74,8 @@ def load_data_source_profile(data_source_path: str, file_format: str, target_att
         files = [f for f in os.listdir(f'{data_source_path}/{d}/')]
         for f in files:
             if cleaning:
-                profile = load_JSON_profile_info(f'{data_source_path}/{d}/{f}', categorical_values_restricted_size=categorical_values_restricted_size)
+                profile = load_JSON_profile_info(f'{data_source_path}/{d}/{f}',
+                                                 categorical_values_restricted_size=categorical_values_restricted_size)
             else:
                 profile = load_JSON_profile_info_with_update( data_profile_update=f'{data_source_path}_update',
                                                  file_name=f'{data_source_path}/{d}/{f}')

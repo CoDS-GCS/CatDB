@@ -10,7 +10,7 @@ class BasicPrompt(object):
                  flag_dataset_description: bool = False,
                  flag_previous_result: bool = False,
                  flag_samples: bool = False,
-                 categorical_value_size: int = 5,
+                 categorical_value_size: int = 3,
                  *args, **kwargs):
         self.ds_attribute_prefix = None
         self.ds_attribute_prefix_label = None
@@ -19,6 +19,7 @@ class BasicPrompt(object):
         self.question = None
         self.extra_info = None
         self.df_content = None
+        self.column_categorical_vals = dict()
         self.set_schema_content(categorical_values_size=categorical_value_size)
 
         self.flag_distinct_value_count = flag_distinct_value_count
@@ -30,7 +31,7 @@ class BasicPrompt(object):
         self.flag_samples = flag_samples
         self.previous_result_format = None
 
-    def format(self):
+    def format(self, part_id: int = -1):
         user_message, schema_data = self.format_user_message()
         return {
             "system_message": self.format_system_message(),
@@ -92,7 +93,7 @@ class BasicPrompt(object):
             if self.df_content.loc[r]["column_name"] == self.target_attribute:
                 row_msg_1 = f'# \"{self.df_content.loc[r]["column_name"]}\" ({self.df_content.loc[r]["column_data_type"]}, {target_text})'
             else:
-                row_msg_1 = f'# {self.df_content.loc[r]["column_name"]} ({self.df_content.loc[r]["column_data_type"]})'
+                row_msg_1 = f'# \"{self.df_content.loc[r]["column_name"]}\" ({self.df_content.loc[r]["column_data_type"]})'
             row_msg = [row_msg_1]
             if self.flag_distinct_value_count and self.df_content.loc[r]["is_categorical"] == False:
                 row_msg.append(f'distinct-count [{self.df_content.loc[r]["distinct_count"]}]')
@@ -265,6 +266,7 @@ class BasicPrompt(object):
                     else:
                         categorical_values = [str(val) for val in cp.categorical_values]
 
+                self.column_categorical_vals[k] = cp.categorical_values
                 categorical_values = (",".join(categorical_values)).replace("\"","'")
                 tmp_cc = []
                 # for cv in cp.categorical_values:

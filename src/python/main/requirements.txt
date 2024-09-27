@@ -12,4 +12,4 @@ google-generativeai
 imbalanced-learn
 dask[complete]
 feature_engine
-Unidecode
+unidecode

@@ -9,8 +9,6 @@ class GenerateLLMGemini:
         from util.Config import _LLM_API_Key
         _, api_key = _LLM_API_Key.get_API_Key()
         genai.configure(api_key=api_key)
-        # prompt = [system_message, user_message]
-        # message = "\n".join(prompt)
         code, number_of_tokens, time_gen = GenerateLLMGemini.__submit_Request_Gemini_LLM(user_message=user_message, system_message=system_message)
         return code, number_of_tokens, time_gen
 
@@ -33,13 +31,6 @@ class GenerateLLMGemini:
             {"category": "HARM_CATEGORY_SEXUALLY_EXPLICIT", "threshold": "BLOCK_MEDIUM_AND_ABOVE"},
             {"category": "HARM_CATEGORY_DANGEROUS_CONTENT", "threshold": "BLOCK_MEDIUM_AND_ABOVE"},
         ]
-
-        # model = genai.GenerativeModel(model_name=_llm_model,
-        #                               generation_config=generation_config,
-        #                               safety_settings=safety_settings)
-        #
-        # number_of_tokens = model.count_tokens(messages).total_tokens
-
         model = genai.GenerativeModel(model_name=_llm_model,
                                       generation_config=generation_config,
                                       safety_settings=safety_settings,

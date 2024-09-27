@@ -129,13 +129,11 @@ if __name__ == '__main__':
                                            target_attribute=args.target_attribute,
                                            enable_reduction=enable_reduction,
                                            dependency=dependencies[tbl],
-                                           categorical_values_restricted_size=args.categorical_values_restricted_size)
+                                           categorical_values_restricted_size=-1)
             cat.table_name = tbl
             catalog.append(cat)
     else:
         load_config(system_log=args.system_log, llm_model=args.llm_model, rules_path="Rules.yaml")
-        clean_categorical_data(args=args, data_profile_path=data_profile_path, time_catalog=0,
-                               iteration=begin_iteration)
         # check the data clean is available:
         from util.Config import _llm_platform
         if os.path.isfile(args.data_source_train_clean_path):
@@ -151,7 +149,7 @@ if __name__ == '__main__':
                                                 file_format="JSON",
                                                 target_attribute=args.target_attribute,
                                                 enable_reduction=args.enable_reduction,
-                                                categorical_values_restricted_size=args.categorical_values_restricted_size))
+                                                categorical_values_restricted_size=-1))
 
     time_end = time.time()
     time_catalog = time_end - time_start

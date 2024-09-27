@@ -9,11 +9,12 @@ from util.FileHandler import save_prompt
 from util.FileHandler import save_text_file
 from util.LogResults import save_log, save_cleaning_log
 from util.ErrorResults import ErrorResults
+from util.DatasetReader import split_clean_data_save
 import time
 import datetime
 import os
 import pandas as pd
-import json
+
 
 
 def clean_up(args, prompt_file_name):
@@ -273,9 +274,10 @@ def run_pipeline(args, file_name, code, schema_data, run_mode, sub_task: str = '
     return final_status, code
 
 
-def compare_orig_and_clean_updates(args, orig_fname: str, clean_fname: str):
+def compare_orig_and_clean_updates(orig_fname: str, clean_fname: str):
     # check the data clean is available:
-    if os.path.isfile(args.data_source_clean_path):
+    if os.path.isfile(clean_fname):
+        print("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
         orig_data = pd.read_csv(orig_fname)
         clean_data = pd.read_csv(clean_fname)
 
@@ -310,49 +312,46 @@ def clean_categorical_data(args, data_profile_path: str, time_catalog: float = 0
                                    enable_reduction=args.enable_reduction,
                                    categorical_values_restricted_size=-1)
     data_cleaning_prompt = prompt_factory_data_cleaning(catalog=[cat])
-    prompt_format = data_cleaning_prompt.format()
-    prompt_system_message = prompt_format["system_message"]
-    prompt_user_message = prompt_format["user_message"]
+    parts = data_cleaning_prompt.get_parts()
+    for pid in range(0, len(parts)):
+        prompt_format = data_cleaning_prompt.format(part_id=pid)
+        prompt_system_message = prompt_format["system_message"]
+        prompt_user_message = prompt_format["user_message"]
 
-    # Save prompt:
-    prompt_file_name = f"{args.llm_model}-{data_cleaning_prompt.class_name}-iteration-{iteration}"
-    file_name = f'{args.output_path}/{prompt_file_name}'
-    prompt_fname = f"{file_name}.prompt"
-    save_prompt(fname=prompt_fname, system_message=prompt_system_message, user_message=prompt_user_message)
+        # Save prompt:
+        prompt_file_name = f"{args.llm_model}-{data_cleaning_prompt.class_name}-iteration-{iteration}-part-{pid}"
+        file_name = f'{args.output_path}/{prompt_file_name}'
+        prompt_fname = f"{file_name}.prompt"
+        save_prompt(fname=prompt_fname, system_message=prompt_system_message, user_message=prompt_user_message)
 
-    # Generate LLM code
-    code, prompt_token_count, time_tmp_gen = GenerateLLMCode.generate_llm_code(user_message=prompt_user_message,
-                                                                               system_message=prompt_system_message)
-    time_generate_extra = 0
-    for i in range(5):
-        if code == "Insufficient information.":
-            code, tokens_count, time_tmp_gen = GenerateLLMCode.generate_llm_code(user_message=prompt_user_message,
-                                                                                 system_message=prompt_system_message)
-            all_token_count += tokens_count
-            time_generate_extra += time_tmp_gen
-        else:
-            break
-    time_generate += time_tmp_gen
+        # Generate LLM code
+        code, prompt_token_count, time_tmp_gen = GenerateLLMCode.generate_llm_code(user_message=prompt_user_message,
+                                                                                   system_message=prompt_system_message)
+        time_generate_extra = 0
+        for i in range(5):
+            if code == "Insufficient information.":
+                code, tokens_count, time_tmp_gen = GenerateLLMCode.generate_llm_code(user_message=prompt_user_message,
+                                                                                     system_message=prompt_system_message)
+                all_token_count += tokens_count
+                time_generate_extra += time_tmp_gen
+            else:
+                break
+        time_generate += time_tmp_gen
 
-    final_code = code
-    for (ds_name, title) in [(args.data_source_path, "all-data"), (args.data_source_train_path, "train-data"),
-                             (args.data_source_test_path, "test-data"), (args.data_source_verify_path, 'verify-data')]:
         pipeline_fname = f"{file_name}_draft.py"
         save_text_file(fname=pipeline_fname, data=code)
-        final_status, final_code = run_data_cleaning_pipeline(args=args,
-                                                              file_name=file_name,
-                                                              orig_code=code,
-                                                              run_mode=__execute_mode,
-                                                              iteration=iteration,
-                                                              time_total=time_total,
-                                                              time_catalog=time_catalog,
-                                                              time_generate=time_generate,
-                                                              all_token_count=all_token_count,
-                                                              prompt_token_count=prompt_token_count,
-                                                              destination_ds_name=ds_name,
-                                                              sub_ds_name=title)
-
-    return final_status, final_code
+        run_data_cleaning_pipeline(args=args,
+                                   file_name=file_name,
+                                   orig_code=code,
+                                   run_mode=__execute_mode,
+                                   iteration=iteration,
+                                   time_total=time_total,
+                                   time_catalog=time_catalog,
+                                   time_generate=time_generate,
+                                   all_token_count=all_token_count,
+                                   prompt_token_count=prompt_token_count,
+                                   destination_ds_name=args.data_source_path,
+                                   sub_ds_name="all-data")
 
 
 def run_data_cleaning_pipeline(args, file_name, orig_code, run_mode, iteration: int = 1,
@@ -365,9 +364,9 @@ def run_data_cleaning_pipeline(args, file_name, orig_code, run_mode, iteration: 
 
     # Run pipeline with original data
     orig_fname = destination_ds_name
-    clean_fnmae = f"{destination_ds_name.replace('.csv', '')}_{_llm_platform}_clean.csv"
+    clean_fname = f"{destination_ds_name.replace('.csv', '')}_{_llm_platform}_clean.csv"
     code = orig_code.replace("original_data.csv", orig_fname)
-    code = code.replace("clean_data.csv", clean_fnmae)
+    code = code.replace("clean_data.csv", clean_fname)
 
     iteration_error = 0
     refine_cols = None
@@ -382,7 +381,7 @@ def run_data_cleaning_pipeline(args, file_name, orig_code, run_mode, iteration: 
             pipeline_fname = f"{file_name}-RUN.py"
             save_text_file(fname=pipeline_fname, data=code)
             final_status = True
-            R = compare_orig_and_clean_updates(args=args, orig_fname=orig_fname, clean_fname=clean_fnmae)
+            R = compare_orig_and_clean_updates(orig_fname=orig_fname, clean_fname=clean_fname)
             if R is not None:
                 refine_cols = R['refine_cols']
                 total_refined_cols = R['total_refined_cols']
@@ -420,7 +419,8 @@ def run_data_cleaning_pipeline(args, file_name, orig_code, run_mode, iteration: 
                       operation_tag='Run-Data-Cleaning-Pipeline', final_status=final_status,
                       total_refined_cols=total_refined_cols, refine_cols=refine_cols, sub_dataset_name=sub_ds_name,
                       total_diffs=total_diffs)
-
+    if final_status:
+        split_clean_data_save(data_path=clean_fname, ds_name=args.dataset_name, out_path=args.root_data_path)
     return final_status, code
 
 
@@ -447,12 +447,12 @@ def clean_data_catalog(args, data_profile_path: str, time_catalog: float = 0, it
 
     # Refine Catalog by LLM
     code, prompt_token_count, time_tmp_gen = DataPrepareLLM.data_prepare_llm(user_message=prompt_user_message,
-                                                                               system_message=prompt_system_message)
+                                                                             system_message=prompt_system_message)
     time_generate_extra = 0
     for i in range(5):
         if code == "Insufficient information.":
             code, tokens_count, time_tmp_gen = DataPrepareLLM.data_prepare_llm(user_message=prompt_user_message,
-                                                                                 system_message=prompt_system_message)
+                                                                               system_message=prompt_system_message)
             all_token_count += tokens_count
             time_generate_extra += time_tmp_gen
         else:
@@ -464,29 +464,8 @@ def clean_data_catalog(args, data_profile_path: str, time_catalog: float = 0, it
         data = pd.read_csv(args.data_source_path)
         for k in result.keys():
             if result[k]:
-                column_values = data[k]
+                column_values = data[k].dropna().unique().tolist()
                 piu = ProfileInfoUpdate(column_name=k, column_values=column_values)
                 piu.save_profile(f"{data_profile_path}_update")
 
 
-
-
-    # final_code = code
-    # for (ds_name, title) in [(args.data_source_path, "all-data"), (args.data_source_train_path, "train-data"),
-    #                          (args.data_source_test_path, "test-data"), (args.data_source_verify_path, 'verify-data')]:
-    #     pipeline_fname = f"{file_name}_draft.py"
-    #     save_text_file(fname=pipeline_fname, data=code)
-    #     final_status, final_code = run_data_cleaning_pipeline(args=args,
-    #                                                           file_name=file_name,
-    #                                                           orig_code=code,
-    #                                                           run_mode=__execute_mode,
-    #                                                           iteration=iteration,
-    #                                                           time_total=time_total,
-    #                                                           time_catalog=time_catalog,
-    #                                                           time_generate=time_generate,
-    #                                                           all_token_count=all_token_count,
-    #                                                           prompt_token_count=prompt_token_count,
-    #                                                           destination_ds_name=ds_name,
-    #                                                           sub_ds_name=title)
-    #
-    # return final_status, final_code

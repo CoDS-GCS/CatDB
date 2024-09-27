@@ -1,13 +1,14 @@
 from openai import OpenAI
 import tiktoken
-import os
 import time
 
 
 class GenerateLLMCodeGPT:
     @staticmethod
     def generate_code_OpenAI_LLM(user_message: str, system_message: str):
-        client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"), )
+        from util.Config import _LLM_API_Key
+        _, api_key = _LLM_API_Key.get_API_Key()
+        client = OpenAI(api_key=api_key )
         number_of_tokens = GenerateLLMCodeGPT.get_number_tokens(user_message=user_message, system_message=system_message)
         messages = [
             {"role": "system", "content": system_message} ,

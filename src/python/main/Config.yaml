@@ -37,7 +37,7 @@
     system_delimiter: '### '
     user_delimiter: '### '
     delay: 70
-    temperature: 0.2
+    temperature: 0.5
     top_p: 0.5
     top_k: 32
 

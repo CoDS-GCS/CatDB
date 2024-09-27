@@ -42,12 +42,17 @@ class DataPrepareLLM:
         rows = result.splitlines()
         values = dict()
         for row in rows:
-            rds = row.split(":")
-            col_name = rds[0]
-            result = False
-            if rds[1].lower() == "yes":
-                result = True
-            values[col_name] = result
+            if row == '```':
+                continue
+            try:
+                rds = row.split(":")
+                col_name = rds[0]
+                result = False
+                if rds[1].strip().lower() == "yes":
+                    result = True
+                values[col_name] = result
+            except:
+                pass
         return values
 
 

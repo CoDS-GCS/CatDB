@@ -13,6 +13,8 @@ class CatalogCleaningPrompt(BasicPrompt):
         from util.Config import _user_delimiter
         prompt_items = []
         schema_data = self.format_schema_none_categorical_data()
+        if schema_data is None:
+            return None, None
         prompt_items.append(schema_data)
         prompt_items.append(f'Question: {self.question}')
         return f"\n\n{_user_delimiter}".join(prompt_items), None
@@ -21,11 +23,13 @@ class CatalogCleaningPrompt(BasicPrompt):
         content = []
         for r in range(0, len(self.df_content)):
             row_msg = []
-            if (self.df_content.loc[r]["column_data_type"] == 'str' and self.df_content.loc[r]["is_categorical"] == False):
+            if (self.df_content.loc[r]["column_data_type"] in {'str', 'date'} and self.df_content.loc[r]["is_categorical"] == False):
                 row_msg.append(f'# Column Name is "{self.df_content.loc[r]["column_name"]}"')
                 row_msg.append(f'# Distinct-Percentage [{self.df_content.loc[r]["distinct_count"]/self.catalog.nrows}%]')
                 row_msg.append(f'samples [{self.df_content.loc[r]["samples"]}]')
                 content.append(", ".join(row_msg))
+        if len(content) == 0:
+            return None
         content = "\n".join(content)
         prompt_items = [f'Column Names and Samples:',
                         '"""',

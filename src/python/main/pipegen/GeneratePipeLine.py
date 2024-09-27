@@ -277,7 +277,6 @@ def run_pipeline(args, file_name, code, schema_data, run_mode, sub_task: str = '
 def compare_orig_and_clean_updates(orig_fname: str, clean_fname: str):
     # check the data clean is available:
     if os.path.isfile(clean_fname):
-        print("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
         orig_data = pd.read_csv(orig_fname)
         clean_data = pd.read_csv(clean_fname)
 
@@ -301,7 +300,7 @@ def compare_orig_and_clean_updates(orig_fname: str, clean_fname: str):
 
 def clean_categorical_data(args, data_profile_path: str, time_catalog: float = 0,
                            iteration: int = 1):
-    from util.Config import __execute_mode
+    from util.Config import __execute_mode, _llm_platform
     all_token_count = 0
     time_generate = 0
     time_total = 0
@@ -313,6 +312,10 @@ def clean_categorical_data(args, data_profile_path: str, time_catalog: float = 0
                                    categorical_values_restricted_size=-1)
     data_cleaning_prompt = prompt_factory_data_cleaning(catalog=[cat])
     parts = data_cleaning_prompt.get_parts()
+    destination_ds_name = args.data_source_path
+    clean_fname = f"{destination_ds_name.replace('.csv', '')}_{_llm_platform}_clean.csv"
+
+    final_status = False
     for pid in range(0, len(parts)):
         prompt_format = data_cleaning_prompt.format(part_id=pid)
         prompt_system_message = prompt_format["system_message"]
@@ -340,7 +343,8 @@ def clean_categorical_data(args, data_profile_path: str, time_catalog: float = 0
 
         pipeline_fname = f"{file_name}_draft.py"
         save_text_file(fname=pipeline_fname, data=code)
-        run_data_cleaning_pipeline(args=args,
+
+        final_status,_,destination_ds_name = run_data_cleaning_pipeline(args=args,
                                    file_name=file_name,
                                    orig_code=code,
                                    run_mode=__execute_mode,
@@ -350,22 +354,24 @@ def clean_categorical_data(args, data_profile_path: str, time_catalog: float = 0
                                    time_generate=time_generate,
                                    all_token_count=all_token_count,
                                    prompt_token_count=prompt_token_count,
-                                   destination_ds_name=args.data_source_path,
+                                   destination_ds_name= destination_ds_name,
+                                   clean_fname=clean_fname,
+                                   orig_fname = args.data_source_path,
                                    sub_ds_name="all-data")
 
+    if final_status:
+        split_clean_data_save(data_path=clean_fname, ds_name=args.dataset_name, out_path=args.root_data_path)
 
 def run_data_cleaning_pipeline(args, file_name, orig_code, run_mode, iteration: int = 1,
                                time_total: int = 0, time_catalog: float = 0, time_generate: int = 0,
-                               all_token_count: int = 0, prompt_token_count: int = 0, destination_ds_name: str = None,
-                               sub_ds_name: str = None):
-    from util.Config import _llm_platform
+                               all_token_count: int = 0, prompt_token_count: int = 0, orig_fname: str=None,
+                               destination_ds_name: str = None, clean_fname: str= None, sub_ds_name: str = None):
+
     time_execute = 0
     final_status = False
 
     # Run pipeline with original data
-    orig_fname = destination_ds_name
-    clean_fname = f"{destination_ds_name.replace('.csv', '')}_{_llm_platform}_clean.csv"
-    code = orig_code.replace("original_data.csv", orig_fname)
+    code = orig_code.replace("original_data.csv", destination_ds_name)
     code = code.replace("clean_data.csv", clean_fname)
 
     iteration_error = 0
@@ -419,9 +425,8 @@ def run_data_cleaning_pipeline(args, file_name, orig_code, run_mode, iteration: 
                       operation_tag='Run-Data-Cleaning-Pipeline', final_status=final_status,
                       total_refined_cols=total_refined_cols, refine_cols=refine_cols, sub_dataset_name=sub_ds_name,
                       total_diffs=total_diffs)
-    if final_status:
-        split_clean_data_save(data_path=clean_fname, ds_name=args.dataset_name, out_path=args.root_data_path)
-    return final_status, code
+
+    return final_status, code, clean_fname
 
 
 def clean_data_catalog(args, data_profile_path: str, time_catalog: float = 0, iteration: int = 1):
@@ -433,11 +438,15 @@ def clean_data_catalog(args, data_profile_path: str, time_catalog: float = 0, it
                                    file_format="JSON",
                                    target_attribute=args.target_attribute,
                                    enable_reduction=args.enable_reduction,
-                                   cleaning=True)
+                                   cleaning=True,
+                                   categorical_values_restricted_size=-1)
     catalog_cleaning_prompt = prompt_factory_data_catalog_cleaning(catalog=[cat])
     prompt_format = catalog_cleaning_prompt.format()
     prompt_system_message = prompt_format["system_message"]
     prompt_user_message = prompt_format["user_message"]
+
+    if prompt_user_message is None:
+        return
 
     # Save prompt:
     prompt_file_name = f"{args.llm_model}-{catalog_cleaning_prompt.class_name}-iteration-{iteration}"
@@ -458,14 +467,15 @@ def clean_data_catalog(args, data_profile_path: str, time_catalog: float = 0, it
         else:
             break
     time_generate += time_tmp_gen
-
     result = DataPrepareLLM.extract_catalog_values(result=code)
     if len(result) > 0:
         data = pd.read_csv(args.data_source_path)
+        col_names = data.columns
         for k in result.keys():
             if result[k]:
+                if k not in col_names:
+                    k = k[1:len(k)-1]
                 column_values = data[k].dropna().unique().tolist()
                 piu = ProfileInfoUpdate(column_name=k, column_values=column_values)
                 piu.save_profile(f"{data_profile_path}_update")
-
 

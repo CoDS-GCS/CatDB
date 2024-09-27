@@ -76,7 +76,6 @@ class ProfileInfo(object):
             self.is_categorical = True
             self.categorical_values = category_values
             self.categorical_values_ratio = category_values_ratio
-
         self.nrows = nrows
 
     def deactivate(self):
@@ -85,7 +84,7 @@ class ProfileInfo(object):
 
 class ProfileInfoUpdate(object):
     def __init__(self, column_name: str, column_values: []):
-        self.column_name = column_name
+        self.column_name = column_name.replace("/","###")
         self.column_values = column_values
 
     def to_dict(self):
@@ -113,7 +112,7 @@ def load_JSON_profile_info_with_update(data_profile_update: str, file_name: str)
         json_data = json.loads(raw_data)
         profile_info = ProfileInfo(**json_data, categorical_values_restricted_size=-1)
         # check the update
-        update = load_JSON_profile_info_update(f"{data_profile_update}/{profile_info.column_name}.json")
+        update = load_JSON_profile_info_update(f"{data_profile_update}/{profile_info.column_name.replace('###','/')}.json")
         if update is not None:
             profile_info.is_categorical = True
             profile_info.categorical_values = update.column_values

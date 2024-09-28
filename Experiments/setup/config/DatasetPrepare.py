@@ -108,7 +108,7 @@ def save_config(dataset_name,target, task_type, data_out_path, description=None,
                        f"    test: \'{dataset_name}/{target_table}_test.csv\'",
                        f"    verify: \'{dataset_name}/{target_table}_verify.csv\'",
                        f"    target_table: {target_table}",
-                       f"    target: {target}",
+                       f"    target: '{target}'",
                        f"    type: {task_type}"
                        "\n"]
     config_str = "\n".join(config_strs)

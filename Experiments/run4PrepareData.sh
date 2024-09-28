@@ -11,7 +11,7 @@ declare -a dataset_list=("Midwest-Survey" "WiFi" "Utility" "EU-IT" "Etailing" "R
 for ds in "${dataset_list[@]}"; do
         rm -rf "${catalog_path}/${ds}/data_profile" # clean-up data_profile
         rm -rf "${catalog_path}/${ds}/data_profile_update" # clean-up data_profile_update
-        rm -rf "${data_path}/${ds}"
+        rm -rf "${data_path}/${ds}" # clean-up dataset
         unzip "${catalog_path}/${ds}/data_profile.zip" -d "${catalog_path}/${ds}/"
         unzip "${catalog_path}/${ds}/data_profile_update.zip" -d "${catalog_path}/${ds}/"
         unzip "${data_path}/${ds}.zip" -d "${data_path}/"
@@ -49,16 +49,16 @@ CMD="python DatasetPrepare.py --dataset-root-path ${data_path} \
 # $CMD --dataset-name IMDB-IJS --target-attribute gender --task-type binary --target-table actors --mtos True
 # $CMD --dataset-name Yelp --target-attribute stars --task-type regression --target-table Reviews --mtos True
 
-# $CMD --dataset-name EU-IT --target-attribute 'Position ' --task-type multiclass --multi-table False
+$CMD --dataset-name EU-IT --target-attribute 'Position ' --task-type multiclass --multi-table False
+$CMD --dataset-name Utility --target-attribute CSRI --task-type multiclass --multi-table False
+$CMD --dataset-name WiFi --target-attribute TechCenter --task-type multiclass --multi-table False
+$CMD --dataset-name Relocated-Vehicles --target-attribute 'Relocated To Direction' --task-type multiclass --multi-table False
+$CMD --dataset-name Midwest-Survey --target-attribute 'Location (Census Region)' --task-type multiclass --multi-table False
+$CMD --dataset-name Etailing --target-attribute 'What is the maximum cart value you ever shopped?' --task-type multiclass --multi-table False
+
+# $CMD --dataset-name Health-Sciences --target-attribute 'Does your lab/research group currently use a naming convention to save your data files? ' --task-type multiclass --multi-table False
+# $CMD --dataset-name Violations --target-attribute 'Disposition Description' --task-type multiclass --multi-table False
 # $CMD --dataset-name Halloween --target-attribute 'What.is.your.age.group.' --task-type multiclass --multi-table False
 # $CMD --dataset-name Mid-Feed --target-attribute B6 --task-type multiclass --multi-table False
-# $CMD --dataset-name Utility --target-attribute CSRI --task-type multiclass --multi-table False
-# $CMD --dataset-name Violations --target-attribute 'Disposition Description' --task-type multiclass --multi-table False
-# $CMD --dataset-name WiFi --target-attribute TechCenter --task-type multiclass --multi-table False
-# $CMD --dataset-name Health-Sciences --target-attribute 'Does your lab/research group currently use a naming convention to save your data files? ' --task-type multiclass --multi-table False
-# $CMD --dataset-name Relocated-Vehicles --target-attribute 'Relocated To Direction' --task-type multiclass --multi-table False
-# $CMD --dataset-name Midwest-Survey --target-attribute 'Location (Census Region)' --task-type multiclass --multi-table False
-# $CMD --dataset-name Etailing --target-attribute 'What is the maximum cart value you ever shopped?' --task-type multiclass --multi-table False
-
 
 cd ${root_path}

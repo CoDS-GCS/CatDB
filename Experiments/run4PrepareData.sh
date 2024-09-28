@@ -6,6 +6,17 @@ data_out_path="${root_path}/data"
 config_path="${root_path}/setup/config"
 catalog_path="${root_path}/catalog"
 
+declare -a dataset_list=("Midwest-Survey" "WiFi" "Utility" "EU-IT" "Etailing" "Relocated-Vehicles")
+
+for ds in "${dataset_list[@]}"; do
+        rm -rf "${catalog_path}/${ds}/data_profile" # clean-up data_profile
+        rm -rf "${catalog_path}/${ds}/data_profile_update" # clean-up data_profile_update
+        rm -rf "${data_path}/${ds}"
+        unzip "${catalog_path}/${ds}/data_profile.zip" -d "${catalog_path}/${ds}/"
+        unzip "${catalog_path}/${ds}/data_profile_update.zip" -d "${catalog_path}/${ds}/"
+        unzip "${data_path}/${ds}.zip" -d "${data_path}/"
+done
+
 # # Extract data profile info - Multi-table datasets
 # cd "${root_path}/catalog"
 # unzip Accidents/data_profile.zip -d Accidents/
@@ -13,13 +24,6 @@ catalog_path="${root_path}/catalog"
 # unzip Financial/data_profile.zip -d Financial/
 # unzip IMDB-IJS/data_profile.zip -d IMDB-IJS/
 # unzip Yelp/data_profile.zip -d Yelp/
-
-# unzip EU-IT/data_profile.zip -d EU-IT/
-# unzip Halloween/data_profile.zip -d Halloween/
-# unzip Mid-Feed/data_profile.zip -d Mid-Feed/
-# unzip Utility/data_profile.zip -d Utility/
-# unzip Violations/data_profile.zip -d Violations/
-# unzip WiFi/data_profile.zip -d WiFi/
 
 
 cd ${data_path}
@@ -29,19 +33,6 @@ cd ${data_path}
 # unzip Financial.zip
 # unzip IMDB-IJS.zip
 # unzip Yelp.zip
-
-# unzip EU-IT.zip
-# unzip Halloween.zip
-# unzip Mid-Feed.zip
-# unzip Utility.zip
-# unzip Violations.zip
-# unzip WiFi.zip
-
-unzip Health-Sciences.zip
-unzip Relocated-Vehicles.zip
-unzip Etailing.zip
-unzip Midwest-Survey.zip
-
 
 cd ${config_path}
 source venv/bin/activate
@@ -64,10 +55,10 @@ CMD="python DatasetPrepare.py --dataset-root-path ${data_path} \
 # $CMD --dataset-name Utility --target-attribute CSRI --task-type multiclass --multi-table False
 # $CMD --dataset-name Violations --target-attribute 'Disposition Description' --task-type multiclass --multi-table False
 # $CMD --dataset-name WiFi --target-attribute TechCenter --task-type multiclass --multi-table False
-$CMD --dataset-name Health-Sciences --target-attribute 'Does your lab/research group currently use a naming convention to save your data files? ' --task-type multiclass --multi-table False
-$CMD --dataset-name Relocated-Vehicles --target-attribute 'Relocated To Direction' --task-type multiclass --multi-table False
-$CMD --dataset-name Midwest-Survey --target-attribute 'Location (Census Region)' --task-type multiclass --multi-table False
-$CMD --dataset-name Etailing --target-attribute 'What is the maximum cart value you ever shopped?' --task-type multiclass --multi-table False
+# $CMD --dataset-name Health-Sciences --target-attribute 'Does your lab/research group currently use a naming convention to save your data files? ' --task-type multiclass --multi-table False
+# $CMD --dataset-name Relocated-Vehicles --target-attribute 'Relocated To Direction' --task-type multiclass --multi-table False
+# $CMD --dataset-name Midwest-Survey --target-attribute 'Location (Census Region)' --task-type multiclass --multi-table False
+# $CMD --dataset-name Etailing --target-attribute 'What is the maximum cart value you ever shopped?' --task-type multiclass --multi-table False
 
 
 cd ${root_path}

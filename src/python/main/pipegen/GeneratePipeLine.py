@@ -16,7 +16,6 @@ import os
 import pandas as pd
 
 
-
 def clean_up(args, prompt_file_name):
     file_names = []
     file_name = f'{args.output_path}/{prompt_file_name}'
@@ -344,29 +343,29 @@ def clean_categorical_data(args, data_profile_path: str, time_catalog: float = 0
         pipeline_fname = f"{file_name}_draft.py"
         save_text_file(fname=pipeline_fname, data=code)
 
-        final_status,_,destination_ds_name = run_data_cleaning_pipeline(args=args,
-                                   file_name=file_name,
-                                   orig_code=code,
-                                   run_mode=__execute_mode,
-                                   iteration=iteration,
-                                   time_total=time_total,
-                                   time_catalog=time_catalog,
-                                   time_generate=time_generate,
-                                   all_token_count=all_token_count,
-                                   prompt_token_count=prompt_token_count,
-                                   destination_ds_name= destination_ds_name,
-                                   clean_fname=clean_fname,
-                                   orig_fname = args.data_source_path,
-                                   sub_ds_name="all-data")
+        final_status, _, destination_ds_name = run_data_cleaning_pipeline(args=args,
+                                                                          file_name=file_name,
+                                                                          orig_code=code,
+                                                                          run_mode=__execute_mode,
+                                                                          iteration=iteration,
+                                                                          time_total=time_total,
+                                                                          time_catalog=time_catalog,
+                                                                          time_generate=time_generate,
+                                                                          all_token_count=all_token_count,
+                                                                          prompt_token_count=prompt_token_count,
+                                                                          destination_ds_name=destination_ds_name,
+                                                                          clean_fname=clean_fname,
+                                                                          orig_fname=args.data_source_path,
+                                                                          sub_ds_name="all-data")
 
     if final_status:
         split_clean_data_save(data_path=clean_fname, ds_name=args.dataset_name, out_path=args.root_data_path)
 
+
 def run_data_cleaning_pipeline(args, file_name, orig_code, run_mode, iteration: int = 1,
                                time_total: int = 0, time_catalog: float = 0, time_generate: int = 0,
-                               all_token_count: int = 0, prompt_token_count: int = 0, orig_fname: str=None,
-                               destination_ds_name: str = None, clean_fname: str= None, sub_ds_name: str = None):
-
+                               all_token_count: int = 0, prompt_token_count: int = 0, orig_fname: str = None,
+                               destination_ds_name: str = None, clean_fname: str = None, sub_ds_name: str = None):
     time_execute = 0
     final_status = False
 
@@ -474,8 +473,7 @@ def clean_data_catalog(args, data_profile_path: str, time_catalog: float = 0, it
         for k in result.keys():
             if result[k]:
                 if k not in col_names:
-                    k = k[1:len(k)-1]
+                    k = k[1:len(k) - 1]
                 column_values = data[k].dropna().unique().tolist()
                 piu = ProfileInfoUpdate(column_name=k, column_values=column_values)
                 piu.save_profile(f"{data_profile_path}_update")
-

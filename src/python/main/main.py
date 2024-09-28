@@ -59,10 +59,10 @@ def parse_arguments():
                 args.data_source_train_path = f"{args.root_data_path}/{config_data[0].get('dataset').get('train')}"
                 args.data_source_test_path = f"{args.root_data_path}/{config_data[0].get('dataset').get('test')}"
                 args.data_source_verify_path = f"{args.root_data_path}/{config_data[0].get('dataset').get('verify')}"
-                args.data_source_train_clean_path = f"{args.data_source_train_path.replace('.csv','')}_LLM_clean.csv"
-                args.data_source_test_clean_path = f"{args.data_source_test_path.replace('.csv','')}_LLM_clean.csv"
-                args.data_source_verify_clean_path = f"{args.data_source_verify_path.replace('.csv','')}_LLM_clean.csv"
-                args.data_source_clean_path = f"{args.data_source_path.replace('.csv', '')}_LLM_clean.csv"
+                args.data_source_train_clean_path = f"{args.data_source_train_path.replace('.csv','')}_clean.csv"
+                args.data_source_test_clean_path = f"{args.data_source_test_path.replace('.csv','')}_clean.csv"
+                args.data_source_verify_clean_path = f"{args.data_source_verify_path.replace('.csv','')}_clean.csv"
+                args.data_source_clean_path = f"{args.data_source_path.replace('.csv', '')}_clean.csv"
 
             except Exception as ex:
                 raise Exception(ex)
@@ -135,15 +135,14 @@ if __name__ == '__main__':
     else:
         load_config(system_log=args.system_log, llm_model=args.llm_model, rules_path="Rules.yaml")
         # check the data clean is available:
-        from util.Config import _llm_platform
         if os.path.isfile(args.data_source_train_clean_path):
-            args.data_source_train_path = args.data_source_train_clean_path.replace("LLM", _llm_platform)
+            args.data_source_train_path = args.data_source_train_clean_path
 
         if os.path.isfile(args.data_source_test_clean_path):
-            args.data_source_test_path = args.data_source_test_clean_path.replace("LLM", _llm_platform)
+            args.data_source_test_path = args.data_source_test_clean_path
 
         if os.path.isfile(args.data_source_verify_clean_path):
-            args.data_source_verify_path = args.data_source_verify_clean_path.replace("LLM", _llm_platform)
+            args.data_source_verify_path = args.data_source_verify_clean_path
 
         catalog.append(load_data_source_profile(data_source_path=data_profile_path,
                                                 file_format="JSON",

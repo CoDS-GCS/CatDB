@@ -1,7 +1,7 @@
 # ```python
 import pandas as pd
-original_data = pd.read_csv('/home/saeed/Documents/Github/CatDB/Experiments/data/EU-IT/EU-IT.csv')
-clean_data_path = '/home/saeed/Documents/Github/CatDB/Experiments/data/EU-IT/EU-IT_Google_clean.csv'
+original_data = pd.read_csv('original_data.csv')
+clean_data_path = 'clean_data.csv'
 
 original_data['Gender'] = original_data['Gender'].str.lower()
 original_data['Company size'] = original_data['Company size'].str.lower()

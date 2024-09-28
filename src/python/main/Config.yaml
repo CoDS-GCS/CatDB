@@ -37,9 +37,9 @@
     system_delimiter: '### '
     user_delimiter: '### '
     delay: 70
-    temperature: 0.5
-    top_p: 0.5
-    top_k: 32
+    temperature: 0
+    top_p: 0.95
+    top_k: 64
 
   gemini-1.5-pro-exp-0801:
     token_limit: 8192

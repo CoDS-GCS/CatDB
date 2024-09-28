@@ -1,7 +1,7 @@
 # ```python
 import pandas as pd
-original_data = pd.read_csv('/home/saeed/Documents/Github/CatDB/Experiments/data/Relocated-Vehicles/Relocated-Vehicles.csv')
-clean_data_path = '/home/saeed/Documents/Github/CatDB/Experiments/data/Relocated-Vehicles/Relocated-Vehicles_Google_clean.csv'
+original_data = pd.read_csv('original_data.csv')
+clean_data_path = 'clean_data.csv'
 
 original_data['Relocated From Street Direction'] = original_data['Relocated From Street Direction'].str.upper()
 original_data['Relocated To Direction'] = original_data['Relocated To Direction'].str.upper()

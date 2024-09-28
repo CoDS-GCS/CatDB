@@ -14,12 +14,15 @@ echo "dataset,time" >> "${exp_path}/results/Experiment1_CSVDataReader.dat"
 cd ${exp_path}
 
 #CMD=./explocal/exp0_statistics/runExperiment0.sh
-CMD=./explocal/exp1_cleaning/runExperiment1.sh
+#CMD=./explocal/exp1_cleaning/runExperiment1.sh
+CMDPath=./explocal/exp1_cleaning/runPatch.sh
 #CMD=./explocal/exp1_catalog/runExperiment1.sh
 #CMD=./explocal/exp2_micro_benchmark/runExperiment2.sh 
 #CMD=./explocal/exp3_end_to_end/runExperiment3.sh
 #CMD=./explocal/exp4_finetune/runExperiment4.sh
 #CMD=./explocal/exp5_dataprepare/runExperiment5.sh
+
+$CMDPath
 
 # $CMD oml_dataset_1_rnc multiclass # Balance-Scale
 # $CMD oml_dataset_2_rnc binary # Breast-w
@@ -50,12 +53,12 @@ CMD=./explocal/exp1_cleaning/runExperiment1.sh
 # $CMD IMDB-IJS binary 
 # $CMD Yelp regression 
 
-$CMD Midwest-Survey multiclass # OK
-$CMD WiFi multiclass # OK
-$CMD Utility multiclass # OK
-$CMD EU-IT multiclass # OK
-$CMD Etailing multiclass # OK
-$CMD Relocated-Vehicles multiclass # OK
+# $CMD Midwest-Survey multiclass # OK
+# $CMD WiFi multiclass # OK
+# $CMD Utility multiclass # OK
+# $CMD EU-IT multiclass # OK
+# $CMD Etailing multiclass # OK
+# $CMD Relocated-Vehicles multiclass # OK
 
 # $CMD Violations multiclass
 # $CMD Health-Sciences multiclass

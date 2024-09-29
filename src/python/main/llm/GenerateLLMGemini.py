@@ -35,18 +35,18 @@ class GenerateLLMGemini:
                                       generation_config=generation_config,
                                       safety_settings=safety_settings,
                                       system_instruction=system_message)
-
-        prompt = [system_message, user_message]
-        message = "\n".join(prompt)
-        number_of_tokens = model.count_tokens(message).total_tokens
-
-        chat_session = model.start_chat(
-            history=[{
-                "role": "user",
-                "parts": [user_message],
-            }]
-        )
         try:
+            prompt = [system_message, user_message]
+            message = "\n".join(prompt)
+            number_of_tokens = model.count_tokens(message).total_tokens
+
+            chat_session = model.start_chat(
+                history=[{
+                    "role": "user",
+                    "parts": [user_message],
+                }]
+            )
+
             response = chat_session.send_message("INSERT_INPUT_HERE")
             code = response.text
             # Refine code, keep all codes are between ```python and ```end

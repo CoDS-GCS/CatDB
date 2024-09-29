@@ -178,7 +178,7 @@ def generate_and_verify_pipeline(args, catalog, run_mode: str = None, sub_task: 
              operation_tag='Gen-and-Verify-Pipeline',
              run_mode=run_mode, results_verified=results_verified, results=results, final_status=final_status)
 
-    if run_mode == __execute_mode:
+    if run_mode == __execute_mode and final_status:
         final_status, code = run_pipeline(args=args, file_name=final_pipeline_file_name, code=code,
                                           schema_data=schema_data,
                                           run_mode=__execute_mode, sub_task=sub_task, iteration=iteration,

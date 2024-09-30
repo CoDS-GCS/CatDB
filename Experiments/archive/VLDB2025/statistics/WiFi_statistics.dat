@@ -1,0 +1,10 @@
+dataset_name,col_index,data_type,missing_values_count,total_values_count,distinct_values_count,number_rows
+WiFi,1,str,0,98,3,98
+WiFi,2,str,0,98,5,98
+WiFi,3,str,0,98,4,98
+WiFi,4,str,0,98,5,98
+WiFi,5,str,0,98,2,98
+WiFi,6,str,0,98,3,98
+WiFi,7,int,0,98,4,98
+WiFi,8,str,3,95,8,98
+WiFi,9,str,3,95,69,98

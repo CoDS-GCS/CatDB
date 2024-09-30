@@ -148,7 +148,10 @@ def getXTicks(max:int):
     return xtick
 
 def extract_dataset_propertis_mv(root, out):
-    datasets = ["Breast-w","CMC","Credit-g","Diabetes","Tic-Tac-Toe","Nomao","Volkert","Gas-Drift","Jungle-Chess","Higgs","Skin","Traffic","Walking-Activity","Black-Friday","Bike-Sharing","House-Sales","NYC"]
+    # datasets = ["Breast-w","CMC","Credit-g","Diabetes","Tic-Tac-Toe","Nomao","Volkert","Gas-Drift","Jungle-Chess","Higgs","Skin","Traffic","Walking-Activity","Black-Friday","Bike-Sharing","House-Sales","NYC"]
+
+
+    datasets = ["Midwest-Survey","WiFi","Utility","EU-IT","Etailing"]
 
     miss_value_template = read_template("Missing_Distinct_Values_Template.tex")
     exp_statistics = read_template("Exp_Dataset_Attribute_Template.tex")
@@ -157,7 +160,7 @@ def extract_dataset_propertis_mv(root, out):
     pindex = 0
     for ds in datasets:
         print(ds)
-        path = f"../archive/SIGMOD2025-Results/statistics/{ds}_statistics.dat"
+        path = f"../archive/VLDB2025/statistics/{ds}_statistics.dat"
         df = read_dataset(f"../{path}")
         ncols = len(df)
         rc = (1/float(ncols))/3

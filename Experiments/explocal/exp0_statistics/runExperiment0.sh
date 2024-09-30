@@ -10,7 +10,7 @@ mkdir -p ${statistics_path}
 log_file_name="${exp_path}/results/statistics/dataset_overview.dat"
 statistic_file_name="${exp_path}/results/statistics/${dataset}_statistics.dat"
 
-data_profile_path="${exp_path}/metadata/${dataset}/data_profile"
+data_profile_path="${exp_path}/catalog/${dataset}/data_profile"
 
 cd "${exp_path}/setup/Baselines/CatDB/"
 source venv/bin/activate

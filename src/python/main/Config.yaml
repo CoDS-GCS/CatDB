@@ -32,8 +32,8 @@
 
 - llm_platform: Google
   gemini-1.5-pro-latest:
-    token_limit: 8192
-    max_output_tokens: 8192
+    token_limit: 131072
+    max_output_tokens: 251072
     system_delimiter: '### '
     user_delimiter: '### '
     delay: 70

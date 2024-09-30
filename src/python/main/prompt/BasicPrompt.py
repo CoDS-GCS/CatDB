@@ -266,7 +266,10 @@ class BasicPrompt(object):
                     else:
                         categorical_values = [str(val) for val in cp.categorical_values]
 
-                self.column_categorical_vals[k] = cp.categorical_values
+                if cp.short_data_type == 'str':
+                    self.column_categorical_vals[k] = [v.replace("'", "\'") for v in cp.categorical_values]
+                else:
+                    self.column_categorical_vals[k] = cp.categorical_values
                 categorical_values = (",".join(categorical_values)).replace("\"","'")
                 tmp_cc = []
                 # for cv in cp.categorical_values:

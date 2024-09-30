@@ -16,7 +16,7 @@ $CMDPatch Midwest-Survey Midwest-Survey "${root_patch}/Midwest-Survey/${python_f
 $CMDPatch WiFi WiFi "${root_patch}/WiFi/${python_fname}-0-RUN.py" True
 $CMDPatch Utility Utility "${root_patch}/Utility/${python_fname}-0-RUN.py" True
 $CMDPatch EU-IT EU-IT "${root_patch}/EU-IT/${python_fname}-0-RUN.py" True
-$CMDPatch Relocated-Vehicles Relocated-Vehicles "${root_patch}/Relocated-Vehicles/${python_fname}-0-RUN.py" True
+#$CMDPatch Relocated-Vehicles Relocated-Vehicles "${root_patch}/Relocated-Vehicles/${python_fname}-0-RUN.py" True
 
 $CMDPatch Etailing Etailing "${root_patch}/Etailing/${python_fname}-0-RUN.py" False
 $CMDPatch Etailing Etailing_clean "${root_patch}/Etailing/${python_fname}-1-RUN.py" False

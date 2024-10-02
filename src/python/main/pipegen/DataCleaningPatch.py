@@ -28,7 +28,6 @@ class DataCleaningPatch(object):
             split_src += f'data_verify.to_csv("{self.dataset_name_verify}", index=False)\n'
 
             src_patch = f"{package_src}\n{src_patch}\n{split_src}"
-            print(src_patch)
 
         src_patch = src_patch.replace("original_data.csv", self.dataset_name)
         src_patch = src_patch.replace("clean_data.csv", self.dataset_name_clean)

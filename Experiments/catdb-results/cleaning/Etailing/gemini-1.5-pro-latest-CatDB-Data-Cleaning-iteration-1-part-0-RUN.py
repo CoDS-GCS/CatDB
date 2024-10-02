@@ -76,5 +76,5 @@ original_data['City (from which you do online shopping)'] = original_data['City 
 original_data['City (from which you do online shopping)'] = original_data['City (from which you do online shopping)'].str.replace('Visakhapatnam ', 'Visakhapatnam')
 original_data['City (from which you do online shopping)'] = original_data['City (from which you do online shopping)'].str.replace('Vishakhapatnam', 'Visakhapatnam')
 
-original_data.to_csv('/home/saeed/Documents/Github/CatDB/Experiments/data/Etailing/Etailing_Google_clean.csv', index=False)
+original_data.to_csv('clean_data.csv', index=False)
 # ```end

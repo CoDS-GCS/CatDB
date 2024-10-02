@@ -243,6 +243,8 @@ class BasicPrompt(object):
                 continue
 
             cp = self.catalog.profile_info[k]
+            if cp.short_data_type == 'list':
+                continue
 
             is_numerical = False
             is_categorical = False

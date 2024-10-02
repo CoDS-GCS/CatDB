@@ -94,7 +94,10 @@ def load_data_source_profile(data_source_path: str, file_format: str, target_att
                 dataset_name = profile.dataset_name
                 source_path = profile.path
 
-            if profile.is_categorical and profile.short_data_type != 'list':
+            if profile.short_data_type == 'list':
+                continue
+
+            if profile.is_categorical:
                 columns_categorical.append(profile.column_name)
                 if profile.missing_values_count > 0:
                     columns_categorical_missing_values.append(profile.column_name)

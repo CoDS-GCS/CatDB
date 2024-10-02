@@ -12,10 +12,10 @@ split_dataset=$4
 
 python_fname="gemini-1.5-pro-latest-CatDB-Data-Cleaning-iteration-1-part"
 
-# $CMDPatch Midwest-Survey Midwest-Survey "${root_patch}/Midwest-Survey/${python_fname}-0-RUN.py" True
-# $CMDPatch WiFi WiFi "${root_patch}/WiFi/${python_fname}-0-RUN.py" True
-# $CMDPatch Utility Utility "${root_patch}/Utility/${python_fname}-0-RUN.py" True
-# $CMDPatch EU-IT EU-IT "${root_patch}/EU-IT/${python_fname}-0-RUN.py" True
-# $CMDPatch Etailing Etailing "${root_patch}/Etailing/${python_fname}-0-RUN.py" False
-# $CMDPatch Etailing Etailing_clean "${root_patch}/Etailing/${python_fname}-1-RUN.py" True
+$CMDPatch Midwest-Survey Midwest-Survey "${root_patch}/Midwest-Survey/${python_fname}-0-RUN.py" True
+$CMDPatch WiFi WiFi "${root_patch}/WiFi/${python_fname}-0-RUN.py" True
+$CMDPatch Utility Utility "${root_patch}/Utility/${python_fname}-0-RUN.py" True
+$CMDPatch EU-IT EU-IT "${root_patch}/EU-IT/${python_fname}-0-RUN.py" True
+$CMDPatch Etailing Etailing "${root_patch}/Etailing/${python_fname}-0-RUN.py" False
+$CMDPatch Etailing Etailing_clean "${root_patch}/Etailing/${python_fname}-1-RUN.py" True
 $CMDPatch Yelp Yelp_clean "${root_patch}/Yelp/${python_fname}-1-RUN.py" True

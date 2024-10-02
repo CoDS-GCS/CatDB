@@ -1,7 +1,7 @@
 # ```python
 import pandas as pd
-original_data = '/home/saeed/Documents/Github/CatDB/Experiments/data/Yelp/Yelp.csv'
-clean_data_path = '/home/saeed/Documents/Github/CatDB/Experiments/data/Yelp/Yelp_Google_clean.csv'
+original_data = 'original_data.csv'
+clean_data_path = 'clean_data.csv'
 df = pd.read_csv(original_data)
 df['state'] = df['state'].str.strip()
 df['city'] = df['city'].str.strip()

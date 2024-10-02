@@ -1,7 +1,7 @@
 # ```python
 import pandas as pd
 
-original_data = pd.read_csv('/home/saeed/Documents/Github/CatDB/Experiments/data/Etailing/Etailing.csv')
+original_data = pd.read_csv('original_data.csv')
 
 original_data[' Which factors enhance your convenience for online shopping?'] = original_data[' Which factors enhance your convenience for online shopping?'].str.replace('Low price as compared to offline markets', 'Low price as compared to offline market')
 original_data['Profession'] = original_data['Profession'].str.replace('Homemaker', 'Housewife')

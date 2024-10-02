@@ -1,7 +1,7 @@
 # ```python
 import pandas as pd
 
-original_data = pd.read_csv('/home/saeed/Documents/Github/CatDB/Experiments/data/Etailing/Etailing_Google_clean.csv')
+original_data = pd.read_csv('original_data.csv')
 
 
 original_data['Please specify the reason why you didn’t stick to one particular platform. Choose Option 1 if you have always shopped from one online platform'] = original_data['Please specify the reason why you didn’t stick to one particular platform. Choose Option 1 if you have always shopped from one online platform'].replace({
@@ -24,5 +24,5 @@ original_data['Which among the following E-Commerce Website have you ever opened
 original_data = original_data.explode('Which among the following E-Commerce Website have you ever opened?')
 original_data = pd.concat([original_data,pd.get_dummies(original_data['Which among the following E-Commerce Website have you ever opened?'].str.strip(), prefix='Which among the following E-Commerce Website have you ever opened?_')], axis=1)
 original_data = original_data.drop(columns=['Which among the following E-Commerce Website have you ever opened?'])
-original_data.to_csv('/home/saeed/Documents/Github/CatDB/Experiments/data/Etailing/Etailing_Google_clean.csv', index=False)
+original_data.to_csv('clean_data.csv', index=False)
 # ```

@@ -1,7 +1,7 @@
 # ```python
 import pandas as pd
 
-df = pd.read_csv('/home/saeed/Documents/Github/CatDB/Experiments/data/EU-IT/EU-IT.csv')
+df = pd.read_csv('original_data.csv')
 
 df['Gender'] = df['Gender'].str.lower()
 
@@ -466,10 +466,9 @@ df['Your main technology / programming language'] = df['Your main technology / p
      'qlik': 'other',
      'consumer analysis': 'other'})
 
-
 df['Other technologies/programming languages you use often'] = df['Other technologies/programming languages you use often'].str.split(',')
 df = df.explode('Other technologies/programming languages you use often')
 df = pd.concat([df,pd.get_dummies(df['Other technologies/programming languages you use often'].str.strip(), prefix='Other technologies/programming languages you use often_')], axis=1)
 df = df.drop(columns=['Other technologies/programming languages you use often'])
-df.to_csv('/home/saeed/Documents/Github/CatDB/Experiments/data/EU-IT/EU-IT_Google_clean.csv', index=False)
+df.to_csv('clean_data.csv', index=False)
 # ```end

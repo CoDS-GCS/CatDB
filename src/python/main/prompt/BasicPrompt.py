@@ -71,7 +71,7 @@ class BasicPrompt(object):
                 if cc != self.target_attribute:
                     categorical_columns.append(cc)
             categorical_column_prompt = (f'Transformer the categorical data for the following (e.g., One-Hot Encoding, Ordinal Encoder, Polynomial Encoder, Count Encoder, ... ) '
-                                         f'columns:\n\t# Columns: {",".join(categorical_columns)}')
+                                         f'columns:\n\t# Columns: {",".join(self.add_quotes_to_list_vals(categorical_columns))}')
             prompt_items.append(categorical_column_prompt)
 
         prompt_items.append(f"Dataset Attribute:\n# Number of samples (rows) in training dataset: {self.catalog.nrows}")
@@ -85,6 +85,9 @@ class BasicPrompt(object):
 
     def floatToString(self, inputValue):
         return ('%.3f' % inputValue).rstrip('0').rstrip('.')
+
+    def add_quotes_to_list_vals(self, data):
+        return [f'"{v}"' for v in data]
 
     def format_schema_data(self):
         content = []
@@ -126,24 +129,24 @@ class BasicPrompt(object):
 
         if len(self.catalog.columns_numerical_missing_values) > 0:
             missing_values_prompt = (f"Do missing values imputation semantically for the following numerical columns:\n\tColumns: "
-                                     f"{','.join(self.catalog.columns_numerical_missing_values)}\n")
+                                     f"{','.join(self.add_quotes_to_list_vals(self.catalog.columns_numerical_missing_values))}\n")
             missing_values_rules["numerical_missing_values"] = missing_values_prompt
 
         if len(self.catalog.columns_bool_missing_values) > 0:
             missing_values_prompt = (
                 f"Predict the missing values semantically for the following boolean columns:\n\tColumns: "
-                f"{','.join(self.catalog.columns_bool_missing_values)}")
+                f"{','.join(self.add_quotes_to_list_vals(self.catalog.columns_bool_missing_values))}")
             missing_values_rules["bool_missing_values"] = missing_values_prompt
 
         if len(self.catalog.columns_categorical_missing_values) > 0:
             missing_values_prompt = (f"Predict the missing values semantically for the following categorical columns:\n\tColumns: "
-                                     f"{','.join(self.catalog.columns_categorical_missing_values)}\n")
+                                     f"{','.join(self.add_quotes_to_list_vals(self.catalog.columns_categorical_missing_values))}\n")
             missing_values_rules["categorical_missing_values"] = missing_values_prompt
 
         if len(self.catalog.columns_others_missing_values) > 0:
             missing_values_prompt = (
                 f"Predict the missing values semantically for the following string/object columns:\n\tColumns: "
-                f"{','.join(self.catalog.columns_others_missing_values)}")
+                f"{','.join(self.add_quotes_to_list_vals(self.catalog.columns_others_missing_values))}")
             missing_values_rules["others_missing_values"] = missing_values_prompt
 
         return missing_values_rules
@@ -163,7 +166,7 @@ class BasicPrompt(object):
                 transfer_columns.append(cc)
         transfer_column_prompt = (
             f'Transformer the following columns by Adaptive Binning or Scaler method (do it base on the min-max, mean, and median values are in the "Schema, and Data Profiling Info"):\n '
-            f'\t# Columns: {",".join(transfer_columns)}')
+            f'\t# Columns: {",".join(self.add_quotes_to_list_vals(transfer_columns))}')
         if len(transfer_columns) > 0:
             return transfer_column_prompt
         else:
@@ -183,7 +186,7 @@ class BasicPrompt(object):
             scaler_prompt = (f"Select an appropriate scaler the following numerical columns "
                              f'(do it base on the min-max, mean, median, and samples values are in the '
                              f'"Schema, and Data Profiling Info"):\n\t'
-                             f"Columns: {','.join(self.catalog.columns_numerical_missing_values)}\n")
+                             f"Columns: {','.join(self.add_quotes_to_list_vals(self.catalog.columns_numerical_missing_values))}\n")
             return scaler_prompt
         else:
             return None
@@ -195,7 +198,7 @@ class BasicPrompt(object):
             names = []
             for k in dropped_columns_names:
                 names.append(k)
-            return f"{drop_column_prompt}{','.join(names)}\n"
+            return f"{drop_column_prompt}{','.join(self.add_quotes_to_list_vals(names))}\n"
         else:
             return None
 

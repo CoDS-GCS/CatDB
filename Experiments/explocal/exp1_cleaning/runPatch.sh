@@ -18,4 +18,4 @@ $CMDPatch Utility Utility "${root_patch}/Utility/${python_fname}-0-RUN.py" True
 $CMDPatch EU-IT EU-IT "${root_patch}/EU-IT/${python_fname}-0-RUN.py" True
 $CMDPatch Etailing Etailing "${root_patch}/Etailing/${python_fname}-0-RUN.py" False
 $CMDPatch Etailing Etailing_clean "${root_patch}/Etailing/${python_fname}-1-RUN.py" True
-$CMDPatch Yelp Yelp_clean "${root_patch}/Yelp/${python_fname}-1-RUN.py" True
+$CMDPatch Yelp Yelp "${root_patch}/Yelp/${python_fname}-0-RUN.py" True

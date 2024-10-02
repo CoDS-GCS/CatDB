@@ -1,5 +1,3 @@
-import math
-
 from .BasicPrompt import BasicPrompt
 
 
@@ -10,6 +8,8 @@ class DataCleaningPrompt(BasicPrompt):
         self.data_cleaning_type = None
         self.df_content = None
         self.set_schema_content()
+        self.col_data_type = dict()
+        self.list_col_types = dict()
         self.parts = self.get_prompt_parts()
 
     def get_parts(self):
@@ -20,13 +20,18 @@ class DataCleaningPrompt(BasicPrompt):
         col_vals = dict()
         col_vals_len = dict()
         for r in range(0, len(self.df_content)):
-            if self.df_content.loc[r]["is_categorical"] and self.flag_categorical_values and (self.df_content.loc[r]["column_data_type"] == 'str' and  self.df_content.loc[r]["categorical_values_count"] > 2):
+            # ) or self.df_content.loc[r]["column_data_type"] == 'list'
+            if self.df_content.loc[r]["is_categorical"] and self.flag_categorical_values and (self.df_content.loc[r]["column_data_type"] == 'str' and self.df_content.loc[r]["categorical_values_count"] > 2):
                 text_size += len(f'# Column Name is "{self.df_content.loc[r]["column_name"]}"')
                 text_size += len(f'categorical-values [{self.df_content.loc[r]["categorical_values"]}]')
                 col_name = self.df_content.loc[r]["column_name"]
                 col_val = self.column_categorical_vals[col_name]
                 col_vals[col_name] = col_val
                 col_vals_len[col_name] = len(self.df_content.loc[r]["categorical_values"])
+                self.col_data_type[col_name] = self.df_content.loc[r]["column_data_type"]
+
+            elif self.df_content.loc[r]["column_data_type"] == 'list':
+                self.list_col_types[self.df_content.loc[r]["column_name"]] = len(self.column_categorical_vals[self.df_content.loc[r]["column_name"]])
 
         col_vals_len = {k: v for k, v in sorted(col_vals_len.items(), key=lambda item: item[1])}
         max_part_size = 4 * 4500
@@ -79,7 +84,8 @@ class DataCleaningPrompt(BasicPrompt):
         return {
             "system_message": self.format_system_message(),
             "user_message": user_message,
-            "schema_data": schema_data
+            "schema_data": schema_data,
+            "columns_list_dtype": self.list_col_types
         }
 
     def format_user_message_multi_part(self, part_id):
@@ -104,6 +110,8 @@ class DataCleaningPrompt(BasicPrompt):
             categorical_values = [f'"{str(val)}"' for val in self.parts[part_id][c]]
             categorical_values = (",".join(categorical_values))
             row_msg.append(f'# Column Name is "{c}"')
+            if self.col_data_type[c] == 'list':
+                row_msg.append('(Value type is a List)')
             row_msg.append(f'categorical-values [{categorical_values}]')
             content.append(", ".join(row_msg))
 
@@ -112,6 +120,7 @@ class DataCleaningPrompt(BasicPrompt):
                         '"""',
                         content,
                         '"""']
+
         return "\n".join(prompt_items)
 
     def format_system_message(self):

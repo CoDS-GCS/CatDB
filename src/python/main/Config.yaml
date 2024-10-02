@@ -43,7 +43,7 @@
 
   gemini-1.5-pro-exp-0801:
     token_limit: 8192
-    max_output_tokens: 8192
+    max_output_tokens: 291072
     system_delimiter: '### '
     user_delimiter: '### '
     delay: 70
@@ -53,7 +53,7 @@
 
   gemini-1.5-pro-exp-0827:
     token_limit: 16384
-    max_output_tokens: 16384
+    max_output_tokens: 291072
     system_delimiter: '### '
     user_delimiter: '### '
     delay: 70

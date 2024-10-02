@@ -59,7 +59,6 @@ class ProfileInfo(object):
             self.short_data_type = "str"
         else:
             self.short_data_type = self.data_type
-
         self.samples = samples
         if samples is None or len(samples) == 0:
             self.samples = None
@@ -83,12 +82,14 @@ class ProfileInfo(object):
 
 
 class ProfileInfoUpdate(object):
-    def __init__(self, column_name: str, column_values: []):
+    def __init__(self, column_name: str, column_type: str, column_values: []):
         self.column_name = column_name.replace("/","###")
         self.column_values = column_values
+        self.column_type = column_type
 
     def to_dict(self):
         profile_dict = {'column_name': self.column_name,
+                        'column_type': self.column_type,
                         'column_values': [v for v in self.column_values]}
         return profile_dict
 
@@ -114,6 +115,9 @@ def load_JSON_profile_info_with_update(data_profile_update: str, file_name: str)
         # check the update
         update = load_JSON_profile_info_update(f"{data_profile_update}/{profile_info.column_name.replace('/', '###')}.json")
         if update is not None:
+            if update.column_type == 'list':
+                profile_info.data_type = update.column_type
+                profile_info.short_data_type = update.column_type
             profile_info.is_categorical = True
             profile_info.categorical_values = update.column_values
             profile_info.samples = update.column_values

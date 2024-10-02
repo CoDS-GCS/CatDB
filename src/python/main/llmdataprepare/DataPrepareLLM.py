@@ -47,9 +47,11 @@ class DataPrepareLLM:
             try:
                 rds = row.split(":")
                 col_name = rds[0]
-                result = False
+                result = 'none-categorical'
                 if rds[1].strip().lower() == "yes":
-                    result = True
+                    result = 'categorical'
+                elif rds[1].strip().lower() == "list":
+                    result = 'list'
                 values[col_name] = result
             except:
                 pass

@@ -33,7 +33,7 @@ cd $path
 # Setup CatDB
 #############
 catdb_path="${path}/Baselines/CatDB/"
-#rm -rf ${catdb_path}
+# rm -rf ${catdb_path}
 mkdir -p ${catdb_path}
 
 cd ${root_path}

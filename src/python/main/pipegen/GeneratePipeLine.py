@@ -209,7 +209,7 @@ def run_pipeline(args, file_name, code, schema_data, run_mode, sub_task: str = '
         if result.get_status():
             results_verified, results = result.parse_results()
             pipeline_fname = f"{file_name}-RUN.py"
-            save_text_file(fname=pipeline_fname, data=code)
+            save_text_file(fname=pipeline_fname, data=code.replace(args.data_source_train_path,"train.csv").replace(args.data_source_test_path, "test.csv"))
             if results_verified:
                 time_execute = time_end_1 - time_start_1
                 final_status = True
@@ -273,7 +273,7 @@ def run_pipeline(args, file_name, code, schema_data, run_mode, sub_task: str = '
     return final_status, code
 
 
-def compare_orig_and_clean_updates(orig_fname: str, clean_fname: str):
+def compare_orig_and_clean_updates(orig_fname: str, clean_fname: str, cols_list_dtype):
     # check the data clean is available:
     if os.path.isfile(clean_fname):
         orig_data = pd.read_csv(orig_fname)
@@ -285,7 +285,10 @@ def compare_orig_and_clean_updates(orig_fname: str, clean_fname: str):
         total_diffs = 0
         for c in cols:
             on = orig_data[c].nunique()
-            cn = clean_data[c].nunique()
+            if c not in cols_list_dtype.keys():
+                cn = clean_data[c].nunique()
+            else:
+                cn = cols_list_dtype[c]
             if on - cn != 0:
                 total_refined_cols += 1
                 refine_cols.append(f"{c}#{on}#{cn}#{on - cn}")
@@ -295,6 +298,15 @@ def compare_orig_and_clean_updates(orig_fname: str, clean_fname: str):
                 "total_diffs": total_diffs}
 
     return None
+
+
+def get_column_dummy_patches(column_name: str, dataframe_name: str):
+    patch = [f"{dataframe_name}['{column_name}'] = {dataframe_name}['{column_name}'].str.split(',')"]
+    patch.append(f"{dataframe_name} = {dataframe_name}.explode('{column_name}')")
+    patch.append \
+        (f"{dataframe_name} = pd.concat([{dataframe_name},pd.get_dummies({dataframe_name}['{column_name}'].str.strip(), prefix='{column_name}_')], axis=1)")
+    patch.append(f"{dataframe_name} = {dataframe_name}.drop(columns=['{column_name}'])")
+    return patch
 
 
 def clean_categorical_data(args, data_profile_path: str, time_catalog: float = 0,
@@ -340,6 +352,25 @@ def clean_categorical_data(args, data_profile_path: str, time_catalog: float = 0
                 break
         time_generate += time_tmp_gen
 
+        cols_list_dtype = dict()
+        if pid == len(parts) - 1:
+            try:
+                # fine dataframe name:
+                df_name = None
+                for line in code.splitlines():
+                    if not line.startswith('#') and line.find(".to_csv"):
+                        df_name = line.split(".to_csv")
+                        df_name = df_name[0]
+                cols_list_dtype = prompt_format["columns_list_dtype"]
+                dummy_patch = []
+                for cld in cols_list_dtype.keys():
+                    dummy_patch.extend(get_column_dummy_patches(column_name=cld, dataframe_name=df_name))
+                dummy_patch = "\n".join(dummy_patch)
+
+                code = code.replace(f"{df_name}.to_csv", f"\n{dummy_patch}\n{df_name}.to_csv")
+            except:
+                pass
+
         pipeline_fname = f"{file_name}_draft.py"
         save_text_file(fname=pipeline_fname, data=code)
 
@@ -356,7 +387,8 @@ def clean_categorical_data(args, data_profile_path: str, time_catalog: float = 0
                                                                           destination_ds_name=destination_ds_name,
                                                                           clean_fname=clean_fname,
                                                                           orig_fname=args.data_source_path,
-                                                                          sub_ds_name="all-data")
+                                                                          sub_ds_name="all-data",
+                                                                          cols_list_dtype=cols_list_dtype)
 
     if final_status:
         split_clean_data_save(data_path=clean_fname, ds_name=args.dataset_name, out_path=args.root_data_path)
@@ -365,7 +397,8 @@ def clean_categorical_data(args, data_profile_path: str, time_catalog: float = 0
 def run_data_cleaning_pipeline(args, file_name, orig_code, run_mode, iteration: int = 1,
                                time_total: int = 0, time_catalog: float = 0, time_generate: int = 0,
                                all_token_count: int = 0, prompt_token_count: int = 0, orig_fname: str = None,
-                               destination_ds_name: str = None, clean_fname: str = None, sub_ds_name: str = None):
+                               destination_ds_name: str = None, clean_fname: str = None, sub_ds_name: str = None,
+                               cols_list_dtype = None):
     time_execute = 0
     final_status = False
 
@@ -386,7 +419,7 @@ def run_data_cleaning_pipeline(args, file_name, orig_code, run_mode, iteration: 
             pipeline_fname = f"{file_name}-RUN.py"
             save_text_file(fname=pipeline_fname, data=code)
             final_status = True
-            R = compare_orig_and_clean_updates(orig_fname=orig_fname, clean_fname=clean_fname)
+            R = compare_orig_and_clean_updates(orig_fname=orig_fname, clean_fname=clean_fname, cols_list_dtype=cols_list_dtype)
             if R is not None:
                 refine_cols = R['refine_cols']
                 total_refined_cols = R['total_refined_cols']
@@ -471,9 +504,17 @@ def clean_data_catalog(args, data_profile_path: str, time_catalog: float = 0, it
         data = pd.read_csv(args.data_source_path)
         col_names = data.columns
         for k in result.keys():
-            if result[k]:
+            if result[k] in {'categorical', 'list'}:
                 if k not in col_names:
                     k = k[1:len(k) - 1]
                 column_values = data[k].dropna().unique().tolist()
-                piu = ProfileInfoUpdate(column_name=k, column_values=column_values)
+                if result[k] == 'list':
+                    column_values_list = []
+                    for cv in column_values:
+                        for ev in cv.split(','):
+                            evv = ev.strip()
+                            if len(evv) > 0:
+                                column_values_list.append(evv)
+                    column_values = set(column_values_list)
+                piu = ProfileInfoUpdate(column_name=k, column_values=column_values, column_type=result[k])
                 piu.save_profile(f"{data_profile_path}_update")

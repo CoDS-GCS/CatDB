@@ -13,3 +13,4 @@ imbalanced-learn
 dask[complete]
 feature_engine
 unidecode
+flair

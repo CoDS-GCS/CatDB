@@ -1,65 +1,475 @@
 # ```python
 import pandas as pd
-original_data = pd.read_csv('original_data.csv')
-clean_data_path = 'clean_data.csv'
 
-original_data['Gender'] = original_data['Gender'].str.lower()
-original_data['Company size'] = original_data['Company size'].str.lower()
-original_data['Сontract duration'] = original_data['Сontract duration'].str.lower()
-original_data['Main language at work'] = original_data['Main language at work'].str.lower()
-original_data['Number of vacation days'] = original_data['Number of vacation days'].str.lower().str.strip()
-original_data['Total years of experience'] = original_data['Total years of experience'].str.lower()
-original_data['Seniority level'] = original_data['Seniority level'].str.lower()
-original_data['Years of experience in Germany'] = original_data['Years of experience in Germany'].str.lower()
-original_data['Employment status'] = original_data['Employment status'].str.lower()
-original_data['Have you received additional monetary support from your employer due to Work From Home? If yes, how much in 2020 in EUR'] = original_data['Have you received additional monetary support from your employer due to Work From Home? If yes, how much in 2020 in EUR'].str.lower()
-original_data['Have you lost your job due to the coronavirus outbreak?'] = original_data['Have you lost your job due to the coronavirus outbreak?'].str.lower()
-original_data['Company type'] = original_data['Company type'].str.lower()
-original_data['City'] = original_data['City'].str.lower()
-original_data['Position '] = original_data['Position '].str.lower()
-original_data['Company size'].replace({'up to 10': '10-'}, inplace=True)
-original_data['Main language at work'].replace({'english and german': 'english, german', 'deuglisch': 'english, german', 'both': 'english, german', 'russian, english': 'english, russian'}, inplace=True)
-original_data['Number of vacation days'].replace({'unlimited ': 'unlimited', '30 in contract (but theoretically unlimited)': '30', '(no idea)': 'unknown', '~25': '25', '23+': '23', 'unlimited': '30', '24 labour days': '24', '37.5': '37'}, inplace=True)
-original_data['Total years of experience'].replace({'1,5': '1.5', '1 (as qa engineer) / 11 in total': '11', '2,5': '2.5', '15, thereof 8 as cto': '15', '6 (not as a data scientist, but as a lab scientist)': '6', '383': 'unknown', 'less than year': '0'}, inplace=True)
-original_data['Seniority level'].replace({'no level ': 'no level', 'c-level executive manager': 'c-level', 'working student': 'student', 'entry level': 'junior', 'no idea, there are no ranges in the firm ': 'no level', 'self employed': 'freelancer'}, inplace=True)
-original_data['Years of experience in Germany'].replace({'1,5': '1.5', '4 (in switzerland), 0 (in germany)': '0', '4 month': '0', '2,5': '2.5', '0,5': '0.5', '3 months': '0', '< 1': '0', '⁰': '0', '0,3': '0.3', '6 (not as a data scientist, but as a lab scientist)': '6', 'less than year': '0'}, inplace=True)
-original_data['Employment status'].replace({'self-employed (freelancer)': 'freelancer', 'company director': 'manager', 'full-time position, part-time position, & self-employed (freelancing, tutoring)': 'freelancer', 'full-time, but 32 hours per week (it was my request, i\'m a student)': 'student', 'werkstudent': 'student'}, inplace=True)
-original_data['Have you received additional monetary support from your employer due to Work From Home? If yes, how much in 2020 in EUR'].replace({'no': '0', '180€': '180', '400 / month': '400', 'yes': 'unknown', '75% from government ': 'unknown', '40 every month': '40', '200 amazon voucher': '200', '600 nett': '600', '20%': 'unknown', 'i was able to move all equipment i need to work to home': 'unknown', '0,00': '0'}, inplace=True)
-original_data['Have you lost your job due to the coronavirus outbreak?'].replace({'i didn\'t but will be looking for new one because of covid': 'no', 'kurzarbeitzeit for 1.5 months': 'yes', 'have been a freelancer at the beginning of year': 'no', 'no, but there was a salary cut at 10% for 3 months and then at 5% for further 3 months': 'no', 'lost the job but for different reason': 'yes', 'leads and project inquiries have slowed down': 'no', 'laid off for a bit': 'yes', 'yes but found a new one with better pay / perks': 'yes'}, inplace=True)
-original_data['Company type'].replace({'consulting / agency': 'consulting', 'personal ltd': 'product', 'behörde': 'public', 'big commercial': 'corporation', 'outsorce': 'outsourcing', 'bank ': 'bank', 'it department of established business': 'corporation', 'systemhaus': 'it', 'consumer goods': 'retail', 'it-outsourcing': 'outsourcing', 'game company': 'product', 'financial ': 'finance', 'publishing and technology': 'product', 'market research ': 'consulting', 'e-commerce': 'ecommerce', 'energy ': 'energy', 'bloody enterprise': 'corporation', 'concern': 'corporation', 'utilities': 'energy', 'science institute ': 'research', 'research institute': 'research', 'ecommerce': 'ecommerce', 'semiconductor': 'hardware', 'automotive ': 'automotive', 'handel ': 'retail', 'consulting and product': 'consulting', 'full-time position in education, part-time position in at a data startup': 'startup', 'corporation ': 'corporation', 'transport & logistics': 'logistics', 'biergarten ': 'gastronomy', 'non-tech retail': 'retail', 'multinational ': 'corporation', 'faang': 'corporation', 'old industry': 'corporation', 'outsourse': 'outsourcing', 'freelance': 'self-employed'}, inplace=True)
-original_data['City'].replace({'konstanz area': 'konstanz', 'mannheim ': 'mannheim', 'boeblingen': 'böblingen', 'karlsruhe ': 'karlsruhe', 'riga, latvia': 'riga', 'dusseldorf': 'düsseldorf', 'würzburg': 'wuerzburg', 'braunschweig ': 'braunschweig', 'stuttgart ': 'stuttgart', 'nuremberg ': 'nuremberg', 'bodensee': 'konstanz', 'wroclaw': 'wrocław', 'dublin ': 'dublin', 'düsseldorf ': 'düsseldorf', 'bölingen': 'böblingen', 'tampere (finland)': 'tampere', 'warsaw, poland': 'warsaw', 'city in russia': 'unknown', 'cracow': 'cracovia', 'brunswick': 'braunschweig', 'lutterich': 'liege', 'milano': 'milan', 'nj, usa': 'unknown', 'warsaw': 'warszawa', 'heidelberg ': 'heidelberg', 'murnau am staffelsee ': 'murnau am staffelsee', 'zürich': 'zurich', 'brussels ': 'brussels', 'hildesheim ': 'hildesheim', 'prefer not to say': 'unknown', 'dusseldurf': 'düsseldorf', 'fr': 'frankfurt', 'darmstadt': 'darmstadt', 'duesseldorf': 'düsseldorf', 'ingolstadt ': 'ingolstadt', 'saint-petersburg': 'saint petersburg', 'saarbrücken': 'saarbruecken'}, inplace=True)
-original_data['Position '].replace({'backend developer': 'backend', 'frontend developer': 'frontend', 'designer (ui/ux)': 'designer', 'product manager': 'product manager', 'mobile developer': 'mobile', 'software architect': 'architect', 'team lead': 'team lead', 'test manager': 'qa manager', 'qa engineer': 'qa', 'data scientist': 'data scientist', 'hardware engineer': 'hardware', 'engineering manager': 'engineering manager', 'analytics engineer': 'analyst', 'reporting engineer': 'analyst', 'account managet': 'account manager', 'agile master ': 'agile coach', 'ml engineer': 'ml engineer', 'solution architect': 'architect', 'bi consultant': 'bi consultant', 'fullstack developer': 'fullstack', 'cloud architect': 'cloud architect', 'system administrator': 'system administrator', 'project manager': 'project manager', 'network engineer ': 'network engineer', 'vp engineering': 'engineering manager', 'data science manager': 'data scientist', 'scrum master': 'scrum master', 'firmware engineer': 'embedded', 'solutions architect': 'architect', 'data center manager': 'manager', 'c/c++/java developer': 'backend', 'devops manager': 'devops', 'tech lead': 'team lead', 'network administrator': 'system administrator', 'security manager': 'security', 'consultant data analytics': 'analyst', 'bi it consultant': 'bi consultant', 'graphic designer': 'designer', 'ios developer': 'mobile', 'cloud engineer': 'cloud', 'solutions architect': 'architect', 'senior program manager': 'program manager', 'db developer/data analyst': 'analyst', 'security engineer': 'security', 'business analyst': 'analyst', 'dba': 'database administrator', 'support engineer': 'support', 'testautomation': 'qa', 'sap developer': 'sap', 'systemadministrator': 'system administrator', 'sw architect': 'architect', 'sre': 'devops', 'fullstack engineer, ну или software engineer': 'fullstack', 'hiwi': 'working student', 'tech lead / full-stack': 'fullstack', 'marketing analyst': 'analyst', 'cto': 'cto', 'senior network&security eng.': 'security', 'software tester ': 'qa', 'sap bw senior consultant ': 'sap', 'qa manager ': 'qa manager', 'director of engineering': 'engineering manager', 'it spezialist': 'it', 'consultant ': 'consultant', 'software developer in test': 'qa', 'technical account manager ': 'account manager', 'tech leader': 'team lead', 'chief research officer': 'researcher', 'presales engineer ': 'sales', 'freelance ai lead / advisor': 'freelancer', 'business development manager operations ': 'manager', 'engineering manager': 'engineering manager', 'embedded software engineer': 'embedded', 'dana analyst': 'analyst', 'team manager': 'manager', 'data analyst ': 'analyst', 'working student (qa)': 'working student', 'architect ': 'architect', 'head of engineering': 'engineering manager', 'sap consultant': 'sap', 'bi consultant sap/ data engineer': 'data engineer', 'computer vision researcher': 'researcher', 'teamlead': 'team lead', 'senior data engineer': 'data engineer', 'head of it ': 'manager', 'lead software developer': 'backend', 'tech recruiting': 'recruiter', 'bi analyst ': 'analyst', 'bi developer / data engineer': 'data engineer', 'senior scrum master (rte)': 'scrum master', 'head of bi': 'manager', 'technical project manager': 'project manager', 'project manager ': 'project manager', 'support engineer': 'support', 'security engineer': 'security', 'big data engineer': 'data engineer', 'manager ': 'manager', 'ai management': 'manager', 'sales ': 'sales', 'xr developer': 'developer', 'student, software developer, data engineer': 'student', 'engineering team lead': 'team lead', 'dataops team lead': 'team lead', 'software sales': 'sales', 'beikoch': 'other', 'product management praktikant': 'working student', 'data analyst ': 'analyst', 'product analyst': 'analyst', 'it consulting ': 'consultant', 'data architect': 'architect', 'staff engineer': 'backend', 'computational linguist': 'researcher', 'rentner': 'other', 'technical business analyst': 'analyst', 'qa lead': 'qa manager', 'robotics engineer': 'robotics engineer', 'databengineer': 'data engineer', 'application consultant': 'consultant', 'lead developer': 'backend', 'software architekt': 'architect', 'testmanager': 'qa manager', 'erp consultant': 'erp consultant', 'researcher/ consumer insights analyst ': 'researcher', 'it operations manager': 'manager'}, inplace=True)
+df = pd.read_csv('/home/saeed/Documents/Github/CatDB/Experiments/data/EU-IT/EU-IT.csv')
 
-original_data['Your main technology / programming language'] = original_data['Your main technology / programming language'].str.lower().str.strip()
-original_data['Your main technology / programming language'] = original_data['Your main technology / programming language'].replace(['javascript / typescript','js','javascript ','typescript, javascript','typescript / angular','javascript/typescript','javascript / typescript','react/typescript','typescript ','javascript/typescripts','typescripts','javscript'], 'typescript')
-original_data['Your main technology / programming language'] = original_data['Your main technology / programming language'].replace(['c# .net','c#, .net core','c#/.net'], 'c# .net')
-original_data['Your main technology / programming language'] = original_data['Your main technology / programming language'].replace(['ruby on rails'], 'ruby')
-original_data['Your main technology / programming language'] = original_data['Your main technology / programming language'].replace(['.net'], '.net')
-original_data['Your main technology / programming language'] = original_data['Your main technology / programming language'].replace(['python ','pythin'], 'python')
-original_data['Your main technology / programming language'] = original_data['Your main technology / programming language'].replace(['java ','java, javascript','java, angular, aws','java, .net','java, kotlin'], 'java')
-original_data['Your main technology / programming language'] = original_data['Your main technology / programming language'].replace(['php '], 'php')
-original_data['Your main technology / programming language'] = original_data['Your main technology / programming language'].replace(['go/python','golang','golang '], 'go')
-original_data['Your main technology / programming language'] = original_data['Your main technology / programming language'].replace(['node.js','nodsjs'], 'nodejs')
-original_data['Your main technology / programming language'] = original_data['Your main technology / programming language'].replace(['kotlin '], 'kotlin')
-original_data['Your main technology / programming language'] = original_data['Your main technology / programming language'].replace(['sql '], 'sql')
-original_data['Your main technology / programming language'] = original_data['Your main technology / programming language'].replace(['c++/c#'], 'c++')
-original_data['Your main technology / programming language'] = original_data['Your main technology / programming language'].replace(['swift, objective-c','swift, objective-c, ios'], 'swift')
-original_data['Your main technology / programming language'] = original_data['Your main technology / programming language'].replace(['aws hadoop postgre typescript'], 'aws')
-original_data['Other technologies/programming languages you use often'] = original_data['Other technologies/programming languages you use often'].str.lower().str.strip()
-original_data['Other technologies/programming languages you use often'] = original_data['Other technologies/programming languages you use often'].replace(['kotlin, javascript / typescript','javascript / typescript, docker','.net, sql, aws, docker','python, aws, google cloud, kubernetes, docker','javascript / typescript','sql, aws, docker','python, kotlin, javascript / typescript, sql, aws','python, c/c++, sql','php, javascript / typescript, aws','go, kubernetes, docker','sql','kotlin, javascript / typescript, aws, google cloud, kubernetes, docker','javascript / typescript, sql, go, aws, kubernetes, docker, terraform','javascript / typescript, aws, docker','kotlin, java / scala, sql','python, c/c++, javascript / typescript, sql, go, aws, docker','swift, aws','python, go, aws, kubernetes, docker','python','kotlin','python, java / scala, sql, aws, google cloud, kubernetes, docker','python, r, google cloud, docker','python, javascript / typescript, java / scala, go, kubernetes, docker','python, kotlin, java / scala, sql, aws, kubernetes, docker','aws, kubernetes, docker','aws, kubernetes','python, c/c++, javascript / typescript, .net, sql','kotlin, aws, kubernetes, docker','c/c++','python, sql, google cloud, kubernetes, docker','go, aws, kubernetes, docker, elixir','php, sql, aws, kubernetes, docker','sql, go, kubernetes, docker','javascript / typescript, aws, kubernetes, docker','aws, google cloud, azure, docker','java / scala, aws, docker','javascript / typescript, ruby, sql','javascript / typescript, sql','kotlin, javascript / typescript, java / scala, sql, aws, google cloud, kubernetes, docker','.net, sql','javascript / typescript, java / scala','c/c++, .net, sql','python, sql, go, google cloud, bash','javascript / typescript, sql, aws, google cloud, kubernetes, docker, quorum','php','javascript / typescript, .net, sql, azure, docker','kotlin, javascript / typescript, java / scala, docker','python, java / scala, sql, go, aws, google cloud, kubernetes, docker','java / scala','python, c/c++, sql, docker','python, php, javascript / typescript, go, google cloud, kubernetes, docker','python, java / scala, aws, docker','kotlin, java / scala','kubernetes','python, .net, aws, azure, kubernetes, docker','kotlin, javascript / typescript, sql, docker','python, aws, docker','python, go, aws, kubernetes','python, javascript / typescript, sql, sap / abap, google cloud, azure','docker','python, javascript / typescript, .net, sql, aws, azure, kubernetes, docker','python, kotlin, java / scala, sql, kubernetes, docker','python, javascript / typescript, sql, kubernetes, docker','php, javascript / typescript, sql','python, sql, aws, azure, kubernetes, docker','kotlin, ruby','python, java / scala, r, sql, aws, azure','php, javascript / typescript, sql, docker','python, sql, aws, docker','sql, aws, google cloud, kubernetes, docker','javascript / typescript, sql, aws, docker','javascript / typescript, aws','java / scala, aws, kubernetes, docker','javascript / typescript, go','javascript / typescript, sql, aws, kubernetes, docker','python, javascript / typescript','javascript / typescript, java / scala, aws, kubernetes, docker','swift','javascript / typescript, .net, sql','kotlin, java / scala, sql, aws, kubernetes, docker','python, javascript / typescript, .net, aws, azure, kubernetes, docker','javascript / typescript, google cloud, docker','python, sql','python, java / scala, r, sql, go, aws, google cloud, azure, kubernetes, docker','kotlin, java / scala, sql, sap / abap, kubernetes, docker','php, javascript / typescript, dart','kotlin, java / scala, aws','ruby, kubernetes, docker','python, kotlin, javascript / typescript, go, aws, kubernetes, docker','sql, elixir','.net, sql, google cloud, kubernetes, docker','sap / abap, aws, google cloud, azure, kubernetes, docker','python, java / scala, perl','python, c/c++, sql, aws','python, ruby','python, kotlin, javascript / typescript, java / scala, docker','sql, go','aws, docker','php, javascript / typescript, go, aws, google cloud, kubernetes, docker','javascript / typescript, java / scala, sql','python, sql, aws, azure','python, php, javascript / typescript, sql, go, perl, aws, google cloud, azure, kubernetes, docker','python, docker','javascript / typescript, sql, google cloud, docker','python, kubernetes','python, sql, aws, kubernetes, docker','php, javascript / typescript, sql, aws, docker','swift, objective-c','python, c/c++, pytorch','kotlin, javascript / typescript, java / scala, aws, kubernetes, docker','php, aws, google cloud','python, kotlin, swift, javascript / typescript, java / scala, sql, aws, google cloud, kubernetes, docker','php, javascript / typescript, sql, google cloud, docker','r, sql, aws, azure, docker','php, javascript / typescript','php, sql, aws, azure, kubernetes, docker','kubernetes, docker','c/c++, php, .net, sql','python, c/c++','python, kubernetes, docker, ansible','c/c++, javascript / typescript, java / scala, sql, docker','python, c/c++, .net, java / scala','kotlin, java / scala, aws, kubernetes, docker','.net, azure','.net','javascript / typescript, kubernetes, docker, angular','python, javascript / typescript, go','java / scala, sql, aws, kubernetes, docker','python, javascript / typescript, java / scala, sql, aws, kubernetes, docker','java / scala, sql, google cloud, docker','python, javascript / typescript, sql, aws, docker','kotlin, .net, java / scala, dart','c/c++, sql, aws, docker','swift, javascript / typescript, java / scala, google cloud','python, javascript / typescript, java / scala, sql, aws, docker','kotlin, swift, go, aws, kubernetes, docker','r, sql, perl, docker','python, javascript / typescript, sql, go, perl, google cloud, kubernetes, docker','kotlin, java / scala, sql, aws, docker','php, javascript / typescript, perl, aws, kubernetes, docker','javascript / typescript, .net','kotlin, javascript / typescript, dart','python, aws, azure, kubernetes, docker','javascript / typescript, java / scala, go','swift, javascript / typescript, go, aws, kubernetes, docker','swift, flutter','r, sql','python, c/c++, swift, matlab ','php, javascript / typescript, .net, sql, google cloud, kubernetes, docker','javascript / typescript, go, aws, docker','.net, sql, azure, docker','python, r, azure','javascript / typescript, java / scala, sql, aws, docker','c/c++, pytorch','python, java / scala, sql, aws, azure','javascript / typescript, .net, sql, aws, docker','python, php, javascript / typescript, sql, docker','javascript / typescript, .net, sql, aws, azure, kubernetes, docker','aws, google cloud','adobe cloud, sketch, 3ds max','javascript / typescript, kubernetes, docker','php, sql','ruby, objective c','kotlin, sql, aws, docker, spark','python, .net, azure, kubernetes, docker','python, kotlin, java / scala, sql, go, aws, google cloud, kubernetes, docker','sql, go, aws, docker','kotlin, java / scala, azure','kotlin, sql, azure, kubernetes, docker, mongo','javascript / typescript, azure, kubernetes, graphql','sql, aws, kubernetes, docker, groovy','sql, go, aws, kubernetes, docker','javascript / typescript, sql, azure','sql, aws, azure, kubernetes, docker','java / scala, sql, aws, google cloud, azure, docker','sql, aws, kubernetes','kotlin, .net, sql, aws','javascript / typescript, ruby, aws, kubernetes, docker','javascript / typescript, aws, kubernetes','python, c/c++, javascript / typescript, ruby, .net, java / scala, sql, go, aws, kubernetes','python, kotlin, javascript / typescript, java / scala, aws, kubernetes, docker','python, php, javascript / typescript, sql','swift, objective-c','javascript / typescript, .net, sql, azure, kubernetes, docker','javascript / typescript, sql, go, aws, docker','go, aws, kubernetes, docker','python, javascript / typescript, docker','javascript / typescript, .net, sql, azure','erlang','python, kotlin, java / scala, google cloud, kubernetes, docker','javascript / typescript, ruby, sql, google cloud, kubernetes, docker','javascript / typescript, java / scala, aws','python, java / scala, docker','python, sql, docker','javascript / typescript, kubernetes','python, sql, kubernetes, docker','php, java / scala','php, javascript / typescript, java / scala, docker','php, go','elixir','python, sql, go, aws, kubernetes, docker','sap / abap','python, java / scala','kotlin, c/c++, java / scala','php, sql, go, docker, postgres','python, google cloud, kubernetes, docker','javascript / typescript, .net, sql, docker','python, c/c++, docker','javascript / typescript, sap / abap','python, kotlin, javascript / typescript, java / scala, sql, kubernetes, docker','linux','ruby, java / scala, go, aws, kubernetes, docker','kotlin, javascript / typescript, java / scala, kubernetes, docker','mongodb','javascript / typescript, .net, sql, go, kubernetes, docker','python, sql, azure','php, sql, perl','python, c/c++, javascript / typescript, java / scala','java / scala, sql','python, javascript / typescript, apex','c/c++, sql, aws, kubernetes, docker','python, javascript / typescript, aws, docker','python, c/c++, javascript / typescript, java / scala, sql, kubernetes','python, ruby, java / scala, google cloud, kubernetes, docker','python, c/c++, javascript / typescript, sql','python, kotlin, java / scala, sql, aws, google cloud, kubernetes, docker','python, javascript / typescript, .net, java / scala, kubernetes, docker','python, javascript / typescript, java / scala, go, aws, kubernetes, docker','python, go, aws, docker','python, c/c++, aws, kubernetes, docker','php, sql, kubernetes, docker','c/c++, php, sql','python, r, go','go','python, javascript / typescript, sql, go, aws, google cloud, kubernetes, docker','kotlin, sql, aws, kubernetes, docker','sql, kubernetes, docker','python, ruby, java / scala, go, rust, aws, kubernetes, docker, terraform, helm, packer','javascript / typescript, google cloud, kubernetes, docker','python, r, sql, sap / abap, aws, kubernetes, docker','python, javascript / typescript, sql, aws, docker, react, tailwindcss','php, sql, aws, docker','javascript / typescript, angular','python, javascript / typescript, google cloud','javascript / typescript, sql, docker','javascript / typescript, .net, kubernetes, docker','ruby, java / scala, aws, kubernetes, docker','google cloud','c/c++, javascript / typescript, .net, sql, azure','php, javascript / typescript, .net, sql, azure, kubernetes, docker, react, angular2+','java / scala, google cloud, kubernetes, docker','php, sql, go, aws, docker','swift, google cloud','php, sql, sap / abap, delphi','kotlin, php, javascript / typescript, java / scala','sql, aws, kubernetes, docker','python, kotlin, c/c++, java / scala','php, javascript / typescript, java / scala, sql, aws, docker','javascript / typescript, java / scala, aws, docker','c/c++, sql, vba','javascript / typescript, sql, go, docker','ruby, sql','javascript / typescript, .net, sql, aws, kubernetes, docker','nodejs','aws','python, javascript / typescript, azure','javascript / typescript, ruby, kubernetes, docker','javascript / typescript, google cloud','python, java / scala, aws','ruby','ruby, aws, kubernetes, docker','c/c++, kubernetes, docker','google cloud, kubernetes, docker, shell','python, c/c++, javascript / typescript, sql, docker','kotlin, java / scala, sql, kubernetes, docker','python, kotlin, java / scala, aws','python, sql, sap / abap, aws','sql, google cloud, kubernetes, docker','r, sql, aws, docker','python, kotlin, javascript / typescript, sql, aws, docker','python, javascript / typescript, sql, aws','r, sql, aws, kubernetes, docker','javascript / typescript, .net, java / scala, docker','python, java / scala, sql, azure, docker','go, aws, docker','python, javascript / typescript, java / scala, sql','ruby, sql, go, aws, kubernetes, docker','python, sql, aws, docker, unix shell scripts','python, java / scala, go, aws, kubernetes, docker','javascript / typescript, .net, azure, docker','java / scala, r, sql, docker, julia ','c/c++, clojure, assembly','python, php, javascript / typescript, sql, aws, kubernetes, docker','python, javascript / typescript, sql, docker','java / scala, kubernetes, docker','python, java / scala, sql, aws, kubernetes, docker','javascript / typescript, .net, azure','python, sql, aws, google cloud','python, sql, spark','python, php, aws, google cloud, kubernetes, docker','python, kotlin, java / scala, go, rust, aws, kubernetes, docker','kotlin, swift','python, java / scala, sql, aws, docker','java / scala, sql, go, google cloud, kubernetes, docker','kotlin, php, swift, javascript / typescript, java / scala, clojure, r, rust, aws, google cloud, azure, kubernetes, docker','python, aws, kubernetes','python, sql, aws, google cloud, kubernetes, docker','.net, java / scala, sql, go, aws, docker','r, sql, aws','python, sql, google cloud, docker','python, c/c++, swift, java / scala, r, sql, go, aws, google cloud, azure, kubernetes, docker','javascript / typescript, google cloud, kubernetes','python, javascript / typescript, sql','python, javascript / typescript, sql, perl, docker','python, google cloud','python, sql, aws, google cloud, docker','python, sql, perl, aws, google cloud, docker','python, swift, java / scala','python, sql, aws','python, r, sql','javascript / typescript, go, aws, google cloud, docker','python, javascript / typescript, sql, aws, kubernetes, docker','java / scala, go, aws, google cloud, kubernetes, docker','ruby, go, perl','javascript / typescript, java / scala, google cloud, docker','java / scala, sql, kubernetes, docker','kotlin, javascript / typescript, docker','python, squish','c/c++, .net, go, docker','python, javascript / typescript, sql, aws, google cloud, kubernetes, docker','python, aws, kubernetes, docker','python, java / scala, sql, aws','javascript / typescript, java / scala, sql, docker, groovy','python, kotlin, aws, docker','pl/sql','python, sql, aws, docker, spark, airflow','aws, terraform, scala spark, ','swift, java / scala','python, c/c++, java / scala, aws, kubernetes, docker','kotlin, c/c++, swift, ruby','go, aws, kubernetes','java / scala, google cloud, docker','python, kotlin, javascript / typescript, aws, kubernetes, docker','python, php, javascript / typescript, .net, sql, sap / abap','java / scala, go, aws, google cloud, azure, kubernetes, docker','c/c++, linux kernel','python, javascript / typescript, ruby, sql, aws, docker','python, c/c++, go','kotlin, ruby, go, rust, aws, kubernetes, docker','python, kotlin, java / scala, google cloud, kubernetes','javascript / typescript, aws, azure, docker','javascript / typescript, c#','kotlin, javascript / typescript, aws, kubernetes, docker','javascript / typescript, sql, aws','python, azure, kubernetes','python, javascript / typescript, java / scala, sql, go, aws, kubernetes, docker','sql, sap / abap','r, aws, google cloud, kubernetes, docker','python, sql, go, aws, google cloud, azure, kubernetes, docker','python, php, sql, perl, aws, google cloud, kubernetes, docker','javascript / typescript, aws, docker, node','javascript / typescript, .net, sql, google cloud','javascript / typescript, azure','php, java / scala, sql, aws, docker','python, aws','php, javascript / typescript, java / scala','python, java / scala, sql, aws, google cloud, azure','python, go','perl','c/c++, .net, java / scala, aws, kubernetes, docker','python, javascript / typescript, sql, rust, aws, kubernetes, docker','python, sql, aws, azure, docker','kotlin, java / scala, google cloud, kubernetes, docker','swift, javascript / typescript, java / scala, clojure','python, javascript / typescript, sql, sap / abap','sql, aws','ruby, java / scala, sql, go, aws, google cloud, kubernetes, docker','python, javascript / typescript, sql, aws, google cloud, kubernetes, docker, elixir','python, tensorflow, theano, pytorch','java / scala, aws, azure, kubernetes, docker','python, kotlin, javascript / typescript, sql, docker','python, .net, sql','python, javascript / typescript, sql, aws, google cloud, docker','javascript / typescript, java / scala, go, aws, docker','python, aws, kubernetes, docker, react','python, kotlin, swift, javascript / typescript'], 'javascript / typescript')
-original_data['Other technologies/programming languages you use often'] = original_data['Other technologies/programming languages you use often'].replace(['c# .net','c#, .net core','c#/.net'], 'c# .net')
-original_data['Other technologies/programming languages you use often'] = original_data['Other technologies/programming languages you use often'].replace(['ruby on rails'], 'ruby')
-original_data['Other technologies/programming languages you use often'] = original_data['Other technologies/programming languages you use often'].replace(['.net'], '.net')
-original_data['Other technologies/programming languages you use often'] = original_data['Other technologies/programming languages you use often'].replace(['python ','pythin'], 'python')
-original_data['Other technologies/programming languages you use often'] = original_data['Other technologies/programming languages you use often'].replace(['java ','java, javascript','java, angular, aws','java, .net','java, kotlin'], 'java')
-original_data['Other technologies/programming languages you use often'] = original_data['Other technologies/programming languages you use often'].replace(['php '], 'php')
-original_data['Other technologies/programming languages you use often'] = original_data['Other technologies/programming languages you use often'].replace(['go/python','golang','golang '], 'go')
-original_data['Other technologies/programming languages you use often'] = original_data['Other technologies/programming languages you use often'].replace(['node.js','nodsj'], 'nodejs')
-original_data['Other technologies/programming languages you use often'] = original_data['Other technologies/programming languages you use often'].replace(['kotlin '], 'kotlin')
-original_data['Other technologies/programming languages you use often'] = original_data['Other technologies/programming languages you use often'].replace(['sql '], 'sql')
-original_data['Other technologies/programming languages you use often'] = original_data['Other technologies/programming languages you use often'].replace(['c++/c#'], 'c++')
-original_data['Other technologies/programming languages you use often'] = original_data['Other technologies/programming languages you use often'].replace(['swift, objective-c','swift, objective-c, ios'], 'swift')
-original_data['Other technologies/programming languages you use often'] = original_data['Other technologies/programming languages you use often'].replace(['aws hadoop postgre javascript / typescript'], 'aws')
+df['Gender'] = df['Gender'].str.lower()
 
-original_data.to_csv(clean_data_path, index=False)
+df['Company size'] = df['Company size'].str.lower().replace({'up to 10': '<=10'})
+
+df['Сontract duration'] = df['Сontract duration'].str.lower().replace({'0': 'unlimited contract'})
+
+df['Main language at work'] = df['Main language at work'].str.lower().replace(
+    {'english and german': 'english', 
+     '50/50': 'english', 
+     'русский': 'russian', 
+     'deuglisch': 'english', 
+     'both': 'english',
+     'russian, english': 'english'})
+
+df['Number of vacation days'] = df['Number of vacation days'].str.lower().replace(
+    {'unlimited ': 'unlimited',
+     '30 in contract (but theoretically unlimited)': '30',
+     'unlimited': '30',
+     '~25': '25',
+     '23+': '23',
+     '24 labour days': '24',
+     '37.5': '38',
+     '(no idea)': '30'})
+df['Number of vacation days'] = pd.to_numeric(df['Number of vacation days'], errors='coerce').fillna(-1).astype(int)
+
+
+df['Total years of experience'] = df['Total years of experience'].str.lower().replace(
+    {'1 (as qa engineer) / 11 in total': '11',
+     '15, thereof 8 as cto': '15',
+     '6 (not as a data scientist, but as a lab scientist)': '6',
+     'less than year': '0'}).str.replace(',', '.')
+df['Total years of experience'] = pd.to_numeric(df['Total years of experience'], errors='coerce').fillna(-1).astype(float)
+
+df['Seniority level'] = df['Seniority level'].str.lower().replace(
+    {'no level ': 'no level',
+     'c-level executive manager': 'c-level',
+     'c-level': 'head',
+     'working student': 'student',
+     'entry level': 'junior',
+     'intern': 'student',
+     'student': 'junior',
+     'self employed': 'no level'})
+
+df['Years of experience in Germany'] = df['Years of experience in Germany'].str.lower().replace(
+    {'4 (in switzerland), 0 (in germany)': '0',
+     '4 month': '0',
+     '3 months': '0',
+     '< 1': '0',
+     '⁰': '0',
+     '6 (not as a data scientist, but as a lab scientist)': '0',
+     'less than year': '0'}).str.replace(',', '.')
+df['Years of experience in Germany'] = pd.to_numeric(df['Years of experience in Germany'], errors='coerce').fillna(-1).astype(float)
+
+df['Employment status'] = df['Employment status'].str.lower().replace(
+    {'self-employed (freelancer)': 'self-employed',
+     'company director': 'full-time employee',
+     'founder': 'full-time employee',
+     'working student': 'werkstudent',
+     'full-time position, part-time position, & self-employed (freelancing, tutoring)': 'full-time employee',
+     'full-time, but 32 hours per week (it was my request, i\'m a student)': 'full-time employee'})
+
+df['Have you received additional monetary support from your employer due to Work From Home? If yes, how much in 2020 in EUR'] = df['Have you received additional monetary support from your employer due to Work From Home? If yes, how much in 2020 in EUR'].str.lower().replace(
+    {'no': '0',
+     '180€': '180',
+     '400 / month': '400',
+     'yes': '0',
+     '75% from government ': '0',
+     '40 every month': '40',
+     '200 amazon voucher': '200',
+     '600 nett': '600',
+     '20%': '0',
+     'i was able to move all equipment i need to work to home': '0',
+     '0,00': '0'}).str.replace(',', '.')
+df['Have you received additional monetary support from your employer due to Work From Home? If yes, how much in 2020 in EUR'] = pd.to_numeric(df['Have you received additional monetary support from your employer due to Work From Home? If yes, how much in 2020 in EUR'], errors='coerce').fillna(-1).astype(float)
+
+df['Have you lost your job due to the coronavirus outbreak?'] = df['Have you lost your job due to the coronavirus outbreak?'].str.lower().replace(
+    {'i didn\'t but will be looking for new one because of covid': 'no',
+     'kurzarbeitzeit for 1.5 months': 'no',
+     'have been a freelancer at the beginning of year': 'no',
+     'no, but there was a salary cut at 10% for 3 months and then at 5% for further 3 months': 'no',
+     'lost the job but for different reason': 'yes',
+     'leads and project inquiries have slowed down': 'no',
+     'laid off for a bit': 'yes',
+     'yes but found a new one with better pay / perks': 'yes'})
+
+df['Company type'] = df['Company type'].str.lower().replace(
+    {'consulting / agency': 'consulting',
+     'personal ltd': 'product',
+     'behorde': 'product',
+     'big commercial': 'product',
+     'outsorce': 'outsourse',
+     'bank ': 'bank',
+     'it department of established business': 'product',
+     'systemhaus': 'product',
+     'consumer goods': 'product',
+     'it-outsourcing': 'outsourse',
+     'game company': 'product',
+     'no': 'product',
+     'financial ': 'finance',
+     'publishing and technology': 'product',
+     'market research ': 'product',
+     'e-commerce': 'ecommerce',
+     'bloody enterprise': 'enterprise',
+     'concern': 'enterprise',
+     'utilities': 'enterprise',
+     'science institute ': 'research institute',
+     'retail': 'ecommerce',
+     'ecommerce': 'e-commerce',
+     'e-commerce': 'e-commerce',
+     'automotive ': 'automotive',
+     'handel ': 'product',
+     'consulting and product': 'consulting',
+     'full-time position in education, part-time position in at a data startup': 'startup',
+     'corporation ': 'corporation',
+     'transport & logistics': 'product',
+     'biergarten ': 'product',
+     'non-tech retail': 'product',
+     'corporate incubator': 'startup',
+     'multinational ': 'corporation',
+     'old industry': 'product',
+     'outsourse': 'outsource',
+     'freelance': 'startup'})
+
+df['City'] = df['City'].str.lower().replace(
+    {'konstanz area': 'konstanz',
+     'mannheim ': 'mannheim',
+     'boeblingen': 'böblingen',
+     'nürnberg': 'nuremberg',
+     'karlsruhe ': 'karlsruhe',
+     'dusseldorf': 'düsseldorf',
+     'würzburg': 'wuerzburg',
+     'cracovia': 'cracow',
+     'braunschweig ': 'brunswick',
+     'stuttgart ': 'stuttgart',
+     'nuremberg ': 'nuremberg',
+     'bodensee': 'konstanz',
+     'wroclaw': 'warsaw',
+     'dublin ': 'dublin',
+     'düsseldorf ': 'düsseldorf',
+     'bölingen': 'boeblingen',
+     'tampere (finland)': 'tampere',
+     'warsaw, poland': 'warsaw',
+     'city in russia': 'moscow',
+     'murnau am staffelsee ': 'murnau am staffelsee',
+     'zürich': 'zurich',
+     'brussels ': 'brussels',
+     'hildesheim ': 'hildesheim',
+     'prefer not to say': 'berlin',
+     'dusseldurf': 'düsseldorf',
+     'fr': 'frankfurt',
+     'duesseldorf': 'düsseldorf',
+     'ingolstadt ': 'ingolstadt',
+     'saint-petersburg': 'st. petersburg',
+     'saarbrücken': 'saarbruecken'})
+
+df['Position '] = df['Position '].str.lower().replace(
+    {'team lead': 'tech lead',
+     'test manager': 'qa manager',
+     'analytics engineer': 'data engineer',
+     'account managet': 'manager',
+     'agile master ': 'agile coach',
+     'ml engineer': 'data scientist',
+     'solutions architect': 'solution architect',
+     'fullstack developer': 'software engineer',
+     'cloud architect': 'software architect',
+     'system administrator': 'systeadministrator',
+     'network engineer ': 'network engineer',
+     'vp engineering': 'manager',
+     'data science manager': 'manager',
+     'scrum master': 'agile coach',
+     'firmware engineer': 'hardware engineer',
+     'data center manager': 'manager',
+     'c/c++/java developer': 'software engineer',
+     'devops manager': 'devops',
+     'network administrator': 'network engineer',
+     'security manager': 'security engineer',
+     'consultant data analytics': 'consultant',
+     'bi it consultant': 'bi consultant',
+     'graphic designer': 'designer (ui/ux)',
+     'ios developer': 'mobile developer',
+     'cloud engineer': 'software engineer',
+     'solutions architect': 'solution architect',
+     'stuttgart': 'software engineer',
+     'senior program manager': 'program manager',
+     'db developer/data analyst': 'data analyst',
+     'dba': 'data engineer',
+     'support engineer': 'software engineer',
+     'testautomation': 'qa engineer',
+     'sap developer': 'software engineer',
+     'systemadministrator': 'systeadministrator',
+     'sw architect': 'software architect',
+     'sre': 'devops',
+     'fullstack engineer, ну или software engineer': 'software engineer',
+     'hiwi': 'student',
+     'project manager': 'program manager',
+     'tech lead / full-stack': 'tech lead',
+     'cto': 'head',
+     'senior network&security eng.': 'security engineer',
+     'software tester ': 'qa engineer',
+     'sap bw senior consultant ': 'sap consultant',
+     'qa manager ': 'qa manager',
+     'director of engineering': 'manager',
+     'it spezialist': 'software engineer',
+     'consultant ': 'consultant',
+     'software developer in test': 'qa engineer',
+     'technical account manager ': 'manager',
+     'chief research officer': 'researcher',
+     'presales engineer ': 'software engineer',
+     'freelance ai lead / advisor': 'data scientist',
+     'business development manager operations ': 'business development manager',
+     'engineering manager': 'manager',
+     'embedded software engineer': 'software engineer',
+     'dana analyst': 'data analyst',
+     'team manager': 'manager',
+     'data analyst ': 'data analyst',
+     'working student (qa)': 'student',
+     'architect ': 'software architect',
+     'head of engineering': 'head',
+     'bi consultant sap/ data engineer': 'bi consultant',
+     'computer vision researcher': 'researcher',
+     'teamlead': 'tech lead',
+     'head of it ': 'head',
+     'lead software developer': 'software engineer',
+     'tech recruiting': 'recruiter',
+     'bi analyst ': 'bi analyst',
+     'bi developer / data engineer': 'bi consultant',
+     'senior scrum master (rte)': 'agile coach',
+     'head of bi': 'head',
+     'technical project manager': 'program manager',
+     'project manager ': 'program manager',
+     'support engineer': 'software engineer',
+     'security engineer': 'security engineer',
+     'big data engineer': 'data engineer',
+     'manager ': 'manager',
+     'ai management': 'manager',
+     'sales ': 'manager',
+     'xr developer': 'software engineer',
+     'student, software developer, data engineer': 'student',
+     'engineering team lead': 'tech lead',
+     'dataops team lead': 'tech lead',
+     'software sales': 'manager',
+     'beikoch': 'no level',
+     'product management praktikant': 'product manager',
+     'data analyst ': 'data analyst',
+     'product analyst': 'data analyst',
+     'team lead': 'tech lead',
+     'it consulting ': 'consultant',
+     'data architect': 'software architect',
+     'staff engineer': 'software engineer',
+     'head of it': 'head',
+     'computational linguist': 'researcher',
+     'rentner': 'no level',
+     'technical business analyst': 'business analyst',
+     'qa lead': 'qa manager',
+     'robotics engineer': 'hardware engineer',
+     'databengineer': 'data engineer',
+     'application consultant': 'consultant',
+     'lead developer': 'software engineer',
+     'software architekt': 'software architect',
+     'testmanager': 'qa manager',
+     'erp consultant': 'consultant',
+     'researcher/ consumer insights analyst ': 'researcher',
+     'it operations manager': 'manager'})
+
+df['Your main technology / programming language'] = df['Your main technology / programming language'].str.lower().replace(
+    {'javascript / typescript': 'javascript',
+     'aws, gcp, python,k8s': 'python',
+     'aws hadoop postgre typescript': 'typescript',
+     'kotlin': 'kotlin',
+     'nodejs': 'node.js',
+     'java': 'java',
+     'go/python': 'python',
+     'с#': 'c#',
+     'php': 'php',
+     'ruby on rails': 'ruby',
+     'javascript/es6': 'javascript',
+     '.net': '.net',
+     'google cloud platform': 'gcp',
+     'js': 'javascript',
+     'c#, .net core': 'c#',
+     'vhdl': 'hardware',
+     'php ': 'php',
+     'none': '-',
+     'ml': 'python',
+     'scala, react.js': 'scala',
+     'ml/python': 'python',
+     'javascript/typescript': 'javascript',
+     'ruby on rails': 'ruby',
+     'azure, sap': 'sap',
+     'frontend': 'javascript',
+     'java, javascript': 'java',
+     'python ': 'python',
+     'java ': 'java',
+     '-': 'other',
+     'typescript, javascript': 'typescript',
+     'pegasystems platform ': 'other',
+     'c++, java, embedded c': 'c++',
+     'cloud': 'other',
+     'dc management': 'other',
+     '--': 'other',
+     'swift': 'swift',
+     'java, angular, aws': 'java',
+     'swift, objective-c': 'swift',
+     'golang': 'go',
+     'go': 'go',
+     'devops': 'other',
+     '.net': '.net',
+     'network': 'other',
+     'nothing': 'other',
+     'qlik bi tool, sql': 'sql',
+     'blockchain': 'other',
+     'autonomous driving': 'other',
+     'js, typescript, angular': 'javascript',
+     't-sql': 'sql',
+     'java, terraform': 'java',
+     'pascal, vb.net, c#': 'c#',
+     'javascript ': 'javascript',
+     'angular, react': 'javascript',
+     'nodejs, typescript, aws': 'node.js',
+     'erlang': 'other',
+     'java, js': 'java',
+     'objective-c': 'other',
+     'qa': 'other',
+     'c++/c#': 'c++',
+     'abap': 'sap',
+     'java/kotlin': 'java',
+     'typescript / angular': 'typescript',
+     'react/typescript': 'typescript',
+     'golang ': 'go',
+     'salesforce ': 'other',
+     'java/c++': 'java',
+     'scala / python': 'scala',
+     'java/scala': 'java',
+     'web developer': 'javascript',
+     'javascript/typescript': 'javascript',
+     'typescript, react': 'typescript',
+     'python / javascript (react)': 'python',
+     'javascript / typescript': 'javascript',
+     'java': 'java',
+     'apache spark': 'spark',
+     'computer networking,  network security ,sql': 'sql',
+     'sap bw / abap': 'sap',
+     'kotlin ': 'kotlin',
+     'jira': 'other',
+     'qml': 'other',
+     'c#/.net': 'c#',
+     'kotlin, java': 'kotlin',
+     'linux kernel': 'linux',
+     'several': 'other',
+     'android/kotlin': 'kotlin',
+     'embedded': 'other',
+     'java/groovy': 'java',
+     'python + sql': 'python',
+     'typescript, web apps': 'typescript',
+     'terraform ': 'other',
+     'java, .net': 'java',
+     'python, statistics, sql': 'python',
+     'sql, bq, tableau, gtm, ga': 'sql',
+     'react ': 'javascript',
+     'business development manager operation ': 'other',
+     'management': 'other',
+     'java, kotlin': 'java',
+     'nodejs': 'node.js',
+     'ts': 'typescript',
+     'spark, pytorch': 'python',
+     'c/c++': 'c++',
+     'java/scala/go/clouds/devops': 'java',
+     'linux/unix, git, virtualisation platforms, *shell(s) scripts': 'linux',
+     'python, sql': 'python',
+     'dwh': 'other',
+     'sketch, figma': 'other',
+     'k8s': 'kubernetes',
+     'frontend: react, node.js': 'javascript',
+     'vb, rpa, python': 'python',
+     'fbd': 'other',
+     'c, c++': 'c++',
+     'swift, objective-c, ios': 'swift',
+     'javascript / typescript': 'javascript',
+     'sap / abap': 'sap',
+     'kubrrnetes': 'kubernetes',
+     'networking, linux, automation, cloud': 'other',
+     'uml': 'other',
+     'js, reactjs ': 'javascript',
+     'cobol': 'other',
+     'clojure': 'other',
+     'js, wdio': 'javascript',
+     'terraform, kubernetes, aws, gcp, ansible, puppet': 'kubernetes',
+     'spring': 'java',
+     'офмф': 'other',
+     'react js': 'javascript',
+     'typescript ': 'typescript',
+     'typescript/angular': 'typescript',
+     'kotlin/php': 'kotlin',
+     'sap abap': 'sap',
+     'ai': 'python',
+     'pythin': 'python',
+     'julia': 'other',
+     'java & php': 'java',
+     'sql ': 'sql',
+     'c++/c': 'c++',
+     'angular, typescript': 'typescript',
+     'pyrhon': 'python',
+     'pm tools': 'other',
+     'grails, groovy': 'other',
+     'python ': 'python',
+     'react / javascript': 'javascript',
+     'perl': 'other',
+     'python, cloud computing ': 'python',
+     'haskell': 'other',
+     'javscript': 'javascript',
+     'python (django)': 'python',
+     'network automation': 'other',
+     'kubernetes, terraform, gcp': 'kubernetes',
+     'powershell': 'other',
+     'python, scala': 'python',
+     'django, flask, plotly dash': 'python',
+     'javascript, angular': 'javascript',
+     'sas,sql,python': 'python',
+     'node': 'node.js',
+     'python/sql': 'python',
+     'php, js, python, docker': 'python',
+     'c, matlab': 'other',
+     'typescript, kotlin': 'typescript',
+     'apotheker': 'other',
+     'javascript, typescript': 'javascript',
+     'tricentis tosca': 'other',
+     'swift/kotlin': 'swift',
+     'java & distributed systems stuff': 'java',
+     'jenkins bash': 'other',
+     'test management ': 'other',
+     'nodejs/ts': 'node.js',
+     'php/mysql': 'php',
+     'angular, typescript': 'typescript',
+     'nlp, python': 'python',
+     'python, whole apache data science stack, aws': 'python',
+     'embedded c++': 'c++',
+     'nodsjs': 'node.js',
+     'javascript/typescript': 'javascript',
+     'kuberenetes, openstack': 'kubernetes',
+     'c/c++': 'c++',
+     'js, java': 'java',
+     'python, pytorch': 'python',
+     'ps, sketch, react, css3': 'javascript',
+     'python/nlp': 'python',
+     'scala, apache spark': 'scala',
+     'swift, objective-c': 'swift',
+     'react.js / typescript': 'typescript',
+     'bi, dwh, etl/elt': 'other',
+     'gcp': 'gcp',
+     'web': 'javascript',
+     'pl/sql': 'sql',
+     'scala': 'scala',
+     'java / scala': 'java',
+     'magento': 'php',
+     'python, database technologies': 'python',
+     'c++, c#': 'c++',
+     'java backend': 'java',
+     '.net, c++, spss, embeddded': '.net',
+     '.net, angular': '.net',
+     'atlassian jira': 'other',
+     'qlik': 'other',
+     'consumer analysis': 'other'})
+
+
+df['Other technologies/programming languages you use often'] = df['Other technologies/programming languages you use often'].str.split(',')
+df = df.explode('Other technologies/programming languages you use often')
+df = pd.concat([df,pd.get_dummies(df['Other technologies/programming languages you use often'].str.strip(), prefix='Other technologies/programming languages you use often_')], axis=1)
+df = df.drop(columns=['Other technologies/programming languages you use often'])
+df.to_csv('/home/saeed/Documents/Github/CatDB/Experiments/data/EU-IT/EU-IT_Google_clean.csv', index=False)
 # ```end

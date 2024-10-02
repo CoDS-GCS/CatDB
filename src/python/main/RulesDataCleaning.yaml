@@ -29,6 +29,6 @@
     output: A binary response (Yes/No) indicating whether the inferred feature type is categorical.
     Rule_1: Analyze the column name, sample values, and relevant LLM knowledge to determine the feature type.
     Rule_2: The user will provide the column name and a list of sample values.
-    Rule_3: Carefully examine the user-provided data to identify whether the column can be considered a categorical feature.
-    Rule_4: 'Return results in the following format: "column_name:Yes" if the feature is categorical, or "column_name:No" if it is not.'
+    Rule_3: Carefully examine the user-provided data to identify whether the column can be considered a categorical feature or a list feature with a joined list of categorical values.
+    Rule_4: 'Return results in the following format: "column_name:Yes" if the feature is categorical, for none categorical column "column_name:No", and  if it is a list of categorical values "column:List".'
     Rule_5: Avoid providing additional explanations or messages.

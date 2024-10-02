@@ -522,7 +522,7 @@ if __name__ == '__main__':
         write_data = True
 
     else:
-        data = pd.read_csv(f"{args.dataset_root_path}/{args.dataset_name}/{args.target_table}.csv", low_memory=False, encoding="ISO-8859-1")
+        data = pd.read_csv(f"{args.dataset_root_path}/{args.dataset_name}/{args.target_table}.csv", low_memory=False, encoding='UTF-8')#encoding="ISO-8859-1"
         write_data = False
 
     # Split and save original dataset

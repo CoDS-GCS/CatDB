@@ -53,10 +53,10 @@ CMD=./explocal/exp1_catalog/runExperiment1.sh
 # $CMD IMDB-IJS binary 
 # $CMD Yelp regression 
 
-$CMD EU-IT multiclass # OK
-$CMD Etailing multiclass # OK
-$CMD Midwest-Survey multiclass # OK
-$CMD WiFi binary # OK
+# $CMD EU-IT multiclass # OK
+# $CMD Etailing multiclass # OK
+# $CMD Midwest-Survey multiclass # OK
+# $CMD WiFi binary # OK
 $CMD Utility regression # OK
 
 # $CMD Lahman-2014 regression 

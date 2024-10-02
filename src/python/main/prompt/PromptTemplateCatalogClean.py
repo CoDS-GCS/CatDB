@@ -25,7 +25,7 @@ class CatalogCleaningPrompt(BasicPrompt):
             row_msg = []
             if (self.df_content.loc[r]["column_data_type"] in {'str', 'date'} and self.df_content.loc[r]["is_categorical"] == False):
                 row_msg.append(f'# Column Name is "{self.df_content.loc[r]["column_name"]}"')
-                row_msg.append(f'# Distinct-Percentage [{self.df_content.loc[r]["distinct_count"]/self.catalog.nrows}%]')
+                row_msg.append(f'Distinct-Percentage [{self.df_content.loc[r]["distinct_count"]/self.catalog.nrows}%]')
                 row_msg.append(f'samples [{self.df_content.loc[r]["samples"]}]')
                 content.append(", ".join(row_msg))
         if len(content) == 0:

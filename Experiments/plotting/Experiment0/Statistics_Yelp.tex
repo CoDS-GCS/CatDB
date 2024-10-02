@@ -1,0 +1,68 @@
+\newcommand{\addplotStatistics}[1]{
+	   \addplot+[draw=none,fill=dblue2 ]
+	   table[ y=total_values_count, col sep=comma, x=col_index] {#1};
+     \label{filled}; 
+
+     \addplot+[draw=none, fill=mvcolor] 
+	   table[ y=missing_values_count, col sep=comma, x=col_index] {#1};	   
+	   \label{missed};       
+};
+
+\newcommand{\addplotDistinct}[1]{
+	   \addplot[draw=none,fill=dred1 ]
+	   table[ y=distinct_values_count, col sep=comma, x=col_index] {#1};
+     \label{distinct};     
+};
+
+\begin{tikzpicture}[
+  every axis/.style={
+    %major x tick style = {draw=none},
+    ybar stacked,    
+    every major tick/.append style={ line width=0.5pt,major tick length=2pt, black},
+    axis line style={draw=none},
+    ymin=0,
+    %xmin=1,
+    xmax=194,
+    ymax=229907,
+    tick label style={/pgf/number format/fixed},
+    scaled y ticks=false,
+    enlarge x limits=0.02,
+    x tick label as interval=false,
+    enlarge y limits=false,
+    ylabel={},%{Samples},
+    xlabel={\# Column},
+    xtick={1,50,100,150,200},
+    ytick={0,100000,200000,300000,400000},
+    yticklabels={0,1e5,2e5,3e5,4e5},
+    ytick align=outside,
+    xtick align=outside,
+    xtick pos=left,
+    ytick pos=left,
+    yticklabel style = {font=\normalsize},
+    ylabel style = {yshift=-2pt},
+    xticklabel style = {font=\normalsize, xshift=0pt},
+    height=0.4\columnwidth,
+    width=0.38\columnwidth,    
+    bar width=0.001718213058419244\columnwidth,	 
+    %ymajorgrids=true,
+    %grid style=dotted,   
+    %minor grid style={gray!50}, 
+    legend image code/.code={\draw [#1] (0cm,-0.1cm) rectangle (0.12cm,0.12cm); },
+  }	 
+]
+
+\begin{axis}
+  \addplotStatistics{../archive/VLDB2025/statistics/Yelp_statistics.dat};	  	  
+\end{axis}
+
+\begin{axis} [hide axis]
+  \addplotDistinct{../archive/VLDB2025/statistics/Yelp_statistics.dat};	  	  
+\end{axis}
+
+% \node [draw=none,inner sep=0, font=\footnotesize, anchor=west] (leg1) at (rel axis cs: -0.65,1.16) {\shortstack[l]{
+%   \ref{filled} Value 
+%   \ref{missed} Missed 
+%   \ref{distinct} Distinct		 			
+% }};
+
+\end{tikzpicture}

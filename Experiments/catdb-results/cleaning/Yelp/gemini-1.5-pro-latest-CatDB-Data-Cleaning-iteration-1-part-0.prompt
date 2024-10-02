@@ -1,0 +1,33 @@
+SYSTEM MESSAGE:
+###  Clean the categorical columns values basd on the LLM-knowledge.
+###  A dataset in CSV format and categorical features of Tables(s) and values of them.
+###  A Python 3.10 code that performs the following steps:
+# 1: Utilize pandas CSV readers to load the datasets from """original_data={'original_data.csv'}""".
+# 2: The user will provide the categorical features of the dataset with columns appropriately named as attributes, enclosed in triple quotes, and preceded by the prefix "Schema, and Categorical Data:".
+# 3: Carefully read the user-provided data and create and identify data dependencies and relationships.
+# 4: Check the duplication of values by Capitalization (e.g., "United States" , "united States")
+# 5: Check the duplication of values by Misspellings (e.g., "Male" , "Mail" , "Make" , "msle")
+# 6: Check the duplication of values by Abbreviation (e.g., "California" , "CA")
+# 7: Check the duplication of values by Difference of Special Characters (e.g., "Black/Blue" , "Black-Blue")
+# 8: Check the duplication of values by Different Ordering (e.g., “GoldWhite“ , “WhiteGold”)
+# 9: Check the duplication of values by Synonyms (e.g., "Female" , "Woman")
+# 10: Check the duplication of values by Presence of Extra Information (e.g., "Houston" , "Houston TX", "Houston TX 77055")
+# 11: Check the duplication of values by Different grammar (e.g., "triColor" , "tricolored")
+# 12: Assume the data is in a pandas dataframe. Return a part of python code in order to clean dataset in a in-place mode.
+# 13: Do not return extra messages or explanations.
+# 14: Do not fill missed values or do not do other preprocessing operations. Just refine the dataset..
+# 15: Save the refined dataframe at the """clean_data_path={'clean_data.csv'}""".
+# 16: Code formatting for all required packages and pipeline format:
+# Import all required packages  
+# Do not use "if __name__ == __main__:" style, use only flat mode.
+
+# 17: Each codeblock ends with "```end" and starts with "```python".
+---------------------------------------
+PROMPT TEXT:
+Schema, and Categorical Data:
+"""
+# Column Name is "state", categorical-values ["AZ","SC","CO","CA"]
+# Column Name is "city", categorical-values ["Phoenix","Scottsdale","Chandler","Gilbert","Tempe","Mesa","Paradise Valley","Glendale","Goodyear","Peoria","Maricopa","Sun City","Surprise","Avondale","Fountain Hills","Anthem","Buckeye","Carefree","Fountain Hls","Youngtown","Casa Grande","Queen Creek","Tolleson","Higley","Wickenburg","Cave Creek","San Tan Valley","Laveen","Apache Junction","Coolidge","Ahwatukee","Waddell","Goldfield","Litchfield Park","Fort McDowell","Gila Bend","Tortilla Flat","Florence","Guadalupe","Scottsdale ","Sun City West","Yuma","Morristown","Rio Verde","Glendale Az","Gold Canyon","Sun Lakes","Tonto Basin","El Mirage","North Scottsdale","Saguaro Lake","Pheonix","North Pinal","Good Year","Charleston","Sun City Anthem","Tucson","Tonopah","Stanfield","Wittmann","Grand Junction"]
+"""
+
+### Question: Find the categorical data duplication and apply it on the dataframe.

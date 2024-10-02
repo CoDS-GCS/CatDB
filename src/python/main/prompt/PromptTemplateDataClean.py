@@ -20,7 +20,6 @@ class DataCleaningPrompt(BasicPrompt):
         col_vals = dict()
         col_vals_len = dict()
         for r in range(0, len(self.df_content)):
-            # ) or self.df_content.loc[r]["column_data_type"] == 'list'
             if self.df_content.loc[r]["is_categorical"] and self.flag_categorical_values and (self.df_content.loc[r]["column_data_type"] == 'str' and self.df_content.loc[r]["categorical_values_count"] > 2):
                 text_size += len(f'# Column Name is "{self.df_content.loc[r]["column_name"]}"')
                 text_size += len(f'categorical-values [{self.df_content.loc[r]["categorical_values"]}]')

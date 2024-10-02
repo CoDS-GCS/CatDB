@@ -93,6 +93,9 @@ class BasicPrompt(object):
         content = []
         target_text = "**This is a target column**"
         for r in range(0, len(self.df_content)):
+            if self.df_content.loc[r]["column_data_type"] == 'list':
+                continue
+
             if self.df_content.loc[r]["column_name"] == self.target_attribute:
                 row_msg_1 = f'# \"{self.df_content.loc[r]["column_name"]}\" ({self.df_content.loc[r]["column_data_type"]}, {target_text})'
             else:
@@ -244,10 +247,7 @@ class BasicPrompt(object):
         for k in self.catalog.schema_info.keys():
             if k in dropped_columns_names:
                 continue
-
             cp = self.catalog.profile_info[k]
-            if cp.short_data_type == 'list':
-                continue
 
             is_numerical = False
             is_categorical = False
@@ -259,7 +259,7 @@ class BasicPrompt(object):
             if k in self.catalog.columns_numerical:
                 is_numerical = True
 
-            if cp.categorical_values is not None and k in self.catalog.columns_categorical:
+            if cp.categorical_values is not None and (k in self.catalog.columns_categorical or cp.short_data_type == 'list'):
                 is_categorical = True
                 categorical_values_count = len(cp.categorical_values)
                 if categorical_values_size == -1:

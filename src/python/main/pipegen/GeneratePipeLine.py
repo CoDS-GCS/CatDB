@@ -351,7 +351,6 @@ def clean_categorical_data(args, data_profile_path: str, time_catalog: float = 0
             else:
                 break
         time_generate += time_tmp_gen
-
         cols_list_dtype = dict()
         if pid == len(parts) - 1:
             try:

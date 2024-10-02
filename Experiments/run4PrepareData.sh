@@ -8,14 +8,14 @@ catalog_path="${root_path}/catalog"
 
 declare -a dataset_list=("Midwest-Survey" "WiFi" "Utility" "EU-IT" "Etailing")
 
-# for ds in "${dataset_list[@]}"; do
-#         rm -rf "${catalog_path}/${ds}/data_profile" # clean-up data_profile
-#         rm -rf "${catalog_path}/${ds}/data_profile_update" # clean-up data_profile_update
-#         rm -rf "${data_path}/${ds}" # clean-up dataset
-#         unzip "${catalog_path}/${ds}/data_profile.zip" -d "${catalog_path}/${ds}/"
-#         #unzip "${catalog_path}/${ds}/data_profile_update.zip" -d "${catalog_path}/${ds}/"
-#         #unzip "${data_path}/${ds}.zip" -d "${data_path}/"
-# done
+for ds in "${dataset_list[@]}"; do
+        rm -rf "${catalog_path}/${ds}/data_profile" # clean-up data_profile
+        rm -rf "${catalog_path}/${ds}/data_profile_update" # clean-up data_profile_update
+        rm -rf "${data_path}/${ds}" # clean-up dataset
+        unzip "${catalog_path}/${ds}/data_profile.zip" -d "${catalog_path}/${ds}/"
+        unzip "${catalog_path}/${ds}/data_profile_update.zip" -d "${catalog_path}/${ds}/"
+        unzip "${data_path}/${ds}.zip" -d "${data_path}/"
+done
 
 # # Extract data profile info - Multi-table datasets
 # cd "${root_path}/catalog"
@@ -49,10 +49,10 @@ CMD="python DatasetPrepare.py --dataset-root-path ${data_path} \
 # $CMD --dataset-name IMDB-IJS --target-attribute gender --task-type binary --target-table actors --mtos True
 # $CMD --dataset-name Yelp --target-attribute stars --task-type regression --target-table Reviews --mtos True
 
-# $CMD --dataset-name EU-IT --target-attribute 'Position ' --task-type multiclass --multi-table False
-# $CMD --dataset-name Utility --target-attribute CSRI --task-type regression --multi-table False
-# $CMD --dataset-name WiFi --target-attribute TechCenter --task-type binary --multi-table False
-# $CMD --dataset-name Midwest-Survey --target-attribute 'Location (Census Region)' --task-type multiclass --multi-table False
+$CMD --dataset-name EU-IT --target-attribute 'Position ' --task-type multiclass --multi-table False
+$CMD --dataset-name Utility --target-attribute CSRI --task-type regression --multi-table False
+$CMD --dataset-name WiFi --target-attribute TechCenter --task-type binary --multi-table False
+$CMD --dataset-name Midwest-Survey --target-attribute 'Location (Census Region)' --task-type multiclass --multi-table False
 $CMD --dataset-name Etailing --target-attribute 'What is the maximum cart value you ever shopped?' --task-type multiclass --multi-table False
 
 # $CMD --dataset-name Relocated-Vehicles --target-attribute 'Relocated To Direction' --task-type multiclass --multi-table False

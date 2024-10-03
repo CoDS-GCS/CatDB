@@ -17,7 +17,7 @@
 
 - llm_platform: Meta
   llama3-70b-8192:
-    token_limit: 8192
+    token_limit: 131072
     system_delimiter: '### '
     user_delimiter: '### '
     delay: 70

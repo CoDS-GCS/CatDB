@@ -72,6 +72,7 @@ def generate_and_verify_pipeline(args, catalog, run_mode: str = None, sub_task: 
     prompt_system_message = prompt_format["system_message"]
     prompt_user_message = prompt_format["user_message"]
     schema_data = prompt_format["schema_data"]
+    schema_dtypes = prompt_format["schema_dtypes"]
     missing_value_rules = prompt_format["missing_value_rules"]
 
     # Save prompt:
@@ -159,7 +160,8 @@ def generate_and_verify_pipeline(args, catalog, run_mode: str = None, sub_task: 
                                                                 task_type=args.task_type,
                                                                 data_source_train_path=args.data_source_train_path,
                                                                 data_source_test_path=args.data_source_test_path,
-                                                                missing_value_rules=missing_value_rules)
+                                                                missing_value_rules=missing_value_rules,
+                                                                schema_dtypes = schema_dtypes)
             prompt_fname_error = f"{file_name}_Error_{i}.prompt"
             save_prompt(fname=prompt_fname_error, system_message=system_message, user_message=user_message)
 
@@ -187,14 +189,16 @@ def generate_and_verify_pipeline(args, catalog, run_mode: str = None, sub_task: 
                                           time_total=time_total,
                                           time_catalog=time_catalog, time_generate=time_generate,
                                           all_token_count=all_token_count,
-                                          prompt_token_count=prompt_token_count)
+                                          prompt_token_count=prompt_token_count,
+                                          schema_dtypes=schema_dtypes,
+                                          missing_value_rules=missing_value_rules)
 
     return final_status, code
 
 
-def run_pipeline(args, file_name, code, schema_data, run_mode, sub_task: str = '', iteration: int = 1,
-                 time_total: int = 0, time_catalog: float = 0, time_generate: int = 0, all_token_count: int = 0,
-                 prompt_token_count: int = 0):
+def run_pipeline(args, file_name, code, schema_data, schema_dtypes, missing_value_rules, run_mode, sub_task: str = '',
+                 iteration: int = 1, time_total: int = 0, time_catalog: float = 0, time_generate: int = 0,
+                 all_token_count: int = 0, prompt_token_count: int = 0):
     time_execute = 0
     final_status = False
 
@@ -253,7 +257,9 @@ def run_pipeline(args, file_name, code, schema_data, run_mode, sub_task: str = '
                                                                 schema_data=schema_data,
                                                                 task_type=args.task_type,
                                                                 data_source_train_path=args.data_source_train_path,
-                                                                data_source_test_path=args.data_source_test_path)
+                                                                data_source_test_path=args.data_source_test_path,
+                                                                missing_value_rules=missing_value_rules,
+                                                                schema_dtypes=schema_dtypes)
             prompt_fname_error = f"{file_name}_Error_{i}_RUN.prompt"
             save_prompt(fname=prompt_fname_error, system_message=system_message, user_message=user_message)
 

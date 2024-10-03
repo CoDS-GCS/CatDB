@@ -1,9 +1,10 @@
 class BasicErrorPrompt(object):
-    def __init__(self, pipeline_code: str, pipeline_error: str, schema_data: str = None, missing_value_rules: dict() = None, *args, **kwargs):
+    def __init__(self, pipeline_code: str, pipeline_error: str, schema_data: str = None, schema_dtypes: str= None, missing_value_rules: dict() = None, *args, **kwargs):
         self.rules = []
         self.pipeline_code = pipeline_code
         self.pipeline_error = pipeline_error
         self.missing_value_rules = missing_value_rules
+        self.schema_dtypes = schema_dtypes
         self.small_error_msg = None
         self.system_message_delimiter = None
         self.user_message_delimiter = None
@@ -22,13 +23,18 @@ class BasicErrorPrompt(object):
         question = ("Question: Fix the code error provided and return only the corrected pipeline without "
                     "additional explanations regarding the resolved error."
                     )
-        prompt_items = [f"{_user_delimiter} {self.schema_data}\n"]
+        prompt_items = []
         if "Input contains NaN" in self.small_error_msg and self.missing_value_rules is not None:
-            prompt_items.append(f"Explicitly do missing value imputation before column transfers in the prepreocessing section.")
+            prompt_items.append(f"{_user_delimiter} Explicitly do missing value imputation before column transfers in the prepreocessing section.")
             for k in self.missing_value_rules.keys():
                 if self.missing_value_rules[k] is not None:
                     prompt_items.append(self.missing_value_rules[k])
-
+        elif ("could not convert" in self.small_error_msg or "Encoders require their input argument must be uniformly strings or numbers" in self.small_error_msg) and self.schema_dtypes is not None:
+            prompt_items.append(f"{_user_delimiter} Explicitly check the dataset column names and value types. Here is the column names and data types: \n {self.schema_dtypes}")
+        elif "A given column is not a column of the dataframe" in self.small_error_msg:
+            error = f"{error}\n{_user_delimiter} Remove target column from ColumnTransformer preprocessing part."
+        else:
+            prompt_items = [f"{_user_delimiter} {self.schema_data}\n"]
         prompt_items.append(code)
         prompt_items.append(error)
         prompt_items.append(question)
@@ -55,7 +61,7 @@ class BasicResultErrorPrompt(object):
     def format_user_message(self):
         from util.Config import _user_delimiter
         code = f"<CODE>\n{self.pipeline_code}\n</CODE>"
-        question = "Question: Modify the pipeline to return correct results."
+        question = f"Question: Modify the pipeline to return correct results.\n{_user_delimiter} don't use \"if __name__ == __main__:\" and replace it with a falt Python code."
         prompt_items = [f"{_user_delimiter} {code}", question]
         return f"\n\n{_user_delimiter}".join(prompt_items)
 

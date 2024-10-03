@@ -32,11 +32,12 @@ class BasicPrompt(object):
         self.previous_result_format = None
 
     def format(self, part_id: int = -1):
-        user_message, schema_data, missing_value_rules = self.format_user_message()
+        user_message, schema_data, schema_dtypes, missing_value_rules = self.format_user_message()
         return {
             "system_message": self.format_system_message(),
             "user_message": user_message,
             "schema_data": schema_data,
+            "schema_dtypes": schema_dtypes,
             "missing_value_rules": missing_value_rules
         }
 
@@ -49,7 +50,7 @@ class BasicPrompt(object):
         if self.flag_previous_result and self.previous_result is not None:
             prompt_items.append(self.previous_result_format)
 
-        schema_data = self.format_schema_data()
+        schema_data, schema_dtypes = self.format_schema_data()
         prompt_items.append(schema_data)
         relationships = self.get_multi_table_relationships()
         if relationships is not None:
@@ -79,7 +80,7 @@ class BasicPrompt(object):
 
         prompt_items.append(f'Dataset is a structured/tabular data, select a high performance ML model. For example, Gradient Boosting Machines (e.g., XGBoost, LightGBM, ...), RandomForest, ...')
         prompt_items.append(f'Question: {self.question}')
-        return f"\n\n{_user_delimiter}".join(prompt_items), schema_data, missing_values_rules
+        return f"\n\n{_user_delimiter}".join(prompt_items), schema_data, schema_dtypes, missing_values_rules
 
     def format_system_message(self):
         return "\n".join(self.rules)
@@ -92,6 +93,7 @@ class BasicPrompt(object):
 
     def format_schema_data(self):
         content = []
+        content_dtype = []
         target_text = "**This is a target column**"
         for r in range(0, len(self.df_content)):
             if self.df_content.loc[r]["column_data_type"] == 'list':
@@ -102,6 +104,7 @@ class BasicPrompt(object):
             else:
                 row_msg_1 = f'# \"{self.df_content.loc[r]["column_name"]}\" ({self.df_content.loc[r]["column_data_type"]})'
             row_msg = [row_msg_1]
+            content_dtype.append(f'"{self.df_content.loc[r]["column_name"]}" (data type: {self.df_content.loc[r]["column_data_type"]})')
             if self.flag_distinct_value_count and self.df_content.loc[r]["is_categorical"] == False:
                 row_msg.append(f'distinct-count [{self.df_content.loc[r]["distinct_count"]}]')
 
@@ -123,7 +126,10 @@ class BasicPrompt(object):
                         '"""',
                         content,
                         '"""']
-        return "\n".join(prompt_items)
+        prompt_items_dtype = ['"""',
+                              ",".join(content_dtype),
+                              '"""']
+        return "\n".join(prompt_items), "".join(prompt_items_dtype)
 
     def get_missing_values_rules(self):
         missing_values_rules = {"numerical_missing_values": None,

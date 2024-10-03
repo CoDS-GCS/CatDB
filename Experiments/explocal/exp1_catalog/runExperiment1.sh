@@ -27,9 +27,9 @@ CMD=./explocal/exp1_catalog/runExperiment1_LLM_Pipe_Gen.sh
 
 # $CMD ${dataset} ${catalog_path} CatDB Random 0 ${task_type} gpt-4o No
 # $CMD ${dataset} ${catalog_path} CatDB Random 0 ${task_type} llama3-70b-8192 No
-# $CMD ${dataset} ${catalog_path} CatDB Random 0 ${task_type} llama-3.1-70b-versatile No
+$CMD ${dataset} ${catalog_path} CatDB Random 0 ${task_type} llama-3.1-70b-versatile No
 # $CMD ${dataset} ${catalog_path} CatDB Random 0 ${task_type} mixtral-8x7b-32768 No
-$CMD ${dataset} ${catalog_path} CatDB Random 0 ${task_type} gemini-1.5-pro-latest No
+# $CMD ${dataset} ${catalog_path} CatDB Random 0 ${task_type} gemini-1.5-pro-latest No
 # $CMD ${dataset} ${catalog_path} CatDB Random 0 ${task_type} gemini-1.5-pro-latest-002 No
 # $CMD ${dataset} ${catalog_path} CatDB Random 0 ${task_type} gemini-1.5-pro-exp-0801 No
 # $CMD ${dataset} ${catalog_path} CatDB Random 0 ${task_type} gemini-1.5-pro-exp-0827 No

@@ -12,6 +12,7 @@ with_dataset_description=$7
 number_iteration=$8
 dataset_train=$9
 dataset_test=${10}
+extra_name=${11}
 
 pipeline_path="${exp_path}/archive/VLDB2025/catdb-results/${dataset}"
 
@@ -32,7 +33,8 @@ SCRIPT="python -Wignore main_runpipeline.py --root-data-path ${data_path} \
         --result-output-path ${result_output_path} \
         --dataset-description ${with_dataset_description} \
         --dataset-train ${dataset_train} \
-        --dataset-test ${dataset_test}"
+        --dataset-test ${dataset_test} \
+        --extra-name ${extra_name}"
 
 
 echo ${SCRIPT}

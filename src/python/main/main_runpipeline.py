@@ -18,6 +18,7 @@ def parse_arguments():
     parser.add_argument('--pipeline-path', type=str, default=None)
     parser.add_argument('--llm-model', type=str, default=None)
     parser.add_argument('--result-output-path', type=str, default="/tmp/results.csv")
+    parser.add_argument('--extra-name', type=str, default="")
 
     args = parser.parse_args()
 
@@ -57,5 +58,5 @@ if __name__ == '__main__':
     args = parse_arguments()
     class_name = f"{args.prompt_representation_type}-{args.prompt_samples_type}-{args.prompt_number_samples}-SHOT"
     src_file_name = f"{args.llm_model}-{class_name}-{args.dataset_description}-iteration-{args.prompt_number_iteration}"
-    file_name = f'{args.pipeline_path}/{src_file_name}-RUN.py'
+    file_name = f'{args.pipeline_path}/{src_file_name}-{args.extra_name}-RUN.py'
     run_local_pipeline(args=args, file_name=file_name, run_mode=__execute_mode)

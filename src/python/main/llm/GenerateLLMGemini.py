@@ -25,15 +25,15 @@ class GenerateLLMGemini:
             "max_output_tokens": _max_out_token_limit,
         }
 
-        safety_settings = [
-            {"category": "HARM_CATEGORY_HARASSMENT", "threshold": "BLOCK_MEDIUM_AND_ABOVE"},
-            {"category": "HARM_CATEGORY_HATE_SPEECH", "threshold": "BLOCK_MEDIUM_AND_ABOVE"},
-            {"category": "HARM_CATEGORY_SEXUALLY_EXPLICIT", "threshold": "BLOCK_MEDIUM_AND_ABOVE"},
-            {"category": "HARM_CATEGORY_DANGEROUS_CONTENT", "threshold": "BLOCK_MEDIUM_AND_ABOVE"},
-        ]
+        # safety_settings = [
+        #     {"category": "HARM_CATEGORY_HARASSMENT", "threshold": "BLOCK_MEDIUM_AND_ABOVE"},
+        #     {"category": "HARM_CATEGORY_HATE_SPEECH", "threshold": "BLOCK_MEDIUM_AND_ABOVE"},
+        #     {"category": "HARM_CATEGORY_SEXUALLY_EXPLICIT", "threshold": "BLOCK_MEDIUM_AND_ABOVE"},
+        #     {"category": "HARM_CATEGORY_DANGEROUS_CONTENT", "threshold": "BLOCK_MEDIUM_AND_ABOVE"},
+        # ]
         model = genai.GenerativeModel(model_name=_llm_model,
                                       generation_config=generation_config,
-                                      safety_settings=safety_settings,
+                                      #safety_settings=safety_settings,
                                       system_instruction=system_message)
         try:
             prompt = [system_message, user_message]
@@ -62,8 +62,12 @@ class GenerateLLMGemini:
             time_end = time.time()
             return code, number_of_tokens, time_end - time_start
 
-        except Exception:
+        except Exception as err:
             _, api_key = _LLM_API_Key.get_API_Key()
+            print("---------------------------")
+            print(err)
+            print(api_key)
+            print("******************************************")
             genai.configure(api_key=api_key)
             return GenerateLLMGemini.__submit_Request_Gemini_LLM(user_message=user_message, system_message=system_message)
 

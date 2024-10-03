@@ -25,10 +25,10 @@ def run_local_pipeline(args, file_name, run_mode):
             final_status = True
 
     if final_status:
-        args.dataset_name = f"{args.dataset_name};{args.dataset_train};{args.dataset_test}"
+        args.dataset_name = f"{args.dataset_name}"
         save_log(args=args, sub_task='', iteration=1, iteration_error=iteration_error, time_catalog=0,
                  time_generate=0, time_total=time_execute, time_execute=time_execute,
-                 prompt_token_count=0, all_token_count=0, operation_tag='Run-Local-Pipeline',
+                 prompt_token_count=0, all_token_count=0, operation_tag=f'Run-Local-Pipeline-{args.extra_name}',
                  run_mode=run_mode, results_verified=results_verified, results=results, final_status=final_status)
 
     return final_status

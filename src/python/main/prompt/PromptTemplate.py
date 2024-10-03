@@ -31,17 +31,18 @@ class SingleBasicPrompt(BasicPrompt):
                      f"# 7: {_catdb_rules['Rule_7']}",
                      f"# 8: {_catdb_rules['Rule_8']}",
                      f"# 9: {_catdb_rules['Rule_9']}",
-                     f"# 10: {_catdb_rules['Rule_10'].format(self.target_attribute)}",
-                     f"# 11: {_catdb_rules['Rule_11'].format(algorithm, self.target_attribute)}",
-                     f"# 12: {_catdb_rules['Rule_12']}",
-                     f"# 13: {_CODE_FORMATTING_IMPORT}",
-                     f"# 14: {_CODE_FORMATTING_ADDING.format(self.target_attribute, self.schema_keys[0], self.schema_keys[1])}",
-                     f"# 15: {_CODE_FORMATTING_DROPPING}",
-                     f"# 16: {_CODE_FORMATTING_TECHNIQUE.format(algorithm)}",
-                     f"# 17: {self.evaluation_text}",
-                     f"# 18: {_catdb_rules['Rule_13']}",
+                     f"# 10: {_catdb_rules['Rule_10']}",
+                     f"# 11: {_catdb_rules['Rule_11'].format(self.target_attribute)}",
+                     f"# 12: {_catdb_rules['Rule_12'].format(algorithm, self.target_attribute)}",
+                     f"# 13: {_catdb_rules['Rule_13']}",
+                     f"# 14: {_CODE_FORMATTING_IMPORT}",
+                     f"# 15: {_CODE_FORMATTING_ADDING.format(self.target_attribute, self.schema_keys[0], self.schema_keys[1])}",
+                     f"# 16: {_CODE_FORMATTING_DROPPING}",
+                     f"# 17: {_CODE_FORMATTING_TECHNIQUE.format(algorithm)}",
+                     f"# 18: {self.evaluation_text}",
                      f"# 19: {_catdb_rules['Rule_14']}",
-                     f"# 20: {_CODE_BLOCK}"
+                     f"# 20: {_catdb_rules['Rule_15']}",
+                     f"# 21: {_CODE_BLOCK}"
                      ]
         else:
             rules = [f"{_system_delimiter} {_catdb_rules['task'].format(self.ds_attribute_prefix)}",

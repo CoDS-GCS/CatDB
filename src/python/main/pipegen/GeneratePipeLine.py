@@ -89,7 +89,7 @@ def generate_and_verify_pipeline(args, catalog, run_mode: str = None, sub_task: 
                                                                                system_message=prompt_system_message)
     time_generate_extra = 0
     for i in range(5):
-        if code == "Insufficient information.":
+        if code == "Insufficient information." or len(code) < 500:
             code, tokens_count, time_tmp_gen = GenerateLLMCode.generate_llm_code(user_message=prompt_user_message,
                                                                                  system_message=prompt_system_message)
             all_token_count += tokens_count

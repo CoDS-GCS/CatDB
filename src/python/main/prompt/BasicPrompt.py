@@ -32,11 +32,12 @@ class BasicPrompt(object):
         self.previous_result_format = None
 
     def format(self, part_id: int = -1):
-        user_message, schema_data = self.format_user_message()
+        user_message, schema_data, missing_value_rules = self.format_user_message()
         return {
             "system_message": self.format_system_message(),
             "user_message": user_message,
-            "schema_data": schema_data
+            "schema_data": schema_data,
+            "missing_value_rules": missing_value_rules
         }
 
     def format_user_message(self):
@@ -54,8 +55,8 @@ class BasicPrompt(object):
         if relationships is not None:
             prompt_items.append(relationships)
 
+        missing_values_rules = self.get_missing_values_rules()
         if self.flag_missing_value_frequency:
-            missing_values_rules = self.get_missing_values_rules()
             for k in missing_values_rules.keys():
                 if missing_values_rules[k] is not None:
                     prompt_items.append(missing_values_rules[k])
@@ -78,7 +79,7 @@ class BasicPrompt(object):
 
         prompt_items.append(f'Dataset is a structured/tabular data, select a high performance ML model. For example, Gradient Boosting Machines (e.g., XGBoost, LightGBM, ...), RandomForest, ...')
         prompt_items.append(f'Question: {self.question}')
-        return f"\n\n{_user_delimiter}".join(prompt_items), schema_data
+        return f"\n\n{_user_delimiter}".join(prompt_items), schema_data, missing_values_rules
 
     def format_system_message(self):
         return "\n".join(self.rules)

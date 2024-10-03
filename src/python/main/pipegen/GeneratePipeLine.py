@@ -72,6 +72,7 @@ def generate_and_verify_pipeline(args, catalog, run_mode: str = None, sub_task: 
     prompt_system_message = prompt_format["system_message"]
     prompt_user_message = prompt_format["user_message"]
     schema_data = prompt_format["schema_data"]
+    missing_value_rules = prompt_format["missing_value_rules"]
 
     # Save prompt:
     prompt_file_name = f"{args.llm_model}-{prompt.class_name}-{args.dataset_description}-iteration-{iteration}"
@@ -157,7 +158,8 @@ def generate_and_verify_pipeline(args, catalog, run_mode: str = None, sub_task: 
                                                                 schema_data=schema_data,
                                                                 task_type=args.task_type,
                                                                 data_source_train_path=args.data_source_train_path,
-                                                                data_source_test_path=args.data_source_test_path)
+                                                                data_source_test_path=args.data_source_test_path,
+                                                                missing_value_rules=missing_value_rules)
             prompt_fname_error = f"{file_name}_Error_{i}.prompt"
             save_prompt(fname=prompt_fname_error, system_message=system_message, user_message=user_message)
 

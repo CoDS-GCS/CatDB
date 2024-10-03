@@ -64,10 +64,6 @@ class GenerateLLMGemini:
 
         except Exception as err:
             _, api_key = _LLM_API_Key.get_API_Key()
-            print("---------------------------")
-            print(err)
-            print(api_key)
-            print("******************************************")
             genai.configure(api_key=api_key)
             return GenerateLLMGemini.__submit_Request_Gemini_LLM(user_message=user_message, system_message=system_message)
 

@@ -1,8 +1,9 @@
 class BasicErrorPrompt(object):
-    def __init__(self, pipeline_code: str, pipeline_error: str, schema_data: str = None, *args, **kwargs):
+    def __init__(self, pipeline_code: str, pipeline_error: str, schema_data: str = None, missing_value_rules: dict() = None, *args, **kwargs):
         self.rules = []
         self.pipeline_code = pipeline_code
         self.pipeline_error = pipeline_error
+        self.missing_value_rules = missing_value_rules
         self.small_error_msg = None
         self.system_message_delimiter = None
         self.user_message_delimiter = None
@@ -21,8 +22,16 @@ class BasicErrorPrompt(object):
         question = ("Question: Fix the code error provided and return only the corrected pipeline without "
                     "additional explanations regarding the resolved error."
                     )
-        prompt_items = [f"{_user_delimiter} {self.schema_data}\n", code, error, question]
+        prompt_items = [f"{_user_delimiter} {self.schema_data}\n"]
+        if "Input contains NaN" in self.small_error_msg and self.missing_value_rules is not None:
+            prompt_items.append(f"Explicitly do missing value imputation before column transfers in the prepreocessing section.")
+            for k in self.missing_value_rules.keys():
+                if self.missing_value_rules[k] is not None:
+                    prompt_items.append(self.missing_value_rules[k])
 
+        prompt_items.append(code)
+        prompt_items.append(error)
+        prompt_items.append(question)
         return f"\n\n{_user_delimiter}".join(prompt_items)
 
     def format_system_message(self):

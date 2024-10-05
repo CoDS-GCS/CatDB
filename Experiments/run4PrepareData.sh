@@ -38,10 +38,10 @@ $CMD --dataset-name WiFi --target-attribute TechCenter --task-type binary --mult
 $CMD --dataset-name Midwest-Survey --target-attribute 'Location (Census Region)' --task-type multiclass --multi-table False
 $CMD --dataset-name Etailing --target-attribute 'What is the maximum cart value you ever shopped?' --task-type multiclass --multi-table False
 
-$CMD --dataset-name Relocated-Vehicles --target-attribute 'Relocated To Direction' --task-type multiclass --multi-table False
-$CMD --dataset-name Health-Sciences --target-attribute 'Does your lab/research group currently use a naming convention to save your data files? ' --task-type multiclass --multi-table False
-$CMD --dataset-name Violations --target-attribute 'Disposition Description' --task-type multiclass --multi-table False
-$CMD --dataset-name Halloween --target-attribute 'What.is.your.age.group.' --task-type multiclass --multi-table False
-$CMD --dataset-name Mid-Feed --target-attribute B6 --task-type multiclass --multi-table False
+# $CMD --dataset-name Relocated-Vehicles --target-attribute 'Relocated To Direction' --task-type multiclass --multi-table False
+# $CMD --dataset-name Health-Sciences --target-attribute 'Does your lab/research group currently use a naming convention to save your data files? ' --task-type multiclass --multi-table False
+# $CMD --dataset-name Violations --target-attribute 'Disposition Description' --task-type multiclass --multi-table False
+# $CMD --dataset-name Halloween --target-attribute 'What.is.your.age.group.' --task-type multiclass --multi-table False
+# $CMD --dataset-name Mid-Feed --target-attribute B6 --task-type multiclass --multi-table False
 
 cd ${root_path}

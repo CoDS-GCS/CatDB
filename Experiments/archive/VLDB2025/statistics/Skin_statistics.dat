@@ -1,0 +1,5 @@
+dataset_name,col_index,data_type,missing_values_count,total_values_count,distinct_values_count,number_rows
+Skin,1,int,0,245057,256,245057
+Skin,2,int,0,245057,2,245057
+Skin,3,int,0,245057,256,245057
+Skin,4,int,0,245057,256,245057

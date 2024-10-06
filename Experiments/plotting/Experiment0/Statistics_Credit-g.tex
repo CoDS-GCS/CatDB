@@ -1,15 +1,15 @@
 \newcommand{\addplotStatistics}[1]{
-	   \addplot+[draw=color7,line width=0.15pt, fill=color7 ]
+	   \addplot+[draw=none,fill=dblue2 ]
 	   table[ y=total_values_count, col sep=comma, x=col_index] {#1};
      \label{filled}; 
 
-     \addplot+[draw=color4,line width=0.15pt, fill=color4] 
+     \addplot+[draw=none, fill=mvcolor] 
 	   table[ y=missing_values_count, col sep=comma, x=col_index] {#1};	   
 	   \label{missed};       
 };
 
 \newcommand{\addplotDistinct}[1]{
-	   \addplot[draw=black,line width=0.15pt, fill=black ]
+	   \addplot[draw=none,fill=dred1 ]
 	   table[ y=distinct_values_count, col sep=comma, x=col_index] {#1};
      \label{distinct};     
 };
@@ -18,25 +18,23 @@
   every axis/.style={
     %major x tick style = {draw=none},
     ybar stacked,    
-    every major tick/.append style={ thick,major tick length=2.5pt, gray},
-    axis line style={gray},
+    every major tick/.append style={ line width=0.5pt,major tick length=2pt, black},
+    axis line style={draw=none},
     ymin=0,
     %xmin=1,
     xmax=21,
     ymax=1000,
     tick label style={/pgf/number format/fixed},
-    %y tick label style={/pgf/number format/1000 sep={}},
-    %x tick label style={/pgf/number format/1000 sep={}},
     scaled y ticks=false,
-    %enlarge y limits={0.013,upper},
     enlarge x limits=0.02,
     x tick label as interval=false,
     enlarge y limits=false,
-    ylabel={Samples},
+    ylabel={},%{Samples},
     xlabel={\# Column},
-    xtick={1,5,10,15,20,25},
-    ytick={0,200,400,600,800,1000},
-    yticklabels={0,200,400,600,800,1000},
+    xtick={1,10,20},
+    xticklabels={1,10,\hspace{-5pt}20},
+    ytick={0,300,600,900},
+    yticklabels={0,300,600,900},
     ytick align=outside,
     xtick align=outside,
     xtick pos=left,
@@ -46,7 +44,7 @@
     xticklabel style = {font=\normalsize, xshift=0pt},
     height=0.4\columnwidth,
     width=0.38\columnwidth,    
-    bar width=0.015873015873015872\columnwidth,	 
+    bar width=2.3pt,	 
     %ymajorgrids=true,
     %grid style=dotted,   
     %minor grid style={gray!50}, 
@@ -55,17 +53,17 @@
 ]
 
 \begin{axis}
-  \addplotStatistics{../archive/SIGMOD2025-Results/statistics/Credit-g_statistics.dat};	  	  
+  \addplotStatistics{../archive/VLDB2025/statistics/Credit-g_statistics.dat};	  	  
 \end{axis}
 
 \begin{axis} [hide axis]
-  \addplotDistinct{../archive/SIGMOD2025-Results/statistics/Credit-g_statistics.dat};	  	  
+  \addplotDistinct{../archive/VLDB2025/statistics/Credit-g_statistics.dat};	  	  
 \end{axis}
 
-\node [draw=none,inner sep=0, font=\footnotesize, anchor=west] (leg1) at (rel axis cs: -0.65,1.16) {\shortstack[l]{
-  \ref{filled} Value 
-  \ref{missed} Missed 
-  \ref{distinct} Distinct		 			
-}};
+% \node [draw=none,inner sep=0, font=\footnotesize, anchor=west] (leg1) at (rel axis cs: -0.65,1.16) {\shortstack[l]{
+%   \ref{filled} Value 
+%   \ref{missed} Missed 
+%   \ref{distinct} Distinct		 			
+% }};
 
 \end{tikzpicture}

@@ -152,7 +152,8 @@ def extract_dataset_propertis_mv(root, out):
 
 
     # datasets = ["Midwest-Survey","WiFi","Utility","EU-IT","Etailing"]
-    datasets = ["Accidents","Airline","Financial","IMDB-IJS","Yelp"]
+    #datasets = ["Accidents","Airline","Financial","IMDB-IJS","Yelp"]
+    datasets = ["CMC","Credit-g","Diabetes","Tic-Tac-Toe","Nomao","Volkert","Gas-Drift","Walking-Activity","Bike-Sharing","NYC", "Skin","House-Sales"]
     
 
     miss_value_template = read_template("Missing_Distinct_Values_Template.tex")

@@ -1,0 +1,16 @@
+dataset_name,number_bool,number_int,number_float,number_string
+Balance-Scale,0,4,0,1
+Breast-w,0,9,0,1
+CMC,3,7,0,0
+Credit-g,0,7,0,14
+Diabetes,0,6,2,1
+Tic-Tac-Toe,0,0,0,10
+Jungle-Chess,0,6,0,1
+Higgs,1,0,28,0
+Skin,0,4,0,0
+Traffic,1,1,2,38
+Walking-Activity,0,1,4,0
+Black-Friday,1,5,0,4
+Bike-Sharing,3,5,4,0
+House-Sales,2,12,4,0
+NYC,3,11,3,0

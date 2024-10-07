@@ -24,24 +24,16 @@ CMD=./explocal/exp1_catalog/runExperiment1.sh
 
 # $CMDPath
 
-# $CMD oml_dataset_1_rnc multiclass # Balance-Scale
 # $CMD oml_dataset_2_rnc binary # Breast-w
 # $CMD oml_dataset_3_rnc multiclass # CMC
 # $CMD oml_dataset_4_rnc binary # Credit-g
 # $CMD oml_dataset_5_rnc binary # Diabetes
 # $CMD oml_dataset_6_rnc binary # Tic-Tac-Toe
-# $CMD oml_dataset_10_rnc multiclass # Jungle-Chess
-
-# $CMD oml_dataset_11_rnc binary # Higgs
-# $CMD oml_dataset_12_rnc binary # Skin
 # $CMD oml_dataset_33_rnc binary # Nomao
-
-# $CMD oml_dataset_19_rnc multiclass # Traffic
 # $CMD oml_dataset_20_rnc multiclass # Walking-Activity
 # $CMD oml_dataset_34_rnc multiclass # Gas-Drift
 # $CMD oml_dataset_35_rnc multiclass # Volkert
 
-# $CMD oml_dataset_21_rnc regression # Black-Friday
 # $CMD oml_dataset_22_rnc regression # Bike-Sharing
 # $CMD oml_dataset_23_rnc regression # House-Sales
 # $CMD oml_dataset_24_rnc regression # NYC

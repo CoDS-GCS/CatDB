@@ -79,9 +79,10 @@ def load_merge_all_results(root_path):
 
     results_path = [f"{root_path}/raw_results/S113-gemini-Experiment1_LLM_Pipe_Gen_CatDB.dat",
                     f"{root_path}/raw_results/S113-gemini-Experiment1_LLM_Pipe_Gen_CatDBChain.dat",
-                    f"{root_path}/raw_results/S113-Lama-Experiment1_LLM_Pipe_Gen_CatDB.dat"                             
+                    f"{root_path}/raw_results/S113-Lama-Experiment1_LLM_Pipe_Gen_CatDB.dat",
+                    f"{root_path}/raw_results/gpt4o-Experiment1_LLM_CAAFE.dat",
+                    f"{root_path}/raw_results/gemini-Experiment1_LLM_CAAFE.dat",                                             
                     ] 
-    
     df_merge = pd.DataFrame(columns = columns)
     
     for rp in results_path:

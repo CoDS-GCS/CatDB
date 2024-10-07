@@ -103,7 +103,7 @@ if __name__ == '__main__':
                                 df_chain = tmp_df.loc[(tmp_df['sub_task'] == 'DataPreprocessing') | 
                                                 (tmp_df['sub_task'] == 'FeatureEngineering')]
                                 
-                                df = tmp_df.loc[(tmp_df['operation'] == 'Run-Pipeline')]                              
+                                df = tmp_df.loc[(tmp_df['operation'] == 'Run-Pipeline') | (tmp_df['operation']=='Run-CAAFE')]                              
 
                                 # df_verify_chain = tmp_df.loc[(tmp_df['operation'] == 'Gen-and-Verify-Pipeline') &
                                 #                        ((tmp_df['sub_task'] == 'DataPreprocessing') | 

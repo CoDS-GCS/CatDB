@@ -21,7 +21,18 @@ dataset_corr = {"oml_dataset_12_rnc":"CatDB",
                 "oml_dataset_21_rnc":"CatDB",
                 "oml_dataset_22_rnc":"CatDBChain",
                 "oml_dataset_24_rnc":"CatDBChain",
-                "oml_dataset_23_rnc":"CatDBChain"}
+                "oml_dataset_23_rnc":"CatDBChain",
+                "Airline":"CatDBChain",
+                "IMDB-IJS":"CatDBChain",
+                "Accidents":"CatDBChain",
+                "Financial":"CatDBChain",
+                "Yelp":"CatDBChain",
+                "EU-IT":"CatDB",
+                "Etailing":"CatDB",
+                "Midwest-Survey":"CatDB",
+                "WiFi":"CatDB",
+                "Utility":"CatDB"}
+                
 
 def load_results(path):
     df = pd.read_csv(path, low_memory=False, encoding='utf-8')
@@ -81,7 +92,11 @@ def load_merge_all_results(root_path):
                     f"{root_path}/raw_results/S113-gemini-Experiment1_LLM_Pipe_Gen_CatDBChain.dat",
                     f"{root_path}/raw_results/S113-Lama-Experiment1_LLM_Pipe_Gen_CatDB.dat",
                     f"{root_path}/raw_results/gpt4o-Experiment1_LLM_CAAFE.dat",
-                    f"{root_path}/raw_results/gemini-Experiment1_LLM_CAAFE.dat",                                             
+                    f"{root_path}/raw_results/gemini-Experiment1_LLM_CAAFE.dat",  
+                    f"{root_path}/raw_results/S16-10DS-Experiment1_LLM_Pipe_Gen_CatDBChain.dat", 
+                    f"{root_path}/raw_results/S65-10DS-Experiment1_LLM_Pipe_Gen_CatDBChain.dat", 
+                    f"{root_path}/raw_results/S35-10DS-Experiment1_LLM_Pipe_Gen_CatDB.dat", 
+                    f"{root_path}/raw_results/S113-10DS-Experiment1_LLM_Pipe_Gen_CatDB.dat",                                                              
                     ] 
     df_merge = pd.DataFrame(columns = columns)
     

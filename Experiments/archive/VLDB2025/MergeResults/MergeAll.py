@@ -30,7 +30,7 @@ if __name__ == '__main__':
                   ("IMDB-IJS","IMDB-IJS","binary",102),
                   ("Accidents","Accidents","multiclass",103),
                   ("Financial","Financial","multiclass",104),
-                  ("Yelp","Yelp","regression",105),
+                  ("Yelp","Yelp","multiclass",105),
                   ("EU-IT","EU-IT","multiclass",106),                  
                   ("Etailing","Etailing","multiclass",107),
                   ("Midwest-Survey","Midwest-Survey","multiclass",108),
@@ -236,7 +236,7 @@ if __name__ == '__main__':
                                         prompt_exe[f"{config}{cls}_min"] = f"{tmp_time/60:.2f}"
                                         prompt_exe[f"{config}{cls}_10_min"] = f"{tmp_time/6:.2f}"
                                         
-                    if des == "No" and ds.endswith("rnc"):    
+                    if des == "No" and (ds.endswith("rnc") or (index in {101,102,103,104,105,106,107,108,109,1010} and llm == 'gemini-1.5-pro-latest')):    
                         if task_type in {"binary", "multiclass"}:
                             tsk = "classification"
                         else:

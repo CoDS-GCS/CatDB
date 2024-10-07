@@ -1,4 +1,14 @@
 dataset_name,dataset_name_orig,CatDB,CatDBChain,CAAFETabPFN,CAAFERandomForest,CatDB_min,CatDBChain_min,CAAFETabPFN_min,CAAFERandomForest_min,CatDB_10_min,CatDBChain_10_min,CAAFETabPFN_10_min,CAAFERandomForest_10_min,dataset_load_time,llm_model,has_description,task_type,task,samples
+Airline,Airline,160.35,362.18,0,0,2.67,6.04,0.001,0.001,26.72,60.36,0.001,0.001,0,gemini-1.5-pro-latest,No,multiclass,classification,0
+IMDB-IJS,IMDB-IJS,0,1279.34,0,0,0.001,21.32,0.001,0.001,0.001,213.22,0.001,0.001,0,gemini-1.5-pro-latest,No,binary,classification,0
+Accidents,Accidents,0,125.65,0,0,0.001,2.09,0.001,0.001,0.001,20.94,0.001,0.001,0,gemini-1.5-pro-latest,No,multiclass,classification,0
+Financial,Financial,0,95.44,0,0,0.001,1.59,0.001,0.001,0.001,15.91,0.001,0.001,0,gemini-1.5-pro-latest,No,multiclass,classification,0
+Yelp,Yelp,0,1561.52,0,0,0.001,26.03,0.001,0.001,0.001,260.25,0.001,0.001,0,gemini-1.5-pro-latest,No,multiclass,classification,0
+EU-IT,EU-IT,0,0,0,0,0.001,0.001,0.001,0.001,0.001,0.001,0.001,0.001,0,gemini-1.5-pro-latest,No,multiclass,classification,0
+Etailing,Etailing,84.73,183.21,0,0,1.41,3.05,0.001,0.001,14.12,30.53,0.001,0.001,0,gemini-1.5-pro-latest,No,multiclass,classification,0
+Midwest-Survey,Midwest-Survey,24.83,0,0,0,0.41,0.001,0.001,0.001,4.14,0.001,0.001,0.001,0,gemini-1.5-pro-latest,No,multiclass,classification,0
+WiFi,WiFi,44.43,29.55,0,0,0.74,0.49,0.001,0.001,7.41,4.92,0.001,0.001,0,gemini-1.5-pro-latest,No,binary,classification,0
+Utility,Utility,13.72,26.84,0,0,0.23,0.45,0.001,0.001,2.29,4.47,0.001,0.001,0,gemini-1.5-pro-latest,No,regression,regression,0
 oml_dataset_2_rnc,Breast-w,20.18,142.91,255.88,250.49,0.34,2.38,4.26,4.17,3.36,23.82,42.65,41.75,0,gemini-1.5-pro-latest,No,binary,classification,0
 oml_dataset_2_rnc,Breast-w,0,0,0,0,0.001,0.001,0.001,0.001,0.001,0.001,0.001,0.001,0,llama3-70b-8192,No,binary,classification,0
 oml_dataset_2_rnc,Breast-w,0,0,0,0,0.001,0.001,0.001,0.001,0.001,0.001,0.001,0.001,0,llama-3.1-70b-versatile,No,binary,classification,0

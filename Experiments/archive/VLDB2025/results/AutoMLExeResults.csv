@@ -1,4 +1,14 @@
 dataset_name,dataset_name_orig,time,dataset_load_time,llm_model
+Airline,Airline,362.18,0,gemini-1.5-pro-latest
+IMDB-IJS,IMDB-IJS,1279.34,0,gemini-1.5-pro-latest
+Accidents,Accidents,125.65,0,gemini-1.5-pro-latest
+Financial,Financial,95.44,0,gemini-1.5-pro-latest
+Yelp,Yelp,1561.52,0,gemini-1.5-pro-latest
+EU-IT,EU-IT,0,0,gemini-1.5-pro-latest
+Etailing,Etailing,84.73,0,gemini-1.5-pro-latest
+Midwest-Survey,Midwest-Survey,24.83,0,gemini-1.5-pro-latest
+WiFi,WiFi,44.43,0,gemini-1.5-pro-latest
+Utility,Utility,13.72,0,gemini-1.5-pro-latest
 oml_dataset_2_rnc,Breast-w,20.18,0,gemini-1.5-pro-latest
 oml_dataset_2_rnc,Breast-w,0,0,llama3-70b-8192
 oml_dataset_2_rnc,Breast-w,0,0,llama-3.1-70b-versatile

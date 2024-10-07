@@ -22,7 +22,7 @@
         group name=my fancy plots,
         group size=2 by 1,
         %xticklabels at=edge bottom,
-        horizontal sep=35pt,
+        horizontal sep=20pt,
         %height=.3\columnwidth,
     },
     every major tick/.append style={ thick,major tick length=2.5pt, gray},
@@ -32,12 +32,12 @@
     log ticks with fixed point,
     %x tick label style={/pgf/number format/1000 sep={}},
     scaled y ticks=false,
-    ylabel={Attribute's Count},
+    ylabel={},
     xtick align=outside,
     xtick pos=left,
     ytick pos=left,
     yticklabel style = {font=\normalsize},
-    ylabel style = {font=\normalsize, yshift=-3pt, xshift=-2pt},
+    ylabel style = {font=\normalsize, yshift=-1pt, xshift=-2pt},
     xticklabel style = {font=\footnotesize, xshift=0pt, yshift=4pt, rotate=35, anchor=north east},
     height=0.4\columnwidth,      
     ymajorgrids=true,
@@ -52,29 +52,34 @@
   ymin=0,
   ymax=50,
   %xlabel style = {yshift=8pt, xshift=0pt},
+  ylabel={Feature Count},
   xlabel={},%{|Features| < 50},
   ytick={0,10,20,30,40,50},
   xtick = data,
   enlarge x limits=0.035,
-  width=1\columnwidth,   
-  symbolic x coords={Skin,Diabetes,Tic-Tac-Toe,Breast-w,Credit-g,Balance-Scale,Walking-Activity,Jungle-Chess,CMC,Higgs,Traffic,Black-Friday,Bike-Sharing,NYC,House-Sales}
+  width=\columnwidth,   
+  symbolic x coords={WiFi, Diabetes, Breast-w, Tic-Tac-Toe, IMDB, Credit-g, Walking-Activity, CMC, EU IT, Midwest-Survey, Etailing, Accidents, Bike-Sharing, Utility, NYC, House-Sales}
 ]
-\addplotStatistics{../archive/SIGMOD2025-Results/statistics/dataset_overview_small.dat}
+\addplotStatistics{../archive/VLDB2025/statistics/dataset_overview_small.dat}
 %
 \nextgroupplot[
   ymin=0,
   ymax=200,
-  enlarge x limits=0.23,
+  enlarge x limits=0.1,
+  ylabel={},%{Attribute's Count},
   %xlabel style = {yshift=-6pt, xshift=0pt},
   xlabel={},%{|Features| > 100},  
   xtick = data,
-  width=0.35\columnwidth,   
-  symbolic x coords={Nomao,Gas-Drift,Volkert,Black}
+  width=0.47\columnwidth,   
+  symbolic x coords={Nomao, Financial, Airline, Gas-Drift,Volkert,Yelp}
 ]
-\addplotStatistics{../archive/SIGMOD2025-Results/statistics/dataset_overview_large.dat}
+\addplotStatistics{../archive/VLDB2025/statistics/dataset_overview_large.dat}
 \end{groupplot}
-  \node [draw=none,inner sep=0, xshift=10pt, font=\normalsize, anchor=west] (leg1) at (rel axis cs: 1.1,1.07) {\shortstack[l]{
+  \node [draw=none,inner sep=0, xshift=10pt, font=\normalsize, anchor=west] (leg1) at (rel axis cs: 0.6,1.07) {\shortstack[l]{
 			\ref{string} String \ \ \ \  \ref{int} Int \ \ \ \  \ref{float} Float \ \ \ \  \ref{bool} Bool				 			
 	}};
+
+  \node [draw=none,inner sep=0, font=\small, anchor=west] at (rel axis cs: 0.4,0.85) {|Features|<50};
+  \node [draw=none,inner sep=0, font=\small, anchor=west] at (rel axis cs: 3.27,0.85) {|Features|>50};
 
 \end{tikzpicture}

@@ -30,7 +30,7 @@ $CMD --dataset-name Accidents --target-attribute klas_nesreca --task-type multic
 $CMD --dataset-name Airline --target-attribute ArrDel15 --task-type multiclass --target-table On_Time_On_Time_Performance_2016_1 --mtos True 
 $CMD --dataset-name Financial --target-attribute status --task-type multiclass --target-table loan --mtos True
 $CMD --dataset-name IMDB-IJS --target-attribute gender --task-type binary --target-table actors --mtos True
-$CMD --dataset-name Yelp --target-attribute stars --task-type regression --target-table Reviews --mtos True
+$CMD --dataset-name Yelp --target-attribute stars --task-type multiclass --target-table Reviews --mtos True
 
 $CMD --dataset-name EU-IT --target-attribute 'Position ' --task-type multiclass --multi-table False
 $CMD --dataset-name Utility --target-attribute CSRI --task-type regression --multi-table False

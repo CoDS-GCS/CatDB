@@ -51,7 +51,7 @@ $CMD Airline multiclass
 $CMD IMDB-IJS binary 
 $CMD Accidents multiclass 
 $CMD Financial multiclass 
-$CMD Yelp regression 
+$CMD Yelp multiclass 
 
 $CMD EU-IT multiclass # OK
 # $CMD Etailing multiclass # OK

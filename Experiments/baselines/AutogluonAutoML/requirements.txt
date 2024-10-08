@@ -1,4 +1,5 @@
 PyYAML==6.0.1
+onnx==1.15
 pandas
 autogluon
 scikit-learn

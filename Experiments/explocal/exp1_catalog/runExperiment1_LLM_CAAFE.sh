@@ -8,7 +8,7 @@ classifier=$3
 with_dataset_description=$4
 
 metadata_path="${data_path}/${dataset}/${dataset}.yaml"
-number_iteration=10
+number_iteration=1
 result_output_path="${exp_path}/caafe-results/${dataset}"
 
 date=$(date '+%Y-%m-%d-%H-%M-%S')
@@ -28,9 +28,9 @@ SCRIPT="python -Wignore main.py --metadata-path ${metadata_path} \
         --output-path ${output_path} \
         --llm-model ${llm_model} \
         --classifier ${classifier} \
-        --delay 60 \
+        --delay 70 \
         --result-output-path ${result_output_path} \
-        --data-path ${exp_path} \
+        --data-path ${data_path} \
         --system-log ${system_log}"
 
 echo ${SCRIPT}

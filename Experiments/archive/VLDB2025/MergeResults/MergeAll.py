@@ -236,7 +236,7 @@ if __name__ == '__main__':
                                         prompt_exe[f"{config}{cls}_min"] = f"{tmp_time/60:.2f}"
                                         prompt_exe[f"{config}{cls}_10_min"] = f"{tmp_time/6:.2f}"
                                         
-                    if des == "No" and (ds.endswith("rnc") or (index in {101,102,103,104,105,106,107,108,109,1010} and llm == 'gemini-1.5-pro-latest')):    
+                    if des == "No" and (ds.endswith("rnc") or ((index in {106,107,108,109,1010} and llm == 'gemini-1.5-pro-latest') or index in {101,102,103,104,105})):    
                         if task_type in {"binary", "multiclass"}:
                             tsk = "classification"
                         else:

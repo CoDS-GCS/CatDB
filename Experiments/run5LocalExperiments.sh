@@ -16,9 +16,9 @@ cd ${exp_path}
 # CMD=./explocal/exp0_statistics/runExperiment0.sh
 # CMD=./explocal/exp1_cleaning/runExperiment1.sh
 # CMDPath=./explocal/exp1_cleaning/runPatch.sh
-# CMD=./explocal/exp1_catalog/runExperiment1.sh
+CMD=./explocal/exp1_catalog/runExperiment1.sh
 # CMD=./explocal/exp2_micro_benchmark/runExperiment2.sh 
-CMD=./explocal/exp3_end_to_end/runExperiment3.sh
+# CMD=./explocal/exp3_end_to_end/runExperiment3.sh
 #CMD=./explocal/exp4_finetune/runExperiment4.sh
 #CMD=./explocal/exp5_dataprepare/runExperiment5.sh
 
@@ -42,14 +42,14 @@ CMD=./explocal/exp3_end_to_end/runExperiment3.sh
 # $CMD Airline multiclass 
 # $CMD IMDB-IJS binary 
 # $CMD Accidents multiclass 
-# $CMD Financial multiclass 
-# $CMD Yelp multiclass 
+# $CMD Financial multiclass
 
-#$CMD EU-IT multiclass # OK
+$CMD EU-IT multiclass # OK
 $CMD Etailing multiclass # OK
 $CMD Midwest-Survey multiclass # OK
 $CMD WiFi binary # OK
 $CMD Utility regression # OK
+$CMD Yelp multiclass 
 
 # $CMD Lahman-2014 regression 
 # $CMD Walmart regression 

@@ -16,7 +16,7 @@ catalog_path="${exp_path}/catalog/${dataset}"
 
 # Run Prompt and LLM Pipeline Generation Experiments
 # CMD=./explocal/exp1_catalog/runExperiment1_LLM_Pipe_Gen.sh
-# CMDCAAFE=./explocal/exp1_catalog/runExperiment1_LLM_CAAFE.sh
+CMDCAAFE=./explocal/exp1_catalog/runExperiment1_LLM_CAAFE.sh
 # CMDRunPipeline=./explocal/exp1_catalog/runExperiment1_Run_Local_Pipeline.sh
 
 # $CMD ${dataset} ${catalog_path} AUTO Random 0 ${task_type} gpt-4o No

@@ -96,6 +96,9 @@ def load_merge_all_results(root_path):
                     f"{root_path}/raw_results/S16-10DS-Experiment1_LLM_Pipe_Gen_CatDBChain.dat", 
                     f"{root_path}/raw_results/S65-10DS-Experiment1_LLM_Pipe_Gen_CatDBChain.dat", 
                     f"{root_path}/raw_results/S35-10DS-Experiment1_LLM_Pipe_Gen_CatDB.dat", 
+                    f"{root_path}/raw_results/S113-10DS-Experiment1_LLM_Pipe_Gen_CatDB.dat",  
+                    
+                    f"{root_path}/raw_results/S113-10DS-Experiment1_LLM_Pipe_Gen_CatDB.dat",  
                     f"{root_path}/raw_results/S113-10DS-Experiment1_LLM_Pipe_Gen_CatDB.dat",                                                              
                     ] 
     df_merge = pd.DataFrame(columns = columns)

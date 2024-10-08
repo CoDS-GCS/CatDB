@@ -1,0 +1,80 @@
+row_id,dataset_name,llm_model,config,sub_task,error_class,error_type,error_value,error_detail,error_exception,file_name,timestamp
+1,EU-IT,gemini-1.5-pro-latest,CatDB,,AttributeError,Exception-<class 'AttributeError'>,Exception-<class 'AttributeError'>,Can only use .str accessor with string values!,"Traceback (most recent call last):
+  File ""/home/saeed/Documents/Github/CatDB/Experiments/setup/Baselines/CatDB/runcode/RunCode.py"", line 36, in execute_code
+    exec(compile(parse, filename=""<ast>"", mode=""exec""), loc)
+  File ""<ast>"", line 18, in <module>
+  File ""/home/saeed/Documents/Github/CatDB/Experiments/setup/Baselines/CatDB/venv/lib/python3.10/site-packages/pandas/core/generic.py"", line 6204, in __getattr__
+    return object.__getattribute__(self, name)
+  File ""/home/saeed/Documents/Github/CatDB/Experiments/setup/Baselines/CatDB/venv/lib/python3.10/site-packages/pandas/core/accessor.py"", line 224, in __get__
+    accessor_obj = self._accessor(obj)
+  File ""/home/saeed/Documents/Github/CatDB/Experiments/setup/Baselines/CatDB/venv/lib/python3.10/site-packages/pandas/core/strings/accessor.py"", line 190, in __init__
+    self._inferred_dtype = self._validate(data)
+  File ""/home/saeed/Documents/Github/CatDB/Experiments/setup/Baselines/CatDB/venv/lib/python3.10/site-packages/pandas/core/strings/accessor.py"", line 244, in _validate
+    raise AttributeError(""Can only use .str accessor with string values!"")
+AttributeError: Can only use .str accessor with string values!. Did you mean: 'std'?
+",gemini-1.5-pro-latest-CatDB-Random-0-SHOT-No-iteration-1_0.python,2024-10-08T20:11:58.301969
+2,EU-IT,gemini-1.5-pro-latest,CatDB,,AttributeError,Exception-<class 'AttributeError'>,Exception-<class 'AttributeError'>,Can only use .str accessor with string values!,"Traceback (most recent call last):
+  File ""/home/saeed/Documents/Github/CatDB/Experiments/setup/Baselines/CatDB/runcode/RunCode.py"", line 36, in execute_code
+    exec(compile(parse, filename=""<ast>"", mode=""exec""), loc)
+  File ""<ast>"", line 18, in <module>
+  File ""/home/saeed/Documents/Github/CatDB/Experiments/setup/Baselines/CatDB/venv/lib/python3.10/site-packages/pandas/core/generic.py"", line 6204, in __getattr__
+    return object.__getattribute__(self, name)
+  File ""/home/saeed/Documents/Github/CatDB/Experiments/setup/Baselines/CatDB/venv/lib/python3.10/site-packages/pandas/core/accessor.py"", line 224, in __get__
+    accessor_obj = self._accessor(obj)
+  File ""/home/saeed/Documents/Github/CatDB/Experiments/setup/Baselines/CatDB/venv/lib/python3.10/site-packages/pandas/core/strings/accessor.py"", line 190, in __init__
+    self._inferred_dtype = self._validate(data)
+  File ""/home/saeed/Documents/Github/CatDB/Experiments/setup/Baselines/CatDB/venv/lib/python3.10/site-packages/pandas/core/strings/accessor.py"", line 244, in _validate
+    raise AttributeError(""Can only use .str accessor with string values!"")
+AttributeError: Can only use .str accessor with string values!. Did you mean: 'std'?
+",gemini-1.5-pro-latest-CatDB-Random-0-SHOT-No-iteration-1_1.python,2024-10-08T20:12:35.684894
+3,EU-IT,gemini-1.5-pro-latest,CatDBChain,DataPreprocessing,AttributeError,Exception-<class 'AttributeError'>,Exception-<class 'AttributeError'>,Can only use .str accessor with string values!,"Traceback (most recent call last):
+  File ""/home/saeed/Documents/Github/CatDB/Experiments/setup/Baselines/CatDB/runcode/RunCode.py"", line 36, in execute_code
+    exec(compile(parse, filename=""<ast>"", mode=""exec""), loc)
+  File ""<ast>"", line 135, in <module>
+  File ""<ast>"", line 101, in process_data
+  File ""<ast>"", line 57, in custom_preprocessing
+  File ""/home/saeed/Documents/Github/CatDB/Experiments/setup/Baselines/CatDB/venv/lib/python3.10/site-packages/pandas/core/generic.py"", line 6204, in __getattr__
+    return object.__getattribute__(self, name)
+  File ""/home/saeed/Documents/Github/CatDB/Experiments/setup/Baselines/CatDB/venv/lib/python3.10/site-packages/pandas/core/accessor.py"", line 224, in __get__
+    accessor_obj = self._accessor(obj)
+  File ""/home/saeed/Documents/Github/CatDB/Experiments/setup/Baselines/CatDB/venv/lib/python3.10/site-packages/pandas/core/strings/accessor.py"", line 190, in __init__
+    self._inferred_dtype = self._validate(data)
+  File ""/home/saeed/Documents/Github/CatDB/Experiments/setup/Baselines/CatDB/venv/lib/python3.10/site-packages/pandas/core/strings/accessor.py"", line 244, in _validate
+    raise AttributeError(""Can only use .str accessor with string values!"")
+AttributeError: Can only use .str accessor with string values!. Did you mean: 'std'?
+",gemini-1.5-pro-latest-CatDBChainDataPreprocessing-Random-0-SHOT-No-iteration-1_0.python,2024-10-08T20:30:42.228840
+4,EU-IT,gemini-1.5-pro-latest,CatDBChain,FeatureEngineering,AttributeError,Exception-<class 'AttributeError'>,Exception-<class 'AttributeError'>,'NoneType' object has no attribute 'copy',"Traceback (most recent call last):
+  File ""/home/saeed/Documents/Github/CatDB/Experiments/setup/Baselines/CatDB/runcode/RunCode.py"", line 36, in execute_code
+    exec(compile(parse, filename=""<ast>"", mode=""exec""), loc)
+  File ""<ast>"", line 176, in <module>
+AttributeError: 'NoneType' object has no attribute 'copy'
+",gemini-1.5-pro-latest-CatDBChainFeatureEngineering-Random-0-SHOT-No-iteration-1_0.python,2024-10-08T20:32:15.593492
+5,EU-IT,gemini-1.5-pro-latest,CatDBChain,FeatureEngineering,IndexError,Exception-<class 'IndexError'>,Exception-<class 'IndexError'>,list index out of range,"Traceback (most recent call last):
+  File ""/home/saeed/Documents/Github/CatDB/Experiments/setup/Baselines/CatDB/runcode/RunCode.py"", line 36, in execute_code
+    exec(compile(parse, filename=""<ast>"", mode=""exec""), loc)
+  File ""<ast>"", line 173, in <module>
+IndexError: list index out of range
+",gemini-1.5-pro-latest-CatDBChainFeatureEngineering-Random-0-SHOT-No-iteration-1_1.python,2024-10-08T20:33:08.014275
+6,EU-IT,gemini-1.5-pro-latest,CatDBChain,ModelSelection,KeyError,Exception-<class 'KeyError'>,Exception-<class 'KeyError'>,Annual bonus+stocks one year ago. Only answer if staying in the same country,"Traceback (most recent call last):
+  File ""/home/saeed/Documents/Github/CatDB/Experiments/setup/Baselines/CatDB/venv/lib/python3.10/site-packages/pandas/core/indexes/base.py"", line 3791, in get_loc
+    return self._engine.get_loc(casted_key)
+  File ""index.pyx"", line 152, in pandas._libs.index.IndexEngine.get_loc
+  File ""index.pyx"", line 181, in pandas._libs.index.IndexEngine.get_loc
+  File ""pandas/_libs/hashtable_class_helper.pxi"", line 7080, in pandas._libs.hashtable.PyObjectHashTable.get_item
+  File ""pandas/_libs/hashtable_class_helper.pxi"", line 7088, in pandas._libs.hashtable.PyObjectHashTable.get_item
+KeyError: 'Annual bonus+stocks one year ago. Only answer if staying in the same country'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File ""/home/saeed/Documents/Github/CatDB/Experiments/setup/Baselines/CatDB/runcode/RunCode.py"", line 36, in execute_code
+    exec(compile(parse, filename=""<ast>"", mode=""exec""), loc)
+  File ""<ast>"", line 154, in <module>
+  File ""<ast>"", line 103, in process_data
+  File ""<ast>"", line 49, in handle_missing_string
+  File ""/home/saeed/Documents/Github/CatDB/Experiments/setup/Baselines/CatDB/venv/lib/python3.10/site-packages/pandas/core/frame.py"", line 3893, in __getitem__
+    indexer = self.columns.get_loc(key)
+  File ""/home/saeed/Documents/Github/CatDB/Experiments/setup/Baselines/CatDB/venv/lib/python3.10/site-packages/pandas/core/indexes/base.py"", line 3798, in get_loc
+    raise KeyError(key) from err
+KeyError: 'Annual bonus+stocks one year ago. Only answer if staying in the same country'
+",gemini-1.5-pro-latest-CatDBChainModelSelection-Random-0-SHOT-No-iteration-1_0.python,2024-10-08T20:35:45.997845

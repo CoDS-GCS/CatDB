@@ -120,6 +120,13 @@
     # print(f"Test_R_Squared:{{Test_R_Squared}}")   
     # print(f"Test_RMSE:{{Test_RMSE}}")
 
+  CODE_FORMATTING_ACC_EVALUATION: |
+    'Code formatting for classification evaluation:
+    # Report evaluation based on train and test dataset
+    # Calculate the model accuracy, represented by a value between 0 and 1, where 0 indicates low accuracy and 1 signifies higher accuracy. Store the accuracy value in a variable labeled as "Train_Accuracy=..." and "Test_Accuracy=...".
+    print(f"Train_Accuracy:{{Train_Accuracy}}")   
+    print(f"Test_Accuracy:{{Test_Accuracy}}")   
+
   CODE_BLOCK: 'Each codeblock ends with "```end" and starts with "```python".'
   CHAIN_RULE: 'Do not use "if __name__ == __main__:" style, use only flat mode.'
   DATASET_DESCRIPTION: 'Description of the dataset:\n{}\n'

@@ -1,22 +1,21 @@
---- 
- 
+---
+
 - llm_platform: OpenAI
   key_1: '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'
 
 - llm_platform: Meta
-  key_1: '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'
-  key_2: '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'
-  key_3: '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'
-  key_4: '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'
+  key_1: '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'
+  key_2: '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'
+  key_3: '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'
+  key_4: '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'
+  key_5: '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'
+
 
 - llm_platform: Google
-  key_1: 'AIzaSyBuPdodcMz28t3s2fsLykq2utUfmuru0Ow'
-  key_2: 'AIzaSyARjBt2s-ywnq9j7l2xoOrghMmZHBUz_7U'
-  key_3: 'AIzaSyBR1nuRg0tItfY00TuDPmxW49vRh8jsxHc'
-  key_4: 'AIzaSyCFZE38Ke0Nsy81h_nW0H1ntq31fyMWFFE'
-  key_5: 'AIzaSyB0v_AE9ArUh9wZpGqasQbjwzlfsCj8Azk'
-  key_6: 'AIzaSyAwhNT6zUddUYzE86VJssSToJWwOMbJ_cE'
-  key_7: 'AIzaSyD0kNxwHKLdyuRFMe6FXAbNaQvf7L9ktlk'
-  key_8: 'AIzaSyAc0xodtgyiPZSADK-ivvobZP5e3Q0UV1s'
-  key_9: 'AIzaSyBab8I8_XCvEput0pwofB-1EXqRKoTX8ew'
-  key_10: 'AIzaSyCZJYyK6NpIPu007DQ34MMTnRD0TQFm-Us'
+  key_1 : 'AIzaSyClkGY17W7i80-MMvL8vKwuDCIBM3c-omg'
+  key_2 : 'AIzaSyBlTr1XZIzL6YucEJ5FfbYxp8aim2XGwaU'
+  key_3 : 'AIzaSyCqXvBwja17r1nfM7nGlJnMBbnpkiCDm44'
+  key_4: 'AIzaSyB0v_AE9ArUh9wZpGqasQbjwzlfsCj8Azk'
+  key_5: 'AIzaSyAc0xodtgyiPZSADK-ivvobZP5e3Q0UV1s'
+  key_6: 'AIzaSyBk5bHuPdrUC7vzy6sPoz8s0cLzRoVVbHM'
+

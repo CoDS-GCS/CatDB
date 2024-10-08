@@ -45,11 +45,11 @@ CMD=./explocal/exp1_catalog/runExperiment1.sh
 # $CMD Financial multiclass
 
 $CMD EU-IT multiclass # OK
-$CMD Etailing multiclass # OK
-$CMD Midwest-Survey multiclass # OK
-$CMD WiFi binary # OK
-$CMD Utility regression # OK
-$CMD Yelp multiclass 
+# $CMD Etailing multiclass # OK
+# $CMD Midwest-Survey multiclass # OK
+# $CMD WiFi binary # OK
+# $CMD Utility regression # OK
+# $CMD Yelp multiclass 
 
 # $CMD Lahman-2014 regression 
 # $CMD Walmart regression 

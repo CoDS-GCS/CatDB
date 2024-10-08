@@ -90,6 +90,7 @@ _CODE_FORMATTING_TECHNIQUE = None
 _CODE_FORMATTING_BINARY_EVALUATION = None
 _CODE_FORMATTING_MULTICLASS_EVALUATION = None
 _CODE_FORMATTING_REGRESSION_EVALUATION = None
+_CODE_FORMATTING_ACC_EVALUATION = None
 _CODE_BLOCK = None
 _CHAIN_RULE = None
 _DATASET_DESCRIPTION = None
@@ -97,7 +98,7 @@ _DATASET_DESCRIPTION = None
 
 def load_config(system_log: str, llm_model: str = None, config_path: str = "Config.yaml",
                 api_config_path: str = "APIKeys.yaml", rules_path: str = "Rules.yaml",
-                data_cleaning_rules_path="RulesDataCleaning.yaml"):
+                data_cleaning_rules_path="RulesDataCleaning.yaml", evaluation_acc: bool = False):
     api_config_path = os.environ.get("APIKeys_File")
     global _llm_model
     global _llm_platform
@@ -175,11 +176,11 @@ def load_config(system_log: str, llm_model: str = None, config_path: str = "Conf
             raise Exception(f'Error: model "{llm_model}" is not in the Config.yaml list!')
 
         _LLM_API_Key = LLM_API_Key(api_config_path=api_config_path)
-        load_rules(rules_path=rules_path)
+        load_rules(rules_path=rules_path, evaluation_acc=evaluation_acc)
         load_data_cleaning_rules(rules_path=data_cleaning_rules_path)
 
 
-def load_rules(rules_path: str):
+def load_rules(rules_path: str, evaluation_acc: bool = False):
     global _catdb_rules
     global _catdb_chain_DP_rules
     global _catdb_chain_FE_rules
@@ -192,6 +193,7 @@ def load_rules(rules_path: str):
     global _CODE_FORMATTING_BINARY_EVALUATION
     global _CODE_FORMATTING_MULTICLASS_EVALUATION
     global _CODE_FORMATTING_REGRESSION_EVALUATION
+    global _CODE_FORMATTING_ACC_EVALUATION
     global _CODE_BLOCK
     global _CHAIN_RULE
     global _DATASET_DESCRIPTION
@@ -228,6 +230,8 @@ def load_rules(rules_path: str):
                             _CODE_FORMATTING_TECHNIQUE = v
                         elif k == 'CODE_FORMATTING_BINARY_EVALUATION':
                             _CODE_FORMATTING_BINARY_EVALUATION = v
+                        elif k == 'CODE_FORMATTING_ACC_EVALUATION':
+                            _CODE_FORMATTING_ACC_EVALUATION = v
                         elif k == 'CODE_FORMATTING_MULTICLASS_EVALUATION':
                             _CODE_FORMATTING_MULTICLASS_EVALUATION = v
                         elif k == 'CODE_FORMATTING_REGRESSION_EVALUATION':
@@ -240,6 +244,10 @@ def load_rules(rules_path: str):
                             _DATASET_DESCRIPTION = v
         except yaml.YAMLError as ex:
             raise Exception(ex)
+
+    if evaluation_acc:
+        _CODE_FORMATTING_BINARY_EVALUATION = _CODE_FORMATTING_ACC_EVALUATION
+        _CODE_FORMATTING_MULTICLASS_EVALUATION = _CODE_FORMATTING_ACC_EVALUATION
 
 
 def load_data_cleaning_rules(rules_path: str):

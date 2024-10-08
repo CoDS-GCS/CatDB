@@ -63,6 +63,9 @@ class CodeResultTemplate(object):
 
     def parse_results(self):
         #from util.Config import __execute_mode
+        from util.Config import _CODE_FORMATTING_BINARY_EVALUATION, _CODE_FORMATTING_ACC_EVALUATION
+        flag = _CODE_FORMATTING_ACC_EVALUATION == _CODE_FORMATTING_BINARY_EVALUATION
+
         if self.run_mode == 'execute': #__execute_mode
             print(self.result)
             pipeline_evl = {"Train_AUC": -2,
@@ -91,18 +94,18 @@ class CodeResultTemplate(object):
             # verify results
             if ((pipeline_evl["Train_AUC"] !=-2 and # binary classification
                 pipeline_evl["Train_Accuracy"] != -2 and
-                pipeline_evl["Train_F1_score"] != -2 and
-                pipeline_evl["Test_AUC"] != -2 and
+                 (pipeline_evl["Train_F1_score"] != -2 or flag) and
+                 (pipeline_evl["Test_AUC"] != -2 or flag) and
                 pipeline_evl["Test_Accuracy"] != -2 and
-                pipeline_evl["Test_F1_score"] != -2) or
-                (pipeline_evl["Train_AUC_OVO"] !=-2 and # multiclass classification
-                 pipeline_evl["Train_AUC_OVR"] !=-2 and
+                (pipeline_evl["Test_F1_score"] != -2 or flag)) or
+                ((pipeline_evl["Train_AUC_OVO"] !=-2 or flag) and # multiclass classification
+                 (pipeline_evl["Train_AUC_OVR"] !=-2 or flag) and
                  pipeline_evl["Train_Accuracy"] != -2 and
-                 pipeline_evl["Train_Log_loss"] !=-2 and
-                 pipeline_evl["Test_AUC_OVO"] != -2 and
-                 pipeline_evl["Test_AUC_OVR"] != -2 and
+                 (pipeline_evl["Train_Log_loss"] !=-2 or flag) and
+                (pipeline_evl["Test_AUC_OVO"] != -2 or flag) and
+                (pipeline_evl["Test_AUC_OVR"] != -2 or flag) and
                  pipeline_evl["Test_Accuracy"] != -2 and
-                 pipeline_evl["Test_Log_loss"] != -2) or
+                 (pipeline_evl["Test_Log_loss"] != -2 or flag)) or
                 (pipeline_evl["Train_R_Squared"] != -2 and # regression
                  pipeline_evl["Train_RMSE"] != -2 and
                  pipeline_evl["Test_R_Squared"] != -2 and

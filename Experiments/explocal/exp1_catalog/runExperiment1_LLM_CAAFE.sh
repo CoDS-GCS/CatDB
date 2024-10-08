@@ -20,8 +20,6 @@ mkdir -p "${result_output_path}"
 output_path="${exp_path}/results/Experiment1_LLM_CAAFE.dat"
 
 cd "${exp_path}/setup/Baselines/CAAFE/"
-git stash
-git pull origin catdb
 source venv/bin/activate
 
 SCRIPT="python -Wignore main.py --metadata-path ${metadata_path} \

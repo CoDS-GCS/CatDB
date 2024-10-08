@@ -118,7 +118,7 @@ if __name__ == '__main__':
     dependencies = load_dependency_info(dependency_file=dependency_file, datasource_name=args.dataset_name)
 
     if args.multi_table:
-        load_config(system_log=args.system_log, llm_model=args.llm_model, rules_path="RulesMultiTable.yaml")
+        load_config(system_log=args.system_log, llm_model=args.llm_model, rules_path="RulesMultiTable.yaml", evaluation_acc=args.dataset_name=="EU-IT")
         for tbl in dependencies.keys():
             tbl_dp_path = f"{data_profile_path}/{tbl}"
             enable_reduction = False
@@ -133,7 +133,7 @@ if __name__ == '__main__':
             cat.table_name = tbl
             catalog.append(cat)
     else:
-        load_config(system_log=args.system_log, llm_model=args.llm_model, rules_path="Rules.yaml")
+        load_config(system_log=args.system_log, llm_model=args.llm_model, rules_path="Rules.yaml", evaluation_acc=args.dataset_name=="EU-IT")
         # check the data clean is available:
         if os.path.isfile(args.data_source_train_clean_path):
             args.data_source_train_path = args.data_source_train_clean_path

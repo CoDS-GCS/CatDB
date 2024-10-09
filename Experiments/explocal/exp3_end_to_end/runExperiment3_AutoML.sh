@@ -13,7 +13,7 @@ data_path="${exp_path}/data"
 metadata_path="${data_path}/${dataset}/${dataset}.yaml"
 output_dir="${exp_path}/results/AutoML"
 output_path="${exp_path}/results/Experiment3_AutoML.dat"
-exe_runtime_path="${exp_path}/archive/VLDB2025/reults/AutoMLExeResults.csv"
+exe_runtime_path="${exp_path}/archive/VLDB2025/results/AutoMLExeResults.csv"
 
 mkdir -p ${output_dir}
 

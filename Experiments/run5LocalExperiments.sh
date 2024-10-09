@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # clean original results
-rm -rf results/*;
+#rm -rf results/*;
 mkdir -p results;
 mkdir -p catdb-results;
 
@@ -44,10 +44,10 @@ CMD=./explocal/exp1_catalog/runExperiment1.sh
 # $CMD Accidents multiclass 
 # $CMD Financial multiclass
 
-$CMD EU-IT multiclass # OK
+# $CMD EU-IT multiclass # OK
 # $CMD Etailing multiclass # OK
 # $CMD Midwest-Survey multiclass # OK
-# $CMD WiFi binary # OK
+$CMD WiFi binary # OK
 # $CMD Utility regression # OK
 # $CMD Yelp multiclass 
 

@@ -9,7 +9,8 @@
   key_3: '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'
   key_4: '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'
   key_5: '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'
-
+  key_6: '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'
+  key_7: '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'
 
 - llm_platform: Google
   key_1 : 'AIzaSyClkGY17W7i80-MMvL8vKwuDCIBM3c-omg'
@@ -18,4 +19,6 @@
   key_4: 'AIzaSyB0v_AE9ArUh9wZpGqasQbjwzlfsCj8Azk'
   key_5: 'AIzaSyAc0xodtgyiPZSADK-ivvobZP5e3Q0UV1s'
   key_6: 'AIzaSyBk5bHuPdrUC7vzy6sPoz8s0cLzRoVVbHM'
+  key_7: 'AIzaSyC9h1h3jGU81TSt3KWMuivnXPGA_cc8xjw'
+  key_8: 'AIzaSyDvZi537xoj-sRQjz1M_Ed_QJ1SVda2_js'
 

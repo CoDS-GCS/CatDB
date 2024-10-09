@@ -24,23 +24,23 @@ def parse_arguments():
 if __name__ == '__main__':
     args = parse_arguments()    
     
-    datasetIDs = [(11,"Balance-Scale","multiclass",1),
+    datasetIDs = [#(11,"Balance-Scale","multiclass",1),
                   (15,"Breast-w","binary",2),
                   (23,"CMC","multiclass",3),
                   (31,"Credit-g","binary",4),
                   (37,"Diabetes","binary",5),
                   (50,"Tic-Tac-Toe","binary",6),                  
-                  (41027,"Jungle-Chess","multiclass",10),
-                  (45570,"Higgs","binary",11),
-                  (1502,"Skin","binary",12),
+                  #(41027,"Jungle-Chess","multiclass",10),
+                  #(45570,"Higgs","binary",11),
+                  #(1502,"Skin","binary",12),
 
-                  (42132,"Traffic","multiclass",19),
+                  #(42132,"Traffic","multiclass",19),
                   (1509,"Walking-Activity","multiclass",20),
-                  (41540,"Black-Friday","regression",21),
+                  #(41540,"Black-Friday","regression",21),
                   (44048,"Bike-Sharing","regression",22),
                   (44051,"House-Sales","regression",23),
                   (44065,"NYC","regression",24),
-                  (1590,"Adult","binary",26),
+                  #(1590,"Adult","binary",26),
                   (1486,"Nomao","binary",33),
                   (1476,"Gas-Drift","multiclass",34),
                   (41166,"Volkert","multiclass",35),
@@ -62,10 +62,10 @@ if __name__ == '__main__':
         n_classes = data[dataset.default_target_attribute].nunique()           
 
          # Split and save original dataset
-        # nrows, ncols, number_classes = get_metadata(data=data, target_attribute=target_attribute)
-        # split_data_save(data=data, ds_name=dataset_name,out_path= args.data_out_path)
-        # save_config(dataset_name=dataset_name, target=target_attribute, task_type=task_type, data_out_path=args.data_out_path, description=dataset_description)
-        # dataset_out_name = dataset_name
+        nrows, ncols, number_classes = get_metadata(data=data, target_attribute=target_attribute)
+        split_data_save(data=data, ds_name=dataset_name,out_path= args.data_out_path)
+        save_config(dataset_name=dataset_name, target=target_attribute, task_type=task_type, data_out_path=args.data_out_path, description=dataset_description)
+        dataset_out_name = dataset_name
 
         # # Split and rename dataset-name, then save  
         # dataset_out_name = f"oml_dataset_{dataset_index}"

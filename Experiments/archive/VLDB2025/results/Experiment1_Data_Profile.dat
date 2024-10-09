@@ -1,0 +1,11 @@
+dataset,task_type,platform,time
+Airline,multiclass,kglidsplus,188330
+IMDB-IJS,binary,kglidsplus,386291
+Accidents,multiclass,kglidsplus,157146
+Financial,multiclass,kglidsplus,122365
+EU-IT,multiclass,kglidsplus,49439
+Etailing,multiclass,kglidsplus,56235
+Midwest-Survey,multiclass,kglidsplus,51398
+WiFi,binary,kglidsplus,36675
+Utility,regression,kglidsplus,38992
+Yelp,multiclass,kglidsplus,192449

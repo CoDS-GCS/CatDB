@@ -1,0 +1,94 @@
+SYSTEM MESSAGE:
+###  Task: Generate a data science pipeline in Python 3.10 that answers a question based on a given dataset, Schema, and Data Profiling Info.
+###  Input: A dataset in CSV format, a schema that describes the columns and data types of the dataset, and a data profiling info that summarizes the statistics and quality of the dataset. A question that requires data analysis or modeling to answer.
+###  Output: A Python 3.10 code that performs the following steps:
+# 1: Import the necessary libraries and modules.
+# 2: Load the training and test datasets. For the training data, utilize the variable """train_data=/home/ubuntu/CatDB/Experiments/data/EU-IT/EU-IT_train_clean.csv""", and for the test data, employ the variable """test_data=/home/ubuntu/CatDB/Experiments/data/EU-IT/EU-IT_test_clean.csv""". Utilize pandas CSV readers to load the datasets.
+# 3: Do not split the train_data into train and test sets. Use only the given datasets.
+# 4: The user will provide the Schema, and Data Profiling Info of the dataset with columns appropriately named as attributes, enclosed in triple quotes, and preceded by the prefix "Schema, and Data Profiling Info:".
+# 5: Explicitly analyze feature based on the provided data profiling information and implement data preprocessing tasks: i) handel missing values, ii) select appropriate data transfer for each column specifically (categorical values and numerical values based on min, max, mean, median values), iii) apply data cleaning based on data profiling information.
+# 6: Explicitly implement Outlier removal for Train and Test data based on the provided data profiling information.
+# 7: Explicitly do data augmentation techniques based on the data profiling information (use your knowledge to chose best technique).
+# 8: Explicitly analyze feature based on the provided data profiling information and implement feature engineering task.
+# 9: Do not use ""select_dtypes(include=[\"object\"]).columns"" for extracting categorical features. Use only the Schema Info to infer the categorical columns.
+# 10: Explicitly select a best model based on the data profiling information.
+# 11: Select the appropriate features and target variables for the question. Additional columns add new semantic information, additional columns that are useful for a downstream algorithm predicting "Position ". They can e.g. be feature combinations, transformations, aggregations where the new column is a function of the existing columns. Use appropriate scale factor for columns are need to transfer.
+# 12: Perform drops columns, if these may be redundant and hurt the predictive performance of the downstream classifier (Feature selection). Dropping columns may help as the chance of overfitting is lower, especially if the dataset is small. The Position  will be trained on the dataset with the generated columns and evaluated on a holdout set.
+# 13: In order to avoid runtime error for unseen value on the target feature, do preprocessing based on union of train and test dataset.
+# 14: Code formatting for all required packages and pipeline format:
+# Import all required packages  
+# Do not use "if __name__ == __main__:" style, use only flat mode.
+
+# 15: Code formatting for each added column:
+# (Feature name and description)
+# Usefulness: (Description why this adds useful real world knowledge to classify "Position " according to dataset description and attributes.) (Some pandas code using "Annual brutto salary (without bonus and stocks) one year ago. Only answer if staying in the same country", "Age", ... to add a new column for each row in df)
+
+# 16: Code formatting for dropping columns:
+# Explanation why the column XX is dropped
+# df.drop(columns=['XX'], inplace=True)
+
+# 17: 'Code formatting for training technique:
+# Choose the suitable machine learning algorithm or technique (classifier).
+# Explanation why the solution is selected.
+trn = ... 
+
+# 18: 'Code formatting for classification evaluation:
+# Report evaluation based on train and test dataset
+# Calculate the model accuracy, represented by a value between 0 and 1, where 0 indicates low accuracy and 1 signifies higher accuracy. Store the accuracy value in a variable labeled as "Train_Accuracy=..." and "Test_Accuracy=...".
+print(f"Train_Accuracy:{{Train_Accuracy}}")   
+print(f"Test_Accuracy:{{Test_Accuracy}}")   
+
+# 19: If the question is not relevant to the dataset or the task, the output should be: "Insufficient information."
+# 20: Do not report validation evaluation. We do not need it.
+# 21: Each codeblock ends with "```end" and starts with "```python".
+---------------------------------------
+PROMPT TEXT:
+Schema, and Data Profiling Info:
+"""
+# "Annual brutto salary (without bonus and stocks) one year ago. Only answer if staying in the same country" (int), distinct-count [147], min-value [11000], max-value [500000000], median-value [65000], mean-value [632245.872]
+# "Age" (int), categorical-values [26,29,28,and 37 more]
+# "Company type" (str), categorical-values [Product,Startup,Consulting / Agency,and 61 more]
+# "Gender" (str), categorical-values [Male,Female,Diverse]
+# "Employment status" (str), categorical-values [Full-time employee,Self-employed (freelancer),Company Director,and 8 more]
+# "Your main technology / programming language" (str), categorical-values [TypeScript,Ruby,Javascript / Typescript,and 253 more]
+# "Have you lost your job due to the coronavirus outbreak?" (str), categorical-values [No,Yes,i didn't but will be looking for new one because of covid,and 7 more]
+# "Company size" (str), categorical-values [51-100,101-1000,11-50,and 2 more]
+# "Сontract duration" (str), categorical-values [Unlimited contract,Temporary contract,0]
+# "Seniority level" (str), categorical-values [Senior,Lead,Junior,and 21 more]
+# "Years of experience in Germany" (str), categorical-values [3,4,6,and 49 more]
+# "Main language at work" (str), categorical-values [English,German,English and German,and 11 more]
+# "Have you received additional monetary support from your employer due to Work From Home? If yes, how much in 2020 in EUR" (str), categorical-values [600,1000,200,and 55 more]
+# "Yearly bonus + stocks in EUR" (str), distinct-count [167]
+# "Annual bonus+stocks one year ago. Only answer if staying in same country" (str), distinct-count [130]
+# "City" (str), categorical-values [Munich,Berlin,Hamburg,and 116 more]
+# "Number of vacation days" (str), categorical-values [30,28,24,and 42 more]
+# "Total years of experience" (str), categorical-values [5,7,12,and 45 more]
+# "Timestamp" (date), distinct-count [1248]
+# "Yearly brutto salary (without bonus and stocks) in EUR" (float), distinct-count [201], min-value [10001], max-value [99999999999], median-value [70000], mean-value [80279042.579]
+# "Have you been forced to have a shorter working week (Kurzarbeit)? If yes, how many hours per week" (float), categorical-values [0.0,30.0,32.0,and 20 more]
+# "Position " (str, **This is a target column**), categorical-values [Software Engineer,Backend Developer,Frontend Developer,and 145 more]
+"""
+
+### Do missing values imputation semantically for the following numerical columns:
+	Columns: "Annual brutto salary (without bonus and stocks) one year ago. Only answer if staying in the same country"
+
+
+### Predict the missing values semantically for the following categorical columns:
+	Columns: "Age","Company type","Gender","Employment status","Your main technology / programming language","Have you lost your job due to the coronavirus outbreak?","Position ","Company size","Сontract duration","Seniority level","Years of experience in Germany","Main language at work","Have you received additional monetary support from your employer due to Work From Home? If yes, how much in 2020 in EUR","Number of vacation days","Total years of experience","Have you been forced to have a shorter working week (Kurzarbeit)? If yes, how many hours per week"
+
+
+### Predict the missing values semantically for the following string/object columns:
+	Columns: "Yearly bonus + stocks in EUR","Annual bonus+stocks one year ago. Only answer if staying in same country"
+
+### Transformer the following columns by Adaptive Binning or Scaler method (do it base on the min-max, mean, and median values are in the "Schema, and Data Profiling Info"):
+ 	# Columns: "Annual brutto salary (without bonus and stocks) one year ago. Only answer if staying in the same country","Yearly brutto salary (without bonus and stocks) in EUR"
+
+### Transformer the categorical data for the following (e.g., One-Hot Encoding, Ordinal Encoder, Polynomial Encoder, Count Encoder, ... ) columns:
+	# Columns: "Age","Company type","Gender","Employment status","Your main technology / programming language","Have you lost your job due to the coronavirus outbreak?","Company size","Сontract duration","Seniority level","Years of experience in Germany","Main language at work","Have you received additional monetary support from your employer due to Work From Home? If yes, how much in 2020 in EUR","City","Number of vacation days","Total years of experience","Have you been forced to have a shorter working week (Kurzarbeit)? If yes, how many hours per week"
+
+### Dataset Attribute:
+# Number of samples (rows) in training dataset: 1253
+
+### Dataset is a structured/tabular data, select a high performance ML model. For example, Gradient Boosting Machines (e.g., XGBoost, LightGBM, ...), RandomForest, ...
+
+### Question: Provide a complete pipeline code that can be executed in a multi-threaded environment.

@@ -26,17 +26,6 @@ def parse_arguments():
 
 
 def split_data_save(data: pd.DataFrame, ds_name, out_path, target_table: str=None, write_data: bool=True):
-    data.dropna(subset=["Position "], inplace=True)
-    # columns = data.columns.values.tolist()
-    # columns.remove('Position ')
-    # selected_cols = []
-    # for i in range(0, min(len(columns), 5)):
-    #     selected_cols.append(columns[i])
-    # selected_cols.append('Position ')
-    # print(selected_cols)
-    # data = data[selected_cols]
-    # print(data)
-
     if target_table is None:
         target_table = ds_name
     data_train, data_test = train_test_split(data, test_size=0.3, random_state=42)
@@ -48,9 +37,6 @@ def split_data_save(data: pd.DataFrame, ds_name, out_path, target_table: str=Non
     data_train.to_csv(f'{out_path}/{ds_name}/{target_table}_train.csv', index=False)
     data_test.to_csv(f'{out_path}/{ds_name}/{target_table}_test.csv', index=False)
     data_verify.to_csv(f'{out_path}/{ds_name}/{target_table}_verify.csv', index=False)
-    # print(data.describe(include="all").T)
-    # print(data_train.describe(include="all").T)
-    # print(data_test.describe(include="all").T)
     
 
 def get_metadata(data, target_attribute):

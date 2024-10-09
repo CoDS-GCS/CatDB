@@ -19,9 +19,6 @@ Etailing,CatDBChain,DataPreprocessing,gemini-1.5-pro-latest,Auto,multiclass,True
 Etailing,CatDBChain,FeatureEngineering,gemini-1.5-pro-latest,Auto,multiclass,True,2,0,No,0.0417869091033935,23.50330805778504,23.619170665740967,0.1158626079559326,-2.0,-2.0,-2.0,-2.0,-2.0,-2.0,-2.0,-2.0,-2.0,-2.0,-2.0,-2.0,-2.0,-2.0,-2.0,-2.0,4125,4125,Gen-and-Verify-Pipeline,0
 Etailing,CatDBChain,ModelSelection,gemini-1.5-pro-latest,Auto,multiclass,True,2,0,No,0.0417869091033935,32.229546308517456,34.57832646369934,2.3487801551818848,-2.0,0.9994294415602716,0.9994895745270423,0.9771754636233952,-2.0,0.2322425904135312,-2.0,-2.0,-2.0,0.9566416605433808,0.9615756181290248,0.8775374376039934,-2.0,0.4852317075675516,-2.0,-2.0,4567,4567,Gen-and-Verify-Pipeline,0
 Etailing,CatDBChain,ModelSelection,gemini-1.5-pro-latest,Auto,multiclass,True,2,0,No,0.0417869091033935,32.229546308517456,51.98904871940613,17.410722255706787,-2.0,0.9978162753708392,0.9980453198835398,0.9621914681124268,-2.0,0.311447583902811,-2.0,-2.0,-2.0,0.995077698662314,0.9959070308896264,0.951414309484193,-2.0,0.3383206147729245,-2.0,-2.0,4567,4567,Run-Pipeline,0
-
-
-
 WiFi,CatDBChain,DataPreprocessing,llama-3.1-70b-versatile,Auto,binary,True,1,2,No,0.0326998233795166,4.51012516021729,10.2130620479584,0.174744367599487,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,840,3363,Gen-and-Verify-Pipeline,0
 WiFi,CatDBChain,DataPreprocessing,llama-3.1-70b-versatile,Auto,binary,True,1,2,No,0.0326998233795166,4.01507210731506,9.64536142349243,0.167927026748657,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,840,3361,Gen-and-Verify-Pipeline,0
 WiFi,CatDBChain,FeatureEngineering,llama-3.1-70b-versatile,Auto,binary,True,1,1,No,0.0326998233795166,4.39896941184998,9.05271029472351,0.177277565002441,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,1377,3024,Gen-and-Verify-Pipeline,0
@@ -53,8 +50,6 @@ WiFi,CatDBChain,DataPreprocessing,gemini-1.5-pro-latest,Auto,binary,True,2,0,No,
 WiFi,CatDBChain,FeatureEngineering,gemini-1.5-pro-latest,Auto,binary,True,2,1,No,0.0296850204467773,12.548765420913696,23.02110910415649,0.0041091442108154,-2.0,-2.0,-2.0,-2.0,-2.0,-2.0,-2.0,-2.0,-2.0,-2.0,-2.0,-2.0,-2.0,-2.0,-2.0,-2.0,1778,2559,Gen-and-Verify-Pipeline,0
 WiFi,CatDBChain,ModelSelection,gemini-1.5-pro-latest,Auto,binary,True,2,1,No,0.0296850204467773,17.254700422286987,34.5049204826355,0.2901053428649902,1.0,-2.0,-2.0,1.0,1.0,-2.0,-2.0,-2.0,0.4954751131221719,-2.0,-2.0,0.6,0.5944444444444444,-2.0,-2.0,-2.0,2053,4006,Gen-and-Verify-Pipeline,0
 WiFi,CatDBChain,ModelSelection,gemini-1.5-pro-latest,Auto,binary,True,2,0,No,0.0296850204467773,17.254700422286987,34.81420397758484,0.3092834949493408,1.0,-2.0,-2.0,1.0,1.0,-2.0,-2.0,-2.0,0.5248868778280542,-2.0,-2.0,0.5666666666666667,0.5238339751818571,-2.0,-2.0,-2.0,2053,4006,Run-Pipeline,0
-
-
 Utility,CatDBChain,DataPreprocessing,llama-3.1-70b-versatile,Auto,regression,True,1,0,No,0.0423719882965087,3.75554800033569,4.39351367950439,0.637965679168701,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,1083,1083,Gen-and-Verify-Pipeline,0
 Utility,CatDBChain,FeatureEngineering,llama-3.1-70b-versatile,Auto,regression,True,1,0,No,0.0423719882965087,4.48190546035767,4.68201541900635,0.200109958648682,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,1679,1679,Gen-and-Verify-Pipeline,0
 Utility,CatDBChain,ModelSelection,llama-3.1-70b-versatile,Auto,regression,True,1,0,No,0.0423719882965087,4.42207503318787,4.61224460601807,0.1901695728302,-2,-2,-2,-2,-2,-2,0.99,0.17,-2,-2,-2,-2,-2,-2,0.81,0.84,1901,1901,Gen-and-Verify-Pipeline,0
@@ -89,8 +84,6 @@ Utility,CatDBChain,DataPreprocessing,gemini-1.5-pro-latest,Auto,regression,True,
 Utility,CatDBChain,FeatureEngineering,gemini-1.5-pro-latest,Auto,regression,True,2,0,No,0.0304818153381347,15.43377947807312,16.14349365234375,0.7097141742706299,-2.0,-2.0,-2.0,-2.0,-2.0,-2.0,-2.0,-2.0,-2.0,-2.0,-2.0,-2.0,-2.0,-2.0,-2.0,-2.0,2399,2399,Gen-and-Verify-Pipeline,0
 Utility,CatDBChain,ModelSelection,gemini-1.5-pro-latest,Auto,regression,True,2,0,No,0.0304818153381347,18.97992849349976,19.907254219055176,0.92732572555542,-2.0,-2.0,-2.0,-2.0,-2.0,-2.0,0.9540162941764516,0.2773051801569356,-2.0,-2.0,-2.0,-2.0,-2.0,-2.0,0.7591860345954045,0.6057251879217378,2422,2422,Gen-and-Verify-Pipeline,0
 Utility,CatDBChain,ModelSelection,gemini-1.5-pro-latest,Auto,regression,True,2,0,No,0.0304818153381347,18.97992849349976,21.08490538597107,1.1776511669158936,-2.0,-2.0,-2.0,-2.0,-2.0,-2.0,0.9673021042848748,0.2281163960005162,-2.0,-2.0,-2.0,-2.0,-2.0,-2.0,0.9039719271728632,0.38250217178807,2422,2422,Run-Pipeline,0
-
-
 Yelp,CatDBChain,DataPreprocessing,gemini-1.5-pro-latest,Auto,multiclass,True,1,0,No,0.279813289642334,9.01400804519653,40.2504117488861,31.2364037036896,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,8865,8865,Gen-and-Verify-Pipeline,0
 Yelp,CatDBChain,FeatureEngineering,gemini-1.5-pro-latest,Auto,multiclass,True,1,0,No,0.279813289642334,12.4958071708679,39.7382910251617,27.2424838542938,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,8342,8342,Gen-and-Verify-Pipeline,0
 Yelp,CatDBChain,ModelSelection,gemini-1.5-pro-latest,Auto,multiclass,True,1,1,No,0.279813289642334,19.6520912647247,71.5747418403626,32.6112515926361,-2,0.861929911969852,0.868531118013129,0.607598638176995,-2,0.969663555363957,-2,-2,-2,0.754704822385808,0.768233048134239,0.502573249897655,-2,1.15507185215654,-2,-2,8503,15706,Gen-and-Verify-Pipeline,0

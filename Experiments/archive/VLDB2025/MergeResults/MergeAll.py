@@ -1,5 +1,5 @@
 import pandas as pd
-from MergeResults import load_merge_all_results,load_results, get_top_k_binary, get_top_k_multiclass, get_top_k_regression, mergse_dfs, get_top_k_chain , dataset_corr
+from MergeResults import load_merge_all_results,load_results, get_top_k_binary, get_top_k_multiclass, get_top_k_multiclass_EUIT, get_top_k_regression, mergse_dfs, get_top_k_chain , dataset_corr
 
 
 if __name__ == '__main__':
@@ -16,7 +16,7 @@ if __name__ == '__main__':
                                       "error_count_it1", "pp_error_count_it1","fe_error_count_it1",
                                       "llm_model", "has_description", "task_type","task","samples"])
 
-    #df_csv_read = load_results(f"{root_path}/Experiment1_CSVDataReader.dat")
+    df_csv_read = load_results(f"{root_path}/Experiment1_CSVDataReader.dat")
     df_exe = pd.DataFrame(columns = ["dataset_name","dataset_name_orig",
                                      "CatDB","CatDBChain","CAAFETabPFN","CAAFERandomForest","CatDB_min",
                                      "CatDBChain_min","CAAFETabPFN_min","CAAFERandomForest_min",
@@ -108,7 +108,10 @@ if __name__ == '__main__':
                                     mergse_dfs(df_sort, df_binary)
 
                                     # Multitask Tasks
-                                    df_multi = get_top_k_multiclass(df=df, config=config, k=10)
+                                    if ds_title == 'EU-IT':
+                                         df_multi = get_top_k_multiclass_EUIT(df=df, config=config, k=10)
+                                    else:
+                                        df_multi = get_top_k_multiclass(df=df, config=config, k=10)
                                     df_multi["number_iteration"] = [ki for ki in range(1, len(df_multi)+1)]
                                     mergse_dfs(df_sort, df_multi)
 
@@ -159,6 +162,8 @@ if __name__ == '__main__':
                                     row_entry.append(tsk) 
                                     row_entry.append(samples)  
                                     df_cost.loc[cindex] = row_entry 
+                                    if len(df_ds) == 0:
+                                        continue
                                                                 
                                     if config == "CatDB":
                                         df_cost.at[cindex,"config"]="CatDB"
@@ -236,13 +241,13 @@ if __name__ == '__main__':
                                         prompt_exe[f"{config}{cls}_min"] = f"{tmp_time/60:.2f}"
                                         prompt_exe[f"{config}{cls}_10_min"] = f"{tmp_time/6:.2f}"
                                         
-                    if des == "No" and (ds.endswith("rnc") or ((index in {106,107,108,109,1010} and llm == 'gemini-1.5-pro-latest') or index in {101,102,103,104,105})):    
+                    if des == "No" and (ds.endswith("rnc") or ((index in {106,107,108,109,1010,105} and llm == 'gemini-1.5-pro-latest') or index in {101,102,103,104})):    
                         if task_type in {"binary", "multiclass"}:
                             tsk = "classification"
                         else:
                             tsk = "regression"                  
 
-                        dataset_load_time = 0 #df_csv_read.loc[df_csv_read['dataset']==ds]["time"].values[0] / 1000
+                        dataset_load_time = df_csv_read.loc[df_csv_read['dataset']==ds]["time"].values[0] / 1000
                         df_exe.loc[len(df_exe)] = [ ds, ds_title, prompt_exe["CatDB"], prompt_exe["CatDBChain"], prompt_exe["CAAFETabPFN"],prompt_exe["CAAFERandomForest"],
                                                     prompt_exe["CatDB_min"], prompt_exe["CatDBChain_min"], prompt_exe["CAAFETabPFN_min"],prompt_exe["CAAFERandomForest_min"],
                                                     prompt_exe["CatDB_10_min"], prompt_exe["CatDBChain_10_min"], prompt_exe["CAAFETabPFN_10_min"],prompt_exe["CAAFERandomForest_10_min"],
@@ -257,7 +262,6 @@ if __name__ == '__main__':
 
                         df_automl_exe.loc[len(df_automl_exe)] = [ds, ds_title, automl_time, dataset_load_time, llm ]
               
-    print(df_sort)
     df_sort.to_csv(f"{root_path}/AllResults.csv", index=False)
     df_cost.to_csv(f"{root_path}/CostResults.csv", index=False)
     df_exe.to_csv(f"{root_path}/ExeResults.csv", index=False)   

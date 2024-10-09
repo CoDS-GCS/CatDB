@@ -21,7 +21,7 @@ dataset_corr = {"oml_dataset_12_rnc":"CatDB",
                 "oml_dataset_21_rnc":"CatDB",
                 "oml_dataset_22_rnc":"CatDBChain",
                 "oml_dataset_24_rnc":"CatDBChain",
-                "oml_dataset_23_rnc":"CatDBChain",
+                "oml_dataset_23_rnc":"CatDB",
                 "Airline":"CatDBChain",
                 "IMDB-IJS":"CatDBChain",
                 "Accidents":"CatDBChain",
@@ -88,18 +88,15 @@ def load_merge_all_results(root_path):
                "operation",
                "number_of_samples"]
 
-    results_path = [f"{root_path}/raw_results/S113-gemini-Experiment1_LLM_Pipe_Gen_CatDB.dat",
-                    f"{root_path}/raw_results/S113-gemini-Experiment1_LLM_Pipe_Gen_CatDBChain.dat",
-                    f"{root_path}/raw_results/S113-Lama-Experiment1_LLM_Pipe_Gen_CatDB.dat",
-                    f"{root_path}/raw_results/gpt4o-Experiment1_LLM_CAAFE.dat",
-                    f"{root_path}/raw_results/gemini-Experiment1_LLM_CAAFE.dat",  
-                    f"{root_path}/raw_results/S16-10DS-Experiment1_LLM_Pipe_Gen_CatDBChain.dat", 
-                    f"{root_path}/raw_results/S65-10DS-Experiment1_LLM_Pipe_Gen_CatDBChain.dat", 
-                    f"{root_path}/raw_results/S35-10DS-Experiment1_LLM_Pipe_Gen_CatDB.dat", 
-                    f"{root_path}/raw_results/S113-10DS-Experiment1_LLM_Pipe_Gen_CatDB.dat",  
-                    
-                    f"{root_path}/raw_results/S113-10DS-Experiment1_LLM_Pipe_Gen_CatDB.dat",  
-                    f"{root_path}/raw_results/S113-10DS-Experiment1_LLM_Pipe_Gen_CatDB.dat",                                                              
+    results_path = [f"{root_path}/raw_results/Cleaning-Experiment1_LLM_CAAFE.dat",
+                    f"{root_path}/raw_results/Cleaning-Experiment1_LLM_Pipe_Gen_CatDB.dat",
+                    f"{root_path}/raw_results/Cleaning-Experiment1_LLM_Pipe_Gen_CatDBChain.dat",
+                    #f"{root_path}/raw_results/",  # <<< CAAFE
+                    f"{root_path}/raw_results/MicroBench-Experiment1_LLM_Pipe_Gen_CatDB.dat",
+                    f"{root_path}/raw_results/MicroBench-Experiment1_LLM_Pipe_Gen_CatDBChain.dat",
+                    f"{root_path}/raw_results/Multitable-Experiment1_LLM_CAAFE.dat",
+                    f"{root_path}/raw_results/Multitable-Experiment1_LLM_Pipe_Gen_CatDB.dat",
+                    f"{root_path}/raw_results/Multitable-Experiment1_LLM_Pipe_Gen_CatDBChain.dat"
                     ] 
     df_merge = pd.DataFrame(columns = columns)
     
@@ -202,6 +199,19 @@ def get_top_k_multiclass(df, config,k):
      else:
        df_multi = df_multi.sort_values(by='test_auc_ovr', ascending=False).reset_index(drop=True)
        return  df_multi.head(k) 
+
+def get_top_k_multiclass_EUIT(df, config,k):
+     df_multi = df.loc[(df['train_accuracy'] >=0) &
+                        (df['test_accuracy'] >=0) &
+                        (df['task_type'] =='multiclass')]  
+     df_multi['train_auc_ovr'] = df_multi['train_accuracy']
+     df_multi['test_auc_ovr'] = df_multi['test_accuracy']
+
+     if config not in {"CatDB", "CatDBChain"}:
+        return df_multi
+     else:
+       df_multi = df_multi.sort_values(by='test_accuracy', ascending=False).reset_index(drop=True)
+       return  df_multi.head(k)     
 
 def get_top_k_regression(df, config,k):
      df_reg = df.loc[(df['train_r_squared'] >=0) & (df['train_r_squared'] <=1) &

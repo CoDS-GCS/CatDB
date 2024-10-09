@@ -4,6 +4,7 @@ from util.Data import Dataset, reader_CSV
 from sklearn.metrics import f1_score, roc_auc_score, log_loss
 from sklearn.metrics import r2_score, mean_squared_error
 import time
+import re
 
 import os
 from flaml import AutoML, __version__
@@ -13,12 +14,16 @@ class FlamlAutoML(CatDBAutoML):
     def __init__(self, dataset: Dataset, config: Config, *args, **kwargs):
         CatDBAutoML.__init__(self, dataset=dataset, config=config)
 
+    
     def run(self):
         print(f"\n**** FLAML [v{__version__}] ****\n")
 
         time_start = time.time()
-        train_data = reader_CSV(self.dataset.train_path)
+        train_data = reader_CSV(self.dataset.train_path).rename(columns = lambda x:re.sub('[^A-Za-z0-9_]+', '', x))
         test_data = reader_CSV(self.dataset.test_path)
+
+#         import re
+# df = df.rename(columns = lambda x:re.sub('[^A-Za-z0-9_]+', '', x))
 
         X_train = train_data.drop(columns=[self.dataset.target_attribute])
         y_train = train_data[self.dataset.target_attribute]

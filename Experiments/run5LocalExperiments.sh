@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # clean original results
-#rm -rf results/*;
+rm -rf results/*;
 mkdir -p results;
 mkdir -p catdb-results;
 
@@ -15,14 +15,14 @@ cd ${exp_path}
 
 # CMD=./explocal/exp0_statistics/runExperiment0.sh
 # CMD=./explocal/exp1_cleaning/runExperiment1.sh
-# CMDPath=./explocal/exp1_cleaning/runPatch.sh
+# CMDPatch=./explocal/exp1_cleaning/runPatch.sh
 CMD=./explocal/exp1_catalog/runExperiment1.sh
 # CMD=./explocal/exp2_micro_benchmark/runExperiment2.sh 
 # CMD=./explocal/exp3_end_to_end/runExperiment3.sh
 #CMD=./explocal/exp4_finetune/runExperiment4.sh
 #CMD=./explocal/exp5_dataprepare/runExperiment5.sh
 
-# $CMDPath
+# $CMDPatch
 
 # $CMD oml_dataset_2_rnc binary # Breast-w
 # $CMD oml_dataset_3_rnc multiclass # CMC
@@ -34,9 +34,9 @@ CMD=./explocal/exp1_catalog/runExperiment1.sh
 # $CMD oml_dataset_34_rnc multiclass # Gas-Drift
 # $CMD oml_dataset_35_rnc multiclass # Volkert
 
-# $CMD oml_dataset_22_rnc regression # Bike-Sharing
-# $CMD oml_dataset_23_rnc regression # House-Sales
-# $CMD oml_dataset_24_rnc regression # NYC
+#$CMD oml_dataset_22_rnc regression # Bike-Sharing
+$CMD oml_dataset_24_rnc regression # NYC
+$CMD oml_dataset_23_rnc regression # House-Sales
 
 
 # $CMD Airline multiclass 
@@ -47,39 +47,9 @@ CMD=./explocal/exp1_catalog/runExperiment1.sh
 # $CMD EU-IT multiclass # OK
 # $CMD Etailing multiclass # OK
 # $CMD Midwest-Survey multiclass # OK
-$CMD WiFi binary # OK
+# $CMD WiFi binary # OK
 # $CMD Utility regression # OK
 # $CMD Yelp multiclass 
-
-# $CMD Lahman-2014 regression 
-# $CMD Walmart regression 
-# #$CMD Walmart-2014 regression 
-# $CMD IMDB binary 
-# $CMD Halloween multiclass
-# $CMD Salaries multiclass
-# $CMD US-Labor multiclass
-# $CMD San-Francisco multiclass
-# $CMD TSM-Habitat multiclass
-
-
-######################################################
-# $CMD Airlines binary # Airlines
-# $CMD Click-Prediction binary # Click-Prediction
-# $CMD Census-Augmented binary # Census-Augmented
-# $CMD Heart-Statlog binary # Heart-Statlog
-# $CMD KDDCup99 multiclass # KDDCup99
-# $CMD Road-Safety multiclass # Road-Safety
-# $CMD Drug-Directory multiclass # Drug-Directory
-# $CMD Adult binary # Adult
-
-# $CMD oml_dataset_26_rnc binary # Adult
-# $CMD oml_dataset_14_rnc binary # Census-Augmented
-# $CMD oml_dataset_15_rnc binary # Heart-Statlog
-# $CMD oml_dataset_9_rnc binary # Airlines
-# $CMD oml_dataset_13_rnc binary # Click-Prediction
-# $CMD oml_dataset_16_rnc multiclass # KDDCup99
-# $CMD oml_dataset_17_rnc multiclass # Road-Safety
-# $CMD oml_dataset_18_rnc multiclass # Drug-Directory
 
 #####################################################
 # $CMD gen_dataset_54-out-0.05-np-1-nc-180-mv-0.1_rnc multiclass # Volkert

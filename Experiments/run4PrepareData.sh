@@ -11,18 +11,18 @@ declare -a dataset_list=("Midwest-Survey" "WiFi" "Utility" "EU-IT" "Etailing" "A
 rm -rf ${catalog_path}
 unzip "${catalog_path}.zip"
 
-for ds in "${dataset_list[@]}"; do
-        rm -rf "${data_path}/${ds}" # clean-up dataset
-        unzip "${data_path}/${ds}.zip" -d "${data_path}/"
-done
+# for ds in "${dataset_list[@]}"; do
+#         rm -rf "${data_path}/${ds}" # clean-up dataset
+#         unzip "${data_path}/${ds}.zip" -d "${data_path}/"
+# done
 
-cd ${config_path}
-source venv/bin/activate
+# cd ${config_path}
+# source venv/bin/activate
 
-CMD="python DatasetPrepare.py --dataset-root-path ${data_path} \
-        --multi-table True \
-        --data-out-path ${data_out_path} \
-        --catalog-root-path ${catalog_path}"
+# CMD="python DatasetPrepare.py --dataset-root-path ${data_path} \
+#         --multi-table True \
+#         --data-out-path ${data_out_path} \
+#         --catalog-root-path ${catalog_path}"
 
  
 # $CMD --dataset-name Accidents --target-attribute klas_nesreca --task-type multiclass --target-table nesreca --mtos True

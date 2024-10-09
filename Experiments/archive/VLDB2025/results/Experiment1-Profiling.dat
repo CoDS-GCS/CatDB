@@ -1,0 +1,24 @@
+dataset,task_type,platform,time
+WiFi,binary,kglidsplus,36675
+Diabetes,binary,kglidsplus,33465
+Breast-w,binary,kglidsplus,36878
+Tic-Tac-Toe,binary,kglidsplus,40132
+IMDB,binary,kglidsplus,386291
+Credit-g,binary,kglidsplus,47857
+Nomao,binary,kglidsplus,42229
+Walking-Activity,multiclass,kglidsplus,31601
+CMC,multiclass,kglidsplus,31442
+EU IT,multiclass,kglidsplus,49439
+Midwest-Survey,multiclass,kglidsplus,51398
+Etailing,multiclass,kglidsplus,56235
+Accidents,multiclass,kglidsplus,157146
+Financial,multiclass,kglidsplus,122365
+Airline,multiclass,kglidsplus,188330
+Gas-Drift,multiclass,kglidsplus,40742
+Volkert,multiclass,kglidsplus,51428
+Yelp,multiclass,kglidsplus,192449
+Bike-Sharing,regression,kglidsplus,31855
+Utility,regression,kglidsplus,38992
+NYC,regression,kglidsplus,35863
+House-Sales,regression,kglidsplus,31660
+

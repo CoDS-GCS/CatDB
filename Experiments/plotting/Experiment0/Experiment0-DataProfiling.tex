@@ -1,10 +1,10 @@
 \newcommand{\myaddplot}[1]{
-  \addplot[fill=#1, draw=#1,line width=0.4pt] table[y=time, col sep=comma, x=dataset]{../archive/SIGMOD2025-Results/Experiment1-Profiling.dat};
+  \addplot[fill=#1, draw=#1,line width=0.4pt] table[y=time, col sep=comma, x=dataset]{../archive/VLDB2025/results/Experiment1-Profiling.dat};
   \label{total_time}    
 };
 
 \newcommand{\addplotreader}[1]{
-\addplot[fill=#1, draw=#1,line width=0.4pt] table[y=time, col sep=comma, x=dataset]{../archive/SIGMOD2025-Results/Experiment1-DataReader.dat};
+\addplot[fill=#1, draw=#1,line width=0.4pt] table[y=time, col sep=comma, x=dataset]{../archive/VLDB2025/results/Experiment1-DataReader.dat};
   \label{reader_time}    
 };
 
@@ -13,7 +13,7 @@
   height=0.43\columnwidth,
   width=1.4\columnwidth,  
   ymin=0,
-  ymax=300000,
+  ymax=400000,
   }]
  \begin{axis}[   
   every major tick/.append style={ thick,major tick length=2.5pt, gray},
@@ -27,8 +27,8 @@
   enlarge x limits=0.03,
   ylabel={Execution Time [s]},
   %xlabel={},
-  ytick={0,50000,100000,200000,300000},
-  yticklabels={0,50, 100, 200, 300},
+  ytick={0,50000,100000,200000,300000,400000},
+  yticklabels={0,50, 100, 200, 300,400},
   %xtick style={draw=none},
   xtick pos=left,
   ytick pos=left,
@@ -43,7 +43,7 @@
   every axis plot/.append style={line width=0.8pt,mark options={scale=1.5,solid}},  
   legend image post style={line width=.5pt},  
   xtick = data,
-  symbolic x coords={Skin,Diabetes,Tic-Tac-Toe,Breast-w,Credit-g,Nomao,Balance-Scale,Walking-Activity,Jungle-Chess,CMC,Higgs,Traffic,Gas-Drift,Volkert,Black-Friday,Bike-Sharing,NYC,House-Sales},
+  symbolic x coords={WiFi,Diabetes,Breast-w,Tic-Tac-Toe,IMDB,Credit-g,Nomao,Walking-Activity,CMC,EU IT,Midwest-Survey,Etailing,Accidents,Financial,Airline,Gas-Drift,Volkert,Yelp,Bike-Sharing,Utility,NYC,House-Sales,},
   legend image code/.code={\draw [#1] (0cm,-0.1cm) rectangle (0.2cm,0.1cm); },  
 %}
 ]  
@@ -75,14 +75,14 @@
   every axis plot/.append style={line width=0.8pt,mark options={scale=1.5,solid}},  
   legend image post style={line width=.5pt},  
   xtick = data,
-  symbolic x coords={Skin,Diabetes,Tic-Tac-Toe,Breast-w,Credit-g,Nomao,Balance-Scale,Walking-Activity,Jungle-Chess,CMC,Higgs,Traffic,Gas-Drift,Volkert,Black-Friday,Bike-Sharing,NYC,House-Sales},
+  symbolic x coords={WiFi,Diabetes,Breast-w,Tic-Tac-Toe,IMDB,Credit-g,Nomao,Walking-Activity,CMC,EU IT,Midwest-Survey,Etailing,Accidents,Financial,Airline,Gas-Drift,Volkert,Yelp,Bike-Sharing,Utility,NYC,House-Sales,},
   legend image code/.code={\draw [#1] (0cm,-0.12cm) rectangle (0.25cm,0.12cm); }, 
   ]   
   \addplotreader{tug};
     
 \end{axis}
 
-\node [draw=none,inner sep=0, font=\normalsize, anchor=west] (leg1) at (rel axis cs: 0.07,0.80) {\shortstack[l]{
+\node [draw=none,inner sep=0, font=\normalsize, anchor=west] (leg1) at (rel axis cs: 0.3,0.80) {\shortstack[l]{
   \ref{total_time} Total Data Profiling Time \\
   \ref{reader_time} Dataset Read Time }};
 

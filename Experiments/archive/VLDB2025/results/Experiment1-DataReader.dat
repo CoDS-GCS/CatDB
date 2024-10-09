@@ -1,0 +1,24 @@
+dataset,time
+WiFi,614
+Diabetes,650
+Breast-w,660
+Tic-Tac-Toe,816
+IMDB,88732
+Credit-g,761
+Nomao,1253
+Walking-Activity,756
+CMC,763
+EU IT,668
+Midwest-Survey,844
+Etailing,717
+Accidents,6329
+Financial,4591
+Airline,11503
+Gas-Drift,1037
+Volkert,2114
+Yelp,8213
+Bike-Sharing,736
+Utility,708
+NYC,1324
+House-Sales,786
+

@@ -51,7 +51,4 @@ Experiments/archive/SIGMOD2025-Results/server-113/Error/LLM_Pipe_Error_1.dat
 Experiments/metadata/*
 Experiments/tmprepo/*
 envCatDB/*
-Experiments/catalog/Violations/data_profile/*
-Experiments/catalog/Violations/data_profile_update/*
-Experiments/catalog/WiFi/data_profile/*
-Experiments/catalog/WiFi/data_profile_update/*
+Experiments/catalog/*

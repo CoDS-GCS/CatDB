@@ -5,6 +5,7 @@ import zipfile
 import itertools
 import shutil
 from util.LogResults import LogResults
+import re
 
 
 class AutoML(object):
@@ -19,13 +20,13 @@ class AutoML(object):
     def run(self):
         pass
 
-    # def complex_function(x): 
-    #     x = x.lower().strip()
-    #     x = re.sub('[^A-Za-z0-9 ]+', ' ', x)
-    #     x = re.sub("\s\s+" , " ", x)
-    #     x = lemmatizer.lemmatize(x)    
-    #     x = ' '.join([word for word in x.split(' ') if word not in stops])    
-    #     return x
+    def complex_function(x):
+        x = x.lower().strip()
+        x = re.sub('[^A-Za-z0-9 ]+', ' ', x)
+        x = re.sub("\s\s+" , " ", x)
+        x = lemmatizer.lemmatize(x)
+        x = ' '.join([word for word in x.split(' ') if word not in stops])
+        return x
     
     def touch(self, path, as_dir=False):
         path = self.normalize_path(path)

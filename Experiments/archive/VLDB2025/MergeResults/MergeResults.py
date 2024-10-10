@@ -96,7 +96,8 @@ def load_merge_all_results(root_path):
                     f"{root_path}/raw_results/MicroBench-Experiment1_LLM_Pipe_Gen_CatDBChain.dat",
                     f"{root_path}/raw_results/Multitable-Experiment1_LLM_CAAFE.dat",
                     f"{root_path}/raw_results/Multitable-Experiment1_LLM_Pipe_Gen_CatDB.dat",
-                    f"{root_path}/raw_results/Multitable-Experiment1_LLM_Pipe_Gen_CatDBChain.dat"
+                    f"{root_path}/raw_results/Multitable-Experiment1_LLM_Pipe_Gen_CatDBChain.dat",
+                    f"{root_path}/raw_results/Experiment3_AutoML.dat"
                     ] 
     df_merge = pd.DataFrame(columns = columns)
     
@@ -178,6 +179,43 @@ def load_merge_all_errors(root_path):
         df_merge = merge_raw_data(df_result=df_merge, df_tmp=df_tmp)
 
     return df_merge
+
+def get_top_k_all(df, config, k):
+    df_binary = df.loc[(df['train_auc'] >=0) &
+                       (df['test_auc'] >=0) &
+                       (df['task_type'] =='binary')]
+    
+    df_multi = df.loc[(df['train_auc_ovr'] >=0) &
+                        (df['test_auc_ovr'] >=0) &
+                        (df['task_type'] =='multiclass')]  
+    df_multi['train_auc'] = df_multi['train_auc_ovr']
+    df_multi['test_auc'] = df_multi['test_auc_ovr']
+    
+    df_multi_euit = df.loc[(df['train_accuracy'] >=0) &
+                        (df['test_accuracy'] >=0) &
+                        (df['dataset_name'] =='EU-IT')]  
+    df_multi_euit['train_auc'] = df_multi_euit['train_accuracy']
+    df_multi_euit['test_auc'] = df_multi_euit['test_accuracy']
+
+    df_reg = df.loc[(df['train_r_squared'] >=0) & (df['train_r_squared'] <=1) &
+                     (df['test_r_squared'] >=0) & (df['test_r_squared'] <=1) &
+                     (df['task_type'] =='regression')]
+    
+    df_reg['train_auc'] = df_reg['train_r_squared']
+    df_reg['test_auc'] = df_reg['test_r_squared']    
+
+    df_merge = pd.DataFrame(columns = df_binary.columns)
+    df_merge = merge_raw_data(df_result=df_merge, df_tmp=df_binary)
+    df_merge = merge_raw_data(df_result=df_merge, df_tmp=df_multi)
+    df_merge = merge_raw_data(df_result=df_merge, df_tmp=df_multi_euit)
+    df_merge = merge_raw_data(df_result=df_merge, df_tmp=df_reg)
+
+    if config not in {"CatDB", "CatDBChain"}:
+        return df_merge
+    else:
+       df_merge = df_merge.sort_values(by='test_auc', ascending=False).reset_index(drop=True)
+       return  df_merge.head(k)
+
 
 def get_top_k_binary(df, config, k):
     df_binary = df.loc[(df['train_auc'] >=0) &

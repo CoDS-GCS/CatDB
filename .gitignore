@@ -52,3 +52,5 @@ Experiments/metadata/*
 Experiments/tmprepo/*
 envCatDB/*
 Experiments/catalog/*
+Experiments/baselines/.idea/*
+Experiments/LLM_Pipe_Error.dat

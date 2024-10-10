@@ -1,8 +1,6 @@
 # ```python
 import pandas as pd
-from sklearn.preprocessing import StandardScaler, OneHotEncoder
-from sklearn.compose import ColumnTransformer
-from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import MinMaxScaler, OneHotEncoder
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import r2_score, mean_squared_error
 from sklearn.model_selection import train_test_split
@@ -10,41 +8,52 @@ from sklearn.model_selection import train_test_split
 train_data = pd.read_csv("train.csv")
 test_data = pd.read_csv("test.csv")
 
-categorical_features = ["PCM Index", "ERM Index", "CRM Index", "CSM Index", "Service Provider", "Escalated Complaints", "Year", "Month"]
-numerical_features = ["Complaint Response Time", "Avg Age of Cases Pending", "Escalated Complaint Response Time", "Initial Complaints"]
+features_to_scale = ["Complaint Response Time", "CRM Index", "Escalated Complaint Response Time", "CSM Index", 
+                   "PCM Index", "Avg Age of Cases Pending", "ERM Index", "Initial Complaints"]
 
-numerical_transformer = Pipeline(steps=[
-    ('scaler', StandardScaler())
-])
+categorical_features = ["Service Provider", "Month", "Year", "Escalated Complaints"]
 
-categorical_transformer = Pipeline(steps=[
-    ('onehot', OneHotEncoder(handle_unknown='ignore'))
-])
+for col in train_data.columns:
+    if col in features_to_scale:
+        train_data[col].fillna(train_data[col].median(), inplace=True)
+        test_data[col].fillna(test_data[col].median(), inplace=True)
+    elif col in categorical_features:
+        train_data[col].fillna(train_data[col].mode()[0], inplace=True)
+        test_data[col].fillna(test_data[col].mode()[0], inplace=True)
 
-preprocessor = ColumnTransformer(
-    transformers=[
-        ('num', numerical_transformer, numerical_features),
-        ('cat', categorical_transformer, categorical_features)
-    ])
+scaler = MinMaxScaler()
+train_data[features_to_scale] = scaler.fit_transform(train_data[features_to_scale])
+test_data[features_to_scale] = scaler.transform(test_data[features_to_scale])
 
-model = RandomForestRegressor(n_jobs=-1)  # n_jobs=-1 to use all processors
+encoder = OneHotEncoder(handle_unknown='ignore', sparse_output=False)
+train_encoded = encoder.fit_transform(train_data[categorical_features])
+test_encoded = encoder.transform(test_data[categorical_features])
 
-pipeline = Pipeline(steps=[
-    ('preprocessor', preprocessor),
-    ('model', model)
-])
+train_encoded_df = pd.DataFrame(train_encoded, columns=encoder.get_feature_names_out(categorical_features))
+test_encoded_df = pd.DataFrame(test_encoded, columns=encoder.get_feature_names_out(categorical_features))
 
-target_variable = "CSRI"
+train_data = pd.concat([train_data.reset_index(drop=True), train_encoded_df.reset_index(drop=True)], axis=1)
+test_data = pd.concat([test_data.reset_index(drop=True), test_encoded_df.reset_index(drop=True)], axis=1)
 
-pipeline.fit(train_data.drop(columns=[target_variable]), train_data[target_variable])
+train_data.drop(columns=categorical_features, inplace=True)
+test_data.drop(columns=categorical_features, inplace=True)
 
-train_predictions = pipeline.predict(train_data.drop(columns=[target_variable]))
-test_predictions = pipeline.predict(test_data.drop(columns=[target_variable]))
+X_train = train_data.drop(columns=['CSRI'])
+y_train = train_data['CSRI']
+X_test = test_data.drop(columns=['CSRI'])
+y_test = test_data['CSRI']
 
-Train_R_Squared = r2_score(train_data[target_variable], train_predictions)
-Train_RMSE = mean_squared_error(train_data[target_variable], train_predictions, squared=False)
-Test_R_Squared = r2_score(test_data[target_variable], test_predictions)
-Test_RMSE = mean_squared_error(test_data[target_variable], test_predictions, squared=False)
+rf_regressor = RandomForestRegressor(n_estimators=100, random_state=42)
+
+rf_regressor.fit(X_train, y_train)
+
+y_pred_train = rf_regressor.predict(X_train)
+y_pred_test = rf_regressor.predict(X_test)
+
+Train_R_Squared = r2_score(y_train, y_pred_train)
+Train_RMSE = mean_squared_error(y_train, y_pred_train, squared=False)
+Test_R_Squared = r2_score(y_test, y_pred_test)
+Test_RMSE = mean_squared_error(y_test, y_pred_test, squared=False)
 
 print(f"Train_R_Squared:{Train_R_Squared}")
 print(f"Train_RMSE:{Train_RMSE}")

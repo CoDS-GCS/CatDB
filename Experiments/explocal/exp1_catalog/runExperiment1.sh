@@ -58,4 +58,4 @@ CMDRunPipeline=./explocal/exp1_catalog/runExperiment1_Run_Local_Pipeline.sh
 
 # Run Pipeline Localy
 $CMDRunPipeline ${dataset} CatDB Random 0 ${task_type} gemini-1.5-pro-latest No 1 "${dataset}_train" "${dataset}_test" "M"
-# $CMDRunPipeline ${dataset} CatDB Random 0 ${task_type} gemini-1.5-pro-latest No 1 "${dataset}_train_clean" "${dataset}_test_clean" "G"
+$CMDRunPipeline ${dataset} CatDB Random 0 ${task_type} gemini-1.5-pro-latest No 1 "${dataset}_train_clean" "${dataset}_test_clean" "G"

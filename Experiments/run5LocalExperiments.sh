@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # clean original results
-rm -rf results/*;
+# rm -rf results/*;
 mkdir -p results;
 mkdir -p catdb-results;
 
@@ -43,12 +43,12 @@ CMD=./explocal/exp1_catalog/runExperiment1.sh
 # $CMD Accidents multiclass # -> M2
 # $CMD Financial multiclass # -> M2
 
-# $CMD EU-IT multiclass # OK
-# $CMD Etailing multiclass # OK
-# $CMD Midwest-Survey multiclass # OK
-# $CMD WiFi binary # OK
+$CMD EU-IT multiclass # OK
+$CMD Etailing multiclass # OK
+$CMD Midwest-Survey multiclass # OK
+$CMD WiFi binary # OK
 $CMD Utility regression # OK
-# $CMD Yelp multiclass 
+$CMD Yelp multiclass 
 
 #####################################################
 # $CMD gen_dataset_54-out-0.05-np-1-nc-180-mv-0.1_rnc multiclass # Volkert

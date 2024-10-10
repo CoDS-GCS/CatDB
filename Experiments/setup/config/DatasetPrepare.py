@@ -528,6 +528,10 @@ if __name__ == '__main__':
 
     # Split and save original dataset
     data = data[data[args.target_attribute].notna()]
-    nrows, ncols, number_classes = get_metadata(data=data, target_attribute=args.target_attribute)
-    split_data_save(data=data, ds_name=args.dataset_name,out_path= args.data_out_path, target_table=args.target_table, write_data=write_data)
-    save_config(dataset_name=args.dataset_name, target=args.target_attribute, task_type=args.task_type, data_out_path=args.data_out_path, description=args.dataset_description, target_table=args.target_table, multi_table=args.multi_table)
+    # nrows, ncols, number_classes = get_metadata(data=data, target_attribute=args.target_attribute)
+    # split_data_save(data=data, ds_name=args.dataset_name,out_path= args.data_out_path, target_table=args.target_table, write_data=write_data)
+    # save_config(dataset_name=args.dataset_name, target=args.target_attribute, task_type=args.task_type, data_out_path=args.data_out_path, description=args.dataset_description, target_table=args.target_table, multi_table=args.multi_table)
+
+    # Rename cols then split and save it       
+    target_attribute, nrows, ncols, number_classes = rename_col_names(data=data, ds_name=args.dataset_name, target_attribute=args.target_attribute, out_path=args.data_out_path)
+    save_config(dataset_name=args.dataset_name, target=target_attribute, task_type=args.task_type, data_out_path=args.data_out_path, description=args.dataset_description, target_table=args.target_table, multi_table=args.multi_table) 

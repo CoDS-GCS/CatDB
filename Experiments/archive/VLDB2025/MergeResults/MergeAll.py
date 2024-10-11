@@ -264,6 +264,8 @@ if __name__ == '__main__':
     # Add Local Execution Time
     df_local = load_results(f"{root_path}/raw_results/Experiment1_Local_Pipeline.dat")
     for (ds,ds_title, task_type, index) in datasets:
+        if index not in {106,107,108,109,1010,105}:
+            continue
         corr_config = dataset_corr[ds]
         time_m = 0
         time_g = 0
@@ -286,7 +288,7 @@ if __name__ == '__main__':
                 time_m = tmp_time
             else:
                 time_g = tmp_time    
-        df_exe.loc[len(df_exe)] = [ds, ds_title, time_m, time_g, 0, 0, 0, 0, 0, 0, 0, 0, -1, -1, 0, 0, -1, 'gemini-1.5-pro-latest', 'No', task_type, tsk, 0]
+        df_exe.loc[len(df_exe)] = [ds, f"{ds_title}-MG", time_m, time_g, 0, 0, 0, 0, 0, 0, 0, 0, -1, -1, 0, 0, -1, 'gemini-1.5-pro-latest', 'No', task_type, tsk, 0]
 
     #           
     df_sort.to_csv(f"{root_path}/AllResults.csv", index=False)

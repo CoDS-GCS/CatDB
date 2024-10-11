@@ -68,7 +68,7 @@
   x tick label style={/pgf/number format/1000 sep={}},  
   scaled y ticks=false,
   axis line style={black, line width=0.3pt},
-  enlarge y limits={0.14,upper},
+  enlarge y limits={0.2,upper},
   enlarge x limits=0.07,
   ylabel={},%{Execution Time [s]},
   xlabel={Yelp},
@@ -102,5 +102,6 @@
 ]
  \myaddplotds{gemini-1.5-pro-latest}{Yelp}{0.5pt}{0.3pt}{0.3pt}{0.3pt}
 \end{axis}
+\node [draw=none,inner sep=0, font=\small, anchor=west, rotate=0] (leg1) at (rel axis cs: 0.67,0.59) {Chain};
 
 \end{tikzpicture}

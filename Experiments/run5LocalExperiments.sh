@@ -31,24 +31,24 @@ CMD=./explocal/exp1_catalog/runExperiment1.sh
 #$CMD oml_dataset_34_rnc multiclass # Gas-Drift -> M1
 #$CMD oml_dataset_35_rnc multiclass # Volkert -> M1
 
-# $CMD oml_dataset_20_rnc multiclass # Walking-Activity -> M2
-# $CMD oml_dataset_6_rnc binary # Tic-Tac-Toe -> M2
-# $CMD oml_dataset_3_rnc multiclass # CMC -> M2
-# $CMD oml_dataset_22_rnc regression # Bike-Sharing -> M2
+$CMD oml_dataset_20_rnc multiclass # Walking-Activity -> M2
+$CMD oml_dataset_6_rnc binary # Tic-Tac-Toe -> M2
+$CMD oml_dataset_3_rnc multiclass # CMC -> M2
+$CMD oml_dataset_22_rnc regression # Bike-Sharing -> M2
 
-# $CMD oml_dataset_24_rnc regression # NYC -> M2
-# $CMD oml_dataset_23_rnc regression # House-Sales -> M2
-# $CMD Airline multiclass  #-> M2
-# $CMD IMDB-IJS binary # -> M2
-# $CMD Accidents multiclass # -> M2
-# $CMD Financial multiclass # -> M2
+$CMD oml_dataset_24_rnc regression # NYC -> M2
+$CMD oml_dataset_23_rnc regression # House-Sales -> M2
+$CMD Airline multiclass  #-> M2
+$CMD IMDB-IJS binary # -> M2
+$CMD Accidents multiclass # -> M2
+$CMD Financial multiclass # -> M2
 
-$CMD EU-IT multiclass # OK
-$CMD Etailing multiclass # OK
-$CMD Midwest-Survey multiclass # OK
-$CMD WiFi binary # OK
-$CMD Utility regression # OK
-$CMD Yelp multiclass 
+# $CMD EU-IT multiclass # OK
+# $CMD Etailing multiclass # OK
+# $CMD Midwest-Survey multiclass # OK
+# $CMD WiFi binary # OK
+# $CMD Utility regression # OK
+# $CMD Yelp multiclass 
 
 #####################################################
 # $CMD gen_dataset_54-out-0.05-np-1-nc-180-mv-0.1_rnc multiclass # Volkert

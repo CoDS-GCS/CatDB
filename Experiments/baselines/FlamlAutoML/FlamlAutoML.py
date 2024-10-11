@@ -19,7 +19,7 @@ class FlamlAutoML(CatDBAutoML):
         print(f"\n**** FLAML [v{__version__}] ****\n")
 
         time_start = time.time()
-        train_data = reader_CSV(self.dataset.train_path).rename(columns = lambda x:re.sub('[^A-Za-z0-9_]+', '', x))
+        train_data = reader_CSV(self.dataset.train_path)
         test_data = reader_CSV(self.dataset.test_path)
 
 #         import re

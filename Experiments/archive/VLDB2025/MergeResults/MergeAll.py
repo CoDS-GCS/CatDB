@@ -17,7 +17,7 @@ if __name__ == '__main__':
                                       "llm_model", "has_description", "task_type","task","samples"])
 
     df_csv_read = load_results(f"{root_path}/Experiment1_CSVDataReader.dat")
-    df_exe = pd.DataFrame(columns = ["dataset_name","dataset_name_orig",
+    df_exe = pd.DataFrame(columns = ["dataset_name","dataset_name_orig", "EXE_M", "EXE_G",
                                      "CatDB","CatDBChain","CAAFETabPFN","CAAFERandomForest","CatDB_min",
                                      "CatDBChain_min","CAAFETabPFN_min","CAAFERandomForest_min",
                                      "CatDB_10_min","CatDBChain_10_min","CAAFETabPFN_10_min","CAAFERandomForest_10_min",
@@ -248,7 +248,7 @@ if __name__ == '__main__':
                             tsk = "regression"                  
 
                         dataset_load_time = df_csv_read.loc[df_csv_read['dataset']==ds]["time"].values[0] / 1000
-                        df_exe.loc[len(df_exe)] = [ ds, ds_title, prompt_exe["CatDB"], prompt_exe["CatDBChain"], prompt_exe["CAAFETabPFN"],prompt_exe["CAAFERandomForest"],
+                        df_exe.loc[len(df_exe)] = [ ds, ds_title,0,0, prompt_exe["CatDB"], prompt_exe["CatDBChain"], prompt_exe["CAAFETabPFN"],prompt_exe["CAAFERandomForest"],
                                                     prompt_exe["CatDB_min"], prompt_exe["CatDBChain_min"], prompt_exe["CAAFETabPFN_min"],prompt_exe["CAAFERandomForest_min"],
                                                     prompt_exe["CatDB_10_min"], prompt_exe["CatDBChain_10_min"], prompt_exe["CAAFETabPFN_10_min"],prompt_exe["CAAFERandomForest_10_min"],
                                                     dataset_load_time, llm, des, task_type, tsk, samples]  
@@ -261,7 +261,34 @@ if __name__ == '__main__':
                             automl_time =   prompt_exe["CatDBChain"]
 
                         df_automl_exe.loc[len(df_automl_exe)] = [ds, ds_title, automl_time, dataset_load_time, llm ]
-              
+    # Add Local Execution Time
+    df_local = load_results(f"{root_path}/raw_results/Experiment1_Local_Pipeline.dat")
+    for (ds,ds_title, task_type, index) in datasets:
+        corr_config = dataset_corr[ds]
+        time_m = 0
+        time_g = 0
+        for run_mod in {'M', 'G'}:
+            if task_type in {"binary", "multiclass"}:
+                tsk = "classification"
+            else:
+                tsk = "regression"
+
+            df_m = df_local.loc[(df_local['dataset_name'] == ds) & 
+                                (df_local['config'] == corr_config) &
+                                (df_local['llm_model'] == 'gemini-1.5-pro-latest') &
+                                (df_local['status'] == True) &
+                                (df_local['has_description'] == "No") &
+                                (df_local['operation'] == f"Run-Local-Pipeline-{run_mod}")]
+
+            tmp_time = (df_m['time_execution']).mean()
+            tmp_time = f"{tmp_time:.2f}"
+            if run_mod == "M":
+                time_m = tmp_time
+            else:
+                time_g = tmp_time    
+        df_exe.loc[len(df_exe)] = [ds, ds_title, time_m, time_g, 0, 0, 0, 0, 0, 0, 0, 0, -1, -1, 0, 0, -1, 'gemini-1.5-pro-latest', 'No', task_type, tsk, 0]
+
+    #           
     df_sort.to_csv(f"{root_path}/AllResults.csv", index=False)
     df_cost.to_csv(f"{root_path}/CostResults.csv", index=False)
     df_exe.to_csv(f"{root_path}/ExeResults.csv", index=False)   

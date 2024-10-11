@@ -19,14 +19,14 @@ Etailing,Etailing,CatDB,32740,0,0,3274,0,0,3047,0,0,0,0,0,0,0,0,llama-3.1-70b-ve
 Midwest-Survey,Midwest-Survey,CatDB,36820,0,0,3682,0,0,0,0,0,0,0,0,0,0,0,gemini-1.5-pro-latest,No,multiclass,classification,0
 Midwest-Survey,Midwest-Survey,CAAFETabPFN,31020,0,0,2820,0,0,0,0,0,0,0,0,0,0,0,gemini-1.5-pro-latest,No,multiclass,classification,0
 Midwest-Survey,Midwest-Survey,CAAFERandomForest,31020,0,0,2820,0,0,0,0,0,0,0,0,0,0,0,gemini-1.5-pro-latest,No,multiclass,classification,0
-WiFi,WiFi,CatDB,27560,0,0,2756,0,0,0,0,0,0,0,0,0,0,0,gemini-1.5-pro-latest,No,binary,classification,0
+WiFi,WiFi,CatDB,27800,0,0,2780,0,0,2070,0,0,0,0,0,0,0,0,gemini-1.5-pro-latest,No,binary,classification,0
 WiFi,WiFi,CatDBChain,53670,13770,19020,2076,1377,1902,0,0,0,0,0,0,0,0,0,gemini-1.5-pro-latest,No,binary,classification,0
 WiFi,WiFi,CAAFETabPFN,13024,0,0,1184,0,0,0,0,0,0,0,0,0,0,0,gemini-1.5-pro-latest,No,binary,classification,0
 WiFi,WiFi,CAAFERandomForest,13024,0,0,1184,0,0,0,0,0,0,0,0,0,0,0,gemini-1.5-pro-latest,No,binary,classification,0
 WiFi,WiFi,CatDBChain,40150,60140,14800,1695,840,1480,11856,5174,0,4,4,0,0,0,0,llama3-70b-8192,No,binary,classification,0
 WiFi,WiFi,CatDB,14850,0,0,1485,0,0,3769,0,0,0,0,0,0,0,0,llama-3.1-70b-versatile,No,binary,classification,0
 WiFi,WiFi,CatDBChain,41310,33630,14090,1882,840,1409,4035,2523,0,2,2,0,0,0,0,llama-3.1-70b-versatile,No,binary,classification,0
-Utility,Utility,CatDB,29750,0,0,2975,0,0,0,0,0,0,0,0,0,0,0,gemini-1.5-pro-latest,No,regression,regression,0
+Utility,Utility,CatDB,30660,0,0,3066,0,0,0,0,0,0,0,0,0,0,0,gemini-1.5-pro-latest,No,regression,regression,0
 Utility,Utility,CatDBChain,61560,16800,21870,2252,1680,2187,0,0,0,0,0,0,0,0,0,gemini-1.5-pro-latest,No,regression,regression,0
 Utility,Utility,CatDBChain,41210,61200,21310,1534,1083,1504,1508,5037,627,5,4,1,0,0,0,llama3-70b-8192,No,regression,regression,0
 Utility,Utility,CatDBChain,46630,10830,16790,1901,1083,1679,0,0,0,0,0,0,0,0,0,llama-3.1-70b-versatile,No,regression,regression,0

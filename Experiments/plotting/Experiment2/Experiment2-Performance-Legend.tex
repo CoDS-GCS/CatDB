@@ -1,0 +1,38 @@
+\begin{tikzpicture} 
+  \begin{axis}[%
+  hide axis,
+  xmin=10,
+  xmax=50,
+  ymin=0,
+  ymax=0.4, 
+  legend columns=40,
+  legend style={draw=white!15!black,legend cell align=left},
+  legend style={draw=none, nodes={scale=1, inner ysep=0.2mm, transform shape,}, font=\normalsize},    
+  legend image post style={line width=0.5pt,scale=1},
+  legend cell align={left},   
+  /tikz/every even column/.append style={column sep=0.1em, row sep=0.5em},
+  legend image code/.code={\draw [#1] (-0.12cm,-0.1cm) rectangle (0.2cm,0.12cm); }, 
+  ]
+
+  \addlegendimage{dblue2,fill=dblue2,line width=0.3pt}
+  \addlegendentry{Train};
+
+  \addlegendimage{dblue1,fill=dblue1,line width=0.3pt}
+  \addlegendentry{Test)\ \ \ \ \ \ Gemini-1.5 (};
+
+  \addlegendimage{dred2,fill=dred2,line width=0.3pt}
+  \addlegendentry{Train};
+
+  \addlegendimage{dred1,fill=dred1,line width=0.3pt}
+  \addlegendentry{Test)\ \ \ \ \ \ Llama3.1-70b (};
+
+  \addlegendimage{teal2,fill=teal2,line width=0.3pt}
+  \addlegendentry{Train};
+
+  \addlegendimage{teal1,fill=teal1,line width=0.3pt}
+  \addlegendentry{Test)};
+  
+  \end{axis} 
+  \node [draw=none,inner sep=0, font=\normalsize, anchor=west] (leg1) at (rel axis cs: -0.89,0.94) {GPT-4o (}; 
+\end{tikzpicture}
+

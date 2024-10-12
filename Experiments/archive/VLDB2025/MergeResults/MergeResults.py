@@ -91,13 +91,15 @@ def load_merge_all_results(root_path):
     results_path = [f"{root_path}/raw_results/Cleaning-Experiment1_LLM_CAAFE.dat",
                     f"{root_path}/raw_results/Cleaning-Experiment1_LLM_Pipe_Gen_CatDB.dat",
                     f"{root_path}/raw_results/Cleaning-Experiment1_LLM_Pipe_Gen_CatDBChain.dat",
-                    #f"{root_path}/raw_results/",  # <<< CAAFE
+                    f"{root_path}/raw_results/MicroBench-Experiment1_LLM_CAAFE.dat",
                     f"{root_path}/raw_results/MicroBench-Experiment1_LLM_Pipe_Gen_CatDB.dat",
                     f"{root_path}/raw_results/MicroBench-Experiment1_LLM_Pipe_Gen_CatDBChain.dat",
                     f"{root_path}/raw_results/Multitable-Experiment1_LLM_CAAFE.dat",
                     f"{root_path}/raw_results/Multitable-Experiment1_LLM_Pipe_Gen_CatDB.dat",
                     f"{root_path}/raw_results/Multitable-Experiment1_LLM_Pipe_Gen_CatDBChain.dat",
-                    f"{root_path}/raw_results/Experiment3_AutoML.dat"
+                    f"{root_path}/raw_results/Experiment3_AutoML.dat",
+                    f"{root_path}/raw_results/tmp-MicroBench-Experiment1_LLM_Pipe_Gen_CatDB.dat",
+                    f"{root_path}/raw_results/tmp-MicroBench-Experiment1_LLM_Pipe_Gen_CatDBChain.dat",
                     ] 
     df_merge = pd.DataFrame(columns = columns)
     

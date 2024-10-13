@@ -36,18 +36,18 @@ if __name__ == '__main__':
                   ("Midwest-Survey","Midwest-Survey","multiclass",108),
                   ("WiFi","WiFi","binary",109),                  
                   ("Utility","Utility","regression",1010),
-                  ("Breast-w","oml_dataset_2_rnc","binary",2),
-                  ("CMC","oml_dataset_3_rnc","multiclass",3),
-                  ("Credit-g","oml_dataset_4_rnc","binary",4),
-                  ("Diabetes","oml_dataset_5_rnc","binary",5),
-                  ("Tic-Tac-Toe","oml_dataset_6_rnc","binary",6),
+                  ("Breast-w","oml_dataset_2_rnc","binary",1),
+                  ("CMC","oml_dataset_3_rnc","multiclass",2),
+                  ("Credit-g","oml_dataset_4_rnc","binary",3),
+                  ("Diabetes","oml_dataset_5_rnc","binary",4),
+                  ("Tic-Tac-Toe","oml_dataset_6_rnc","binary",5),
                   ("Nomao","oml_dataset_33_rnc","binary",6),
                   ("Gas-Drift","oml_dataset_34_rnc","multiclass",7),                                 
-                  ("Walking-Activity","oml_dataset_20_rnc","multiclass",13),
-                  ("Bike-Sharing","oml_dataset_22_rnc","regression",15),
-                  ("House-Sales","oml_dataset_23_rnc","regression",16),
-                  ("NYC","oml_dataset_24_rnc","regression",17),                 
-                  ("Volkert","oml_dataset_35_rnc","multiclass",18)
+                  ("Walking-Activity","oml_dataset_20_rnc","multiclass",8),
+                  ("Bike-Sharing","oml_dataset_22_rnc","regression",9),
+                  ("House-Sales","oml_dataset_23_rnc","regression",10),
+                  ("NYC","oml_dataset_24_rnc","regression",11),                 
+                  ("Volkert","oml_dataset_35_rnc","multiclass",12)
                 ]
     
     datasets = []
@@ -144,7 +144,7 @@ if __name__ == '__main__':
                                     fname = f"{fname}-{samples}-{des}.csv"    
                                     df_ds["ID"] =  [ds_ID for dsid in range(0,len(df_ds))]
 
-                                    if index in {2,4,5,6,7,18}:
+                                    if index in {1,3,4,6,7,12} and llm=='gemini-1.5-pro-latest':
                                         df_ds.to_csv(f"{root_path}/seperate/{fname}", index=False)                        
                                     
                                     if task_type in {"binary", "multiclass"}:

@@ -56,7 +56,7 @@ if __name__ == '__main__':
         #datasets.append((ds_name, ds_name, index))
         datasets.append((ds_rnc_name, f"{ds_name}",task_type , index))
 
-    llms = ["gemini-1.5-pro-latest","llama3-70b-8192", "llama-3.1-70b-versatile", "gpt-4o"]
+    llms = ["gemini-1.5-pro-latest", "llama-3.1-70b-versatile", "gpt-4o"]
     classifier = ["Auto", "TabPFN", "RandomForest"]
 
     configs = ["CatDB", "CatDBChain", "CAAFE"]    
@@ -144,7 +144,7 @@ if __name__ == '__main__':
                                     fname = f"{fname}-{samples}-{des}.csv"    
                                     df_ds["ID"] =  [ds_ID for dsid in range(0,len(df_ds))]
 
-                                    if index in {1,3,4,6,7,12} and llm=='gemini-1.5-pro-latest':
+                                    if index in {1,3,4,6,7,12}:
                                         df_ds.to_csv(f"{root_path}/seperate/{fname}", index=False)                        
                                     
                                     if task_type in {"binary", "multiclass"}:

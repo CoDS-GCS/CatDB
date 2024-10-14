@@ -24,12 +24,10 @@ WiFi,WiFi,CatDB,27800,0,0,2780,0,0,2070,0,0,0,0,0,0,0,0,gemini-1.5-pro-latest,No
 WiFi,WiFi,CatDBChain,53670,13770,19020,2076,1377,1902,0,0,0,0,0,0,0,0,0,gemini-1.5-pro-latest,No,binary,classification,0
 WiFi,WiFi,CAAFETabPFN,13024,0,0,1184,0,0,0,0,0,0,0,0,0,0,0,gemini-1.5-pro-latest,No,binary,classification,0
 WiFi,WiFi,CAAFERandomForest,13024,0,0,1184,0,0,0,0,0,0,0,0,0,0,0,gemini-1.5-pro-latest,No,binary,classification,0
-WiFi,WiFi,CatDBChain,40150,60140,14800,1695,840,1480,11856,5174,0,4,4,0,0,0,0,llama3-70b-8192,No,binary,classification,0
 WiFi,WiFi,CatDB,14850,0,0,1485,0,0,3769,0,0,0,0,0,0,0,0,llama-3.1-70b-versatile,No,binary,classification,0
 WiFi,WiFi,CatDBChain,41310,33630,14090,1882,840,1409,4035,2523,0,2,2,0,0,0,0,llama-3.1-70b-versatile,No,binary,classification,0
 Utility,Utility,CatDB,30660,0,0,3066,0,0,0,0,0,0,0,0,0,0,0,gemini-1.5-pro-latest,No,regression,regression,0
 Utility,Utility,CatDBChain,61560,16800,21870,2252,1680,2187,0,0,0,0,0,0,0,0,0,gemini-1.5-pro-latest,No,regression,regression,0
-Utility,Utility,CatDBChain,41210,61200,21310,1534,1083,1504,1508,5037,627,5,4,1,0,0,0,llama3-70b-8192,No,regression,regression,0
 Utility,Utility,CatDBChain,46630,10830,16790,1901,1083,1679,0,0,0,0,0,0,0,0,0,llama-3.1-70b-versatile,No,regression,regression,0
 oml_dataset_2_rnc,Breast-w,CatDB,28610,0,0,2861,0,0,0,0,0,0,0,0,0,0,0,gemini-1.5-pro-latest,No,binary,classification,0
 oml_dataset_2_rnc,Breast-w,CatDBChain,57899,14660,20140,2208,1466,2014,0,0,0,0,0,0,0,0,0,gemini-1.5-pro-latest,No,binary,classification,0
@@ -45,6 +43,7 @@ oml_dataset_3_rnc,CMC,CatDB,15540,0,0,1554,0,0,4526,0,0,0,0,0,0,0,0,llama-3.1-70
 oml_dataset_3_rnc,CMC,CAAFETabPFN,18774,0,0,1205,0,0,0,0,0,0,0,0,0,0,0,gpt-4o,No,multiclass,classification,0
 oml_dataset_3_rnc,CMC,CAAFERandomForest,22309,0,0,1205,0,0,0,0,0,0,0,0,0,0,0,gpt-4o,No,multiclass,classification,0
 oml_dataset_4_rnc,Credit-g,CatDB,32980,0,0,3298,0,0,0,0,0,0,0,0,0,0,0,gemini-1.5-pro-latest,No,binary,classification,0
+oml_dataset_4_rnc,Credit-g,CatDBChain,72970,19390,26080,2651,1939,2608,0,0,0,0,0,0,0,0,0,gemini-1.5-pro-latest,No,binary,classification,0
 oml_dataset_4_rnc,Credit-g,CAAFETabPFN,29523,0,0,2067,0,0,0,0,0,0,0,0,0,0,0,gemini-1.5-pro-latest,No,binary,classification,0
 oml_dataset_4_rnc,Credit-g,CAAFERandomForest,28674,0,0,2067,0,0,0,0,0,0,0,0,0,0,0,gemini-1.5-pro-latest,No,binary,classification,0
 oml_dataset_4_rnc,Credit-g,CatDB,18380,0,0,1838,0,0,3325,0,0,0,0,0,0,0,0,llama-3.1-70b-versatile,No,binary,classification,0

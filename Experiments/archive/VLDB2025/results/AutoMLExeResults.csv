@@ -2,10 +2,10 @@ dataset_name,dataset_name_orig,time,dataset_load_time,llm_model
 Airline,Airline,362.18,11.503,gemini-1.5-pro-latest
 Airline,Airline,0,11.503,llama-3.1-70b-versatile
 Airline,Airline,0,11.503,gpt-4o
-IMDB-IJS,IMDB-IJS,1279.34,88.732,gemini-1.5-pro-latest
+IMDB-IJS,IMDB-IJS,1479.53,88.732,gemini-1.5-pro-latest
 IMDB-IJS,IMDB-IJS,0,88.732,llama-3.1-70b-versatile
 IMDB-IJS,IMDB-IJS,0,88.732,gpt-4o
-Accidents,Accidents,125.65,6.329,gemini-1.5-pro-latest
+Accidents,Accidents,1688.84,6.329,gemini-1.5-pro-latest
 Accidents,Accidents,615.90,6.329,llama-3.1-70b-versatile
 Accidents,Accidents,0,6.329,gpt-4o
 Financial,Financial,95.44,4.591,gemini-1.5-pro-latest
@@ -32,7 +32,7 @@ oml_dataset_5_rnc,Diabetes,0,0.733,gpt-4o
 oml_dataset_6_rnc,Tic-Tac-Toe,15.75,0.87,gemini-1.5-pro-latest
 oml_dataset_6_rnc,Tic-Tac-Toe,32.95,0.87,llama-3.1-70b-versatile
 oml_dataset_6_rnc,Tic-Tac-Toe,0,0.87,gpt-4o
-oml_dataset_33_rnc,Nomao,0,1.2,gemini-1.5-pro-latest
+oml_dataset_33_rnc,Nomao,39.01,1.2,gemini-1.5-pro-latest
 oml_dataset_33_rnc,Nomao,0,1.2,llama-3.1-70b-versatile
 oml_dataset_33_rnc,Nomao,0,1.2,gpt-4o
 oml_dataset_34_rnc,Gas-Drift,65.48,1.043,gemini-1.5-pro-latest

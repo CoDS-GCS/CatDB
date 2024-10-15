@@ -2,8 +2,8 @@ dataset_name,dataset_name_orig,config,tokens_count,pp_tokens_count,fe_tokens_cou
 Airline,Airline,CatDB,67070,0,0,6709,0,0,5164,0,0,0,0,0,0,0,0,gemini-1.5-pro-latest,No,multiclass,classification,0
 Airline,Airline,CatDBChain,168050,102080,56950,5942,5168,5695,44378,5040,0,1,1,0,0,0,0,gemini-1.5-pro-latest,No,multiclass,classification,0
 Airline,Airline,CatDB,46180,0,0,4618,0,0,35149,0,0,0,0,0,0,0,0,llama-3.1-70b-versatile,No,multiclass,classification,0
-IMDB-IJS,IMDB-IJS,CatDBChain,61610,36920,20590,2358,1744,2059,0,1948,0,1,1,0,0,0,0,gemini-1.5-pro-latest,No,binary,classification,0
-Accidents,Accidents,CatDBChain,127300,76750,83070,4369,3792,4569,7781,3883,3738,2,1,1,0,0,0,gemini-1.5-pro-latest,No,multiclass,classification,0
+IMDB-IJS,IMDB-IJS,CatDBChain,62335,17440,20590,2358,1744,2059,0,0,0,0,0,0,0,0,0,gemini-1.5-pro-latest,No,binary,classification,0
+Accidents,Accidents,CatDBChain,129293,37920,44540,4513,3792,4454,0,0,0,0,0,0,0,0,0,gemini-1.5-pro-latest,No,multiclass,classification,0
 Accidents,Accidents,CatDBChain,110215,78730,269020,4202,2845,3952,0,5028,22950,8,2,6,0,0,0,llama-3.1-70b-versatile,No,multiclass,classification,0
 Financial,Financial,CatDBChain,139170,83140,139060,4489,4095,5013,0,4219,8893,3,1,2,0,0,0,gemini-1.5-pro-latest,No,multiclass,classification,0
 Financial,Financial,CatDBChain,100565,28400,36090,3560,2840,3609,6513,0,0,0,0,0,0,0,0,llama-3.1-70b-versatile,No,multiclass,classification,0
@@ -63,6 +63,7 @@ oml_dataset_6_rnc,Tic-Tac-Toe,CatDB,13982,0,0,1392,0,0,1084,0,0,0,0,0,0,0,0,llam
 oml_dataset_6_rnc,Tic-Tac-Toe,CAAFETabPFN,19420,0,0,1204,0,0,0,0,0,0,0,0,0,0,0,gpt-4o,No,binary,classification,0
 oml_dataset_6_rnc,Tic-Tac-Toe,CAAFERandomForest,19085,0,0,1204,0,0,0,0,0,0,0,0,0,0,0,gpt-4o,No,binary,classification,0
 oml_dataset_33_rnc,Nomao,CatDB,76920,0,0,7692,0,0,0,0,0,0,0,0,0,0,0,gemini-1.5-pro-latest,No,binary,classification,0
+oml_dataset_33_rnc,Nomao,CatDBChain,203684,62870,73300,6645,6287,7330,0,0,0,0,0,0,0,0,0,gemini-1.5-pro-latest,No,binary,classification,0
 oml_dataset_33_rnc,Nomao,CAAFETabPFN,117497,0,0,9375,0,0,0,0,0,0,0,0,0,0,0,gemini-1.5-pro-latest,No,binary,classification,0
 oml_dataset_33_rnc,Nomao,CAAFERandomForest,120352,0,0,9375,0,0,0,0,0,0,0,0,0,0,0,gemini-1.5-pro-latest,No,binary,classification,0
 oml_dataset_33_rnc,Nomao,CatDB,58170,0,0,5817,0,0,0,0,0,0,0,0,0,0,0,llama-3.1-70b-versatile,No,binary,classification,0

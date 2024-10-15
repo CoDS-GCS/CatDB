@@ -2,10 +2,10 @@ dataset_name,dataset_name_orig,EXE_M,EXE_G,CatDB,CatDBChain,CAAFETabPFN,CAAFERan
 Airline,Airline,0,0,165.75,362.18,0,0,2.76,6.04,0.001,0.001,27.63,60.36,0.001,0.001,11.503,gemini-1.5-pro-latest,No,multiclass,classification,0
 Airline,Airline,0,0,717.12,0,0,0,11.95,0.001,0.001,0.001,119.52,0.001,0.001,0.001,11.503,llama-3.1-70b-versatile,No,multiclass,classification,0
 Airline,Airline,0,0,0,0,0,0,0.001,0.001,0.001,0.001,0.001,0.001,0.001,0.001,11.503,gpt-4o,No,multiclass,classification,0
-IMDB-IJS,IMDB-IJS,0,0,0,1279.34,0,0,0.001,21.32,0.001,0.001,0.001,213.22,0.001,0.001,88.732,gemini-1.5-pro-latest,No,binary,classification,0
+IMDB-IJS,IMDB-IJS,0,0,0,1479.53,0,0,0.001,24.66,0.001,0.001,0.001,246.59,0.001,0.001,88.732,gemini-1.5-pro-latest,No,binary,classification,0
 IMDB-IJS,IMDB-IJS,0,0,0,0,0,0,0.001,0.001,0.001,0.001,0.001,0.001,0.001,0.001,88.732,llama-3.1-70b-versatile,No,binary,classification,0
 IMDB-IJS,IMDB-IJS,0,0,0,0,0,0,0.001,0.001,0.001,0.001,0.001,0.001,0.001,0.001,88.732,gpt-4o,No,binary,classification,0
-Accidents,Accidents,0,0,0,125.65,0,0,0.001,2.09,0.001,0.001,0.001,20.94,0.001,0.001,6.329,gemini-1.5-pro-latest,No,multiclass,classification,0
+Accidents,Accidents,0,0,0,1688.84,0,0,0.001,28.15,0.001,0.001,0.001,281.47,0.001,0.001,6.329,gemini-1.5-pro-latest,No,multiclass,classification,0
 Accidents,Accidents,0,0,0,615.90,0,0,0.001,10.26,0.001,0.001,0.001,102.65,0.001,0.001,6.329,llama-3.1-70b-versatile,No,multiclass,classification,0
 Accidents,Accidents,0,0,0,0,0,0,0.001,0.001,0.001,0.001,0.001,0.001,0.001,0.001,6.329,gpt-4o,No,multiclass,classification,0
 Financial,Financial,0,0,0,95.44,0,0,0.001,1.59,0.001,0.001,0.001,15.91,0.001,0.001,4.591,gemini-1.5-pro-latest,No,multiclass,classification,0
@@ -32,7 +32,7 @@ oml_dataset_5_rnc,Diabetes,0,0,0,0,184.67,91.36,0.001,0.001,3.08,1.52,0.001,0.00
 oml_dataset_6_rnc,Tic-Tac-Toe,0,0,15.75,0,268.40,251.80,0.26,0.001,4.47,4.20,2.63,0.001,44.73,41.97,0.87,gemini-1.5-pro-latest,No,binary,classification,0
 oml_dataset_6_rnc,Tic-Tac-Toe,0,0,32.95,0,0,0,0.55,0.001,0.001,0.001,5.49,0.001,0.001,0.001,0.87,llama-3.1-70b-versatile,No,binary,classification,0
 oml_dataset_6_rnc,Tic-Tac-Toe,0,0,0,0,226.34,81.17,0.001,0.001,3.77,1.35,0.001,0.001,37.72,13.53,0.87,gpt-4o,No,binary,classification,0
-oml_dataset_33_rnc,Nomao,0,0,75.82,0,107458.48,591.36,1.26,0.001,1790.97,9.86,12.64,0.001,17909.75,98.56,1.2,gemini-1.5-pro-latest,No,binary,classification,0
+oml_dataset_33_rnc,Nomao,0,0,75.82,39.01,107458.48,591.36,1.26,0.65,1790.97,9.86,12.64,6.50,17909.75,98.56,1.2,gemini-1.5-pro-latest,No,binary,classification,0
 oml_dataset_33_rnc,Nomao,0,0,1108.77,0,0,0,18.48,0.001,0.001,0.001,184.79,0.001,0.001,0.001,1.2,llama-3.1-70b-versatile,No,binary,classification,0
 oml_dataset_33_rnc,Nomao,0,0,0,0,24609.16,551.08,0.001,0.001,410.15,9.18,0.001,0.001,4101.53,91.85,1.2,gpt-4o,No,binary,classification,0
 oml_dataset_34_rnc,Gas-Drift,0,0,42.57,65.48,21912.67,1137.34,0.71,1.09,365.21,18.96,7.10,10.91,3652.11,189.56,1.043,gemini-1.5-pro-latest,No,multiclass,classification,0

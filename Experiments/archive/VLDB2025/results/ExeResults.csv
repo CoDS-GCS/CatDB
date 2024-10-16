@@ -50,7 +50,7 @@ oml_dataset_23_rnc,House-Sales,0,0,0,0,0,0,0.001,0.001,0.001,0.001,0.001,0.001,0
 oml_dataset_24_rnc,NYC,0,0,557.53,5864.35,0,0,9.29,97.74,0.001,0.001,92.92,977.39,0.001,0.001,1.337,gemini-1.5-pro-latest,No,regression,regression,0
 oml_dataset_24_rnc,NYC,0,0,81.83,0,0,0,1.36,0.001,0.001,0.001,13.64,0.001,0.001,0.001,1.337,llama-3.1-70b-versatile,No,regression,regression,0
 oml_dataset_24_rnc,NYC,0,0,0,0,0,0,0.001,0.001,0.001,0.001,0.001,0.001,0.001,0.001,1.337,gpt-4o,No,regression,regression,0
-oml_dataset_35_rnc,Volkert,0,0,67.15,0,0,2877.82,1.12,0.001,0.001,47.96,11.19,0.001,0.001,479.64,2.189,gemini-1.5-pro-latest,No,multiclass,classification,0
+oml_dataset_35_rnc,Volkert,0,0,67.15,70.23,0,2877.82,1.12,1.17,0.001,47.96,11.19,11.71,0.001,479.64,2.189,gemini-1.5-pro-latest,No,multiclass,classification,0
 oml_dataset_35_rnc,Volkert,0,0,73.92,0,0,0,1.23,0.001,0.001,0.001,12.32,0.001,0.001,0.001,2.189,llama-3.1-70b-versatile,No,multiclass,classification,0
 oml_dataset_35_rnc,Volkert,0,0,0,0,0,2606.33,0.001,0.001,0.001,43.44,0.001,0.001,0.001,434.39,2.189,gpt-4o,No,multiclass,classification,0
 Yelp,Yelp-MG,584.36,2477.39,0,0,0,0,0,0,0,0,-1,-1,0,0,-1.0,gemini-1.5-pro-latest,No,multiclass,classification,0

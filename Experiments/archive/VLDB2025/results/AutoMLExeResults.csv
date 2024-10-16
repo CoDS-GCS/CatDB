@@ -50,6 +50,6 @@ oml_dataset_23_rnc,House-Sales,0,0.815,gpt-4o
 oml_dataset_24_rnc,NYC,5864.35,1.337,gemini-1.5-pro-latest
 oml_dataset_24_rnc,NYC,0,1.337,llama-3.1-70b-versatile
 oml_dataset_24_rnc,NYC,0,1.337,gpt-4o
-oml_dataset_35_rnc,Volkert,0,2.189,gemini-1.5-pro-latest
+oml_dataset_35_rnc,Volkert,70.23,2.189,gemini-1.5-pro-latest
 oml_dataset_35_rnc,Volkert,0,2.189,llama-3.1-70b-versatile
 oml_dataset_35_rnc,Volkert,0,2.189,gpt-4o

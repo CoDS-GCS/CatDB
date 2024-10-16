@@ -89,6 +89,7 @@ oml_dataset_24_rnc,NYC,CatDB,31080,0,0,3108,0,0,0,0,0,0,0,0,0,0,0,gemini-1.5-pro
 oml_dataset_24_rnc,NYC,CatDBChain,68110,18010,24260,2447,1801,2426,0,0,0,0,0,0,0,0,0,gemini-1.5-pro-latest,No,regression,regression,0
 oml_dataset_24_rnc,NYC,CatDB,17380,0,0,1738,0,0,2566,0,0,0,0,0,0,0,0,llama-3.1-70b-versatile,No,regression,regression,0
 oml_dataset_35_rnc,Volkert,CatDB,116420,0,0,11642,0,0,0,0,0,0,0,0,0,0,0,gemini-1.5-pro-latest,No,multiclass,classification,0
+oml_dataset_35_rnc,Volkert,CatDBChain,275877,100990,109870,5874,10099,10987,0,0,0,0,0,0,0,0,0,gemini-1.5-pro-latest,No,multiclass,classification,0
 oml_dataset_35_rnc,Volkert,CAAFERandomForest,148747,0,0,14355,0,0,0,0,0,0,0,0,0,0,0,gemini-1.5-pro-latest,No,multiclass,classification,0
 oml_dataset_35_rnc,Volkert,CatDB,78780,0,0,7878,0,0,1677,0,0,0,0,0,0,0,0,llama-3.1-70b-versatile,No,multiclass,classification,0
 oml_dataset_35_rnc,Volkert,CAAFERandomForest,135794,0,0,12834,0,0,0,0,0,0,0,0,0,0,0,gpt-4o,No,multiclass,classification,0

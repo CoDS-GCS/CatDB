@@ -34,30 +34,29 @@ class LLM_API_Key(object):
         self.begin = True
 
     def get_API_Key(self):
-        return 0, "AIzaSyCWK5Bhagheijc_6kIcr9FkdISKbGTJhL4"
-        # from .Config import _llm_platform, _delay, _last_API_Key
-        # aks = self.platform_keys[_llm_platform]
-        # sleep_time = _delay
-        # selectedID = None
-        # for ID in aks.keys():
-        #     ak = aks[ID]
-        #     if ak["api_key"] == _last_API_Key:
-        #         continue
-        #     diff_time = time.time() - ak["last_time"]
-        #     if diff_time > _delay or self.begin:
-        #         selectedID = ID
-        #         break
-        #     else:
-        #         sleep_time = min(_delay - diff_time, sleep_time)
-        #
-        # if selectedID is not None:
-        #     self.set_update(ID=selectedID, save_log=True)
-        #     self.begin = False
-        #     ak = aks[selectedID]
-        #     return 0, ak["api_key"]
-        # else:
-        #     time.sleep(sleep_time)
-        #     return self.get_API_Key()
+        from .Config import _llm_platform, _delay, _last_API_Key
+        aks = self.platform_keys[_llm_platform]
+        sleep_time = _delay
+        selectedID = None
+        for ID in aks.keys():
+            ak = aks[ID]
+            if ak["api_key"] == _last_API_Key:
+                continue
+            diff_time = time.time() - ak["last_time"]
+            if diff_time > _delay or self.begin:
+                selectedID = ID
+                break
+            else:
+                sleep_time = min(_delay - diff_time, sleep_time)
+
+        if selectedID is not None:
+            self.set_update(ID=selectedID, save_log=True)
+            self.begin = False
+            ak = aks[selectedID]
+            return 0, ak["api_key"]
+        else:
+            time.sleep(sleep_time)
+            return self.get_API_Key()
 
     def set_update(self, ID, save_log: bool = False):
         from .Config import _llm_platform, _system_log_file

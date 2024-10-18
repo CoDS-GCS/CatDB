@@ -1,4 +1,4 @@
-\multirow{3}{*}{Airline}&& GPT-4o&  \textbf{100.0}&\textbf{100.0}&--&--&--&--&--&--&--&--&--&--&--&--&--&--\\ 
+\multirow{3}{*}{Airline}&& GPT-4o&  \textbf{100.0}&\textbf{100.0}& \cellcolor{lightgray!50} \textbf{100.0}&\cellcolor{lightgray!50}\textbf{100.0}&--&--&--&--&--&--&--&--&--&--&--&--\\ 
  & AUC-ovr & Gemini-1.5&  \textbf{100.0}&\textbf{100.0}& \cellcolor{lightgray!50} \textbf{100.0}&\cellcolor{lightgray!50}\textbf{100.0}&--&--&--&--&--&--&  \textbf{100.0}&\textbf{100.0}&--&--&--&--\\ 
 && Llama3.1-70b&  \textbf{100.0}&\textbf{100.0}&--&--&--&--&--&--&--&--&--&--&--&--&--&--\\ \chline
 \multirow{3}{*}{IMDB-IJS}&& GPT-4o&  \textbf{0.0}&\textbf{0.0}& \cellcolor{lightgray!50} \textbf{0.0}&\cellcolor{lightgray!50}\textbf{0.0}&  \textbf{0.0}&\textbf{0.0}&  \textbf{0.0}&\textbf{0.0}&  \textbf{0.0}&\textbf{0.0}&  \textbf{0.0}&\textbf{0.0}&  \textbf{0.0}&\textbf{0.0}&  \textbf{0.0}&\textbf{0.0}\\ 

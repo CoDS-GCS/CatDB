@@ -1,7 +1,7 @@
 dataset_name,dataset_name_orig,time,dataset_load_time,llm_model
 Airline,Airline,362.18,11.503,gemini-1.5-pro-latest
 Airline,Airline,0,11.503,llama-3.1-70b-versatile
-Airline,Airline,0,11.503,gpt-4o
+Airline,Airline,66.11,11.503,gpt-4o
 IMDB-IJS,IMDB-IJS,1479.53,88.732,gemini-1.5-pro-latest
 IMDB-IJS,IMDB-IJS,0,88.732,llama-3.1-70b-versatile
 IMDB-IJS,IMDB-IJS,0,88.732,gpt-4o
@@ -20,9 +20,9 @@ Utility,Utility,23.06,0.708,gemini-1.5-pro-latest
 oml_dataset_2_rnc,Breast-w,40.51,0.653,gemini-1.5-pro-latest
 oml_dataset_2_rnc,Breast-w,20.74,0.653,llama-3.1-70b-versatile
 oml_dataset_2_rnc,Breast-w,0,0.653,gpt-4o
-oml_dataset_3_rnc,CMC,0,0.702,gemini-1.5-pro-latest
-oml_dataset_3_rnc,CMC,0,0.702,llama-3.1-70b-versatile
-oml_dataset_3_rnc,CMC,0,0.702,gpt-4o
+oml_dataset_3_rnc,CMC,22.85,0.702,gemini-1.5-pro-latest
+oml_dataset_3_rnc,CMC,80621.57,0.702,llama-3.1-70b-versatile
+oml_dataset_3_rnc,CMC,14.21,0.702,gpt-4o
 oml_dataset_4_rnc,Credit-g,47.38,0.786,gemini-1.5-pro-latest
 oml_dataset_4_rnc,Credit-g,101.93,0.786,llama-3.1-70b-versatile
 oml_dataset_4_rnc,Credit-g,0,0.786,gpt-4o
@@ -38,9 +38,9 @@ oml_dataset_33_rnc,Nomao,0,1.2,gpt-4o
 oml_dataset_34_rnc,Gas-Drift,65.48,1.043,gemini-1.5-pro-latest
 oml_dataset_34_rnc,Gas-Drift,0,1.043,llama-3.1-70b-versatile
 oml_dataset_34_rnc,Gas-Drift,0,1.043,gpt-4o
-oml_dataset_20_rnc,Walking-Activity,0,0.79,gemini-1.5-pro-latest
-oml_dataset_20_rnc,Walking-Activity,0,0.79,llama-3.1-70b-versatile
-oml_dataset_20_rnc,Walking-Activity,0,0.79,gpt-4o
+oml_dataset_20_rnc,Walking-Activity,50.62,0.79,gemini-1.5-pro-latest
+oml_dataset_20_rnc,Walking-Activity,76.64,0.79,llama-3.1-70b-versatile
+oml_dataset_20_rnc,Walking-Activity,262.18,0.79,gpt-4o
 oml_dataset_22_rnc,Bike-Sharing,0,0.723,gemini-1.5-pro-latest
 oml_dataset_22_rnc,Bike-Sharing,0,0.723,llama-3.1-70b-versatile
 oml_dataset_22_rnc,Bike-Sharing,0,0.723,gpt-4o

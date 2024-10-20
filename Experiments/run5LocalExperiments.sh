@@ -16,32 +16,32 @@ cd ${exp_path}
 # CMD=./explocal/exp0_statistics/runExperiment0.sh
 # CMD=./explocal/exp1_cleaning/runExperiment1.sh
 # CMDPatch=./explocal/exp1_cleaning/runPatch.sh
-CMD=./explocal/exp1_catalog/runExperiment1.sh
+# CMD=./explocal/exp1_catalog/runExperiment1.sh
 # CMD=./explocal/exp2_micro_benchmark/runExperiment2.sh 
-# CMD=./explocal/exp3_end_to_end/runExperiment3.sh
+CMD=./explocal/exp3_end_to_end/runExperiment3.sh
 #CMD=./explocal/exp4_finetune/runExperiment4.sh
 #CMD=./explocal/exp5_dataprepare/runExperiment5.sh
 
 # $CMDPatch
 
-$CMD oml_dataset_2_rnc binary # Breast-w -> M1
-$CMD oml_dataset_4_rnc binary # Credit-g -> M1
-$CMD oml_dataset_5_rnc binary # Diabetes -> M1
-$CMD oml_dataset_33_rnc binary # Nomao -> M1
-$CMD oml_dataset_34_rnc multiclass # Gas-Drift -> M1
-$CMD oml_dataset_35_rnc multiclass # Volkert -> M1
+# $CMD oml_dataset_2_rnc binary # Breast-w -> M1
+# $CMD oml_dataset_4_rnc binary # Credit-g -> M1
+# $CMD oml_dataset_5_rnc binary # Diabetes -> M1
+# $CMD oml_dataset_33_rnc binary # Nomao -> M1
+# $CMD oml_dataset_34_rnc multiclass # Gas-Drift -> M1
+# $CMD oml_dataset_35_rnc multiclass # Volkert -> M1
 
-# $CMD oml_dataset_20_rnc multiclass # Walking-Activity -> M2
-# $CMD oml_dataset_6_rnc binary # Tic-Tac-Toe -> M2
-# $CMD oml_dataset_3_rnc multiclass # CMC -> M2
-# $CMD oml_dataset_22_rnc regression # Bike-Sharing -> M2
+$CMD oml_dataset_20_rnc multiclass # Walking-Activity -> M2
+$CMD oml_dataset_6_rnc binary # Tic-Tac-Toe -> M2
+$CMD oml_dataset_3_rnc multiclass # CMC -> M2
+$CMD oml_dataset_22_rnc regression # Bike-Sharing -> M2
 
-# $CMD oml_dataset_24_rnc regression # NYC -> M2
-# $CMD oml_dataset_23_rnc regression # House-Sales -> M2
-# $CMD Airline multiclass  #-> M2
-# $CMD IMDB-IJS binary # -> M2
-# $CMD Accidents multiclass # -> M2
-# $CMD Financial multiclass # -> M2
+$CMD oml_dataset_24_rnc regression # NYC -> M2
+$CMD oml_dataset_23_rnc regression # House-Sales -> M2
+$CMD Airline multiclass  #-> M2
+$CMD IMDB-IJS binary # -> M2
+$CMD Accidents multiclass # -> M2
+$CMD Financial multiclass # -> M2
 
 # $CMD EU-IT multiclass # OK
 # $CMD Etailing multiclass # OK

@@ -19,17 +19,17 @@ cd ${exp_path}
 CMD=./explocal/exp1_catalog/runExperiment1.sh
 # CMD=./explocal/exp2_micro_benchmark/runExperiment2.sh 
 # CMD=./explocal/exp3_end_to_end/runExperiment3.sh
-#CMD=./explocal/exp4_finetune/runExperiment4.sh
-#CMD=./explocal/exp5_dataprepare/runExperiment5.sh
+# CMD=./explocal/exp4_finetune/runExperiment4.sh
+# CMD=./explocal/exp5_dataprepare/runExperiment5.sh
 
 # $CMDPatch
 
-$CMD oml_dataset_2_rnc binary # Breast-w -> M1
-$CMD oml_dataset_4_rnc binary # Credit-g -> M1
-$CMD oml_dataset_5_rnc binary # Diabetes -> M1
-$CMD oml_dataset_33_rnc binary # Nomao -> M1
-$CMD oml_dataset_34_rnc multiclass # Gas-Drift -> M1
-$CMD oml_dataset_35_rnc multiclass # Volkert -> M1
+# $CMD oml_dataset_2_rnc binary # Breast-w -> M1
+# $CMD oml_dataset_4_rnc binary # Credit-g -> M1
+# $CMD oml_dataset_5_rnc binary # Diabetes -> M1
+# $CMD oml_dataset_33_rnc binary # Nomao -> M1
+# $CMD oml_dataset_34_rnc multiclass # Gas-Drift -> M1
+# $CMD oml_dataset_35_rnc multiclass # Volkert -> M1
 
 # $CMD oml_dataset_20_rnc multiclass # Walking-Activity -> M2
 # $CMD oml_dataset_6_rnc binary # Tic-Tac-Toe -> M2
@@ -48,7 +48,44 @@ $CMD oml_dataset_35_rnc multiclass # Volkert -> M1
 # $CMD Midwest-Survey multiclass # OK
 # $CMD WiFi binary # OK
 # $CMD Utility regression # OK
-# $CMD Yelp multiclass 
+# $CMD Yelp multiclass
+
+# End to End Datasets
+$CMD Volkert-out-0.01-np-0-nc-0-mv-0 multiclass # Volkert
+$CMD Volkert-out-0.02-np-0-nc-0-mv-0 multiclass # Volkert
+$CMD Volkert-out-0.03-np-0-nc-0-mv-0 multiclass # Volkert
+$CMD Volkert-out-0.04-np-0-nc-0-mv-0 multiclass # Volkert
+$CMD Volkert-out-0.05-np-0-nc-0-mv-0 multiclass # Volkert
+
+$CMD Volkert-out-0-np-1-nc-180-mv-0.1 multiclass # Volkert
+$CMD Volkert-out-0-np-1-nc-180-mv-0.2 multiclass # Volkert
+$CMD Volkert-out-0-np-1-nc-180-mv-0.3 multiclass # Volkert
+$CMD Volkert-out-0-np-1-nc-180-mv-0.4 multiclass # Volkert
+$CMD Volkert-out-0-np-1-nc-180-mv-0.5 multiclass # Volkert
+
+$CMD Volkert-out-0.05-np-1-nc-180-mv-0.1 multiclass # Volkert
+$CMD Volkert-out-0.05-np-1-nc-180-mv-0.2 multiclass # Volkert
+$CMD Volkert-out-0.05-np-1-nc-180-mv-0.3 multiclass # Volkert
+$CMD Volkert-out-0.05-np-1-nc-180-mv-0.4 multiclass # Volkert
+$CMD Volkert-out-0.05-np-1-nc-180-mv-0.5 multiclass # Volkert
+
+$CMD Utility-out-0.01-np-0-nc-0-mv-0 regression # Utility
+$CMD Utility-out-0.02-np-0-nc-0-mv-0 regression # Utility
+$CMD Utility-out-0.03-np-0-nc-0-mv-0 regression # Utility
+$CMD Utility-out-0.04-np-0-nc-0-mv-0 regression # Utility
+$CMD Utility-out-0.05-np-0-nc-0-mv-0 regression # Utility
+
+$CMD Utility-out-0-np-1-nc-12-mv-0.1 regression # Utility
+$CMD Utility-out-0-np-1-nc-12-mv-0.2 regression # Utility
+$CMD Utility-out-0-np-1-nc-12-mv-0.3 regression # Utility
+$CMD Utility-out-0-np-1-nc-12-mv-0.4 regression # Utility
+$CMD Utility-out-0-np-1-nc-12-mv-0.5 regression # Utility
+
+$CMD Utility-out-0.05-np-1-nc-12-mv-0.1 regression # Utility
+$CMD Utility-out-0.05-np-1-nc-12-mv-0.2 regression # Utility
+$CMD Utility-out-0.05-np-1-nc-12-mv-0.3 regression # Utility
+$CMD Utility-out-0.05-np-1-nc-12-mv-0.4 regression # Utility
+$CMD Utility-out-0.05-np-1-nc-12-mv-0.5 regression # Utility
 
 #####################################################
 # $CMD gen_dataset_54-out-0.05-np-1-nc-180-mv-0.1_rnc multiclass # Volkert

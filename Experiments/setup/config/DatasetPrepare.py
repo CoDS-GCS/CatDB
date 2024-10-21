@@ -26,17 +26,19 @@ def parse_arguments():
 
 
 def split_data_save(data: pd.DataFrame, ds_name, out_path, target_table: str=None, write_data: bool=True):
-    if target_table is None:
-        target_table = ds_name
-    data_train, data_test = train_test_split(data, test_size=0.3, random_state=42)
-    _, data_verify =  train_test_split(data_train, test_size=0.1, random_state=42)
     Path(f"{out_path}/{ds_name}").mkdir(parents=True, exist_ok=True)
+    data.to_csv(f'{out_path}/{ds_name}/{target_table}.csv', index=False)
+    # if target_table is None:
+    #     target_table = ds_name
+    # data_train, data_test = train_test_split(data, test_size=0.3, random_state=42)
+    # _, data_verify =  train_test_split(data_train, test_size=0.1, random_state=42)
+    # Path(f"{out_path}/{ds_name}").mkdir(parents=True, exist_ok=True)
 
-    if write_data:
-        data.to_csv(f'{out_path}/{ds_name}/{target_table}.csv', index=False)
-    data_train.to_csv(f'{out_path}/{ds_name}/{target_table}_train.csv', index=False)
-    data_test.to_csv(f'{out_path}/{ds_name}/{target_table}_test.csv', index=False)
-    data_verify.to_csv(f'{out_path}/{ds_name}/{target_table}_verify.csv', index=False)
+    # if write_data:
+    #     data.to_csv(f'{out_path}/{ds_name}/{target_table}.csv', index=False)
+    # data_train.to_csv(f'{out_path}/{ds_name}/{target_table}_train.csv', index=False)
+    # data_test.to_csv(f'{out_path}/{ds_name}/{target_table}_test.csv', index=False)
+    # data_verify.to_csv(f'{out_path}/{ds_name}/{target_table}_verify.csv', index=False)
     
 
 def get_metadata(data, target_attribute):
@@ -99,37 +101,38 @@ def refactor_openml_description(description):
 
 
 def save_config(dataset_name,target, task_type, data_out_path, description=None, multi_table: bool=False, target_table: str=None):
-    if target_table is None:
-        target_table=dataset_name
+    # if target_table is None:
+    #     target_table=dataset_name
 
-    config_strs = [f"- name: {dataset_name}",
-                       "  dataset:",
-                       f"    multi_table: {multi_table}",
-                       f"    train: \'{dataset_name}/{target_table}_train.csv\'",
-                       f"    test: \'{dataset_name}/{target_table}_test.csv\'",
-                       f"    verify: \'{dataset_name}/{target_table}_verify.csv\'",
-                       f"    target_table: {target_table}",
-                       f"    target: '{target}'",
-                       f"    type: {task_type}"
-                       "\n"]
-    config_str = "\n".join(config_strs)
+    # config_strs = [f"- name: {dataset_name}",
+    #                    "  dataset:",
+    #                    f"    multi_table: {multi_table}",
+    #                    f"    train: \'{dataset_name}/{target_table}_train.csv\'",
+    #                    f"    test: \'{dataset_name}/{target_table}_test.csv\'",
+    #                    f"    verify: \'{dataset_name}/{target_table}_verify.csv\'",
+    #                    f"    target_table: {target_table}",
+    #                    f"    target: '{target}'",
+    #                    f"    type: {task_type}"
+    #                    "\n"]
+    # config_str = "\n".join(config_strs)
 
-    yaml_file_local = f'{data_out_path}/{dataset_name}/{dataset_name}.yaml'
-    f_local = open(yaml_file_local, 'w')
-    f_local.write("--- \n \n")
-    f_local.write(config_str)
-    f_local.close() 
+    # yaml_file_local = f'{data_out_path}/{dataset_name}/{dataset_name}.yaml'
+    # f_local = open(yaml_file_local, 'w')
+    # f_local.write("--- \n \n")
+    # f_local.write(config_str)
+    # f_local.close() 
 
-    des = description
-    if description is None:
-        des = ""
-    else:
-        des = refactor_openml_description(description=description)    
+    # des = description
+    # if description is None:
+    #     des = ""
+    # else:
+    #     des = refactor_openml_description(description=description)    
         
-    description_file = f'{data_out_path}/{dataset_name}/{dataset_name}.txt'
-    f = open(description_file, 'w')
-    f.write(des)
-    f.close()
+    # description_file = f'{data_out_path}/{dataset_name}/{dataset_name}.txt'
+    # f = open(description_file, 'w')
+    # f.write(des)
+    # f.close()
+    return None
 
 
 def load_dependency_info(dependency_file: str, datasource_name: str):

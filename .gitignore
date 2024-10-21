@@ -24,7 +24,7 @@ src/main/__pycache__/*
 src/main/python/.idea/
 src/test/data/*
 
-Experiments/data/*/*
+
 Experiments/setup/automlbenchmark/*
 Experiments/venv/
 Experiments/results/

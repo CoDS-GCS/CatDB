@@ -1,4 +1,4 @@
-\multirow{3}{*}{Airline}&& GPT-4o&  \textbf{100.0}&\textbf{100.0}& \cellcolor{lightgray!50} \textbf{100.0}&\cellcolor{lightgray!50}\textbf{100.0}&--&--&--&--&--&--&--&--&--&--&--&--\\ 
+\multirow{3}{*}{Airline}&& GPT-4o&  \textbf{100.0}&\textbf{100.0}& \cellcolor{lightgray!50} \textbf{100.0}&\cellcolor{lightgray!50}\textbf{100.0}&--&--&--&--&--&--&  \textbf{100.0}&\textbf{100.0}&--&--&--&--\\ 
  & AUC-ovr & Gemini-1.5&  \textbf{100.0}&\textbf{100.0}& \cellcolor{lightgray!50} \textbf{100.0}&\cellcolor{lightgray!50}\textbf{100.0}&--&--&--&--&--&--&  \textbf{100.0}&\textbf{100.0}&--&--&--&--\\ 
 && Llama3.1-70b&  \textbf{100.0}&\textbf{100.0}&--&--&--&--&--&--&--&--&--&--&--&--&--&--\\ \chline
 \multirow{3}{*}{IMDB-IJS}&& GPT-4o&  \textbf{0.0}&\textbf{0.0}& \cellcolor{lightgray!50} \textbf{0.0}&\cellcolor{lightgray!50}\textbf{0.0}&  \textbf{0.0}&\textbf{0.0}&  \textbf{0.0}&\textbf{0.0}&  \textbf{0.0}&\textbf{0.0}&  \textbf{0.0}&\textbf{0.0}&  \textbf{0.0}&\textbf{0.0}&  \textbf{0.0}&\textbf{0.0}\\ 
@@ -6,25 +6,25 @@
 && Llama3.1-70b&  \textbf{0.0}&\textbf{0.0}& \cellcolor{lightgray!50} \textbf{0.0}&\cellcolor{lightgray!50}\textbf{0.0}&  \textbf{0.0}&\textbf{0.0}&  \textbf{0.0}&\textbf{0.0}&  \textbf{0.0}&\textbf{0.0}&  \textbf{0.0}&\textbf{0.0}&  \textbf{0.0}&\textbf{0.0}&  \textbf{0.0}&\textbf{0.0}\\ \chline
 \multirow{3}{*}{Accidents}&& GPT-4o&  \textbf{99.99}&\textbf{94.21}&--&--&--&--&--&--&--&--&--&--&--&--&--&--\\ 
  & AUC-ovr & Gemini-1.5&  \textbf{100.0}&  94.2& \cellcolor{lightgray!50} 94.28& \cellcolor{lightgray!50} 94.21&--&--&--&--&--&--&  91.03&  90.96&  98.82&  95.36&  98.93&\textbf{97.17}\\ 
-&& Llama3.1-70b&--&--& \cellcolor{lightgray!50} \textbf{97.95}&\cellcolor{lightgray!50}\textbf{95.18}&--&--&--&--&--&--&--&--&--&--&--&--\\ \chline
+&& Llama3.1-70b&--&--& \cellcolor{lightgray!50} 97.95& \cellcolor{lightgray!50} 95.18&--&--&--&--&--&--&  94.3&  92.92&  98.37&  94.95&  \textbf{99.23}&\textbf{97.35}\\ \chline
 \multirow{3}{*}{Financial}&& GPT-4o&  \textbf{0.0}&\textbf{0.0}& \cellcolor{lightgray!50} \textbf{0.0}&\cellcolor{lightgray!50}\textbf{0.0}&  \textbf{0.0}&\textbf{0.0}&  \textbf{0.0}&\textbf{0.0}&  \textbf{0.0}&\textbf{0.0}&  \textbf{0.0}&\textbf{0.0}&  \textbf{0.0}&\textbf{0.0}&  \textbf{0.0}&\textbf{0.0}\\ 
  & AUC-ovr & Gemini-1.5&  \textbf{100.0}&\textbf{100.0}& \cellcolor{lightgray!50} \textbf{100.0}&\cellcolor{lightgray!50}\textbf{100.0}&--&--&--&--&--&--&  \textbf{100.0}&\textbf{100.0}&  \textbf{100.0}&\textbf{100.0}&  99.99&  99.99\\ 
-&& Llama3.1-70b&--&--& \cellcolor{lightgray!50} \textbf{100.0}&\cellcolor{lightgray!50}\textbf{100.0}&--&--&--&--&--&--&--&--&--&--&--&--\\ \chline
-\multirow{3}{*}{CMC}&& GPT-4o&--&--& \cellcolor{lightgray!50} \textbf{90.18}&\cellcolor{lightgray!50}\textbf{73.81}&  87.85&  73.13&  70.03&  67.91&--&--&--&--&--&--&--&--\\ 
- & AUC-ovr & Gemini-1.5&  99.83&  68.84& \cellcolor{lightgray!50} 97.71& \cellcolor{lightgray!50} 69.54&  87.85&\textbf{73.13}&  \textbf{99.85}&  67.95&--&--&--&--&--&--&--&--\\ 
-&& Llama3.1-70b&  \textbf{98.23}&\textbf{73.15}& \cellcolor{lightgray!50} 78.49& \cellcolor{lightgray!50} 71.03&--&--&--&--&--&--&--&--&--&--&--&--\\ \chline
+&& Llama3.1-70b&--&--& \cellcolor{lightgray!50} \textbf{100.0}&\cellcolor{lightgray!50}\textbf{100.0}&--&--&--&--&--&--&  \textbf{100.0}&\textbf{100.0}&  \textbf{100.0}&\textbf{100.0}&  99.99&  99.99\\ \chline
+\multirow{3}{*}{CMC}&& GPT-4o&--&--& \cellcolor{lightgray!50} \textbf{90.18}& \cellcolor{lightgray!50} 73.81&  87.85&  73.13&  70.03&  67.91&--&--&  88.3&\textbf{76.39}&  78.4&\textbf{76.39}&  20.35&  27.22\\ 
+ & AUC-ovr & Gemini-1.5&  99.83&  68.84& \cellcolor{lightgray!50} 97.71& \cellcolor{lightgray!50} 69.54&  87.85&  73.13&  \textbf{99.85}&  67.95&--&--&  75.36&  75.17&  78.47&\textbf{77.23}&  17.51&  25.71\\ 
+&& Llama3.1-70b&  \textbf{98.23}&  73.15& \cellcolor{lightgray!50} 78.49& \cellcolor{lightgray!50} 71.03&--&--&--&--&--&--&  88.37&\textbf{75.96}&  80.16&  75.89&  20.35&  27.22\\ \chline
 \multirow{3}{*}{Tic-Tac-Toe}&& GPT-4o&--&--&  \textbf{100.0}&  96.87&  \textbf{100.0}&\textbf{97.26}&  74.87&  70.93&--&--&--&--&--&--&--&--\\ 
- & AUC& Gemini-1.5& \cellcolor{lightgray!50} \textbf{100.0}&\cellcolor{lightgray!50}\textbf{99.98}&  \textbf{100.0}&  99.94&  \textbf{100.0}&  96.22&  \textbf{100.0}&  98.83&--&--&--&--&--&--&--&--\\ 
-&& Llama3.1-70b& \cellcolor{lightgray!50} \textbf{100.0}&\cellcolor{lightgray!50}\textbf{100.0}&  \textbf{100.0}&  99.68&--&--&--&--&--&--&--&--&--&--&--&--\\ \chline
-\multirow{3}{*}{Walking-Activity}&& GPT-4o&--&--& \cellcolor{lightgray!50} \textbf{91.72}&\cellcolor{lightgray!50}\textbf{91.51}&--&--&  71.43&  71.4&--&--&--&--&--&--&--&--\\ 
- & AUC-ovr & Gemini-1.5&  \textbf{100.0}&\textbf{96.31}& \cellcolor{lightgray!50} \textbf{100.0}& \cellcolor{lightgray!50} 96.01&--&--&  78.98&  78.92&--&--&--&--&--&--&--&--\\ 
-&& Llama3.1-70b&  \textbf{99.99}&  94.83& \cellcolor{lightgray!50} 98.31&\cellcolor{lightgray!50}\textbf{96.57}&--&--&--&--&--&--&--&--&--&--&--&--\\ \chline
+ & AUC& Gemini-1.5& \cellcolor{lightgray!50} \textbf{100.0}& \cellcolor{lightgray!50} 99.98&  \textbf{100.0}&  99.94&  \textbf{100.0}&  96.22&  \textbf{100.0}&  98.83&--&--&--&--&  \textbf{100.0}&\textbf{100.0}&  \textbf{100.0}&\textbf{100.0}\\ 
+&& Llama3.1-70b& \cellcolor{lightgray!50} \textbf{100.0}&\cellcolor{lightgray!50}\textbf{100.0}&  \textbf{100.0}&  99.68&--&--&--&--&--&--&--&--&  \textbf{100.0}&\textbf{100.0}&  \textbf{100.0}&\textbf{100.0}\\ \chline
+\multirow{3}{*}{Walking-Activity}&& GPT-4o&--&--& \cellcolor{lightgray!50} 91.72& \cellcolor{lightgray!50} 91.51&--&--&  71.43&  71.4&  99.53&  96.91&  97.8&  96.33&  \textbf{99.9}&\textbf{97.22}&  99.85&  96.86\\ 
+ & AUC-ovr & Gemini-1.5&  \textbf{100.0}&  96.31& \cellcolor{lightgray!50} \textbf{100.0}& \cellcolor{lightgray!50} 96.01&--&--&  78.98&  78.92&  50.0&  50.0&  81.66&  81.77&  98.22&\textbf{96.65}&  99.92&  96.22\\ 
+&& Llama3.1-70b&  \textbf{99.99}&  94.83& \cellcolor{lightgray!50} 98.31& \cellcolor{lightgray!50} 96.57&--&--&--&--&  99.03&  96.53&  96.15&  95.11&  98.64&\textbf{96.86}&  99.93&  96.29\\ \chline
 \multirow{3}{*}{Bike-Sharing}&& GPT-4o&  \textbf{0.0}&\textbf{0.0}& \cellcolor{lightgray!50} \textbf{0.0}&\cellcolor{lightgray!50}\textbf{0.0}&  \textbf{0.0}&\textbf{0.0}&  \textbf{0.0}&\textbf{0.0}&  \textbf{0.0}&\textbf{0.0}&  \textbf{0.0}&\textbf{0.0}&  \textbf{0.0}&\textbf{0.0}&  \textbf{0.0}&\textbf{0.0}\\ 
  & $R^2$ & Gemini-1.5&  \textbf{98.74}&\textbf{92.06}&--&--&--&--&--&--&--&--&--&--&--&--&--&--\\ 
 && Llama3.1-70b&  80.32&  79.54& \cellcolor{lightgray!50} \textbf{89.49}&\cellcolor{lightgray!50}\textbf{88.04}&--&--&--&--&--&--&--&--&--&--&--&--\\ \chline
 \multirow{3}{*}{House-Sales}&& GPT-4o& \cellcolor{lightgray!50} \textbf{0.0}&\cellcolor{lightgray!50}\textbf{0.0}&  \textbf{0.0}&\textbf{0.0}&  \textbf{0.0}&\textbf{0.0}&  \textbf{0.0}&\textbf{0.0}&  \textbf{0.0}&\textbf{0.0}&  \textbf{0.0}&\textbf{0.0}&  \textbf{0.0}&\textbf{0.0}&  \textbf{0.0}&\textbf{0.0}\\ 
  & $R^2$ & Gemini-1.5& \cellcolor{lightgray!50} \textbf{99.99}&\cellcolor{lightgray!50}\textbf{99.99}&  97.98&  87.98&--&--&--&--&  94.17&  89.86&--&--&  96.41&  89.94&  95.42&  90.34\\ 
-&& Llama3.1-70b& \cellcolor{lightgray!50} \textbf{98.27}& \cellcolor{lightgray!50} 87.96&  91.0&\textbf{89.0}&--&--&--&--&--&--&--&--&--&--&--&--\\ \chline
+&& Llama3.1-70b& \cellcolor{lightgray!50} \textbf{98.27}& \cellcolor{lightgray!50} 87.96&  91.0&  89.0&--&--&--&--&  94.59&  89.89&--&--&  94.07&  89.39&  95.21&\textbf{90.36}\\ \chline
 \multirow{3}{*}{NYC}&& GPT-4o&  \textbf{0.0}&\textbf{0.0}& \cellcolor{lightgray!50} \textbf{0.0}&\cellcolor{lightgray!50}\textbf{0.0}&  \textbf{0.0}&\textbf{0.0}&  \textbf{0.0}&\textbf{0.0}&  \textbf{0.0}&\textbf{0.0}&  \textbf{0.0}&\textbf{0.0}&  \textbf{0.0}&\textbf{0.0}&  \textbf{0.0}&\textbf{0.0}\\ 
  & $R^2$ & Gemini-1.5&  \textbf{95.38}&  67.22& \cellcolor{lightgray!50} 75.81& \cellcolor{lightgray!50} 65.53&--&--&--&--&  74.51&  69.07&  18.33&  18.22&  82.36&  70.18&  85.49&\textbf{70.89}\\ 
 && Llama3.1-70b&  \textbf{48.74}&\textbf{48.58}& \cellcolor{lightgray!50} \textbf{48.74}&\cellcolor{lightgray!50}\textbf{48.58}&--&--&--&--&--&--&--&--&--&--&--&--\\ \chline

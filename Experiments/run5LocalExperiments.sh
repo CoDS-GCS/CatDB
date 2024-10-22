@@ -51,23 +51,23 @@ CMD=./explocal/exp1_catalog/runExperiment1.sh
 # $CMD Yelp multiclass
 
 # End to End Datasets
-$CMD Volkert-out-0.01-np-0-nc-0-mv-0 multiclass # Volkert
-$CMD Volkert-out-0.02-np-0-nc-0-mv-0 multiclass # Volkert
-$CMD Volkert-out-0.03-np-0-nc-0-mv-0 multiclass # Volkert
-$CMD Volkert-out-0.04-np-0-nc-0-mv-0 multiclass # Volkert
-$CMD Volkert-out-0.05-np-0-nc-0-mv-0 multiclass # Volkert
+# $CMD Volkert-out-0.01-np-0-nc-0-mv-0 multiclass # Volkert
+# $CMD Volkert-out-0.02-np-0-nc-0-mv-0 multiclass # Volkert
+# $CMD Volkert-out-0.03-np-0-nc-0-mv-0 multiclass # Volkert
+# $CMD Volkert-out-0.04-np-0-nc-0-mv-0 multiclass # Volkert
+# $CMD Volkert-out-0.05-np-0-nc-0-mv-0 multiclass # Volkert
 
-$CMD Volkert-out-0-np-1-nc-180-mv-0.1 multiclass # Volkert
-$CMD Volkert-out-0-np-1-nc-180-mv-0.2 multiclass # Volkert
-$CMD Volkert-out-0-np-1-nc-180-mv-0.3 multiclass # Volkert
-$CMD Volkert-out-0-np-1-nc-180-mv-0.4 multiclass # Volkert
-$CMD Volkert-out-0-np-1-nc-180-mv-0.5 multiclass # Volkert
+# $CMD Volkert-out-0-np-1-nc-180-mv-0.1 multiclass # Volkert
+# $CMD Volkert-out-0-np-1-nc-180-mv-0.2 multiclass # Volkert
+# $CMD Volkert-out-0-np-1-nc-180-mv-0.3 multiclass # Volkert
+# $CMD Volkert-out-0-np-1-nc-180-mv-0.4 multiclass # Volkert
+# $CMD Volkert-out-0-np-1-nc-180-mv-0.5 multiclass # Volkert
 
-$CMD Volkert-out-0.05-np-1-nc-180-mv-0.1 multiclass # Volkert
-$CMD Volkert-out-0.05-np-1-nc-180-mv-0.2 multiclass # Volkert
-$CMD Volkert-out-0.05-np-1-nc-180-mv-0.3 multiclass # Volkert
-$CMD Volkert-out-0.05-np-1-nc-180-mv-0.4 multiclass # Volkert
-$CMD Volkert-out-0.05-np-1-nc-180-mv-0.5 multiclass # Volkert
+# $CMD Volkert-out-0.05-np-1-nc-180-mv-0.1 multiclass # Volkert
+# $CMD Volkert-out-0.05-np-1-nc-180-mv-0.2 multiclass # Volkert
+# $CMD Volkert-out-0.05-np-1-nc-180-mv-0.3 multiclass # Volkert
+# $CMD Volkert-out-0.05-np-1-nc-180-mv-0.4 multiclass # Volkert
+# $CMD Volkert-out-0.05-np-1-nc-180-mv-0.5 multiclass # Volkert
 
 $CMD Utility-out-0.01-np-0-nc-0-mv-0 regression # Utility
 $CMD Utility-out-0.02-np-0-nc-0-mv-0 regression # Utility

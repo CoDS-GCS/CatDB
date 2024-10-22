@@ -140,7 +140,7 @@ if __name__ == '__main__':
             elif ds_dict["title"] == "Volkert":
                  task_type = "multiclass"
                  task = "classification"
-                 ds_corr = "CatDBChain"   
+                 ds_corr = "CatDB"   
                  dataset_load_time = 2.3  
             else:
                 task_type = "binary"

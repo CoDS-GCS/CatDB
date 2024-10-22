@@ -1,17 +1,10 @@
---- 
- 
+---
+
 - llm_platform: OpenAI
   key_1: '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'
 
 - llm_platform: Meta
-  key_1: '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'
-  key_2: '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'
-  key_3: 'gsk_gsk_czrJDExtbd6osgzDGiqwWGdyb3FYxrNv4dbmBIrMnbUee9s73khp'
-
+  key_1: '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'
 
 - llm_platform: Google
-  key_1: 'AIzaSyDqllDei2sc9pgJuWXGeG_NpmZbBV_BFAs'
-  key_2: 'AIzaSyBcPg8TIq8l-4NWIxEyaD2f6MOlcxdiyW0'
-  key_3: 'AIzaSyC_MKZ5WYp2_8H1lmuD16YdHu0HgwWb4ps'
-  key_4: 'AIzaSyBab8I8_XCvEput0pwofB-1EXqRKoTX8ew'
-
+  key_1: 'AIzaSyCWK5Bhagheijc_6kIcr9FkdISKbGTJhL4'

@@ -36,7 +36,7 @@
     max_output_tokens: 251072
     system_delimiter: '### '
     user_delimiter: '### '
-    delay: 70
+    delay: 40
     temperature: 0
     top_p: 0.95
     top_k: 64

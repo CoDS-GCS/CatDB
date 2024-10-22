@@ -4,14 +4,9 @@ from MergeResults import  get_top_k_binary, get_top_k_multiclass, get_top_k_regr
 
 if __name__ == '__main__':
     
-    root_path = "/home/saeed/Documents/Github/CatDB/Experiments/archive/SIGMOD2025-Results/EtoE/" 
+    root_path = "../results" 
 
-    results_path = [f"{root_path}/Experiment1_LLM_Pipe_Gen_CatDB_Volkert.dat",
-                    f"{root_path}/Experiment1_LLM_Pipe_Gen_CatDBChain_Volkert.dat",
-                    f"{root_path}/Experiment3_AutoML_Volkert.dat",
-                    f"{root_path}/Experiment1_LLM_Pipe_Gen_CatDB_NYC.dat",
-                    f"{root_path}/Experiment3_AutoML_NYC.dat",
-                    f"{root_path}/Experiment1_LLM_CAAFE.dat"]  
+    results_path = [f"{root_path}/raw_results/EtoE-Experiment1_LLM_Pipe_Gen_CatDB.dat"]  
 
     columns = ["dataset_name", "config", "sub_task", "llm_model", "classifier", "task_type", "status",
                 "number_iteration","number_iteration_error", "has_description", "time_catalog_load", "time_pipeline_generate",
@@ -162,4 +157,4 @@ if __name__ == '__main__':
 
     df_etoe = df_etoe.sort_values(by=['OUT','MV'], ascending=True).reset_index(drop=True)    
     df_etoe.to_csv(f"{root_path}/EtoEResults.csv", index=False)
-    #df_automl_exe.to_csv(f"{root_path}/EtoEAutoMLExeResults.csv", index=False)
+    df_automl_exe.to_csv(f"{root_path}/EtoEAutoMLExeResults.csv", index=False)

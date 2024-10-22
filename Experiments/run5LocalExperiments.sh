@@ -16,9 +16,9 @@ cd ${exp_path}
 # CMD=./explocal/exp0_statistics/runExperiment0.sh
 # CMD=./explocal/exp1_cleaning/runExperiment1.sh
 # CMDPatch=./explocal/exp1_cleaning/runPatch.sh
-CMD=./explocal/exp1_catalog/runExperiment1.sh
+# CMD=./explocal/exp1_catalog/runExperiment1.sh
 # CMD=./explocal/exp2_micro_benchmark/runExperiment2.sh 
-# CMD=./explocal/exp3_end_to_end/runExperiment3.sh
+CMD=./explocal/exp3_end_to_end/runExperiment3.sh
 # CMD=./explocal/exp4_finetune/runExperiment4.sh
 # CMD=./explocal/exp5_dataprepare/runExperiment5.sh
 
@@ -34,12 +34,12 @@ CMD=./explocal/exp1_catalog/runExperiment1.sh
 # $CMD oml_dataset_20_rnc multiclass # Walking-Activity -> M2
 # $CMD oml_dataset_6_rnc binary # Tic-Tac-Toe -> M2
 # $CMD oml_dataset_3_rnc multiclass # CMC -> M2
-# $CMD oml_dataset_22_rnc regression # Bike-Sharing -> M2
+$CMD oml_dataset_22_rnc regression # Bike-Sharing -> M2
 
-# $CMD oml_dataset_24_rnc regression # NYC -> M2
+$CMD oml_dataset_24_rnc regression # NYC -> M2
 # $CMD oml_dataset_23_rnc regression # House-Sales -> M2
-# $CMD Airline multiclass  #-> M2
-# $CMD IMDB-IJS binary # -> M2
+$CMD Airline multiclass  #-> M2
+$CMD IMDB-IJS binary # -> M2
 # $CMD Accidents multiclass # -> M2
 # $CMD Financial multiclass # -> M2
 
@@ -69,23 +69,23 @@ CMD=./explocal/exp1_catalog/runExperiment1.sh
 # $CMD Volkert-out-0.05-np-1-nc-180-mv-0.4 multiclass # Volkert
 # $CMD Volkert-out-0.05-np-1-nc-180-mv-0.5 multiclass # Volkert
 
-$CMD Utility-out-0.01-np-0-nc-0-mv-0 regression # Utility
-$CMD Utility-out-0.02-np-0-nc-0-mv-0 regression # Utility
-$CMD Utility-out-0.03-np-0-nc-0-mv-0 regression # Utility
-$CMD Utility-out-0.04-np-0-nc-0-mv-0 regression # Utility
-$CMD Utility-out-0.05-np-0-nc-0-mv-0 regression # Utility
+# $CMD Utility-out-0.01-np-0-nc-0-mv-0 regression # Utility
+# $CMD Utility-out-0.02-np-0-nc-0-mv-0 regression # Utility
+# $CMD Utility-out-0.03-np-0-nc-0-mv-0 regression # Utility
+# $CMD Utility-out-0.04-np-0-nc-0-mv-0 regression # Utility
+# $CMD Utility-out-0.05-np-0-nc-0-mv-0 regression # Utility
 
-$CMD Utility-out-0-np-1-nc-12-mv-0.1 regression # Utility
-$CMD Utility-out-0-np-1-nc-12-mv-0.2 regression # Utility
-$CMD Utility-out-0-np-1-nc-12-mv-0.3 regression # Utility
-$CMD Utility-out-0-np-1-nc-12-mv-0.4 regression # Utility
-$CMD Utility-out-0-np-1-nc-12-mv-0.5 regression # Utility
+# $CMD Utility-out-0-np-1-nc-12-mv-0.1 regression # Utility
+# $CMD Utility-out-0-np-1-nc-12-mv-0.2 regression # Utility
+# $CMD Utility-out-0-np-1-nc-12-mv-0.3 regression # Utility
+# $CMD Utility-out-0-np-1-nc-12-mv-0.4 regression # Utility
+# $CMD Utility-out-0-np-1-nc-12-mv-0.5 regression # Utility
 
-$CMD Utility-out-0.05-np-1-nc-12-mv-0.1 regression # Utility
-$CMD Utility-out-0.05-np-1-nc-12-mv-0.2 regression # Utility
-$CMD Utility-out-0.05-np-1-nc-12-mv-0.3 regression # Utility
-$CMD Utility-out-0.05-np-1-nc-12-mv-0.4 regression # Utility
-$CMD Utility-out-0.05-np-1-nc-12-mv-0.5 regression # Utility
+# $CMD Utility-out-0.05-np-1-nc-12-mv-0.1 regression # Utility
+# $CMD Utility-out-0.05-np-1-nc-12-mv-0.2 regression # Utility
+# $CMD Utility-out-0.05-np-1-nc-12-mv-0.3 regression # Utility
+# $CMD Utility-out-0.05-np-1-nc-12-mv-0.4 regression # Utility
+# $CMD Utility-out-0.05-np-1-nc-12-mv-0.5 regression # Utility
 
 #####################################################
 # $CMD gen_dataset_54-out-0.05-np-1-nc-180-mv-0.1_rnc multiclass # Volkert

@@ -32,13 +32,10 @@ if __name__ == '__main__':
     df_automl_exe = pd.DataFrame(columns = ["dataset_name","dataset_name_orig", "time","dataset_load_time", "llm_model"])    
     df_csv_read = load_results(f"{root_path}/Experiment1_CSVDataReader.dat")
     
-    datasetIDs = [("Adult","gen_dataset_50","binary",1),
-                  ("Bank","gen_dataset_51","binary",2),
-                  ("Br2000","gen_dataset_52","binary",3),
-                  ("NYC","gen_dataset_53","regression",4),
-                  ("Volkert","gen_dataset_54","multiclass",5)]
+    datasetIDs = [("Utility","Utility","regression",4),
+                  ("Volkert","Volkert","multiclass",5)]
     
-    dataset_ID = {"gen_dataset_53": "NYC", "gen_dataset_54":"Volkert"}
+    dataset_ID = {"Utility": "Utility", "Volkert":"Volkert"}
     dataset_maps = dict()
 
     dataset_names = df_pip_gen["dataset_name"].unique()
@@ -55,16 +52,16 @@ if __name__ == '__main__':
 
        
         
-    llms = ["gemini-1.5-pro-latest"] #["gemini-1.5-pro-latest","llama3-70b-8192", "gpt-4o"]
+    llms = ["gemini-1.5-pro-latest"] 
     configs = ["CatDB", "CatDBChain", "H2O", "Flaml", "Autogluon", "AutoSklearn", "CAAFE"] 
     classifier = ["Auto", "TabPFN", "RandomForest"]  
-    df_etoe.loc[len(df_etoe)] = ["NYC", "CatDB", 0, 0, 0, 0.64831, "gemini-1.5-pro-latest", "No", "regression", "regression", 0] 
-    df_etoe.loc[len(df_etoe)] = ["NYC", "H2O", 0, 0, 0, 0, "gemini-1.5-pro-latest", "No", "regression", "regression", 0] 
-    df_etoe.loc[len(df_etoe)] = ["NYC", "Flaml", 0, 0, 0, 0.68552, "gemini-1.5-pro-latest", "No", "regression", "regression", 0] 
-    df_etoe.loc[len(df_etoe)] = ["NYC", "Autogluon", 0, 0, 0, 0.60574, "gemini-1.5-pro-latest", "No", "regression", "regression", 0] 
-    df_etoe.loc[len(df_etoe)] = ["NYC", "AutoSklearn", 0, 0, 0, 0.62394, "gemini-1.5-pro-latest", "No", "regression", "regression", 0]   
+    df_etoe.loc[len(df_etoe)] = ["Utility", "CatDB", 0, 0, 0, 0.9882, "gemini-1.5-pro-latest", "No", "regression", "regression", 0] 
+    df_etoe.loc[len(df_etoe)] = ["Utility", "H2O", 0, 0, 0, 0, "gemini-1.5-pro-latest", "No", "regression", "regression", 0] 
+    df_etoe.loc[len(df_etoe)] = ["Utility", "Flaml", 0, 0, 0, 0.9902, "gemini-1.5-pro-latest", "No", "regression", "regression", 0] 
+    df_etoe.loc[len(df_etoe)] = ["Utility", "Autogluon", 0, 0, 0, 0.9956, "gemini-1.5-pro-latest", "No", "regression", "regression", 0] 
+    df_etoe.loc[len(df_etoe)] = ["Utility", "AutoSklearn", 0, 0, 0, 0, "gemini-1.5-pro-latest", "No", "regression", "regression", 0]   
 
-    df_etoe.loc[len(df_etoe)] = ["Volkert", "CatDBChain", 0, 0, 0, 0.9165, "gemini-1.5-pro-latest", "No", "multiclass", "classification", 0]
+    df_etoe.loc[len(df_etoe)] = ["Volkert", "CatDB", 0, 0, 0, 0.92, "gemini-1.5-pro-latest", "No", "multiclass", "classification", 0]
     df_etoe.loc[len(df_etoe)] = ["Volkert", "CAAFE", 0, 0, 0, 0.7152, "gemini-1.5-pro-latest", "No", "multiclass", "classification", 0] 
     df_etoe.loc[len(df_etoe)] = ["Volkert", "H2O", 0, 0, 0, 0.9074, "gemini-1.5-pro-latest", "No", "multiclass", "classification", 0] 
     df_etoe.loc[len(df_etoe)] = ["Volkert", "Flaml", 0, 0, 0, 0.9357, "gemini-1.5-pro-latest", "No", "multiclass", "classification", 0] 
@@ -117,7 +114,7 @@ if __name__ == '__main__':
                             df_etoe.loc[cindex] = [ds_title, config, ds_dict["out"], ds_dict["mv"], ds_dict["nc"], -0.15, llm, "No", None, None, 0]                            
                             continue
 
-                        if ds_title in {"NYC"}:
+                        if ds_title in {"Utility"}:
                             res_metric = df_sort.iloc[0]["test_r_squared"]
                             task_type = "regression"
                             task = "regression"
@@ -140,16 +137,16 @@ if __name__ == '__main__':
 
             # dataset_load_time = df_csv_read.loc[df_csv_read['dataset']==mvds]["time"].values[0] / 1000
             ds_corr = None
-            if ds_dict["title"] == "NYC":
+            if ds_dict["title"] == "Utility":
                  task_type = "regression"
                  task = "regression"
                  ds_corr = "CatDB"
-                 dataset_load_time = 1.7
+                 dataset_load_time = 1
             elif ds_dict["title"] == "Volkert":
                  task_type = "multiclass"
                  task = "classification"
                  ds_corr = "CatDBChain"   
-                 dataset_load_time = 2.5  
+                 dataset_load_time = 2.3  
             else:
                 task_type = "binary"
                 task = "classification"

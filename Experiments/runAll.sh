@@ -11,3 +11,6 @@
 # ./run6PlotResults.sh; 
 
 #./explocal/runMergeResults.sh
+
+
+# Automl L 90

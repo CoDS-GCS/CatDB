@@ -18,12 +18,12 @@ if __name__ == '__main__':
     df_micro = pd.DataFrame(columns = micor_tbl_cols)   
 
     datasetIDs = [("Airline","Airline",101),
-                  ("IMDB-IJS","IMDB-IJS",102),
+                  ("IMDB","IMDB-IJS",102),
                   ("Accidents","Accidents",103),
                   ("Financial","Financial",104),                  
                   ("CMC","oml_dataset_3_rnc",3),                 
                   ("Tic-Tac-Toe","oml_dataset_6_rnc",6),                   
-                  ("Walking-Activity","oml_dataset_20_rnc",13),
+                  ("Walking","oml_dataset_20_rnc",13),
                   ("Bike-Sharing","oml_dataset_22_rnc",15),
                   ("House-Sales","oml_dataset_23_rnc",16),
                   ("NYC","oml_dataset_24_rnc",17)]

@@ -13,12 +13,14 @@ IMDB-IJS,IMDB-IJS,CatDB,12030,0,0,1203,0,0,-173,0,0,0,0,0,0,0,0,gpt-4o,No,binary
 IMDB-IJS,IMDB-IJS,CatDBChain,63190,56060,43590,2503,1744,2072,223,3862,2287,3,2,1,0,0,0,gpt-4o,No,binary,classification,0
 Accidents,Accidents,CatDB,53630,0,0,5363,0,0,9918,0,0,0,0,0,0,0,0,gemini-1.5-pro-latest,No,multiclass,classification,0
 Accidents,Accidents,CatDBChain,129293,37920,44540,4513,3792,4454,0,0,0,0,0,0,0,0,0,gemini-1.5-pro-latest,No,multiclass,classification,0
+Accidents,Accidents,CAAFERandomForest,50050,0,0,4550,0,0,0,0,0,0,0,0,0,0,0,gemini-1.5-pro-latest,No,multiclass,classification,0
 Accidents,Accidents,CatDB,53630,0,0,5363,0,0,7918,0,0,0,0,0,0,0,0,llama-3.1-70b-versatile,No,multiclass,classification,0
 Accidents,Accidents,CatDBChain,110215,78730,269020,4202,2845,3952,0,5028,22950,8,2,6,0,0,0,llama-3.1-70b-versatile,No,multiclass,classification,0
 Accidents,Accidents,CatDB,34760,0,0,3476,0,0,0,0,0,0,0,0,0,0,0,gpt-4o,No,multiclass,classification,0
 Accidents,Accidents,CatDBChain,109140,21920,17710,4168,3192,3554,-2222,-1000,-1783,3,0,3,0,0,0,gpt-4o,No,multiclass,classification,0
 Financial,Financial,CatDB,56260,0,0,5626,0,0,-3847,0,0,0,0,0,0,0,0,gemini-1.5-pro-latest,No,multiclass,classification,0
 Financial,Financial,CatDBChain,139170,83140,139060,4489,4095,5013,0,4219,8893,3,1,2,0,0,0,gemini-1.5-pro-latest,No,multiclass,classification,0
+Financial,Financial,CAAFERandomForest,64526,0,0,5866,0,0,0,0,0,0,0,0,0,0,0,gemini-1.5-pro-latest,No,multiclass,classification,0
 Financial,Financial,CatDB,58260,0,0,5826,0,0,-3847,0,0,0,0,0,0,0,0,llama-3.1-70b-versatile,No,multiclass,classification,0
 Financial,Financial,CatDBChain,100565,28400,36090,3560,2840,3609,6513,0,0,0,0,0,0,0,0,llama-3.1-70b-versatile,No,multiclass,classification,0
 Financial,Financial,CatDB,53260,0,0,5326,0,0,-3447,0,0,0,0,0,0,0,0,gpt-4o,No,multiclass,classification,0
@@ -130,7 +132,7 @@ oml_dataset_24_rnc,NYC,CatDBChain,68110,18010,24260,2447,1801,2426,0,0,0,0,0,0,0
 oml_dataset_24_rnc,NYC,CatDB,17380,0,0,1738,0,0,2566,0,0,0,0,0,0,0,0,llama-3.1-70b-versatile,No,regression,regression,0
 oml_dataset_24_rnc,NYC,CatDBChain,49260,39460,32180,2013,1127,1786,0,2819,1432,3,2,1,0,0,0,llama-3.1-70b-versatile,No,regression,regression,0
 oml_dataset_24_rnc,NYC,CatDB,17450,0,0,1745,0,0,1506,0,0,0,0,0,0,0,0,gpt-4o,No,regression,regression,0
-oml_dataset_24_rnc,NYC,CatDBChain,46120,292340,17190,1764,1129,1719,1484,28105,0,19,19,0,0,0,0,gpt-4o,No,regression,regression,0
+oml_dataset_24_rnc,NYC,CatDBChain,46120,29230,17190,1764,1129,1719,1484,1794,0,3,3,0,0,0,0,gpt-4o,No,regression,regression,0
 oml_dataset_35_rnc,Volkert,CatDB,116420,0,0,11642,0,0,0,0,0,0,0,0,0,0,0,gemini-1.5-pro-latest,No,multiclass,classification,0
 oml_dataset_35_rnc,Volkert,CatDBChain,275877,100990,109870,5874,10099,10987,0,0,0,0,0,0,0,0,0,gemini-1.5-pro-latest,No,multiclass,classification,0
 oml_dataset_35_rnc,Volkert,CAAFERandomForest,118351,0,0,14355,0,0,0,0,0,0,0,0,0,0,0,gemini-1.5-pro-latest,No,multiclass,classification,0

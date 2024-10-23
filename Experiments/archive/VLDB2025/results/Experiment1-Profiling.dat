@@ -6,10 +6,10 @@ Tic-Tac-Toe,binary,kglidsplus,40132
 IMDB,binary,kglidsplus,386291
 Credit-g,binary,kglidsplus,47857
 Nomao,binary,kglidsplus,42229
-Walking-Activity,multiclass,kglidsplus,31601
+Walking,multiclass,kglidsplus,31601
 CMC,multiclass,kglidsplus,31442
 EU IT,multiclass,kglidsplus,49439
-Midwest-Survey,multiclass,kglidsplus,51398
+Survey,multiclass,kglidsplus,51398
 Etailing,multiclass,kglidsplus,56235
 Accidents,multiclass,kglidsplus,157146
 Financial,multiclass,kglidsplus,122365

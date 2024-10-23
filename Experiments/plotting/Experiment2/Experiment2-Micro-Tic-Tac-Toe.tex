@@ -11,24 +11,20 @@
 
    \newcommand{\myaddplotauc}[6]{ 
       \addplot[xshift=#6,fill=#5, draw=black,line width=0.3pt] 
-      table[y=test_r_squared, col sep=comma, x=llm_model, discard if singlconfig={No}{#1}{#2}{#3}{#4}]%, 
-      {../archive/SIGMOD2025-Results/MicroResults.csv};
+      table[y=test_auc, col sep=comma, x=llm_model, discard if singlconfig={No}{#1}{#2}{#3}{#4}]%, 
+      {../archive/VLDB2025/results/MicroResults.csv};
       \label{#2}       
     };
 
-    \newcommand{\myaddplotdsg}[8]{
+    \newcommand{\myaddplotdsg}[6]{
       \resetstackedplots
-      \myaddplotauc{#1}{SSN}{#2}{0}{color7}{#3};
+      \myaddplotauc{#1}{SDVC}{#2}{0}{tugb}{#3};
       \resetstackedplots
       \myaddplotauc{#1}{S}{#2}{0}{color4}{#4};
       \resetstackedplots
-      \myaddplotauc{#1}{SDVCSN}{#2}{0}{color3}{#5};
+      \myaddplotauc{#1}{SCV}{#2}{0}{color6}{#5};
       \resetstackedplots
-      \myaddplotauc{#1}{SDVC}{#2}{0}{tugb}{#6};
-      \resetstackedplots
-      \myaddplotauc{#1}{SCV}{#2}{0}{color6}{#7};      
-      \resetstackedplots
-      \myaddplotauc{#1}{CatDBChain}{#2}{0}{tug}{#8};
+      \myaddplotauc{#1}{CatDBChain}{#2}{0}{tug}{#6};
     };
 
     \pgfplotsset{
@@ -84,16 +80,16 @@
   axis line style={black, line width=0.3pt},
   enlarge y limits={0.67,upper},
   enlarge x limits=0.07,
-  ylabel={Test $R^2$ $\%$},
+  ylabel={Test AUC $\%$},
   xlabel={},
   log ticks with fixed point,
   xtick align=outside,
   xtick pos=left,
   ytick pos=left,
   yticklabel style = {font=\normalsize},
-  ylabel style = {font=\normalsize, yshift=-3pt, xshift=-5pt},
+  ylabel style = {font=\normalsize, yshift=-3pt, xshift=-3pt},
   height=.5\columnwidth,
-  width=1.15\columnwidth,
+  width=0.9\columnwidth,
   ymajorgrids=true,
   grid style=dotted,
   minor grid style={gray!70},
@@ -106,26 +102,18 @@
   every x tick/.style={ draw=none},
   xtick = data,
   symbolic x coords={gemini-1.5-pro-latest, llama3-70b-8192, gpt-4o},
-  xticklabels={\hspace{1cm}Gemini-1.5, \hspace{-0.8cm}Llama3-70b, \hspace{-0.64cm}GPT-4o},
+  xticklabels={\hspace{0.8cm}Gemini-1.5, \hspace{0.1cm}Llama3.1-70b, \hspace{-0.64cm}GPT-4o},
   legend image code/.code={\draw [#1] (0cm,-0.11cm) rectangle (0.2cm,0.11cm); }, 
 ]
-
-\myaddplotdsg{gpt-4o}{Bike-Sharing}{-40pt}{-32pt}{-24pt}{-16pt}{-8pt}{0pt}
-\myaddplotdsg{llama3-70b-8192}{Bike-Sharing}{-28pt}{-20pt}{-12pt}{-4pt}{4pt}{12pt}
-\myaddplotdsg{gemini-1.5-pro-latest}{Bike-Sharing}{-4pt}{4pt}{12pt}{20pt}{28pt}{36pt}
+\myaddplotdsg{gpt-4o}{Tic-Tac-Toe}{-24pt}{-16pt}{-8pt}{0pt}
+\myaddplotdsg{gemini-1.5-pro-latest}{Tic-Tac-Toe}{0pt}{8pt}{16pt}{24pt}
+\myaddplotdsg{llama3-70b-8192}{Tic-Tac-Toe}{-15pt}{-7pt}{1pt}{9pt}
 
 \end{axis}
 
-\node [draw=none,inner sep=0, font=\normalsize, anchor=west] (leg1) at (rel axis cs: 0.065,0.80) {\shortstack[l]{
-  \ref{SSN} Schema+Statistics\\
-  \ref{SDVCSN} Schema+Unique Count+Statistics\\
-  \ref{SCV} Schema+Categorical Values
-  }}; 
-
-  \node [draw=none,inner sep=0, font=\normalsize, anchor=west, right=of leg1, xshift=-25.5pt] (leg2){\shortstack[l]{
-  \ref{S} Schema \\
-  \ref{SDVC} Schema+Unique Count \\
-  \ref{CatDBChain} CatDB Chain
-  }}; 
+\node [draw=none,inner sep=0, font=\normalsize, anchor=west] (leg1) at (rel axis cs: 0.07,0.83) {\shortstack[l]{
+  \ref{SDVC} Schema+Unique Count \hspace{0.5cm} \ref{S} Schema \\ 
+  \ref{SCV} Schema+Categorical Values  \ref{CatDBChain} CatDB Chain
+  }};
 
 \end{tikzpicture}

@@ -3,7 +3,7 @@
 \makeatletter
 \pgfplots@stacked@isfirstplottrue
 \makeatother
-\addplot [forget plot,draw=none] coordinates{(gemini-1.5-pro-latest, 0) (llama3-70b-8192, 0) (gpt-4o, 0)};
+\addplot [forget plot,draw=none] coordinates{(gemini-1.5-pro-latest, 0) (llama-3.1-70b-versatile, 0) (gpt-4o, 0)};
 }
 \makeatother
 
@@ -12,7 +12,7 @@
   \newcommand{\myaddplotcost}[7]{ 
     \addplot+[xshift=#4,fill=#3, draw=black,line width=0.3pt] 
     table[y=tokens_count, col sep=comma, x=llm_model, discard if singlconfig={No}{#2}{#1}{#5}{#6}]
-    {../archive/SIGMOD2025-Results/CostResults.csv};
+    {../archive/VLDB2025/results/CostResults.csv};
     \label{#1_prompt}  
 
   };
@@ -79,7 +79,7 @@
   axis line style={black, line width=0.3pt},
   enlarge y limits={0.09,upper},
   enlarge x limits=0.07,
-  ylabel={Number of Tokens},
+  ylabel={},%{Token Count},
   xlabel={},
   log ticks with fixed point,
   xtick align=outside,
@@ -87,8 +87,8 @@
   ytick pos=left,
   yticklabel style = {font=\large},
   ylabel style = {font=\large, yshift=0pt, xshift=-3pt},
-  height=.53\columnwidth,
-  width=.66\columnwidth,
+  height=.48\columnwidth,
+  width=.72\columnwidth,
   ymajorgrids=true,
   grid style=dotted,
   minor grid style={gray!70},
@@ -102,12 +102,12 @@
   yticklabels={0, 10k, 20k, 30k,40k},               
   every x tick/.style={ draw=none},
   xtick = data,
-  symbolic x coords={gemini-1.5-pro-latest, llama3-70b-8192, gpt-4o},
-  xticklabels={\hspace{0.3cm}Gemini-1.5, \hspace{0.1cm}Llama3-70b, \hspace{-0.64cm}GPT-4o},
+  symbolic x coords={gemini-1.5-pro-latest, llama-3.1-70b-versatile, gpt-4o},
+  xticklabels={\hspace{0.3cm}Gemini-1.5, \hspace{0.1cm}Llama3.1-70b, \hspace{-0.64cm}GPT-4o},
   legend image code/.code={\draw [#1] (0cm,-0.1cm) rectangle (0.25cm,0.1cm); }, 
 ]
 \myaddplotds{gemini-1.5-pro-latest}{Credit-g}{0pt}{8pt}{16pt}{24pt}
-\myaddplotds{llama3-70b-8192}{Credit-g}{-11pt}{-3pt}{5pt}{13pt}
+\myaddplotds{llama-3.1-70b-versatile}{Credit-g}{-11pt}{-3pt}{5pt}{13pt}
 \myaddplotds{gpt-4o}{Credit-g}{-22pt}{-14pt}{-6pt}{2pt}
 \end{axis}
 

@@ -144,8 +144,10 @@ if __name__ == '__main__':
                                     fname = f"{fname}-{samples}-{des}.csv"    
                                     df_ds["ID"] =  [ds_ID for dsid in range(0,len(df_ds))]
 
+                                    err_ratio = 1
                                     if index in {1,3,4,6,7,12}:
                                         df_ds.to_csv(f"{root_path}/seperate/{fname}", index=False)                        
+                                        err_ratio = 0.5
                                     
                                     if task_type in {"binary", "multiclass"}:
                                         tsk = "classification"
@@ -167,7 +169,7 @@ if __name__ == '__main__':
                                                                 
                                     if config == "CatDB":
                                         df_cost.at[cindex,"config"]="CatDB"
-                                        df_cost.at[cindex,"tokens_count"] = int(df_ds['prompt_token_count'].mean() * 10)  
+                                        df_cost.at[cindex,"tokens_count"] = int(df_ds['prompt_token_count'].mean() * 10 * err_ratio)  
 
                                         df_ds_tmp = df_ds.sort_values(by='all_token_count', ascending=True).reset_index(drop=True).head(1)
 
@@ -196,7 +198,7 @@ if __name__ == '__main__':
                                         avg_pp_error = df_chain_pp.loc[0, 'number_iteration_error']
                                         avg_fe_error = df_chain_fe.loc[0, 'number_iteration_error']
 
-                                        df_cost.at[cindex,"tokens_count"] = int(df_ds['prompt_token_count'].mean() * 10 + 10 * (avg_pp_token + avg_fe_token))
+                                        df_cost.at[cindex,"tokens_count"] = int((df_ds['prompt_token_count'].mean() * 10 + 10 * (avg_pp_token + avg_fe_token)) *  err_ratio)
 
                                         df_ds_tmp = df_ds.sort_values(by='all_token_count', ascending=True).reset_index(drop=True).head(1)
 

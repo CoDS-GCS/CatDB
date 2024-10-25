@@ -57,10 +57,26 @@ Resource        | Links
 - **Model Configuration:** CatDB supports a diverse list of models, including: *GPT (4.0, 4-turbo)*, *Gemini (1.5-pro-latest, 1.5-pro-exp-0801, 1.5-pro-exp-0827)*, and 
 *Llama (llama-3.1-70b-versatile, llama3-70b-8192)*. This list is not exhaustive. If you need to add a new model or update existing model settings (e.g., `temperature`, `token_limit`, ...), simply modify the `Config.yaml` (`src/python/main/Config.yaml`) file.     
     
+### Data Catalog and Prepare Data
+* **Data Ctalog:** CatDB utilizes [kglids](https://github.com/CoDS-GCS/kglids) data profiling outputs. We need to run data profiling on each dataset individually and store the outputs. (A list of example data profiling outputs can be found in the Experiments subdirectory.)
+* **Prepare Data:** CatDB requires specifying the dataset splits (`Train`, `Verify`, and `Test`) and the task type (`binary`, `multiclass`, or `regression`) along with the target attribute. All this metadata should be provided in a `.yaml` file. Here's a template for the metadata file:
+
+    ```
+    --- 
+ 
+    - name: dataset_name
+    dataset:
+        multi_table: True/False
+        train: 'dataset_name_train.csv' # Path to train dataset
+        test: 'dataset_name_test.csv' # Path to test dataset
+        verify: 'dataset_name_verify.csv' # Path to verify dataset
+        target_table: target_table_name # If you have a single-table dataset, use the same name as the dataset name.
+        target: 'target_col_name' # Target feature name
+        type: multiclass # Task type
+    ```
+**Note:** The suffixes `_train.csv`, `_test.csv`, and `_verify.csv` are mandatory.
 
 ## Run CatDB
-* Prepare Dataset
-* Profile Data
 * Run CatDB to Generating ML Pipeline:
     ```
     python main.py \

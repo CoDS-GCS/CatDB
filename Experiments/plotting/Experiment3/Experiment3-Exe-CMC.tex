@@ -3,7 +3,7 @@
 \makeatletter
 \pgfplots@stacked@isfirstplottrue
 \makeatother
-\addplot [forget plot,draw=none] coordinates{(gemini-1.5-pro-latest, 0) (llama3-70b-8192, 0) (gpt-4o, 0)};
+\addplot [forget plot,draw=none] coordinates{(gemini-1.5-pro-latest, 0) (llama-3.1-70b-versatile, 0) (gpt-4o, 0)};
 }
 \makeatother
 
@@ -12,7 +12,7 @@
   \newcommand{\myaddplotcost}[7]{ 
     \addplot+[xshift=#4,fill=#3, draw=black,line width=0.3pt] 
     table[y=#1, col sep=comma, x=llm_model, discard if singlconfig={No}{#2}{#5}{#6}]
-    {../archive/SIGMOD2025-Results/ExeResults.csv};
+    {../archive/VLDB2025/results/ExeResults.csv};
   };
 
   \newcommand{\myaddplotds}[6]{
@@ -69,7 +69,7 @@
   axis line style={black, line width=0.3pt},
   enlarge y limits={0.14,upper},
   enlarge x limits=0.07,
-  ylabel={Execution Time [min.]},
+  ylabel={Execution Time [m]},
   xlabel={},
   log ticks with fixed point,
   xtick align=outside,
@@ -77,8 +77,8 @@
   ytick pos=left,
   yticklabel style = {font=\large},
   ylabel style = {font=\large, yshift=0pt, xshift=-5pt},
-  height=.53\columnwidth,
-  width=.66\columnwidth,
+  height=.5\columnwidth,
+  width=.75\columnwidth,
   ymajorgrids=true,
   grid style=dotted,
   minor grid style={gray!70},
@@ -88,16 +88,16 @@
   xticklabel style = {font=\normalsize, xshift=0pt, yshift=3pt},
   legend image post style={line width=.5pt},          
   bar width=8pt,         
-  ytick={0,1,2,3,4,5,6,7,8,9,10},
-  yticklabels={0,1,2,3,4,5,6,7,8,9,10},              
+  ytick={0,2,4,6,8,10},
+  yticklabels={0,2,4,6,8,10},              
   every x tick/.style={ draw=none},
   xtick = data,
-  symbolic x coords={gemini-1.5-pro-latest, llama3-70b-8192, gpt-4o},
-  xticklabels={\hspace{0.3cm}Gemini-1.5, \hspace{0.1cm}Llama3-70b, \hspace{-0.64cm}GPT-4o},
+  symbolic x coords={gemini-1.5-pro-latest, llama-3.1-70b-versatile, gpt-4o},
+  xticklabels={\hspace{0.6cm}Gemini-1.5, \hspace{0.1cm}Llama3.1-70b, \hspace{-0.64cm}GPT-4o},
   legend image code/.code={\draw [#1] (0cm,-0.1cm) rectangle (0.25cm,0.1cm); }, 
 ]
  \myaddplotds{gemini-1.5-pro-latest}{CMC}{0pt}{8pt}{16pt}{24pt}
- \myaddplotds{llama3-70b-8192}{CMC}{-11pt}{-3pt}{5pt}{13pt}
+ \myaddplotds{llama-3.1-70b-versatile}{CMC}{-11pt}{-3pt}{5pt}{13pt}
  \myaddplotds{gpt-4o}{CMC}{-22pt}{-14pt}{-6pt}{2pt}
 \end{axis}
 

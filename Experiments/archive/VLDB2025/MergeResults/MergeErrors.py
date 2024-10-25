@@ -4,11 +4,18 @@ from MergeResults import load_merge_all_errors
 
 if __name__ == '__main__':
     
-    root_path = "/home/saeed/Documents/Github/CatDB/Experiments/archive/SIGMOD2025-Results/"        
+    root_path = "../results/"        
     df_errors = load_merge_all_errors(root_path=root_path)
 
-    llms = df_errors["llm_model"].unique()
+    # df_errors.loc[df_errors['llm_model']=='gemini-1.5-pro-latest'] = 'gemini-1.5'
+    # df_errors.loc[df_errors['llm_model']=='gemini-1.5-pro-exp-0827'] = 'gemini-1.5'
+    # df_errors.loc[df_errors['llm_model']=='llama-3.1-70b-versatile'] = 'llama3'
+    # df_errors.loc[df_errors['llm_model']=='llama3-70b-8192'] = 'llama3'
+
+
+    # llms = df_errors["llm_model"].unique()
     err_class = df_errors["error_class"].value_counts().keys() #df_errors["error_class"].unique()
+    
     
     # err_class_tmp = []
     # for i in range(len(err_class)-1, 0, -1):
@@ -19,11 +26,15 @@ if __name__ == '__main__':
     # #print(err_class)
 
     
-    for llm in llms:
+    for llm in {"gemini-1.5", "llama3"}:
         errs = dict()
-        df_tmp = df_errors.loc[df_errors['llm_model'] == llm]
+        if llm == "gemini-1.5":
+            df_tmp = df_errors.loc[(df_errors['llm_model'] == 'gemini-1.5-pro-latest') |
+                                   (df_errors['llm_model'] == 'gemini-1.5-pro-exp-0827')]
+        elif llm == 'llama3':
+              df_tmp = df_errors.loc[(df_errors['llm_model'] == 'llama-3.1-70b-versatile') |
+                                   (df_errors['llm_model'] == 'llama3-70b-8192')]  
 
-        pie_latex = "\pie[sum=auto,text=legend]{"
         hide_list = []
         d = len(df_tmp)
         print(f"{llm}  >> {d}")
@@ -39,6 +50,7 @@ if __name__ == '__main__':
             cindex = len(df_err_resul)
             row_entry = [e, llm, f"{ratio:0.3f}", count, d]
             df_err_resul.loc[cindex] = row_entry
+            print(f"{e} >>>>>>>> {count}")
                                 
 
     # print(df_err_resul)

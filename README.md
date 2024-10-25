@@ -24,7 +24,39 @@ Resource        | Links
     python -m pip install -r requirements.txt
     ```
 ## Configuration
-* Setup your LLM service API Keys ...
+- **API Configuration:** CatDB utilizes commercial and free online API services:
+    - [OpenAI GPT](https://platform.openai.com/) (Commerical)
+    - [Google Gemini](https://aistudio.google.com/) (Commerical and free for limited requestes)
+    - [Groq Llama3](https://console.groq.com) (Commerical and free for limited requestes)
+    
+    After registering and obtaining your API keys, you'll need to: 
+    1. Create a `.yaml` configuration file: Use the provided template to store your API keys.
+        ```
+            ---
+
+            - llm_platform: OpenAI
+            key_1: 'put OpenAI key 1 here.'
+            key_2: 'put OpenAI key 2 here.'
+            ....
+            key_10: 'put OpenAI key 10 here.'
+
+            - llm_platform: Meta
+            key_1: 'put Groq key 1 here.'
+
+            - llm_platform: Google
+            key_1 : 'put Gemini key 1 here.'
+        ```
+    2. Set the configuration file path: Specify the path to your config file in your operating system's environment variables.
+        ```
+        export APIKeys_File=path/to/.yaml/config/file
+        ```
+
+    
+    You can add up to 10 keys for each platform to your configuration file.
+
+- **Model Configuration:** CatDB supports a diverse list of models, including: *GPT (4.0, 4-turbo)*, *Gemini (1.5-pro-latest, 1.5-pro-exp-0801, 1.5-pro-exp-0827)*, and 
+*Llama (llama-3.1-70b-versatile, llama3-70b-8192)*. This list is not exhaustive. If you need to add a new model or update existing model settings (e.g., `temperature`, `token_limit`, ...), simply modify the `Config.yaml` (`src/python/main/Config.yaml`) file.     
+    
 
 ## Run CatDB
 * Prepare Dataset

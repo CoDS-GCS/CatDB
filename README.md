@@ -92,3 +92,13 @@ Resource        | Links
         --error-output-path
     ```
 
+Description of Parameters:
+- *--llm-model:* An LLM model name. For example, `--llm-model gpt-4o`
+- *--metadata-path:* Path to the file created in the data preparation subsection. For example, `--metadata-path /tmp/datasets/dataset1.yaml`
+- *--root-data-path:* Path to the root directory of the split datasets. For example, `--root-data-path /tmp/datasets`
+- *--catalog-path:* Path to the data catalog files outputted by the data profiling section. For example, `--catalog-path /tmp/datasets/dataset1-catalog/`
+- *--prompt-representation-type:* Specifies the prompt construction method: `CatDB` or `CatDBChain`
+- *--prompt-number-iteration-error:* Sets the number of iterations the system can use the LLM to fix errors in the generated pipeline. For example, `--prompt-number-iteration-error 10`
+- *--output-path:* Path to the system output. The output includes the constructed prompt and the generated pipeline. For example, `--output-path /tmp/catdb-results`
+- *--result-output-path:* Path to the output of the generated pipeline. It includes metric results, execution time, LLM latency, and system cost (token count). For example, `/tmp/dataset1-results.csv`
+- *--error-output-path:* Path to the error log. Errors are classified by type, materialized by dataset name, and include the full error message and pipeline information. For example, `--error-output-path /tmp/catdb-errors.csv`

@@ -67,7 +67,7 @@ class CodeResultTemplate(object):
         flag = _CODE_FORMATTING_ACC_EVALUATION == _CODE_FORMATTING_BINARY_EVALUATION
 
         if self.run_mode == 'execute': #__execute_mode
-            print(self.result)
+            # print(self.result)
             pipeline_evl = {"Train_AUC": -2,
                             "Train_AUC_OVO": -2,
                             "Train_AUC_OVR": -2,

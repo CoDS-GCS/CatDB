@@ -13,7 +13,7 @@ def get_args(dataset_name):
   args.catalog_path = f"/content/demo/catalog/{args.dataset_name}"
   args.prompt_number_iteration = 1
   args.prompt_number_iteration_error = 10
-  args.output_path = "/content/demo/catdb-results/"
+  args.output_path = f"/content/demo/catdb-results/{dataset_name}"
   args.llm_model = "gemini-1.5-pro-latest"
   args.result_output_path = "/content/demo/catdb-results/results.csv"
   args.error_output_path = "/content/demo/catdb-results/error.csv"

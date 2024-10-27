@@ -97,9 +97,10 @@ _DATASET_DESCRIPTION = None
 
 
 def load_config(system_log: str, llm_model: str = None, config_path: str = "Config.yaml",
-                api_config_path: str = "APIKeys.yaml", rules_path: str = "Rules.yaml",
+                api_config_path: str = None, rules_path: str = "Rules.yaml",
                 data_cleaning_rules_path="RulesDataCleaning.yaml", evaluation_acc: bool = False):
-    api_config_path = os.environ.get("APIKeys_File")
+    if api_config_path is None:
+        api_config_path = os.environ.get("APIKeys_File")
     global _llm_model
     global _llm_platform
     global _system_delimiter

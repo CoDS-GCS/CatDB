@@ -21,7 +21,7 @@ unzip catalog.zip
 unzip data.zip
 mkdir catdb-results
 
-cp /content/demo/demp.py /content/catdb-setup/
+cp /content/demo/demo.py /content/catdb-setup/
 
 # Clean-up
 rm -rf /content/CatDB

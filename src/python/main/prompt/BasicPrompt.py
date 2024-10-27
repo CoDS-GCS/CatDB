@@ -45,7 +45,7 @@ class BasicPrompt(object):
         from util.Config import _user_delimiter, _DATASET_DESCRIPTION
         prompt_items = []
         if self.flag_dataset_description and self.dataset_description is not None:
-            prompt_items.append(_user_delimiter+" "+_DATASET_DESCRIPTION.dataset_description.format(self.dataset_description))
+            prompt_items.append(_user_delimiter+" "+_DATASET_DESCRIPTION.format(self.dataset_description))
 
         if self.flag_previous_result and self.previous_result is not None:
             prompt_items.append(self.previous_result_format)

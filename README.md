@@ -7,7 +7,7 @@
 
 Resource        | Links
 ----------------|------
-**Quick Start** | [Install and Quick Start]()
+**Quick Start** | [Install and Quick Start](#Installation)
 **Benchmarks:** | [Execute experiments with a range of datasets and compare the results to baselines]()
 
 

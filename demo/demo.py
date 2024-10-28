@@ -2,7 +2,7 @@
 from argparse import ArgumentParser
 import yaml
 
-def get_args(dataset_name):
+def get_args(dataset_name,model:str="gemini-1.5-pro-latest", number_iteration: int=1, error_iteration:int=10):
   parser = ArgumentParser()
   parser.add_argument('-f')
   
@@ -11,10 +11,10 @@ def get_args(dataset_name):
   args.metadata_path = f"/content/demo/data/{args.dataset_name}/{args.dataset_name}.yaml"
   args.root_data_path = f"/content/demo/data/"
   args.catalog_path = f"/content/demo/catalog/{args.dataset_name}"
-  args.prompt_number_iteration = 1
-  args.prompt_number_iteration_error = 10
+  args.prompt_number_iteration = number_iteration
+  args.prompt_number_iteration_error = error_iteration
   args.output_path = f"/content/demo/catdb-results/{dataset_name}"
-  args.llm_model = "gemini-1.5-pro-latest"
+  args.llm_model = model
   args.result_output_path = "/content/demo/catdb-results/results.csv"
   args.error_output_path = "/content/demo/catdb-results/error.csv"
   args.system_log = "/content/demo/catdb-results/system-log.dat"

@@ -8,7 +8,7 @@
 Resource        | Links
 ----------------|------
 **Quick Start** | [Install and Quick Start](#Installation)
-**Benchmarks:** | [Execute experiments with a range of datasets and compare the results to baselines]()
+**Benchmark:** | [Execute experiments with a range of datasets and compare the results to baselines](https://github.com/CoDS-GCS/CatDB/tree/main/Experiments)
 
 
 ## Installation

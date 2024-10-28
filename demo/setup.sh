@@ -2,8 +2,8 @@
 
 # Create a setup path and install CatDB
 mkdir -p catdb-setup
-cp -r CatDB/src/python/main/* catdb-setup
-cd catdb-setup/
+cp -r /content/CatDB/src/python/main/* /content/catdb-setup
+cd /content/catdb-setup/
 apt install python3.10-venv
 rm -rf venv # clean-up last env 
 python3.10 -m venv venv

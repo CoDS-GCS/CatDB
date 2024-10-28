@@ -29,7 +29,7 @@
 19|EU IT         | Local                                          | [download](https://github.com/CoDS-GCS/CatDB/blob/main/Experiments/data/EU-IT.zip)
 20|Survey        | Local                                          | [download](https://github.com/CoDS-GCS/CatDB/blob/main/Experiments/data/Midwest-Survey.zip)
 21|Etailing      | Local                                          | [download](https://github.com/CoDS-GCS/CatDB/blob/main/Experiments/data/Etailing.zip)
-22|Utility       | Local                                          | [https://github.com/CoDS-GCS/CatDB/blob/main/Experiments/data/Utility.zip)
+22|Utility       | Local                                          | [download](https://github.com/CoDS-GCS/CatDB/blob/main/Experiments/data/Utility.zip)
 
 **Note:**
 

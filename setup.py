@@ -19,11 +19,7 @@ setup(
     version="0.0.1",
     packages=find_packages('src'),
     package_dir={'': 'src'},
-
-    # package_dir={'':'src2'},
-    # packages=find_packages('CatDB'),
     py_modules=['catdb'],
-    # packages=find_packages(),
     description="CatDB a comprehensive, LLM-guided generator of data-centric ML pipelines that utilizes available data catalog information. We incorporate data profiling information and user descriptions into a chain of LLM prompts for data cleaning/augmentation, feature engineering, and model selection. Additionally, we devise a robust framework for managing the LLM interactions and handling errors through pipeline modifications and a knowledge base of error scenarios.",
     long_description=open("README.md").read(),
     long_description_content_type="text/markdown",
@@ -40,6 +36,8 @@ setup(
     ],
     python_requires=">=3.10",    
     install_requires=[
+        "groq==0.5.0",
+        "openai==1.6.1",
         "pandas>=2.2.2",
         "PyYAML==6.0.1",
         "tiktoken==0.7",
@@ -56,5 +54,13 @@ setup(
         "flair",
         "torchvision"
     ],
-    zip_safe=False
+    package_data={
+        "catdb": ["*.yaml"],
+    },
+    zip_safe=False,
+    entry_points={
+        "console_scripts": [
+            "catdb=catdb.main:main",
+        ]
+    }
 )

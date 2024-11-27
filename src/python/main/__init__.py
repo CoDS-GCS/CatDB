@@ -1,3 +1,11 @@
+import os
+import sys
+from os.path import dirname
+
+CATDB_PACKAGE_PATH = dirname(__file__)
+if CATDB_PACKAGE_PATH not in sys.path:
+    sys.path.append(CATDB_PACKAGE_PATH)
+
 from catalog.Catalog import load_data_source_profile
 from catalog.Dependency import load_dependency_info
 from pipegen.GeneratePipeLine import generate_and_verify_pipeline, run_pipeline, clean_categorical_data
@@ -7,7 +15,7 @@ from pipegen.Metadata import Metadata
 from util import load_args
 import time
 import yaml
-import os
+
 
 args = None
 

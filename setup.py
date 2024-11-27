@@ -1,31 +1,39 @@
 from setuptools import setup, find_packages
 
 setup(
-    name="caafe",
-    version="0.1.5",
+    name="CatDB",
+    version="0.0.1",
     packages=find_packages(),
-    description="Context-Aware Automated Feature Engineering (CAAFE) is an automated machine learning tool that uses large language models for feature engineering in tabular datasets. It generates Python code for new features along with explanations for their utility, enhancing interpretability.",
+    description="CatDB a comprehensive, LLM-guided generator of data-centric ML pipelines that utilizes available data catalog information. We incorporate data profiling information and user descriptions into a chain of LLM prompts for data cleaning/augmentation, feature engineering, and model selection. Additionally, we devise a robust framework for managing the LLM interactions and handling errors through pipeline modifications and a knowledge base of error scenarios.",
     long_description=open("README.md").read(),
     long_description_content_type="text/markdown",
-    author="Noah Hollmann, Samuel Müller, Frank Hutter",
-    author_email="noah.homa@gmail.com",
-    url="https://github.com/automl/CAAFE",
+    author="Saeed Fathollahzadeh, Essam Mansour, Matthias Boehm",
+    author_email="s.fathollahzadeh@gmail.com",
+    url="https://github.com/CoDS-GCS/CatDB",
     license="LICENSE.txt",
     classifiers=[
         "Development Status :: 3 - Alpha",
         "License :: Free for non-commercial use",
-        "Programming Language :: Python :: 3.7",
-        "Programming Language :: Python :: 3.8",
-        "Programming Language :: Python :: 3.9",
+        "Programming Language :: Python :: 3.10",
+        "Programming Language :: Python :: 3.11",
+        "Programming Language :: Python :: 3.12"
     ],
-    python_requires=">=3.7",
+    python_requires=">=3.10",
     install_requires=[
-        "openai==0.28",
-        "kaggle",
-        "openml==0.12.0",
-        "tabpfn",
-    ],
-    extras_require={
-        "full": ["autofeat", "featuretools", "tabpfn[full]"],
-    },
+        "pandas==2.1.4",
+        "PyYAML==6.0.1",
+        "tiktoken==0.7",
+        "scikit-learn",
+        "xgboost",
+        "google-api-python-client",
+        "google-auth-httplib2",
+        "google-auth-oauthlib",
+        "google-generativeai",
+        "imbalanced-learn",
+        "dask[complete]",
+        "feature_engine",
+        "unidecode",
+        "flair",
+        "torchvision"
+    ]
 )

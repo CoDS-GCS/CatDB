@@ -1,4 +1,18 @@
 from setuptools import setup, find_packages
+import os
+from os.path import dirname
+import shutil
+
+module_path = dirname(__file__)
+src_dir = f'{module_path}/src/python/main'
+dest_dir = f'{module_path}/CatDB'
+
+if os.path.exists(dest_dir) and os.path.isdir(dest_dir):
+    shutil.rmtree(dest_dir)
+
+# getting all the files in the source directory
+files = os.listdir(src_dir)
+shutil.copytree(src_dir, dest_dir)
 
 setup(
     name="CatDB",
@@ -12,7 +26,7 @@ setup(
     url="https://github.com/CoDS-GCS/CatDB",
     license="LICENSE.txt",
     classifiers=[
-        "Development Status :: 3 - Alpha",
+        "Development Status :: 4 - Alpha",
         "License :: Free for non-commercial use",
         "Programming Language :: Python :: 3.10",
         "Programming Language :: Python :: 3.11",

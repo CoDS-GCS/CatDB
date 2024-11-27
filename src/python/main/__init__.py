@@ -6,13 +6,15 @@ CATDB_PACKAGE_PATH = dirname(__file__)
 if CATDB_PACKAGE_PATH not in sys.path:
     sys.path.append(CATDB_PACKAGE_PATH)
 
+from util import set_config, load_args
+from datasets import get_dataset_names, get_dataset_path
+
 from catalog.Catalog import load_data_source_profile
 from catalog.Dependency import load_dependency_info
 from pipegen.GeneratePipeLine import generate_and_verify_pipeline, run_pipeline, clean_categorical_data
 from util.FileHandler import read_text_file_line_by_line
 from util.Config import load_config
 from pipegen.Metadata import Metadata
-from util import load_args
 import time
 import yaml
 
@@ -52,3 +54,11 @@ def load_dataset_catalog(name: str) -> list:
 
     print(time_catalog)
     return catalog
+
+
+__all__ = [
+    "set_config",
+    "load_dataset_catalog",
+    "get_dataset_names",
+    "get_dataset_path"
+]

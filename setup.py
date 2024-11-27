@@ -5,7 +5,7 @@ import shutil
 
 module_path = dirname(__file__)
 src_dir = f'{module_path}/src/python/main'
-dest_dir = f'{module_path}/CatDB'
+dest_dir = f'{module_path}/src/catdb'
 
 if os.path.exists(dest_dir) and os.path.isdir(dest_dir):
     shutil.rmtree(dest_dir)
@@ -15,9 +15,15 @@ files = os.listdir(src_dir)
 shutil.copytree(src_dir, dest_dir)
 
 setup(
-    name="CatDB",
+    name="catdb",
     version="0.0.1",
-    packages=find_packages(),
+    packages=find_packages('src'),
+    package_dir={'': 'src'},
+
+    # package_dir={'':'src2'},
+    # packages=find_packages('CatDB'),
+    py_modules=['catdb'],
+    # packages=find_packages(),
     description="CatDB a comprehensive, LLM-guided generator of data-centric ML pipelines that utilizes available data catalog information. We incorporate data profiling information and user descriptions into a chain of LLM prompts for data cleaning/augmentation, feature engineering, and model selection. Additionally, we devise a robust framework for managing the LLM interactions and handling errors through pipeline modifications and a knowledge base of error scenarios.",
     long_description=open("README.md").read(),
     long_description_content_type="text/markdown",
@@ -32,7 +38,7 @@ setup(
         "Programming Language :: Python :: 3.11",
         "Programming Language :: Python :: 3.12"
     ],
-    python_requires=">=3.10",
+    python_requires=">=3.10",    
     install_requires=[
         "pandas>=2.2.2",
         "PyYAML==6.0.1",
@@ -49,5 +55,6 @@ setup(
         "unidecode",
         "flair",
         "torchvision"
-    ]
+    ],
+    zip_safe=False
 )

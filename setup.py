@@ -20,7 +20,7 @@ setup(
     ],
     python_requires=">=3.10",
     install_requires=[
-        "pandas==2.1.4",
+        "pandas>=2.2.2",
         "PyYAML==6.0.1",
         "tiktoken==0.7",
         "scikit-learn",

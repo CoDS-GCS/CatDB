@@ -146,8 +146,8 @@ def load_data_source_profile(data_source_path: str, file_format: str, target_att
                 if dk in columns_others_missing_values:
                     columns_others_missing_values.remove(dk)
 
-        print(
-            f"[{data_source_path}]  --- orig_size = {orig_profile_size}, new_size = {new_profile_size} >> r= {orig_profile_size - new_profile_size}")
+        # print(
+        #     f"[{data_source_path}]  --- orig_size = {orig_profile_size}, new_size = {new_profile_size} >> r= {orig_profile_size - new_profile_size}")
 
     return CatalogInfo(nrows=nrows,
                        ncols=ncols,

@@ -1,68 +1,37 @@
-import os
+from pathlib import Path
 from os.path import dirname
 from argparse import ArgumentParser
-
+from datasets import get_dataset_metadata_path, get_root_data_path, get_catalog_path
 import yaml
 
+CATDB_PACKAGE_PATH = None
+_output_path = None
 
-def _get_dataset_metadata_path(name: str) -> str:
-    """
-    Given a dataset name, output the file path.
-    """
 
-    module_path = dirname(__file__)
-    path = f"{module_path}/data/{name}/{name}.yaml"
+def _get_rules_path() -> str:
+    path = f"{CATDB_PACKAGE_PATH}/Rules.yaml"
     return path
 
 
-def _get_root_data_path() -> str:
-    """
-    Given a dataset name, output the file path.
-    """
-
-    module_path = dirname(__file__)
-    path = f"{module_path}/data/"
+def _get_data_cleaning_rules_path() -> str:
+    path = f"{CATDB_PACKAGE_PATH}/RulesDataCleaning.yaml"
     return path
 
 
-def _get_dataset_catalog_path(name: str) -> str:
-    """
-    Given a dataset name, output the file path.
-    """
-
-    module_path = dirname(__file__)
-    path = f"{module_path}/catalog/{name}"
+def _get_config_path() -> str:
+    path = f"{CATDB_PACKAGE_PATH}/Config.yaml"
     return path
 
 
 def _get_output_path(name: str) -> str:
-    """
-    Given a dataset name, output the file path.
-    """
-
-    module_path = dirname(__file__)
-    path = f"{module_path}/catdb-results/{name}"
-    return path
-
-
-def _get_rules_path() -> str:
-    """
-    Given a dataset name, output the file path.
-    """
-
-    module_path = dirname(__file__)
-    src_path = os.chdir("..")
-    path = f"{src_path}/python/main/Rules.yaml"
+    path = f"{_output_path}/catdb-results/{name}"
+    Path(f"{_output_path}/catdb-results").mkdir(parents=True, exist_ok=True)
+    Path(path).mkdir(parents=True, exist_ok=True)
     return path
 
 
 def _get_API_key_path() -> str:
-    """
-    Given a dataset name, output the file path.
-    """
-
-    module_path = dirname(__file__)
-    path = f"{module_path}/APIKeys.yaml"
+    path = f"{_output_path}/APIKeys.yaml"
     return path
 
 
@@ -76,9 +45,18 @@ def _save_text_file(fname: str, data):
 
 
 def set_config(model: str, API_key: str, iteration: int = 1, error_iteration: int = 15, reduction: bool = True,
-               setting: str = "CatDB",
-               output_path: str = "results.csv", error_path: str = "error.csv", system_log: str = "system.log"):
-    module_path = dirname(__file__)
+               setting: str = "CatDB", output_path: str = None ):
+
+    if output_path is None:
+        output_path = dirname(__file__)
+    global _output_path
+    _output_path = output_path
+
+    Path(_output_path).mkdir(parents=True, exist_ok=True)
+
+    results_path = "results.csv"
+    error_path = "error.csv"
+    system_log= "system.log"
 
     API_key_template = """
 ---
@@ -95,9 +73,9 @@ def set_config(model: str, API_key: str, iteration: int = 1, error_iteration: in
   prompt_number_iteration_error: {error_iteration}
   llm_model: {model}
   reduction: {reduction}
-  result_output_path: {module_path}/{output_path}
-  error_output_path: {module_path}/{error_path}
-  system_log: {module_path}/{system_log}
+  result_output_path: {output_path}/{results_path}
+  error_output_path: {output_path}/{error_path}
+  system_log: {output_path}/{system_log}
 """
 
     platform = None
@@ -110,31 +88,31 @@ def set_config(model: str, API_key: str, iteration: int = 1, error_iteration: in
 
     ak = API_key_template.format(platform, API_key)
 
-    path_key = f"{module_path}/.APIKeys.yaml"
-    path_setting = f"{module_path}/.setting.yaml"
+    path_key = f"{output_path}/APIKeys.yaml"
+    path_setting = f"{output_path}/setting.yaml"
     _save_text_file(data=ak, fname=path_key)
     _save_text_file(data=setting_txt, fname=path_setting)
 
 
-def load_args(name: str):
-    module_path = dirname(__file__)
+def load_args(name: str, PACKAGE_PATH: str):
+    global CATDB_PACKAGE_PATH
+    CATDB_PACKAGE_PATH = PACKAGE_PATH
+
     parser = ArgumentParser()
     parser.add_argument('--default', type=str, required=False, default=None)
     parser.add_argument("-f", "--fff", help="a dummy argument to fool ipython", default="1")
     args = parser.parse_args()
-    args.metadata_path = _get_dataset_metadata_path(name=name)
-    args.root_data_path = _get_root_data_path()
-    args.catalog_path = _get_dataset_catalog_path(name=name)
+    args.metadata_path = get_dataset_metadata_path(name=name)
+    args.root_data_path = get_root_data_path()
+    args.catalog_path = get_catalog_path(name=name)
     args.APIKeys_File = _get_API_key_path()
-    args.rules_path = _get_rules_path()
-    args.output_path = _get_output_path(name=name)
     args.data_profile_path = f"{args.catalog_path}/data_profile"
     args.prompt_samples_type = 'Random'
     args.prompt_number_samples = 0
     args.description = ''
     args.dataset_description = 'No'
 
-    with open(f"{module_path}/setting.yaml", "r") as f:
+    with open(f"{_output_path}/setting.yaml", "r") as f:
         try:
             setting_data = yaml.load(f, Loader=yaml.FullLoader)
             args.prompt_representation_type = setting_data[0].get('setting')
@@ -176,5 +154,8 @@ def load_args(name: str):
 
         except yaml.YAMLError as ex:
             raise Exception(ex)
-
+    args.rules_path = _get_rules_path()
+    args.output_path = _get_output_path(name=name)
+    args.data_cleaning_rules_path = _get_data_cleaning_rules_path()
+    args.config_path = _get_config_path()
     return args

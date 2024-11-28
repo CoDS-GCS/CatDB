@@ -55,8 +55,7 @@ setup(
         "torchvision"
     ],
     package_data={
-        "catdb": ["*.yaml"],
-        "catdb": ["datasets/*.zip"],
+        "catdb": ["*.yaml", "datasets/*.zip"]
     },
     zip_safe=False,
     entry_points={

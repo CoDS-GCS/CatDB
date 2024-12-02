@@ -1,14 +1,11 @@
 from typing import Any, Dict, List, Optional, Sequence, Tuple
 from .compute import compute_statistics
-from random import shuffle
 
 import numpy as np
 import pandas as pd
-from bokeh.models import FuncTickFormatter
-from bokeh.layouts import row
 from bokeh.embed import components
-from ..configs import KDE, Bar, Box, Config, Pie, QQNorm, WordFrequency
-from ..utils import _format_ticks, _format_axis, _format_bin_intervals
+from ..configs import  Bar
+from ..utils import _format_axis
 from bokeh.models import (
     BasicTicker,
     CategoricalColorMapper,
@@ -23,7 +20,7 @@ from bokeh.models import (
     PrintfTickFormatter,
     Range1d,
 )
-from bokeh.plotting import Figure
+from bokeh.plotting import figure
 
 from ..configs import Config
 from ..palette import CATEGORY20, BLUES256, REDS256, PURLPLES256, ORANGES256, TURBO256, CIVIDIS256
@@ -31,85 +28,6 @@ from ..palette import CATEGORY20, BLUES256, REDS256, PURLPLES256, ORANGES256, TU
 from ..utils import relocate_legend
 
 __all__ = ["render_catalog"]
-
-
-# def render_catalog(catalog, cfg: Config) -> Dict[str, Any]:
-#     df_overview = compute_statistics(catalog=catalog)
-#     schema_info = catalog.schema_info
-#     profile_info = catalog.profile_info
-#
-#     plot_width = cfg.plot.width if cfg.plot.width is not None else 250
-#     plot_height = cfg.plot.height if cfg.plot.height is not None else 250
-#
-#     nrows = catalog.nrows
-#     cols = schema_info.keys()
-#     present = []
-#     missing = []
-#     distinct = []
-#     all_cat_cols = dict()
-#     max_col_count = 0
-#     categorical_col_count = 0
-#     numerical_col_count = 0
-#     str_col_count = 0
-#
-#     for col in cols:
-#         present.append(profile_info[col].total_values_count)
-#         missing.append(profile_info[col].missing_values_count)
-#         distinct.append(profile_info[col].distinct_values_count)
-#         if profile_info[col].is_categorical:
-#             all_cat_cols[col] = profile_info[col].categorical_values_ratio
-#             max_col_count = max(max_col_count, len(profile_info[col].categorical_values))
-#             categorical_col_count += 1
-#         elif profile_info[col].short_data_type == 'str':
-#             str_col_count += 1
-#         else:
-#             numerical_col_count += 1
-#
-#     df_missing = pd.DataFrame({"Present": present, "Missing": missing}, index=cols)
-#     df_distinct = pd.DataFrame({"Distinct": distinct, 'pct': [d/nrows for d in distinct]}, index=cols)
-#     df_cat = pd.DataFrame(columns= [f'Categorical Item {i}' for i in range(1, max_col_count+1)], index=list(all_cat_cols.keys()))
-#     df_feature_type = pd.DataFrame({"count": [categorical_col_count, numerical_col_count, str_col_count],
-#                                    'pct': [categorical_col_count/len(cols), numerical_col_count/len(cols), str_col_count/len(cols)]},
-#                                    index=["Categorical", "Numerical", "Sentence"])
-#
-#     for col in all_cat_cols.keys():
-#         values = list(all_cat_cols[col].values())
-#         values = sorted(values, key=int, reverse=True)
-#         cols = [f'Categorical Item {i}' for i in range(1, len(all_cat_cols[col].keys())+1)]
-#         df_cat.loc[col, cols] = values
-#
-#     df_cat = df_cat.astype(float).fillna(0)
-#     panels = []
-#     fig_overview = bar_viz(df_overview, len(df_overview),"count", plot_width, plot_height, True, cfg.bar,"Data Type" ,"Data Type Distribution")
-#     fig_overview.frame_width = int(plot_width * 0.6)
-#     panels.append(Panel(child=fig_overview, title='Dataset Overview'))
-#
-#     fig_feature_type = bar_viz(df_feature_type, len(df_feature_type), "count", plot_width, plot_height, True, cfg.bar, "Feature Type",
-#                            "Feature Type Distribution")
-#     fig_feature_type.frame_width = int(plot_width * 0.6)
-#     panels.append(Panel(child=fig_feature_type, title='Feature Type Distribution'))
-#
-#     fig_missing = render_bar_chart(nrows, df_missing, "linear", plot_width, plot_height, "Samples", "Missing Value Percentage")
-#     fig_missing.frame_width = plot_width
-#     panels.append(Panel(child=fig_missing, title='Missing Value Percentage'))
-#
-#     fig_distinct = bar_viz(df_distinct, len(df_distinct), "Distinct", plot_width, plot_height, True, cfg.bar, "Column",
-#                            "Distinct Value Count")
-#     fig_distinct.frame_width = plot_width
-#     panels.append(Panel(child=fig_distinct, title='Distinct Value Count'))
-#
-#     fig_cat = render_bar_categorical_chart(nrows, df_cat, "linear", int(plot_width * 1.5), plot_height, "Frequency", "Categorical Column and Item Frequencies")
-#     fig_cat.frame_width = int(plot_width * 1.5)
-#     panels.append(Panel(child=fig_cat, title='Categorical Column and Item Frequencies'))
-#
-#     for panel in panels:
-#         panel.child.frame_height = plot_height
-#
-#     return {
-#         "layout": [panel.child for panel in panels],
-#         "container_width": plot_width * 10,
-#         "meta": [],
-#     }
 
 def render_catalog(catalog, cfg: Config) -> Dict[str, Any]:
     df_overview = compute_statistics(catalog=catalog)
@@ -159,35 +77,16 @@ def render_catalog(catalog, cfg: Config) -> Dict[str, Any]:
         df_cat.loc[col, cols] = values
 
     df_cat = df_cat.astype(float).fillna(0)
-    panels = []
-    fig_overview = bar_viz(df_overview, len(df_overview), "count", plot_width, plot_height, True, cfg.bar, "Data Type",
-                           "")
-    #fig_overview.frame_width = int(plot_width * 0.6)
-    panels.append(Panel(child=fig_overview, title='Dataset Overview'))
+    fig_overview = bar_viz(df_overview, len(df_overview), "count", plot_width, plot_height, True, cfg.bar, "Data Type", "")
+    fig_feature_type = bar_viz(df_feature_type, len(df_feature_type), "count", plot_width, plot_height, True, cfg.bar, "Feature Type", "")
 
-    fig_feature_type = bar_viz(df_feature_type, len(df_feature_type), "count", plot_width, plot_height, True, cfg.bar,
-                               "Feature Type",
-                               "")
-    #fig_feature_type.frame_width = int(plot_width * 0.6)
-    panels.append(Panel(child=fig_feature_type, title='Feature Type Distribution'))
-
-    fig_missing = render_bar_chart(nrows, df_missing, "linear", plot_width, plot_height, "Samples",
-                                   "")
+    fig_missing = render_bar_chart(nrows, df_missing, "linear", plot_width, plot_height, "Samples",  "")
     fig_missing.frame_width = plot_width
-    panels.append(Panel(child=fig_missing, title='Missing Value Percentage'))
 
-    fig_distinct = bar_viz(df_distinct, len(df_distinct), "Distinct", plot_width, plot_height, True, cfg.bar, "Column",
-                           "")
+    fig_distinct = bar_viz(df_distinct, len(df_distinct), "Distinct", plot_width, plot_height, True, cfg.bar, "Column", "")
     fig_distinct.frame_width = plot_width
-    panels.append(Panel(child=fig_distinct, title='Distinct Value Count'))
 
-    fig_cat = render_bar_categorical_chart(nrows, df_cat, "linear", int(plot_width * 1.5), plot_height, "Frequency",
-                                           "")
-    #fig_cat.frame_width = int(plot_width * 1.5)
-    panels.append(Panel(child=fig_cat, title='Categorical Column and Item Frequencies'))
-
-    for panel in panels:
-        panel.child.frame_height = plot_height
+    fig_cat = render_bar_categorical_chart(nrows, df_cat, "linear", int(plot_width * 1.5), plot_height, "Frequency","")
 
     res: Dict[str, Any] = {
         "overview": {"fig": components(fig_overview), "title": "Dataset Overview"},
@@ -199,15 +98,15 @@ def render_catalog(catalog, cfg: Config) -> Dict[str, Any]:
     return res
 
 
-def render_bar_chart(nrows: int, df, yscale: str, plot_width: int, plot_height: int, ylabel: str, title: str) -> Figure:
+def render_bar_chart(nrows: int, df, yscale: str, plot_width: int, plot_height: int, ylabel: str, title: str) -> figure:
     if len(df) > 20:
         plot_width = 28 * len(df)
 
-    fig = Figure(
+    fig = figure(
         x_range=list(df.index),
         y_range=[0, nrows],
-        plot_width=plot_width,
-        plot_height=plot_height,
+        width=plot_width,
+        height=plot_height,
         y_axis_type=yscale,
         toolbar_location=None,
         tools=[],
@@ -258,7 +157,7 @@ def render_bar_chart(nrows: int, df, yscale: str, plot_width: int, plot_height: 
 
 
 def render_bar_categorical_chart(nrows: int, df, yscale: str, plot_width: int, plot_height: int, ylabel: str,
-                                 title: str) -> Figure:
+                                 title: str) -> figure:
     if len(df) > 20:
         plot_width = 28 * len(df)
 
@@ -280,12 +179,11 @@ def render_bar_categorical_chart(nrows: int, df, yscale: str, plot_width: int, p
         base_colors.append(CIVIDIS256[i])
 
     colors = [base_colors[c] for c in range(0, len(df.columns))]
-
-    fig = Figure(
+    fig = figure(
         x_range=list(df.index),
         y_range=[0, nrows],
-        plot_width=plot_width,
-        plot_height=plot_height,
+        width=plot_width,
+        height=plot_height,
         y_axis_type=yscale,
         toolbar_location=None,
         tools=[],
@@ -336,7 +234,7 @@ def render_bar_categorical_chart(nrows: int, df, yscale: str, plot_width: int, p
     return fig
 
 
-def tweak_figure(fig: Figure) -> Figure:
+def tweak_figure(fig: figure) -> figure:
     fig.axis.major_tick_line_color = None
     fig.axis.major_label_text_font_size = "9pt"
     fig.axis.major_label_standoff = 0
@@ -345,7 +243,7 @@ def tweak_figure(fig: Figure) -> Figure:
     return fig
 
 
-def tweak_figure_bar(fig: Figure, ptype: Optional[str] = None, show_yticks: bool = False,
+def tweak_figure_bar(fig: figure, ptype: Optional[str] = None, show_yticks: bool = False,
                      max_lbl_len: int = 15, ) -> None:
     fig.axis.major_label_text_font_size = "9pt"
     fig.title.text_font_size = "10pt"
@@ -360,13 +258,13 @@ def tweak_figure_bar(fig: Figure, ptype: Optional[str] = None, show_yticks: bool
         fig.yaxis.major_tick_line_color = None
     if ptype in ["bar", "nested", "stacked", "heatmap", "box"]:
         fig.xaxis.major_label_orientation = np.pi / 3
-        fig.xaxis.formatter = FuncTickFormatter(
-            code="""
-            if (tick.length > %d) return tick.substring(0, %d-2) + '...';
-            else return tick;
-        """
-                 % (max_lbl_len, max_lbl_len)
-        )
+        # fig.xaxis.formatter = FuncTickFormatter(
+        #     code="""
+        #     if (tick.length > %d) return tick.substring(0, %d-2) + '...';
+        #     else return tick;
+        # """
+        #          % (max_lbl_len, max_lbl_len)
+        # )
     if ptype in ["nested", "stacked", "box"]:
         fig.xgrid.grid_line_color = None
     if ptype in ["nested", "stacked"]:
@@ -381,14 +279,14 @@ def tweak_figure_bar(fig: Figure, ptype: Optional[str] = None, show_yticks: bool
 
 def bar_viz(df: pd.DataFrame, ttl_grps: int, col: str, plot_width: int, plot_height: int, show_yticks: bool,
             bar_cfg: Bar,
-            tooltip_title: str, title: str) -> Figure:
+            tooltip_title: str, title: str) -> figure:
     tooltips = [(tooltip_title, "@index"), ("Count", f"@{{{col}}}"), ("Percent", "@pct{0.2f}%")]
     if show_yticks:
         if len(df) > 10:
             plot_width = 28 * len(df)
-    fig = Figure(
-        plot_width=plot_width,
-        plot_height=plot_height,
+    fig = figure(
+        width=plot_width,
+        height=plot_height,
         title=title,
         toolbar_location=None,
         tooltips=tooltips,

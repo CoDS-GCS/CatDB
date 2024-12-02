@@ -14,3 +14,4 @@ dask[complete]
 feature_engine
 unidecode
 flair
+bokeh

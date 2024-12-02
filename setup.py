@@ -53,7 +53,7 @@ setup(
         "unidecode",
         "flair",
         "torchvision",
-        "bokeh>=3.5.0"
+        "bokeh"
     ],
     package_data={
         "catdb": ["*.yaml", "datasets/*.zip", "ui/templates/*.html"]

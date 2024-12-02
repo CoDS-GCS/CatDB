@@ -1,22 +1,3 @@
-"""
-Parameter configurations
-
-This file contains configurations for stats, auto-insights and plots. There are mainly two settings,
-"display" and "config". Display is a list of Tab names which control the Tabs to show.
-Config is a dictionary that contains the customizable parameters and corresponding values.
-There are two types of parameters, global and local. Local parameters are plot-specified and
-the names are separated  by ".". The portion before the first "." is plot name and the portion
-after the first "." is parameter name. e.g. "hist.bins". The "." is also used when the parameter
-name contains more than one word. e.g. "insight.duplicates.threshold". However, in the codebase,
-the "." is replaced with "__" for parameters with long names.e.g. "insight.duplicates__threshold".
-Global parameter is single-word. It applies to all the plots which has that parameter.
-e.g. "bins:50" applies to "hist.bins", "line.bins", "kde.bins", "wordlen.bins" and "box.bins".
-In addition,when global parameter and local parameter are both entered by a user in config,
-the global parameter will be overwrote by local parameters for specific plots.
-"""
-
-# pylint: disable=too-many-lines,no-self-use,blacklisted-name,no-else-raise,too-many-branches,no-name-in-module
-# pylint: disable = protected-access
 from __future__ import annotations
 
 from typing import Any, Dict, List, Optional, Tuple, Union

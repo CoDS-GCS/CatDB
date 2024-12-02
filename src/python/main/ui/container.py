@@ -1,7 +1,3 @@
-"""
-    This module implements the Container class.
-"""
-
 import random
 import sys
 import webbrowser
@@ -16,7 +12,7 @@ from os.path import dirname
 
 from .configs import Config
 
-output_notebook(INLINE, hide_banner=True)  # for offline usage
+output_notebook(INLINE, hide_banner=True)
 
 ENV_LOADER = Environment(
     loader=PackageLoader("catdb", "ui/templates"),

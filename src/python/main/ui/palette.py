@@ -1,7 +1,3 @@
-"""
-This file defines palettes used for EDA.
-"""
-
 from bokeh.palettes import Category10, Category20, Blues256, Oranges256, Reds256, Purples256,Greys256,Turbo256, Cividis256, Pastel1, viridis
 
 BRG = ["#1f78b4", "#d62728", "#2ca02c"]

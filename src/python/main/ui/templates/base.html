@@ -1,0 +1,93 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title> {{ context.title }} </title>
+  {% include 'scripts.html' %}
+  {% include 'styles.html' %}
+</head>
+
+<body class="bg-container">
+    <nav class="navbar-top" style="text-align: center">
+    <span class="logo-text" style="width: 15%">CatDB Report</span>
+    <span style="width: 85%;" ><a href="#pipeline" >ML Pipeline</a>
+    <a href="#catalog" >Data Catalog</a>
+    </span>
+  </nav>
+
+   <div class="container-main" style="max-width: 100%">
+    <div style="padding-left: 3.5rem">
+      <a class="id-anchor" id="catalog"></a>
+      <h1 class="tb-title" style="max-width: 100%; font-weight: 800; padding-top: 20px; font-size: 1.85rem;">Data Catalog Report</h1>
+    </div>
+     <div style="padding-top: 30px; padding-left: 3.5rem; width: 10%">
+         <table style="width: 100%; border: none">
+             <tr>
+                 <td style="width: 25%">
+                     <section class="section">
+                        <div class="var-container">
+                         <table style="width: 100%; background-color: white">
+                             <tr><td><h5 style="font-weight: 600; font-size: 1.65rem;">Dataset Overview</h5></td></tr>
+                             <tr style="height: 300px"><td>
+                                 {{ context.components.catalog['overview'].fig[0] }}
+                                {{ context.components.catalog['overview'].fig[1] }}
+                             </td></tr>
+                         </table>
+
+                        </div>
+                     </section>
+                 </td>
+                 <td style="width: 25%">
+                     <section class="section">
+                        <div class="var-container">
+                            <table style="width: 100%; background-color: white">
+                             <tr><td><h5 style="font-weight: 600; font-size: 1.65rem;">Dataset Feature Types</h5></td></tr>
+                             <tr style="height: 300px"><td>
+                                {{ context.components.catalog['feature_type'].fig[0] }}
+                                 {{ context.components.catalog['feature_type'].fig[1] }}
+                             </td></tr>
+                         </table>
+                        </div>
+                    </section>
+                 </td>
+
+                 <td style="width: 25%">
+                     <section class="section">
+                        <div class="var-container">
+                            <table style="width: 100%; background-color: white">
+                             <tr><td><h5 style="font-weight: 600; font-size: 1.65rem;">Dataset Missing Values</h5></td></tr>
+                             <tr style="height: 300px"><td>
+                                {{ context.components.catalog['missing'].fig[0] }}
+                                {{ context.components.catalog['missing'].fig[1] }}
+                             </td></tr>
+                            </table>
+                        </div>
+                    </section>
+                 </td>
+
+                 <td style="width: 25%">
+                         <section class="section">
+                            <div class="var-container">
+                                <table style="width: 100%; background-color: white">
+                                 <tr><td><h5 style="font-weight: 600; font-size: 1.65rem;">Dataset Distinct Values</h5></td></tr>
+                                 <tr style="height: 300px"><td>
+                                   {{ context.components.catalog['distinct'].fig[0] }}
+                                  {{ context.components.catalog['distinct'].fig[1] }}
+                                 </td></tr>
+                                </table>
+                            </div>
+                        </section>
+                 </td>
+             </tr>
+         </table>
+     </div>
+  </div>
+
+  <footer class="footer">
+    <p>Report generated with <a href="https://github.com/CoDS-GCS/CatDB">CatDB</a></p>
+  </footer>
+
+</body>
+
+</html>

@@ -12,6 +12,7 @@ from catalog.Catalog import load_data_source_profile
 from catalog.Dependency import load_dependency_info
 from pipegen.GeneratePipeLine import generate_and_verify_pipeline
 from util.Config import load_config
+from ui import create_report
 import time
 
 args = None
@@ -105,5 +106,6 @@ __all__ = [
     "get_dataset_path",
     "get_catalogs",
     "get_catalog_path",
-    "generate_pipeline"
+    "generate_pipeline",
+    "create_report"
 ]

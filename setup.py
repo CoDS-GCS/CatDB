@@ -52,10 +52,11 @@ setup(
         "feature_engine",
         "unidecode",
         "flair",
-        "torchvision"
+        "torchvision",
+        "bokeh==2.4.3"
     ],
     package_data={
-        "catdb": ["*.yaml", "datasets/*.zip"]
+        "catdb": ["*.yaml", "datasets/*.zip", "ui/templates/*.html"]
     },
     zip_safe=False,
     entry_points={

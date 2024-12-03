@@ -32,14 +32,14 @@ cd $path
 
 # Setup CatDB
 #############
-catdb_path="${path}/Baselines/CatDB/"
+# catdb_path="${path}/Baselines/CatDB/"
 # rm -rf ${catdb_path}
-mkdir -p ${catdb_path}
+# mkdir -p ${catdb_path}
 
-cd ${root_path}
-cd ..
-cp -r src/python/main/* ${catdb_path}
-cd ${catdb_path}
+# cd ${root_path}
+# cd ..
+# cp -r src/python/main/* ${catdb_path}
+# cd ${catdb_path}
 
 # rm -rf venv 
 # python3.10 -m venv venv

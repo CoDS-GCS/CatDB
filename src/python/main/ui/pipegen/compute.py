@@ -11,6 +11,7 @@ def compute_results(pipegen):
     df = pd.read_csv(pipegen["result_output_path"], low_memory=False, encoding='utf-8')
     try:
         df_error = pd.read_csv(pipegen["error_output_path"], low_memory=False, encoding='utf-8')
+        # df_error = df.groupby(['col1', 'col2']).size()
     except Exception as ex:
         df_error = None
     time_cols = ["number_iteration", "time_catalog_load", "time_pipeline_generate", "time_total", "time_execution"]

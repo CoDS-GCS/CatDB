@@ -67,16 +67,16 @@ def render_catalog(catalog, cfg: Config) -> Dict[str, Any]:
         df_cat.loc[col, cols] = values
 
     df_cat = df_cat.astype(float).fillna(0)
-    fig_overview = bar_viz(df_overview, len(df_overview), "count", plot_width, plot_height, True, cfg.bar, "Data Type", "")
-    fig_feature_type = bar_viz(df_feature_type, len(df_feature_type), "count", plot_width, plot_height, True, cfg.bar, "Feature Type", "")
+    fig_overview = bar_viz(df_overview, len(df_overview), "count", int(plot_width * 0.9), plot_height, True, cfg.bar, "Data Type", "")
+    fig_feature_type = bar_viz(df_feature_type, len(df_feature_type), "count", int(plot_width * 0.9), plot_height, True, cfg.bar, "Feature Type", "")
 
     fig_missing = render_bar_chart(nrows, df_missing, "linear", plot_width, plot_height, "Samples",  "")
     fig_missing.frame_width = plot_width
 
-    fig_distinct = bar_viz(df_distinct, len(df_distinct), "Distinct", plot_width, plot_height, True, cfg.bar, "Column", "")
+    fig_distinct = bar_viz(df_distinct, len(df_distinct), "Distinct", int(plot_width * 0.9), plot_height, True, cfg.bar, "Column", "")
     fig_distinct.frame_width = plot_width
 
-    fig_cat = render_bar_categorical_chart(nrows, df_cat, "linear", int(plot_width * 1.5), plot_height, "Frequency","")
+    fig_cat = render_bar_categorical_chart(nrows, df_cat, "linear", int(plot_width * 1.1), plot_height, "Frequency","")
 
     res: Dict[str, Any] = {
         "overview": {"fig": components(fig_overview), "title": "Dataset Overview"},
@@ -138,10 +138,10 @@ def render_bar_chart(nrows: int, df, yscale: str, plot_width: int, plot_height: 
             renderers=[rend[i]],
         )
         fig.add_tools(hover)
-
+    fig.legend.orientation = "horizontal"
     fig.yaxis.axis_label = ylabel
     tweak_figure(fig)
-    relocate_legend(fig, "left")
+    relocate_legend(fig, "above")
 
     return fig
 

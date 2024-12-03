@@ -63,15 +63,23 @@ def render_pipegen(pipegen, cfg: Config) -> Dict[str, Any]:
 
     fig_runtime = render_bar_runtime_chart(max_runtime, df_runtime, "linear", 500, plot_height, "Time [second]", "#Iteration")
     fig_cost = render_bar_cost_chart(max_token, df_cost, "linear", 500, plot_height, "Token Count", "#Iteration")
-    fig_error = bar_viz(df_error, len(df_error), "count", plot_width * 2, plot_height, True,
+
+    if len(df_error) > 0:
+        fig_error = bar_viz(df_error, len(df_error), "count", plot_width * 2, plot_height, True,
                                cfg.bar, "Error Type", "")
+        error_result = components(fig_error)
+        has_error = True
+    else:
+        error_result = None
+        has_error = False
 
     res: Dict[str, Any] = {
         "runtime": {"fig": components(fig_runtime), "title": "Pipeline Runtime"},
         "performance_1": {"fig": components(performance_1), "title": ""},
         "performance_2": {"fig": components(performance_2), "title": ""},
         "cost": {"fig": components(fig_cost), "title": "Pipeline Cost"},
-        "error": {"fig": components(fig_error), "title": "Pipeline Error"},
+        "has_error": has_error,
+        "error": {"fig": error_result, "title": "Pipeline Error"},
     }
 
     return res

@@ -54,3 +54,6 @@ envCatDB/*
 Experiments/catalog/*
 Experiments/baselines/.idea/*
 Experiments/LLM_Pipe_Error.dat
+build/lib/*
+src/catdb/*
+src/catdb.egg-info/*

@@ -54,7 +54,6 @@ def load_dataset_catalog(name: str) -> list:
 def generate_pipeline(catalog: list):
     from util.Config import __execute_mode, __gen_verify_mode, __sub_task_data_preprocessing, \
         __sub_task_feature_engineering, __sub_task_model_selection
-
     dependency_file = f"{args.catalog_path}/dependency.yaml"
     dependencies = load_dependency_info(dependency_file=dependency_file, datasource_name=args.dataset_name)
 
@@ -63,41 +62,41 @@ def generate_pipeline(catalog: list):
     begin_iteration = 1
     end_iteration = 1
 
-    while begin_iteration < args.prompt_number_iteration + end_iteration:
-        if args.prompt_representation_type == "CatDBChain":
-            final_status, code = generate_and_verify_pipeline(args=args, catalog=catalog, run_mode=__gen_verify_mode,
-                                                              sub_task=__sub_task_data_preprocessing,
-                                                              time_catalog=time_catalog,
-                                                              iteration=begin_iteration, dependency=dependencies)
-            if final_status:
-                final_status, code = generate_and_verify_pipeline(args=args, catalog=catalog,
-                                                                  run_mode=__gen_verify_mode,
-                                                                  sub_task=__sub_task_feature_engineering,
-                                                                  previous_result=code,
-                                                                  time_catalog=time_catalog, iteration=begin_iteration,
-                                                                  dependency=dependencies)
-                if final_status:
-                    final_status, code = generate_and_verify_pipeline(args=args, catalog=catalog,
-                                                                      run_mode=__execute_mode,
-                                                                      sub_task=__sub_task_model_selection,
-                                                                      previous_result=code,
-                                                                      time_catalog=time_catalog,
-                                                                      iteration=begin_iteration,
-                                                                      dependency=dependencies)
-                    if final_status:
-                        begin_iteration += 1
-
-        else:
-            final_status, code = generate_and_verify_pipeline(args=args, catalog=catalog, run_mode=__execute_mode,
-                                                              time_catalog=time_catalog, iteration=begin_iteration,
-                                                              dependency=dependencies)
-            if final_status:
-                begin_iteration += 1
-
-        ti += 1
-        if ti > t:
-            break
-
+    # while begin_iteration < args.prompt_number_iteration + end_iteration:
+    #     if args.prompt_representation_type == "CatDBChain":
+    #         final_status, code = generate_and_verify_pipeline(args=args, catalog=catalog, run_mode=__gen_verify_mode,
+    #                                                           sub_task=__sub_task_data_preprocessing,
+    #                                                           time_catalog=time_catalog,
+    #                                                           iteration=begin_iteration, dependency=dependencies)
+    #         if final_status:
+    #             final_status, code = generate_and_verify_pipeline(args=args, catalog=catalog,
+    #                                                               run_mode=__gen_verify_mode,
+    #                                                               sub_task=__sub_task_feature_engineering,
+    #                                                               previous_result=code,
+    #                                                               time_catalog=time_catalog, iteration=begin_iteration,
+    #                                                               dependency=dependencies)
+    #             if final_status:
+    #                 final_status, code = generate_and_verify_pipeline(args=args, catalog=catalog,
+    #                                                                   run_mode=__execute_mode,
+    #                                                                   sub_task=__sub_task_model_selection,
+    #                                                                   previous_result=code,
+    #                                                                   time_catalog=time_catalog,
+    #                                                                   iteration=begin_iteration,
+    #                                                                   dependency=dependencies)
+    #                 if final_status:
+    #                     begin_iteration += 1
+    #
+    #     else:
+    #         final_status, code = generate_and_verify_pipeline(args=args, catalog=catalog, run_mode=__execute_mode,
+    #                                                           time_catalog=time_catalog, iteration=begin_iteration,
+    #                                                           dependency=dependencies)
+    #         if final_status:
+    #             begin_iteration += 1
+    #
+    #     ti += 1
+    #     if ti > t:
+    #         break
+    return vars(args)
 
 __all__ = [
     "set_config",

@@ -17,19 +17,69 @@
   </nav>
 
    <div class="container-main" style="max-width: 100%">
+       <div style="padding-left: 3.5rem">
+        <a class="id-anchor" id="pipeline"></a>
+        <h1 class="tb-title" style="max-width: 100%; font-weight: 800; padding-top: 20px; font-size: 1.05rem;">CatDB Pipeline Report</h1>
+       </div>
+       <div style="padding-top: 30px; padding-left: 3.5rem; width: 100%; text-align: center">
+         <table style="width: 90%; border: none">
+             <tr>
+                 <td style="width: 26%;">
+                     <section class="section">
+                        <div class="var-container">
+                         <table style="width: 100%; background-color: white">
+                             <tr><td style="text-align: left"><h5 style="font-weight: 600; font-size: 1rem;">Pipeline Runtime</h5></td></tr>
+                             <tr style="height: 300px"><td style="background-color: white">
+                                 {{ context.components.pipegen['runtime'].fig[0] }}
+                                {{ context.components.pipegen['runtime'].fig[1] }}
+                             </td></tr>
+                         </table>
+
+                        </div>
+                     </section>
+                 </td>
+                 <td style="width: 40%;">
+                     <section class="section">
+                        <div class="var-container">
+                         <table style="width: 100%; background-color: white">
+                             <tr><td style="text-align: left"><h5 style="font-weight: 600; font-size: 1rem;">Pipeline Performance</h5></td></tr>
+                             <tr style="height: 300px"><td style="background-color: white">
+                                 <table style="width: 100%">
+                                     <tr>
+                                         <td style="width: 50%">
+                                             {{ context.components.pipegen['performance_1'].fig[0] }}
+                                             {{ context.components.pipegen['performance_1'].fig[1] }}
+                                         </td>
+                                         <td style="width: 50%">
+                                              {{ context.components.pipegen['performance_2'].fig[0] }}
+                                              {{ context.components.pipegen['performance_2'].fig[1] }}
+                                         </td>
+                                     </tr>
+                                 </table>
+                             </td></tr>
+                         </table>
+
+                        </div>
+                     </section>
+                 </td>
+             </tr>
+         </table>
+     </div>
+
+    <!--  ************************************************************* -->
     <div style="padding-left: 3.5rem">
       <a class="id-anchor" id="catalog"></a>
-      <h1 class="tb-title" style="max-width: 100%; font-weight: 800; padding-top: 20px; font-size: 1.85rem;">Data Catalog Report</h1>
+      <h1 class="tb-title" style="max-width: 100%; font-weight: 800; padding-top: 20px; font-size: 1.05rem;">Data Catalog Report</h1>
     </div>
-     <div style="padding-top: 30px; padding-left: 3.5rem; width: 10%">
-         <table style="width: 100%; border: none">
+     <div style="padding-top: 30px; padding-left: 3.5rem; width: 100%; text-align: center">
+         <table style="width: 90%; border: none">
              <tr>
                  <td style="width: 25%">
                      <section class="section">
                         <div class="var-container">
                          <table style="width: 100%; background-color: white">
-                             <tr><td><h5 style="font-weight: 600; font-size: 1.65rem;">Dataset Overview</h5></td></tr>
-                             <tr style="height: 300px"><td>
+                             <tr><td style="text-align: left"><h5 style="font-weight: 600; font-size: 1rem;">Dataset Overview</h5></td></tr>
+                             <tr style="height: 300px"><td style="background-color: white">
                                  {{ context.components.catalog['overview'].fig[0] }}
                                 {{ context.components.catalog['overview'].fig[1] }}
                              </td></tr>
@@ -42,8 +92,8 @@
                      <section class="section">
                         <div class="var-container">
                             <table style="width: 100%; background-color: white">
-                             <tr><td><h5 style="font-weight: 600; font-size: 1.65rem;">Dataset Feature Types</h5></td></tr>
-                             <tr style="height: 300px"><td>
+                             <tr><td style="text-align: left"><h5 style="font-weight: 600; font-size: 1rem;">Dataset Feature Types</h5></td></tr>
+                             <tr style="height: 300px"><td style="background-color: white">
                                 {{ context.components.catalog['feature_type'].fig[0] }}
                                  {{ context.components.catalog['feature_type'].fig[1] }}
                              </td></tr>
@@ -56,8 +106,8 @@
                      <section class="section">
                         <div class="var-container">
                             <table style="width: 100%; background-color: white">
-                             <tr><td><h5 style="font-weight: 600; font-size: 1.65rem;">Dataset Missing Values</h5></td></tr>
-                             <tr style="height: 300px"><td>
+                             <tr><td style="text-align: left"><h5 style="font-weight: 600; font-size: 1rem;">Dataset Missing Values</h5></td></tr>
+                             <tr style="height: 300px"><td style="background-color: white">
                                 {{ context.components.catalog['missing'].fig[0] }}
                                 {{ context.components.catalog['missing'].fig[1] }}
                              </td></tr>
@@ -70,8 +120,8 @@
                          <section class="section">
                             <div class="var-container">
                                 <table style="width: 100%; background-color: white">
-                                 <tr><td><h5 style="font-weight: 600; font-size: 1.65rem;">Dataset Distinct Values</h5></td></tr>
-                                 <tr style="height: 300px"><td>
+                                 <tr><td style="text-align: left"><h5 style="font-weight: 600; font-size: 1rem;">Dataset Distinct Values</h5></td></tr>
+                                 <tr style="height: 300px"><td style="background-color: white">
                                    {{ context.components.catalog['distinct'].fig[0] }}
                                   {{ context.components.catalog['distinct'].fig[1] }}
                                  </td></tr>

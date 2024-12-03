@@ -10,10 +10,22 @@ from typing import Any, Dict
 def compute_results(pipegen):
     df = pd.read_csv(pipegen["result_output_path"], low_memory=False, encoding='utf-8')
     try:
-        df_error = pd.read_csv(pipegen["error_output_path"], low_memory=False, encoding='utf-8')
-        # df_error = df.groupby(['col1', 'col2']).size()
+        df_errors = pd.read_csv(pipegen["error_output_path"], low_memory=False, encoding='utf-8')
+        err_class = df_errors["error_class"].value_counts().keys()
+        df_err_resul = pd.DataFrame(columns=["error_class", "count"])
+        error_count = dict()
+        for e in err_class:
+            count = len(df_errors.loc[df_errors['error_class'] == e])
+            error_count[e] = count
+        keys = list(error_count.keys())
+        count = []
+        pct = []
+        for k in keys:
+            count.append(error_count[k])
+            pct.append(error_count[k] / len(df_errors) * 100)
+        df_err_resul = pd.DataFrame({'count': count,'pct': pct }, index=keys)
     except Exception as ex:
-        df_error = None
+        df_err_resul = pd.DataFrame({'count': [], 'pct': []}, index=[])
     time_cols = ["number_iteration", "time_catalog_load", "time_pipeline_generate", "time_total", "time_execution"]
     performance_cols = ["number_iteration", "train_auc", "train_auc_ovo", "train_auc_ovr", "train_accuracy",
                         "train_f1_score", "train_log_loss", "train_r_squared", "train_rmse", "test_auc", "test_auc_ovo",
@@ -88,7 +100,7 @@ def compute_results(pipegen):
         "df_run": df_run,
         "df_performance": df_performance,
         "df_cost": df_cost,
-        "df_error": df_error,
+        "df_error": df_err_resul,
         "system_prompt": "".join(prompt["system_prompt"]),
         "usr_prompt": "".join(prompt["usr_prompt"]),
         "codes": codes,

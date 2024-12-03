@@ -27,6 +27,7 @@ def render_pipegen(pipegen, cfg: Config) -> Dict[str, Any]:
     comp_res = compute_results(pipegen)
     df_runtime = comp_res["df_runtime"]
     df_cost = comp_res["df_cost"]
+    df_error = comp_res["df_error"]
     max_runtime = max(df_runtime["time_total"])
     max_token = max(df_cost["Error Tokens"] + df_cost["Prompt Tokens"])
     df_runtime = df_runtime[['Pipeline Generation', 'Pipeline Verify', 'Pipeline Execution']]
@@ -62,12 +63,15 @@ def render_pipegen(pipegen, cfg: Config) -> Dict[str, Any]:
 
     fig_runtime = render_bar_runtime_chart(max_runtime, df_runtime, "linear", 500, plot_height, "Time [second]", "#Iteration")
     fig_cost = render_bar_cost_chart(max_token, df_cost, "linear", 500, plot_height, "Token Count", "#Iteration")
+    fig_error = bar_viz(df_error, len(df_error), "count", plot_width * 2, plot_height, True,
+                               cfg.bar, "Error Type", "")
 
     res: Dict[str, Any] = {
         "runtime": {"fig": components(fig_runtime), "title": "Pipeline Runtime"},
         "performance_1": {"fig": components(performance_1), "title": ""},
         "performance_2": {"fig": components(performance_2), "title": ""},
         "cost": {"fig": components(fig_cost), "title": "Pipeline Cost"},
+        "error": {"fig": components(fig_error), "title": "Pipeline Error"},
     }
 
     return res

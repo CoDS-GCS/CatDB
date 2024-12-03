@@ -3,6 +3,8 @@ from os.path import dirname
 from argparse import ArgumentParser
 from datasets import get_dataset_metadata_path, get_root_data_path, get_catalog_path
 import yaml
+import os
+import shutil
 
 CATDB_PACKAGE_PATH = None
 _output_path = None
@@ -45,12 +47,15 @@ def _save_text_file(fname: str, data):
 
 
 def set_config(model: str, API_key: str, iteration: int = 1, error_iteration: int = 15, reduction: bool = True,
-               setting: str = "CatDB", output_path: str = None ):
+               setting: str = "CatDB", output_path: str = None, clean_log: bool= True ):
 
     if output_path is None:
-        output_path = dirname(__file__)
+        output_path = f'{dirname(__file__)}/catdb-log'
     global _output_path
     _output_path = output_path
+    if clean_log:
+        if os.path.exists(_output_path) and os.path.isdir(_output_path):
+            shutil.rmtree(_output_path)
 
     Path(_output_path).mkdir(parents=True, exist_ok=True)
 

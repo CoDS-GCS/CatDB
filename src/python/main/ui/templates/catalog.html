@@ -1,0 +1,101 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title> CatDB: Data Catalog Report </title>
+  {% include 'scripts.html' %}
+  {% include 'styles.html' %}
+</head>
+
+<body class="bg-container">
+   <div class="container-main" style="max-width: 100%">
+    <div style="padding-left: 1.5rem">
+      <h1 class="tb-title" style="max-width: 100%; font-weight: 800; padding-top: 20px; font-size: 1.05rem;">
+        <span style="border-radius: 30rem !important; background-color: #ffefca;  padding: 5px; padding-left: 10px; padding-right: 10px; border-color: #ffcc85; border-style: solid; border-width: 1px; color: #bc3803">Data Catalog Report</span>
+      </h1>
+    </div>
+     <div style="padding-top: 30px; padding-left: 1.5rem; width: 100%; text-align: center">
+         <table>
+             <tr>
+                 <td>
+                     <section class="section">
+                        <div class="var-container">
+                         <table style="width: 100%; background-color: white">
+                             <tr><td style="text-align: left"><h5 style="font-weight: 600; font-size: 1rem;">Dataset Overview</h5></td></tr>
+                             <tr style="height: 320px"><td style="background-color: white">
+                                 {{ context.components.catalog['overview'].fig[0] }}
+                                {{ context.components.catalog['overview'].fig[1] }}
+                             </td></tr>
+                         </table>
+
+                        </div>
+                     </section>
+                 </td>
+                 <td>
+                     <section class="section">
+                        <div class="var-container">
+                            <table style="width: 100%; background-color: white">
+                             <tr><td style="text-align: left"><h5 style="font-weight: 600; font-size: 1rem;">Feature Types</h5></td></tr>
+                             <tr style="height: 320px"><td style="background-color: white">
+                                {{ context.components.catalog['feature_type'].fig[0] }}
+                                 {{ context.components.catalog['feature_type'].fig[1] }}
+                             </td></tr>
+                         </table>
+                        </div>
+                    </section>
+                 </td>
+
+                 <td>
+                     <section class="section">
+                        <div class="var-container">
+                            <table style="width: 100%; background-color: white">
+                             <tr><td style="text-align: left"><h5 style="font-weight: 600; font-size: 1rem;">Dataset Missing Values</h5></td></tr>
+                             <tr style="height: 320px"><td style="background-color: white">
+                                {{ context.components.catalog['missing'].fig[0] }}
+                                {{ context.components.catalog['missing'].fig[1] }}
+                             </td></tr>
+                            </table>
+                        </div>
+                    </section>
+                 </td>
+
+                 <td>
+                         <section class="section">
+                            <div class="var-container">
+                                <table style="width: 100%; background-color: white">
+                                 <tr><td style="text-align: left"><h5 style="font-weight: 600; font-size: 1rem;">Dataset Distinct Values</h5></td></tr>
+                                 <tr style="height: 320px"><td style="background-color: white">
+                                   {{ context.components.catalog['distinct'].fig[0] }}
+                                  {{ context.components.catalog['distinct'].fig[1] }}
+                                 </td></tr>
+                                </table>
+                            </div>
+                        </section>
+                 </td>
+
+                 <td>
+                         <section class="section">
+                            <div class="var-container">
+                                <table style="width: 100%; background-color: white">
+                                 <tr><td style="text-align: left"><h5 style="font-weight: 600; font-size: 1rem;">Categorical Features and Frequency</h5></td></tr>
+                                 <tr style="height: 320px"><td style="background-color: white">
+                                   {{ context.components.catalog['cat'].fig[0] }}
+                                  {{ context.components.catalog['cat'].fig[1] }}
+                                 </td></tr>
+                                </table>
+                            </div>
+                        </section>
+                 </td>
+             </tr>
+         </table>
+     </div>
+  </div>
+
+  <footer class="footer">
+    <p>Report generated with <a href="https://github.com/CoDS-GCS/CatDB">CatDB</a></p>
+  </footer>
+
+</body>
+
+</html>

@@ -48,7 +48,7 @@ def _format_ticks(ticks: List[float]) -> List[str]:
     return formatted_ticks
 
 
-def _format_axis(fig: figure, minv: int, maxv: int, axis: str) -> None:
+def _format_axis(fig: figure, minv: int, maxv: int, axis: str, type:str="float") -> None:
 
     # divisor for 5 ticks (5 results in ticks that are too close together)
     divisor = 4.5
@@ -57,6 +57,11 @@ def _format_axis(fig: figure, minv: int, maxv: int, axis: str) -> None:
         gap = 1.0
     else:
         gap = (maxv - minv) / divisor
+        if type == "int":
+            if gap < 1:
+                gap = 1
+            else:
+                gap = int(gap+0.5)
     # get exponent from scientific notation
     _, after = f"{gap:.0e}".split("e")
     # round to this amount

@@ -6,4 +6,4 @@ __all__ = ["compute_catalog"]
 
 
 def compute_catalog(catalog: list, cfg: Config,):
-    return  render_catalog(catalog, cfg)
+    return render_catalog(catalog, cfg)

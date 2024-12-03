@@ -16,23 +16,29 @@ ENV_LOADER = Environment(
 
 
 def create_report(
-    catalog,
-    pipegen,
+    data,
     config: Optional[Dict[str, Any]] = None,
     display: Optional[List[str]] = None,
-    title: Optional[str] = "CatDB Report",
-    mode: Optional[str] = "basic",
-    progress: bool = True,
+    title: Optional[str] = "CatDB Report"
 ) -> Report:
 
     _suppress_warnings()
     cfg = Config.from_dict(display, config)
+    is_catalog = isinstance(data, list)
+
+    if is_catalog :
+        components = format_report(catalog=data[0], pipegen=None, cfg= cfg)
+        template = "catalog.html"
+    else:
+        components = format_report(catalog=None, pipegen=data, cfg=cfg)
+        template = "base.html"
+
     context = {
         "resources": INLINE.render(),
         "title": title,
-        "components": format_report(catalog[0], pipegen, cfg, mode, progress),
-    }
-    template_base = ENV_LOADER.get_template("base.html")
+        "components": components}
+
+    template_base = ENV_LOADER.get_template(template)
     report = template_base.render(context=context)
     return Report(report)
 

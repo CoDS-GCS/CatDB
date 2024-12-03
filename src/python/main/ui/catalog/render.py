@@ -67,16 +67,16 @@ def render_catalog(catalog, cfg: Config) -> Dict[str, Any]:
         df_cat.loc[col, cols] = values
 
     df_cat = df_cat.astype(float).fillna(0)
-    fig_overview = bar_viz(df_overview, len(df_overview), "count", int(plot_width * 0.9), plot_height, True, cfg.bar, "Data Type", "")
-    fig_feature_type = bar_viz(df_feature_type, len(df_feature_type), "count", int(plot_width * 0.9), plot_height, True, cfg.bar, "Feature Type", "")
+    fig_overview = bar_viz(df_overview, len(df_overview), "count", int(plot_width * 0.7), plot_height, True, cfg.bar, "Data Type", "")
+    fig_feature_type = bar_viz(df_feature_type, len(df_feature_type), "count", int(plot_width * 0.7), plot_height, True, cfg.bar, "Feature Type", "")
 
-    fig_missing = render_bar_chart(nrows, df_missing, "linear", plot_width, plot_height, "Samples",  "")
+    fig_missing = render_bar_chart(nrows, df_missing, "linear", int(plot_width*1.2), plot_height, "Samples",  "")
     fig_missing.frame_width = plot_width
 
-    fig_distinct = bar_viz(df_distinct, len(df_distinct), "Distinct", int(plot_width * 0.9), plot_height, True, cfg.bar, "Column", "")
+    fig_distinct = bar_viz(df_distinct, len(df_distinct), "Distinct", int(plot_width * 1.1), plot_height, True, cfg.bar, "Column", "")
     fig_distinct.frame_width = plot_width
 
-    fig_cat = render_bar_categorical_chart(nrows, df_cat, "linear", int(plot_width * 1.1), plot_height, "Frequency","")
+    fig_cat = render_bar_categorical_chart(nrows, df_cat, "linear", int(plot_width * 1.5), plot_height, "Frequency","")
 
     res: Dict[str, Any] = {
         "overview": {"fig": components(fig_overview), "title": "Dataset Overview"},
@@ -106,7 +106,7 @@ def render_bar_chart(nrows: int, df, yscale: str, plot_width: int, plot_height: 
     rend = fig.vbar_stack(
         stackers=df.columns,
         x="index",
-        width=0.5,
+        # width=0.5,
         color=[CATEGORY20[0], CATEGORY20[2]],
         source=df,
         legend_label=list(df.columns),
@@ -183,7 +183,7 @@ def render_bar_categorical_chart(nrows: int, df, yscale: str, plot_width: int, p
     rend = fig.vbar_stack(
         stackers=df.columns,
         x="index",
-        width=0.5,
+        width=0.7,
         color=colors,
         source=df,
         legend_label=list(df.columns),
@@ -268,13 +268,14 @@ def tweak_figure_bar(fig: figure, ptype: Optional[str] = None, show_yticks: bool
 
 
 def bar_viz(df: pd.DataFrame, ttl_grps: int, col: str, plot_width: int, plot_height: int, show_yticks: bool,
-            bar_cfg: Bar,
-            tooltip_title: str, title: str) -> figure:
+            bar_cfg: Bar, tooltip_title: str, title: str) -> figure:
+
     tooltips = [(tooltip_title, "@index"), ("Count", f"@{{{col}}}"), ("Percent", "@pct{0.2f}%")]
     if show_yticks:
         if len(df) > 10:
             plot_width = 28 * len(df)
     fig = figure(
+        y_range=[0, max(df[col])],
         width=plot_width,
         height=plot_height,
         title=title,
@@ -286,20 +287,18 @@ def bar_viz(df: pd.DataFrame, ttl_grps: int, col: str, plot_width: int, plot_hei
     )
     fig.vbar(
         x="index",
-        width=0.5,
+        line_width=bar_cfg.line_width,
+        #width=0.5,
         top=col,
-        fill_color=bar_cfg.color,
-        line_color=bar_cfg.color,
-        bottom=0.01,
+        fill_color=bar_cfg.fill_color,
+        line_color=bar_cfg.line_color,
+        # bottom=0,
         source=df,
     )
     tweak_figure_bar(fig, "bar", show_yticks)
     fig.yaxis.axis_label = "Count"
-    if ttl_grps > len(df):
-        fig.xaxis.axis_label = f"Top {len(df)} of {ttl_grps} {col}"
-        fig.xaxis.axis_label_standoff = 0
     if show_yticks and bar_cfg.yscale == "linear":
-        _format_axis(fig, 0, df[col].max(), "y")
+        _format_axis(fig, 0, df[col].max(), "y", "int")
     return fig
 
 

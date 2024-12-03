@@ -207,7 +207,10 @@ class Bar(BaseModel):
     bars: int = 10
     sort_descending: bool = True
     yscale: str = "linear"
-    color: str = "#1f77b4"
+    color: str = "red" #"#1f77b4"
+    line_color: str = "#BC3803FF"
+    fill_color: str = "#FFCC85FF"
+    line_width: int = 1
     height: Union[int, None] = None
     width: Union[int, None] = None
 

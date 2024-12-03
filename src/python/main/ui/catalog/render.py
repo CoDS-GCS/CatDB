@@ -25,7 +25,7 @@ def render_catalog(catalog, cfg: Config) -> Dict[str, Any]:
     profile_info = catalog.profile_info
 
     plot_width = cfg.plot.width if cfg.plot.width is not None else 200
-    plot_height = cfg.plot.height if cfg.plot.height is not None else 200
+    plot_height = cfg.plot.height if cfg.plot.height is not None else 300
 
     nrows = catalog.nrows
     cols = schema_info.keys()
@@ -106,7 +106,7 @@ def render_bar_chart(nrows: int, df, yscale: str, plot_width: int, plot_height: 
     rend = fig.vbar_stack(
         stackers=df.columns,
         x="index",
-        width=0.9,
+        width=0.5,
         color=[CATEGORY20[0], CATEGORY20[2]],
         source=df,
         legend_label=list(df.columns),
@@ -183,7 +183,7 @@ def render_bar_categorical_chart(nrows: int, df, yscale: str, plot_width: int, p
     rend = fig.vbar_stack(
         stackers=df.columns,
         x="index",
-        width=0.9,
+        width=0.5,
         color=colors,
         source=df,
         legend_label=list(df.columns),
@@ -286,7 +286,7 @@ def bar_viz(df: pd.DataFrame, ttl_grps: int, col: str, plot_width: int, plot_hei
     )
     fig.vbar(
         x="index",
-        width=0.9,
+        width=0.5,
         top=col,
         fill_color=bar_cfg.color,
         line_color=bar_cfg.color,

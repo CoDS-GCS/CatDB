@@ -26,7 +26,9 @@ def render_pipegen(pipegen, cfg: Config) -> Dict[str, Any]:
 
     comp_res = compute_results(pipegen)
     df_runtime = comp_res["df_runtime"]
+    df_cost = comp_res["df_cost"]
     max_runtime = max(df_runtime["time_total"])
+    max_token = max(df_cost["Error Tokens"] + df_cost["Prompt Tokens"])
     df_runtime = df_runtime[['Pipeline Generation', 'Pipeline Verify', 'Pipeline Execution']]
 
     performance_1, performance_2 = None, None
@@ -57,12 +59,15 @@ def render_pipegen(pipegen, cfg: Config) -> Dict[str, Any]:
                                 ylabel="RMSE [%]", x="Train", title="Root Mean Square Error (RMSE)")
 
 
+
     fig_runtime = render_bar_runtime_chart(max_runtime, df_runtime, "linear", 500, plot_height, "Time [second]", "#Iteration")
+    fig_cost = render_bar_cost_chart(max_token, df_cost, "linear", 500, plot_height, "Token Count", "#Iteration")
 
     res: Dict[str, Any] = {
         "runtime": {"fig": components(fig_runtime), "title": "Pipeline Runtime"},
         "performance_1": {"fig": components(performance_1), "title": ""},
         "performance_2": {"fig": components(performance_2), "title": ""},
+        "cost": {"fig": components(fig_cost), "title": "Pipeline Cost"},
     }
 
     return res
@@ -183,6 +188,62 @@ def render_bar_runtime_chart(max_time: int, df, yscale: str, plot_width: int, pl
     return fig
 
 
+def render_bar_cost_chart(max_cost: int, df, yscale: str, plot_width: int, plot_height: int, ylabel: str, xlabel: str) -> figure:
+    colors = [CATEGORY20[0], CATEGORY20[2]]
+    fig = figure(
+        x_range=[str(i) for i in list(df.index)],
+        y_range=[0, max_cost],
+        width=plot_width,
+        height=plot_height,
+        y_axis_type=yscale,
+        toolbar_location=None,
+        tools=[],
+        title="",
+    )
+
+    rend = fig.vbar_stack(
+        stackers=df.columns,
+        x="index",
+        width=0.5,
+        color=colors,
+        source=df,
+        legend_label=list(df.columns),
+    )
+    # hover tool with count and percent
+    formatter = CustomJSHover(
+        args=dict(source=ColumnDataSource(df)),
+        code="""
+        const columns = Object.keys(source.data)
+        const cur_bar = special_vars.data_x - 0.5
+        var ttl_bar = 0
+        for (let i = 0; i < columns.length; i++) {
+            if (columns[i] != 'index'){
+                ttl_bar = ttl_bar + source.data[columns[i]][cur_bar]
+            }
+        }
+        const cur_val = source.data[special_vars.name][cur_bar]
+        return (cur_val/ttl_bar * 100).toFixed(2)+'%';
+    """,
+    )
+    for i, val in enumerate(df.columns):
+        hover = HoverTool(
+            tooltips=[
+                ("#Iteration", "@index"),
+                (f"{val}", "@$name"),
+            ],
+            formatters={"@{%s}" % rend[i].name: formatter},
+            renderers=[rend[i]],
+        )
+        fig.add_tools(hover)
+
+    fig.yaxis.axis_label = ylabel
+    fig.xaxis.axis_label = xlabel
+    tweak_figure(fig)
+    relocate_legend(fig, "left")
+
+    return fig
+
+
 def box_viz(
     df: pd.DataFrame,
     x: str,
@@ -267,6 +328,8 @@ def box_viz(
     fig.xaxis.axis_label = ""
     fig.yaxis.axis_label = ylabel
     return fig
+
+
 def tweak_figure(fig: figure) -> figure:
     fig.axis.major_tick_line_color = None
     fig.axis.major_label_text_font_size = "9pt"
@@ -334,6 +397,7 @@ def _format_ticks(ticks: List[float]) -> List[str]:
             formatted_ticks.append(str(value) + "K")
 
     return formatted_ticks
+
 
 def bar_viz(df: pd.DataFrame, ttl_grps: int, col: str, plot_width: int, plot_height: int, show_yticks: bool,
             bar_cfg: Bar,

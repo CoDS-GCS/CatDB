@@ -18,7 +18,7 @@ def compute_results(pipegen):
                         "train_f1_score", "train_log_loss", "train_r_squared", "train_rmse", "test_auc", "test_auc_ovo",
                         "test_auc_ovr", "test_accuracy", "test_f1_score", "test_log_loss", "test_r_squared",
                         "test_rmse"]
-    cost_cols = ["number_iteration", "prompt_token_count", "all_token_count"]
+    cost_cols = ["prompt_token_count", "all_token_count"]
     df_gen_tmp = df.loc[(df['status'] == True) & (df['dataset_name'] == pipegen["dataset_name"]) & (
                 df['operation'] == 'Gen-and-Verify-Pipeline')]
     df_run_tmp = df.loc[(df['status'] == True) & (df['dataset_name'] == pipegen["dataset_name"]) & (df['operation'] == 'Run-Pipeline')]
@@ -27,14 +27,18 @@ def compute_results(pipegen):
     df_run = df_run_tmp[["number_iteration", "time_execution"]].reset_index(drop=True)
     df_performance = df_run_tmp[performance_cols]
     df_cost = df_run_tmp[cost_cols]
-    df_cost["error_tokens"] = df_cost["all_token_count"] - df_cost["prompt_token_count"]
+    df_cost["Error Tokens"] = df_cost["all_token_count"] - df_cost["prompt_token_count"]
+    df_cost = df_cost.rename(columns={"prompt_token_count": "Prompt Tokens"}).reset_index(drop=True)
+    df_cost.index = [i for i in range(1, len(df_cost) + 1)]
+    df_cost = df_cost.drop('all_token_count', axis=1)
+
 
     df_gen["number_iteration"] = [i for i in range(1, len(df_gen) + 1)]
     df_gen = df_gen.rename(columns={'time_execution': 'time_verify'}).reset_index(drop=True)
 
     df_run["number_iteration"] = [i for i in range(1, len(df_run) + 1)]
     df_performance["number_iteration"] = [i for i in range(1, len(df_performance) + 1)]
-    df_cost["number_iteration"] = [i for i in range(1, len(df_cost) + 1)]
+
 
     # all prompts
     files = [f for f in os.listdir(pipegen["output_path"])]

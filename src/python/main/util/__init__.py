@@ -7,8 +7,6 @@ import os
 import shutil
 
 CATDB_PACKAGE_PATH = None
-_output_path = None
-
 
 def _get_rules_path() -> str:
     path = f"{CATDB_PACKAGE_PATH}/Rules.yaml"
@@ -25,15 +23,10 @@ def _get_config_path() -> str:
     return path
 
 
-def _get_output_path(name: str) -> str:
-    path = f"{_output_path}/catdb-results/{name}"
-    Path(f"{_output_path}/catdb-results").mkdir(parents=True, exist_ok=True)
+def _get_output_path(name: str, output_path: str) -> str:
+    path = f"{output_path}/catdb-results/{name}"
+    Path(f"{output_path}/catdb-results").mkdir(parents=True, exist_ok=True)
     Path(path).mkdir(parents=True, exist_ok=True)
-    return path
-
-
-def _get_API_key_path() -> str:
-    path = f"{_output_path}/APIKeys.yaml"
     return path
 
 
@@ -46,22 +39,20 @@ def _save_text_file(fname: str, data):
         raise Exception(f"Error in save file:\n {ex}")
 
 
-def set_config(model: str, API_key: str, iteration: int = 1, error_iteration: int = 15, reduction: bool = True,
+def config(model: str, API_key: str, iteration: int = 1, error_iteration: int = 15, reduction: bool = True,
                setting: str = "CatDB", output_path: str = None, clean_log: bool= True ):
 
+    cfg = dict()
+
     if output_path is None:
-        output_path = f'{dirname(__file__)}/catdb-log'
-    global _output_path
-    _output_path = output_path
+        output_path = '/tmp/catdb-log'
     if clean_log:
-        if os.path.exists(_output_path) and os.path.isdir(_output_path):
-            shutil.rmtree(_output_path)
+        if os.path.exists(output_path) and os.path.isdir(output_path):
+            shutil.rmtree(output_path)
 
-    Path(_output_path).mkdir(parents=True, exist_ok=True)
+    cfg["output_path"] = output_path
 
-    results_path = "results.csv"
-    error_path = "error.csv"
-    system_log= "system.log"
+    Path(output_path).mkdir(parents=True, exist_ok=True)
 
     API_key_template = """
 ---
@@ -70,18 +61,14 @@ def set_config(model: str, API_key: str, iteration: int = 1, error_iteration: in
   key_1: '{}'    
 """
 
-    setting_txt = f"""
----
-
-- setting: {setting}
-  prompt_number_iteration: {iteration}
-  prompt_number_iteration_error: {error_iteration}
-  llm_model: {model}
-  reduction: {reduction}
-  result_output_path: {output_path}/{results_path}
-  error_output_path: {output_path}/{error_path}
-  system_log: {output_path}/{system_log}
-"""
+    cfg["setting"] = setting
+    cfg["prompt_number_iteration"] = iteration
+    cfg["prompt_number_iteration_error"] = error_iteration
+    cfg["llm_model"] = model
+    cfg["reduction"] = reduction
+    cfg["result_output_path"] = f"{output_path}/results.csv"
+    cfg["error_output_path"] = f"{output_path}/error.csv"
+    cfg["system_log"] = f"{output_path}/system.log"
 
     platform = None
     if model in {"gpt-4o", " gpt-4-turbo"}:
@@ -94,12 +81,12 @@ def set_config(model: str, API_key: str, iteration: int = 1, error_iteration: in
     ak = API_key_template.format(platform, API_key)
 
     path_key = f"{output_path}/APIKeys.yaml"
-    path_setting = f"{output_path}/setting.yaml"
     _save_text_file(data=ak, fname=path_key)
-    _save_text_file(data=setting_txt, fname=path_setting)
+    cfg["api_config_path"] = path_key
+    return cfg
 
 
-def load_args(name: str, PACKAGE_PATH: str):
+def load_args(name: str, cfg, PACKAGE_PATH: str):
     global CATDB_PACKAGE_PATH
     CATDB_PACKAGE_PATH = PACKAGE_PATH
 
@@ -110,27 +97,20 @@ def load_args(name: str, PACKAGE_PATH: str):
     args.metadata_path = get_dataset_metadata_path(name=name)
     args.root_data_path = get_root_data_path()
     args.catalog_path = get_catalog_path(name=name)
-    args.APIKeys_File = _get_API_key_path()
     args.data_profile_path = f"{args.catalog_path}/data_profile"
     args.prompt_samples_type = 'Random'
     args.prompt_number_samples = 0
     args.description = ''
     args.dataset_description = 'No'
-
-    with open(f"{_output_path}/setting.yaml", "r") as f:
-        try:
-            setting_data = yaml.load(f, Loader=yaml.FullLoader)
-            args.prompt_representation_type = setting_data[0].get('setting')
-            args.prompt_number_iteration = setting_data[0].get('prompt_number_iteration')
-            args.prompt_number_iteration_error = setting_data[0].get('prompt_number_iteration_error')
-            args.llm_model = setting_data[0].get('llm_model')
-            args.result_output_path = setting_data[0].get('result_output_path')
-            args.error_output_path = setting_data[0].get('error_output_path')
-            args.system_log = setting_data[0].get('system_log')
-            args.enable_reduction = setting_data[0].get('reduction')
-
-        except yaml.YAMLError as ex:
-            raise Exception(ex)
+    args.prompt_representation_type = cfg['setting']
+    args.prompt_number_iteration = cfg['prompt_number_iteration']
+    args.prompt_number_iteration_error = cfg['prompt_number_iteration_error']
+    args.llm_model = cfg['llm_model']
+    args.result_output_path = cfg['result_output_path']
+    args.error_output_path = cfg['error_output_path']
+    args.system_log = cfg['system_log']
+    args.enable_reduction = cfg['reduction']
+    args.APIKeys_File = cfg['api_config_path']
 
     # read .yaml file and extract values:
     with open(args.metadata_path, "r") as f:
@@ -160,7 +140,7 @@ def load_args(name: str, PACKAGE_PATH: str):
         except yaml.YAMLError as ex:
             raise Exception(ex)
     args.rules_path = _get_rules_path()
-    args.output_path = _get_output_path(name=name)
+    args.output_path = _get_output_path(name=name, output_path=cfg["output_path"])
     args.data_cleaning_rules_path = _get_data_cleaning_rules_path()
     args.config_path = _get_config_path()
     return args

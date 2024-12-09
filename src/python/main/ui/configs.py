@@ -2,6 +2,8 @@ from __future__ import annotations
 
 from typing import Any, Dict, List, Optional, Tuple, Union
 from pydantic import BaseModel, Field
+from bokeh.plotting import figure
+import numpy as np
 
 
 # This dictionary map the plot names in display to their canonicalized names in Config
@@ -1263,3 +1265,130 @@ class Config(BaseModel):
             cfg._set_local_param_for_plots(local_params)
             cfg._check_and_correct_params_for_plots()
         return cfg
+
+
+#########################################
+def tweak_figure(fig: figure) -> figure:
+    fig.axis.major_tick_line_color = None
+    fig.axis.major_label_text_font_size = "9pt"
+    fig.axis.major_label_standoff = 0
+    fig.xaxis.major_label_orientation = np.pi / 3
+
+    return fig
+
+def tweak_figure_bar(fig: figure, ptype: Optional[str] = None, show_yticks: bool = False,
+                     max_lbl_len: int = 15, ) -> None:
+    fig.axis.major_label_text_font_size = "9pt"
+    fig.title.text_font_size = "10pt"
+    fig.axis.minor_tick_line_color = "white"
+    if ptype in ["pie", "qq", "heatmap"]:
+        fig.ygrid.grid_line_color = None
+    if ptype in ["bar", "pie", "hist", "kde", "qq", "heatmap", "line"]:
+        fig.xgrid.grid_line_color = None
+    if ptype in ["bar", "hist", "line"] and not show_yticks:
+        fig.ygrid.grid_line_color = None
+        fig.yaxis.major_label_text_font_size = "0pt"
+        fig.yaxis.major_tick_line_color = None
+    if ptype in ["bar", "nested", "stacked", "heatmap", "box"]:
+        fig.xaxis.major_label_orientation = np.pi / 3
+        # fig.xaxis.formatter = FuncTickFormatter(
+        #     code="""
+        #     if (tick.length > %d) return tick.substring(0, %d-2) + '...';
+        #     else return tick;
+        # """
+        #          % (max_lbl_len, max_lbl_len)
+        # )
+    if ptype in ["nested", "stacked", "box"]:
+        fig.xgrid.grid_line_color = None
+    if ptype in ["nested", "stacked"]:
+        fig.y_range.start = 0
+        fig.x_range.range_padding = 0.03
+    if ptype in ["line", "boxnum"]:
+        fig.min_border_right = 20
+        fig.xaxis.major_label_standoff = 7
+        fig.xaxis.major_label_orientation = 0
+        fig.xaxis.major_tick_line_color = None
+
+
+def format_ticks(ticks: List[float]) -> List[str]:
+    formatted_ticks = []
+    for tick in ticks:  # format the tick values
+        before, after = f"{tick:e}".split("e")
+        if float(after) > 1e15 or abs(tick) < 1e4:
+            formatted_ticks.append(str(tick))
+            continue
+        mod_exp = int(after) % 3
+        factor = 1 if mod_exp == 0 else 10 if mod_exp == 1 else 100
+        value = np.round(float(before) * factor, len(str(before)))
+        value = int(value) if value.is_integer() else value
+        if abs(tick) >= 1e12:
+            formatted_ticks.append(str(value) + "T")
+        elif abs(tick) >= 1e9:
+            formatted_ticks.append(str(value) + "B")
+        elif abs(tick) >= 1e6:
+            formatted_ticks.append(str(value) + "M")
+        elif abs(tick) >= 1e4:
+            formatted_ticks.append(str(value) + "K")
+
+    return formatted_ticks
+
+def format_values(key: str, value: Any) -> str:
+    if not isinstance(value, (int, float)):
+        # if value is a time
+        return str(value)
+
+    if "Memory" in key:
+        # for memory usage
+        ind = 0
+        unit = dict(enumerate(["B", "KB", "MB", "GB", "TB"], 0))
+        while value > 1024:
+            value /= 1024
+            ind += 1
+        return f"{value:.1f} {unit[ind]}"
+
+    if (value * 10) % 10 == 0:
+        # if value is int but in a float form with 0 at last digit
+        value = int(value)
+        if abs(value) >= 1000000:
+            return f"{value:.5g}"
+    elif abs(value) >= 1000000 or abs(value) < 0.001:
+        value = f"{value:.5g}"
+    elif abs(value) >= 1:
+        # eliminate trailing zeros
+        pre_value = float(f"{value:.4f}")
+        value = int(pre_value) if (pre_value * 10) % 10 == 0 else pre_value
+    elif 0.001 <= abs(value) < 1:
+        value = f"{value:.4g}"
+    else:
+        value = str(value)
+
+    if "%" in key:
+        # for percentage, only use digits before notation sign for extreme small number
+        value = f"{float(value):.1%}"
+    return str(value)
+
+
+def format_cat_stats(
+        stats: Dict[str, Any],
+        len_stats: Dict[str, Any],
+        letter_stats: Dict[str, Any],
+) -> Dict[str, Dict[str, str]]:
+    """
+    Format categorical statistics
+    """
+    ov_stats = {
+        "Approximate Distinct Count": stats["nuniq"],
+        "Approximate Unique (%)": stats["nuniq"] / stats["npres"],
+        "Missing": stats["nrows"] - stats["npres"],
+        "Missing (%)": 1 - stats["npres"] / stats["nrows"],
+        "Memory Size": stats["mem_use"],
+    }
+    sampled_rows = ("1st row", "2nd row", "3rd row", "4th row", "5th row")
+    smpl = dict(zip(sampled_rows, stats["first_rows"]))
+
+    return {
+        "Overview": {k: _format_values(k, v) for k, v in ov_stats.items()},
+        "Length": {k: _format_values(k, v) for k, v in len_stats.items()},
+        "Sample": {k: f"{v[:18]}..." if len(v) > 18 else v for k, v in smpl.items()},
+        "Letter": {k: _format_values(k, v) for k, v in letter_stats.items()},
+    }

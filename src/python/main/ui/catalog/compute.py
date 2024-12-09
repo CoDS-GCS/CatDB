@@ -20,6 +20,6 @@ def compute_statistics(catalog):
     ncols = nbools + nstrings + nfloats + nints
 
     df = pd.DataFrame({'count':[nstrings, nints, nfloats, nbools],
-                         'pct':[nstrings/ncols, nints/ncols, nfloats/ncols, nbools/ncols]},
+                         'pct':[(nstrings/ncols)*100, (nints/ncols) * 100, (nfloats/ncols)*100, (nbools/ncols)*100]},
                         index=["String", "Integer", "Float", "Bool"])
     return df

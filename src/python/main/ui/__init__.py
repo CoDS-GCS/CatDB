@@ -31,7 +31,7 @@ def create_report(
         template = "catalog.html"
     else:
         components = format_report(catalog=None, pipegen=data, cfg=cfg)
-        template = "base.html"
+        template = "pipeline.html"
 
     context = {
         "resources": INLINE.render(),

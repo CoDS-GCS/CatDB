@@ -12,7 +12,6 @@ def compute_results(pipegen):
     try:
         df_errors = pd.read_csv(pipegen["error_output_path"], low_memory=False, encoding='utf-8')
         err_class = df_errors["error_class"].value_counts().keys()
-        df_err_resul = pd.DataFrame(columns=["error_class", "count"])
         error_count = dict()
         for e in err_class:
             count = len(df_errors.loc[df_errors['error_class'] == e])
@@ -42,15 +41,15 @@ def compute_results(pipegen):
     df_cost = df_run_tmp[cost_cols]
     df_cost["Error Tokens"] = df_cost["all_token_count"] - df_cost["prompt_token_count"]
     df_cost = df_cost.rename(columns={"prompt_token_count": "Prompt Tokens"}).reset_index(drop=True)
-    df_cost.index = [i for i in range(1, len(df_cost) + 1)]
+    df_cost.index = [str(i) for i in range(1, len(df_cost) + 1)]
     df_cost = df_cost.drop('all_token_count', axis=1)
 
 
-    df_gen["number_iteration"] = [i for i in range(1, len(df_gen) + 1)]
+    df_gen["number_iteration"] = [str(i) for i in range(1, len(df_gen) + 1)]
     df_gen = df_gen.rename(columns={'time_execution': 'time_verify'}).reset_index(drop=True)
 
-    df_run["number_iteration"] = [i for i in range(1, len(df_run) + 1)]
-    df_performance["number_iteration"] = [i for i in range(1, len(df_performance) + 1)]
+    df_run["number_iteration"] = [str(i) for i in range(1, len(df_run) + 1)]
+    df_performance["number_iteration"] = [str(i) for i in range(1, len(df_performance) + 1)]
 
 
     # all prompts
@@ -91,7 +90,7 @@ def compute_results(pipegen):
                 codes.append(read_text_file_line_by_line(f))
     df_runtime = pd.merge(df_gen, df_run, left_on="number_iteration", right_on='number_iteration', how='left').reset_index(drop=True)
     df_runtime["total_runtime"] = df_runtime["time_total"] + df_runtime["time_execution"]
-    df_runtime = df_runtime.rename(columns={"number_iteration": "index",'time_pipeline_generate': 'Pipeline Generation', 'time_verify': 'Pipeline Verify', 'time_execution':'Pipeline Execution'}).reset_index(drop=True)
+    df_runtime = df_runtime.rename(columns={"number_iteration": "index",'time_pipeline_generate': 'Generation', 'time_verify': 'Verify', 'time_execution':'Execution'}).reset_index(drop=True)
     df_runtime = df_runtime.set_index('index')
 
     res = {
@@ -104,17 +103,17 @@ def compute_results(pipegen):
         "system_prompt": "".join(prompt["system_prompt"]),
         "usr_prompt": "".join(prompt["usr_prompt"]),
         "codes": codes,
-        "performance_auc": pd.DataFrame([_get_data(df_performance["train_auc"], "Train"), _get_data(df_performance["test_auc"], "Test")], index=[0, 1]),
-        "performance_f1_score": pd.DataFrame([_get_data(df_performance["train_f1_score"], "Train"), _get_data(df_performance["test_f1_score"], "Test")], index=[0, 1]),
-        "performance_auc_ovr": pd.DataFrame([_get_data(df_performance["train_auc_ovr"], "Train"), _get_data(df_performance["test_auc_ovr"], "Test")], index=[0, 1]),
+        "performance_auc": pd.DataFrame([_get_data(df_performance["train_auc"], "Train",100), _get_data(df_performance["test_auc"], "Test", 100)], index=[0, 1]),
+        "performance_f1_score": pd.DataFrame([_get_data(df_performance["train_f1_score"], "Train", 100), _get_data(df_performance["test_f1_score"], "Test", 100)], index=[0, 1]),
+        "performance_auc_ovr": pd.DataFrame([_get_data(df_performance["train_auc_ovr"], "Train", 100), _get_data(df_performance["test_auc_ovr"], "Test", 100)], index=[0, 1]),
         "performance_log_loss": pd.DataFrame([_get_data(df_performance["train_log_loss"], "Train"), _get_data(df_performance["test_log_loss"], "Test")], index=[0, 1]),
-        "performance_r_squared": pd.DataFrame([_get_data(df_performance["train_r_squared"], "Train"), _get_data(df_performance["test_r_squared"], "Test")], index=[0, 1]),
+        "performance_r_squared": pd.DataFrame([_get_data(df_performance["train_r_squared"], "Train", 100), _get_data(df_performance["test_r_squared"], "Test", 100)], index=[0, 1]),
         "performance_rmse": pd.DataFrame([_get_data(df_performance["train_rmse"], "Train"), _get_data(df_performance["test_rmse"], "Test")], index=[0, 1]),
     }
     return res
 
 
-def _get_data(series, grp):
+def _get_data(series, grp, ratio=1):
     qmin, q1, q2, q3, qmax = series.quantile([0, 0.25, 0.5, 0.75, 1])
     iqr = q3 - q1
     upper = q3 + 1.5 * iqr
@@ -129,30 +128,30 @@ def _get_data(series, grp):
         outlier = []
     data = {
         "grp": grp,
-        "q1": q1,
-        "q2": q2,
-        "q3": q3,
-        "lw": lower,
-        "uw": upper,
+        "q1": q1 * ratio,
+        "q2": q2 * ratio,
+        "q3": q3 * ratio,
+        "lw": max(lower * ratio, 0),
+        "uw": min(upper* ratio, ratio),
         "otlrs": [outlier],
     }
     return data
 
 
-def _calc_box(srs: dd.Series, qntls: da.Array) -> Dict[str, Any]:
-    # quartiles
-    data = {f"qrtl{i + 1}": qntls.loc[qnt].sum() for i, qnt in enumerate((0.25, 0.5, 0.75))}
-
-    # inter-quartile range
-    iqr = data["qrtl3"] - data["qrtl1"]
-    srs_iqr = srs[srs.between(data["qrtl1"] - 1.5 * iqr, data["qrtl3"] + 1.5 * iqr)]
-    # lower and upper whiskers
-    data["lw"], data["uw"] = srs_iqr.min(), srs_iqr.max()
-
-    # outliers
-    otlrs = srs[~srs.between(data["qrtl1"] - 1.5 * iqr, data["qrtl3"] + 1.5 * iqr)]
-    # randomly sample at most 100 outliers from each partition without replacement
-    smp_otlrs = otlrs.map_partitions(lambda x: x.sample(min(100, x.shape[0])), meta=otlrs)
-    data["otlrs"] = smp_otlrs.values
-
-    return data
+# def _calc_box(srs: dd.Series, qntls: da.Array) -> Dict[str, Any]:
+#     # quartiles
+#     data = {f"qrtl{i + 1}": qntls.loc[qnt].sum() for i, qnt in enumerate((0.25, 0.5, 0.75))}
+#
+#     # inter-quartile range
+#     iqr = data["qrtl3"] - data["qrtl1"]
+#     srs_iqr = srs[srs.between(data["qrtl1"] - 1.5 * iqr, data["qrtl3"] + 1.5 * iqr)]
+#     # lower and upper whiskers
+#     data["lw"], data["uw"] = srs_iqr.min(), srs_iqr.max()
+#
+#     # outliers
+#     otlrs = srs[~srs.between(data["qrtl1"] - 1.5 * iqr, data["qrtl3"] + 1.5 * iqr)]
+#     # randomly sample at most 100 outliers from each partition without replacement
+#     smp_otlrs = otlrs.map_partitions(lambda x: x.sample(min(100, x.shape[0])), meta=otlrs)
+#     data["otlrs"] = smp_otlrs.values
+#
+#     return data

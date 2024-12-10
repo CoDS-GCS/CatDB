@@ -66,11 +66,12 @@
         }
     }
 
+
     function toggleDetails(e) {
         const plotSection = e.parentNode.parentNode.nextElementSibling;
         const displayStyle = window.getComputedStyle(plotSection).display;
         plotSection.style.display = (displayStyle === 'none') ? 'block' : 'none';
-        e.innerText = (e.innerText === 'Show Details') ? 'Hide Details' : 'Show Details';
+        e.innerText = (e.innerText === 'Show Details') ? 'Show Pipeline' : 'Show Pipeline Details';
     }
 
     function showStats(e) {
@@ -201,4 +202,33 @@
         sortBy(document.getElementById("section-sort-by-list"));
     }
 
+    function openPage(pageName, elmnt, color) {
+  // Hide all elements with class="tabcontent" by default */
+  var i, tabcontent, tablinks;
+  tabcontent = document.getElementsByClassName("tabcontent");
+  for (i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+  }
+
+  // Remove the background color of all tablinks/buttons
+  tablinks = document.getElementsByClassName("tablink");
+  for (i = 0; i < tablinks.length; i++) {
+    tablinks[i].style.color = "";
+    tablinks[i].style.borderBottom = "none";
+  }
+
+  // Show the specific tab content
+  document.getElementById(pageName).style.display = "block";
+
+  // Add the specific color to the button used to open the tab content
+  // elmnt.style.backgroundColor = color;
+  elmnt.style.color = color;
+  elmnt.style.borderBottomColor = color
+  elmnt.style.borderBottom = 'solid'
+
+}
+
+// Get the element with id="defaultOpen" and click on it
+document.getElementById("defaultOpen").click();
+document.getElementById("defaultOpenprompt").click();
 </script>

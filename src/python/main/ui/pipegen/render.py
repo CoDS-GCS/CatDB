@@ -89,6 +89,9 @@ def render_pipegen(pipegen, cfg: Config) -> Dict[str, Any]:
         "cost": {"fig": components(fig_cost), "title": "Pipeline Cost"},
         "has_error": has_error,
         "error": {"fig": error_result, "title": "Pipeline Error"},
+        "codes": comp_res["codes"],
+        "system_prompt": comp_res["system_prompt"],
+        "usr_prompt":comp_res["usr_prompt"]
     }
 
     return res
@@ -157,7 +160,7 @@ def render_bar_runtime_chart(max_time: int, df, yscale: str, plot_width: int, pl
     colors = ["#FFCC85FF", CATEGORY20[0], "red"]
     fig = figure(
         x_range=list(df.index),
-        y_range=[0, max_time],
+        #y_range=[0, max_time],
         width=plot_width,
         height=plot_height,
         y_axis_type=yscale,

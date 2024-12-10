@@ -6,16 +6,50 @@
   <title> CatDB: Generate Pipeline Report </title>
   {% include 'scripts.html' %}
   {% include 'styles.html' %}
+  {% include 'xcodecss.html' %}
+  {% include 'cssjs.html' %}
+  {% include 'highlightjs.html' %}
+  {% include 'pythonjs.html' %}
+    <script>hljs.highlightAll();</script>
+
 </head>
 
 <body class="bg-container">
    <div class="container-main" style="max-width: 100%">
-    <div style="padding-left: 1.5rem">
-      <h1 class="tb-title" style="max-width: 100%; font-weight: 800; padding-top: 20px; font-size: 1.05rem;">
-        <span style="border-radius: 30rem !important; background-color: #ffefca;  padding: 5px; padding-left: 10px; padding-right: 10px; border-color: #ffcc85; border-style: solid; border-width: 1px; color: #bc3803">Generate Pipeline Report</span>
-      </h1>
-    </div>
-     <div style="padding-top: 30px; padding-left: 1.5rem; width: 100%; text-align: center">
+       <!-- ----------------------------->
+       <div style="padding-top: 30px;">
+           <button class="tablink" onclick="openPage('Home', this, '#bc3803')" id="defaultOpen">Pipeline Analytics Report</button>
+           <button class="tablink" onclick="openPage('sysprompt', this, '#bc3803')" >System Prompt</button>
+           <button class="tablink" onclick="openPage('usrprompt', this, '#bc3803')" >Catalog Data</button>
+           {% for itr in context.components.pipegen['codes'] %}
+           <button class="tablink" onclick="openPage('itr{{loop.index}}', this, '#bc3803')" >SRC #{{loop.index}}</button>
+           {% endfor %}
+       </div>
+
+        <div class="tabcontent" style="width: 100%" id="sysprompt">
+            <textarea style="width: 100%; min-height: 600px" class="numbered">
+            {{ context.components.pipegen['system_prompt']}}
+            </textarea>
+        </div>
+
+       <div class="tabcontent" style="width: 100%" id="usrprompt">
+            <textarea style="width: 100%; min-height: 600px" class="numbered">
+            {{ context.components.pipegen['usr_prompt']}}
+            </textarea>
+        </div>
+
+       {% for itr in context.components.pipegen['codes'] %}
+        <div class="tabcontent" style="width: 100%" id="itr{{loop.index}}">
+             <pre >
+             <code class="python" style="min-height: 600px">
+             {{ itr }}
+             </code>
+             </pre>
+        </div>
+       {% endfor %}
+
+       <!-- ----------------------------->
+     <div class="tabcontent" style="padding-left: 1.5rem; width: 100%; text-align: center; " id="Home">
          <table>
              <tr>
                  <td>

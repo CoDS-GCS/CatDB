@@ -60,7 +60,7 @@ def compute_results(pipegen):
         f = f'{pipegen["output_path"]}/{f}'
         if f.endswith("Random-0-SHOT-No-iteration-1.prompt") and file_prompt is None:
             file_prompt = f
-        elif f.endswith("_RUN.py"):
+        elif f.endswith("-RUN.py"):
             run_files.append(f)
 
     try:
@@ -87,12 +87,10 @@ def compute_results(pipegen):
     for i in range(1, 100):
         for f in run_files:
             if f.endswith(f'Random-0-SHOT-No-iteration-{i}-RUN.py'):
-                codes.append(read_text_file_line_by_line(f))
+                codes.append("\n"+read_text_file_line_by_line(f))
     df_runtime = pd.merge(df_gen, df_run, left_on="number_iteration", right_on='number_iteration', how='left').reset_index(drop=True)
-    df_runtime["total_runtime"] = df_runtime["time_total"] + df_runtime["time_execution"]
     df_runtime = df_runtime.rename(columns={"number_iteration": "index",'time_pipeline_generate': 'Generation', 'time_verify': 'Verify', 'time_execution':'Execution'}).reset_index(drop=True)
     df_runtime = df_runtime.set_index('index')
-
     res = {
         "df_runtime": df_runtime,
         "df_gen": df_gen,
@@ -100,8 +98,8 @@ def compute_results(pipegen):
         "df_performance": df_performance,
         "df_cost": df_cost,
         "df_error": df_err_resul,
-        "system_prompt": "".join(prompt["system_prompt"]),
-        "usr_prompt": "".join(prompt["usr_prompt"]),
+        "system_prompt": "\n"+"".join(prompt["system_prompt"]),
+        "usr_prompt": "\n"+"".join(prompt["usr_prompt"]),
         "codes": codes,
         "performance_auc": pd.DataFrame([_get_data(df_performance["train_auc"], "Train",100), _get_data(df_performance["test_auc"], "Test", 100)], index=[0, 1]),
         "performance_f1_score": pd.DataFrame([_get_data(df_performance["train_f1_score"], "Train", 100), _get_data(df_performance["test_f1_score"], "Test", 100)], index=[0, 1]),

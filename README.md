@@ -1,104 +1,62 @@
-# CatDB: Data-catalog-guided, LLM-based Generation of Data-centric ML Pipelines
-
-![Overview](images/workflow.png)
-
-**Overview:** CatDB a comprehensive, LLM-guided generator of data-centric ML pipelines that utilizes available data catalog information. We incorporate data profiling information and user descriptions into a chain of LLM prompts for data cleaning/augmentation, feature engineering, and model selection. Additionally, we devise a robust framework for managing the LLM interactions and handling errors through pipeline modifications and a knowledge base of error scenarios.
+## Data Profiling
 
 
-Resource        | Links
-----------------|------
-**Quick Start** | [Install and Quick Start](#Installation)
-**Benchmark:** | [Execute experiments with a range of datasets and compare the results to baselines](https://github.com/CoDS-GCS/CatDB/tree/main/Experiments)
+    A folder containing the different packages and the source files.
+
+   **analysis**: A package containing the sources files dedicated to analyze the tables. By analyzing we mean interpreting (determining the column data-type and profiling creation)
+
+   ​	**interpreter: ** A package responsible for determining the data type of the columns of the loaded table. It contains:
+
+   ​				<u>interpreter.py</u>:  A source file responsible for determining the data type of each column. (either numerical or textual). These types are determined when loading the csv file into a Spark dataframe with passing infer_schema set to true as an argument. This will however, require Spark to internally go over the content.
+
+   ​                                  
+
+   ​	**profile_creator:** A package responsible for creating the profile for each column depending on its datatype. It contains:
+
+   ​                               ***analysers:***  a package containing classes for analysers where each is dedicated for one of the data type the interpreter is capable of determining. It contains:
+
+   ​					<u>i_analyser.py:</u> An interface for all the analysers per data-type
+
+   ​					<u>numerical_analyser.py:</u> A source file used to collect statistics about the the numerical columns. The collection of the statistics depends on the built_in function of the Spark DF, summary(). However, some statistics like the number_of_missing_values and the number_of_distinct_values are calculated using  the Resilient Distributed Datasets (RDD) data structure. 
+
+   ​					<u>textual_analyser.py:</u> A source file used to collect statistics and embedding about the textual columns. We use RDD to get the distinct and missing values of per column. In addition, we determine a minHash for each column with size 512. To compute the minhash, we use the library datasketch.
+
+   ​				<u>profile_creator.py</u>: A source file that uses the analysers to create data profiles.                   
+
+   ​	<u>utils.py</u>: utility functions used across the source files in the package.
+
+   ​
+
+   **data:** A package containing the data structures to be used in addition to the functionalities to parse the config.yml file. it contains:
+
+   ​	**tables:** A package containing the classes of the data structures used to handle the tables extracted from the datasets.  For each table type (csv, json,..) there should exist a class dedicated to parsing the file.  It contains:
+
+   ​		<u>i_table.py</u>: An interface for the classes used to handle a table based on its type.
+
+   ​		<u>csv_table.py:</u>  A class responsible for storing the information of csv files extracted from the datasets mentionedin the config.yml file. It retains the information about the path, dataset name, table name, and origin.
+
+   ​	**utils**: A package containing the different common functionalities used in the parent package. It contains:
+
+   ​		<u>file_type.py:</u> An enum dedicated to specify the file types to be considered for parsing. 
+
+   ​		<u>yaml_parser.py</u> A source file used to parse the config.yaml file.
+
+    	<u>data_profile.py:</u> A class that encapsulates the profile to be stored on the document database.
+
+   ​	<u>raw_data.py</u> A class that encapsulates the column values to be stored on the document database.
+
+   **orchesteation**: A package containing functionalities coordinate the different components of the profiler. It contains:
+
+   ​	<u>orchestrator.py:</u> A class responsible for firing up elasticsearch, extracting the tables from the datasets specified in the config.yml file, and passing them to the worker thread to be processed.
+
+   ​	<u>utils.py:</u> A souce file containing common functionalities like extracting teh tables from the specified datasets and getting the types.
+
+   ​	<u>worker.py:</u> A class that implements thread. Each worker is responsible of handling the table handed by the orchestrator. handling a table means, interpret the columns, profile, and then store them on the document database.
 
 
-## Installation
-* Clone CatDB Repository:
-    ```
-    git clone https://github.com/CoDS-GCS/CatDB.git
-    ```
-* Install Requirenments:
-    ```
-    cd CatDB/src/python/main
-    python -m venv venv
-    source venv/bin/activate 
-    python -m pip install -r requirements.txt
-    ```
-## Configuration
-- **API Configuration:** CatDB utilizes commercial and free online API services:
-    - [OpenAI GPT](https://platform.openai.com/) (Commerical)
-    - [Google Gemini](https://aistudio.google.com/) (Commerical and free for limited requestes)
-    - [Groq Llama3](https://console.groq.com) (Commerical and free for limited requestes)
-    
-    After registering and obtaining your API keys, you'll need to: 
-    1. Create a `.yaml` configuration file: Use the provided template to store your API keys.
-        ```
-            ---
 
-            - llm_platform: OpenAI
-            key_1: 'put OpenAI key 1 here.'
-            key_2: 'put OpenAI key 2 here.'
-            ....
-            key_10: 'put OpenAI key 10 here.'
+​	<u>main.py:</u> Used to run the profiler. You can specify the number of thread to run here by passing the number in the process_tables as argument. In addition, you need to specify the the path to the config.yml fiule in the create_tables function. By default, the file is under profiler/src/config/.
 
-            - llm_platform: Meta
-            key_1: 'put Groq key 1 here.'
+​	<u>utils.py:</u> Containing the function that generates an id for the column based on the dataset, table, and file names. 
 
-            - llm_platform: Google
-            key_1 : 'put Gemini key 1 here.'
-        ```
-    2. Set the configuration file path: Specify the path to your config file in your operating system's environment variables.
-        ```
-        export APIKeys_File=path/to/.yaml/config/file
-        ```
-
-    
-    You can add up to 10 keys for each platform to your configuration file.
-
-- **Model Configuration:** CatDB supports a diverse list of models, including: *GPT (4.0, 4-turbo)*, *Gemini (1.5-pro-latest, 1.5-pro-exp-0801, 1.5-pro-exp-0827)*, and 
-*Llama (llama-3.1-70b-versatile, llama3-70b-8192)*. This list is not exhaustive. If you need to add a new model or update existing model settings (e.g., `temperature`, `token_limit`, ...), simply modify the `Config.yaml` (`src/python/main/Config.yaml`) file.     
-    
-### Data Catalog and Prepare Data
-* **Data Ctalog:** CatDB utilizes [kglids](https://github.com/CoDS-GCS/kglids) data profiling outputs. We need to run data profiling on each dataset individually and store the outputs. (A list of example data profiling outputs can be found in the Experiments subdirectory.)
-* **Prepare Data:** CatDB requires specifying the dataset splits (`Train`, `Verify`, and `Test`) and the task type (`binary`, `multiclass`, or `regression`) along with the target attribute. All this metadata should be provided in a `.yaml` file. Here's a template for the metadata file:
-
-    ```
-    --- 
- 
-    - name: dataset_name
-    dataset:
-        multi_table: True/False
-        train: 'dataset_name_train.csv' # Path to train dataset
-        test: 'dataset_name_test.csv' # Path to test dataset
-        verify: 'dataset_name_verify.csv' # Path to verify dataset
-        target_table: target_table_name # If you have a single-table dataset, use the same name as the dataset name.
-        target: 'target_col_name' # Target feature name
-        type: multiclass # Task type
-    ```
-**Note:** The suffixes `_train.csv`, `_test.csv`, and `_verify.csv` are mandatory.
-
-## Run CatDB
-* Run CatDB to Generating ML Pipeline:
-    ```
-    python main.py \
-        --llm-model \ 
-        --metadata-path \
-        --root-data-path \
-        --catalog-path \
-        --prompt-representation-type \
-        --prompt-number-iteration \
-        --prompt-number-iteration-error \
-        --output-path \
-        --result-output-path \
-        --error-output-path
-    ```
-
-Description of Parameters:
-- *--llm-model:* An LLM model name. For example, `--llm-model gpt-4o`
-- *--metadata-path:* Path to the file created in the data preparation subsection. For example, `--metadata-path /tmp/datasets/dataset1.yaml`
-- *--root-data-path:* Path to the root directory of the split datasets. For example, `--root-data-path /tmp/datasets`
-- *--catalog-path:* Path to the data catalog files outputted by the data profiling section. For example, `--catalog-path /tmp/datasets/dataset1-catalog/`
-- *--prompt-representation-type:* Specifies the prompt construction method: `CatDB` or `CatDBChain`
-- *--prompt-number-iteration-error:* Sets the number of iterations the system can use the LLM to fix errors in the generated pipeline. For example, `--prompt-number-iteration-error 10`
-- *--output-path:* Path to the system output. The output includes the constructed prompt and the generated pipeline. For example, `--output-path /tmp/catdb-results`
-- *--result-output-path:* Path to the output of the generated pipeline. It includes metric results, execution time, LLM latency, and system cost (token count). For example, `/tmp/dataset1-results.csv`
-- *--error-output-path:* Path to the error log. Errors are classified by type, materialized by dataset name, and include the full error message and pipeline information. For example, `--error-output-path /tmp/catdb-errors.csv`
+3. **tests:** Contains tests about the different functionalities in the different packages under src/

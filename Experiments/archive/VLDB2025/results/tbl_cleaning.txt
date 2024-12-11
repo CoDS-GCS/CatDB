@@ -1,7 +1,0 @@
-dataset_nameMetricSelected_MethodCatDBM_train_aucCatDBM_test_aucCatDB_train_aucCatDB_test_aucCAAFETabPFN_train_aucCAAFETabPFN_test_aucCAAFERandomForest_train_aucCAAFERandomForest_test_aucH2O_train_aucH2O_test_aucFlaml_train_aucFlaml_test_aucAutogluon_train_aucAutogluon_test_auc
-EU-IT & ACC  & CatDB & \textbf{100.0}& 39.2& \textbf{100.0}& \textbf{91.8}& 0.11& -- & 0.11& -- & -- & -- & -- & -- & 90.59& 44.8 \\ \chline
-WiFi & AUC  & CatDB & \textbf{100.0}& \textbf{100.0}& \textbf{100.0}& \textbf{100.0}& \textbf{100.0}& 56.56& 79.8& 61.53& 84.34& 61.08& 84.97& 73.75& 90.62& 61.08 \\ \chline
-Etailing & AUC-ovr  & CatDB & \textbf{100.0}& 68.57& \textbf{100.0}& \textbf{99.99}& 99.8& 71.04& 79.63& 69.93& \textbf{100.0}& 53.13& 79.4& 64.99& 96.95& 67.76 \\ \chline
-Midwest-Survey & AUC-ovr  & CatDB & \textbf{100.0}& 92.2& \textbf{100.0}& 97.12& 99.55& 97.74& 88.55& 88.56& 84.92& 84.33& 98.82& \textbf{98.13}& 99.29& 93.46 \\ \chline
-Utility & $R^2$  & CatDB & 99.89& 98.82& 99.88& 98.82& -- & -- & -- & -- & -- & -- & \textbf{99.97}& 99.02& 99.96& \textbf{99.56} \\ \chline
-Yelp & AUC-ovr  & CatDBChain & 99.98& 66.85& \textbf{99.99}& \textbf{98.26}& -- & -- & 65.86& 65.54& 92.52& 77.23& 85.52& 76.74& 84.47& 81.94 \\ \chline

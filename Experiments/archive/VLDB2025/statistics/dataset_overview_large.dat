@@ -1,7 +1,0 @@
-dataset_name,number_bool,number_int,number_float,number_string
-Nomao,0,30,89,0
-Financial,0,35,7,15
-Airline,2,63,0,49
-Gas-Drift,0,1,128,0
-Volkert,0,34,147,0
-Yelp,1,178,4,10

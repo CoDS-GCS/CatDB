@@ -1,6 +1,0 @@
-xgboost==2.0.3
-flaml[automl]
-psutil
-PyYAML==6.0.1
-pandas
-nltk==3.6.1

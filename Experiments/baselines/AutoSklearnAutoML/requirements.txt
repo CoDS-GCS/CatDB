@@ -1,2 +1,0 @@
-auto_sklearn==0.15.0
-scikit_learn==0.24.2

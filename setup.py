@@ -37,9 +37,7 @@ setup(
         "pyspark==3.5.3",
         "spacy",
         "torch>=2.5.1",
-        "tqdm>=4.67.1",
-        "findspark",
-        "py4j"
+        "tqdm>=4.67.1"
     ],
     package_data={
         "dataprofiling": ["column_embeddings/pretrained_models/date/*.pt", 

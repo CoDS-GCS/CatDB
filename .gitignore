@@ -1,3 +1,13 @@
 build/*
+.venv/*
 dataprofiling/.idea/*
 dataprofiling.egg-info/*
+.venv/*/*
+dataprofiling/__pycache__/*
+dataprofiling/column_embeddings/__pycache__/*
+dataprofiling/fasttext_embeddings/__pycache__/*
+dataprofiling/model/__pycache__/*
+dataprofiling/profile_creators/__pycache__/*
+dataprofiling/fasttext_embeddings/cc.en.50.bin
+cc.en.300.bin.gz
+cc.en.300.bin

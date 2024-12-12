@@ -1,6 +1,6 @@
 import os
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'  # set tensorflow log level to FATAL
-
+from os.path import dirname
 import pandas as pd
 import torch
 
@@ -20,9 +20,9 @@ class StringProfileCreator(TextualProfileCreator):
 
         # set the data type and load the embedding models
         self.data_type = ColumnDataType.STRING
-
-        embedding_model_path = 'column_embeddings/pretrained_models/string/20230111150300_string_model_embedding_epoch_100.pt'
-        scaling_model_path = 'column_embeddings/pretrained_models/string/20230111150300_string_model_scaling_epoch_100.pt'
+        PATH = dirname(__file__).replace("/profile_creators", "")
+        embedding_model_path = f'{PATH}/column_embeddings/pretrained_models/string/20230111150300_string_model_embedding_epoch_100.pt'
+        scaling_model_path = f'{PATH}/column_embeddings/pretrained_models/string/20230111150300_string_model_scaling_epoch_100.pt'
 
         self.embedding_model = load_pretrained_model(StringEmbeddingModel, embedding_model_path)
         self.scaling_model = load_pretrained_model(StringScalingModel, scaling_model_path)

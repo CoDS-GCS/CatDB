@@ -2,6 +2,8 @@ import os
 import random
 import json
 import string
+from typing import List
+
 from .column_data_type import ColumnDataType
 
 
@@ -71,9 +73,9 @@ class ColumnProfile:
         profile_save_path = os.path.join(column_profile_base_dir, self.get_data_type())
         os.makedirs(profile_save_path, exist_ok=True)
         # random generated name of length 10 to avoid synchronization between threads and profile name collision
-        profile_name = ''.join(random.choices(string.ascii_letters + string.digits, k=10))  
+        profile_name = ''.join(random.choices(string.ascii_letters + string.digits, k=10))
         with open(os.path.join(profile_save_path, f'{profile_name}.json'), 'w') as f:
-            json.dump(self.to_dict(), f, ensure_ascii=False, indent=4)
+            json.dump(self.to_dict(), f, ensure_ascii=False, indent=4, skipkeys=False)
 
     @staticmethod
     def load_profile(column_profile_path):
@@ -176,7 +178,10 @@ class ColumnProfile:
         return self.missing_values_count
 
     def get_true_ratio(self) -> float:
-        return self.true_ratio
+        if self.true_ratio is None:
+            return 0
+        else:
+            return self.true_ratio
 
     def get_min_value(self) -> float:
         return self.min_value
@@ -262,7 +267,7 @@ class ColumnProfile:
     def set_samples(self, samples: list):
         self.samples = samples
 
-    def get_category_values(self) -> list:
+    def get_category_values(self) -> None | list[int] | list[float] | list:
         if self.category_values is None:
             return None
 
@@ -275,9 +280,12 @@ class ColumnProfile:
         return self.category_values
 
     def get_category_values_ratio(self) -> dict:
-        return self.category_values_ratio
+        result = dict()
+        for k in self.category_values_ratio.keys():
+            result[f'{k}'] = self.category_values_ratio[k]
+        return result
 
-    def get_samples(self) -> list:
+    def get_samples(self) -> None | list[int] | list[float] | list:
         if self.samples is None:
             return None
 
@@ -293,4 +301,4 @@ class ColumnProfile:
         self.nrows = nrows
 
     def get_nrows(self) -> int:
-        return self.nrows
+        return int(self.nrows)

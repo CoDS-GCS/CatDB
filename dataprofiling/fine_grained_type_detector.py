@@ -2,7 +2,7 @@ import warnings
 warnings.simplefilter('ignore')
 import os
 from pathlib import Path
-from fasttext_embeddings import download_model
+from fasttext_embeddings import extract_model
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'  # set tensorflow log level to FATAL
 
 
@@ -18,7 +18,8 @@ from model.column_data_type import ColumnDataType
 
 
 class FineGrainedColumnTypeDetector:
-    download_model()
+    # download_model()
+    extract_model()
     try:
         ner_model = spacy.load('en_core_web_sm')
     except:

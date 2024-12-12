@@ -18,7 +18,6 @@ PACKAGE_PATH = dirname(__file__)
 if PACKAGE_PATH not in sys.path:
     sys.path.append(PACKAGE_PATH)
 
-
 from fine_grained_type_detector import FineGrainedColumnTypeDetector
 from fine_grained_category_detector import FineGrainedColumnCategoryDetector
 from profile_creators.profile_creator import ProfileCreator
@@ -27,8 +26,26 @@ from config import profiler_config, DataSource
 from model.column_data_type import ColumnDataType
 
 
-def profile_data(name: str = None, path: str = None, cfg: dict() = None, categorical_ratio: float = 0.05,
-                n_workers: int = -1, max_memory:float=-1):
+def install_Spark():
+    import os
+    import pyspark
+    check_spark_set = os.environ.get("SPARK_HOME")
+    if check_spark_set is None:
+        from os.path import dirname
+        import urllib.request
+        spark_version = pyspark.__version__
+        path = f'{PACKAGE_PATH}/SPARK-{spark_version}'
+        url = f"https://dlcdn.apache.org/spark/spark-{spark_version}/spark-{spark_version}-bin-hadoop3.tgz"
+        with urllib.request.urlopen(url) as f:
+            html = f.read().decode('utf-8')
+            print(html)
+    #os.environ["SPARK_HOME"] = "/home/saeed/Apps/spark-3.5.3-bin-hadoop3/"
+    print(check_spark_set)
+
+
+def build_catalog(name: str = None, path: str = None, cfg: dict() = None, categorical_ratio: float = 0.05,
+                  n_workers: int = -1, max_memory: float = -1):
+    install_Spark()
     if name and path:
         extra_source = DataSource(name=name, path=path)
         profiler_config.data_sources.append(extra_source)
@@ -38,7 +55,7 @@ def profile_data(name: str = None, path: str = None, cfg: dict() = None, categor
         profiler_config.max_memory = max_memory
     else:
         profiler_config.max_memory = 1
-    if n_workers !=-1:
+    if n_workers != -1:
         profiler_config.n_workers = n_workers
     else:
         profiler_config.n_workers = os.cpu_count()
@@ -51,7 +68,7 @@ def profile_data(name: str = None, path: str = None, cfg: dict() = None, categor
                              .set('spark.driver.memory', f'{profiler_config.max_memory}g'))
     else:
 
-        spark = SparkSession.builder.appName("KGLiDSProfiler").getOrCreate().sparkContext
+        spark = SparkSession.builder.appName("CatDBDataProfiler").getOrCreate().sparkContext
         # add python dependencies
         for pyfile in glob.glob('./**/*.py', recursive=True):
             spark.addPyFile(pyfile)
@@ -107,6 +124,7 @@ def profile_data(name: str = None, path: str = None, cfg: dict() = None, categor
 
     print(datetime.now(), f': {len(columns_and_tables)} columns profiled and saved to {profiler_config.output_path}')
     print(datetime.now(), ': Total time to profile: ', datetime.now() - start_time)
+    spark.s
 
 
 def column_worker(column_name_and_table):
@@ -115,7 +133,8 @@ def column_worker(column_name_and_table):
     try:
         try:
 
-            column = pd.read_csv(table.get_table_path(), usecols=[column_name], na_values=[' ', '?', '-']).squeeze("columns")
+            column = pd.read_csv(table.get_table_path(), usecols=[column_name], na_values=[' ', '?', '-']).squeeze(
+                "columns")
         except:
             column = pd.read_csv(table.get_table_path(), usecols=[column_name], na_values=[' ', '?', '-'],
                                  engine='python', encoding_errors='replace').squeeze("columns")
@@ -146,6 +165,4 @@ def column_worker(column_name_and_table):
     column_profile.save_profile(out_path)
 
 
-__all__ = [
-    "profile_data"
-]
+__all__ = ["build_catalog"]

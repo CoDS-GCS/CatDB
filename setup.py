@@ -1,7 +1,5 @@
 from setuptools import setup, find_packages
-import os
-from os.path import dirname
-import shutil
+
 
 setup(
     name="dataprofiling",
@@ -23,8 +21,6 @@ setup(
         "Programming Language :: Python :: 3.11",
         "Programming Language :: Python :: 3.12"
     ],
-
-
     python_requires=">=3.10",    
     install_requires=[
         "bitstring>=3.1.9",
@@ -37,7 +33,8 @@ setup(
         "pyspark==3.5.3",
         "spacy",
         "torch>=2.5.1",
-        "tqdm>=4.67.1"
+        "tqdm>=4.67.1",
+        "filesplit"
     ],
     package_data={
         "dataprofiling": ["column_embeddings/pretrained_models/date/*.pt", 
@@ -47,12 +44,13 @@ setup(
                           "column_embeddings/pretrained_models/numerical/*.pt",
                           "column_embeddings/pretrained_models/float/*.pt",
                           "column_embeddings/pretrained_models/natural_language_text/*.pt",
-                          "column_embeddings/pretrained_models/string/*.pt"]
+                          "column_embeddings/pretrained_models/string/*.pt",
+                          "fasttext_embeddings/zip/*.zip"]
     },
     zip_safe=False,
     # entry_points={
     #     "console_scripts": [
-    #         "catdb=catdb.main:main",
+    #         "dataprofiling=dataprofiling.main:main",
     #     ]
     # }
 )

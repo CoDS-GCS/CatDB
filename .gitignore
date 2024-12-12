@@ -11,3 +11,4 @@ dataprofiling/profile_creators/__pycache__/*
 dataprofiling/fasttext_embeddings/cc.en.50.bin
 cc.en.300.bin.gz
 cc.en.300.bin
+dataprofiling/fasttext_embeddings/cc.en.300.bin.zip

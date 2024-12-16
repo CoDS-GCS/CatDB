@@ -1,11 +1,10 @@
 import os
 from os.path import dirname
 
+
 def download_model():
     import fasttext.util
     fasttext.util.download_model('en', if_exists='ignore')
-    import fasttext
-    import fasttext.util
     module_path = dirname(__file__)
     fname = f"{module_path}/cc.en.50.bin"
     if not os.path.exists(fname):

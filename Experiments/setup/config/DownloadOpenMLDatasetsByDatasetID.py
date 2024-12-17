@@ -26,7 +26,7 @@ if __name__ == '__main__':
     
     datasetIDs = [  #(11,"Balance-Scale","multiclass",1),
                     #(15,"Breast-w","binary",2),
-                    #(23,"CMC","multiclass",3),
+                    (23,"CMC","multiclass",3),
                     #(31,"Credit-g","binary",4),
                     #37,"Diabetes","binary",5),
                     #(50,"Tic-Tac-Toe","binary",6),                  
@@ -45,9 +45,9 @@ if __name__ == '__main__':
                     #(1476,"Gas-Drift","multiclass",34),
                     #(41166,"Volkert","multiclass",35),
 
-                    (42438,"Titanic","binary",36),
-                    (45068,"Adult","binary",37),
-                    (42031,"Iris","multiclass",38),
+                    # (42438,"Titanic","binary",36),
+                    # (45068,"Adult","binary",37),
+                    # (42031,"Iris","multiclass",38),
                 ]
    
     dataset_list =  pd.DataFrame(columns=["Row","ID","dataset_name", "orig_name","nrows","ncols","nclasses","target"])
@@ -77,9 +77,9 @@ if __name__ == '__main__':
         # save_config(dataset_name=dataset_out_name, target=target_attribute, task_type=task_type, data_out_path=args.data_out_path, setting_out_path=args.setting_out_path)
 
         # Rename cols and dataset name, then split and save it
-        # dataset_out_name = f"oml_dataset_{dataset_index}_rnc"
-        # target_attribute, nrows, ncols, number_classes = rename_col_names(data=data, ds_name=dataset_out_name, target_attribute=target_attribute, out_path=args.data_out_path)
-        # save_config(dataset_name=dataset_out_name, target=target_attribute, task_type=task_type, data_out_path=args.data_out_path, description=dataset_description) 
+        dataset_out_name = f"oml_dataset_{dataset_index}_rnc"
+        target_attribute, nrows, ncols, number_classes = rename_col_names(data=data, ds_name=dataset_out_name, target_attribute=target_attribute, out_path=args.data_out_path)
+        save_config(dataset_name=dataset_out_name, target=target_attribute, task_type=task_type, data_out_path=args.data_out_path, description=dataset_description) 
 
         dataset_list.loc[len(dataset_list)] = [dataset_index, dataset_id, dataset_out_name, dataset_name, nrows, ncols, number_classes, target_attribute]
         dataset_list.to_csv(f"{args.data_out_path}/dataset_list.csv") 

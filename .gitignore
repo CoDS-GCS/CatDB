@@ -40,14 +40,6 @@ Experiments/baselines/.idea/*
 Experiments/setup/automlbenchmark
 Experiments/setup/automlbenchmark
 Experiments/setup/config/MergeResults/__pycache__/MergeResults.cpython-310.pyc
-Experiments/archive/SIGMOD2025-Results/server-16/Error/LLM_Pipe_Error_1.csv
-Experiments/archive/SIGMOD2025-Results/server-16/Error/LLM_Pipe_Error_2.dat
-Experiments/archive/SIGMOD2025-Results/server-35/Error/LLM_Pipe_Error_1.dat
-Experiments/archive/SIGMOD2025-Results/server-35/Error/LLM_Pipe_Error_2.dat
-Experiments/archive/SIGMOD2025-Results/server-65/Error/LLM_Pipe_Error_1.dat
-Experiments/archive/SIGMOD2025-Results/server-65/Error/LLM_Pipe_Error_2.dat
-Experiments/archive/SIGMOD2025-Results/server-65/Error/LLM_Pipe_Error_3.dat
-Experiments/archive/SIGMOD2025-Results/server-113/Error/LLM_Pipe_Error_1.dat
 Experiments/metadata/*
 Experiments/tmprepo/*
 envCatDB/*
@@ -58,3 +50,5 @@ build/lib/*
 src/catdb/*
 src/catdb.egg-info/*
 src/.idea/*
+Experiments/data/SELA/*
+Experiments/data/oml_dataset_3_rnc/*

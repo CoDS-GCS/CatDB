@@ -3,41 +3,42 @@
 root_path="$(pwd)"
 data_path="${root_path}/data"
 data_out_path="${root_path}/data"
+sela_data_out_path="${root_path}/data/SELA"
 config_path="${root_path}/setup/config"
 catalog_path="${root_path}/catalog"
 
 #declare -a dataset_list=("Midwest-Survey" "WiFi" "Utility" "EU-IT" "Etailing" "Accidents" "Airline" "Financial" "IMDB-IJS" "Yelp" "EtoE-data/part-1" "EtoE-data/part-2" "EtoE-data/part-3")
-declare -a dataset_list=("EtoE-data/part-1" "EtoE-data/part-2" "EtoE-data/part-3")
+# declare -a dataset_list=("EtoE-data/part-1" "EtoE-data/part-2" "EtoE-data/part-3")
 
 
-rm -rf ${catalog_path}
-unzip "${catalog_path}.zip"
+# rm -rf ${catalog_path}
+# unzip "${catalog_path}.zip"
 
-rm -rf "${data_path}/part-1"
-rm -rf "${data_path}/part-2"
-rm -rf "${data_path}/part-3"
+# rm -rf "${data_path}/part-1"
+# rm -rf "${data_path}/part-2"
+# rm -rf "${data_path}/part-3"
 
-for ds in "${dataset_list[@]}"; do
-        rm -rf "${data_path}/${ds}" # clean-up dataset
-        unzip "${data_path}/${ds}.zip" -d "${data_path}/"
-done
+# for ds in "${dataset_list[@]}"; do
+#         rm -rf "${data_path}/${ds}" # clean-up dataset
+#         unzip "${data_path}/${ds}.zip" -d "${data_path}/"
+# done
 
-mv ${data_path}/part-1/* "${data_path}/"
-mv ${data_path}/part-2/* "${data_path}/"
-mv ${data_path}/part-3/* "${data_path}/"
+# mv ${data_path}/part-1/* "${data_path}/"
+# mv ${data_path}/part-2/* "${data_path}/"
+# mv ${data_path}/part-3/* "${data_path}/"
 
-rm -rf "${data_path}/part-1"
-rm -rf "${data_path}/part-2"
-rm -rf "${data_path}/part-3"
+# rm -rf "${data_path}/part-1"
+# rm -rf "${data_path}/part-2"
+# rm -rf "${data_path}/part-3"
 
 
-cd ${config_path}
-source venv/bin/activate
+# cd ${config_path}
+# source venv/bin/activate
 
-CMD="python DatasetPrepare.py --dataset-root-path ${data_path} \
-        --multi-table True \
-        --data-out-path ${data_out_path} \
-        --catalog-root-path ${catalog_path}"
+# CMD="python DatasetPrepare.py --dataset-root-path ${data_path} \
+#         --multi-table True \
+#         --data-out-path ${data_out_path} \
+#         --catalog-root-path ${catalog_path}"
 
  
 # $CMD --dataset-name Accidents --target-attribute klas_nesreca --task-type multiclass --target-table nesreca --mtos True
@@ -53,40 +54,64 @@ CMD="python DatasetPrepare.py --dataset-root-path ${data_path} \
 # $CMD --dataset-name Etailing --target-attribute 'What is the maximum cart value you ever shopped?' --task-type multiclass --multi-table False
 
 
-$CMD --dataset-name Volkert-out-0.01-np-0-nc-0-mv-0 --target-attribute class --task-type multiclass --multi-table False 
-$CMD --dataset-name Volkert-out-0.02-np-0-nc-0-mv-0 --target-attribute class --task-type multiclass --multi-table False
-$CMD --dataset-name Volkert-out-0.03-np-0-nc-0-mv-0 --target-attribute class --task-type multiclass --multi-table False
-$CMD --dataset-name Volkert-out-0.04-np-0-nc-0-mv-0 --target-attribute class --task-type multiclass --multi-table False
-$CMD --dataset-name Volkert-out-0.05-np-0-nc-0-mv-0 --target-attribute class --task-type multiclass --multi-table False
+# $CMD --dataset-name Volkert-out-0.01-np-0-nc-0-mv-0 --target-attribute class --task-type multiclass --multi-table False 
+# $CMD --dataset-name Volkert-out-0.02-np-0-nc-0-mv-0 --target-attribute class --task-type multiclass --multi-table False
+# $CMD --dataset-name Volkert-out-0.03-np-0-nc-0-mv-0 --target-attribute class --task-type multiclass --multi-table False
+# $CMD --dataset-name Volkert-out-0.04-np-0-nc-0-mv-0 --target-attribute class --task-type multiclass --multi-table False
+# $CMD --dataset-name Volkert-out-0.05-np-0-nc-0-mv-0 --target-attribute class --task-type multiclass --multi-table False
 
-$CMD --dataset-name Volkert-out-0-np-1-nc-180-mv-0.1 --target-attribute class --task-type multiclass --multi-table False
-$CMD --dataset-name Volkert-out-0-np-1-nc-180-mv-0.2 --target-attribute class --task-type multiclass --multi-table False
-$CMD --dataset-name Volkert-out-0-np-1-nc-180-mv-0.3 --target-attribute class --task-type multiclass --multi-table False
-$CMD --dataset-name Volkert-out-0-np-1-nc-180-mv-0.4 --target-attribute class --task-type multiclass --multi-table False
-$CMD --dataset-name Volkert-out-0-np-1-nc-180-mv-0.5 --target-attribute class --task-type multiclass --multi-table False
+# $CMD --dataset-name Volkert-out-0-np-1-nc-180-mv-0.1 --target-attribute class --task-type multiclass --multi-table False
+# $CMD --dataset-name Volkert-out-0-np-1-nc-180-mv-0.2 --target-attribute class --task-type multiclass --multi-table False
+# $CMD --dataset-name Volkert-out-0-np-1-nc-180-mv-0.3 --target-attribute class --task-type multiclass --multi-table False
+# $CMD --dataset-name Volkert-out-0-np-1-nc-180-mv-0.4 --target-attribute class --task-type multiclass --multi-table False
+# $CMD --dataset-name Volkert-out-0-np-1-nc-180-mv-0.5 --target-attribute class --task-type multiclass --multi-table False
 
-$CMD --dataset-name Volkert-out-0.05-np-1-nc-180-mv-0.1 --target-attribute class --task-type multiclass --multi-table False
-$CMD --dataset-name Volkert-out-0.05-np-1-nc-180-mv-0.2 --target-attribute class --task-type multiclass --multi-table False
-$CMD --dataset-name Volkert-out-0.05-np-1-nc-180-mv-0.3 --target-attribute class --task-type multiclass --multi-table False
-$CMD --dataset-name Volkert-out-0.05-np-1-nc-180-mv-0.4 --target-attribute class --task-type multiclass --multi-table False
-$CMD --dataset-name Volkert-out-0.05-np-1-nc-180-mv-0.5 --target-attribute class --task-type multiclass --multi-table False
+# $CMD --dataset-name Volkert-out-0.05-np-1-nc-180-mv-0.1 --target-attribute class --task-type multiclass --multi-table False
+# $CMD --dataset-name Volkert-out-0.05-np-1-nc-180-mv-0.2 --target-attribute class --task-type multiclass --multi-table False
+# $CMD --dataset-name Volkert-out-0.05-np-1-nc-180-mv-0.3 --target-attribute class --task-type multiclass --multi-table False
+# $CMD --dataset-name Volkert-out-0.05-np-1-nc-180-mv-0.4 --target-attribute class --task-type multiclass --multi-table False
+# $CMD --dataset-name Volkert-out-0.05-np-1-nc-180-mv-0.5 --target-attribute class --task-type multiclass --multi-table False
 
-$CMD --dataset-name Utility-out-0.01-np-0-nc-0-mv-0 --target-attribute CSRI --task-type regression --multi-table False
-$CMD --dataset-name Utility-out-0.02-np-0-nc-0-mv-0 --target-attribute CSRI --task-type regression --multi-table False
-$CMD --dataset-name Utility-out-0.03-np-0-nc-0-mv-0 --target-attribute CSRI --task-type regression --multi-table False
-$CMD --dataset-name Utility-out-0.04-np-0-nc-0-mv-0 --target-attribute CSRI --task-type regression --multi-table False
-$CMD --dataset-name Utility-out-0.05-np-0-nc-0-mv-0 --target-attribute CSRI --task-type regression --multi-table False
+# $CMD --dataset-name Utility-out-0.01-np-0-nc-0-mv-0 --target-attribute CSRI --task-type regression --multi-table False
+# $CMD --dataset-name Utility-out-0.02-np-0-nc-0-mv-0 --target-attribute CSRI --task-type regression --multi-table False
+# $CMD --dataset-name Utility-out-0.03-np-0-nc-0-mv-0 --target-attribute CSRI --task-type regression --multi-table False
+# $CMD --dataset-name Utility-out-0.04-np-0-nc-0-mv-0 --target-attribute CSRI --task-type regression --multi-table False
+# $CMD --dataset-name Utility-out-0.05-np-0-nc-0-mv-0 --target-attribute CSRI --task-type regression --multi-table False
 
-$CMD --dataset-name Utility-out-0-np-1-nc-12-mv-0.1 --target-attribute CSRI --task-type regression --multi-table False
-$CMD --dataset-name Utility-out-0-np-1-nc-12-mv-0.2 --target-attribute CSRI --task-type regression --multi-table False
-$CMD --dataset-name Utility-out-0-np-1-nc-12-mv-0.3 --target-attribute CSRI --task-type regression --multi-table False
-$CMD --dataset-name Utility-out-0-np-1-nc-12-mv-0.4 --target-attribute CSRI --task-type regression --multi-table False
-$CMD --dataset-name Utility-out-0-np-1-nc-12-mv-0.5 --target-attribute CSRI --task-type regression --multi-table False
+# $CMD --dataset-name Utility-out-0-np-1-nc-12-mv-0.1 --target-attribute CSRI --task-type regression --multi-table False
+# $CMD --dataset-name Utility-out-0-np-1-nc-12-mv-0.2 --target-attribute CSRI --task-type regression --multi-table False
+# $CMD --dataset-name Utility-out-0-np-1-nc-12-mv-0.3 --target-attribute CSRI --task-type regression --multi-table False
+# $CMD --dataset-name Utility-out-0-np-1-nc-12-mv-0.4 --target-attribute CSRI --task-type regression --multi-table False
+# $CMD --dataset-name Utility-out-0-np-1-nc-12-mv-0.5 --target-attribute CSRI --task-type regression --multi-table False
 
-$CMD --dataset-name Utility-out-0.05-np-1-nc-12-mv-0.1 --target-attribute CSRI --task-type regression --multi-table False
-$CMD --dataset-name Utility-out-0.05-np-1-nc-12-mv-0.2 --target-attribute CSRI --task-type regression --multi-table False
-$CMD --dataset-name Utility-out-0.05-np-1-nc-12-mv-0.3 --target-attribute CSRI --task-type regression --multi-table False
-$CMD --dataset-name Utility-out-0.05-np-1-nc-12-mv-0.4 --target-attribute CSRI --task-type regression --multi-table False
-$CMD --dataset-name Utility-out-0.05-np-1-nc-12-mv-0.5 --target-attribute CSRI --task-type regression --multi-table False
+# $CMD --dataset-name Utility-out-0.05-np-1-nc-12-mv-0.1 --target-attribute CSRI --task-type regression --multi-table False
+# $CMD --dataset-name Utility-out-0.05-np-1-nc-12-mv-0.2 --target-attribute CSRI --task-type regression --multi-table False
+# $CMD --dataset-name Utility-out-0.05-np-1-nc-12-mv-0.3 --target-attribute CSRI --task-type regression --multi-table False
+# $CMD --dataset-name Utility-out-0.05-np-1-nc-12-mv-0.4 --target-attribute CSRI --task-type regression --multi-table False
+# $CMD --dataset-name Utility-out-0.05-np-1-nc-12-mv-0.5 --target-attribute CSRI --task-type regression --multi-table False
+
+# Prepare datasets for SELA baseline:
+sela_path="${root_path}/setup/Baselines/SELA/"
+sela_work_dir="${root_path}/results/SELA/workspace"
+sela_role_dir="${root_path}/results/SELA/storage"
+sela_data_prepare_path="${root_path}/setup/config/SELA/DatasetPrepare.py"
+
+cd ${sela_path}
+source venv/bin/activate
+
+mkdir -p "${root_path}/results/SELA"
+mkdir -p ${sela_data_out_path}
+mkdir -p ${sela_work_dir}
+mkdir -p ${sela_role_dir}
+
+cd metagpt/ext/sela
+echo "datasets_dir: \"${sela_data_out_path}\""  > data.yaml
+echo "work_dir: \"${sela_work_dir}\""  >> data.yaml
+echo "role_dir: \"${sela_role_dir}\""  >> data.yaml
+
+cp -r ${sela_data_prepare_path} data/
+
+CMD="python data/DatasetPrepare.py --root-data-path ${data_path}"
+$CMD --dataset-name oml_dataset_3_rnc # CMC
 
 cd ${root_path}

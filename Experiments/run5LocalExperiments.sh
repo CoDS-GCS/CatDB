@@ -14,9 +14,9 @@ echo "dataset,time" >> "${exp_path}/results/Experiment1_CSVDataReader.dat"
 cd ${exp_path}
 
 # CMD=./explocal/exp0_statistics/runExperiment0.sh
-CMD=./explocal/exp1_cleaning/runExperiment1.sh
+# CMD=./explocal/exp1_cleaning/runExperiment1.sh
 # CMDPatch=./explocal/exp1_cleaning/runPatch.sh
-# CMD=./explocal/exp1_catalog/runExperiment1.sh
+CMD=./explocal/exp1_catalog/runExperiment1.sh
 # CMD=./explocal/exp2_micro_benchmark/runExperiment2.sh 
 # CMD=./explocal/exp3_end_to_end/runExperiment3.sh
 # CMD=./explocal/exp4_finetune/runExperiment4.sh
@@ -33,7 +33,7 @@ CMD=./explocal/exp1_cleaning/runExperiment1.sh
 
 # $CMD oml_dataset_20_rnc multiclass # Walking-Activity -> M2
 # $CMD oml_dataset_6_rnc binary # Tic-Tac-Toe -> M2
-# $CMD oml_dataset_3_rnc multiclass # CMC -> M2
+$CMD oml_dataset_3_rnc multiclass # CMC -> M2
 # $CMD oml_dataset_22_rnc regression # Bike-Sharing -> M2
 
 # $CMD oml_dataset_24_rnc regression # NYC -> M2
@@ -51,9 +51,9 @@ CMD=./explocal/exp1_cleaning/runExperiment1.sh
 # $CMD Yelp multiclass
 
 # Demo Datasets
-$CMD Titanic binary 
-$CMD Adult binary 
-$CMD Iris multiclass 
+# $CMD Titanic binary 
+# $CMD Adult binary 
+# $CMD Iris multiclass 
 
 
 # End to End Datasets

@@ -41,42 +41,12 @@
     top_p: 0.95
     top_k: 64
 
-  gemini-1.5-pro-latest-002:
+  gemini-2-0-flash-exp:
     token_limit: 131072
     max_output_tokens: 251072
     system_delimiter: '### '
     user_delimiter: '### '
-    delay: 70
-    temperature: 0
-    top_p: 0.95
-    top_k: 64
-
-  gemini-1.5-pro-exp-0801:
-    token_limit: 8192
-    max_output_tokens: 291072
-    system_delimiter: '### '
-    user_delimiter: '### '
-    delay: 70
-    temperature: 0
-    top_p: 0.95
-    top_k: 64
-
-  gemini-1.5-pro-exp-0827:
-    token_limit: 16384
-    max_output_tokens: 291072
-    system_delimiter: '### '
-    user_delimiter: '### '
-    delay: 70
-    temperature: 0
-    top_p: 0.95
-    top_k: 64
-
-  gemini-1.0-pro-001:
-    token_limit: 8192
-    max_output_tokens: 8192
-    system_delimiter: '### '
-    user_delimiter: '### '
-    delay: 70
+    delay: 40
     temperature: 0
     top_p: 0.95
     top_k: 64

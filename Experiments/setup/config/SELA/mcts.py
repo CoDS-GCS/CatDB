@@ -4,7 +4,7 @@ from metagpt.ext.sela.evaluation.evaluation import node_evaluate_score_sela
 from metagpt.ext.sela.evaluation.visualize_mcts import get_tree_text
 from metagpt.ext.sela.runner.runner import Runner
 from metagpt.ext.sela.search.search_algorithm import MCTS, Greedy, Random
-import datetime
+import time
 from .LogResults import LogResults
 
 
@@ -23,8 +23,7 @@ class MCTSRunner(Runner):
         self.tree_mode = tree_mode
 
     async def run_experiment(self):
-        start_time_raw = datetime.datetime.now()
-        start_time = start_time_raw.strftime("%Y%m%d%H%M")
+        time_start = time.time()
         
         use_fixed_insights = self.args.use_fixed_insights
         depth = self.args.max_depth
@@ -50,38 +49,39 @@ class MCTSRunner(Runner):
                                  number_iteration_error=0,
                                  time_catalog_load=0)
         
-        additional_scores = {"grader": node_evaluate_score_sela(node=dev_best_node, task_type=self.task_type, log_results=log_results)}
+        node_evaluate_score_sela(node=best_node, task_type=self.task_type, log_results=log_results)
+        # additional_scores = {"grader": node_evaluate_score_sela(node=dev_best_node, task_type=self.task_type, log_results=log_results)}
 
-        text, num_generated_codes = get_tree_text(mcts.root_node)
-        text += f"Generated {num_generated_codes} unique codes.\n"
-        text += f"Best node: {best_node.id}, score: {best_node.raw_reward}\n"
-        text += f"Dev best node: {dev_best_node.id}, score: {dev_best_node.raw_reward}\n"
-        text += f"Grader score: {additional_scores['grader']}\n"
+        # text, num_generated_codes = get_tree_text(mcts.root_node)
+        # text += f"Generated {num_generated_codes} unique codes.\n"
+        # text += f"Best node: {best_node.id}, score: {best_node.raw_reward}\n"
+        # text += f"Dev best node: {dev_best_node.id}, score: {dev_best_node.raw_reward}\n"
+        # text += f"Grader score: {additional_scores['grader']}\n"
         # print(text)
-        results = [
-            {
-                "best_node": best_node.id,
-                "best_node_score": best_node.raw_reward,
-                "dev_best_node": dev_best_node.id,
-                "dev_best_node_score": dev_best_node.raw_reward,
-                "num_generated_codes": num_generated_codes,
-                "user_requirement": best_node.state["requirement"],
-                "tree_text": text,
-                "args": vars(self.args),
-                "scores": score_dict,
-                "additional_scores": additional_scores,
-            }
-        ]
-        self.save_result(results)
-        self.copy_notebook(best_node, "best")
-        self.copy_notebook(dev_best_node, "dev_best")
-        self.save_tree(text)
+        # results = [
+        #     {
+        #         "best_node": best_node.id,
+        #         "best_node_score": best_node.raw_reward,
+        #         "dev_best_node": dev_best_node.id,
+        #         "dev_best_node_score": dev_best_node.raw_reward,
+        #         "num_generated_codes": num_generated_codes,
+        #         "user_requirement": best_node.state["requirement"],
+        #         "tree_text": text,
+        #         "args": vars(self.args),
+        #         "scores": score_dict,
+        #         "additional_scores": additional_scores,
+        #     }
+        # ]
+        # self.save_result(results)
+        # self.copy_notebook(best_node, "best")
+        # self.copy_notebook(dev_best_node, "dev_best")
+        # self.save_tree(text)
 
-        end_time_raw = datetime.datetime.now()
-        end_time = end_time_raw.strftime("%Y%m%d%H%M")
-        log_results.time_total = end_time - start_time
+        time_end = time.time()
+        log_results.time_total = time_start - time_end
         log_results.time_execution=log_results.time_total
         log_results.time_pipeline_generate = log_results.time_total
+        log_results.save_results(result_output_path= self.result_path)
         
         # prompt_token_count=caafe_clf.prompt_number_of_tokens,
         # all_token_count=performance['number_of_tokens']

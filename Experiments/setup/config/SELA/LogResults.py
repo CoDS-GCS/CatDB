@@ -162,3 +162,40 @@ def save_log(args, sub_task, final_status, iteration, iteration_error, time_cata
 
     if final_status:
         log_results.save_results(result_output_path=args.result_output_path)
+
+class LogDataPrepare(object):
+    def __init__(self,
+                 dataset_name: str,
+                 sub_task: str,
+                 llm_model: str,
+                 time_total: float = 0,
+                 prompt_tokens: int = 0,
+                 completion_tokens: int = 0,
+                 all_tokens_count: int = 0
+                 ):
+        self.sub_task = sub_task
+        self.llm_model = llm_model
+        self.dataset_name = dataset_name
+        self.time_total = time_total
+        self.prompt_tokens = prompt_tokens
+        self.completion_tokens = completion_tokens        
+        self.all_tokens_count = all_tokens_count
+
+        self.columns = ["dataset_name", "sub_task","llm_model", "time_total", "prompt_tokens", "completion_tokens", "all_tokens_count"]
+
+    def save_results(self, result_output_path: str):
+        try:
+            df_result = pd.read_csv(result_output_path)
+
+        except Exception as err:
+            df_result = pd.DataFrame(columns=self.columns)
+
+        df_result.loc[len(df_result)] = [self.dataset_name,
+                                         self.sub_task,
+                                         self.llm_model,
+                                         self.time_total,
+                                         self.prompt_tokens,
+                                         self.completion_tokens,
+                                         self.all_tokens_count]
+
+        df_result.to_csv(result_output_path, index=False)

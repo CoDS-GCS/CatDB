@@ -53,16 +53,16 @@ cd $path
 
 # Prepare Config
 ################
-config_path="${path}/config/"
-cd ${config_path}
-rm -rf venv
+# config_path="${path}/config/"
+# cd ${config_path}
+# rm -rf venv
 
-python -m venv venv
-source venv/bin/activate
+# python -m venv venv
+# source venv/bin/activate
 
-#Then install the dependencies:
-python -m pip install --upgrade pip
-python -m pip install -r requirements.txt
+# #Then install the dependencies:
+# python -m pip install --upgrade pip
+# python -m pip install -r requirements.txt
 
 # Setup CAAFE
 #############
@@ -131,15 +131,15 @@ python -m pip install -r requirements.txt
 
 
 # Setup MetaGPT: SELA
-# sela_path="${path}/Baselines"
-# cd $sela_path
-# rm -rf SELA
+sela_path="${path}/Baselines"
+cd $sela_path
+rm -rf SELA
 
-# git clone https://github.com/geekan/MetaGPT.git
-# mv MetaGPT SELA
-# cd SELA
-# python3.10 -m venv venv
-# source venv/bin/activate
-# pip install -e .
-# cd metagpt/ext/sela
-# pip install -r requirements.txt
+git clone https://github.com/geekan/MetaGPT.git
+mv MetaGPT SELA
+cd SELA
+python3.10 -m venv venv
+source venv/bin/activate
+pip install -e .
+cd metagpt/ext/sela
+pip install -r requirements.txt

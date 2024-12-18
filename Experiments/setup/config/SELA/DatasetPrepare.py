@@ -9,6 +9,9 @@ import yaml
 
 from metagpt.ext.sela.insights.solution_designer import SolutionDesigner
 from metagpt.ext.sela.utils import DATA_CONFIG
+from runner.LogResults import LogDataPrepare
+from runner.LogResults import LogDataPrepare
+import time
 
 BASE_USER_REQUIREMENT = """
 This is a {datasetname} dataset. Your goal is to predict the target column `{target_col}`.
@@ -295,28 +298,44 @@ class ExpDataset:
         self.save_split_datasets(test_df, "test", target_col)
 
 
-async def process_dataset(dataset, solution_designer: SolutionDesigner, save_analysis_pool, datasets_dict):
+async def process_dataset(dataset, solution_designer: SolutionDesigner, save_analysis_pool, datasets_dict, output_path, llm_model):
+    time_start = time.time()
+     
+    prompt_tokens = 0
+    completion_tokens = 0
     if save_analysis_pool:
-        await solution_designer.generate_solutions(dataset.get_dataset_info(), dataset.name)
+        _, prompt_tokens, completion_tokens = await solution_designer.generate_solutions(dataset.get_dataset_info(), dataset.name)
     dataset_dict = create_dataset_dict(dataset)
     datasets_dict["datasets"][dataset.name] = dataset_dict
-
+ 
+    time_end = time.time()
+    log_result = LogDataPrepare(dataset_name=dataset.name, 
+                                sub_task="ProcessDataset", 
+                                llm_model=llm_model, 
+                                time_total=time_end - time_start,
+                                prompt_tokens=prompt_tokens,
+                                completion_tokens=completion_tokens,
+                                all_tokens_count= prompt_tokens + completion_tokens)
+    
+    log_result.save_results(result_output_path=output_path)
 
 def parse_args():
     parser = ArgumentParser()
-    parser.add_argument('--dataset-name', type=str, default=None)
+    parser.add_argument('--metadata-path', type=str, default=None)
     parser.add_argument('--root-data-path', type=str, default=None)
+    parser.add_argument('--llm-model', type=str, default="gemini-1.5-pro-latest")    
+    parser.add_argument('--output-path', type=str, default="/tmp/results.csv")
     args = parser.parse_args()
 
-    if args.dataset_name is None:
-        raise Exception("--dataset-name is a required parameter!")
+    if args.metadata_path is None:
+        raise Exception("--metadata-path is a required parameter!")
 
     if args.root_data_path is None:
         raise Exception("--root-data-path is a required parameter!")
 
 
     # read .yaml file and extract values:
-    with open(f"{args.root_data_path}/{args.dataset_name}/{args.dataset_name}.yaml", "r") as f:
+    with open(args.metadata_path, "r") as f:
         try:
             config_data = yaml.load(f, Loader=yaml.FullLoader)
             args.dataset_name = config_data[0].get('name')
@@ -353,5 +372,5 @@ if __name__ == "__main__":
                                 data_source_path=args.data_source_path, data_source_train_path=args.data_source_train_path,
                                 data_source_test_path=args.data_source_test_path, data_source_verify_path=args.data_source_verify_path)
 
-    asyncio.run(process_dataset(custom_dataset, solution_designer, save_analysis_pool, datasets_dict))
+    asyncio.run(process_dataset(custom_dataset, solution_designer, save_analysis_pool, datasets_dict, output_path=args.output_path, llm_model = args.llm_model))
     save_datasets_dict_to_yaml(datasets_dict)

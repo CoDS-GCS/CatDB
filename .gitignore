@@ -52,3 +52,4 @@ src/catdb.egg-info/*
 src/.idea/*
 Experiments/data/SELA/*
 Experiments/data/oml_dataset_3_rnc/*
+Experiments/sela-results/*

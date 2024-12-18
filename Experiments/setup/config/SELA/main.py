@@ -5,7 +5,9 @@ from metagpt.ext.sela.data.custom_task import get_mle_is_lower_better, get_mle_t
 from metagpt.ext.sela.runner.mcts import MCTSRunner
 from metagpt.ext.sela.runner.random_search import RandomSearchRunner
 from metagpt.ext.sela.runner.runner import Runner
+import warnings
 
+warnings.filterwarnings('ignore')
 
 def get_args(cmd=True):
     parser = argparse.ArgumentParser()
@@ -51,7 +53,7 @@ def get_mcts_args(parser):
     parser.add_argument('--output-path', type=str, default=None)
     parser.add_argument('--llm-model', type=str, default=None)
     parser.add_argument('--role-timeout', type=int, default=1000)
-    parser.add_argument('--result-output-path', type=str, default="/tmp/results.csv")
+    parser.add_argument('--result-output-path', type=str, default="/tmp/")
 
 def get_rs_exp_args(parser):
     parser.add_argument("--rs_mode", type=str, default="single", choices=["single", "set"])
@@ -60,6 +62,7 @@ def get_rs_exp_args(parser):
 
 def get_di_args(parser):
     parser.add_argument("--task", type=str, default="titanic")
+    parser.add_argument("--task-type", type=str, default="binary")
     parser.add_argument("--low_is_better", dest="low_is_better", action="store_true")
     parser.set_defaults(low_is_better=False)
     parser.add_argument("--reflection", dest="reflection", action="store_true")

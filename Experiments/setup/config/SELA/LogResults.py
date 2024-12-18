@@ -88,7 +88,6 @@ class LogResults(object):
 
         except Exception as err:
             df_result = pd.DataFrame(columns=self.columns)
-
         df_result.loc[len(df_result)] = [self.dataset_name,
                                          self.config,
                                          self.sub_task,

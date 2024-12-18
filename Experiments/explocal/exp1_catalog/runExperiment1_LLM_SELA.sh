@@ -4,7 +4,7 @@ exp_path="$(pwd)"
 data_path="${exp_path}/data/SELA"
 dataset=$1
 llm_model=$2
-classifier=$3
+task_type=$3
 with_dataset_description=$4
 
 metadata_path="${exp_path}/data/${dataset}/${dataset}.yaml"
@@ -13,7 +13,7 @@ metadata_path="${exp_path}/data/${dataset}/${dataset}.yaml"
 patch_path="${exp_path}/setup/config/SELA"
 des_path="${exp_path}/setup/Baselines/SELA/metagpt/ext/sela"
 metagpt_path="${exp_path}/setup/Baselines/SELA/metagpt/"
-cp -r "${patch_path}/DatasetPrepare.py" "${des_path}/data"
+cp -r "${patch_path}/dataset.py" "${des_path}/data"
 cp -r "${patch_path}/main.py" "${des_path}/"
 cp -r "${patch_path}/evaluation.py" "${des_path}/evaluation"
 cp -r "${patch_path}/LogResults.py" "${des_path}/runner"
@@ -28,14 +28,16 @@ number_iteration=2
 result_output_path="${exp_path}/sela-results/${dataset}"
 
 mkdir -p "${exp_path}/sela-results"
+rm -rf $result_output_path
 mkdir -p "${result_output_path}"
 
 cd "${exp_path}/setup/Baselines/SELA/"
 source venv/bin/activate
 
-# Prepare datasets for SELA baseline:
+## Prepare datasets for SELA baseline:
 # sela_path="${exp_path}/setup/Baselines/SELA/"
-# sela_work_dir="${exp_path}/results/SELA/workspace"
+# #sela_work_dir="${exp_path}/results/SELA/workspace"
+# sela_work_dir="${result_output_path}/results/SELA/workspace"
 # sela_role_dir="${exp_path}/results/SELA/storage"
 
 # mkdir -p "${exp_path}/results/SELA"
@@ -50,7 +52,7 @@ source venv/bin/activate
 # echo "role_dir: \"${sela_role_dir}\""  >> data.yaml
 
 # output_path="${exp_path}/results/Experiment1_LLM_SELA_ProcessDataset.dat"
-# CMD="python data/DatasetPrepare.py --root-data-path ${exp_path}/data \
+# CMD="python data/dataset.py --root-data-path ${exp_path}/data \
 #      --metadata-path ${metadata_path} \
 #      --llm-model ${llm_model} \
 #      --output-path ${output_path}"  
@@ -63,9 +65,10 @@ cd "${exp_path}/setup/Baselines/SELA/metagpt/ext/sela"
 SCRIPT="python -Wignore main.py --exp_mode mcts \
         --task ${dataset} \
         --rollouts ${number_iteration}\
-        --output-path ${output_path} \
+        --output-path ${result_output_path}  \
         --llm-model ${llm_model} \
-        --result-output-path ${result_output_path} \
+        --result-output-path ${output_path} \
+        --task-type ${task_type} \
         --role-timeout 1000"
 
 echo ${SCRIPT}

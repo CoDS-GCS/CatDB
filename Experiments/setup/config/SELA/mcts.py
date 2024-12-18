@@ -12,11 +12,12 @@ class MCTSRunner(Runner):
 
     def __init__(self, args, tree_mode=None, **kwargs):
         self.start_task_id = args.start_task_id
-        self.result_path = kwargs.get("result_output_path", None)
-        self.dataset_name = kwargs.get("task", None)
-        self.task_type = kwargs.get("task_type", None)
-        self.number_iteration = kwargs.get("rollouts", None)
-        self.llm_model = kwargs.get("llm_model", None)
+        self.result_output_path = args.result_output_path
+        self.result_path = args.output_path
+        self.dataset_name = args.task
+        self.task_type = args.task_type
+        self.number_iteration = args.rollouts
+        self.llm_model = args.llm_model
         
 
         super().__init__(args, **kwargs)
@@ -50,38 +51,38 @@ class MCTSRunner(Runner):
                                  time_catalog_load=0)
         
         node_evaluate_score_sela(node=best_node, task_type=self.task_type, log_results=log_results)
-        # additional_scores = {"grader": node_evaluate_score_sela(node=dev_best_node, task_type=self.task_type, log_results=log_results)}
+        additional_scores = {"grader": node_evaluate_score_sela(node=dev_best_node, task_type=self.task_type, log_results=log_results)}
 
-        # text, num_generated_codes = get_tree_text(mcts.root_node)
-        # text += f"Generated {num_generated_codes} unique codes.\n"
-        # text += f"Best node: {best_node.id}, score: {best_node.raw_reward}\n"
-        # text += f"Dev best node: {dev_best_node.id}, score: {dev_best_node.raw_reward}\n"
-        # text += f"Grader score: {additional_scores['grader']}\n"
+        text, num_generated_codes = get_tree_text(mcts.root_node)
+        text += f"Generated {num_generated_codes} unique codes.\n"
+        text += f"Best node: {best_node.id}, score: {best_node.raw_reward}\n"
+        text += f"Dev best node: {dev_best_node.id}, score: {dev_best_node.raw_reward}\n"
+        text += f"Grader score: {additional_scores['grader']}\n"
         # print(text)
-        # results = [
-        #     {
-        #         "best_node": best_node.id,
-        #         "best_node_score": best_node.raw_reward,
-        #         "dev_best_node": dev_best_node.id,
-        #         "dev_best_node_score": dev_best_node.raw_reward,
-        #         "num_generated_codes": num_generated_codes,
-        #         "user_requirement": best_node.state["requirement"],
-        #         "tree_text": text,
-        #         "args": vars(self.args),
-        #         "scores": score_dict,
-        #         "additional_scores": additional_scores,
-        #     }
-        # ]
-        # self.save_result(results)
-        # self.copy_notebook(best_node, "best")
-        # self.copy_notebook(dev_best_node, "dev_best")
-        # self.save_tree(text)
+        results = [
+            {
+                "best_node": best_node.id,
+                "best_node_score": best_node.raw_reward,
+                "dev_best_node": dev_best_node.id,
+                "dev_best_node_score": dev_best_node.raw_reward,
+                "num_generated_codes": num_generated_codes,
+                "user_requirement": best_node.state["requirement"],
+                "tree_text": text,
+                "args": vars(self.args),
+                "scores": score_dict,
+                "additional_scores": additional_scores,
+            }
+        ]
+        self.save_result(results)
+        self.copy_notebook(best_node, "best")
+        self.copy_notebook(dev_best_node, "dev_best")
+        self.save_tree(text)
 
         time_end = time.time()
         log_results.time_total = time_start - time_end
         log_results.time_execution=log_results.time_total
         log_results.time_pipeline_generate = log_results.time_total
-        log_results.save_results(result_output_path= self.result_path)
+        log_results.save_results(result_output_path= self.result_output_path)
         
         # prompt_token_count=caafe_clf.prompt_number_of_tokens,
         # all_token_count=performance['number_of_tokens']

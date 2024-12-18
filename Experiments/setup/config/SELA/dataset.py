@@ -45,19 +45,19 @@ DI_INSTRUCTION = """
 ## Attention
 1. Please do not leak the target label in any form during training.
 2. Test set does not have the target column.
-3. When conducting data exploration or analysis, print out the results of your findings.
+3. When conducting data exploration or analysis, don't print out the results of your findings.
 4. You should perform transformations on train, dev, and test sets at the same time (it's a good idea to define functions for this and avoid code repetition).
 5. When scaling or transforming features, make sure the target column is not included.
 6. You could utilize dev set to validate and improve model training. {special_instruction}
 
-## Saving Dev and Test Predictions
-1. Save the prediction results of BOTH the dev set and test set in `dev_predictions.csv` and `test_predictions.csv` respectively in the output directory. 
-- Both files should contain a single column named `target` with the predicted values.
+## Saving Train, Dev and Test Predictions
+1. Save the prediction results of the train set, dev set and test set in `train_predictions.csv`, `dev_predictions.csv` and `test_predictions.csv` respectively in the output directory. 
+- All files should contain a single column named `target` with the predicted values.
 2. Make sure the prediction results are in the same format as the target column in the original training set. 
 - For instance, if the original target column is a list of string, the prediction results should also be strings.
 
 ## Output Performance
-Print the train and dev set performance in the last step.
+Print the Train, Test and Dev set performance in the last step.
 
 # Output dir
 {output_dir}
@@ -156,7 +156,7 @@ def generate_task_requirement(task_name, data_config, is_di=True, special_instru
         additional_instruction=additional_instruction,
         data_info_path=data_info_path,
     )
-    print(user_requirement)
+    #print(user_requirement)
     return user_requirement
 
 

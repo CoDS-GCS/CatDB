@@ -58,7 +58,7 @@ CMDSELA=./explocal/exp1_catalog/runExperiment1_LLM_SELA.sh
 
 
 # SELA
-$CMDSELA ${dataset} gemini-1.5-pro-latest AAA No
+$CMDSELA ${dataset} gemini-1.5-pro-latest $task_type No
 
 
 # Run Pipeline Localy

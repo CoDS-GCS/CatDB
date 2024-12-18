@@ -37,37 +37,46 @@ def evaluate_score(pred, gt, metric):
 
 
 def node_evaluate_score_sela(node, task_type:str, log_results:LogResults):
-    test_preds = node.get_and_move_predictions("test")["target"]
-    test_gt = node.get_gt("test")["target"]
+    try:
+        test_preds = node.get_and_move_predictions("test")["target"]
+        test_gt = node.get_gt("test")["target"]
 
-    # train_preds = node.get_and_move_predictions("train")["target"]
-    # train_gt = node.get_gt("train")["target"]
-    
-    if task_type == "binary":
-    #    log_results.train_accuracy = evaluate_score(train_preds, train_gt, "accuracy")
-    #    log_results.train_f1_score = evaluate_score(train_preds, train_gt, "f1")
-    #    log_results.train_auc = evaluate_score(train_preds, train_gt, "auc") 
+        # train_preds = node.get_and_move_predictions("train")["target"]
+        # train_gt = node.get_gt("train")["target"]
+        
+        if task_type == "binary":
+            #    log_results.train_accuracy = evaluate_score(train_preds, train_gt, "accuracy")
+            #    log_results.train_f1_score = evaluate_score(train_preds, train_gt, "f1")
+            #    log_results.train_auc = evaluate_score(train_preds, train_gt, "auc") 
 
-       log_results.test_accuracy = evaluate_score(test_preds, test_gt, "accuracy")
-       log_results.test_f1_score = evaluate_score(test_preds, test_gt, "f1")
-       log_results.test_auc = evaluate_score(test_preds, test_gt, "auc") 
-       
-    elif task_type == "multiclass":
-        # log_results.train_accuracy = evaluate_score(train_preds, train_gt, "accuracy") 
-        # log_results.train_f1_score = evaluate_score(train_preds, train_gt, "f1 weighted")            
-        # log_results.train_log_loss = evaluate_score(train_preds, train_gt, "log loss") 
-        # log_results.train_auc_ovo = evaluate_score(train_preds, train_gt, "auc ovo")  
-        # log_results.train_auc_ovr = evaluate_score(train_preds, train_gt, "auc ovr")  
+            log_results.test_accuracy = evaluate_score(test_preds, test_gt, "accuracy")
+            log_results.test_f1_score = evaluate_score(test_preds, test_gt, "f1")
+            log_results.test_auc = evaluate_score(test_preds, test_gt, "auc") 
 
-        log_results.test_accuracy = evaluate_score(test_preds, test_gt, "accuracy") 
-        log_results.test_f1_score = evaluate_score(test_preds, test_gt, "f1 weighted")            
-        log_results.test_log_loss = evaluate_score(test_preds, test_gt, "log loss") 
-        log_results.test_auc_ovo = evaluate_score(test_preds, test_gt, "auc ovo")  
-        log_results.test_auc_ovr = evaluate_score(test_preds, test_gt, "auc ovr") 
-           
-    elif task_type == "regression":
-        # log_results.train_rmse  = evaluate_score(train_preds, train_gt, "rmse")  
-        # log_results.train_r_squared = evaluate_score(train_preds, train_gt, "r2")  
+            return evaluate_score(test_preds, test_gt, "f1")
+        
+        elif task_type == "multiclass":
+            # log_results.train_accuracy = evaluate_score(train_preds, train_gt, "accuracy") 
+            # log_results.train_f1_score = evaluate_score(train_preds, train_gt, "f1 weighted")            
+            # log_results.train_log_loss = evaluate_score(train_preds, train_gt, "log loss") 
+            # log_results.train_auc_ovo = evaluate_score(train_preds, train_gt, "auc ovo")  
+            # log_results.train_auc_ovr = evaluate_score(train_preds, train_gt, "auc ovr")  
 
-        log_results.test_rmse  = evaluate_score(test_preds, test_gt, "rmse")  
-        log_results.test_r_squared = evaluate_score(test_preds, test_gt, "r2")  
+            log_results.test_accuracy = evaluate_score(test_preds, test_gt, "accuracy") 
+            log_results.test_f1_score = evaluate_score(test_preds, test_gt, "f1 weighted")            
+            log_results.test_log_loss = evaluate_score(test_preds, test_gt, "log loss") 
+            log_results.test_auc_ovo = evaluate_score(test_preds, test_gt, "auc ovo")  
+            log_results.test_auc_ovr = evaluate_score(test_preds, test_gt, "auc ovr") 
+
+            return evaluate_score(test_preds, test_gt, "f1 weighted") 
+            
+        elif task_type == "regression":
+            # log_results.train_rmse  = evaluate_score(train_preds, train_gt, "rmse")  
+            # log_results.train_r_squared = evaluate_score(train_preds, train_gt, "r2")  
+
+            log_results.test_rmse  = evaluate_score(test_preds, test_gt, "rmse")  
+            log_results.test_r_squared = evaluate_score(test_preds, test_gt, "r2")  
+
+            return evaluate_score(test_preds, test_gt, "rmse")
+    except Exception as err:
+        return 0

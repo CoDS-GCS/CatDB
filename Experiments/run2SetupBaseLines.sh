@@ -53,16 +53,16 @@ cd $path
 
 # Prepare Config
 ################
-# config_path="${path}/config/"
-# cd ${config_path}
-# rm -rf venv
+config_path="${path}/config/"
+cd ${config_path}
+rm -rf venv
 
-# python -m venv venv
-# source venv/bin/activate
+python -m venv venv
+source venv/bin/activate
 
-# #Then install the dependencies:
-# python -m pip install --upgrade pip
-# python -m pip install -r requirements.txt
+#Then install the dependencies:
+python -m pip install --upgrade pip
+python -m pip install -r requirements.txt
 
 # Setup CAAFE
 #############
@@ -87,7 +87,7 @@ cd $path
 
 # cd ${root_path}
 # cp -r baselines/* "${automl_path}/"
-# rm -rf "${automl_path}/SELA"
+
 
 # # Install Auto Sklearn
 # cd ${automl_path}
@@ -130,16 +130,30 @@ cd $path
 # python3.10 -m pip install -r requirements.txt
 
 
-# Setup MetaGPT: SELA
-sela_path="${path}/Baselines"
-cd $sela_path
-rm -rf SELA
+# # Setup MetaGPT: SELA
+# sela_path="${path}/Baselines"
+# cd $sela_path
+# rm -rf SELA
 
-git clone https://github.com/geekan/MetaGPT.git
-mv MetaGPT SELA
-cd SELA
+# git clone https://github.com/geekan/MetaGPT.git
+# mv MetaGPT SELA
+# cd SELA
+# python3.10 -m venv venv
+# source venv/bin/activate
+# pip install -e .
+# cd metagpt/ext/sela
+# pip install -r requirements.txt
+
+
+## Setup AIDE
+baselines_path="${path}/Baselines"
+cd ${baselines_path}
+rm -rf aideml
+git clone --branch CatDB https://github.com/fathollahzadeh/aideml.git
+
+cd aideml
+rm -rf venv
 python3.10 -m venv venv
 source venv/bin/activate
+pip install --upgrade pip
 pip install -e .
-cd metagpt/ext/sela
-pip install -r requirements.txt

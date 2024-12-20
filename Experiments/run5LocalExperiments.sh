@@ -33,7 +33,7 @@ CMD=./explocal/exp1_catalog/runExperiment1.sh
 
 # $CMD oml_dataset_20_rnc multiclass # Walking-Activity -> M2
 # $CMD oml_dataset_6_rnc binary # Tic-Tac-Toe -> M2
-$CMD oml_dataset_3_rnc multiclass # CMC -> M2
+# $CMD oml_dataset_3_rnc multiclass # CMC -> M2
 # $CMD oml_dataset_22_rnc regression # Bike-Sharing -> M2
 
 # $CMD oml_dataset_24_rnc regression # NYC -> M2
@@ -43,12 +43,12 @@ $CMD oml_dataset_3_rnc multiclass # CMC -> M2
 # $CMD Accidents multiclass # -> M2
 # $CMD Financial multiclass # -> M2
 
-# $CMD EU-IT multiclass # OK
-# $CMD Etailing multiclass # OK
-# $CMD Midwest-Survey multiclass # OK
-# $CMD WiFi binary # OK
-# $CMD Utility regression # OK
-# $CMD Yelp multiclass
+$CMD EU-IT multiclass # OK
+$CMD Etailing multiclass # OK
+$CMD Midwest-Survey multiclass # OK
+$CMD WiFi binary # OK
+$CMD Utility regression # OK
+$CMD Yelp multiclass
 
 # Demo Datasets
 # $CMD Titanic binary 

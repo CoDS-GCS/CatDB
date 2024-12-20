@@ -17,7 +17,7 @@ catalog_path="${exp_path}/catalog/${dataset}"
 # Run Prompt and LLM Pipeline Generation Experiments
 # CMD=./explocal/exp1_catalog/runExperiment1_LLM_Pipe_Gen.sh
 # CMDCAAFE=./explocal/exp1_catalog/runExperiment1_LLM_CAAFE.sh
-CMDSELA=./explocal/exp1_catalog/runExperiment1_LLM_SELA.sh
+CMDAIDE=./explocal/exp1_catalog/runExperiment1_LLM_AIDE.sh
 # CMDRunPipeline=./explocal/exp1_catalog/runExperiment1_Run_Local_Pipeline.sh
 
 # $CMD ${dataset} ${catalog_path} AUTO Random 0 ${task_type} gpt-4o No
@@ -57,9 +57,8 @@ CMDSELA=./explocal/exp1_catalog/runExperiment1_LLM_SELA.sh
 # $CMDCAAFE ${dataset} gpt-4o RandomForest No
 
 
-# SELA
-$CMDSELA ${dataset} gemini-1.5-pro-latest $task_type No
-
+# AIDE
+$CMDAIDE ${dataset} gemini-1.5-pro-latest
 
 # Run Pipeline Localy
 # $CMDRunPipeline ${dataset} CatDB Random 0 ${task_type} gemini-1.5-pro-latest No 1 "${dataset}_train" "${dataset}_test" "M"

@@ -31,7 +31,7 @@ if __name__ == '__main__':
                     (37,"Diabetes","binary",5),
                     (50,"Tic-Tac-Toe","binary",6),                  
                     (41027,"Jungle-Chess","multiclass",10),
-                    (45570,"Higgs","binary",11),
+                    #(45570,"Higgs","binary",11),
                     (1502,"Skin","binary",12),
 
                     (42132,"Traffic","multiclass",19),

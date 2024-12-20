@@ -8,7 +8,6 @@ config_path="${root_path}/setup/config"
 catalog_path="${root_path}/catalog"
 
 declare -a dataset_list=("Midwest-Survey" "WiFi" "Utility" "EU-IT" "Etailing" "Accidents" "Airline" "Financial" "IMDB-IJS" "Yelp" "EtoE-data/part-1" "EtoE-data/part-2" "EtoE-data/part-3")
-declare -a dataset_list=("EtoE-data/part-1" "EtoE-data/part-2" "EtoE-data/part-3")
 
 
 rm -rf ${catalog_path}

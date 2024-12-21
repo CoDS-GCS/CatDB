@@ -32,24 +32,24 @@ cd $path
 
 # Setup CatDB
 #############
-# catdb_path="${path}/Baselines/CatDB/"
-# rm -rf ${catdb_path}
-# mkdir -p ${catdb_path}
+catdb_path="${path}/Baselines/CatDB/"
+rm -rf ${catdb_path}
+mkdir -p ${catdb_path}
 
-# cd ${root_path}
-# cd ..
-# cp -r src/python/main/* ${catdb_path}
-# cd ${catdb_path}
+cd ${root_path}
+cd ..
+cp -r src/python/main/* ${catdb_path}
+cd ${catdb_path}
 
-# rm -rf venv 
-# python3.10 -m venv venv
-# source venv/bin/activate
+rm -rf venv 
+python3.10 -m venv venv
+source venv/bin/activate
 
-# # Then install the dependencies:
-# python3.10 -m pip install --upgrade pip
+# Then install the dependencies:
+python3.10 -m pip install --upgrade pip
 # pip install torchvision 
-# python3.10 -m pip install -r requirements.txt
-# pip install pipreqs
+pip install -r requirements.txt
+#pip install pipreqs
 
 # Prepare Config
 ################
@@ -146,14 +146,14 @@ cd $path
 
 
 ## Setup AIDE
-baselines_path="${path}/Baselines"
-cd ${baselines_path}
-rm -rf aideml
-git clone --branch CatDB https://github.com/fathollahzadeh/aideml.git
+# baselines_path="${path}/Baselines"
+# cd ${baselines_path}
+# rm -rf aideml
+# git clone --branch CatDB https://github.com/fathollahzadeh/aideml.git
 
-cd aideml
-rm -rf venv
-python3.10 -m venv venv
-source venv/bin/activate
-pip install --upgrade pip
-pip install -e .
+# cd aideml
+# rm -rf venv
+# python3.10 -m venv venv
+# source venv/bin/activate
+# pip install --upgrade pip
+# pip install -e .

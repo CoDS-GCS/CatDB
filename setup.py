@@ -52,7 +52,7 @@ setup(
         "feature_engine",
         "unidecode",
         "flair",
-        "torchvision",
+        #"torchvision",
         "bokeh"
     ],
     package_data={

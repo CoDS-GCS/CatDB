@@ -29,7 +29,7 @@ setup(
         "fasttext>=0.9.3",
         "nltk>=3.9.1",
         "numpy==1.26.4",
-        "pandas>=2.2.3",
+        "pandas>=2.2.2",
         "pyspark==3.5.3",
         "spacy",
         "torch>=2.5.1",

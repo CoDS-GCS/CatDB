@@ -44,11 +44,12 @@ def build_catalog(data, categorical_ratio: float = 0.05, n_workers: int = -1, ma
     name = data["dataset_name"]
     path = data["root_data_path"]
     metadata_path = data["metadata_path"]
-    output_path = f'{data["root_catalog_path"]}/data_profile'
+    output_path = data["data_profile_path"]
+    filename = data["source_dataset_path"]
 
-    if name and path:
-        extra_source = DataSource(name=name, path=path)
-        profiler_config.data_sources.append(extra_source)
+    os.makedirs(data["root_catalog_path"], exist_ok=True)
+    os.makedirs(output_path, exist_ok=True)
+
     if output_path:
         profiler_config.output_path = output_path
     if max_memory != -1:
@@ -89,34 +90,13 @@ def build_catalog(data, categorical_ratio: float = 0.05, n_workers: int = -1, ma
         # get the list of columns and their associated tables
         print(datetime.now(), ': Creating tables, Getting columns')
         columns_and_tables = []
-        for data_source in profiler_config.data_sources:
-            filenames = []
-            if os.path.isfile(f"{path}/{name}.{data_source.file_type}"):
-                filenames.append(f"{data_source.path}/{data_source.name}.{data_source.file_type}")
-            else:
-                for filename in glob.glob(os.path.join(data_source.path, '**/*.' + data_source.file_type), recursive=True):
-                    if (filename.endswith(f"_train.{data_source.file_type}") or
-                            filename.endswith(f"_test.{data_source.file_type}") or
-                            filename.endswith(f"_verify.{data_source.file_type}")):
-                        continue
-                    else:
-                        filenames.append(filename)
 
-            for filename in filenames:
-                if os.path.isfile(filename) and os.path.getsize(filename) > 0:  # if not an empty file
-                    dataset_base_dir = Path(filename).resolve()
-                    while dataset_base_dir.parent != Path(data_source.path).resolve():
-                        dataset_base_dir = dataset_base_dir.parent
-                    table = Table(data_source=data_source.name,
-                                  table_path=filename,
-                                  dataset_name=dataset_base_dir.name)
-                    # read only the header
-                    if len(filenames) > 1:
-                        out_path = f"{output_path}/{table.table_name.replace(f'.{data_source.file_type}', '')}"
-                    else:
-                        out_path = output_path
-                    header = pd.read_csv(table.get_table_path(), nrows=0, engine='python', encoding_errors='replace')
-                    columns_and_tables.extend([(col, table, categorical_ratio, out_path) for col in header.columns])
+        if os.path.isfile(filename) and os.path.getsize(filename) > 0:  # if not an empty file
+            table = Table(data_source=name,
+                          table_path=filename,
+                          dataset_name=name)
+            header = pd.read_csv(table.get_table_path(), nrows=0, engine='python', encoding_errors='replace')
+            columns_and_tables.extend([(col, table, categorical_ratio, output_path) for col in header.columns])
 
         columns_and_tables_rdd = spark.parallelize(columns_and_tables)
 

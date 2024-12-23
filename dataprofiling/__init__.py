@@ -62,73 +62,78 @@ def build_catalog(data, categorical_ratio: float = 0.05, n_workers: int = -1, ma
     start_time = datetime.now()
     print(datetime.now(), ': Initializing Spark')
 
-    # initialize spark
-    if profiler_config.is_spark_local_mode:
-        spark = SparkContext(conf=SparkConf().setMaster(f'local[{profiler_config.n_workers}]')
-                             .set('spark.driver.memory', f'{profiler_config.max_memory}g'))
-    else:
-
-        spark = SparkSession.builder.appName("CatDBDataProfiler").getOrCreate().sparkContext
-        # add python dependencies
-        for pyfile in glob.glob('./**/*.py', recursive=True):
-            spark.addPyFile(pyfile)
-        # add embedding model files
-        for embedding_file in glob.glob('./column_embeddings/pretrained_models/**/*.pt', recursive=True):
-            spark.addFile(embedding_file)
-        # add fasttext embeddings file
-        spark.addFile('./fasttext_embeddings/cc.en.50.bin')
-
-    if os.path.exists(profiler_config.output_path):
-        #print(datetime.now(), ': Deleting existing column profiles in:', profiler_config.output_path)
-        shutil.rmtree(profiler_config.output_path)
-
-    os.makedirs(profiler_config.output_path, exist_ok=True)
-
-    # get the list of columns and their associated tables
-    print(datetime.now(), ': Creating tables, Getting columns')
-    columns_and_tables = []
-    for data_source in profiler_config.data_sources:
-        filenames = []
-        if os.path.isfile(f"{path}/{name}.{data_source.file_type}"):
-            filenames.append(f"{data_source.path}/{data_source.name}.{data_source.file_type}")
+    spark = None
+    results = None
+    try:
+        # initialize spark
+        if profiler_config.is_spark_local_mode:
+            spark = SparkContext(conf=SparkConf().setMaster(f'local[{profiler_config.n_workers}]')
+                                 .set('spark.driver.memory', f'{profiler_config.max_memory}g'))
         else:
-            for filename in glob.glob(os.path.join(data_source.path, '**/*.' + data_source.file_type), recursive=True):
-                if (filename.endswith(f"_train.{data_source.file_type}") or
-                        filename.endswith(f"_test.{data_source.file_type}") or
-                        filename.endswith(f"_verify.{data_source.file_type}")):
-                    continue
-                else:
-                    filenames.append(filename)
+            spark = SparkSession.builder.appName("CatDBDataProfiler").getOrCreate().sparkContext
+            # add python dependencies
+            for pyfile in glob.glob('./**/*.py', recursive=True):
+                spark.addPyFile(pyfile)
+            # add embedding model files
+            for embedding_file in glob.glob('./column_embeddings/pretrained_models/**/*.pt', recursive=True):
+                spark.addFile(embedding_file)
+            # add fasttext embeddings file
+            spark.addFile('./fasttext_embeddings/cc.en.50.bin')
 
-        for filename in filenames:
-            if os.path.isfile(filename) and os.path.getsize(filename) > 0:  # if not an empty file
-                dataset_base_dir = Path(filename).resolve()
-                while dataset_base_dir.parent != Path(data_source.path).resolve():
-                    dataset_base_dir = dataset_base_dir.parent
-                table = Table(data_source=data_source.name,
-                              table_path=filename,
-                              dataset_name=dataset_base_dir.name)
-                # read only the header
-                if len(filenames) > 1:
-                    out_path = f"{output_path}/{table.table_name.replace(f'.{data_source.file_type}', '')}"
-                else:
-                    out_path = output_path
-                header = pd.read_csv(table.get_table_path(), nrows=0, engine='python', encoding_errors='replace')
-                columns_and_tables.extend([(col, table, categorical_ratio, out_path) for col in header.columns])
+        if os.path.exists(profiler_config.output_path):
+            #print(datetime.now(), ': Deleting existing column profiles in:', profiler_config.output_path)
+            shutil.rmtree(profiler_config.output_path)
 
-    columns_and_tables_rdd = spark.parallelize(columns_and_tables)
+        os.makedirs(profiler_config.output_path, exist_ok=True)
 
-    # profile the columns with Spark.
-    print(datetime.now(), f': Profiling {len(columns_and_tables)} columns')
-    columns_and_tables_rdd.map(column_worker).collect()
+        # get the list of columns and their associated tables
+        print(datetime.now(), ': Creating tables, Getting columns')
+        columns_and_tables = []
+        for data_source in profiler_config.data_sources:
+            filenames = []
+            if os.path.isfile(f"{path}/{name}.{data_source.file_type}"):
+                filenames.append(f"{data_source.path}/{data_source.name}.{data_source.file_type}")
+            else:
+                for filename in glob.glob(os.path.join(data_source.path, '**/*.' + data_source.file_type), recursive=True):
+                    if (filename.endswith(f"_train.{data_source.file_type}") or
+                            filename.endswith(f"_test.{data_source.file_type}") or
+                            filename.endswith(f"_verify.{data_source.file_type}")):
+                        continue
+                    else:
+                        filenames.append(filename)
 
-    print(datetime.now(), f': {len(columns_and_tables)} columns profiled and saved to {profiler_config.output_path}')
-    print(datetime.now(), ': Total time to profile: ', datetime.now() - start_time)
-    spark.stop()
+            for filename in filenames:
+                if os.path.isfile(filename) and os.path.getsize(filename) > 0:  # if not an empty file
+                    dataset_base_dir = Path(filename).resolve()
+                    while dataset_base_dir.parent != Path(data_source.path).resolve():
+                        dataset_base_dir = dataset_base_dir.parent
+                    table = Table(data_source=data_source.name,
+                                  table_path=filename,
+                                  dataset_name=dataset_base_dir.name)
+                    # read only the header
+                    if len(filenames) > 1:
+                        out_path = f"{output_path}/{table.table_name.replace(f'.{data_source.file_type}', '')}"
+                    else:
+                        out_path = output_path
+                    header = pd.read_csv(table.get_table_path(), nrows=0, engine='python', encoding_errors='replace')
+                    columns_and_tables.extend([(col, table, categorical_ratio, out_path) for col in header.columns])
 
-    return _load_dataset_catalog(data_profile_path= profiler_config.output_path, root_catalog_path=output_path,
-                                 root_data_path=path, dataset_name= name, metadata_path=metadata_path)
+        columns_and_tables_rdd = spark.parallelize(columns_and_tables)
 
+        # profile the columns with Spark.
+        print(datetime.now(), f': Profiling {len(columns_and_tables)} columns')
+        columns_and_tables_rdd.map(column_worker).collect()
+
+        print(datetime.now(), f': {len(columns_and_tables)} columns profiled and saved to {profiler_config.output_path}')
+        print(datetime.now(), ': Total time to profile: ', datetime.now() - start_time)
+        spark.stop()
+
+        results = _load_dataset_catalog(data_profile_path= profiler_config.output_path, root_catalog_path=output_path,
+                                     root_data_path=path, dataset_name= name, metadata_path=metadata_path)
+    finally:
+        if spark is not None:
+            spark.stop()
+    return results
 def column_worker(column_name_and_table):
     column_name, table, categorical_ratio, out_path = column_name_and_table
     # read the column from the table file. Use the Python engine if there are issues reading the file

@@ -281,8 +281,11 @@ class ColumnProfile:
 
     def get_category_values_ratio(self) -> dict:
         result = dict()
-        for k in self.category_values_ratio.keys():
-            result[f'{k}'] = self.category_values_ratio[k]
+        if self.category_values is None:
+            return None
+        else:
+            for k in self.category_values_ratio.keys():
+                result[f'{k}'] = self.category_values_ratio[k]
         return result
 
     def get_samples(self) -> None | list[int] | list[float] | list:

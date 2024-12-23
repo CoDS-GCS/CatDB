@@ -35,6 +35,9 @@ setup(
         "torch>=2.5.1",
         "tqdm>=4.67.1",
         "PyYAML==6.0.1",
+        "keras==3.7.0",
+        "tensorflow==2.18.0",
+        "protobuf==5.29.2",
         #"py4j==0.10.9",
         "filesplit"
     ],

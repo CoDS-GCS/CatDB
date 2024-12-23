@@ -34,6 +34,8 @@ setup(
         "spacy",
         "torch>=2.5.1",
         "tqdm>=4.67.1",
+        "PyYAML==6.0.1",
+        #"py4j==0.10.9",
         "filesplit"
     ],
     package_data={
@@ -45,7 +47,8 @@ setup(
                           "column_embeddings/pretrained_models/float/*.pt",
                           "column_embeddings/pretrained_models/natural_language_text/*.pt",
                           "column_embeddings/pretrained_models/string/*.pt",
-                          "fasttext_embeddings/zip/*.zip"]
+                          "fasttext_embeddings/zip/*.zip",
+                          "fasttext_embeddings/zip/manifest"]
     },
     zip_safe=False,
     # entry_points={

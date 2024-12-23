@@ -24,33 +24,33 @@ from profile_creators.profile_creator import ProfileCreator
 from model.table import Table
 from config import profiler_config, DataSource
 from model.column_data_type import ColumnDataType
+from raw_catalog.Catalog import load_data_source_profile
 
 
-def install_Spark():
-    import os
-    import pyspark
-    check_spark_set = os.environ.get("SPARK_HOME")
-    if check_spark_set is None:
-        from os.path import dirname
-        import urllib.request
-        spark_version = pyspark.__version__
-        path = f'{PACKAGE_PATH}/SPARK-{spark_version}'
-        url = f"https://dlcdn.apache.org/spark/spark-{spark_version}/spark-{spark_version}-bin-hadoop3.tgz"
-        with urllib.request.urlopen(url) as f:
-            html = f.read().decode('utf-8')
-            print(html)
-    #os.environ["SPARK_HOME"] = "/home/saeed/Apps/spark-3.5.3-bin-hadoop3/"
-    print(check_spark_set)
+def _load_dataset_catalog(data_profile_path, root_data_path, root_catalog_path, dataset_name, metadata_path) -> dict:
+    catalog = dict()
+    catalog["data"] = [load_data_source_profile(data_source_path=data_profile_path)]
+    catalog["root_data_path"] = root_data_path
+    catalog["root_catalog_path"] = root_catalog_path
+    catalog["data_profile_path"] = data_profile_path
+    catalog["metadata_path"] = metadata_path
+    catalog["dataset_name"] = dataset_name
+    catalog["result_format"] = "catalog"
+    return catalog
 
 
-def build_catalog(name: str = None, path: str = None, cfg: dict() = None, categorical_ratio: float = 0.05,
-                  n_workers: int = -1, max_memory: float = -1):
-    install_Spark()
+def build_catalog(data, categorical_ratio: float = 0.05, n_workers: int = -1, max_memory: float = -1):
+
+    name = data["dataset_name"]
+    path = data["root_data_path"]
+    metadata_path = data["metadata_path"]
+    output_path = f'{data["root_catalog_path"]}/data_profile'
+
     if name and path:
         extra_source = DataSource(name=name, path=path)
         profiler_config.data_sources.append(extra_source)
-    if cfg["output_path"]:
-        profiler_config.output_path = cfg["output_path"]
+    if output_path:
+        profiler_config.output_path = output_path
     if max_memory != -1:
         profiler_config.max_memory = max_memory
     else:
@@ -79,7 +79,7 @@ def build_catalog(name: str = None, path: str = None, cfg: dict() = None, catego
         spark.addFile('./fasttext_embeddings/cc.en.50.bin')
 
     if os.path.exists(profiler_config.output_path):
-        print(datetime.now(), ': Deleting existing column profiles in:', profiler_config.output_path)
+        #print(datetime.now(), ': Deleting existing column profiles in:', profiler_config.output_path)
         shutil.rmtree(profiler_config.output_path)
 
     os.makedirs(profiler_config.output_path, exist_ok=True)
@@ -110,9 +110,9 @@ def build_catalog(name: str = None, path: str = None, cfg: dict() = None, catego
                               dataset_name=dataset_base_dir.name)
                 # read only the header
                 if len(filenames) > 1:
-                    out_path = f"{cfg['output_path']}/{table.table_name.replace(f'.{data_source.file_type}', '')}"
+                    out_path = f"{output_path}/{table.table_name.replace(f'.{data_source.file_type}', '')}"
                 else:
-                    out_path = cfg["output_path"]
+                    out_path = output_path
                 header = pd.read_csv(table.get_table_path(), nrows=0, engine='python', encoding_errors='replace')
                 columns_and_tables.extend([(col, table, categorical_ratio, out_path) for col in header.columns])
 
@@ -124,15 +124,16 @@ def build_catalog(name: str = None, path: str = None, cfg: dict() = None, catego
 
     print(datetime.now(), f': {len(columns_and_tables)} columns profiled and saved to {profiler_config.output_path}')
     print(datetime.now(), ': Total time to profile: ', datetime.now() - start_time)
-    spark.s
+    spark.stop()
 
+    return _load_dataset_catalog(data_profile_path= profiler_config.output_path, root_catalog_path=output_path,
+                                 root_data_path=path, dataset_name= name, metadata_path=metadata_path)
 
 def column_worker(column_name_and_table):
     column_name, table, categorical_ratio, out_path = column_name_and_table
     # read the column from the table file. Use the Python engine if there are issues reading the file
     try:
         try:
-
             column = pd.read_csv(table.get_table_path(), usecols=[column_name], na_values=[' ', '?', '-']).squeeze(
                 "columns")
         except:
@@ -141,6 +142,7 @@ def column_worker(column_name_and_table):
     except:
         print(f'Warning: Skipping non-parse-able column: {column_name} in table: {table.get_table_path()}')
         return
+
     nrows = len(column)
     column = pd.to_numeric(column, errors='ignore')
     column = column.convert_dtypes()

@@ -75,6 +75,11 @@ def get_root_data_path() -> str:
     return path
 
 
+def get_root_catalog_path() -> str:
+    module_path = dirname(__file__)
+    path = f"{module_path}/catalog/"
+    return path
+
 __all__ = ["get_dataset_path",
            "get_dataset_names",
            "get_catalog_path",

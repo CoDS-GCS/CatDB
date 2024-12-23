@@ -1,7 +1,6 @@
 from pathlib import Path
-from os.path import dirname
 from argparse import ArgumentParser
-from datasets import get_dataset_metadata_path, get_root_data_path, get_catalog_path
+from datasets import get_root_data_path, get_root_catalog_path
 import yaml
 import os
 import shutil
@@ -40,7 +39,8 @@ def _save_text_file(fname: str, data):
 
 
 def config(model: str, API_key: str, iteration: int = 1, error_iteration: int = 15, reduction: bool = True,
-               setting: str = "CatDB", output_path: str = None, clean_log: bool= True ):
+               setting: str = "CatDB", output_path: str = None, clean_log: bool= True, root_data_path: str= None,
+           root_catalog_path: str=None):
 
     cfg = dict()
 
@@ -70,6 +70,16 @@ def config(model: str, API_key: str, iteration: int = 1, error_iteration: int = 
     cfg["error_output_path"] = f"{output_path}/error.csv"
     cfg["system_log"] = f"{output_path}/system.log"
 
+    if root_data_path is not None:
+        cfg["root_data_path"] = root_data_path
+    else:
+        cfg["root_data_path"] = get_root_data_path()
+
+    if root_catalog_path is None:
+        cfg["root_catalog_path"] = root_catalog_path
+    else:
+        cfg["root_catalog_path"] = get_root_catalog_path()
+
     platform = None
     if model in {"gpt-4o", " gpt-4-turbo"}:
         platform = "OpenAI"
@@ -94,10 +104,10 @@ def load_args(name: str, cfg, PACKAGE_PATH: str):
     parser.add_argument('--default', type=str, required=False, default=None)
     parser.add_argument("-f", "--fff", help="a dummy argument to fool ipython", default="1")
     args = parser.parse_args()
-    args.metadata_path = get_dataset_metadata_path(name=name)
-    args.root_data_path = get_root_data_path()
-    args.catalog_path = get_catalog_path(name=name)
-    args.data_profile_path = f"{args.catalog_path}/data_profile"
+    args.metadata_path = cfg["metadata_path"]
+    args.root_data_path = cfg["root_data_path"]
+    args.catalog_path = cfg["root_catalog_path"]
+    args.data_profile_path = cfg["data_profile_path"]
     args.prompt_samples_type = 'Random'
     args.prompt_number_samples = 0
     args.description = ''

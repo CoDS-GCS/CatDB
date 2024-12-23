@@ -7,6 +7,7 @@ if CATDB_PACKAGE_PATH not in sys.path:
     sys.path.append(CATDB_PACKAGE_PATH)
 
 from util import config, load_args
+from util.DatasetPrepare import prepare_dataset
 from datasets import get_dataset_names, get_dataset_path, get_catalogs, get_catalog_path
 from catalog.Catalog import load_data_source_profile
 from catalog.Dependency import load_dependency_info
@@ -17,11 +18,34 @@ import time
 
 args = None
 time_catalog: float = 0
+load_catalog: bool = False
+
+
+def _load_settings(name: str, config):
+    global args
+
+    args = load_args(name=name, PACKAGE_PATH=CATDB_PACKAGE_PATH, cfg=config)
+    load_config(system_log=args.system_log, llm_model=args.llm_model, rules_path=args.rules_path, evaluation_acc=False,
+                config_path=args.config_path, api_config_path=args.APIKeys_File,
+                data_cleaning_rules_path=args.data_cleaning_rules_path)
+
+    # check the data clean is available:
+    if os.path.isfile(args.data_source_train_clean_path):
+        args.data_source_train_path = args.data_source_train_clean_path
+
+    if os.path.isfile(args.data_source_test_clean_path):
+        args.data_source_test_path = args.data_source_test_clean_path
+
+    if os.path.isfile(args.data_source_verify_clean_path):
+        args.data_source_verify_path = args.data_source_verify_clean_path
 
 
 def load_dataset_catalog(name: str, config) -> list:
     global args
     global time_catalog
+    global load_catalog
+
+    load_catalog = True
 
     args = load_args(name=name, PACKAGE_PATH=CATDB_PACKAGE_PATH, cfg=config)
     catalog = []
@@ -54,8 +78,20 @@ def load_dataset_catalog(name: str, config) -> list:
 def generate_pipeline(catalog: list, config):
     from util.Config import __execute_mode, __gen_verify_mode, __sub_task_data_preprocessing, \
         __sub_task_feature_engineering, __sub_task_model_selection
-    dependency_file = f"{args.catalog_path}/dependency.yaml"
-    dependencies = load_dependency_info(dependency_file=dependency_file, datasource_name=args.dataset_name)
+
+    if load_catalog:
+        name = args.dataset_name
+        dependency_file = f"{args.catalog_path}/dependency.yaml"
+        dependencies = load_dependency_info(dependency_file=dependency_file, datasource_name=name)
+    else:
+        name = catalog["dataset_name"]
+        config["root_data_path"] = catalog["root_data_path"]
+        config["root_catalog_path"] = catalog["root_catalog_path"]
+        config["data_profile_path"] = catalog["data_profile_path"]
+        config["metadata_path"] = catalog["metadata_path"]
+        catalog = catalog["data"]
+        dependencies = None
+    _load_settings(name=name, config=config)
 
     ti = 0
     t = args.prompt_number_iteration
@@ -96,7 +132,9 @@ def generate_pipeline(catalog: list, config):
         ti += 1
         if ti > t:
             break
+    args.result_format = "pipeline"
     return vars(args)
+
 
 __all__ = [
     "config",
@@ -106,5 +144,6 @@ __all__ = [
     "get_catalogs",
     "get_catalog_path",
     "generate_pipeline",
-    "create_report"
+    "create_report",
+    "prepare_dataset"
 ]

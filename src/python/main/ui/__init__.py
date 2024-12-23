@@ -24,10 +24,10 @@ def create_report(
 
     _suppress_warnings()
     cfg = Config.from_dict(display, config)
-    is_catalog = isinstance(data, list)
+    is_catalog = data["result_format"] == "catalog"
 
     if is_catalog :
-        components = format_report(catalog=data[0], pipegen=None, cfg= cfg)
+        components = format_report(catalog=data["data"][0], pipegen=None, cfg= cfg)
         template = "catalog.html"
     else:
         components = format_report(catalog=None, pipegen=data, cfg=cfg)

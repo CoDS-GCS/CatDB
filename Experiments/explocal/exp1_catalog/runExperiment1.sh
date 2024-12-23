@@ -59,15 +59,15 @@ CMDAIDE=./explocal/exp1_catalog/runExperiment1_LLM_AIDE.sh
 
 # AIDE
 $CMDAIDE ${dataset} gemini-1.5-pro-latest 1
-$CMDAIDE ${dataset} gemini-1.5-pro-latest 2
-$CMDAIDE ${dataset} gemini-1.5-pro-latest 3
-$CMDAIDE ${dataset} gemini-1.5-pro-latest 4
-$CMDAIDE ${dataset} gemini-1.5-pro-latest 5
-$CMDAIDE ${dataset} gemini-1.5-pro-latest 6
-$CMDAIDE ${dataset} gemini-1.5-pro-latest 7
-$CMDAIDE ${dataset} gemini-1.5-pro-latest 8
-$CMDAIDE ${dataset} gemini-1.5-pro-latest 9
-$CMDAIDE ${dataset} gemini-1.5-pro-latest 10
+# $CMDAIDE ${dataset} gemini-1.5-pro-latest 2
+# $CMDAIDE ${dataset} gemini-1.5-pro-latest 3
+# $CMDAIDE ${dataset} gemini-1.5-pro-latest 4
+# $CMDAIDE ${dataset} gemini-1.5-pro-latest 5
+# $CMDAIDE ${dataset} gemini-1.5-pro-latest 6
+# $CMDAIDE ${dataset} gemini-1.5-pro-latest 7
+# $CMDAIDE ${dataset} gemini-1.5-pro-latest 8
+# $CMDAIDE ${dataset} gemini-1.5-pro-latest 9
+# $CMDAIDE ${dataset} gemini-1.5-pro-latest 10
 
 # Run Pipeline Localy
 # $CMDRunPipeline ${dataset} CatDB Random 0 ${task_type} gemini-1.5-pro-latest No 1 "${dataset}_train" "${dataset}_test" "M"

@@ -3,6 +3,8 @@ from typing import Any, Dict, Optional
 import numpy as np
 import pandas as pd
 from bokeh.embed import components
+import json
+import  re
 from ..configs import Bar, tweak_figure, tweak_figure_bar, format_ticks, format_values, format_cat_stats
 from ..utils import _format_axis
 from bokeh.models import (
@@ -91,10 +93,155 @@ def render_pipegen(pipegen, cfg: Config) -> Dict[str, Any]:
         "error": {"fig": error_result, "title": "Pipeline Error"},
         "codes": comp_res["codes"],
         "system_prompt": comp_res["system_prompt"],
-        "usr_prompt":comp_res["usr_prompt"]
+        "usr_prompt": comp_res["usr_prompt"],
+        "prompt_tree": render_prompt_tree(system_prompt=comp_res["system_prompt"], user_prompt=comp_res["usr_prompt"])
     }
 
     return res
+
+
+class nodeNameChildren:
+    def __init__(self, name: str, children):
+        self.name = name
+        self.children = children
+
+    def add_child(self, node):
+        self.children.append(node)
+
+    def to_dict(self):
+        node_dict = {'name': self.name}
+        if self.children is not None and len(self.children) > 0:
+            node_dict['children'] = self.get_children()
+
+        return node_dict
+
+    def get_children(self) -> list | None:
+        result = []
+        for c in self.children:
+            result.append(c.to_dict())
+        return result
+
+
+def get_text_as_list(text: str) -> list:
+    result = []
+    for line in text.split("\n"):
+        result.append(line)
+    return result
+
+
+def render_prompt_tree(system_prompt: str, user_prompt: str):
+    sys_list = get_text_as_list(system_prompt)
+    usr_list = get_text_as_list(user_prompt)
+
+    sys_children = []
+
+    node_sys_prompt = nodeNameChildren(name="System Prompt", children=[])
+    node_usr_prompt = nodeNameChildren(name="Catalog Data", children=[])
+    node_sys_rules = nodeNameChildren(name="Rules", children=[])
+
+    tree_data = nodeNameChildren(name="Prompt", children=[node_sys_prompt, node_usr_prompt])
+    for sl in sys_list:
+        if sl.startswith("###  Task:"):
+            task_rule = sl.split(":")[-1]
+            tmp_node = nodeNameChildren(name="Task", children=[nodeNameChildren(name=task_rule, children=None)])
+            node_sys_prompt.add_child(tmp_node)
+
+        if sl.startswith("###  Input:"):
+            input_rule = sl.split(":")[-1]
+            tmp_node = nodeNameChildren(name="Description", children=[nodeNameChildren(name=input_rule, children=None)])
+            node_sys_prompt.add_child(tmp_node)
+            break
+
+    for sl in sys_list:
+        for i in {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 19, 20, 21}:
+            if sl.startswith(f"# {i}:"):
+                task_rule = sl[len(f"# {i}:"):len(sl)]
+                tmp_node = nodeNameChildren(name=task_rule, children=None)
+                node_sys_rules.add_child(tmp_node)
+                break
+
+    if system_prompt.find('print(f"Train_AUC:{{Train_AUC}}")'):
+        tmp_node = nodeNameChildren(name="Evaluation", children=[nodeNameChildren(name="Report AUC ", children=None),
+                                                                 nodeNameChildren(name="Report Accuracy",
+                                                                                  children=None),
+                                                                 nodeNameChildren(name="Report F1-score",
+                                                                                  children=None),
+                                                                 ])
+        node_sys_rules.add_child(tmp_node)
+
+    catalog_data_list = []
+    schema_flag = False
+    schema_begin = False
+    for ul in usr_list:
+        if ul.startswith("### Schema"):
+            schema_flag = True
+        if schema_flag and ul.startswith('"""'):
+            schema_begin = True
+            schema_flag = False
+            continue
+
+        if schema_begin and not ul.startswith('"""'):
+            catalog_data_list.append(ul)
+
+        if schema_begin and ul.startswith('"""'):
+            break
+
+    categorical_node = nodeNameChildren(name="Categorical Features", children=[])
+    numerical_node = nodeNameChildren(name="Numerical Features", children=[])
+    other_node = nodeNameChildren(name="String Features", children=[])
+    for cd in catalog_data_list:
+        if "**This is a target column**" in cd:
+            cd = cd.replace(", **This is a target column**", "")
+        if "categorical-values" in cd:
+            col_name = cd.split(":")[0]
+            col_name = col_name.split('" (')[0]
+            col_name = col_name.replace('# "', '')
+
+            vals = cd.split("categorical-values [")[-1]
+            vals = vals[0: len(vals)-1]
+            vals = vals.split(",")
+            chl = []
+            for v in vals:
+                chl.append(nodeNameChildren(name=v, children=None))
+            cn_node = nodeNameChildren(name=col_name, children=chl)
+            categorical_node.add_child(cn_node)
+
+        elif "min-value" in cd:
+            cd = cd.replace("[","").replace("]","").replace("(","").replace(")","")
+            str_template = r'# "(.*)" (.*), distinct-count (.*), min-value (.*), max-value (.*), median-value (.*), mean-value (.*)'
+            m = re.match(str_template, cd)
+            col_name = m.group(1)
+            distinct_count = m.group(3)
+            min_value = m.group(4)
+            max_value = m.group(5)
+            mean_value = m.group(6)
+            chl = [nodeNameChildren(name=f"Distinct Count: {distinct_count}", children=None),
+                   nodeNameChildren(name=f"Min Value: {min_value}", children=None),
+                   nodeNameChildren(name=f"Max Value: {max_value}", children=None),
+                   nodeNameChildren(name=f"Mean Value: {mean_value}", children=None),]
+
+            cn_node = nodeNameChildren(name=col_name, children=chl)
+            numerical_node.add_child(cn_node)
+        else:
+            cd = cd.replace("[", "").replace("]", "").replace("(", "").replace(")", "")
+            str_template = r'# "(.*)" (.*), distinct-count (.*)'
+            m = re.match(str_template, cd)
+            col_name = m.group(1)
+            distinct_count = m.group(3)
+            chl = [nodeNameChildren(name=f"Distinct Count: {distinct_count}", children=None)]
+
+            cn_node = nodeNameChildren(name=col_name, children=chl)
+            other_node.add_child(cn_node)
+
+
+
+    node_sys_prompt.add_child(node_sys_rules)
+    node_usr_prompt.add_child(categorical_node)
+    node_usr_prompt.add_child(numerical_node)
+    node_usr_prompt.add_child(other_node)
+
+    tree_data_str = json.dumps(tree_data.to_dict(), indent=4)
+    return "<script>" + tree_data_str + "</script>"
 
 
 def render_bar_chart(nrows: int, df, yscale: str, plot_width: int, plot_height: int, ylabel: str, title: str) -> figure:
@@ -151,7 +298,6 @@ def render_bar_chart(nrows: int, df, yscale: str, plot_width: int, plot_height: 
     fig.yaxis.axis_label = ylabel
     tweak_figure(fig)
     relocate_legend(fig, "left")
-
     return fig
 
 
@@ -160,7 +306,7 @@ def render_bar_runtime_chart(max_time: int, df, yscale: str, plot_width: int, pl
     colors = ["#FFCC85FF", CATEGORY20[0], "red"]
     fig = figure(
         x_range=list(df.index),
-        #y_range=[0, max_time],
+        # y_range=[0, max_time],
         width=plot_width,
         height=plot_height,
         y_axis_type=yscale,
@@ -204,7 +350,6 @@ def render_bar_runtime_chart(max_time: int, df, yscale: str, plot_width: int, pl
             renderers=[rend[i]],
         )
         fig.add_tools(hover)
-
 
     fig.legend.orientation = "horizontal"
     fig.yaxis.axis_label = ylabel
@@ -360,7 +505,8 @@ def box_viz(
     return fig
 
 
-def bar_viz(df: pd.DataFrame, ttl_grps: int, col: str, plot_width: int, bar_width: float, plot_height: int, show_yticks: bool,
+def bar_viz(df: pd.DataFrame, ttl_grps: int, col: str, plot_width: int, bar_width: float, plot_height: int,
+            show_yticks: bool,
             bar_cfg: Bar, tooltip_title: str, title: str) -> figure:
     tooltips = [(tooltip_title, "@index"), ("Count", f"@{{{col}}}"), ("Percent", "@pct{0.2f}%")]
     if show_yticks:
@@ -383,7 +529,7 @@ def bar_viz(df: pd.DataFrame, ttl_grps: int, col: str, plot_width: int, bar_widt
         top=col,
         fill_color=bar_cfg.color,
         line_color=bar_cfg.color,
-        #bottom=0,
+        # bottom=0,
         source=df,
     )
     tweak_figure_bar(fig, "bar", show_yticks)

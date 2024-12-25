@@ -40,31 +40,23 @@ def _load_settings(name: str, config):
         args.data_source_verify_path = args.data_source_verify_clean_path
 
 
-def load_dataset_catalog(name: str, config) -> list:
-    global args
+def load_dataset_catalog(path: str, data, config) -> dict:
     global time_catalog
     global load_catalog
 
+    name = data["dataset_name"]
+    config["metadata_path"] = data["metadata_path"]
+    config["dataset_name"] = name
+    config["source_dataset_path"] = data["source_dataset_path"]
+    config["root_data_path"] = data["root_data_path"]
+    config["data_profile_path"] = f"{path}/{name}/data_profile"
+
     load_catalog = True
-
-    args = load_args(name=name, PACKAGE_PATH=CATDB_PACKAGE_PATH, cfg=config)
-    catalog = []
-    load_config(system_log=args.system_log, llm_model=args.llm_model, rules_path=args.rules_path, evaluation_acc=False,
-                config_path=args.config_path, api_config_path=args.APIKeys_File,
-                data_cleaning_rules_path=args.data_cleaning_rules_path)
-
-    # check the data clean is available:
-    if os.path.isfile(args.data_source_train_clean_path):
-        args.data_source_train_path = args.data_source_train_clean_path
-
-    if os.path.isfile(args.data_source_test_clean_path):
-        args.data_source_test_path = args.data_source_test_clean_path
-
-    if os.path.isfile(args.data_source_verify_clean_path):
-        args.data_source_verify_path = args.data_source_verify_clean_path
+    _load_settings(name=name, config=config)
+    catalog_data = []
 
     time_start = time.time()
-    catalog.append(load_data_source_profile(data_source_path=args.data_profile_path,
+    catalog_data.append(load_data_source_profile(data_source_path=args.data_profile_path,
                                             file_format="JSON",
                                             target_attribute=args.target_attribute,
                                             enable_reduction=args.enable_reduction,
@@ -72,6 +64,16 @@ def load_dataset_catalog(name: str, config) -> list:
 
     time_end = time.time()
     time_catalog = time_end - time_start
+
+    catalog = dict()
+    catalog["data"] = catalog_data
+    catalog["root_data_path"] = config["root_data_path"]
+    catalog["root_catalog_path"] = path
+    catalog["data_profile_path"] = config["data_profile_path"]
+    catalog["metadata_path"] = config["metadata_path"]
+    catalog["dataset_name"] = name
+    catalog["result_format"] = "catalog"
+
     return catalog
 
 

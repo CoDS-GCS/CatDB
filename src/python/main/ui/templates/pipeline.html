@@ -10,7 +10,7 @@
   {% include 'cssjs.html' %}
   {% include 'highlightjs.html' %}
   {% include 'pythonjs.html' %}
-    <script>hljs.highlightAll();</script>
+  <script>hljs.highlightAll();</script>
 
 </head>
 
@@ -19,23 +19,14 @@
        <!-- ----------------------------->
        <div style="padding-top: 30px;">
            <button class="tablink" onclick="openPage('Home', this, '#bc3803')" id="defaultOpen">Pipeline Analytics Report</button>
-           <button class="tablink" onclick="openPage('sysprompt', this, '#bc3803')" >System Prompt</button>
-           <button class="tablink" onclick="openPage('usrprompt', this, '#bc3803')" >Catalog Data</button>
+           <button class="tablink" onclick="openPage('sysprompt_catalogdata', this, '#bc3803')" >System Prompt & Catalog Data</button>
            {% for itr in context.components.pipegen['codes'] %}
            <button class="tablink" onclick="openPage('itr{{loop.index}}', this, '#bc3803')" >SRC #{{loop.index}}</button>
            {% endfor %}
        </div>
 
-        <div class="tabcontent" style="width: 100%" id="sysprompt">
-            <textarea style="width: 100%; min-height: 600px" class="numbered">
-            {{ context.components.pipegen['system_prompt']}}
-            </textarea>
-        </div>
-
-       <div class="tabcontent" style="width: 100%" id="usrprompt">
-            <textarea style="width: 100%; min-height: 600px" class="numbered">
-            {{ context.components.pipegen['usr_prompt']}}
-            </textarea>
+        <div class="tabcontent" style="width: 100%" id="sysprompt_catalogdata">
+             {% include 'prompt_tree.html' %}
         </div>
 
        {% for itr in context.components.pipegen['codes'] %}

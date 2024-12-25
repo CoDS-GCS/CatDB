@@ -241,7 +241,7 @@ def render_prompt_tree(system_prompt: str, user_prompt: str):
     node_usr_prompt.add_child(other_node)
 
     tree_data_str = json.dumps(tree_data.to_dict(), indent=4)
-    return "<script>" + tree_data_str + "</script>"
+    return "<script> flare =" + tree_data_str + "</script>"
 
 
 def render_bar_chart(nrows: int, df, yscale: str, plot_width: int, plot_height: int, ylabel: str, title: str) -> figure:

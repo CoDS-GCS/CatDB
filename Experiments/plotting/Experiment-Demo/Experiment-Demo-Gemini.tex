@@ -1,0 +1,69 @@
+\begin{tikzpicture}
+  \newcommand{\myaddplotds}[5]{ 
+    \addplot[color=#2,mark=#3, line width=0.7pt, only marks, mark options={scale=#4, fill opacity=#5,}] 
+    table[y=performance, col sep=comma, x=dataset_name, discard if singlconfig={#1}]
+    {../archive/SIGMOD2025/results/PerformanceResults.csv};
+    \label{#1}  
+   
+  };
+
+\pgfplotsset{
+    discard if singlconfig/.style n args={1}{
+        x filter/.code={
+            \edef\tempa{\thisrow{config}}
+            \edef\tempb{#1}
+            \ifx\tempa\tempb              
+            \else
+            \def\pgfmathresult{inf}
+            \fi			
+        }
+    },
+};   
+
+\begin{axis}[
+  ymin=-0.2,
+  ymax=1,
+  %xmax=0.05,
+  y tick label style={/pgf/number format/1000 sep={}},
+  %x tick label style={/pgf/number format/1000 sep={}},  
+  scaled x ticks=false,
+  axis line style={black, line width=0.3pt},
+  enlarge y limits={0.06,upper},
+  enlarge x limits=0.015,
+  ylabel={Performance $\%$},
+  xlabel={},
+  log ticks with fixed point,
+ % xtick align=outside,
+ % xtick pos=left,
+  ytick pos=left,
+  yticklabel style = {font=\normalsize},
+  ylabel style = {font=\normalsize, yshift=-6pt, xshift=3pt},
+  height=.5\columnwidth,
+  width=1\columnwidth,
+  grid=both,
+  grid style=dotted,
+  minor grid style={gray!70},
+  every axis plot/.append style={line width=0.7pt,mark options={scale=1,solid, line width=0.7pt}},  
+  xticklabel style = {font=\scriptsize, xshift=0pt, yshift=2pt, rotate=90,},
+  legend image post style={line width=.5pt},          
+  %bar width=8pt,         
+  ytick={-0.15,0,0.2, 0.4, 0.6, 0.8, 1},
+  yticklabels={Fail,0, 20, 40, 60, 80, 100}, 
+  xtick = data, 
+  symbolic x coords={Airline,Financial,WiFi,Diabetes,Etailing,House-Sales,IMDB,Tic-Tac-Toe,Gas-Drift,Breast-w,Nomao,Utility,Yelp,Survey,Walking,Accidents,Volkert,Bike-Sharing,EU IT,Credit-g,CMC,NYC},               
+]
+
+\myaddplotds{Flaml}{color4}{diamond*}{0.7}{1};
+\myaddplotds{Autogluon}{color9}{diamond*}{0.7}{1};
+\myaddplotds{H2O}{gray}{diamond*}{0.7}{0.5}{1};
+\myaddplotds{CAAFE}{black}{diamond*}{0.8}{1};
+\myaddplotds{AIDE}{tugb}{diamond*}{0.8}{1};
+\myaddplotds{CatDB}{tug}{diamond*}{1.1}{0.5};
+
+\draw[black, thick, densely dotted] (rel axis cs:-0.1,0.155) -- (rel axis cs:2,0.155);
+\end{axis}
+
+\node [draw=gray,inner sep=0.5mm, font=\footnotesize, anchor=west, fill=white] (leg1) at (rel axis cs: 0.06,0.3) {\shortstack[l]{
+  \ref{CatDB} CatDB\ \ \ref{AIDE} AIDE\ \ \ref{CAAFE} CAAFE\ \ \ref{Autogluon} Autogluon\ \ \ref{Flaml} Flaml \ \ \ref{H2O} H2O}};
+
+\end{tikzpicture}

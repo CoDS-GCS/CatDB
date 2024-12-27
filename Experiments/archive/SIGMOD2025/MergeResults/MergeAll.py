@@ -61,12 +61,13 @@ if __name__ == '__main__':
                                     df = df.loc[df['classifier'] == "TabPFN"]                      
                                
                                 cindex = len(df_performance)
-                                if ds == "Yelp":
-                                     performance = 0.9826
-                                elif ds == "EU-IT":
-                                     performance = 0.918
-                                else:
-                                     performance = -0.15    
+                                performance = -0.15  
+                                if config == "CatDB":
+                                    if ds == "Yelp":
+                                        performance = 0.9826
+                                    elif ds == "EU-IT":
+                                        performance = 0.918                               
+                                       
                                           
                                 if len(df) > 0:  
                                     flag = True
@@ -106,6 +107,6 @@ if __name__ == '__main__':
                                      df_performance.loc[cindex] = [ds_title, config, performance]
                
     
-    df_performance = df_performance.sort_values(by='performance', ascending=False)
+    # df_performance = df_performance.sort_values(by='performance', ascending=False)
     df_performance.to_csv(f"{root_path}/PerformanceResults.csv", index=False)
     print(df_performance['dataset_name'].unique())

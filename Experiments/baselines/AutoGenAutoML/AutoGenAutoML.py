@@ -119,7 +119,7 @@ class AutoGenAutoML(CatDBAutoML):
 
         log_results = LogResults(dataset_name=self.dataset.dataset_name,
                                  config="AutoGen", sub_task="", llm_model=self.llm_model, classifier="Auto", task_type= self.dataset.task_type,
-                                 status=status, number_iteration=iteration, number_iteration_error=number_iteration_error, has_description="No", time_catalog_load=0,
+                                 status=f"{status}", number_iteration=iteration, number_iteration_error=number_iteration_error, has_description="No", time_catalog_load=0,
                                  time_pipeline_generate=total_time, time_total=total_time, time_execution=total_time, train_auc=pipeline_evl["Train_AUC"],
                                  train_auc_ovo=pipeline_evl["Train_AUC_OVO"] , train_auc_ovr= pipeline_evl["Train_AUC_OVR"], train_accuracy=pipeline_evl["Train_Accuracy"],
                                  train_f1_score=pipeline_evl["Train_F1_score"], train_log_loss=pipeline_evl["Train_Log_loss"], train_r_squared=pipeline_evl["Train_R_Squared"], train_rmse=pipeline_evl["Train_RMSE"],

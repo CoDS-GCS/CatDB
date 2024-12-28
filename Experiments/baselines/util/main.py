@@ -6,7 +6,7 @@ from util.Config import Config
 from util.Data import Dataset, reader_CSV
 
 
-def parse_arguments():
+def parse_arguments(is_automl: bool=True):
     parser = ArgumentParser()
     parser.add_argument('--metadata-path', type=str, default=None)
     parser.add_argument('--max-runtime-seconds', type=int, default=None)
@@ -41,17 +41,20 @@ def parse_arguments():
         except yaml.YAMLError as ex:
             raise Exception(ex)
 
-    if args.max_runtime_seconds is None or args.exe_runtime_path is not None:
-        try:
-            df_exe = reader_CSV(args.exe_runtime_path)
-            df_exe = df_exe.loc[(df_exe['dataset_name'] == args.dataset_name) &
-                                (df_exe['llm_model'] == args.llm_model)]
-            exe_time = df_exe["time"].values[0] - df_exe['dataset_load_time'].values[0]
-            if exe_time < 1:
-                exe_time = 1
-            args.max_runtime_seconds = int(exe_time)
-        except Exception as ex:
-            raise Exception("--max-runtime-seconds is a required parameter!")
+    if is_automl:
+        if args.max_runtime_seconds is None or args.exe_runtime_path is not None:
+            try:
+                df_exe = reader_CSV(args.exe_runtime_path)
+                df_exe = df_exe.loc[(df_exe['dataset_name'] == args.dataset_name) &
+                                    (df_exe['llm_model'] == args.llm_model)]
+                exe_time = df_exe["time"].values[0] - df_exe['dataset_load_time'].values[0]
+                if exe_time < 1:
+                    exe_time = 1
+                args.max_runtime_seconds = int(exe_time)
+            except Exception as ex:
+                raise Exception("--max-runtime-seconds is a required parameter!")
+    else:
+        args.max_runtime_seconds = 0
 
     args.config = Config(jvm_memory=args.jvm_memory,
                     max_runtime_seconds=args.max_runtime_seconds,

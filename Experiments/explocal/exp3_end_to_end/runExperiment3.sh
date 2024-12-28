@@ -25,4 +25,5 @@ CMD=./explocal/exp3_end_to_end/runExperiment3_AutoML.sh
 # $CMD $dataset Flaml  ${deafult_max_run_time} ${iteration} gpt-4o 
 # $CMD $dataset Autogluon ${deafult_max_run_time} ${iteration} gpt-4o 
 
-$CMD $dataset AIDE ${deafult_max_run_time} ${iteration} gpt-4o 
+$CMD $dataset AutoGen ${deafult_max_run_time} ${iteration} gemini-1.5-pro-latest 
+$CMD $dataset AutoGen ${deafult_max_run_time} ${iteration} llama-3.1-70b-versatile 

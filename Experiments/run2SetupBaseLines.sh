@@ -81,12 +81,12 @@ cd $path
 
 
 # # Setup AutoML
-# automl_path="${path}/Baselines/AutoML/"
-# rm -rf ${automl_path}
-# mkdir -p ${automl_path}
+automl_path="${path}/Baselines/AutoML/"
+rm -rf ${automl_path}
+mkdir -p ${automl_path}
 
-# cd ${root_path}
-# cp -r baselines/* "${automl_path}/"
+cd ${root_path}
+cp -r baselines/* "${automl_path}/"
 
 
 # # Install Auto Sklearn
@@ -129,6 +129,15 @@ cd $path
 # python3.10 -m pip install --upgrade pip
 # python3.10 -m pip install -r requirements.txt
 
+# # Install AutoGen
+cd ${automl_path}
+cd AutoGenAutoML
+rm -rf venv 
+python3.10 -m venv venv
+source venv/bin/activate
+pip install --upgrade pip
+pip install -r requirements.txt
+
 
 # # Setup MetaGPT: SELA
 # sela_path="${path}/Baselines"
@@ -146,14 +155,14 @@ cd $path
 
 
 ## Setup AIDE
-baselines_path="${path}/Baselines"
-cd ${baselines_path}
-rm -rf aideml
-git clone --branch CatDB https://github.com/fathollahzadeh/aideml.git
+# baselines_path="${path}/Baselines"
+# cd ${baselines_path}
+# rm -rf aideml
+# git clone --branch CatDB https://github.com/fathollahzadeh/aideml.git
 
-cd aideml
-rm -rf venv
-python3.10 -m venv venv
-source venv/bin/activate
-pip install --upgrade pip
-pip install -e .
+# cd aideml
+# rm -rf venv
+# python3.10 -m venv venv
+# source venv/bin/activate
+# pip install --upgrade pip
+# pip install -e .

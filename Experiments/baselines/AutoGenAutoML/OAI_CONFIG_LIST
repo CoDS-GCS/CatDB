@@ -1,0 +1,21 @@
+[
+    {
+        "model": "gpt-4o",
+        "api_key": "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"
+    },
+    {
+        "model": "llama-3.1-70b-versatile",
+        "api_key": "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",
+        "api_type": "groq"
+    },
+    {
+        "model": "gemini-1.5-pro",
+        "api_key": "AIzaSyDbtOYtZJpxaMOlPS1ZNdo97HLVSnZ_5SI",
+        "api_type": "google"
+    },
+    {
+        "model": "gemini-1.5-pro-latest",
+        "api_key": "AIzaSyDbtOYtZJpxaMOlPS1ZNdo97HLVSnZ_5SI",
+        "api_type": "google"
+    }
+]

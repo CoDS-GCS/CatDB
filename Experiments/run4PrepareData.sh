@@ -92,7 +92,7 @@ $CMD --dataset-name Utility-out-0.05-np-1-nc-12-mv-0.5 --target-attribute CSRI -
 # Prepare Datasets for SAGA
 mkdir -p ${saga_data_out_path}
 
-declare -a dataset_list=("oml_dataset_3_rnc")
+declare -a dataset_list=("oml_dataset_2_rnc" "oml_dataset_4_rnc" "oml_dataset_5_rnc" "oml_dataset_33_rnc" "oml_dataset_34_rnc" "oml_dataset_35_rnc" "oml_dataset_20_rnc" "oml_dataset_6_rnc" "oml_dataset_3_rnc" "oml_dataset_22_rnc" "oml_dataset_24_rnc" "oml_dataset_23_rnc" "Airline" "IMDB-IJS" "Accidents" "Financial" "EU-IT" "Etailing" "Midwest-Survey" "WiFi" "Utility" "Yelp")
 
 saga_baseline="${root_path}/setup/Baselines/SAGA"
 cd ${saga_baseline}
@@ -113,6 +113,5 @@ for ds in "${dataset_list[@]}"; do
     --output-dir ${output_dir}
 
 done
-
 
 cd ${root_path}

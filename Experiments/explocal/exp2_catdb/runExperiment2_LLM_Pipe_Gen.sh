@@ -3,35 +3,34 @@
 exp_path="$(pwd)"
 data_path="${exp_path}/data"
 dataset=$1
-data_profile_path=$2
+catalog_path=$2
 prompt_representation_type=$3
 prompt_samples_type=$4
 prompt_number_samples=$5
-prompt_number_request_samples=$6
-task_type=$7
-llm_model=$8
-with_dataset_description=$9
+task_type=$6
+llm_model=$7
+with_dataset_description=$8
 
 metadata_path="${data_path}/${dataset}/${dataset}.yaml"
-number_iteration=10
+number_iteration=5
 number_iteration_error=20
 
-log_file_name="${exp_path}/results/Experiment1_LLM_Pipe_Gen.dat"
+log_file_name="${exp_path}/results/Experiment2_LLM_Pipe_Gen.dat"
 date=$(date '+%Y-%m-%d-%H-%M-%S')
 system_log="${exp_path}/system-log-${date}.dat"
 
 output_path="${exp_path}/catdb-results/${dataset}"
 mkdir -p ${output_path}
 
-result_output_path="${exp_path}/results/Experiment1_LLM_Pipe_Gen_${prompt_representation_type}.dat"
+result_output_path="${exp_path}/results/Experiment2_LLM_Pipe_Gen_${prompt_representation_type}.dat"
 error_output_path="${exp_path}/LLM_Pipe_Error.dat"
 
 cd "${exp_path}/setup/Baselines/CatDB/"
 source venv/bin/activate
 
-SCRIPT="python -Wignore main_missing.py --metadata-path ${metadata_path} \
+SCRIPT="python -Wignore main.py --metadata-path ${metadata_path} \
         --root-data-path ${data_path} \
-        --data-profile-path ${data_profile_path} \
+        --catalog-path ${catalog_path} \
         --prompt-representation-type ${prompt_representation_type} \
         --prompt-samples-type ${prompt_samples_type} \
         --prompt-number-samples ${prompt_number_samples} \
@@ -42,8 +41,7 @@ SCRIPT="python -Wignore main_missing.py --metadata-path ${metadata_path} \
         --result-output-path ${result_output_path} \
         --dataset-description ${with_dataset_description} \
         --error-output-path ${error_output_path} \
-        --system-log ${system_log}
-        --prompt-number-request-samples ${prompt_number_request_samples}"
+        --system-log ${system_log}"
 
 
 echo ${SCRIPT}

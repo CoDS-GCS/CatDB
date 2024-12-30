@@ -4,7 +4,7 @@ dataset=$1
 task_type=$2
 
 exp_path="$(pwd)"
-log_file_name="${exp_path}/results/Experiment1_Data_Profile.dat"
+log_file_name="${exp_path}/results/Experiment2_Data_Profile.dat"
 data_source="${exp_path}/data"
 metadata_source="${exp_path}/catalog"
 

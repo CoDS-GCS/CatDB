@@ -3,7 +3,7 @@
 dataset=$1
 
 exp_path="$(pwd)"
-log_file_name="${exp_path}/results/Experiment1_CSVDataReader.dat"
+log_file_name="${exp_path}/results/Experiment2_CSVDataReader.dat"
 data_source="${exp_path}/data"
 
 cd "${exp_path}/setup/config/"

@@ -17,7 +17,7 @@ system_log="${exp_path}/system-log-${date}.dat"
 mkdir -p "${exp_path}/caafe-results"
 mkdir -p "${result_output_path}"
 
-output_path="${exp_path}/results/Experiment1_LLM_CAAFE.dat"
+output_path="${exp_path}/results/Experiment3_LLM_CAAFE.dat"
 
 cd "${exp_path}/setup/Baselines/CAAFE/"
 source venv/bin/activate

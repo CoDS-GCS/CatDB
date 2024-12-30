@@ -53,16 +53,16 @@ cd $path
 
 # Prepare Config
 ################
-# config_path="${path}/config/"
-# cd ${config_path}
-# rm -rf venv
+config_path="${path}/config/"
+cd ${config_path}
+rm -rf venv
 
-# python -m venv venv
-# source venv/bin/activate
+python -m venv venv
+source venv/bin/activate
 
-# #Then install the dependencies:
-# python -m pip install --upgrade pip
-# python -m pip install -r requirements.txt
+#Then install the dependencies:
+python -m pip install --upgrade pip
+python -m pip install -r requirements.txt
 
 # Setup CAAFE
 #############
@@ -80,7 +80,7 @@ cd $path
 # python3.9 -m pip install -r requirements.txt
 
 
-# # Setup AutoML
+# Setup AutoML
 automl_path="${path}/Baselines/AutoML/"
 rm -rf ${automl_path}
 mkdir -p ${automl_path}
@@ -89,68 +89,53 @@ cd ${root_path}
 cp -r baselines/* "${automl_path}/"
 
 
-# # Install Auto Sklearn
-# cd ${automl_path}
-# cd AutoSklearnAutoML
-# rm -rf venv 
-# python3.9 -m venv venv
-# source venv/bin/activate
-# python3.9 -m pip install --upgrade pip
-# python3.9 -m pip install --no-cache-dir -r requirements.txt
-# pip uninstall -y numpy
-# pip install --no-cache-dir numpy==1.26.4
-# pip unistall -y pandas
-# pip install --no-cache-dir -U pandas==1.5.3
-
-# # Install H2O AutoML
-# cd ${automl_path}
-# cd H2OAutoML
-# rm -rf venv 
-# python3.10 -m venv venv
-# source venv/bin/activate
-# python3.10 -m pip install --upgrade pip
-# python3.10 -m pip install -r requirements.txt
-
-# # Install Flaml AutoML
-# cd ${automl_path}
-# cd FlamlAutoML
-# rm -rf venv 
-# python3.10 -m venv venv
-# source venv/bin/activate
-# python3.10 -m pip install --no-cache-dir --upgrade pip
-# python3.10 -m pip install --no-cache-dir -r requirements.txt
-
-# # Install Autogluon  AutoML
-# cd ${automl_path}
-# cd AutogluonAutoML
-# rm -rf venv 
-# python3.10 -m venv venv
-# source venv/bin/activate
-# python3.10 -m pip install --upgrade pip
-# python3.10 -m pip install -r requirements.txt
-
-# # Install AutoGen
+# Install Auto Sklearn
 cd ${automl_path}
-cd AutoGenAutoML
+cd AutoSklearnAutoML
+rm -rf venv 
+python3.9 -m venv venv
+source venv/bin/activate
+python3.9 -m pip install --upgrade pip
+python3.9 -m pip install --no-cache-dir -r requirements.txt
+pip uninstall -y numpy
+pip install --no-cache-dir numpy==1.26.4
+pip unistall -y pandas
+pip install --no-cache-dir -U pandas==1.5.3
+
+# Install H2O AutoML
+cd ${automl_path}
+cd H2OAutoML
 rm -rf venv 
 python3.10 -m venv venv
 source venv/bin/activate
-pip install --upgrade pip
-pip install -r requirements.txt
+python3.10 -m pip install --upgrade pip
+python3.10 -m pip install -r requirements.txt
 
+# Install Flaml AutoML
+cd ${automl_path}
+cd FlamlAutoML
+rm -rf venv 
+python3.10 -m venv venv
+source venv/bin/activate
+python3.10 -m pip install --no-cache-dir --upgrade pip
+python3.10 -m pip install --no-cache-dir -r requirements.txt
 
-# # Setup MetaGPT: SELA
-# sela_path="${path}/Baselines"
-# cd $sela_path
-# rm -rf SELA
+# Install Autogluon  AutoML
+cd ${automl_path}
+cd AutogluonAutoML
+rm -rf venv 
+python3.10 -m venv venv
+source venv/bin/activate
+python3.10 -m pip install --upgrade pip
+python3.10 -m pip install -r requirements.txt
 
-# git clone https://github.com/geekan/MetaGPT.git
-# mv MetaGPT SELA
-# cd SELA
+# # Install AutoGen
+# cd ${automl_path}
+# cd AutoGenAutoML
+# rm -rf venv 
 # python3.10 -m venv venv
 # source venv/bin/activate
-# pip install -e .
-# cd metagpt/ext/sela
+# pip install --upgrade pip
 # pip install -r requirements.txt
 
 
@@ -166,3 +151,35 @@ pip install -r requirements.txt
 # source venv/bin/activate
 # pip install --upgrade pip
 # pip install -e .
+
+
+## Setup SAGA
+baselines_path="${path}/Baselines"
+cd ${baselines_path}
+rm -rf SAGA
+
+cd ${root_path}
+cp -r baselines/SAGA "${baselines_path}/"
+
+cd "${baselines_path}/SAGA"
+
+rm -rf venv
+python3.10 -m venv venv
+source venv/bin/activate
+pip install --upgrade pip
+pip install -r requirements.txt
+
+ rm -rf systemds
+ git clone https://github.com/apache/systemds.git
+
+cd systemds
+mvn clean package -P distribution
+cd ..
+
+rm -rf SystemDS.jar
+mv systemds/target/SystemDS.jar "${baselines_path}/SAGA"
+rm -rf lib
+mv systemds/target/lib/ "${baselines_path}/SAGA/"
+
+
+

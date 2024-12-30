@@ -59,7 +59,7 @@ source venv/bin/activate
 # $CMD
 
 # Run SELA
-output_path="${exp_path}/results/Experiment1_LLM_SELA.dat"
+output_path="${exp_path}/results/Experiment3_LLM_SELA.dat"
 
 cd "${exp_path}/setup/Baselines/SELA/metagpt/ext/sela"
 SCRIPT="python -Wignore main.py --exp_mode mcts \

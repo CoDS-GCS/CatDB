@@ -16,7 +16,7 @@ extra_name=${11}
 
 pipeline_path="${exp_path}/archive/VLDB2025/catdb-results/${dataset}"
 
-result_output_path="${exp_path}/results/Experiment1_Local_Pipeline.dat"
+result_output_path="${exp_path}/results/Experiment2_Local_Pipeline.dat"
 
 cd "${exp_path}/setup/Baselines/CatDB/"
 source venv/bin/activate

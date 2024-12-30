@@ -3,7 +3,7 @@
 root_path="$(pwd)"
 data_path="${root_path}/data"
 data_out_path="${root_path}/data"
-sela_data_out_path="${root_path}/data/SELA"
+saga_data_out_path="${root_path}/data/SAGA"
 config_path="${root_path}/setup/config"
 catalog_path="${root_path}/catalog"
 
@@ -88,5 +88,31 @@ $CMD --dataset-name Utility-out-0.05-np-1-nc-12-mv-0.2 --target-attribute CSRI -
 $CMD --dataset-name Utility-out-0.05-np-1-nc-12-mv-0.3 --target-attribute CSRI --task-type regression --multi-table False
 $CMD --dataset-name Utility-out-0.05-np-1-nc-12-mv-0.4 --target-attribute CSRI --task-type regression --multi-table False
 $CMD --dataset-name Utility-out-0.05-np-1-nc-12-mv-0.5 --target-attribute CSRI --task-type regression --multi-table False
+
+# Prepare Datasets for SAGA
+mkdir -p ${saga_data_out_path}
+
+declare -a dataset_list=("oml_dataset_3_rnc")
+
+saga_baseline="${root_path}/setup/Baselines/SAGA"
+cd ${saga_baseline}
+source venv/bin/activate
+
+CMD="python -Wignore mainSAGA.py"
+
+for ds in "${dataset_list[@]}"; do
+    output_dir="${saga_data_out_path}/${ds}/"
+    metadata_path="${data_path}/${ds}/${ds}.yaml"
+    cp -r ${metadata_path} ${output_dir}
+
+    rm -rf ${output_dir} # clean-up dataset
+    mkdir -p ${output_dir}
+
+    $CMD --metadata-path ${metadata_path} \
+    --dataset-path ${data_path} \
+    --output-dir ${output_dir}
+
+done
+
 
 cd ${root_path}

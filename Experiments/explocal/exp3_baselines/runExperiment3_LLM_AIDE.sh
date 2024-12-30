@@ -21,7 +21,7 @@ mkdir -p "${result_output_path}/log"
 mkdir -p "${result_output_path}/workspace"
 
 
-output_path="${exp_path}/results/Experiment1_LLM_AIDE.dat"
+output_path="${exp_path}/results/Experiment3_LLM_AIDE.dat"
 
 cd "${exp_path}/setup/Baselines/aideml/"
 source venv/bin/activate

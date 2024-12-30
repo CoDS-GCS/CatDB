@@ -15,26 +15,41 @@ class PrepareData(object):
         column = column.convert_dtypes()
         column = column.astype(str) if column.dtype == object else column
 
-        column_object = column.infer_objects()
         fd = 1
-        if column_object.name == 'category':
-            mask = 1
-        else:
-            mask = 0
-        if self.task_type != "regression" and col_name == self.target_attribute:
-            mask = 1
+
+        # column_object = column.infer_objects()
+        # if column_object.name == 'category':
+        #     mask = 1
+        # else:
+        #     mask = 0
+        # if self.task_type != "regression" and col_name == self.target_attribute:
+        #     mask = 1
 
         mask = 0
         datatype = "STRING"
-        if is_bool_dtype(column[col_name]):
+        if is_bool_dtype(column):
             datatype = "BOOL"
-        elif is_numeric_dtype(column[col_name]):
-            datatype = "FP64"
+        elif is_numeric_dtype(column):
+            dt = column.dtypes
+            if dt == "Int64":
+                datatype = "INT64"
+            elif dt == "Int32":
+                datatype = "INT32"
+            elif dt == "Int16":
+                datatype = "INT16"
+            elif dt == "Float64":
+                datatype = "FP64"
+            elif dt == "Float32":
+                datatype = "FP32"
+            else:
+                datatype = "FP64"
+        else:
+            mask = 1
 
         return mask, fd, datatype
 
     def run(self):
-        print(f"\n**** SAGA Data Prepare ****\n")
+        print(f"\n**** SAGA Data Prepare {self.dataset_name}****\n")
         mask = ['mask']
         fd = ['fd']
         schema = ['Schema']

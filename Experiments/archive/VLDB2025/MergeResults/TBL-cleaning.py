@@ -13,7 +13,8 @@ if __name__ == '__main__':
                                        "CatDB_train_auc","CatDB_test_auc",
                                        "CAAFETabPFN_train_auc","CAAFETabPFN_test_auc",
                                        "CAAFERandomForest_train_auc","CAAFERandomForest_test_auc",
-                                       #"AutoSklearn_train_auc","AutoSklearn_test_auc",
+                                       "AIDE_train_auc","AIDE_test_auc",
+                                       "AutoGen_train_auc","AutoGen_test_auc",
                                        "H2O_train_auc","H2O_test_auc",
                                        "Flaml_train_auc","Flaml_test_auc",
                                        "Autogluon_train_auc","Autogluon_test_auc"]
@@ -39,7 +40,8 @@ if __name__ == '__main__':
                         "CatDBChain_train_auc":0,"CatDBChain_test_auc":0,
                         "CAAFETabPFN_train_auc":0,"CAAFETabPFN_test_auc":0,
                         "CAAFERandomForest_train_auc":0,"CAAFERandomForest_test_auc":0,
-                        #"AutoSklearn_train_auc":0,"AutoSklearn_test_auc":0,
+                        "AIDE_train_auc":0,"AIDE_test_auc":0,
+                        "AutoGen_train_auc":0,"AutoGen_test_auc":0,
                         "H2O_train_auc":0,"H2O_test_auc":0,
                         "Flaml_train_auc":0,"Flaml_test_auc":0,
                         "Autogluon_train_auc":0,"Autogluon_test_auc":0},                     
@@ -56,7 +58,7 @@ if __name__ == '__main__':
 
     llms_shorname = {"gemini-1.5-pro-latest":"Gemini-1.5"}
 
-    configs = ["CatDB", "CatDBChain", "CAAFE","H2O","Flaml","Autogluon"]    
+    configs = ["CatDB", "CatDBChain", "CAAFE", "AIDE", "AutoGen","H2O","Flaml","Autogluon"]    
     ds_id = None
     for (ds,ds_title, index) in datasets:
         for llm in llms:
@@ -64,7 +66,8 @@ if __name__ == '__main__':
                         "CatDBM_train_auc":0,"CatDBM_test_auc":0,
                         "CAAFETabPFN_train_auc":0,"CAAFETabPFN_test_auc":0,
                         "CAAFERandomForest_train_auc":0,"CAAFERandomForest_test_auc":0,
-                        #"AutoSklearn_train_auc":0,"AutoSklearn_test_auc":0,
+                        "AIDE_train_auc":0,"AIDE_test_auc":0,
+                        "AutoGen_train_auc":0,"AutoGen_test_auc":0,
                         "H2O_train_auc":0,"H2O_test_auc":0,
                         "Flaml_train_auc":0,"Flaml_test_auc":0,
                         "Autogluon_train_auc":0,"Autogluon_test_auc":0}
@@ -117,7 +120,9 @@ if __name__ == '__main__':
                                         config_title="CAAFETabPFN"
                                     elif cls == "RandomForest":
                                         config_title = "CAAFERandomForest" 
-                               
+                                elif config in {"AIDE", "AutoGen"}:
+                                    config_title = config
+
                                 task_type = df_ds.iloc[0]['task_type']
                                 col_train = "train_auc"
                                 col_test = "test_auc"              

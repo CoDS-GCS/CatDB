@@ -59,7 +59,7 @@ if __name__ == '__main__':
     llms = ["gemini-1.5-pro-latest", "llama-3.1-70b-versatile", "gpt-4o"]
     classifier = ["Auto", "TabPFN", "RandomForest"]
 
-    configs = ["CatDB", "CatDBChain", "CAAFE"]    
+    configs = ["CatDB", "CatDBChain", "CAAFE", "AutoGen", "AIDE"]    
     ds_id = None
     for samples in {0}:
         for (ds,ds_title, task_type, index) in datasets:

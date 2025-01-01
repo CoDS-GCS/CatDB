@@ -43,8 +43,8 @@ metaInfo = metaInfo[, 2:ncol(metaInfo)]
 [scores, cleanTrain, cleanTest, externalState, iState] = fit_pipeline(trainData=trainData, testData=testData, metaData=metaInfo, pip=pip[1,], applyFunc=applyFunc[1, ], hp=hp[1,], evaluationFunc=func, evalFunHp=evalHp, isLastLabel=TRUE, correctTypos=FALSE)
 
 
-write(cleanTrain, out+"/"+$dsName+"_train.csv", format="csv", header=FALSE)
-write(cleanTest, out+"/"+$dsName+"_test.csv", format="csv", header=FALSE)
+write(cleanTrain, out+"/"+$dsName+"_train.csv", format="csv", header=TRUE)
+write(cleanTest, out+"/"+$dsName+"_test.csv", format="csv", header=TRUE)
 
 # UDF for evaluation
 evalClassification = function(Matrix[Double] X, Matrix[Double] Y, Matrix[Double] Xtest, Matrix[Double] Ytest, Matrix[Double] Xorig=as.matrix(0),

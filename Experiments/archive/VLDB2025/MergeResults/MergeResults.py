@@ -102,7 +102,9 @@ def load_merge_all_results(root_path):
                     f"{root_path}/raw_results/tmp-MicroBench-Experiment1_LLM_Pipe_Gen_CatDBChain.dat",
                     f"{root_path}/raw_results/S13-Experiment1_LLM_Pipe_Gen_CatDB.dat",
                     f"{root_path}/raw_results/S13-Experiment1_LLM_Pipe_Gen_CatDBChain.dat",
-                    f"{root_path}/raw_results/10m-Experiment1_LLM_CAAFE.dat",
+                    f"{root_path}/raw_results/10m-Experiment1_LLM_CAAFE.dat", 
+                    f"{root_path}/raw_results/Experiment3_AutoGen.dat", #AutoGen
+                    f"{root_path}/raw_results/Experiment3_AIDE.dat", #AutoGen
                     ] 
     df_merge = pd.DataFrame(columns = columns)
     

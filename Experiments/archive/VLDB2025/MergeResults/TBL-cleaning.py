@@ -1,6 +1,8 @@
 import pandas as pd
 from MergeResults import load_merge_all_results, get_top_k_all, replace_comma, mergse_dfs, load_results, dataset_corr
+import warnings
 
+warnings.filterwarnings('ignore')
 
 if __name__ == '__main__':
     root_path = "../results"        
@@ -8,7 +10,8 @@ if __name__ == '__main__':
     
     df_local = load_results(f"{root_path}/raw_results/Experiment1_Local_Pipeline.dat")
     
-    micor_tbl_cols = ["dataset_name", "Metric" ,"Selected_Method",
+    #"Metric" ,"Selected_Method",
+    micor_tbl_cols = ["dataset_name", 
                       "CatDBM_train_auc","CatDBM_test_auc",     
                                        "CatDB_train_auc","CatDB_test_auc",
                                        "CAAFETabPFN_train_auc","CAAFETabPFN_test_auc",
@@ -17,12 +20,15 @@ if __name__ == '__main__':
                                        "AutoGen_train_auc","AutoGen_test_auc",
                                        "H2O_train_auc","H2O_test_auc",
                                        "Flaml_train_auc","Flaml_test_auc",
-                                       "Autogluon_train_auc","Autogluon_test_auc"]
+                                       "Autogluon_train_auc","Autogluon_test_auc",
+                                       "H2O_SAGA_train_auc","H2O_SAGA_test_auc",
+                                       "Flaml_SAGA_train_auc","Flaml_SAGA_test_auc",
+                                       "Autogluon_SAGA_train_auc","Autogluon_SAGA_test_auc"]
     df_micro = pd.DataFrame(columns = micor_tbl_cols)   
     datasetIDs = [("EU-IT","EU-IT",106),  
                   ("WiFi","WiFi",109), 
                   ("Etailing","Etailing",107),                 
-                  ("Midwest-Survey","Midwest-Survey",108),                                   
+                  ("Survey","Midwest-Survey",108),                                   
                   ("Utility","Utility",1010),
                   ("Yelp","Yelp",105),
                 ]
@@ -44,7 +50,10 @@ if __name__ == '__main__':
                         "AutoGen_train_auc":0,"AutoGen_test_auc":0,
                         "H2O_train_auc":0,"H2O_test_auc":0,
                         "Flaml_train_auc":0,"Flaml_test_auc":0,
-                        "Autogluon_train_auc":0,"Autogluon_test_auc":0},                     
+                        "Autogluon_train_auc":0,"Autogluon_test_auc":0,
+                        "H2O_SAGA_train_auc":0,"H2O_SAGA_test_auc":0,
+                        "Flaml_SAGA_train_auc":0,"Flaml_SAGA_test_auc":0,
+                        "Autogluon_SAGA_train_auc":0,"Autogluon_SAGA_test_auc":0},                     
                         }
     
     wins2 = dict()
@@ -55,7 +64,7 @@ if __name__ == '__main__':
         wins2[llm] = llm_key    
     
     classifier = ["Auto", "TabPFN", "RandomForest"]
-
+    sub_tasks = ["","SAGA"]
     llms_shorname = {"gemini-1.5-pro-latest":"Gemini-1.5"}
 
     configs = ["CatDB", "CatDBChain", "CAAFE", "AIDE", "AutoGen","H2O","Flaml","Autogluon"]    
@@ -70,10 +79,14 @@ if __name__ == '__main__':
                         "AutoGen_train_auc":0,"AutoGen_test_auc":0,
                         "H2O_train_auc":0,"H2O_test_auc":0,
                         "Flaml_train_auc":0,"Flaml_test_auc":0,
-                        "Autogluon_train_auc":0,"Autogluon_test_auc":0}
+                        "Autogluon_train_auc":0,"Autogluon_test_auc":0,
+                        "H2O_SAGA_train_auc":0,"H2O_SAGA_test_auc":0,
+                        "Flaml_SAGA_train_auc":0,"Flaml_SAGA_test_auc":0,
+                        "Autogluon_SAGA_train_auc":0,"Autogluon_SAGA_test_auc":0}
             for des in {"Yes", "No"}:                
                 for config in configs:
-                    for cls in classifier:   
+                    for cls in classifier:
+                        for st in sub_tasks:       
                             corr_config = dataset_corr[ds]                 
                             df = df_pip_gen.loc[(df_pip_gen['dataset_name'] == ds) & 
                                                 (df_pip_gen['config'] == config) &
@@ -85,7 +98,14 @@ if __name__ == '__main__':
                                                 (df_pip_gen['operation']=='Run-CAAFE') |
                                                 (df_pip_gen['operation']=='Run-AutoML'))]                   
                                                        
-                            
+                            if config in {"AutoSklearn","H2O","Flaml","Autogluon"} and st == "SAGA":
+                                df = df.loc[df['sub_task'] == "SAGA"]
+                                if len(df) == 0:
+                                    continue
+
+                            if config not in {"AutoSklearn","H2O","Flaml","Autogluon"} and st == "SAGA":
+                                continue   
+
                             if config not in {"AutoSklearn","H2O","Flaml","Autogluon"}:
                                 df = df.loc[df['classifier'] == cls]
                             else:
@@ -122,6 +142,11 @@ if __name__ == '__main__':
                                         config_title = "CAAFERandomForest" 
                                 elif config in {"AIDE", "AutoGen"}:
                                     config_title = config
+
+                                elif config in {"AutoSklearn","H2O","Flaml","Autogluon"}:
+                                    if st == "SAGA":
+                                        config_title = f"{config}_SAGA"
+
 
                                 task_type = df_ds.iloc[0]['task_type']
                                 col_train = "train_auc"
@@ -165,22 +190,22 @@ if __name__ == '__main__':
             df_micro.loc[cindex] = [None for ti in micor_tbl_cols]            
            
             df_micro.at[cindex,"dataset_name"] = ds_title  
-            df_micro.at[cindex,"Selected_Method"] = f" & {corr_config} "  
+            #df_micro.at[cindex,"Selected_Method"] = f" & {corr_config} "  
 
-            if ds in {"WiFi"}:
-                df_micro.at[cindex,"Metric"] = f" & AUC "
-            elif ds in {"EU-IT"}:
-                df_micro.at[cindex,"Metric"] = f" & ACC "    
-            elif ds in {"Utility"}:
-                df_micro.at[cindex,"Metric"] = f" & $R^2$ "
-            else:
-               df_micro.at[cindex,"Metric"] = f" & AUC-ovr "           
+            # if ds in {"WiFi"}:
+            #     df_micro.at[cindex,"Metric"] = f" & AUC "
+            # elif ds in {"EU-IT"}:
+            #     df_micro.at[cindex,"Metric"] = f" & ACC "    
+            # elif ds in {"Utility"}:
+            #     df_micro.at[cindex,"Metric"] = f" & $R^2$ "
+            # else:
+            #    df_micro.at[cindex,"Metric"] = f" & AUC-ovr "           
                           
             
             tbl_line = " \\\\ \\chline"
             for k in tbl_data.keys(): 
                 tl = ''        
-                if k == 'Autogluon_test_auc':
+                if k == 'Autogluon_SAGA_test_auc':
                     tl = tbl_line
 
                 if tbl_data[k] is None:

@@ -15,7 +15,7 @@ train_data_path="${saga_data_path}/${dataset}_orig_train.csv"
 
 cd "${exp_path}/setup/Baselines/SAGA"
 
-CMD="java -Xmx20g -Xms20g -Xmn1g \
+CMD="java -Xmx120g -Xms120g -Xmn11g \
     -cp SystemDS.jar:lib/* \
     -Dlog4j.configuration=file:log4j-silent.properties \
     org.apache.sysds.api.DMLScript \
@@ -38,7 +38,7 @@ $CMD -f topkTest1.dml -stats -nvargs sep=$sep dirtyData=$train_data_path  metaDa
     primitives=primitives.csv parameters=param.csv sample=1 topk=3 expectedIncrease=10 max_iter=15 rv=50\
     enablePruning=TRUE testCV=TRUE cvk=3 split=0.7 seed=-1 func=$task output=${saga_data_path}/ 2>&1  
 
-# $CMD -f evaluatePip.dml -stats -nvargs sep=$sep trainData=$train_data_path testData=$test_data_path metaData=$metadata_path input=${saga_data_path} logical=FALSE func=$task out=${saga_data_path} dsName=$dataset 2>&1 | tee ${saga_data_path}/screenEval.txt 
+$CMD -f evaluatePip.dml -stats -nvargs sep=$sep trainData=$train_data_path testData=$test_data_path metaData=$metadata_path input=${saga_data_path} logical=FALSE func=$task out=${saga_data_path} dsName=$dataset 2>&1 | tee ${saga_data_path}/screenEval.txt 
 
 end=$(date +%s%N)
 
@@ -46,5 +46,5 @@ log_file_name="${exp_path}/results/Experiment1_SAGA_Cleaning.dat"
 echo ${dataset}","$((($end - $start) / 1000000)) >>$log_file_name
 
 
-# CMD="python -Wignore mainSAGARewriteConfig.py --metadata-path ${saga_data_path}/${dataset}.yaml --dataset-path ${data_path}/SAGA"
-# $CMD
+CMD="python -Wignore mainSAGARewriteConfig.py --metadata-path ${saga_data_path}/${dataset}.yaml --dataset-path ${data_path}/SAGA"
+$CMD

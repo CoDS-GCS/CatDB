@@ -1,7 +1,12 @@
 import pandas as pd
 from pandas.api.types import is_numeric_dtype, is_bool_dtype
 
-class PrepareData(object):
+import sys
+import holoclean
+from detect import NullDetector, ViolationDetector
+from repair.featurize import *
+
+class CleanData(object):
     def __init__(self, dataset_name, target_attribute, task_type, train_path, test_path, output_dir):
         self.dataset_name = dataset_name
         self.target_attribute = target_attribute
@@ -55,8 +60,6 @@ class PrepareData(object):
         schema = ['Schema']
         df_train = pd.read_csv(self.train_path, na_values=[' ', '?', '-'])
         df_test = pd.read_csv(self.test_path, na_values=[' ', '?', '-'])
-        df_train.dropna(subset=[self.target_attribute], inplace=True)
-        df_test.dropna(subset=[self.target_attribute], inplace=True)
         columns = df_train.columns
         for col in columns:
             if col != self.target_attribute:
@@ -78,7 +81,7 @@ class PrepareData(object):
         X_train[self.target_attribute] = y_train
         X_test[self.target_attribute] = y_test
 
-        df_meta = pd.DataFrame(columns=[f"c_{i}" for i in range(1, len(columns)+2)])
+        df_meta = pd.DataFrame(columns=[f"c_{i}" for i in range(1, len(columns) + 2)])
         df_meta.loc[len(df_meta)] = schema
         df_meta.loc[len(df_meta)] = mask
         df_meta.loc[len(df_meta)] = fd
@@ -87,4 +90,3 @@ class PrepareData(object):
         X_train.to_csv(f"{self.output_dir}/{self.dataset_name}_orig_train.csv", index=False, header=True)
         X_test.to_csv(f"{self.output_dir}/{self.dataset_name}_orig_test.csv", index=False, header=True)
         df_meta.to_csv(f"{self.output_dir}/{self.dataset_name}_meta.csv", index=False, header=False)
-

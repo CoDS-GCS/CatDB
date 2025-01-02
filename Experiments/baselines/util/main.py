@@ -66,7 +66,8 @@ def parse_arguments(is_automl: bool=True):
                     output_predictions_file_train=f"{args.output_path}/{args.dataset_name}/train",
                     output_predictions_file_test=f"{args.output_path}/{args.dataset_name}/test",
                     output_dir=f"{args.output_dir}/{args.dataset_name}/",
-                    output_path=args.output_path, llm_model=args.llm_model)
+                    output_path=args.output_path, llm_model=args.llm_model,
+                    sub_task=args.sub_task)
 
     args.dataset = Dataset(dataset_name=args.dataset_name,
                       train_path=args.data_source_train_path,

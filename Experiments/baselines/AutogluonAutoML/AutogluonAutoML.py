@@ -24,7 +24,7 @@ class AutogluonAutoML(CatDBAutoML):
         if self.dataset.task_type == 'binary':
             sort_metric = metrics.roc_auc
         elif self.dataset.task_type == 'multiclass':
-            sort_metric = metrics.roc_auc_ovo_macro
+            sort_metric = "roc_auc_ovr_micro"
         elif self.dataset.task_type == 'regression':
             sort_metric = metrics.r2
 
@@ -70,11 +70,11 @@ class AutogluonAutoML(CatDBAutoML):
             predictions_train = predictor.predict_proba(train_data, as_multiclass=True)
 
             self.log_results.train_auc_ovr = roc_auc_score(y_train, predictions_train, multi_class='ovr')
-            self.log_results.train_auc_ovo = result_train["roc_auc_ovo_macro"]
+            self.log_results.train_auc_ovo = roc_auc_score(y_train, predictions_train, multi_class='ovo')
             self.log_results.train_accuracy = result_train["accuracy"]
 
             self.log_results.test_auc_ovr = roc_auc_score(y_test, predictions_test, multi_class='ovr')
-            self.log_results.test_auc_ovo = result_test["roc_auc_ovo_macro"]
+            self.log_results.test_auc_ovo = roc_auc_score(y_test, predictions_test, multi_class='ovo')
             self.log_results.test_accuracy = result_test["accuracy"]
 
         elif self.dataset.task_type == "regression":
@@ -95,5 +95,6 @@ class AutogluonAutoML(CatDBAutoML):
         self.log_results.status = "True"
         self.log_results.time_execution = time_execute
         self.log_results.config = "Autogluon"
+        self.log_results.sub_task = self.config.sub_task
         self.log_results.save_results(result_output_path=self.config.output_path)
 

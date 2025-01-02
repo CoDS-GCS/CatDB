@@ -9,7 +9,7 @@ import re
 
 
 class AutoML(object):
-    def __init__(self, dataset: Dataset, config: Config,):
+    def __init__(self, dataset: Dataset, config: Config):
         self.dataset = dataset
         self.config = config
         self.automl_framework = None

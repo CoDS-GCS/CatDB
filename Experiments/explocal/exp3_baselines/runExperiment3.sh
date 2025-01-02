@@ -18,12 +18,10 @@ CMDAIDE=./explocal/exp3_baselines/runExperiment3_LLM_AIDE.sh
 # $CMDAutoML $dataset Flaml  ${deafult_max_run_time} ${iteration} gemini-1.5-pro-latest
 # $CMDAutoML $dataset Autogluon ${deafult_max_run_time} ${iteration} gemini-1.5-pro-latest
 
-
 # $CMDAutoML $dataset AutoSklearn ${deafult_max_run_time} ${iteration} llama-3.1-70b-versatile
 # $CMDAutoML $dataset H2O  ${deafult_max_run_time} ${iteration} llama-3.1-70b-versatile
 # $CMDAutoML $dataset Flaml  ${deafult_max_run_time} ${iteration} llama-3.1-70b-versatile
 # $CMDAutoML $dataset Autogluon ${deafult_max_run_time} ${iteration} llama-3.1-70b-versatile
-
 
 # $CMDAutoML $dataset AutoSklearn ${deafult_max_run_time} ${iteration} gpt-4o
 # $CMDAutoML $dataset H2O  ${deafult_max_run_time} ${iteration} gpt-4o
@@ -35,7 +33,7 @@ CMDAIDE=./explocal/exp3_baselines/runExperiment3_LLM_AIDE.sh
 # $CMDAutoMLSAGA $dataset AutoSklearn ${deafult_max_run_time} ${iteration} gemini-1.5-pro-latest
 # $CMDAutoMLSAGA $dataset H2O  ${deafult_max_run_time} ${iteration} gemini-1.5-pro-latest
 # $CMDAutoMLSAGA $dataset Flaml  ${deafult_max_run_time} ${iteration} gemini-1.5-pro-latest
-# $CMDAutoMLSAGA $dataset Autogluon ${deafult_max_run_time} ${iteration} gemini-1.5-pro-latest
+$CMDAutoMLSAGA $dataset Autogluon ${deafult_max_run_time} ${iteration} gemini-1.5-pro-latest
 
 
 # $CMDAutoMLSAGA $dataset AutoSklearn ${deafult_max_run_time} ${iteration} llama-3.1-70b-versatile

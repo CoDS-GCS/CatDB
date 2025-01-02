@@ -16,11 +16,15 @@ def parse_arguments(is_automl: bool=True):
     parser.add_argument('--output-path', type=str, default=None)
     parser.add_argument('--output-dir', type=str, default=None)
     parser.add_argument('--dataset-path', type=str, default=None)
+    parser.add_argument('--sub-task', type=str, default=None)
     parser.add_argument('--llm-model', type=str, default=None)
     args = parser.parse_args()
 
     if args.metadata_path is None:
         raise Exception("--metadata-path is a required parameter!")
+
+    if args.sub_task is None:
+        args.sub_task = ""
 
     if args.jvm_memory is not None:
         args.jvm_memory = args.jvm_memory * 1024

@@ -12,7 +12,7 @@ exp_path="$(pwd)"
 data_path="${exp_path}/data/SAGA"
 metadata_path="${data_path}/${dataset}/${dataset}.yaml"
 output_dir="${exp_path}/results/AutoML"
-output_path="${exp_path}/results/Experiment3_AutoML.dat"
+output_path="${exp_path}/results/Experiment3_AutoML_SAGA.dat"
 exe_runtime_path="${exp_path}/archive/VLDB2025/results/AutoMLExeResults.csv"
 
 mkdir -p ${output_dir}
@@ -27,7 +27,8 @@ CMD="python -Wignore main${framework}.py --metadata-path ${metadata_path} \
     --output-dir ${output_dir} \
     --iteration ${iteration} \
     --exe-runtime-path ${exe_runtime_path} \
-    --llm-model ${llm_model}"
+    --llm-model ${llm_model}\
+    --sub-task SAGA"
 
 cd "${framework}AutoML"
 source venv/bin/activate

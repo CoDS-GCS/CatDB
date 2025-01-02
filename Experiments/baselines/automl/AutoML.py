@@ -9,13 +9,14 @@ import re
 
 
 class AutoML(object):
-    def __init__(self, dataset: Dataset, config: Config):
+    def __init__(self, dataset: Dataset, config: Config,):
         self.dataset = dataset
         self.config = config
         self.automl_framework = None
         self.log_results = LogResults(dataset_name=dataset.dataset_name,
                                       task_type=dataset.task_type,
-                                      time_total=config.max_runtime_seconds)
+                                      time_total=config.max_runtime_seconds,
+                                      sub_task=config.sub_task)
 
     def run(self):
         pass

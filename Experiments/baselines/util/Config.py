@@ -14,7 +14,8 @@ class Config(object):
                  name: str = None,
                  output_path: str= None,
                  iteration: int= 1,
-                 llm_model: str=None
+                 llm_model: str=None,
+                 sub_task: str=""
                  ):
         self.nthreads = nthreads
         self.jvm_memory = jvm_memory
@@ -27,3 +28,4 @@ class Config(object):
         self.output_path = output_path
         self.iteration = iteration
         self.llm_model = llm_model
+        self.sub_task = sub_task

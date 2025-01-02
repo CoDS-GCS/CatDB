@@ -1,6 +1,7 @@
 import pandas as pd
 from pandas.api.types import is_numeric_dtype, is_bool_dtype
 
+
 class PrepareData(object):
     def __init__(self, dataset_name, target_attribute, task_type, train_path, test_path, output_dir):
         self.dataset_name = dataset_name
@@ -78,7 +79,7 @@ class PrepareData(object):
         X_train[self.target_attribute] = y_train
         X_test[self.target_attribute] = y_test
 
-        df_meta = pd.DataFrame(columns=[f"c_{i}" for i in range(1, len(columns)+2)])
+        df_meta = pd.DataFrame(columns=[f"c_{i}" for i in range(1, len(columns) + 2)])
         df_meta.loc[len(df_meta)] = schema
         df_meta.loc[len(df_meta)] = mask
         df_meta.loc[len(df_meta)] = fd
@@ -87,4 +88,3 @@ class PrepareData(object):
         X_train.to_csv(f"{self.output_dir}/{self.dataset_name}_orig_train.csv", index=False, header=True)
         X_test.to_csv(f"{self.output_dir}/{self.dataset_name}_orig_test.csv", index=False, header=True)
         df_meta.to_csv(f"{self.output_dir}/{self.dataset_name}_meta.csv", index=False, header=False)
-

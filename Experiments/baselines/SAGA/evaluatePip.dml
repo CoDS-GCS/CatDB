@@ -85,7 +85,7 @@ return(Matrix[Double] output, Matrix[Double] error)
     evalFunHp = as.matrix(opt)  
   }
   beta = lm(X=X, y=Y, icpt=as.scalar(evalFunHp[1,1]), reg=as.scalar(evalFunHp[1,2]), tol=as.scalar(evalFunHp[1,3]), 
-    maxi=1000, verbose = TRUE);
+    maxi=1000, verbose = FALSE);
   pred = lmPredict(X=Xtest, B=beta, ytest=Ytest, icpt=as.scalar(evalFunHp[1,1]));
   error = pred != Ytest  
   accuracy = Rsquared(Xtest, Ytest, beta)

@@ -30,9 +30,9 @@ CMDAIDE=./explocal/exp3_baselines/runExperiment3_LLM_AIDE.sh
 
 ## AutoML + SAGA
 ## ------------
-# $CMDAutoMLSAGA $dataset AutoSklearn ${deafult_max_run_time} ${iteration} gemini-1.5-pro-latest
-# $CMDAutoMLSAGA $dataset H2O  ${deafult_max_run_time} ${iteration} gemini-1.5-pro-latest
-# $CMDAutoMLSAGA $dataset Flaml  ${deafult_max_run_time} ${iteration} gemini-1.5-pro-latest
+#$CMDAutoMLSAGA $dataset AutoSklearn ${deafult_max_run_time} ${iteration} gemini-1.5-pro-latest
+$CMDAutoMLSAGA $dataset H2O  ${deafult_max_run_time} ${iteration} gemini-1.5-pro-latest
+$CMDAutoMLSAGA $dataset Flaml  ${deafult_max_run_time} ${iteration} gemini-1.5-pro-latest
 $CMDAutoMLSAGA $dataset Autogluon ${deafult_max_run_time} ${iteration} gemini-1.5-pro-latest
 
 

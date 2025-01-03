@@ -17,16 +17,6 @@ class PrepareData(object):
         column = column.astype(str) if column.dtype == object else column
 
         fd = 1
-
-        # column_object = column.infer_objects()
-        # if column_object.name == 'category':
-        #     mask = 1
-        # else:
-        #     mask = 0
-        # if self.task_type != "regression" and col_name == self.target_attribute:
-        #     mask = 1
-
-        mask = 0
         datatype = "STRING"
         if is_bool_dtype(column):
             datatype = "BOOL"
@@ -44,9 +34,7 @@ class PrepareData(object):
                 datatype = "FP32"
             else:
                 datatype = "FP64"
-        else:
-            mask = 1
-
+        mask = 1
         return mask, fd, datatype
 
     def run(self):
@@ -54,8 +42,9 @@ class PrepareData(object):
         mask = ['mask']
         fd = ['fd']
         schema = ['Schema']
-        df_train = pd.read_csv(self.train_path, na_values=[' ', '?', '-'])
-        df_test = pd.read_csv(self.test_path, na_values=[' ', '?', '-'])
+        df_train = pd.read_csv(self.train_path, na_values=[' ', '?', '-'], low_memory=False, encoding="ISO-8859-1")
+        df_test = pd.read_csv(self.test_path, na_values=[' ', '?', '-'], low_memory=False, encoding="ISO-8859-1")
+
         df_train.dropna(subset=[self.target_attribute], inplace=True)
         df_test.dropna(subset=[self.target_attribute], inplace=True)
         columns = df_train.columns
@@ -65,6 +54,17 @@ class PrepareData(object):
                 mask.append(m)
                 fd.append(f)
                 schema.append(dt)
+                if dt == "STRING":
+                    df_train[col] = df_train[col].str.replace('\n', '\\n')
+                    df_train[col] = df_train[col].str.replace("'", "")
+                    df_train[col] = df_train[col].str.replace(",", ";")
+                    df_train[col] = df_train[col].str.replace('"', "")
+                    df_train[col] = df_train[col].str.replace('\"', "")
+
+                    df_test[col] = df_test[col].str.replace('\n', '\\n')
+                    df_test[col] = df_test[col].str.replace("'", "")
+                    df_test[col] = df_test[col].str.replace('"', "")
+                    df_test[col] = df_test[col].str.replace('\"', "")
 
         m, f, dt = self.get_column_info(df_train[self.target_attribute], self.target_attribute)
         mask.append(m)

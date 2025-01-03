@@ -42,6 +42,9 @@ metaInfo = metaInfo[, 2:ncol(metaInfo)]
 
 [scores, cleanTrain, cleanTest, externalState, iState] = fit_pipeline(trainData=trainData, testData=testData, metaData=metaInfo, pip=pip[1,], applyFunc=applyFunc[1, ], hp=hp[1,], evaluationFunc=func, evalFunHp=evalHp, isLastLabel=TRUE, correctTypos=FALSE)
 
+cleanTrain = replace(target=cleanTrain, pattern = NaN, replacement = 0)
+cleanTest = replace(target=cleanTest, pattern = NaN, replacement = 0)
+
 
 write(cleanTrain, out+"/"+$dsName+"_train.csv", format="csv", header=TRUE)
 write(cleanTest, out+"/"+$dsName+"_test.csv", format="csv", header=TRUE)
@@ -69,39 +72,36 @@ return(Matrix[Double] output)
   }
   output = cbind(accuracy, evalFunHp)
 }
+
+
+# UDF for evaluation
+# choice of parameters provided by API, X, Y, clone_X, evalFunHp (hyper-param), trainML (boolean for optimizing hp internally or passed by externally )
 evalRegression = function(Matrix[Double] X, Matrix[Double] Y, Matrix[Double] Xtest, Matrix[Double] Ytest, Matrix[Double] Xorig=as.matrix(0),
   Matrix[Double] evalFunHp)
-return(Matrix[Double] output, Matrix[Double] error)
+return(Matrix[Double] output)
 {
-  Xtest = replace(target=Xtest, pattern = NaN, replacement = 0)
-  X = replace(target=X, pattern = NaN, replacement = 0)
   if(is.na(as.scalar(evalFunHp[1,1])))
   {
     # do the gridsearch for hyper-parameters
+    lArgs=list(X=X, y=Y, icpt=0, reg=-1, tol=-1, maxi=-1, verbose=FALSE);
     params = list("icpt","reg", "tol");
-    paramRanges = list(seq(0,2,1),10^seq(0,-4), 10^seq(-6,-12));
-    [B1, opt] = gridSearch(X=X, y=Y, train="lm", predict="RsquaredLoss",
-      numB=ncol(X)+1, params=params, paramValues=paramRanges, cv=TRUE, cvk=3);
-    evalFunHp = as.matrix(opt)  
+    paramRanges = list(seq(0,2,1), 10^seq(0,-4), 10^seq(-6,-12));
+    [B1, opt] = gridSearch(X=X, y=Y, train="lm", predict="wmape", trainArgs=lArgs,
+      numB=ncol(X)+1, params=params, paramValues=paramRanges, cv=TRUE, cvk=3, verbose=FALSE);
+    evalFunHp = as.matrix(opt)
   }
-  beta = lm(X=X, y=Y, icpt=as.scalar(evalFunHp[1,1]), reg=as.scalar(evalFunHp[1,2]), tol=as.scalar(evalFunHp[1,3]), 
-    maxi=1000, verbose = FALSE);
-  pred = lmPredict(X=Xtest, B=beta, ytest=Ytest, icpt=as.scalar(evalFunHp[1,1]));
-  error = pred != Ytest  
-  accuracy = Rsquared(Xtest, Ytest, beta)
-  rms = rmse(Xtest, Ytest, beta)
-  print("r-squared: "+toString(accuracy))
-  print("rmse: "+toString(rms))
+  beta = lm(X=X, y=Y, icpt=as.scalar(evalFunHp[1,1]), reg=as.scalar(evalFunHp[1,2]), tol=as.scalar(evalFunHp[1,3]),
+    maxi=1000, verbose=FALSE);
+
+  acc = wmape(Xtest, Ytest, beta)
+  accuracy = (1 - acc)
   output = cbind(accuracy, evalFunHp)
 }
 
-
-# # # adjusted R-square
-Rsquared = function(Matrix[Double] X, Matrix[Double] y, Matrix[Double] B) return (Matrix[Double] gain) {
-  n = nrow(y)
-  k = ncol(X)
-  pred = lmPredict(X=X, B=B, ytest=y, verbose = TRUE);
-  Rsqu = sum((y - pred)^2)/sum((y - mean(y))^2) #this will give the lose into range of [0,1]
-  Rsqu = 1 - (Rsqu)
-  gain = ifelse(is.na(as.matrix(Rsqu)), as.matrix(0), as.matrix(Rsqu))  
+wmape = function(Matrix[Double] X, Matrix[Double] y, Matrix[Double] B) return (Matrix[Double] loss) {
+  # loss = as.matrix(sum((y - X%*%B)^2));
+  pred = lmPredict(X=X, B=B, ytest=y, verbose=FALSE);
+  # print("WMAPO: "+(1 - (sum(abs((pred - y)/(pred + y)))/nrow(y))))
+  WMAPE = 1 - (sum(abs((pred - y)/(pred + y)))/nrow(y)) #this will give the lose into range of [0,1]
+  loss = ifelse(is.na(as.matrix(WMAPE)), as.matrix(0), as.matrix(WMAPE))
 }

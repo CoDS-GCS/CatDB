@@ -1,0 +1,92 @@
+from imblearn.over_sampling import ADASYN
+from imblearn.over_sampling import RandomOverSampler
+from ImbalancedLearningRegression import adasyn as reg_adasyn
+
+
+def augmentation(data, target_attribute, task_type):
+    if task_type == "regression":
+        print(f"ImbalancedLearningRegression")
+        data_resampled = reg_adasyn(data=data, y=target_attribute)
+        return data_resampled
+    else:
+        gdf = data.groupby([target_attribute]).size().reset_index(name='counts')
+        df_col_maps = dict()
+        n_samples = min(gdf["counts"])
+        if n_samples == 1:
+            oversample = RandomOverSampler(sampling_strategy='minority', random_state=42)
+            print(f"RandomOverSampler")
+        else:
+            oversample = ADASYN(sampling_strategy='minority', random_state=42)
+            print(f"ADASYN")
+
+        for col in data.columns:
+            try:
+                data[col].astype('int')
+            except:
+                uvalues = data[col].unique()
+                uvalues_map = dict()
+                uvalues_map_replace = dict()
+                for i, uv in enumerate(uvalues):
+                    uvalues_map[uv] = i
+                    uvalues_map_replace[i] = uv
+                df_col_maps[col] = uvalues_map_replace
+                data[col] = data[col].map(uvalues_map)
+
+        X = data.drop(target_attribute, axis=1)
+        y = data[target_attribute]
+        X_resampled, y_resampled = oversample.fit_resample(X, y)
+        X_resampled[target_attribute] = y_resampled
+
+        for col in df_col_maps.keys():
+            X_resampled[col] = X_resampled[col].map(df_col_maps[col])
+
+        return X_resampled
+# class Augmentation(object):
+#     def __init__(self, dataset_name, target_attribute, task_type, train_path, train_out_path):
+#         self.dataset_name = dataset_name
+#         self.target_attribute = target_attribute
+#         self.task_type = task_type
+#         self.train_path = train_path
+#         self.train_out_path = train_out_path
+#
+#     def run(self):
+#         df = pd.read_csv(self.train_path, na_values=[' ', '?', '-'], low_memory=False, encoding="ISO-8859-1")
+#         if self.task_type == "regression":
+#             print(f"{self.dataset_name}   >> ImbalancedLearningRegression")
+#             train_resampled = reg_adasyn(data=df, y=self.target_attribute)
+#             train_resampled.to_csv(self.train_out_path, index=False)
+#         else:
+#             gdf = df.groupby([self.target_attribute]).size().reset_index(name='counts')
+#
+#             df_col_maps = dict()
+#             n_samples = min(gdf["counts"])
+#             if n_samples == 1:
+#                 oversample = RandomOverSampler(sampling_strategy='minority', random_state=42)
+#                 print(f"{self.dataset_name}   >> RandomOverSampler")
+#             else:
+#                 oversample = ADASYN(sampling_strategy='minority', random_state=42)
+#                 print(f"{self.dataset_name}   >> ADASYN")
+#
+#             for col in df.columns:
+#                 try:
+#                     df[col].astype('int')
+#                 except:
+#                     uvalues = df[col].unique()
+#                     uvalues_map = dict()
+#                     uvalues_map_replace = dict()
+#                     for i, uv in enumerate(uvalues):
+#                         uvalues_map[uv] = i
+#                         uvalues_map_replace[i] = uv
+#                     df_col_maps[col] = uvalues_map_replace
+#                     df[col] = df[col].map(uvalues_map)
+#
+#             X = df.drop(self.target_attribute, axis=1)
+#             y = df[self.target_attribute]
+#             X_resampled, y_resampled = oversample.fit_resample(X, y)
+#
+#             X_resampled[self.target_attribute] = y_resampled
+#
+#             for col in df_col_maps.keys():
+#                 X_resampled[col] = X_resampled[col].map(df_col_maps[col])
+#
+#             X_resampled.to_csv(self.train_out_path, index=False)

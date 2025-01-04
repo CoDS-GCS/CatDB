@@ -1,2 +1,2 @@
 PyYAML==6.0.1
-pandas
+pandas==2.1.4

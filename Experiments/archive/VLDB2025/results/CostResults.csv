@@ -76,13 +76,13 @@ oml_dataset_2_rnc,Breast-w,CatDB,14305,0,0,2861,0,0,0,0,0,0,0,0,0,0,0,gemini-1.5
 oml_dataset_2_rnc,Breast-w,CatDBChain,28949,14660,20140,2208,1466,2014,0,0,0,0,0,0,0,0,0,gemini-1.5-pro-latest,No,binary,classification,0
 oml_dataset_2_rnc,Breast-w,CAAFETabPFN,16129,0,0,2632,0,0,0,0,0,0,0,0,0,0,0,gemini-1.5-pro-latest,No,binary,classification,0
 oml_dataset_2_rnc,Breast-w,CAAFERandomForest,17975,0,0,1265,0,0,0,0,0,0,0,0,0,0,0,gemini-1.5-pro-latest,No,binary,classification,0
-oml_dataset_2_rnc,Breast-w,AutoGen,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,gemini-1.5-pro-latest,No,binary,classification,0
+oml_dataset_2_rnc,Breast-w,AutoGen,13111,0,0,1237,0,0,0,0,0,0,0,0,0,0,0,gemini-1.5-pro-latest,No,binary,classification,0
 oml_dataset_2_rnc,Breast-w,AIDE,20876,0,0,1881,0,0,0,0,0,1,0,0,0,0,0,gemini-1.5-pro-latest,No,binary,classification,0
 oml_dataset_2_rnc,Breast-w,CatDB,7655,0,0,1531,0,0,4999,0,0,0,0,0,0,0,0,llama-3.1-70b-versatile,No,binary,classification,0
 oml_dataset_2_rnc,Breast-w,CatDBChain,21937,24260,16910,1638,882,1691,0,1544,0,1,1,0,0,0,0,llama-3.1-70b-versatile,No,binary,classification,0
 oml_dataset_2_rnc,Breast-w,CAAFETabPFN,17969,0,0,1194,0,0,0,0,0,0,0,0,0,0,0,llama-3.1-70b-versatile,No,binary,classification,0
 oml_dataset_2_rnc,Breast-w,CAAFERandomForest,19012,0,0,1194,0,0,0,0,0,0,0,0,0,0,0,llama-3.1-70b-versatile,No,binary,classification,0
-oml_dataset_2_rnc,Breast-w,AutoGen,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,llama-3.1-70b-versatile,No,binary,classification,0
+oml_dataset_2_rnc,Breast-w,AutoGen,12430,0,0,1238,0,0,2401,0,0,1,0,0,0,0,0,llama-3.1-70b-versatile,No,binary,classification,0
 oml_dataset_2_rnc,Breast-w,CatDB,7635,0,0,1527,0,0,0,0,0,0,0,0,0,0,0,gpt-4o,No,binary,classification,0
 oml_dataset_2_rnc,Breast-w,CatDBChain,18322,8840,12510,1421,884,1251,0,0,0,0,0,0,0,0,0,gpt-4o,No,binary,classification,0
 oml_dataset_2_rnc,Breast-w,CAAFETabPFN,19759,0,0,1204,0,0,0,0,0,0,0,0,0,0,0,gpt-4o,No,binary,classification,0

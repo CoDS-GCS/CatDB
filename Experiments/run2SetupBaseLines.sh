@@ -53,16 +53,16 @@ cd $path
 
 # Prepare Config
 ################
-config_path="${path}/config/"
-cd ${config_path}
-rm -rf venv
+# config_path="${path}/config/"
+# cd ${config_path}
+# rm -rf venv
 
-python -m venv venv
-source venv/bin/activate
+# python -m venv venv
+# source venv/bin/activate
 
-#Then install the dependencies:
-python -m pip install --upgrade pip
-python -m pip install -r requirements.txt
+# #Then install the dependencies:
+# python -m pip install --upgrade pip
+# python -m pip install -r requirements.txt
 
 # Setup CAAFE
 #############
@@ -203,3 +203,20 @@ python -m pip install -r requirements.txt
 
 # #  rm -rf holoclean
 # #  git clone https://github.com/HoloClean/holoclean.git
+
+
+## Setup ADASYN
+baselines_path="${path}/Baselines"
+cd ${baselines_path}
+rm -rf Augmentation
+
+cd ${root_path}
+cp -r baselines/Augmentation "${baselines_path}/"
+
+cd "${baselines_path}/Augmentation"
+
+rm -rf venv
+python3.10 -m venv venv
+source venv/bin/activate
+pip install --upgrade pip
+pip install -r requirements.txt

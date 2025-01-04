@@ -163,8 +163,10 @@ if __name__ == '__main__':
                                             ds_ID = 4                                           
                                     elif config == "AIDE":
                                         ds_ID = 5
+
                                     elif config == "AutoGen":
                                         ds_ID = 6
+                                        print(f"{ds_title}  >>> {len(df_ds)}")
 
                                     fname = f"{fname}-{samples}-{des}.csv"    
                                     df_ds["ID"] =  [ds_ID for dsid in range(0,len(df_ds))]

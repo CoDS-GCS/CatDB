@@ -1,0 +1,5 @@
+PyYAML==6.0.1
+pandas==2.1.4
+imblearn
+scikit-learn
+ImbalancedLearningRegression

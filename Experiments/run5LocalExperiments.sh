@@ -15,10 +15,10 @@ echo "dataset,time" >> "${exp_path}/results/Experiment1_SAGA_Cleaning.dat"
 cd ${exp_path}
 
 # CMD=./explocal/exp0_statistics/runExperiment0.sh
-# CMD=./explocal/exp1_cleaning/runExperiment1.sh
+CMD=./explocal/exp1_cleaning/runExperiment1.sh
 # CMDPatch=./explocal/exp1_cleaning/runPatch.sh
 # CMD=./explocal/exp2_catdb/runExperiment2.sh
-CMD=./explocal/exp3_baselines/runExperiment3.sh
+# CMD=./explocal/exp3_baselines/runExperiment3.sh
 
 # $CMDPatch
 
@@ -41,10 +41,10 @@ CMD=./explocal/exp3_baselines/runExperiment3.sh
 # $CMD Accidents multiclass # -> M2
 # $CMD Financial multiclass # -> M2
 
-# $CMD EU-IT multiclass # OK
-# $CMD Etailing multiclass # OK
-# $CMD Midwest-Survey multiclass # OK
-# $CMD WiFi binary # OK
+$CMD EU-IT multiclass # OK
+$CMD Etailing multiclass # OK
+$CMD Midwest-Survey multiclass # OK
+$CMD WiFi binary # OK
 $CMD Utility regression # OK
 # $CMD Yelp multiclass
 

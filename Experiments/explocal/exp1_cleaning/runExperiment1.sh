@@ -15,5 +15,6 @@ CMDSAGA=./explocal/exp1_cleaning/runExperiment1_SAGA.sh
 CMDAugmentation=./explocal/exp1_cleaning/runExperiment1_Augmentation.sh
 
 # $CMD ${dataset} ${catalog_path} gemini-1.5-pro-latest
-# $CMDSAGA ${dataset} ${task_type}
 $CMDAugmentation ${dataset}
+$CMDSAGA ${dataset} ${task_type}
+

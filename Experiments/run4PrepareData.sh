@@ -3,7 +3,7 @@
 root_path="$(pwd)"
 data_path="${root_path}/data"
 data_out_path="${root_path}/data"
-saga_data_out_path="${root_path}/data/SAGA"
+saga_data_out_path="${root_path}/data/data_space"
 config_path="${root_path}/setup/config"
 catalog_path="${root_path}/catalog"
 
@@ -31,26 +31,26 @@ catalog_path="${root_path}/catalog"
 # rm -rf "${data_path}/part-3"
 
 
-cd ${config_path}
-source venv/bin/activate
+# cd ${config_path}
+# source venv/bin/activate
 
-CMD="python DatasetPrepare.py --dataset-root-path ${data_path} \
-        --multi-table True \
-        --data-out-path ${data_out_path} \
-        --catalog-root-path ${catalog_path}"
+# CMD="python DatasetPrepare.py --dataset-root-path ${data_path} \
+#         --multi-table True \
+#         --data-out-path ${data_out_path} \
+#         --catalog-root-path ${catalog_path}"
 
  
 # $CMD --dataset-name Accidents --target-attribute klas_nesreca --task-type multiclass --target-table nesreca --mtos True
 # $CMD --dataset-name Airline --target-attribute ArrDel15 --task-type multiclass --target-table On_Time_On_Time_Performance_2016_1 --mtos True 
 # $CMD --dataset-name Financial --target-attribute status --task-type multiclass --target-table loan --mtos True
 # $CMD --dataset-name IMDB-IJS --target-attribute gender --task-type binary --target-table actors --mtos True
-$CMD --dataset-name Yelp --target-attribute stars --task-type multiclass --target-table Reviews --mtos True
+# $CMD --dataset-name Yelp --target-attribute stars --task-type multiclass --target-table Reviews --mtos True
 
-$CMD --dataset-name EU-IT --target-attribute 'Position ' --task-type multiclass --multi-table False
-$CMD --dataset-name Utility --target-attribute CSRI --task-type regression --multi-table False
-$CMD --dataset-name WiFi --target-attribute TechCenter --task-type binary --multi-table False
-$CMD --dataset-name Midwest-Survey --target-attribute 'Location (Census Region)' --task-type multiclass --multi-table False
-$CMD --dataset-name Etailing --target-attribute 'What is the maximum cart value you ever shopped?' --task-type multiclass --multi-table False
+# $CMD --dataset-name EU-IT --target-attribute 'Position ' --task-type multiclass --multi-table False
+# $CMD --dataset-name Utility --target-attribute CSRI --task-type regression --multi-table False
+# $CMD --dataset-name WiFi --target-attribute TechCenter --task-type binary --multi-table False
+# $CMD --dataset-name Midwest-Survey --target-attribute 'Location (Census Region)' --task-type multiclass --multi-table False
+# $CMD --dataset-name Etailing --target-attribute 'What is the maximum cart value you ever shopped?' --task-type multiclass --multi-table False
 
 
 # $CMD --dataset-name Volkert-out-0.01-np-0-nc-0-mv-0 --target-attribute class --task-type multiclass --multi-table False 

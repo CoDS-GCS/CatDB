@@ -5,22 +5,15 @@ data_path="${exp_path}/data"
 dataset=$1
 
 # clean-up 
-output_dir="${data_path}/Augmentation"
-mkdir -p $output_dir
-
-adasyn_data_path="${output_dir}/${dataset}"
-mkdir -p $adasyn_data_path
-
-cp -r "${data_path}/${dataset}/${dataset}.yaml" $adasyn_data_path
-cp -r "${data_path}/${dataset}/${dataset}_test.csv" $adasyn_data_path
-
-metadata_path="${adasyn_data_path}/${dataset}.yaml"
+output_dir="${data_path}/data_space"
+aug_data_path="${output_dir}/${dataset}"
+metadata_path="${aug_data_path}/${dataset}.yaml"
 
 cd "${exp_path}/setup/Baselines/Augmentation"
 source venv/bin/activate
 
 CMD="python -Wignore mainAugmentation.py --metadata-path ${metadata_path} \
-        --output-dir ${output_dir} --dataset-path ${data_path}"
+        --output-dir ${output_dir} --dataset-path ${output_dir}"
 
 start=$(date +%s%N)
 $CMD

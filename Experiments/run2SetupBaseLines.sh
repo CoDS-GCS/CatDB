@@ -154,58 +154,35 @@ cd $path
 
 
 ## Setup SAGA
-# baselines_path="${path}/Baselines"
-# cd ${baselines_path}
-# rm -rf SAGA
+baselines_path="${path}/Baselines"
+cd ${baselines_path}
+rm -rf SAGA
 
-# cd ${root_path}
-# cp -r baselines/SAGA "${baselines_path}/"
+cd ${root_path}
+cp -r baselines/SAGA "${baselines_path}/"
 
-# cd "${baselines_path}/SAGA"
+cd "${baselines_path}/SAGA"
 
-# rm -rf venv
-# python3.10 -m venv venv
-# source venv/bin/activate
-# pip install --upgrade pip
-# pip install -r requirements.txt
+rm -rf venv
+python3.10 -m venv venv
+source venv/bin/activate
+pip install --upgrade pip
+pip install -r requirements.txt
 
-#  rm -rf systemds
-#  git clone https://github.com/apache/systemds.git
+ rm -rf systemds
+ git clone https://github.com/apache/systemds.git
 
-# cd systemds
-# mvn clean package -P distribution
-# cd ..
+cd systemds
+mvn clean package -P distribution
+cd ..
 
-# rm -rf SystemDS.jar
-# mv systemds/target/SystemDS.jar "${baselines_path}/SAGA"
-# rm -rf lib
-# mv systemds/target/lib/ "${baselines_path}/SAGA/"
-
-
-# ## Setup HoloClean
-# baselines_path="${path}/Baselines"
-# cd ${baselines_path}
-# rm -rf HoloClean
-
-# cd ${root_path}
-# cp -r baselines/HoloClean "${baselines_path}/"
-
-# cd "${baselines_path}/HoloClean"
-
-# #  rm -rf holoclean
-# #  git clone https://github.com/HoloClean/holoclean.git
-
-# rm -rf venv
-# python3.8 -m venv venv
-# source venv/bin/activate
-# pip install --upgrade pip
-# pip install --no-cache-dir -r requirements.txt
-
-# #  rm -rf holoclean
-# #  git clone https://github.com/HoloClean/holoclean.git
+rm -rf SystemDS.jar
+mv systemds/target/SystemDS.jar "${baselines_path}/SAGA"
+rm -rf lib
+mv systemds/target/lib/ "${baselines_path}/SAGA/"
 
 
-## Setup ADASYN
+# Setup Augmentation
 baselines_path="${path}/Baselines"
 cd ${baselines_path}
 rm -rf Augmentation

@@ -21,8 +21,8 @@ def parse_arguments():
             args.target_attribute = config_data[0].get('dataset').get('target')
             args.task_type = config_data[0].get('dataset').get('type')
             try:
-                args.data_path = f"{args.dataset_path}/{args.dataset_name}/{args.dataset_name}_train.csv"
-                args.out_path = f"{args.output_dir}/{args.dataset_name}/{args.dataset_name}_train.csv"
+                args.data_path = f"{args.dataset_path}/{args.dataset_name}/{args.dataset_name}_orig_train.csv"
+                args.out_path = f"{args.output_dir}/{args.dataset_name}/{args.dataset_name}_aug_train.csv"
             except Exception as ex:
                 raise Exception(ex)
 
@@ -34,6 +34,7 @@ def parse_arguments():
 
 if __name__ == '__main__':
     args = parse_arguments()
+    print(f"Augmentation Started for Dataset {args.dataset_name}:")
     df = pd.read_csv(args.data_path, na_values=[' ', '?', '-'], low_memory=False, encoding="ISO-8859-1")
     pd = augmentation(data=df, target_attribute=args.target_attribute, task_type=args.task_type)
     pd.to_csv(args.out_path, index=False)

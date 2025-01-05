@@ -9,7 +9,7 @@ correspond_config=$6
 jvm_memory=135
 
 exp_path="$(pwd)"
-data_path="${exp_path}/data/SAGA"
+data_path="${exp_path}/data/data_space"
 metadata_path="${data_path}/${dataset}/${dataset}.yaml"
 output_dir="${exp_path}/results/AutoML"
 output_path="${exp_path}/results/Experiment3_AutoML_SAGA.dat"

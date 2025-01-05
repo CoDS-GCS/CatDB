@@ -49,6 +49,7 @@ echo ${dataset}","$((($end - $start) / 1000000)) >>$log_file_name
 if [ ! -f "${saga_data_path}/${dataset}_test.csv" ]; then
     cp -r ${test_data_path} "${saga_data_path}/${dataset}_test.csv"
     cp -r ${train_data_path} "${saga_data_path}/${dataset}_train.csv"
+    echo ${dataset} >> ${exp_path}/results/Experiment1_SAGA_Fail.dat
 else
     CMD="python -Wignore mainSAGARewriteConfig.py --metadata-path ${saga_data_path}/${dataset}.yaml --dataset-path ${data_path}/data_space"
     $CMD   

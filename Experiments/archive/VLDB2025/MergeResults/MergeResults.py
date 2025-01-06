@@ -104,7 +104,8 @@ def load_merge_all_results(root_path):
                     f"{root_path}/raw_results/S13-Experiment1_LLM_Pipe_Gen_CatDBChain.dat",
                     f"{root_path}/raw_results/10m-Experiment1_LLM_CAAFE.dat", 
                     f"{root_path}/raw_results/Experiment3_AutoGen.dat", #AutoGen
-                    f"{root_path}/raw_results/Experiment3_AIDE.dat", #AutoGen
+                    f"{root_path}/raw_results/Experiment3_AIDE.dat", #AIDE
+                    f"{root_path}/raw_results/Experiment3_AIDE_2.dat", #AIDE Part2 Running
                     f"{root_path}/raw_results/Experiment3_AutoML_SAGA.dat", #AutoML + SAGA                    
                     ] 
     df_merge = pd.DataFrame(columns = columns)
@@ -233,8 +234,11 @@ def get_top_k_binary(df, config, k):
     df_binary = df.loc[(df['train_auc'] >=0) &
                        (df['test_auc'] >=0) &
                        (df['task_type'] =='binary')]
-    if config not in {"CatDB", "CatDBChain"}:
+    if config == "CAAFE":
         return df_binary
+    
+    elif config not in {"CatDB", "CatDBChain"}:
+        return df_binary.head(k)
     else:
        df_binary = df_binary.sort_values(by='test_auc', ascending=False).reset_index(drop=True)
        return  df_binary.head(k)
@@ -244,8 +248,11 @@ def get_top_k_multiclass(df, config,k):
                         (df['test_auc_ovr'] >=0) &
                         (df['task_type'] =='multiclass')]  
 
-     if config not in {"CatDB", "CatDBChain"}:
+     if config == "CAAFE":
         return df_multi
+     
+     elif config not in {"CatDB", "CatDBChain"}:
+        return df_multi.head(k)
      else:
        df_multi = df_multi.sort_values(by='test_auc_ovr', ascending=False).reset_index(drop=True)
        return  df_multi.head(k) 
@@ -256,9 +263,12 @@ def get_top_k_multiclass_EUIT(df, config,k):
                         (df['task_type'] =='multiclass')]  
      df_multi['train_auc_ovr'] = df_multi['train_accuracy']
      df_multi['test_auc_ovr'] = df_multi['test_accuracy']
-
-     if config not in {"CatDB", "CatDBChain"}:
+     
+     if config == "CAAFE":
         return df_multi
+     
+     elif config not in {"CatDB", "CatDBChain"}:
+        return df_multi.head(k)
      else:
        df_multi = df_multi.sort_values(by='test_accuracy', ascending=False).reset_index(drop=True)
        return  df_multi.head(k)     
@@ -268,8 +278,11 @@ def get_top_k_regression(df, config,k):
                      (df['test_r_squared'] >=0) & (df['test_r_squared'] <=1) &
                      (df['task_type'] =='regression')]
      
-     if config not in {"CatDB", "CatDBChain"}:
+     if config == "CAAFE":
         return df_reg
+     
+     elif config not in {"CatDB", "CatDBChain"}:
+        return df_reg.head(k)
      else:
        
        df_reg = df_reg.sort_values(by='test_r_squared', ascending=False).reset_index(drop=True)       

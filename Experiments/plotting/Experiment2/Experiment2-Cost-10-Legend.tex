@@ -11,19 +11,25 @@
   legend image post style={line width=0.5pt,scale=1},
   legend cell align={left},   
   /tikz/every even column/.append style={column sep=2em, row sep=0.5em},
-  legend image code/.code={\draw [#1] (0cm,-0.12cm) rectangle (0.2cm,0.12cm); }, 
+  legend image code/.code={\draw [#1] (-0.2cm,-0.12cm) rectangle (0.2cm,0.12cm); }, 
   ]
   \addlegendimage{dblue1,draw=black, fill=dblue1,line width=0.3pt}
   \addlegendentry{CatDB};
 
   \addlegendimage{tug,draw=black, fill=tug,line width=0.3pt}
-  \addlegendentry{CatDB Chain};
+  \addlegendentry{CatDB Chain};  
 
   \addlegendimage{color4,draw=black, fill=color4,line width=0.3pt}
   \addlegendentry{CAAFE RandomForest};
 
   \addlegendimage{black,draw=black, fill=black,line width=0.3pt}
   \addlegendentry{CAAFE TabPFN};
+
+  \addlegendimage{dblue3,draw=black, fill=dblue3,line width=0.3pt}
+  \addlegendentry{AIDE};
+
+  \addlegendimage{color6,draw=black, fill=color6,line width=0.3pt}
+  \addlegendentry{AutoGen};
   
   \end{axis}  
 \end{tikzpicture}

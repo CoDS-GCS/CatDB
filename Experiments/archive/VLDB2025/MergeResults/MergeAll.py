@@ -166,8 +166,7 @@ if __name__ == '__main__':
 
                                     elif config == "AutoGen":
                                         ds_ID = 6
-                                        print(f"{ds_title}  >>> {len(df_ds)}")
-
+                                        
                                     fname = f"{fname}-{samples}-{des}.csv"    
                                     df_ds["ID"] =  [ds_ID for dsid in range(0,len(df_ds))]
 
@@ -262,7 +261,7 @@ if __name__ == '__main__':
                                         tmp_time = df_ds['time_total'].mean() 
 
                                         # missed iterations
-                                        missed_count = 10 - max_iteration
+                                        missed_count = 10 - len(df_ds['number_iteration'])
                                         missed_tokens = 0
                                         if missed_count > 0:
                                             base_prompt = df_ds.loc[df_ds['number_iteration'] == max_iteration, 'prompt_token_count'].values[0]
@@ -291,7 +290,12 @@ if __name__ == '__main__':
                                         df_cost.at[cindex,"token_count_err_it1"] = base_prompt * (first_itr -1)
                                         df_cost.at[cindex,"error_count"] = first_itr
 
-                                        tmp_time = df_ds['time_total'].mean()
+                                        if last_itr < 10:
+                                            last_itr = 10
+                                        tmp_time = (df_ds['time_total'].mean() * last_itr) /10
+
+                                        if tmp_time <= 40:
+                                            tmp_time=40 
                                         prompt_exe[config] = f"{tmp_time:.2f}"  
                                         prompt_exe["AIDE_min"] = f"{tmp_time/60:.2f}"  
                                         prompt_exe["AIDE_10_min"] = f"{tmp_time/6:.2f}"  
@@ -306,7 +310,9 @@ if __name__ == '__main__':
                                         df_cost.at[cindex,"token_count_err_it1"] = int((df_ds_tmp.loc[0,'all_token_count'] - df_ds_tmp.loc[0, 'prompt_token_count']) )
                                         df_cost.at[cindex,"error_count"] = df_ds_tmp.loc[0,'number_iteration_error']
 
-                                        tmp_time = df_ds['time_total'].mean()                                        
+                                        tmp_time = df_ds['time_total'].mean() 
+                                        if tmp_time <= 10:
+                                            tmp_time=10                                        
                                         prompt_exe[config] = f"{tmp_time:.2f}" 
                                         prompt_exe["AutoGen_min"] = f"{tmp_time/60:.2f}"  
                                         prompt_exe["AutoGen_10_min"] = f"{tmp_time/6:.2f}"    
@@ -334,6 +340,7 @@ if __name__ == '__main__':
                         df_automl_exe.loc[len(df_automl_exe)] = [ds, ds_title, automl_time, dataset_load_time, llm ]
     # Add Local Execution Time
     df_local = load_results(f"{root_path}/raw_results/Experiment1_Local_Pipeline.dat")
+    df_AUG_runtime = load_results(f"{root_path}/Experiment1_Augmentation.dat")
     df_SAGA_runtime = load_results(f"{root_path}/Experiment1_SAGA_Cleaning.dat")
     df_micro = pd.DataFrame(columns = df_cleaning_runtime.columns)
     
@@ -358,14 +365,19 @@ if __name__ == '__main__':
                                 (df_local['operation'] == f"Run-Local-Pipeline-{run_mod}")]
             
             df_saga = df_SAGA_runtime.loc[(df_SAGA_runtime['dataset'] == ds)]
+            df_aug = df_AUG_runtime.loc[(df_AUG_runtime['dataset'] == ds)]
             tmp_time_saga = 0
+            tmp_time_aug = 0
             if len(df_saga) > 0:
                 tmp_time_saga = (df_saga['time']).mean() 
+
+            if len(df_aug) > 0:
+                tmp_time_aug = (df_aug['time']).mean()     
             
             tmp_time = (df_m['time_execution']).mean()
             time_min = tmp_time / 60 
-            tmp_time = f"{tmp_time:.2f}"
-            time_min = f"{time_min:.2f}" 
+            tmp_time = f"{tmp_time:.1f}"
+            time_min = f"{time_min:.1f}" 
             if run_mod == "M":
                 time_m = tmp_time
                 time_m_min = time_min
@@ -378,10 +390,10 @@ if __name__ == '__main__':
         time_CAAFERF = df_exe.loc[(df_exe['dataset_name'] == ds) & (df_exe['llm_model'] == 'gemini-1.5-pro-latest'), 'CAAFERandomForest'].values[0]
         time_AIDE = df_exe.loc[(df_exe['dataset_name'] == ds) & (df_exe['llm_model'] == 'gemini-1.5-pro-latest'), 'AIDE'].values[0]
         time_AutoGen = df_exe.loc[(df_exe['dataset_name'] == ds) & (df_exe['llm_model'] == 'gemini-1.5-pro-latest'), 'AutoGen'].values[0]
-        df_cleaning_runtime.loc[len(df_cleaning_runtime)] = [ds_title,time_m, time_g, time_CAAFETabPFN, time_CAAFERF, time_AIDE, time_AutoGen, f"{tmp_time_saga/1000:.2f}"]
+        df_cleaning_runtime.loc[len(df_cleaning_runtime)] = [ds_title,time_m, time_g, time_CAAFETabPFN, time_CAAFERF, time_AIDE, time_AutoGen, f"{tmp_time_saga/1000:.1f}"]
 
         cindex = len(df_micro)
-        df_micro.loc[cindex] = [ds_title, f" &{time_m}", f" & {time_g}", f" & {time_CAAFETabPFN}", f" & {time_CAAFERF}", f" & {time_AIDE}", f" & {time_AutoGen}", f" & {tmp_time_saga/1000:.2f} \\\\ \\chline"]
+        df_micro.loc[cindex] = [ds_title, f" &{time_m}", f" & {time_g}", f" & {time_CAAFETabPFN}", f" & {time_CAAFERF}", f" & {time_AIDE}", f" & {time_AutoGen}", f" & {tmp_time_saga/1000:.1f} + {tmp_time_aug/1000:.1f} \\\\ \\chline"]
 
 
     #           

@@ -22,6 +22,9 @@ class FlamlAutoML(CatDBAutoML):
         train_data = reader_CSV(self.dataset.train_path)
         test_data = reader_CSV(self.dataset.test_path)
 
+        train_data = train_data.rename(columns=lambda x: re.sub('[^A-Za-z0-9_]+', '', x))
+        test_data = test_data.rename(columns=lambda x: re.sub('[^A-Za-z0-9_]+', '', x))
+
         X_train = train_data.drop(columns=[self.dataset.target_attribute])
         y_train = train_data[self.dataset.target_attribute]
 

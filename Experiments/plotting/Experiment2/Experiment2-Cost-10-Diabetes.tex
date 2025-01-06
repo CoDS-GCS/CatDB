@@ -3,7 +3,7 @@
 \makeatletter
 \pgfplots@stacked@isfirstplottrue
 \makeatother
-\addplot [forget plot,draw=none] coordinates{(gemini-1.5-pro-latest, 0) (llama-3.1-70b-versatile, 0) (gpt-4o, 0)};
+\addplot [forget plot,draw=none] coordinates{(gemini-1.5-pro-latest, 0.1) (llama-3.1-70b-versatile, 0.1) (gpt-4o, 0.1)};
 }
 \makeatother
 
@@ -17,15 +17,19 @@
 
   };
 
-  \newcommand{\myaddplotds}[6]{
+  \newcommand{\myaddplotds}[8]{
     \resetstackedplots
-   \myaddplotcost{CatDB}{#1}{dblue1}{#3}{#2}{0}{tug};
-    \resetstackedplots    
-    \myaddplotcost{CatDBChain}{#1}{tug}{#4}{#2}{0}{dred1};
+    \myaddplotcost{CatDB}{#1}{dblue1}{#3}{#2}{0}{tug};
+    \resetstackedplots
+    \myaddplotcost{CatDBChain}{#1}{tug}{#4}{#2}{0}{dred1};    
     \resetstackedplots
     \myaddplotcost{CAAFERandomForest}{#1}{color4}{#5}{#2}{0}{color4};
     \resetstackedplots
     \myaddplotcost{CAAFETabPFN}{#1}{black}{#6}{#2}{0}{black};
+    \resetstackedplots
+    \myaddplotcost{AIDE}{#1}{dblue3}{#7}{#2}{0}{black};
+    \resetstackedplots
+    \myaddplotcost{AutoGen}{#1}{color6}{#8}{#2}{0}{black};
   };
 \pgfplotsset{
     discard if singlconfig/.style n args={5}{
@@ -71,15 +75,16 @@
 };   
 
 \begin{axis}[
-  ymin=0,
+  ymin=5000,
   ybar stacked,
+  ymode=log,
   y tick label style={/pgf/number format/1000 sep={}},
   x tick label style={/pgf/number format/1000 sep={}},  
   scaled y ticks=false,
   axis line style={black, line width=0.3pt},
   enlarge y limits={0.09,upper},
   enlarge x limits=0.07,
-  ylabel={},%{Token Count},
+  ylabel={Token Count},
   xlabel={},
   log ticks with fixed point,
   xtick align=outside,
@@ -87,8 +92,8 @@
   ytick pos=left,
   yticklabel style = {font=\large},
   ylabel style = {font=\large, yshift=0pt, xshift=-3pt},
-  height=.48\columnwidth,
-  width=.72\columnwidth,
+  height=.52\columnwidth,
+  width=.80\columnwidth,
   ymajorgrids=true,
   grid style=dotted,
   minor grid style={gray!70},
@@ -97,18 +102,20 @@
   every axis plot/.append style={line width=0.4pt,mark options={scale=1.5,solid}},  
   xticklabel style = {font=\normalsize, xshift=0pt, yshift=3pt},
   legend image post style={line width=.5pt},          
-  bar width=8pt,         
-  ytick={0,10000,20000,30000,40000},
-  yticklabels={0, 10k, 20k, 30k,40k},               
+  bar width=6pt,         
+  ytick={5000,7500,15000,30000,60000,120000,240000},
+  yticklabels={, 7.5k, 15k, 30k, 60k, 120k, 240k},               
   every x tick/.style={ draw=none},
   xtick = data,
   symbolic x coords={gemini-1.5-pro-latest, llama-3.1-70b-versatile, gpt-4o},
   xticklabels={\hspace{0.3cm}Gemini-1.5, \hspace{0.1cm}Llama3.1-70b, \hspace{-0.64cm}GPT-4o},
   legend image code/.code={\draw [#1] (0cm,-0.1cm) rectangle (0.25cm,0.1cm); }, 
 ]
-\myaddplotds{gemini-1.5-pro-latest}{Diabetes}{0pt}{8pt}{16pt}{24pt}
-\myaddplotds{llama-3.1-70b-versatile}{Diabetes}{-11pt}{-3pt}{5pt}{13pt}
-\myaddplotds{gpt-4o}{Diabetes}{-22pt}{-14pt}{-6pt}{2pt}
+\myaddplotds{gemini-1.5-pro-latest}{Diabetes}{-6pt}{0pt}{6pt}{12pt}{18pt}{25pt}
+\myaddplotds{llama-3.1-70b-versatile}{Diabetes}{-20pt}{-14pt}{-8pt}{-2pt}{4pt}{10pt}
+\myaddplotds{gpt-4o}{Diabetes}{-24pt}{-18pt}{-12pt}{-6pt}{0pt}{6pt}
+\node [draw=black,inner sep=1mm, font=\normalsize, anchor=east] at (rel axis cs:1,0.94) {Cost};
 \end{axis}
+\node [draw=none,inner sep=0, font=\footnotesize, anchor=west, rotate=90, text=black] (leg1) at (rel axis cs: 0.248,-2.05) {$\times$ AIDE Failed};
 
 \end{tikzpicture}

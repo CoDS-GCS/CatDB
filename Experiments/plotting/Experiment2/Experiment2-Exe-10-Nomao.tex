@@ -15,7 +15,7 @@
     {../archive/VLDB2025/results/ExeResults.csv};
   };
 
-  \newcommand{\myaddplotds}[6]{
+  \newcommand{\myaddplotds}[8]{
     \resetstackedplots
     \myaddplotcost{CatDB_10_min}{#1}{dblue1}{#3}{#2}{0}{tug};
     \resetstackedplots
@@ -24,6 +24,10 @@
     \myaddplotcost{CAAFERandomForest_10_min}{#1}{color4}{#5}{#2}{0}{color4};
     \resetstackedplots
     \myaddplotcost{CAAFETabPFN_10_min}{#1}{black}{#6}{#2}{0}{black};
+    \resetstackedplots
+    \myaddplotcost{AIDE_10_min}{#1}{dblue3}{#7}{#2}{0}{black};
+    \resetstackedplots
+    \myaddplotcost{AutoGen_10_min}{#1}{color6}{#8}{#2}{0}{black};
   };
 \pgfplotsset{
     discard if singlconfig/.style n args={4}{
@@ -70,7 +74,7 @@
   axis line style={black, line width=0.3pt},
   enlarge y limits={0.14,upper},
   enlarge x limits=0.07,
-  ylabel={},%{Execution Time [m]},
+  ylabel={Execution Time [m]},
   xlabel={},
   log ticks with fixed point,
   xtick align=outside,
@@ -78,8 +82,8 @@
   ytick pos=left,
   yticklabel style = {font=\large},
   ylabel style = {font=\large, yshift=0pt, xshift=-5pt},
-  height=.49\columnwidth,
-  width=.72\columnwidth,
+  height=.52\columnwidth,
+  width=.80\columnwidth,
   ymajorgrids=true,
   grid style=dotted,
   minor grid style={gray!70},
@@ -88,21 +92,22 @@
   every axis plot/.append style={line width=0.4pt,mark options={scale=1.5,solid}},  
   xticklabel style = {font=\normalsize, xshift=0pt, yshift=3pt},
   legend image post style={line width=.5pt},          
-  bar width=8pt,  
-  log origin y=infty,  
-  max space between ticks=5,     
+  bar width=6pt,       
+  max space between ticks=5,  
   ytick={0.1,1,10,100,1000,10000},
-  yticklabels={0,1,10,$10^2$,$10^3$,$10^4$},               
+  yticklabels={0,1,10,$10^2$,$10^3$,$10^4$},              
   every x tick/.style={ draw=none},
   xtick = data,
   symbolic x coords={gemini-1.5-pro-latest, llama-3.1-70b-versatile, gpt-4o},
   xticklabels={\hspace{0.3cm}Gemini-1.5, \hspace{0.1cm}Llama3.1-70b, \hspace{-0.64cm}GPT-4o},
   legend image code/.code={\draw [#1] (0cm,-0.1cm) rectangle (0.25cm,0.1cm); }, 
 ]
- \myaddplotds{gemini-1.5-pro-latest}{Nomao}{0pt}{8pt}{16pt}{24pt}
- \myaddplotds{llama-3.1-70b-versatile}{Nomao}{-11pt}{-3pt}{5pt}{13pt}
- \myaddplotds{gpt-4o}{Nomao}{-22pt}{-14pt}{-6pt}{2pt}
+\myaddplotds{gemini-1.5-pro-latest}{Nomao}{-6pt}{0pt}{6pt}{12pt}{18pt}{24pt}
+\myaddplotds{llama-3.1-70b-versatile}{Nomao}{-20pt}{-14pt}{-8pt}{-2pt}{4pt}{10pt}
+\myaddplotds{gpt-4o}{Nomao}{-24pt}{-18pt}{-12pt}{-6pt}{0pt}{6pt}
+
+\node [draw=black,inner sep=1mm, font=\normalsize, anchor=east] at (rel axis cs:1,0.94) {Runtime};
 \end{axis}
 
-\end{tikzpicture}
 
+\end{tikzpicture}

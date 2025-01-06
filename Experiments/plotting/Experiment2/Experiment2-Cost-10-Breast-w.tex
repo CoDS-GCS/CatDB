@@ -3,7 +3,7 @@
 \makeatletter
 \pgfplots@stacked@isfirstplottrue
 \makeatother
-\addplot [forget plot,draw=none] coordinates{(gemini-1.5-pro-latest, 0) (llama-3.1-70b-versatile, 0) (gpt-4o, 0)};
+\addplot [forget plot,draw=none] coordinates{(gemini-1.5-pro-latest, 0.1) (llama-3.1-70b-versatile, 0.1) (gpt-4o, 0.1)};
 }
 \makeatother
 
@@ -75,8 +75,9 @@
 };   
 
 \begin{axis}[
-  ymin=0,
+  ymin=5000,
   ybar stacked,
+  ymode=log,
   y tick label style={/pgf/number format/1000 sep={}},
   x tick label style={/pgf/number format/1000 sep={}},  
   scaled y ticks=false,
@@ -102,8 +103,8 @@
   xticklabel style = {font=\normalsize, xshift=0pt, yshift=3pt},
   legend image post style={line width=.5pt},          
   bar width=6pt,         
-  ytick={0,10000,20000,30000},
-  yticklabels={0, 10k, 20k, 30k},               
+  ytick={5000,7500,15000,30000,60000,120000,240000},
+  yticklabels={, 7.5k, 15k, 30k, 60k, 120k, 240k},               
   every x tick/.style={ draw=none},
   xtick = data,
   symbolic x coords={gemini-1.5-pro-latest, llama-3.1-70b-versatile, gpt-4o},
@@ -113,6 +114,9 @@
 \myaddplotds{gemini-1.5-pro-latest}{Breast-w}{-6pt}{0pt}{6pt}{12pt}{18pt}{24pt}
 \myaddplotds{llama-3.1-70b-versatile}{Breast-w}{-20pt}{-14pt}{-8pt}{-2pt}{4pt}{10pt}
 \myaddplotds{gpt-4o}{Breast-w}{-24pt}{-18pt}{-12pt}{-6pt}{0pt}{6pt}
+
+\node [draw=black,inner sep=1mm, font=\normalsize, anchor=east] at (rel axis cs:1,0.94) {Cost};
+
 \end{axis}
 
 \end{tikzpicture}

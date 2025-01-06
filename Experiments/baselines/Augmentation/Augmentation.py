@@ -7,6 +7,7 @@ def augmentation(data, target_attribute, task_type):
     if task_type == "regression":
         print(f"ImbalancedLearningRegression")
         data_resampled = reg_adasyn(data=data, y=target_attribute)
+        data_resampled.dropna(subset=[target_attribute], inplace=True)
         return data_resampled
     else:
         gdf = data.groupby([target_attribute]).size().reset_index(name='counts')
@@ -39,5 +40,5 @@ def augmentation(data, target_attribute, task_type):
 
         for col in df_col_maps.keys():
             X_resampled[col] = X_resampled[col].map(df_col_maps[col])
-
+        X_resampled.dropna(subset=[target_attribute], inplace=True)
         return X_resampled

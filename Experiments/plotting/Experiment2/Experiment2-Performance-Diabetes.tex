@@ -14,7 +14,7 @@
 };
     
 \newcommand{\addboxplot}[6]{
-  \myaddplot{train}{train_auc}{../archive/VLDB2025/results/seperate/#1-#2-#3#4-0-No.csv}{#5}{#3}{#1};
+  %\myaddplot{train}{train_auc}{../archive/VLDB2025/results/seperate/#1-#2-#3#4-0-No.csv}{#5}{#3}{#1};
   \myaddplot{test}{test_auc}{../archive/VLDB2025/results/seperate/#1-#2-#3#4-0-No.csv}{#6}{#3}{#1};
 };
 
@@ -39,7 +39,7 @@
 
 \begin{tikzpicture}[
   every axis/.style={
-  height=0.4\columnwidth,
+  height=0.5\columnwidth,
   width=1.1\columnwidth,  
   }]
  \begin{axis}[   
@@ -65,7 +65,7 @@
   ytick pos=left,
   yticklabel style = {font=\large},
   ylabel style = {font=\large, yshift=-5pt},
-  xticklabel style = {font=\normalsize, xshift=0pt, yshift=0pt, rotate=0},
+  xticklabel style = {font=\small, xshift=0pt, yshift=3pt, rotate=0, draw=none, anchor=south, inner ysep=0.5mm},
   ymajorgrids,
   grid style=dotted,
   minor grid style={gray!80, dotted},
@@ -75,23 +75,21 @@
   legend image post style={line width=.5pt},   
   boxplot/draw direction=y,
   boxplot={
-      draw position={1 + floor(\plotnumofactualtype/24)+ 1/1*fpumod(\plotnumofactualtype,24)},
+      draw position={1 + floor(\plotnumofactualtype/18)+ 1/1*fpumod(\plotnumofactualtype,18)},
       box extend=0.85,
   },
-  xtick={3,9,15,22},
-  xticklabels={CatDB,\shortstack[c]{CatDB\\Chain},\shortstack[c]{CAAFE\\TabPFN},\shortstack[c]{CAAFE\\RandomForest}},
+  xtick={2,5,8,11,14,17},
+  xticklabels={CatDB,\shortstack[c]{CatDB\\Chain},\shortstack[c]{CAAFE\\TabPFN},\shortstack[c]{CAAFE\\R.Forest}, AIDE, AutoGen},
   legend image code/.code={\draw [#1] (0cm,-0.1cm) rectangle (0.2cm,0.1cm); },  
 %}
 ]  
-  \addboxplot{CatDB}{Diabetes}{gpt-4o}{}{dblue2}{dblue1};
+  \addboxplot{CatDB}{Diabetes}{gemini-1.5-pro-latest}{}{dblue2}{dblue1};
   \addboxplot{CatDB}{Diabetes}{gemini-1.5-pro-latest}{}{dred2}{dred1};
   \addboxplot{CatDB}{Diabetes}{llama-3.1-70b-versatile}{}{teal2}{teal1};
   
-
-  \addboxplot{CatDBChain}{Diabetes}{gpt-4o}{}{dblue2}{dblue1}
+  \addboxplot{CatDBChain}{Diabetes}{gemini-1.5-pro-latest}{}{dblue2}{dblue1}
   \addboxplot{CatDBChain}{Diabetes}{gemini-1.5-pro-latest}{}{dred2}{dred1};
   \addboxplot{CatDBChain}{Diabetes}{llama-3.1-70b-versatile}{}{teal2}{teal1};
-  
 
   \addboxplot{CAAFE}{Diabetes}{gpt-4o}{-TabPFN}{dblue2}{dblue1};
   \addboxplot{CAAFE}{Diabetes}{gemini-1.5-pro-latest}{-TabPFN}{dred2}{dred1};
@@ -100,31 +98,37 @@
   \addboxplot{CAAFE}{Diabetes}{gpt-4o}{-RandomForest}{dblue2}{dblue1};
   \addboxplot{CAAFE}{Diabetes}{gemini-1.5-pro-latest}{-RandomForest}{dred2}{dred1};
   \addboxplot{CAAFE}{Diabetes}{llama-3.1-70b-versatile}{-RandomForest}{teal2}{teal1};
+
+  \addboxplot{AIDE}{Diabetes}{llama-3.1-70b-versatile}{}{dblue2}{white};
+  \addboxplot{AIDE}{Diabetes}{llama-3.1-70b-versatile}{}{dred2}{white};
+  \addboxplot{AIDE}{Diabetes}{llama-3.1-70b-versatile}{}{teal2}{teal1};
+
+  \addboxplot{AutoGen}{Diabetes}{gemini-1.5-pro-latest}{}{dblue2}{white};
+  \addboxplot{AutoGen}{Diabetes}{gemini-1.5-pro-latest}{}{dred2}{dred1};
+  \addboxplot{AutoGen}{Diabetes}{llama-3.1-70b-versatile}{}{teal2}{teal1};
   
-  \coordinate (top1) at (axis cs:6.49,\pgfkeysvalueof{/pgfplots/ymax});
-  \coordinate (bot1) at (axis cs:6.49,\pgfkeysvalueof{/pgfplots/ymin});
+  \coordinate (top1) at (axis cs:3.49,\pgfkeysvalueof{/pgfplots/ymax});
+  \coordinate (bot1) at (axis cs:3.49,\pgfkeysvalueof{/pgfplots/ymin});
 
-  \coordinate (top2) at (axis cs:12.49,\pgfkeysvalueof{/pgfplots/ymax});
-  \coordinate (bot2) at (axis cs:12.49,\pgfkeysvalueof{/pgfplots/ymin});
+  \coordinate (top2) at (axis cs:6.49,\pgfkeysvalueof{/pgfplots/ymax});
+  \coordinate (bot2) at (axis cs:6.49,\pgfkeysvalueof{/pgfplots/ymin});
 
-  \coordinate (top3) at (axis cs:18.49,\pgfkeysvalueof{/pgfplots/ymax});
-  \coordinate (bot3) at (axis cs:18.49,\pgfkeysvalueof{/pgfplots/ymin});
+  \coordinate (top3) at (axis cs:9.49,\pgfkeysvalueof{/pgfplots/ymax});
+  \coordinate (bot3) at (axis cs:9.49,\pgfkeysvalueof{/pgfplots/ymin});
 
-  \draw[black!50, thick] (top1) -- (bot1);
-  \draw[black!50, thick] (top2) -- (bot2);
-  \draw[black!50, thick] (top3) -- (bot3);
+  \coordinate (top4) at (axis cs:12.49,\pgfkeysvalueof{/pgfplots/ymax});
+  \coordinate (bot4) at (axis cs:12.49,\pgfkeysvalueof{/pgfplots/ymin});
 
-  \draw[gray, densely dotted] (axis cs:2.5,\pgfkeysvalueof{/pgfplots/ymax}) -- (axis cs:2.5,\pgfkeysvalueof{/pgfplots/ymin});
-  \draw[gray, densely dotted] (axis cs:4.45,\pgfkeysvalueof{/pgfplots/ymax}) -- (axis cs:4.45,\pgfkeysvalueof{/pgfplots/ymin});
+  \coordinate (top5) at (axis cs:15.49,\pgfkeysvalueof{/pgfplots/ymax});
+  \coordinate (bot5) at (axis cs:15.49,\pgfkeysvalueof{/pgfplots/ymin});
 
-  \draw[gray, densely dotted] (axis cs:8.55,\pgfkeysvalueof{/pgfplots/ymax}) -- (axis cs:8.55,\pgfkeysvalueof{/pgfplots/ymin});
-  \draw[gray, densely dotted] (axis cs:10.5,\pgfkeysvalueof{/pgfplots/ymax}) -- (axis cs:10.5,\pgfkeysvalueof{/pgfplots/ymin});
+  \draw[black, densely dotted, thick] (top1) -- (bot1);
+  \draw[black, densely dotted, thick] (top2) -- (bot2);
+  \draw[black, densely dotted, thick] (top3) -- (bot3);
+  \draw[black, densely dotted, thick] (top4) -- (bot4);
+  \draw[black, densely dotted, thick] (top5) -- (bot5);
 
-  \draw[gray, densely dotted] (axis cs:14.6,\pgfkeysvalueof{/pgfplots/ymax}) -- (axis cs:14.6,\pgfkeysvalueof{/pgfplots/ymin});
-  \draw[gray, densely dotted] (axis cs:16.55,\pgfkeysvalueof{/pgfplots/ymax}) -- (axis cs:16.55,\pgfkeysvalueof{/pgfplots/ymin});
-
-  \draw[gray, densely dotted] (axis cs:20.65,\pgfkeysvalueof{/pgfplots/ymax}) -- (axis cs:20.65,\pgfkeysvalueof{/pgfplots/ymin});
-  \draw[gray, densely dotted] (axis cs:22.6,\pgfkeysvalueof{/pgfplots/ymax}) -- (axis cs:22.6,\pgfkeysvalueof{/pgfplots/ymin});
+  \node [draw=none,inner sep=0, font=\footnotesize, anchor=west, rotate=90, xshift=20pt, text=dred1] at (axis cs:13.99,\pgfkeysvalueof{/pgfplots/ymin}) {w/ Gemini Failed};
 
 \end{axis}
 

@@ -1,6 +1,8 @@
 import pandas as pd
 from MergeResults import load_merge_all_results, get_top_k_binary, get_top_k_multiclass, replace_comma, mergse_dfs, get_top_k_all, dataset_corr
+import warnings
 
+warnings.filterwarnings('ignore')
 
 if __name__ == '__main__':
     root_path = "../results"        
@@ -11,10 +13,17 @@ if __name__ == '__main__':
                                        "CatDBChain_train_auc","CatDBChain_test_auc",
                                        "CAAFETabPFN_train_auc","CAAFETabPFN_test_auc",
                                        "CAAFERandomForest_train_auc","CAAFERandomForest_test_auc",
+                                       "AIDE_train_auc","AIDE_test_auc",
+                                       "CAutoGen_train_auc","AutoGen_test_auc",
                                        "AutoSklearn_train_auc","AutoSklearn_test_auc",
                                        "H2O_train_auc","H2O_test_auc",
                                        "Flaml_train_auc","Flaml_test_auc",
-                                       "Autogluon_train_auc","Autogluon_test_auc"]
+                                       "Autogluon_train_auc","Autogluon_test_auc",
+                                       "AutoSklearn_SAGA_train_auc","AutoSklearn_SAGA_test_auc",
+                                       "H2O_SAGA_train_auc","H2O_SAGA_test_auc",
+                                       "Flaml_SAGA_train_auc","Flaml_SAGA_test_auc",
+                                       "Autogluon_SAGA_train_auc","Autogluon_SAGA_test_auc",
+                                       ]
     df_micro = pd.DataFrame(columns = micor_tbl_cols)   
 
     datasetIDs = [("Airline","Airline",101),
@@ -40,26 +49,44 @@ if __name__ == '__main__':
                         "CatDBChain_train_auc":0,"CatDBChain_test_auc":0,
                         "CAAFETabPFN_train_auc":0,"CAAFETabPFN_test_auc":0,
                         "CAAFERandomForest_train_auc":0,"CAAFERandomForest_test_auc":0,
+                        "AIDE_train_auc":0,"AIDE_test_auc":0,
+                        "AutoGen_train_auc":0,"AutoGen_test_auc":0,
                         "AutoSklearn_train_auc":0,"AutoSklearn_test_auc":0,
                         "H2O_train_auc":0,"H2O_test_auc":0,
                         "Flaml_train_auc":0,"Flaml_test_auc":0,
-                        "Autogluon_train_auc":0,"Autogluon_test_auc":0},
+                        "Autogluon_train_auc":0,"Autogluon_test_auc":0,
+                        "AutoSklearn_SAGA_train_auc":0,"AutoSklearn_SAGA_test_auc":0,
+                        "H2O_SAGA_train_auc":0,"H2O_SAGA_test_auc":0,
+                        "Flaml_SAGA_train_auc":0,"Flaml_SAGA_test_auc":0,
+                        "Autogluon_SAGA_train_auc":0,"Autogluon_SAGA_test_auc":0
+                        },
             "llama-3.1-70b-versatile":{"CatDB_train_auc":0,"CatDB_test_auc":0,
                         "CatDBChain_train_auc":0,"CatDBChain_test_auc":0,
                         "CAAFETabPFN_train_auc":0,"CAAFETabPFN_test_auc":0,
                         "CAAFERandomForest_train_auc":0,"CAAFERandomForest_test_auc":0,
+                        "AIDE_train_auc":0,"AIDE_test_auc":0,
+                        "AutoGen_train_auc":0,"AutoGen_test_auc":0,
                         "AutoSklearn_train_auc":0,"AutoSklearn_test_auc":0,
                         "H2O_train_auc":0,"H2O_test_auc":0,
                         "Flaml_train_auc":0,"Flaml_test_auc":0,
-                        "Autogluon_train_auc":0,"Autogluon_test_auc":0},
+                        "Autogluon_train_auc":0,"Autogluon_test_auc":0,
+                        "AutoSklearn_SAGA_train_auc":0,"AutoSklearn_SAGA_test_auc":0,
+                        "H2O_SAGA_train_auc":0,"H2O_SAGA_test_auc":0,
+                        "Flaml_SAGA_train_auc":0,"Flaml_SAGA_test_auc":0,
+                        "Autogluon_SAGA_train_auc":0,"Autogluon_SAGA_test_auc":0},
             "gpt-4o":{"CatDB_train_auc":0,"CatDB_test_auc":0,
                         "CatDBChain_train_auc":0,"CatDBChain_test_auc":0,
                         "CAAFETabPFN_train_auc":0,"CAAFETabPFN_test_auc":0,
-                        "CAAFERandomForest_train_auc":0,"CAAFERandomForest_test_auc":0,
+                        "AIDE_train_auc":0,"AIDE_test_auc":0,
+                        "AutoGen_train_auc":0,"AutoGen_test_auc":0,
                         "AutoSklearn_train_auc":0,"AutoSklearn_test_auc":0,
                         "H2O_train_auc":0,"H2O_test_auc":0,
                         "Flaml_train_auc":0,"Flaml_test_auc":0,
-                        "Autogluon_train_auc":0,"Autogluon_test_auc":0},            
+                        "Autogluon_train_auc":0,"Autogluon_test_auc":0,
+                        "AutoSklearn_SAGA_train_auc":0,"AutoSklearn_SAGA_test_auc":0,
+                        "H2O_SAGA_train_auc":0,"H2O_SAGA_test_auc":0,
+                        "Flaml_SAGA_train_auc":0,"Flaml_SAGA_test_auc":0,
+                        "Autogluon_SAGA_train_auc":0,"Autogluon_SAGA_test_auc":0},            
                         }
     
     wins2 = dict()
@@ -73,7 +100,7 @@ if __name__ == '__main__':
 
     llms_shorname = {"gemini-1.5-pro-latest":"Gemini-1.5","llama-3.1-70b-versatile":"Llama3.1-70b", "gpt-4o": "GPT-4o"}
 
-    configs = ["CatDB", "CatDBChain", "CAAFE","AutoSklearn","H2O","Flaml","Autogluon"]    
+    configs = ["CatDB", "CatDBChain", "CAAFE", "AIDE", "AutoGen","AutoSklearn","H2O","Flaml","Autogluon"]    
     ds_id = None
     for (ds,ds_title, index) in datasets:
         for llm in llms:
@@ -81,10 +108,16 @@ if __name__ == '__main__':
                         "CatDBChain_train_auc":0,"CatDBChain_test_auc":0,
                         "CAAFETabPFN_train_auc":0,"CAAFETabPFN_test_auc":0,
                         "CAAFERandomForest_train_auc":0,"CAAFERandomForest_test_auc":0,
+                        "AIDE_train_auc":0,"AIDE_test_auc":0,
+                        "AutoGen_train_auc":0,"AutoGen_test_auc":0,
                         "AutoSklearn_train_auc":0,"AutoSklearn_test_auc":0,
                         "H2O_train_auc":0,"H2O_test_auc":0,
                         "Flaml_train_auc":0,"Flaml_test_auc":0,
-                        "Autogluon_train_auc":0,"Autogluon_test_auc":0}
+                        "Autogluon_train_auc":0,"Autogluon_test_auc":0,
+                        "AutoSklearn_SAGA_train_auc":0,"AutoSklearn_SAGA_test_auc":0,
+                        "H2O_SAGA_train_auc":0,"H2O_SAGA_test_auc":0,
+                        "Flaml_SAGA_train_auc":0,"Flaml_SAGA_test_auc":0,
+                        "Autogluon_SAGA_train_auc":0,"Autogluon_SAGA_test_auc":0}
             for des in {"Yes", "No"}:                
                 for config in configs:
                     for cls in classifier:                    
@@ -122,14 +155,17 @@ if __name__ == '__main__':
                                     continue
 
                                 config_title = config
-                                if config in {"CatDB", "CatDBChain"}:
+                                if config in {"CatDB", "CatDBChain", "AIDE", "AutoGen"}:
                                     config_title = config
                                 elif config == "CAAFE":
                                     if cls == "TabPFN":
                                         config_title="CAAFETabPFN"
                                     elif cls == "RandomForest":
                                         config_title = "CAAFERandomForest" 
-                               
+                                
+                                saga_df = df.loc[df['sub_task'] == "SAGA"]
+                                if len(saga_df) > 0:
+                                    config_title = f"{config}_SAGA"
                                
                                 task_type = df_ds.iloc[0]['task_type']
                                 col_train = "train_auc"
@@ -177,10 +213,13 @@ if __name__ == '__main__':
                 tbl_line = "\\chline"
             df_micro.at[cindex,"llm_model"] = "& "+llms_shorname[llm]
             for k in tbl_data.keys():
+                if "train" in k:
+                    continue
+
                 htext = ""
                 corr_config = dataset_corr[ds]
                 line_text = ""
-                if k == "Autogluon_test_auc":
+                if k == "Autogluon_SAGA_test_auc":
                     line_text = f"\\\\ {tbl_line}"
                
                 if (corr_config in {"CatDB"} and k in {"CatDB_train_auc", "CatDB_test_auc"}) or (corr_config in {"CatDBChain"} and k in {"CatDBChain_train_auc", "CatDBChain_test_auc"}):

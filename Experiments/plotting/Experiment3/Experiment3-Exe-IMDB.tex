@@ -15,15 +15,19 @@
     {../archive/VLDB2025/results/ExeResults.csv};
   };
 
-  \newcommand{\myaddplotds}[6]{
+  \newcommand{\myaddplotds}[8]{
     \resetstackedplots
-    \myaddplotcost{CatDBChain_min}{#1}{dblue1}{#3}{#2}{0}{dred1};
+    \myaddplotcost{CatDBChain_min}{#1}{dblue1}{#4}{#2}{0}{dred1};    
     \resetstackedplots
-    \myaddplotcost{CatDB_min}{#1}{color6}{#4}{#2}{0}{tug};
-    %\resetstackedplots
-    %\myaddplotcost{CAAFERandomForest_min}{#1}{color4}{#5}{#2}{0}{color4};
-    %\resetstackedplots
-    %\myaddplotcost{CAAFETabPFN_min}{#1}{black}{#6}{#2}{0}{black};
+    \myaddplotcost{CatDB_min}{#1}{color6}{#3}{#2}{0}{tug};
+    \resetstackedplots
+    \myaddplotcost{CAAFERandomForest_min}{#1}{color4}{#5}{#2}{0}{color4};
+    \resetstackedplots
+    \myaddplotcost{CAAFETabPFN_min}{#1}{black}{#6}{#2}{0}{black};
+    \resetstackedplots
+    \myaddplotcost{AIDE_min}{#1}{teal1}{#7}{#2}{0}{teal1};
+    \resetstackedplots
+    \myaddplotcost{AutoGen_min}{#1}{lightgray}{#8}{#2}{0}{lightgray};
   };
 \pgfplotsset{
     discard if singlconfig/.style n args={4}{
@@ -78,7 +82,7 @@
   yticklabel style = {font=\large},
   ylabel style = {font=\large, yshift=0pt, xshift=-5pt},
   height=.5\columnwidth,
-  width=.75\columnwidth,
+  width=.79\columnwidth,
   ymajorgrids=true,
   grid style=dotted,
   minor grid style={gray!70},
@@ -87,22 +91,30 @@
   every axis plot/.append style={line width=0.4pt,mark options={scale=1.5,solid}},  
   xticklabel style = {font=\normalsize, xshift=0pt, yshift=3pt},
   legend image post style={line width=.5pt},          
-  bar width=8pt,         
-  ytick={0,5, 10, 15, 20, 25, 30},
-  yticklabels={0,5, 10, 15, 20, 25, 30},              
+  bar width=7pt,         
+  ytick={0,10, 20, 30, 40, 50},
+  yticklabels={0,10,20,30,40,50},             
   every x tick/.style={ draw=none},
   xtick = data,
   symbolic x coords={gemini-1.5-pro-latest, llama-3.1-70b-versatile, gpt-4o},
   xticklabels={\hspace{0.6cm}Gemini-1.5, \hspace{0.1cm}Llama3.1-70b, \hspace{-0.64cm}GPT-4o},
   legend image code/.code={\draw [#1] (0cm,-0.1cm) rectangle (0.25cm,0.1cm); }, 
 ]
- \myaddplotds{gemini-1.5-pro-latest}{IMDB-IJS}{0pt}{8pt}{16pt}{24pt}
- \myaddplotds{llama-3.1-70b-versatile}{IMDB-IJS}{-11pt}{-3pt}{5pt}{13pt}
- \myaddplotds{gpt-4o}{IMDB-IJS}{-22pt}{-14pt}{-6pt}{2pt}
+\myaddplotds{gemini-1.5-pro-latest}{IMDB-IJS}{-5.5pt}{1.5pt}{8.5pt}{15.5pt}{8.5pt}{8.5pt}
+\myaddplotds{llama-3.1-70b-versatile}{IMDB-IJS}{-20pt}{-13pt}{-6pt}{0pt}{-6pt}{-6pt}
+\myaddplotds{gpt-4o}{IMDB-IJS}{-30pt}{-23pt}{-16pt}{-9pt}{-16pt}{-16pt}
+
+\node [draw=black,inner sep=1mm, font=\normalsize, anchor=east] at (rel axis cs:1,0.94) {Runtime};
+
 \end{axis}
 
-\node [draw=none,inner sep=0, font=\normalsize, anchor=west, rotate=90] (leg1) at (rel axis cs: 0.26,0.02) {$\times$ CAAFE Failed};
-\node [draw=none,inner sep=0, font=\normalsize, anchor=west, rotate=90] (leg1) at (rel axis cs: 0.61,0.02) {$\times$ CAAFE Failed};
-\node [draw=none,inner sep=0, font=\normalsize, anchor=west, rotate=90] (leg1) at (rel axis cs: 0.97,0.02) {$\times$ CAAFE Failed};
+\node [draw=none,inner sep=0, font=\normalsize, anchor=west, rotate=90] (leg1) at (rel axis cs: 0.24,0.02) {$\times$ AIDE};
+\node [draw=none,inner sep=0, font=\normalsize, anchor=west, rotate=90] (leg1) at (rel axis cs: 0.29,0.02) {$\times$ CAAFE};
+
+\node [draw=none,inner sep=0, font=\normalsize, anchor=west, rotate=90] (leg1) at (rel axis cs: 0.58,0.02) {$\times$ AIDE};
+\node [draw=none,inner sep=0, font=\normalsize, anchor=west, rotate=90] (leg1) at (rel axis cs: 0.63,0.02) {$\times$ CAAFE};
+
+\node [draw=none,inner sep=0, font=\normalsize, anchor=west, rotate=90] (leg1) at (rel axis cs: 0.95,0.02) {$\times$ AIDE};
+\node [draw=none,inner sep=0, font=\normalsize, anchor=west, rotate=90] (leg1) at (rel axis cs: 1,0.02) {$\times$ CAAFE};
 
 \end{tikzpicture}

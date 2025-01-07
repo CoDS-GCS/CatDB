@@ -286,8 +286,8 @@ if __name__ == '__main__':
                                         df_cost.at[cindex,"tokens_count"] = df_ds["all_token_count"].sum() + missed_tokens
 
                                         df_ds_tmp = df_ds.head(1).reset_index(drop=True)
-                                        df_cost.at[cindex,"token_count_it1"] = df_ds_tmp.loc[0, 'all_token_count']
-                                        df_cost.at[cindex,"token_count_err_it1"] = base_prompt * (first_itr -1)
+                                        df_cost.at[cindex,"token_count_it1"] = df_ds_tmp.loc[0, 'all_token_count'] + base_prompt * (first_itr -1)
+                                        df_cost.at[cindex,"token_count_err_it1"] = 0
                                         df_cost.at[cindex,"error_count"] = first_itr
 
                                         if last_itr < 10:
@@ -306,8 +306,8 @@ if __name__ == '__main__':
 
                                         df_ds_tmp = df_ds.sort_values(by='all_token_count').reset_index(drop=True).head(1)
 
-                                        df_cost.at[cindex,"token_count_it1"] = int(df_ds_tmp.loc[0, 'prompt_token_count'])
-                                        df_cost.at[cindex,"token_count_err_it1"] = int((df_ds_tmp.loc[0,'all_token_count'] - df_ds_tmp.loc[0, 'prompt_token_count']) )
+                                        df_cost.at[cindex,"token_count_it1"] = int(df_ds_tmp.loc[0, 'prompt_token_count']) + int((df_ds_tmp.loc[0,'all_token_count'] - df_ds_tmp.loc[0, 'prompt_token_count']) )
+                                        df_cost.at[cindex,"token_count_err_it1"] = 0
                                         df_cost.at[cindex,"error_count"] = df_ds_tmp.loc[0,'number_iteration_error']
 
                                         tmp_time = df_ds['time_total'].mean() 

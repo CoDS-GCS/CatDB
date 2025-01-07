@@ -15,11 +15,19 @@
     {../archive/VLDB2025/results/ExeResults.csv};
   };
 
-  \newcommand{\myaddplotds}[6]{
+  \newcommand{\myaddplotds}[8]{
     \resetstackedplots
-    \myaddplotcost{CatDBChain_min}{#1}{dblue1}{#3}{#2}{0}{dred1};
+    \myaddplotcost{CatDBChain_min}{#1}{dblue1}{#4}{#2}{0}{dred1};    
     \resetstackedplots
-    \myaddplotcost{CatDB_min}{#1}{color6}{#4}{#2}{0}{tug};   
+    \myaddplotcost{CatDB_min}{#1}{color6}{#3}{#2}{0}{tug};
+    \resetstackedplots
+    \myaddplotcost{CAAFERandomForest_min}{#1}{color4}{#5}{#2}{0}{color4};
+    \resetstackedplots
+    \myaddplotcost{CAAFETabPFN_min}{#1}{black}{#6}{#2}{0}{black};
+    \resetstackedplots
+    \myaddplotcost{AIDE_min}{#1}{teal1}{#7}{#2}{0}{teal1};
+    \resetstackedplots
+    \myaddplotcost{AutoGen_min}{#1}{lightgray}{#8}{#2}{0}{lightgray};
   };
 \pgfplotsset{
     discard if singlconfig/.style n args={4}{
@@ -59,6 +67,7 @@
 \begin{axis}[
   ymin=0,
   ybar stacked,
+  %ymode=log,
   y tick label style={/pgf/number format/1000 sep={}},
   x tick label style={/pgf/number format/1000 sep={}},  
   scaled y ticks=false,
@@ -74,7 +83,7 @@
   yticklabel style = {font=\large},
   ylabel style = {font=\large, yshift=0pt, xshift=-5pt},
   height=.5\columnwidth,
-  width=.75\columnwidth,
+  width=.79\columnwidth,
   ymajorgrids=true,
   grid style=dotted,
   minor grid style={gray!70},
@@ -82,19 +91,23 @@
   %every node near coord/.append style={font=\fontsize{0.1pt}{0.1}, rotate=90, xshift=8pt, yshift=0pt},
   every axis plot/.append style={line width=0.4pt,mark options={scale=1.5,solid}},  
   xticklabel style = {font=\normalsize, xshift=0pt, yshift=3pt},
-  legend image post style={line width=.5pt},          
-  bar width=12pt,         
+  legend image post style={line width=.5pt},  
+  max space between ticks=5,         
+  bar width=8pt,         
   ytick={0,2,4,6,8,10},
-  yticklabels={0,2,4,6,8,10},              
+  yticklabels={0,2,4,6,8,10},                
   every x tick/.style={ draw=none},
   xtick = data,
   symbolic x coords={gemini-1.5-pro-latest, llama-3.1-70b-versatile, gpt-4o},
   xticklabels={\hspace{0.6cm}Gemini-1.5, \hspace{0.1cm}Llama3.1-70b, \hspace{-0.64cm}GPT-4o},
   legend image code/.code={\draw [#1] (0cm,-0.1cm) rectangle (0.25cm,0.1cm); }, 
 ]
-\myaddplotds{gemini-1.5-pro-latest}{NYC}{2pt}{14pt}{20pt}{30pt}
-\myaddplotds{llama-3.1-70b-versatile}{NYC}{-7pt}{5pt}{10pt}{20pt}
-\myaddplotds{gpt-4o}{NYC}{-13pt}{-1pt}{-10pt}{7pt}
+\myaddplotds{gemini-1.5-pro-latest}{NYC}{-4.5pt}{3.5pt}{11.5pt}{19.5pt}{11.5pt}{19.5pt}
+\myaddplotds{llama-3.1-70b-versatile}{NYC}{-16pt}{-8pt}{0pt}{8pt}{0pt}{8pt}
+\myaddplotds{gpt-4o}{NYC}{-24pt}{-16pt}{-8pt}{0pt}{-8pt}{0pt}
+
+\node [draw=black,inner sep=1mm, font=\normalsize, anchor=east] at (rel axis cs:1,0.94) {Runtime};
+
 \end{axis}
 
 \end{tikzpicture}

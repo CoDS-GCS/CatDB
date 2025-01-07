@@ -42,12 +42,32 @@
     \label{#1_fe_err}         
   };
 
-  \newcommand{\myaddplotds}[6]{
+  % \newcommand{\myaddplotds}[6]{
+  %   \resetstackedplots
+  %   \myaddplotcost{CatDBChain}{#1}{dblue1}{#3}{#2}{0}{dred1};
+  %   \resetstackedplots
+  %   \myaddplotcost{CatDB}{#1}{color6}{#4}{#2}{0}{tug};
+  %   %\resetstackedplots
+  %   %\myaddplotcost{CAAFERandomForest}{#1}{color4}{#5}{#2}{0}{color4};
+  %   %\resetstackedplots
+  %   %\myaddplotcost{CAAFETabPFN}{#1}{black}{#6}{#2}{0}{black};
+  % };
+
+  \newcommand{\myaddplotds}[8]{
     \resetstackedplots
-    \myaddplotcost{CatDBChain}{#1}{dblue1}{#3}{#2}{0}{dred1};
+    \myaddplotcost{CatDBChain}{#1}{dblue1}{#4}{#2}{0}{dred1};    
     \resetstackedplots
-    \myaddplotcost{CatDB}{#1}{color6}{#4}{#2}{0}{tug};
+    \myaddplotcost{CatDB}{#1}{color6}{#3}{#2}{0}{tug};
+    \resetstackedplots
+    \myaddplotcost{CAAFERandomForest}{#1}{color4}{#5}{#2}{0}{color4};
+    \resetstackedplots
+    \myaddplotcost{CAAFETabPFN}{#1}{black}{#6}{#2}{0}{black};
+    \resetstackedplots
+    \myaddplotcost{AIDE}{#1}{teal1}{#7}{#2}{0}{teal1};
+    \resetstackedplots
+    \myaddplotcost{AutoGen}{#1}{lightgray}{#8}{#2}{0}{lightgray};
   };
+
 \pgfplotsset{
     discard if singlconfig/.style n args={5}{
         x filter/.code={
@@ -98,7 +118,7 @@
   x tick label style={/pgf/number format/1000 sep={}},  
   scaled y ticks=false,
   axis line style={black, line width=0.3pt},
-  enlarge y limits={0.09,upper},
+  enlarge y limits={0.14,upper},
   enlarge x limits=0.07,
   ylabel={Token Count},
   xlabel={},
@@ -108,8 +128,8 @@
   ytick pos=left,
   yticklabel style = {font=\large},
   ylabel style = {font=\large, yshift=0pt, xshift=-3pt},
-  height=.5\columnwidth,
-  width=.75\columnwidth,
+  height=.50\columnwidth,
+  width=.87\columnwidth,
   ymajorgrids=true,
   grid style=dotted,
   minor grid style={gray!70},
@@ -118,18 +138,20 @@
   every axis plot/.append style={line width=0.4pt,mark options={scale=1.5,solid}},  
   xticklabel style = {font=\normalsize, xshift=0pt, yshift=3pt},
   legend image post style={line width=.5pt},          
-  bar width=12pt,         
-  ytick={0,2000,4000,6000,8000},
-  yticklabels={0, 2k, 4k, 6k, 8k},               
-  every x tick/.style={draw=none},
+  bar width=9pt,         
+  ytick={0,5000,10000,15000,20000,25000,30000,35000,40000},
+  yticklabels={0, 5k, 10k, 15k, 20k, 25k,30k,35k,40k},              
+  every x tick/.style={ draw=none},
   xtick = data,
   symbolic x coords={gemini-1.5-pro-latest, llama-3.1-70b-versatile, gpt-4o},
-  xticklabels={\hspace{0.6cm}Gemini-1.5, \hspace{0.1cm}Llama3.1-70b, \hspace{-0.64cm}GPT-4o},
+  xticklabels={\hspace{0.6cm}Gemini-1.5, \hspace{-0.2cm}Llama3.1-70b, \hspace{-0.74cm}GPT-4o},
   legend image code/.code={\draw [#1] (0cm,-0.1cm) rectangle (0.25cm,0.1cm); }, 
 ]
-\myaddplotds{gemini-1.5-pro-latest}{NYC}{2pt}{14pt}{20pt}{30pt}
-\myaddplotds{llama-3.1-70b-versatile}{NYC}{-7pt}{5pt}{10pt}{20pt}
-\myaddplotds{gpt-4o}{NYC}{-13pt}{-1pt}{-10pt}{7pt}
+
+\myaddplotds{gemini-1.5-pro-latest}{NYC}{-5.3pt}{3.7pt}{12.3pt}{21.7pt}{12.3pt}{21.7pt}
+\myaddplotds{llama-3.1-70b-versatile}{NYC}{-20pt}{-11pt}{-2pt}{7pt}{-2pt}{7pt}
+\myaddplotds{gpt-4o}{NYC}{-30pt}{-21pt}{-12pt}{-3pt}{6pt}{-12pt}{-3pt}
+\node [draw=black,inner sep=1mm, font=\normalsize, anchor=east] at (rel axis cs:1,0.94) {Cost};
 
 \end{axis}
 

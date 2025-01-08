@@ -11,7 +11,7 @@
   legend image post style={line width=0.5pt,scale=1},
   legend cell align={left},   
   /tikz/every even column/.append style={column sep=2.8em, row sep=0.5em},
-  legend image code/.code={\draw [#1] (0cm,-0.23cm) rectangle (0.35cm,0.23cm); }, 
+  legend image code/.code={\draw [#1] (-0.35cm,-0.23cm) rectangle (0.35cm,0.23cm); }, 
   ]
   \addlegendimage{dblue1,draw=black, fill=dblue1,line width=0.3pt}
   \addlegendentry{CatDB Chain};
@@ -29,7 +29,7 @@
   \addlegendentry{CatDB Chain FE$^{*}$};
 
   \addlegendimage{dred3,draw=black, fill=dred3,line width=0.3pt}
-  \addlegendentry{CatDB FE$^{*}$ Error};
+  \addlegendentry{PP$^{*}$ = Pre-processing};
 
   \addlegendimage{dblue1,draw=black, fill=color6,line width=0.3pt}
   \addlegendentry{CatDB};
@@ -42,7 +42,13 @@
 
   \addlegendimage{black,draw=black, fill=black,line width=0.3pt}
   \addlegendentry{CAAFE TabPFN};
+
+  \addlegendimage{teal1,draw=black, fill=teal1,line width=0.3pt}
+  \addlegendentry{AIDE};
+
+  \addlegendimage{lightgray,draw=black, fill=lightgray,line width=0.3pt}
+  \addlegendentry{AutoGen};
   
   \end{axis}
-  \node[draw=gray, fill=lightgray!30,font=\huge, xshift=0pt] at (rel axis cs: 0.18,0.79){PP$^{*}$ = Pre-processing  \ \ \ \ \ FE $^{*}$ = Feature Engineering};  
+  \node[draw=gray, fill=lightgray!30,font=\huge, xshift=0pt] at (rel axis cs: 1.45,0.85){\shortstack[l]{PP$^{*}$ = Pre-processing \\ FE $^{*}$ = Feature Engineering}};  
 \end{tikzpicture}

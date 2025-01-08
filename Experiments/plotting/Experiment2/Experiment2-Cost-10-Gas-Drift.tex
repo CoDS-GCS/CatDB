@@ -82,7 +82,7 @@
   x tick label style={/pgf/number format/1000 sep={}},  
   scaled y ticks=false,
   axis line style={black, line width=0.3pt},
-  enlarge y limits={0.09,upper},
+  enlarge y limits={0.12,upper},
   enlarge x limits=0.07,
   ylabel={Token Count},
   xlabel={},
@@ -103,8 +103,8 @@
   xticklabel style = {font=\normalsize, xshift=0pt, yshift=3pt},
   legend image post style={line width=.5pt},          
   bar width=6pt,         
-  ytick={15000,50000,100000,150000,200000},
-  yticklabels={15k, 50k, 100k, 150k,200k},                
+  ytick={15000,50000,100000,150000,200000,250000},
+  yticklabels={15k, 50k, 100k, 150k,200k,250k},                
   every x tick/.style={ draw=none},
   xtick = data,
   symbolic x coords={gemini-1.5-pro-latest, llama-3.1-70b-versatile, gpt-4o},
@@ -117,6 +117,6 @@
 \node [draw=black,inner sep=1mm, font=\normalsize, anchor=east] at (rel axis cs:1,0.94) {Cost};
 \end{axis}
 
-\node [draw=none,inner sep=0, font=\footnotesize, anchor=west, rotate=90] (leg1) at (rel axis cs: 0.68,0.05) {$\times$ AutoGen Failed};
+\node [draw=none,inner sep=0, font=\normalsize, anchor=west, rotate=90] (leg1) at (rel axis cs: 0.65,0.05) {$\times$ AutoGen};
 
 \end{tikzpicture}

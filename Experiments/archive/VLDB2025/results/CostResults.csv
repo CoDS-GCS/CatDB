@@ -230,6 +230,7 @@ oml_dataset_35_rnc,Volkert,CatDB,39390,0,0,7878,0,0,1677,0,0,0,0,0,0,0,0,llama-3
 oml_dataset_35_rnc,Volkert,CatDBChain,119205,71700,78160,5671,8604,9379,-945,-1434,-1563,0,0,0,0,0,0,llama-3.1-70b-versatile,No,multiclass,classification,0
 oml_dataset_35_rnc,Volkert,CAAFERandomForest,145772,0,0,14067,0,0,0,0,0,0,0,0,0,0,0,llama-3.1-70b-versatile,No,multiclass,classification,0
 oml_dataset_35_rnc,Volkert,AutoGen,15030,0,0,3872,0,0,0,0,0,1,0,0,0,0,0,llama-3.1-70b-versatile,No,multiclass,classification,0
+oml_dataset_35_rnc,Volkert,AIDE,455225,0,0,23775,0,0,0,0,0,1,0,0,0,0,0,llama-3.1-70b-versatile,No,multiclass,classification,0
 oml_dataset_35_rnc,Volkert,CatDB,39380,0,0,7876,0,0,0,0,0,0,0,0,0,0,0,gpt-4o,No,multiclass,classification,0
 oml_dataset_35_rnc,Volkert,CatDBChain,99340,71700,78160,4726,7170,7816,0,0,0,0,0,0,0,0,0,gpt-4o,No,multiclass,classification,0
 oml_dataset_35_rnc,Volkert,CAAFERandomForest,135413,0,0,12834,0,0,0,0,0,0,0,0,0,0,0,gpt-4o,No,multiclass,classification,0

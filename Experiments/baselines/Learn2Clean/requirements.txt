@@ -1,0 +1,17 @@
+pandas==1.5.3
+py_stringmatching == 0.4.6
+py_stringsimjoin == 0.3.5
+
+PyYAML==6.0.1
+fancyimpute == 0.7.0
+impyute == 0.0.8
+jellyfish == 0.6.1
+joblib == 1.4.2
+matplotlib == 3.5.3
+numpy == 1.22.4
+scipy == 1.9.3
+seaborn == 0.13.2
+#scikit_learn==1.6.0
+#sklearn_contrib_py_earth == 0.1.0
+statsmodels == 0.13.5
+tdda == 2.0.9

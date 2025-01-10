@@ -42,11 +42,11 @@ CMD=./explocal/exp1_cleaning/runExperiment1.sh
 # $CMD Accidents multiclass # -> M2
 # $CMD Financial multiclass # -> M2
 
-$CMD EU-IT multiclass # OK
-$CMD Etailing multiclass # OK
-$CMD Midwest-Survey multiclass # OK
+#$CMD EU-IT multiclass # OK
+#$CMD Etailing multiclass # OK
+#$CMD Midwest-Survey multiclass # OK
 $CMD WiFi binary # OK
-$CMD Utility regression # OK
+# $CMD Utility regression # OK
 # $CMD Yelp multiclass
 
 # Demo Datasets

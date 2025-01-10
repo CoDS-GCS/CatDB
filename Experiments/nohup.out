@@ -1,0 +1,74 @@
+
+**** Learn2Clean Running Midwest-Survey****
+
+Start Learn2Clean
+Learn2Clean - Pipeline construction -- CPU time: 0.13514232635498047 seconds
+=== Start Pipeline Execution ===
+
+
+Strategy# 0 : Greedy traversal for starting state MICE
+MICE -> NB
+
+Start pipeline
+-------------
+>>Imputation 
+* For train dataset
+Before imputation:
+Total 52 missing values in ['In your own words, what would you call the part of the country you live in now?', 'ZIP Code', 'Household Income', 'Education']
+- 3 numerical missing values in ['ZIP Code']
+- 49 non-numerical missing values in ['In your own words, what would you call the part of the country you live in now?', 'Household Income', 'Education']
+After imputation:
+Total 9669 missing values
+- 0 numerical missing values
+- 9669 non-numerical missing values
+* For test dataset
+Before imputation:
+Total 18 missing values in ['ZIP Code', 'Household Income', 'Education']
+- 2 numerical missing values in ['ZIP Code']
+- 16 non-numerical missing values in ['Household Income', 'Education']
+After imputation:
+Total 9861 missing values
+- 0 numerical missing values
+- 9861 non-numerical missing values
+Imputation done -- CPU time: 0.057288169860839844 seconds
+
+
+>>Classification task
+++++++++++++++++++++++++++++++++++++++++
+1018               Pacific
+559     East North Central
+1650       Middle Atlantic
+528                Pacific
+417     East North Central
+               ...        
+1395    West North Central
+1292           New England
+1605    East North Central
+874                Pacific
+862     East South Central
+Name: Location (Census Region), Length: 1221, dtype: object
+++++++++++++++++++++++++++++++++++
+Traceback (most recent call last):
+  File "mainLearn2Clean.py", line 39, in <module>
+    pd.run()
+  File "/home/saeed/Documents/Github/CatDB/Experiments/setup/Baselines/Learn2Clean/PrepareData.py", line 54, in run
+    (_, _, _, _, _, p, metrics_name, result, t) = l2c.learn2clean()
+  File "/home/saeed/Documents/Github/CatDB/Experiments/setup/Baselines/Learn2Clean/venv/lib/python3.8/site-packages/learn2clean/qlearning/qlearner.py", line 634, in learn2clean
+    result_list = self.show_traverse(self.dataset, q, g, self.target_goal,
+  File "/home/saeed/Documents/Github/CatDB/Experiments/setup/Baselines/Learn2Clean/venv/lib/python3.8/site-packages/learn2clean/qlearning/qlearner.py", line 495, in show_traverse
+    strategy.append(self.pipeline(dataset, actions_list, target1,
+  File "/home/saeed/Documents/Github/CatDB/Experiments/setup/Baselines/Learn2Clean/venv/lib/python3.8/site-packages/learn2clean/qlearning/qlearner.py", line 391, in pipeline
+    res = L2C_class[a](dataset=dataset,
+  File "/home/saeed/Documents/Github/CatDB/Experiments/setup/Baselines/Learn2Clean/venv/lib/python3.8/site-packages/learn2clean/classification/classifier.py", line 524, in transform
+    dn = self.NB_classification(dataset=d, target=self.target)
+  File "/home/saeed/Documents/Github/CatDB/Experiments/setup/Baselines/Learn2Clean/venv/lib/python3.8/site-packages/learn2clean/classification/classifier.py", line 345, in NB_classification
+    gs.fit(X_train, y_train)
+  File "/home/saeed/Documents/Github/CatDB/Experiments/setup/Baselines/Learn2Clean/venv/lib/python3.8/site-packages/sklearn/base.py", line 1152, in wrapper
+    return fit_method(estimator, *args, **kwargs)
+  File "/home/saeed/Documents/Github/CatDB/Experiments/setup/Baselines/Learn2Clean/venv/lib/python3.8/site-packages/sklearn/model_selection/_search.py", line 806, in fit
+    X, y, groups = indexable(X, y, groups)
+  File "/home/saeed/Documents/Github/CatDB/Experiments/setup/Baselines/Learn2Clean/venv/lib/python3.8/site-packages/sklearn/utils/validation.py", line 453, in indexable
+    check_consistent_length(*result)
+  File "/home/saeed/Documents/Github/CatDB/Experiments/setup/Baselines/Learn2Clean/venv/lib/python3.8/site-packages/sklearn/utils/validation.py", line 407, in check_consistent_length
+    raise ValueError(
+ValueError: Found input variables with inconsistent numbers of samples: [1221, 864]

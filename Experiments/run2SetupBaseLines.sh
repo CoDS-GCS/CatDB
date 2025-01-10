@@ -53,16 +53,16 @@ cd $path
 
 # Prepare Config
 ################
-config_path="${path}/config/"
-cd ${config_path}
-rm -rf venv
+# config_path="${path}/config/"
+# cd ${config_path}
+# rm -rf venv
 
-python -m venv venv
-source venv/bin/activate
+# python -m venv venv
+# source venv/bin/activate
 
-#Then install the dependencies:
-python -m pip install --upgrade pip
-python -m pip install --no-cache-dir -r requirements.txt
+# #Then install the dependencies:
+# python -m pip install --upgrade pip
+# python -m pip install --no-cache-dir -r requirements.txt
 
 # Setup CAAFE
 #############
@@ -180,6 +180,44 @@ python -m pip install --no-cache-dir -r requirements.txt
 # mv systemds/target/SystemDS.jar "${baselines_path}/SAGA"
 # rm -rf lib
 # mv systemds/target/lib/ "${baselines_path}/SAGA/"
+
+
+## Setup Learn2Clean
+###################
+baselines_path="${path}/Baselines"
+# cd ${baselines_path}
+# rm -rf Learn2Clean
+
+cd ${root_path}
+cp -r baselines/Learn2Clean "${baselines_path}/"
+
+# cd "${baselines_path}/Learn2Clean"
+
+# rm -rf venv
+# python3.8 -m venv venv
+# source venv/bin/activate
+# # pip install git+https://github.com/scikit-learn-contrib/py-earth@v0.2dev
+# pip install -r requirements.txt
+
+
+# git clone -b CatDB https://github.com/fathollahzadeh/Learn2Clean.git
+# cd Learn2Clean/python-package
+# python setup.py install
+# pip install -r requirements.txt
+
+
+#  rm -rf systemds
+#  git clone https://github.com/apache/systemds.git
+
+# cd systemds
+# mvn clean package -P distribution
+# cd ..
+
+# rm -rf SystemDS.jar
+# mv systemds/target/SystemDS.jar "${baselines_path}/SAGA"
+# rm -rf lib
+# mv systemds/target/lib/ "${baselines_path}/SAGA/"
+
 
 
 # # Setup Augmentation

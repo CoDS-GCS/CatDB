@@ -9,8 +9,6 @@ def parse_arguments():
     parser.add_argument('--output-dir', type=str, default=None)
     parser.add_argument('--dataset-path', type=str, default=None)
     parser.add_argument('--result-output-path', type=str, default=None)
-    parser.add_argument('--test-data-path', type=str, default=None)
-    parser.add_argument('--train-data-path', type=str, default=None)
 
     args = parser.parse_args()
 
@@ -24,6 +22,11 @@ def parse_arguments():
             args.dataset_name = config_data[0].get('name')
             args.target_attribute = config_data[0].get('dataset').get('target')
             args.task_type = config_data[0].get('dataset').get('type')
+            try:
+                args.train_data_path = args.dataset_path + "/" + config_data[0].get('dataset').get('train').replace("{user}/", "")
+                args.test_data_path = args.dataset_path + "/" + config_data[0].get('dataset').get('test').replace("{user}/", "")
+            except Exception as ex:
+                raise Exception(ex)
 
         except yaml.YAMLError as ex:
             raise Exception(ex)

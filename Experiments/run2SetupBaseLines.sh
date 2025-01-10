@@ -185,19 +185,17 @@ cd $path
 ## Setup Learn2Clean
 ###################
 baselines_path="${path}/Baselines"
-# cd ${baselines_path}
-# rm -rf Learn2Clean
+cd ${baselines_path}
+rm -rf Learn2Clean
 
 cd ${root_path}
 cp -r baselines/Learn2Clean "${baselines_path}/"
 
-# cd "${baselines_path}/Learn2Clean"
-
-# rm -rf venv
-# python3.8 -m venv venv
-# source venv/bin/activate
-# # pip install git+https://github.com/scikit-learn-contrib/py-earth@v0.2dev
-# pip install -r requirements.txt
+cd "${baselines_path}/Learn2Clean"
+rm -rf venv
+python3.8 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
 
 
 # git clone -b CatDB https://github.com/fathollahzadeh/Learn2Clean.git

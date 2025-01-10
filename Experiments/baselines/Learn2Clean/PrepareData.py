@@ -30,7 +30,7 @@ class PrepareData(object):
             print("Error: %s - %s." % (e.filename, e.strerror))
 
         if self.task_type in {"binary", "multiclass"}:
-            goals = ['NB', 'LDA', 'CART']
+            goals = ['NB', 'LDA'] #, 'CART'
         else:
             goals = ['MARS', 'LASSO', 'OLS']
 
@@ -68,6 +68,7 @@ class PrepareData(object):
 
             data = [self.train_path, self.test_path]
             clean_data = d_not_enc.train_test_split(data, self.target_attribute)
+            y_train = clean_data["target"]
             rp = 0
             for p in plans:
                 p = p.strip()
@@ -90,6 +91,7 @@ class PrepareData(object):
             if rp == 1:
                 cols = df_train.columns
                 clean_data = clean_data["train"]
+                clean_data[self.target_attribute] = y_train
                 for nc in {'New_ID', 'row'}:
                     if nc in clean_data.columns:
                         clean_data = clean_data.drop("New_ID", axis=1)
@@ -104,7 +106,7 @@ class PrepareData(object):
                 # print(clean_data.index.tolist())
                 cf = len(clean_data.columns)
                 of = len(df_train.columns)
-                clean_data.to_csv(f"{self.output_dir}/{self.dataset_name}_l2c_train.csv", index=False, header=True)
+                clean_data.to_csv(f"{self.output_dir}/{self.dataset_name}_Learn2Clean_train.csv", index=False, header=True)
                 if len(d) > 0:
                     rf = "#".join(d).replace(",",";").replace('"','')
                 else:

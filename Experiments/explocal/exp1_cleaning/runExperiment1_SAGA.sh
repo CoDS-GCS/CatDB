@@ -6,16 +6,15 @@ dataset=$1
 task_type=$2
 
 # clean-up 
-mkdir -p "${data_path}/SAGA"
 saga_data_path="${data_path}/data_space/${dataset}"
 
 metadata_path="${saga_data_path}/${dataset}_meta.csv"
 test_data_path="${saga_data_path}/${dataset}_orig_test.csv"
-train_data_path="${saga_data_path}/${dataset}_aug_train.csv"
+train_data_path="${saga_data_path}/${dataset}_aug_orig_train.csv"
 
 cd "${exp_path}/setup/Baselines/SAGA"
 
-CMD="java -Xmx130g -Xms130g -Xmn11g \
+CMD="java -Xmx20g -Xms20g -Xmn1g \
     -cp SystemDS.jar:lib/* \
     -Dlog4j.configuration=file:log4j-silent.properties \
     org.apache.sysds.api.DMLScript \
@@ -42,16 +41,15 @@ $CMD -f evaluatePip.dml -stats -nvargs sep=$sep trainData=$train_data_path testD
 
 end=$(date +%s%N)
 
-log_file_name="${exp_path}/results/Experiment1_SAGA_Cleaning.dat"
+log_file_name="${exp_path}/results/Experiment1_SAGA.dat"
 echo ${dataset}","$((($end - $start) / 1000000)) >>$log_file_name
 
 # check SAGA run sucessfully
 if [ ! -f "${saga_data_path}/${dataset}_test.csv" ]; then
-    cp -r ${test_data_path} "${saga_data_path}/${dataset}_test.csv"
-    cp -r ${train_data_path} "${saga_data_path}/${dataset}_train.csv"
+    cp -r ${train_data_path} "${saga_data_path}/${dataset}_aug_SAGA_train.csv"
     echo ${dataset} >> ${exp_path}/results/Experiment1_SAGA_Fail.dat
 else
-    CMD="python -Wignore mainSAGARewriteConfig.py --metadata-path ${saga_data_path}/${dataset}.yaml --dataset-path ${data_path}/data_space"
+    CMD="python -Wignore mainSAGARewriteConfig.py --metadata-path ${saga_data_path}/${dataset}_SAGA.yaml --dataset-path ${data_path}/data_space"
     $CMD   
 fi
 

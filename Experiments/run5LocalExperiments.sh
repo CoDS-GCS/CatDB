@@ -10,8 +10,8 @@ exp_path="$(pwd)"
 # Add headers to log files
 echo "dataset,task_type,platform,time" >> "${exp_path}/results/Experiment2_Data_Profile.dat"
 echo "dataset,time" >> "${exp_path}/results/Experiment2_CSVDataReader.dat"
-echo "dataset,time" >> "${exp_path}/results/Experiment1_Augmentation.dat"
-echo "dataset,time" >> "${exp_path}/results/Experiment1_SAGA_Cleaning.dat"
+echo "dataset,source_data,time" >> "${exp_path}/results/Experiment1_Augmentation.dat"
+echo "dataset,time" >> "${exp_path}/results/Experiment1_SAGA.dat"
 
 cd ${exp_path}
 

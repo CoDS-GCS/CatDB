@@ -40,3 +40,19 @@ if __name__ == '__main__':
     pd = PrepareData(args.dataset_name, args.target_attribute, args.task_type, args.train_data_path,
                      args.test_data_path, args.output_dir, args.result_output_path)
     pd.run()
+
+    config_strs = [f"- name: {args.dataset_name}",
+                   "  dataset:",
+                   f"    train: \'{args.dataset_name}/{args.dataset_name}_Learn2Clean_train.csv\'",
+                   f"    test: \'{args.dataset_name}/{args.dataset_name}_test.csv\'",
+                   f"    target_table: {args.dataset_name}",
+                   f"    target: '{args.target_attribute}'",
+                   f"    type: {args.task_type}"
+                   "\n"]
+    config_str = "\n".join(config_strs)
+
+    yaml_file_local = f'{args.output_dir}/{args.dataset_name}_Learn2Clean.yaml'
+    f_local = open(yaml_file_local, 'w')
+    f_local.write("--- \n \n")
+    f_local.write(config_str)
+    f_local.close()

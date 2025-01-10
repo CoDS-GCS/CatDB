@@ -7,7 +7,7 @@ task_type=$2
 iteration=1
 deafult_max_run_time=1
 CMDAutoML=./explocal/exp3_baselines/runExperiment3_AutoML.sh
-CMDAutoMLSAGA=./explocal/exp3_baselines/runExperiment3_AutoML_SAGA.sh
+CMDAutoMLCleanAUG=./explocal/exp3_baselines/runExperiment3_AutoML_Clean_AUG.sh
 CMDCAAFE=./explocal/exp3_baselines/runExperiment3_LLM_CAAFE.sh
 CMDAIDE=./explocal/exp3_baselines/runExperiment3_LLM_AIDE.sh
 
@@ -28,24 +28,39 @@ CMDAIDE=./explocal/exp3_baselines/runExperiment3_LLM_AIDE.sh
 # $CMDAutoML $dataset Flaml  ${deafult_max_run_time} ${iteration} gpt-4o
 # $CMDAutoML $dataset Autogluon ${deafult_max_run_time} ${iteration} gpt-4o
 
-## AutoML + SAGA
+## AutoML + Clean & AUG
 ## ------------
-#$CMDAutoMLSAGA $dataset AutoSklearn ${deafult_max_run_time} ${iteration} gemini-1.5-pro-latest
-$CMDAutoMLSAGA $dataset H2O  ${deafult_max_run_time} ${iteration} gemini-1.5-pro-latest
-$CMDAutoMLSAGA $dataset Flaml  ${deafult_max_run_time} ${iteration} gemini-1.5-pro-latest
-$CMDAutoMLSAGA $dataset Autogluon ${deafult_max_run_time} ${iteration} gemini-1.5-pro-latest
+#$CMDAutoMLCleanAUG $dataset AutoSklearn ${deafult_max_run_time} ${iteration} gemini-1.5-pro-latest Learn2Clean
+$CMDAutoMLCleanAUG $dataset H2O  ${deafult_max_run_time} ${iteration} gemini-1.5-pro-latest Learn2Clean
+$CMDAutoMLCleanAUG $dataset Flaml  ${deafult_max_run_time} ${iteration} gemini-1.5-pro-latest Learn2Clean
+$CMDAutoMLCleanAUG $dataset Autogluon ${deafult_max_run_time} ${iteration} gemini-1.5-pro-latest Learn2Clean
+
+#$CMDAutoMLCleanAUG $dataset AutoSklearn ${deafult_max_run_time} ${iteration} gemini-1.5-pro-latest SAGA
+# $CMDAutoMLCleanAUG $dataset H2O  ${deafult_max_run_time} ${iteration} gemini-1.5-pro-latest SAGA
+# $CMDAutoMLCleanAUG $dataset Flaml  ${deafult_max_run_time} ${iteration} gemini-1.5-pro-latest SAGA
+# $CMDAutoMLCleanAUG $dataset Autogluon ${deafult_max_run_time} ${iteration} gemini-1.5-pro-latest SAGA
 
 
-# $CMDAutoMLSAGA $dataset AutoSklearn ${deafult_max_run_time} ${iteration} llama-3.1-70b-versatile
-# $CMDAutoMLSAGA $dataset H2O  ${deafult_max_run_time} ${iteration} llama-3.1-70b-versatile
-# $CMDAutoMLSAGA $dataset Flaml  ${deafult_max_run_time} ${iteration} llama-3.1-70b-versatile
-# $CMDAutoMLSAGA $dataset Autogluon ${deafult_max_run_time} ${iteration} llama-3.1-70b-versatile
+# $CMDAutoMLCleanAUG $dataset AutoSklearn ${deafult_max_run_time} ${iteration} llama-3.1-70b-versatile Learn2Clean
+# $CMDAutoMLCleanAUG $dataset H2O  ${deafult_max_run_time} ${iteration} llama-3.1-70b-versatile Learn2Clean
+# $CMDAutoMLCleanAUG $dataset Flaml  ${deafult_max_run_time} ${iteration} llama-3.1-70b-versatile Learn2Clean
+# $CMDAutoMLCleanAUG $dataset Autogluon ${deafult_max_run_time} ${iteration} llama-3.1-70b-versatile Learn2Clean
+
+# $CMDAutoMLCleanAUG $dataset AutoSklearn ${deafult_max_run_time} ${iteration} llama-3.1-70b-versatile SAGA
+# $CMDAutoMLCleanAUG $dataset H2O  ${deafult_max_run_time} ${iteration} llama-3.1-70b-versatile SAGA
+# $CMDAutoMLCleanAUG $dataset Flaml  ${deafult_max_run_time} ${iteration} llama-3.1-70b-versatile SAGA
+# $CMDAutoMLCleanAUG $dataset Autogluon ${deafult_max_run_time} ${iteration} llama-3.1-70b-versatile SAGA
 
 
-# $CMDAutoMLSAGA $dataset AutoSklearn ${deafult_max_run_time} ${iteration} gpt-4o
-# $CMDAutoMLSAGA $dataset H2O  ${deafult_max_run_time} ${iteration} gpt-4o
-# $CMDAutoMLSAGA $dataset Flaml  ${deafult_max_run_time} ${iteration} gpt-4o
-# $CMDAutoMLSAGA $dataset Autogluon ${deafult_max_run_time} ${iteration} gpt-4o
+# $CMDAutoMLCleanAUG $dataset AutoSklearn ${deafult_max_run_time} ${iteration} gpt-4o Learn2Clean
+# $CMDAutoMLCleanAUG $dataset H2O  ${deafult_max_run_time} ${iteration} gpt-4o Learn2Clean
+# $CMDAutoMLCleanAUG $dataset Flaml  ${deafult_max_run_time} ${iteration} gpt-4o Learn2Clean
+# $CMDAutoMLCleanAUG $dataset Autogluon ${deafult_max_run_time} ${iteration} gpt-4o Learn2Clean
+
+# $CMDAutoMLCleanAUG $dataset AutoSklearn ${deafult_max_run_time} ${iteration} gpt-4o SAGA
+# $CMDAutoMLCleanAUG $dataset H2O  ${deafult_max_run_time} ${iteration} gpt-4o SAGA
+# $CMDAutoMLCleanAUG $dataset Flaml  ${deafult_max_run_time} ${iteration} gpt-4o SAGA
+# $CMDAutoMLCleanAUG $dataset Autogluon ${deafult_max_run_time} ${iteration} gpt-4o SAGA
 
 
 ## AutoGen Baseline

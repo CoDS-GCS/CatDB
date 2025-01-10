@@ -37,8 +37,8 @@ def parse_arguments(is_automl: bool=True):
             args.target_attribute = config_data[0].get('dataset').get('target')
             args.task_type = config_data[0].get('dataset').get('type')
             try:
-                args.data_source_train_path = args.dataset_path+ "/" + config_data[0].get('dataset').get('train').replace("{user}/", "")
-                args.data_source_test_path = args.dataset_path + "/"+ config_data[0].get('dataset').get('test').replace("{user}/","")
+                args.data_source_train_path = args.dataset_path + "/" + config_data[0].get('dataset').get('train').replace("{user}/", "")
+                args.data_source_test_path = args.dataset_path + "/" + config_data[0].get('dataset').get('test').replace("{user}/", "")
             except Exception as ex:
                 raise Exception(ex)
 

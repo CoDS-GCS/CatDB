@@ -5,14 +5,15 @@ framework=$2
 max_runtime_seconds=$3
 iteration=$4
 llm_model=$5
-correspond_config=$6
+sub_task=$6
+
 jvm_memory=135
 
 exp_path="$(pwd)"
 data_path="${exp_path}/data/data_space"
-metadata_path="${data_path}/${dataset}/${dataset}.yaml"
+metadata_path="${data_path}/${dataset}/${dataset}_aug_${sub_task}.yaml"
 output_dir="${exp_path}/results/AutoML"
-output_path="${exp_path}/results/Experiment3_AutoML_SAGA.dat"
+output_path="${exp_path}/results/Experiment3_AutoML_Clean_AUG.dat"
 exe_runtime_path="${exp_path}/archive/VLDB2025/results/AutoMLExeResults.csv"
 
 mkdir -p ${output_dir}
@@ -28,7 +29,7 @@ CMD="python -Wignore main${framework}.py --metadata-path ${metadata_path} \
     --iteration ${iteration} \
     --exe-runtime-path ${exe_runtime_path} \
     --llm-model ${llm_model}\
-    --sub-task SAGA"
+    --sub-task ${sub_task}"
 
 cd "${framework}AutoML"
 source venv/bin/activate

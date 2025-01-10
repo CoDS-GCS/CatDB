@@ -20,10 +20,8 @@ def parse_arguments():
             args.target_attribute = config_data[0].get('dataset').get('target')
             args.task_type = config_data[0].get('dataset').get('type')
             try:
-                args.data_source_train_path = args.dataset_path + "/" + config_data[0].get('dataset').get(
-                    'train').replace("{user}/", "")
-                args.data_source_test_path = args.dataset_path + "/" + config_data[0].get('dataset').get(
-                    'test').replace("{user}/", "")
+                args.data_source_train_path = args.dataset_path + "/" + config_data[0].get('dataset').get('train').replace("{user}/", "")
+                args.data_source_test_path = args.dataset_path + "/" + config_data[0].get('dataset').get('test').replace("{user}/", "")
             except Exception as ex:
                 raise Exception(ex)
 
@@ -39,15 +37,15 @@ if __name__ == '__main__':
     cols = df_test.columns
     config_strs = [f"- name: {args.dataset_name}",
                        "  dataset:",
-                       f"    train: \'{args.dataset_name}/{args.dataset_name}_train.csv\'",
-                       f"    test: \'{args.dataset_name}/{args.dataset_name}_test.csv\'",
+                       f"    train: \'{args.dataset_name}/{args.dataset_name}_aug_SAGA_train.csv\'",
+                       f"    test: \'{args.dataset_name}/{args.dataset_name}_orig_test.csv\'",
                        f"    target_table: {args.dataset_name}",
                        f"    target: '{cols[-1]}'",
                        f"    type: {args.task_type}"
                        "\n"]
     config_str = "\n".join(config_strs)
 
-    yaml_file_local = f'{args.dataset_path}/{args.dataset_name}/{args.dataset_name}.yaml'
+    yaml_file_local = f'{args.dataset_path}/{args.dataset_name}/{args.dataset_name}_aug_SAGA.yaml'
     f_local = open(yaml_file_local, 'w')
     f_local.write("--- \n \n")
     f_local.write(config_str)

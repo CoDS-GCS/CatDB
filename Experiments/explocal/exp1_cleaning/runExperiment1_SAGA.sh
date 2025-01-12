@@ -14,7 +14,7 @@ train_data_path="${saga_data_path}/${dataset}_aug_orig_train.csv"
 
 cd "${exp_path}/setup/Baselines/SAGA"
 
-CMD="java -Xmx20g -Xms20g -Xmn1g \
+CMD="java -Xmx130g -Xms130g -Xmn11g \
     -cp SystemDS.jar:lib/* \
     -Dlog4j.configuration=file:log4j-silent.properties \
     org.apache.sysds.api.DMLScript \

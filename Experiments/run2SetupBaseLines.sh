@@ -80,7 +80,7 @@ cd $path
 # python3.9 -m pip install -r requirements.txt
 
 
-# # Setup AutoML
+# Setup AutoML
 automl_path="${path}/Baselines/AutoML/"
 rm -rf ${automl_path}
 mkdir -p ${automl_path}
@@ -129,31 +129,31 @@ source venv/bin/activate
 python3.10 -m pip install --upgrade pip
 python3.10 -m pip install -r requirements.txt
 
-# # Install AutoGen
-# cd ${automl_path}
-# cd AutoGenAutoML
-# rm -rf venv 
-# python3.10 -m venv venv
-# source venv/bin/activate
-# pip install --upgrade pip
-# pip install -r requirements.txt
+# Install AutoGen
+cd ${automl_path}
+cd AutoGenAutoML
+rm -rf venv 
+python3.10 -m venv venv
+source venv/bin/activate
+pip install --upgrade pip
+pip install -r requirements.txt
 
 
-## Setup AIDE
-# baselines_path="${path}/Baselines"
-# cd ${baselines_path}
-# rm -rf aideml
-# git clone --branch CatDB https://github.com/fathollahzadeh/aideml.git
+# Setup AIDE
+baselines_path="${path}/Baselines"
+cd ${baselines_path}
+rm -rf aideml
+git clone --branch CatDB https://github.com/fathollahzadeh/aideml.git
 
-# cd aideml
-# rm -rf venv
-# python3.10 -m venv venv
-# source venv/bin/activate
-# pip install --upgrade pip
-# pip install -e .
+cd aideml
+rm -rf venv
+python3.10 -m venv venv
+source venv/bin/activate
+pip install --upgrade pip
+pip install -e .
 
 
-## Setup SAGA
+# Setup SAGA
 baselines_path="${path}/Baselines"
 cd ${baselines_path}
 rm -rf SAGA

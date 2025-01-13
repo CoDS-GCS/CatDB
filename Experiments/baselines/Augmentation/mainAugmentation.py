@@ -47,7 +47,7 @@ if __name__ == '__main__':
         config_strs = [f"- name: {args.dataset_name}",
                        "  dataset:",
                        f"    train: \'{args.dataset_name}/{args.dataset_name}_aug_{args.source_data}_train.csv\'",
-                       f"    test: \'{args.dataset_name}/{args.dataset_name}_test.csv\'",
+                       f"    test: \'{args.dataset_name}/{args.dataset_name}_orig_test.csv\'",
                        f"    target_table: {args.dataset_name}",
                        f"    target: '{args.target_attribute}'",
                        f"    type: {args.task_type}"

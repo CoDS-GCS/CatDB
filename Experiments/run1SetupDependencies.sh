@@ -6,6 +6,7 @@
 
 # sudo apt-get install -y clang++
 # sudo apt-get install -y python3-dev
+# sudo apt install python3.8-venv
 # sudo apt-get install python3.9-venv # required for automlbenchmark
 # sudo apt-get install python3.10-venv # required for CAAFE 
 # sudo apt install -y python3-pip

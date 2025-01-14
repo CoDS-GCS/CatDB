@@ -395,8 +395,31 @@ if __name__ == '__main__':
         cindex = len(df_micro)
         df_micro.loc[cindex] = [ds_title, f" &{time_m}", f" & {time_g}", f" & {time_CAAFETabPFN}", f" & {time_CAAFERF}", f" & {time_AIDE}", f" & {time_AutoGen}", f" & {tmp_time_saga/1000:.1f} + {tmp_time_aug/1000:.1f} \\\\ \\chline"]
 
+    # find AVG, SUM, number of failed
+    
+    df_ten_runtime = pd.DataFrame(columns = ["config", "faile_gemini", "avg_gemini", "sum_gemini", "faile_llama", "avg_llama", "sum_llama", "faile_gpt-4o", "avg_gpt-4o", "sum_gpt-4o"])
+    df_exe_tmp = df_exe[df_exe['dataset_name_orig'].isin(["Airline", "IMDB-IJS", "Accidents", "Financial", "CMC", "Tic-Tac-Toe", "Walking-Activity","Bike-Sharing", "House-Sales", "NYC"])]
 
-    #           
+    for config in ["CatDB_min", "CatDBChain_min", "CAAFETabPFN_min", "CAAFERandomForest_min", "AIDE_min","AutoGen_min"]:
+        str_row = [f"{config.replace('_min', '')}"]
+        for llm in llms:
+            df_runtime = df_exe_tmp.loc[(df_exe['llm_model'] == llm)]
+            failed = len(df_runtime.loc[(df_runtime[config].astype(float) == 0.001)])
+            if llm == 'gpt-4o':
+                str_nline = '\\\ \chline'
+            else:
+                str_nline = ''
+
+            df_runtime = df_runtime.loc[(df_runtime[config].astype(float) > 0.001)]
+            avg = df_runtime[config].astype(float).mean()
+            sum = df_runtime[config].astype(float).sum()
+            str_row.append(f"& {failed}") 
+            str_row.append(f"& {avg:0.1f}") 
+            str_row.append(f"& {sum:0.1f} {str_nline}")
+        #str_row[len(str_row)] = f"{str_row[len(str_row)]} \\ \chline"    
+        df_ten_runtime.loc[len(df_ten_runtime)] = str_row    
+        #           
+
     df_sort.to_csv(f"{root_path}/AllResults.csv", index=False)
     df_cost.to_csv(f"{root_path}/CostResults.csv", index=False)
     df_exe.to_csv(f"{root_path}/ExeResults.csv", index=False)   
@@ -408,4 +431,7 @@ if __name__ == '__main__':
     df_micro.to_csv(fname, index=False, header=True)
     replace_comma(fname=fname)
 
-     
+    fname = f"{root_path}/tbl_runtime.txt"
+    df_ten_runtime.to_csv(fname, index=False, header=True)
+    replace_comma(fname=fname)
+ 

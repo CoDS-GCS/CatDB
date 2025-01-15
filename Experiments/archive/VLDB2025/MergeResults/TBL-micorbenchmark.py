@@ -8,7 +8,7 @@ if __name__ == '__main__':
     root_path = "../results"        
     df_pip_gen = load_merge_all_results(root_path=root_path)
 
-    micor_tbl_cols = ["dataset_name", "Metric" , "llm_model",
+    micor_tbl_cols = ["dataset_name", "llm_model",
                                        "CatDB_train_auc","CatDB_test_auc",
                                        "CatDBChain_train_auc","CatDBChain_test_auc",
                                        "CAAFETabPFN_train_auc","CAAFETabPFN_test_auc",
@@ -193,15 +193,15 @@ if __name__ == '__main__':
             cindex = len(df_micro)
             df_micro.loc[cindex] = [None for ti in micor_tbl_cols]  
 
-            if llm == "gemini-1.5-pro-latest":
-                if ds in {"IMDB-IJS", "oml_dataset_6_rnc"}:
-                    df_micro.at[cindex,"Metric"] = f" & AUC"
-                elif ds in {"Airline", "Accidents", "Financial", "oml_dataset_3_rnc", "oml_dataset_20_rnc"}:
-                    df_micro.at[cindex,"Metric"] = f" & AUC-ovr "    
-                elif ds in {"oml_dataset_22_rnc", "oml_dataset_23_rnc", "oml_dataset_24_rnc"}:
-                    df_micro.at[cindex,"Metric"] = f" & $R^2$ "        
-            else:
-                 df_micro.at[cindex,"Metric"] = "&"
+            # if llm == "gemini-1.5-pro-latest":
+            #     if ds in {"IMDB-IJS", "oml_dataset_6_rnc"}:
+            #         df_micro.at[cindex,"Metric"] = f" & AUC"
+            #     elif ds in {"Airline", "Accidents", "Financial", "oml_dataset_3_rnc", "oml_dataset_20_rnc"}:
+            #         df_micro.at[cindex,"Metric"] = f" & AUC-ovr "    
+            #     elif ds in {"oml_dataset_22_rnc", "oml_dataset_23_rnc", "oml_dataset_24_rnc"}:
+            #         df_micro.at[cindex,"Metric"] = f" & $R^2$ "        
+            # else:
+            #      df_micro.at[cindex,"Metric"] = "&"
 
             tbl_line = "" 
             if llm == "gpt-4o":

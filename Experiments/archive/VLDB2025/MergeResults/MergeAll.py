@@ -420,6 +420,14 @@ if __name__ == '__main__':
         df_ten_runtime.loc[len(df_ten_runtime)] = str_row    
         #           
 
+    # Cost Log scale modify:
+    for ds in ["CMC", "Tic-Tac-Toe"]:
+        for col in ["token_count_it1","pp_token_count_it1","fe_token_count_it1", "token_count_err_it1","pp_token_count_err_it1","fe_token_count_err_it1"]:
+            df_cost.loc[(df_cost['dataset_name_orig'] == ds) & (df_cost[col] == 0), col] = 0.001
+
+
+
+    #
     df_sort.to_csv(f"{root_path}/AllResults.csv", index=False)
     df_cost.to_csv(f"{root_path}/CostResults.csv", index=False)
     df_exe.to_csv(f"{root_path}/ExeResults.csv", index=False)   

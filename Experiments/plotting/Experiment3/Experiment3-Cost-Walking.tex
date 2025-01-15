@@ -139,8 +139,8 @@
   xticklabel style = {font=\normalsize, xshift=0pt, yshift=3pt},
   legend image post style={line width=.5pt},          
   bar width=8.3pt,         
-  ytick={0,5000,10000,15000,20000,25000,30000,35000,40000},
-  yticklabels={0, 5k, 10k, 15k, 20k, 25k,30k,35k,40k},               
+  ytick={0,10000,20000,30000,40000,50000},
+  yticklabels={0, 10k,20k, 30k, 40k, 50k},               
   every x tick/.style={ draw=none},
   xtick = data,
   symbolic x coords={gemini-1.5-pro-latest, llama-3.1-70b-versatile, gpt-4o},
@@ -152,7 +152,7 @@
 \myaddplotds{llama-3.1-70b-versatile}{Walking-Activity}{-24pt}{-15.7pt}{-7.4pt}{0.9pt}{0.9pt}{9.2pt}
 \myaddplotds{gpt-4o}{Walking-Activity}{-34pt}{-25.7pt}{-17.4pt}{-9.1pt}{-0.8pt}{7.5pt}
 
-\node [draw=black,inner sep=1mm, font=\normalsize, anchor=east] at (rel axis cs:1,0.94) {Cost};
+\node [draw=black,inner sep=1mm, font=\normalsize, anchor=east] at (rel axis cs:1,0.94) {Walking};
 
 \end{axis}
 

@@ -120,7 +120,7 @@
   axis line style={black, line width=0.3pt},
   enlarge y limits={0.14,upper},
   enlarge x limits=0.07,
-  ylabel={Token Count},
+  ylabel={},%{Token Count},
   xlabel={},
   log ticks with fixed point,
   xtick align=outside,
@@ -152,7 +152,7 @@
 \myaddplotds{llama-3.1-70b-versatile}{Bike-Sharing}{-20pt}{-11pt}{-2pt}{7pt}{-2pt}{7pt}
 \myaddplotds{gpt-4o}{Bike-Sharing}{-30pt}{-21pt}{-12pt}{-3pt}{6pt}{-12pt}{-3pt}
 
-\node [draw=black,inner sep=1mm, font=\normalsize, anchor=east] at (rel axis cs:1,0.94) {Cost};
+\node [draw=black,inner sep=1mm, font=\normalsize, anchor=east] at (rel axis cs:1,0.94) {Bike-Sharing};
 
 \end{axis}
 

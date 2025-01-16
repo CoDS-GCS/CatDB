@@ -1,6 +1,7 @@
 from argparse import ArgumentParser
 from PrepareData import PrepareData
 import yaml
+import re
 
 
 def parse_arguments():
@@ -36,7 +37,7 @@ def parse_arguments():
 
 if __name__ == '__main__':
     args = parse_arguments()
-
+    args.target_attribute = re.sub('[^A-Za-z0-9_]+', '', args.target_attribute)
     pd = PrepareData(args.dataset_name, args.target_attribute, args.task_type, args.train_data_path,
                      args.test_data_path, args.output_dir, args.result_output_path)
     pd.run()

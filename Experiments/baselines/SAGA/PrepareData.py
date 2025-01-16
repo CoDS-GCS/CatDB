@@ -1,6 +1,6 @@
 import pandas as pd
 from pandas.api.types import is_numeric_dtype, is_bool_dtype
-
+import re
 
 class PrepareData(object):
     def __init__(self, dataset_name, target_attribute, task_type, train_path, test_path, output_dir):
@@ -44,6 +44,9 @@ class PrepareData(object):
         schema = ['Schema']
         df_train = pd.read_csv(self.train_path, na_values=[' ', '?', '-'], low_memory=False, encoding="ISO-8859-1")
         df_test = pd.read_csv(self.test_path, na_values=[' ', '?', '-'], low_memory=False, encoding="ISO-8859-1")
+
+        df_train = df_train.rename(columns=lambda x: re.sub('[^A-Za-z0-9_]+', '', x))
+        df_test = df_test.rename(columns=lambda x: re.sub('[^A-Za-z0-9_]+', '', x))
 
         df_train.dropna(subset=[self.target_attribute], inplace=True)
         df_test.dropna(subset=[self.target_attribute], inplace=True)

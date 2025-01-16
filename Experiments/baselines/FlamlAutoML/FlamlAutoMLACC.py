@@ -10,7 +10,7 @@ import os
 from flaml import AutoML, __version__
 
 
-class FlamlAutoML(CatDBAutoML):
+class FlamlAutoMLACC(CatDBAutoML):
     def __init__(self, dataset: Dataset, config: Config, *args, **kwargs):
         CatDBAutoML.__init__(self, dataset=dataset, config=config)
 
@@ -97,10 +97,10 @@ class FlamlAutoML(CatDBAutoML):
             y_test_pred = automl.predict(X_test)
 
             self.log_results.train_r_squared = r2_score(y_train, y_train_pred)
-            self.log_results.train_rmse = mean_squared_error(y_train, y_train_pred, squared=False)
+            self.log_results.train_rmse = -2 #mean_squared_error(y_train, y_train_pred, squared=False)
 
             self.log_results.test_r_squared = r2_score(y_test, y_test_pred)
-            self.log_results.test_rmse = mean_squared_error(y_test, y_test_pred, squared=False)
+            self.log_results.test_rmse = -2 #mean_squared_error(y_test, y_test_pred, squared=False)
 
         self.log_results.number_iteration = self.config.iteration
         self.log_results.llm_model = self.config.llm_model

@@ -13,7 +13,7 @@ import autogluon.core.metrics as metrics
 from autogluon.tabular.version import __version__
 
 
-class AutogluonAutoML(CatDBAutoML):
+class AutogluonAutoMLACC(CatDBAutoML):
     def __init__(self, dataset: Dataset, config: Config, *args, **kwargs):
         CatDBAutoML.__init__(self, dataset=dataset, config=config)
 

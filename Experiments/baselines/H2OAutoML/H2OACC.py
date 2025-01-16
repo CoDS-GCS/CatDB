@@ -11,7 +11,7 @@ import h2o
 from h2o.automl import H2OAutoML
 
 
-class H2O(AutoML):
+class H2OACC(AutoML):
     def __init__(self, dataset: Dataset, config: Config, *args, **kwargs):
         AutoML.__init__(self, dataset=dataset, config=config)
 

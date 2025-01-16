@@ -22,8 +22,9 @@ class FlamlAutoML(CatDBAutoML):
         train_data = reader_CSV(self.dataset.train_path)
         test_data = reader_CSV(self.dataset.test_path)
 
-#         import re
-# df = df.rename(columns = lambda x:re.sub('[^A-Za-z0-9_]+', '', x))
+
+        train_data = train_data.rename(columns=lambda x: re.sub('[^A-Za-z0-9_]+', '', x))
+        test_data = test_data.rename(columns=lambda x: re.sub('[^A-Za-z0-9_]+', '', x))
 
         X_train = train_data.drop(columns=[self.dataset.target_attribute])
         y_train = train_data[self.dataset.target_attribute]
@@ -90,10 +91,10 @@ class FlamlAutoML(CatDBAutoML):
             y_test_pred = automl.predict(X_test)
 
             self.log_results.train_r_squared = r2_score(y_train, y_train_pred)
-            self.log_results.train_rmse = mean_squared_error(y_train, y_train_pred, squared=False)
+            self.log_results.train_rmse = -2 #mean_squared_error(y_train, y_train_pred, squared=False)
 
             self.log_results.test_r_squared = r2_score(y_test, y_test_pred)
-            self.log_results.test_rmse = mean_squared_error(y_test, y_test_pred, squared=False)
+            self.log_results.test_rmse =-2 #mean_squared_error(y_test, y_test_pred, squared=False)
 
         self.log_results.number_iteration = self.config.iteration
         self.log_results.llm_model = self.config.llm_model

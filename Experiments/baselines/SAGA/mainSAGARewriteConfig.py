@@ -1,5 +1,6 @@
 from argparse import ArgumentParser
 import yaml
+import re
 import pandas as pd
 
 
@@ -34,6 +35,7 @@ def parse_arguments():
 if __name__ == '__main__':
     args = parse_arguments()
     df_test = pd.read_csv(args.data_source_test_path, na_values=[' ', '?', '-'])
+    df_test = df_test.rename(columns=lambda x: re.sub('[^A-Za-z0-9_]+', '', x))
     cols = df_test.columns
     config_strs = [f"- name: {args.dataset_name}",
                        "  dataset:",

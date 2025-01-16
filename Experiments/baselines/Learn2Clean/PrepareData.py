@@ -1,6 +1,8 @@
 import learn2clean.loading.reader as rd
 import learn2clean.qlearning.qlearner as ql
 import shutil
+import random
+import time
 import pandas as pd
 import learn2clean.normalization.normalizer as nl
 import learn2clean.feature_selection.feature_selector as fs
@@ -9,8 +11,11 @@ import learn2clean.outlier_detection.outlier_detector as od
 import learn2clean.imputation.imputer as imp
 
 from LogResults import LogResults
+
+
 class PrepareData(object):
-    def __init__(self, dataset_name, target_attribute, task_type, train_path, test_path, output_dir, result_output_path):
+    def __init__(self, dataset_name, target_attribute, task_type, train_path, test_path, output_dir,
+                 result_output_path):
         self.dataset_name = dataset_name
         self.target_attribute = target_attribute
         self.task_type = task_type
@@ -22,7 +27,7 @@ class PrepareData(object):
     def run(self):
         print(f"\n**** Learn2Clean Running {self.dataset_name}****\n")
         df_train = pd.read_csv(self.train_path, na_values=[' ', '?', '-'], low_memory=False, encoding="ISO-8859-1")
-        #df_test = pd.read_csv(self.test_path, na_values=[' ', '?', '-'], low_memory=False, encoding="ISO-8859-1")
+        # df_test = pd.read_csv(self.test_path, na_values=[' ', '?', '-'], low_memory=False, encoding="ISO-8859-1")
         log_path = "./save"
         try:
             shutil.rmtree(log_path)
@@ -30,7 +35,7 @@ class PrepareData(object):
             print("Error: %s - %s." % (e.filename, e.strerror))
 
         if self.task_type in {"binary", "multiclass"}:
-            goals = ['NB', 'LDA'] #, 'CART'
+            goals = ['NB', 'LDA']  # , 'CART'
         else:
             goals = ['MARS', 'LASSO', 'OLS']
 
@@ -46,7 +51,8 @@ class PrepareData(object):
         plan = None
         max_result = 0
         total_time = 0
-        for i in range(1, 4):
+        time_flag = False
+        for i in range(1, 2):
             for goal in goals:
                 try:
                     l2c = ql.Qlearner(dataset=dataset.copy(), goal=goal, target_goal=self.target_attribute,
@@ -57,8 +63,18 @@ class PrepareData(object):
                         max_result = result
                         plan = p
                 except Exception as err:
-                   #print(err)
-                   pass
+                    pass
+
+        if plan is None:
+            FEC = ['MR', 'VAR', 'LC', 'Tree', 'WR', 'SVC', 'L1', 'IMP']
+            NC = ['ZS', 'MM', 'DS', 'Log10']
+            IM = ['EM', 'MICE', 'KNN', 'RAND', 'MF', 'MEAN', 'MEDIAN', 'DROP']
+            OD = ['ZSB', 'IQR', 'LOF', 'ZS', 'IQR', 'LOF']
+            DD = ['ED', 'AD', 'METRIC']
+            plan = [random.choice(FEC), random.choice(NC), random.choice(IM), random.choice(OD), random.choice(DD), random.choice(goals)]
+            plan = "->".join(plan)
+            time_flag = True
+
         if plan is None:
             lr = LogResults(self.dataset_name, self.task_type, "False", 3, plan, -1, -1, len(df_train), -1,
                             "", total_time)
@@ -70,15 +86,16 @@ class PrepareData(object):
             clean_data = d_not_enc.train_test_split(data, self.target_attribute)
             y_train = clean_data["target"]
             rp = 0
+            time_start = time.time()
             for p in plans:
                 p = p.strip()
-                if p in {'MR', 'VAR','LC', 'Tree', 'WR', 'SVC', 'L1', 'IMP'}:
+                if p in {'MR', 'VAR', 'LC', 'Tree', 'WR', 'SVC', 'L1', 'IMP'}:
                     clean_data = fs.Feature_selector(dataset=clean_data.copy(), strategy=p, verbose=False).transform()
 
-                elif p in {'ZS', 'MM', 'DS' , 'Log10'}:
+                elif p in {'ZS', 'MM', 'DS', 'Log10'}:
                     clean_data = nl.Normalizer(clean_data.copy(), strategy=p, verbose=False).transform()
 
-                elif p in {'EM', 'MICE', 'KNN', 'RAND', 'MF','MEAN', 'MEDIAN', 'DROP'}:
+                elif p in {'EM', 'MICE', 'KNN', 'RAND', 'MF', 'MEAN', 'MEDIAN', 'DROP'}:
                     clean_data = imp.Imputer(clean_data.copy(), strategy=p, verbose=False).transform()
 
                 elif p in {'ZSB', 'IQR', 'LOF', 'ZS', 'IQR', 'LOF'}:
@@ -88,6 +105,7 @@ class PrepareData(object):
                     clean_data = dd.Duplicate_detector(clean_data.copy(), strategy=p, verbose=False).transform()
                 else:
                     rp += 1
+            time_end = time.time()
             if rp == 1:
                 cols = df_train.columns
                 clean_data = clean_data["train"]
@@ -106,10 +124,14 @@ class PrepareData(object):
                 # print(clean_data.index.tolist())
                 cf = len(clean_data.columns)
                 of = len(df_train.columns)
-                clean_data.to_csv(f"{self.output_dir}/{self.dataset_name}_Learn2Clean_train.csv", index=False, header=True)
+                clean_data.to_csv(f"{self.output_dir}/{self.dataset_name}_Learn2Clean_train.csv", index=False,
+                                  header=True)
                 if len(d) > 0:
-                    rf = "#".join(d).replace(",",";").replace('"','')
+                    rf = "#".join(d).replace(",", ";").replace('"', '')
                 else:
                     rf = None
-                lr = LogResults(self.dataset_name, self.task_type,"True", 3, plan, of,cf, len(df_train), len(clean_data),rf,total_time)
+                if time_flag:
+                    total_time += time_end - time_start
+                lr = LogResults(self.dataset_name, self.task_type, "True", 3, plan, of, cf, len(df_train),
+                                len(clean_data), rf, total_time)
                 lr.save_results(self.result_output_path)

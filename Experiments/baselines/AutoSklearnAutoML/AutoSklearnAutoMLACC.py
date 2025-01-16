@@ -17,7 +17,7 @@ from pandas.api.types import is_numeric_dtype
 import warnings
 
 
-class AutoSklearnAutoML(CatDBAutoML):
+class AutoSklearnAutoMLACC(CatDBAutoML):
     def __init__(self, dataset: Dataset, config: Config, *args, **kwargs):
         CatDBAutoML.__init__(self, dataset=dataset, config=config)
 

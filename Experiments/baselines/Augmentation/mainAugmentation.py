@@ -1,6 +1,7 @@
 from argparse import ArgumentParser
 import yaml
 from Augmentation import augmentation
+import re
 import pandas as pd
 from pathlib import Path
 
@@ -40,6 +41,7 @@ if __name__ == '__main__':
     print(f"Augmentation Started for Dataset {args.dataset_name} on {args.source_data}:")
 
     if Path(args.data_path).is_file():
+        args.target_attribute = re.sub('[^A-Za-z0-9_]+', '', args.target_attribute)
         df = pd.read_csv(args.data_path, na_values=[' ', '?', '-'], low_memory=False, encoding="ISO-8859-1")
         pd = augmentation(data=df, target_attribute=args.target_attribute, task_type=args.task_type)
         pd.to_csv(args.out_path, index=False)

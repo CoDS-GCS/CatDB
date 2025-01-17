@@ -28,7 +28,7 @@ if __name__ == '__main__':
 
     df_automl_exe = pd.DataFrame(columns = ["dataset_name","dataset_name_orig", "time","dataset_load_time", "llm_model"])  
 
-    df_cleaning_runtime = pd.DataFrame(columns = ["dataset_name","CatDB_Before","CatDB_After", "CAAFETabPFN","CAAFERandomForest", "AIDE", "AutoGen", "SAGA"])
+    df_cleaning_runtime = pd.DataFrame(columns = ["dataset_name","CatDB_Before","CatDB_After", "CAAFETabPFN","CAAFERandomForest", "AIDE", "AutoGen", "Cleaning"])
   
    
     

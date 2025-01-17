@@ -32,6 +32,35 @@ dataset_corr = {"oml_dataset_12_rnc":"CatDB",
                 "Midwest-Survey":"CatDB",
                 "WiFi":"CatDB",
                 "Utility":"CatDB"}
+
+dataset_corr_clean = {"oml_dataset_12_rnc":"SAGA", 
+                "oml_dataset_5_rnc":"SAGA",
+                "oml_dataset_6_rnc":"Learn2Clean",
+                "oml_dataset_2_rnc":"SAGA",
+                "oml_dataset_4_rnc":"SAGA",
+                "oml_dataset_33_rnc":"SAGA",
+                "oml_dataset_1_rnc":"SAGA",
+                "oml_dataset_20_rnc":"SAGA",
+                "oml_dataset_10_rnc":"SAGA",
+                "oml_dataset_3_rnc":"Learn2Clean",
+                "oml_dataset_11_rnc":"SAGA",
+                "oml_dataset_19_rnc":"SAGA",
+                "oml_dataset_34_rnc":"SAGA",
+                "oml_dataset_35_rnc":"SAGA",
+                "oml_dataset_21_rnc":"SAGA",
+                "oml_dataset_22_rnc":"Learn2Clean",
+                "oml_dataset_24_rnc":"Learn2Clean",
+                "oml_dataset_23_rnc":"Learn2Clean",
+                "Airline":"SAGA",
+                "IMDB-IJS":"SAGA",
+                "Accidents":"SAGA",
+                "Financial":"SAGA",
+                "Yelp":"SAGA",
+                "EU-IT":"Learn2Clean",
+                "Etailing":"Learn2Clean",
+                "Midwest-Survey":"SAGA",
+                "WiFi":"SAGA",
+                "Utility":"SAGA"}
                 
 
 def load_results(path):
@@ -106,7 +135,7 @@ def load_merge_all_results(root_path):
                     f"{root_path}/raw_results/Experiment3_AutoGen.dat", #AutoGen
                     f"{root_path}/raw_results/Experiment3_AIDE.dat", #AIDE
                     f"{root_path}/raw_results/Experiment3_AIDE_2.dat", #AIDE Part2 Running
-                    f"{root_path}/raw_results/Experiment3_AutoML_SAGA.dat", #AutoML + SAGA                    
+                    f"{root_path}/raw_results/Experiment3_AutoML_Clean_AUG.dat", #AutoML + SAGA/Learn2Clen                    
                     ] 
     df_merge = pd.DataFrame(columns = columns)
     

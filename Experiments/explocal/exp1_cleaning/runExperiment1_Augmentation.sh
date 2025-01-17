@@ -8,10 +8,12 @@ source_data=$2
 # clean-up 
 output_dir="${data_path}/data_space"
 aug_data_path="${output_dir}/${dataset}"
-metadata_path="${aug_data_path}/${dataset}.yaml"
+
+metadata_path="${aug_data_path}/${dataset}_${source_data}.yaml"
 
 if [[ $source_data == "orig" ]]
     then
+        metadata_path="${aug_data_path}/${dataset}.yaml"
         if [ ! -f "${output_dir}/${dataset}/${dataset}_orig_train.csv" ]; then
                 cp -r "${data_path}/${dataset}/${dataset}_train.csv" "${output_dir}/${dataset}/${dataset}_orig_train.csv"
         fi     

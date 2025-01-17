@@ -92,9 +92,7 @@ catalog_path="${root_path}/catalog"
 # Prepare Datasets for SAGA
 mkdir -p ${saga_data_out_path}
 
-# declare -a dataset_list=("oml_dataset_2_rnc" "oml_dataset_4_rnc" "oml_dataset_5_rnc" "oml_dataset_33_rnc" "oml_dataset_34_rnc" "oml_dataset_35_rnc" "oml_dataset_20_rnc" "oml_dataset_6_rnc" "oml_dataset_3_rnc" "oml_dataset_22_rnc" "oml_dataset_24_rnc" "oml_dataset_23_rnc" "Airline" "IMDB-IJS" "Accidents" "Financial" "EU-IT" "Etailing" "Midwest-Survey" "WiFi" "Utility" "Yelp")
-
-declare -a dataset_list=("EU-IT" "Etailing" "Midwest-Survey" "WiFi" "Utility", "Yelp")
+declare -a dataset_list=("oml_dataset_2_rnc" "oml_dataset_4_rnc" "oml_dataset_5_rnc" "oml_dataset_33_rnc" "oml_dataset_34_rnc" "oml_dataset_35_rnc" "oml_dataset_20_rnc" "oml_dataset_6_rnc" "oml_dataset_3_rnc" "oml_dataset_22_rnc" "oml_dataset_24_rnc" "oml_dataset_23_rnc" "Airline" "IMDB-IJS" "Accidents" "Financial" "EU-IT" "Etailing" "Midwest-Survey" "WiFi" "Utility" "Yelp")
 
 saga_baseline="${root_path}/setup/Baselines/SAGA"
 cd ${saga_baseline}

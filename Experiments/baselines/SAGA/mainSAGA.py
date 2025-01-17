@@ -1,5 +1,6 @@
 from argparse import ArgumentParser
 import yaml
+import re
 from PrepareData import PrepareData
 
 
@@ -36,6 +37,23 @@ def parse_arguments():
 
 if __name__ == '__main__':
     args = parse_arguments()
+    args.target_attribute = re.sub('[^A-Za-z0-9_]+', '', args.target_attribute)
     pd = PrepareData(args.dataset_name, args.target_attribute, args.task_type, args.data_source_train_path,
                      args.data_source_test_path, args.output_dir)
     pd.run()
+
+    config_strs = [f"- name: {args.dataset_name}",
+                   "  dataset:",
+                   f"    train: \'{args.dataset_name}/{args.dataset_name}_orig_train.csv\'",
+                   f"    test: \'{args.dataset_name}/{args.dataset_name}_orig_test.csv\'",
+                   f"    target_table: {args.dataset_name}",
+                   f"    target: '{args.target_attribute}'",
+                   f"    type: {args.task_type}"
+                   "\n"]
+    config_str = "\n".join(config_strs)
+
+    yaml_file_local = f'{args.output_dir}/{args.dataset_name}_SAGA.yaml'
+    f_local = open(yaml_file_local, 'w')
+    f_local.write("--- \n \n")
+    f_local.write(config_str)
+    f_local.close()

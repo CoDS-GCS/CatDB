@@ -135,7 +135,7 @@ def load_merge_all_results(root_path):
                     f"{root_path}/raw_results/Experiment3_AutoGen.dat", #AutoGen
                     f"{root_path}/raw_results/Experiment3_AIDE.dat", #AIDE
                     f"{root_path}/raw_results/Experiment3_AIDE_2.dat", #AIDE Part2 Running
-                    f"{root_path}/raw_results/Experiment3_AutoML_Clean_AUG.dat", #AutoML + SAGA/Learn2Clen                    
+                    #f"{root_path}/raw_results/Experiment3_AutoML_Clean_AUG.dat", #AutoML + SAGA/Learn2Clen                    
                     ] 
     df_merge = pd.DataFrame(columns = columns)
     

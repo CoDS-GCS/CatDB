@@ -1,5 +1,5 @@
 from autogen.coding import LocalCommandLineCodeExecutor
-
+import tiktoken
 from automl.AutoML import AutoML as CatDBAutoML
 from util.Config import Config
 from util.Data import Dataset
@@ -129,6 +129,13 @@ class AutoGenAutoML(CatDBAutoML):
 
         log_results.save_results(result_output_path=self.config.output_path)
 
+    def get_number_tokens(self, message):
+        enc = tiktoken.get_encoding("cl100k_base")
+        enc = tiktoken.encoding_for_model(self.llm_model)
+        token_integers = enc.encode(message)
+        num_tokens = len(token_integers)
+        return num_tokens
+
     def call_agent(self, message):
 
         start_time = time.time()
@@ -162,15 +169,18 @@ class AutoGenAutoML(CatDBAutoML):
 
         elapsed_time = time.time() - start_time
         prompt_tokens = completion_tokens = 0
+        cost = 0
         try:
-            prompt_tokens = result.cost['usage_including_cached_inference'][self.llm_model]['prompt_tokens']
-            completion_tokens = result.cost['usage_including_cached_inference'][self.llm_model]['completion_tokens']
-            cost = result.cost['usage_including_cached_inference'][self.llm_model]['cost']
+            if "gpt" in self.llm_model:
+                prompt_tokens = self.get_number_tokens(message)
+            else:
+                prompt_tokens = result.cost['usage_including_cached_inference'][self.llm_model]['prompt_tokens']
+                completion_tokens = result.cost['usage_including_cached_inference'][self.llm_model]['completion_tokens']
+                cost = result.cost['usage_including_cached_inference'][self.llm_model]['cost']
             summary = result.summary
             history = result.chat_history
         except Exception as e:
             print(e)
-            cost = 0
             history = "I cannot solve this task."
             summary = "I cannot solve this task."
 
@@ -178,16 +188,24 @@ class AutoGenAutoML(CatDBAutoML):
         src = None
         error = None
         performance = None
+        print(history)
         for h in history:
-            for k in h.keys():
-                if "```python" in h[k]:
-                    src = h[k]
-                    break
-                elif "exitcode: 1 (execution failed)" in h[k]:
-                    error = h[k]
-                    break
-                elif "exitcode: 0 (execution succeeded)" in h[k]:
-                    performance = h[k]
+            try:
+                for k in h.keys():
+                    if "```python" in h[k]:
+                        src = h[k]
+                        if "gpt" in self.llm_model:
+                            completion_tokens = self.get_number_tokens(src)
+
+                        break
+                    elif "exitcode: 1 (execution failed)" in h[k]:
+                        error = h[k]
+                        break
+                    elif "exitcode: 0 (execution succeeded)" in h[k]:
+                        performance = h[k]
+            except Exception as err:
+                pass
+        print(f"Tokens: {prompt_tokens} + {completion_tokens}")
         return prompt_tokens + completion_tokens, cost, result, src, error, performance, summary, history, elapsed_time
 
     def run(self):
@@ -223,7 +241,7 @@ class AutoGenAutoML(CatDBAutoML):
                 number_iteration_error = i
                 continue
             else:
-                number_iteration_error = i -1
+                number_iteration_error = i - 1
                 status = True
                 break
 

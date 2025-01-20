@@ -8,6 +8,8 @@ Airline,Airline,CatDBChain,123370,39080,45160,3913.0,3908.0,4516.0,3073.0,0.0,0.
 Airline,Airline,AutoGen,17530,0,0,17673.0,0.0,0.0,0.0,0.0,0.0,5,0,0,0,0,0,llama-3.1-70b-versatile,No,multiclass,classification,0
 Airline,Airline,CatDB,46400,0,0,4640.0,0.0,0.0,15264.0,0.0,0.0,0,0,0,0,0,0,gpt-4o,No,multiclass,classification,0
 Airline,Airline,CatDBChain,125000,75720,58740,3913.0,3936.0,4651.0,3073.0,3636.0,1223.0,2,1,1,0,0,0,gpt-4o,No,multiclass,classification,0
+Airline,Airline,AutoGen,12430,0,0,8472.0,0.0,0.0,0.0,0.0,0.0,1,0,0,0,0,0,gpt-4o,No,multiclass,classification,0
+Airline,Airline,AIDE,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,gpt-4o,No,multiclass,classification,0
 IMDB-IJS,IMDB-IJS,CatDB,12030,0,0,1203.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,gemini-1.5-pro-latest,No,binary,classification,0
 IMDB-IJS,IMDB-IJS,CatDBChain,62335,17440,20590,2358.0,1744.0,2059.0,0.0,0.0,0.0,0,0,0,0,0,0,gemini-1.5-pro-latest,No,binary,classification,0
 IMDB-IJS,IMDB-IJS,AutoGen,12950,0,0,5921.0,0.0,0.0,0.0,0.0,0.0,2,0,0,0,0,0,gemini-1.5-pro-latest,No,binary,classification,0
@@ -17,6 +19,8 @@ IMDB-IJS,IMDB-IJS,CatDBChain,63190,56060,43590,2503.0,1744.0,2072.0,123.0,3862.0
 IMDB-IJS,IMDB-IJS,AutoGen,10080,0,0,6152.0,0.0,0.0,0.0,0.0,0.0,3,0,0,0,0,0,llama-3.1-70b-versatile,No,binary,classification,0
 IMDB-IJS,IMDB-IJS,CatDB,12030,0,0,1203.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,gpt-4o,No,binary,classification,0
 IMDB-IJS,IMDB-IJS,CatDBChain,63190,36060,41590,2503.0,1744.0,2072.0,223.0,1862.0,2087.0,3,2,1,0,0,0,gpt-4o,No,binary,classification,0
+IMDB-IJS,IMDB-IJS,AutoGen,9560,0,0,2922.0,0.0,0.0,0.0,0.0,0.0,1,0,0,0,0,0,gpt-4o,No,binary,classification,0
+IMDB-IJS,IMDB-IJS,AIDE,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,gpt-4o,No,binary,classification,0
 Accidents,Accidents,CatDB,53630,0,0,5363.0,0.0,0.0,9918.0,0.0,0.0,0,0,0,0,0,0,gemini-1.5-pro-latest,No,multiclass,classification,0
 Accidents,Accidents,CatDBChain,129293,37920,44540,4513.0,3792.0,4454.0,0.0,0.0,0.0,0,0,0,0,0,0,gemini-1.5-pro-latest,No,multiclass,classification,0
 Accidents,Accidents,CAAFERandomForest,50050,0,0,4550.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,gemini-1.5-pro-latest,No,multiclass,classification,0
@@ -29,6 +33,8 @@ Accidents,Accidents,AutoGen,13600,0,0,5875.0,0.0,0.0,0.0,0.0,0.0,2,0,0,0,0,0,lla
 Accidents,Accidents,CatDB,34760,0,0,3476.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,gpt-4o,No,multiclass,classification,0
 Accidents,Accidents,CatDBChain,109140,21920,17710,4168.0,3192.0,3554.0,-2222.0,-1000.0,-1783.0,3,0,3,0,0,0,gpt-4o,No,multiclass,classification,0
 Accidents,Accidents,CAAFERandomForest,43142,0,0,3922.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,gpt-4o,No,multiclass,classification,0
+Accidents,Accidents,AutoGen,11150,0,0,3420.0,0.0,0.0,0.0,0.0,0.0,1,0,0,0,0,0,gpt-4o,No,multiclass,classification,0
+Accidents,Accidents,AIDE,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,gpt-4o,No,multiclass,classification,0
 Financial,Financial,CatDB,56260,0,0,5626.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,gemini-1.5-pro-latest,No,multiclass,classification,0
 Financial,Financial,CatDBChain,139170,83140,139060,4489.0,4095.0,5013.0,0.0,4219.0,8893.0,3,1,2,0,0,0,gemini-1.5-pro-latest,No,multiclass,classification,0
 Financial,Financial,CAAFERandomForest,64526,0,0,5866.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,gemini-1.5-pro-latest,No,multiclass,classification,0
@@ -41,6 +47,8 @@ Financial,Financial,AutoGen,14980,0,0,6199.0,0.0,0.0,0.0,0.0,0.0,2,0,0,0,0,0,lla
 Financial,Financial,CatDB,53260,0,0,5326.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,gpt-4o,No,multiclass,classification,0
 Financial,Financial,CatDBChain,93060,28390,33050,3162.0,2839.0,3305.0,2762.0,0.0,0.0,0,0,0,0,0,0,gpt-4o,No,multiclass,classification,0
 Financial,Financial,CAAFERandomForest,53922,0,0,4902.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,gpt-4o,No,multiclass,classification,0
+Financial,Financial,AutoGen,11580,0,0,1158.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,gpt-4o,No,multiclass,classification,0
+Financial,Financial,AIDE,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,gpt-4o,No,multiclass,classification,0
 Yelp,Yelp,CatDBChain,263250,88650,83420,8503.0,8865.0,8342.0,7203.0,0.0,0.0,0,0,0,0,0,0,gemini-1.5-pro-latest,No,multiclass,classification,0
 Yelp,Yelp,CAAFERandomForest,156266,0,0,14206.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,gemini-1.5-pro-latest,No,multiclass,classification,0
 Yelp,Yelp,AutoGen,14040,0,0,12705.0,0.0,0.0,0.0,0.0,0.0,4,0,0,0,0,0,gemini-1.5-pro-latest,No,multiclass,classification,0
@@ -107,6 +115,8 @@ oml_dataset_3_rnc,CMC,CatDB,15520,0,0,1552.0,0.001,0.001,0.001,0.001,0.001,0,0,0
 oml_dataset_3_rnc,CMC,CatDBChain,40340,34550,14960,1692.0,846.0,1496.0,0.001,2609.0,0.001,2,2,0,0,0,0,gpt-4o,No,multiclass,classification,0
 oml_dataset_3_rnc,CMC,CAAFETabPFN,18774,0,0,1205.0,0.001,0.001,0.001,0.001,0.001,0,0,0,0,0,0,gpt-4o,No,multiclass,classification,0
 oml_dataset_3_rnc,CMC,CAAFERandomForest,22309,0,0,1205.0,0.001,0.001,0.001,0.001,0.001,0,0,0,0,0,0,gpt-4o,No,multiclass,classification,0
+oml_dataset_3_rnc,CMC,AutoGen,11760,0,0,1176.0,0.001,0.001,0.001,0.001,0.001,0,0,0,0,0,0,gpt-4o,No,multiclass,classification,0
+oml_dataset_3_rnc,CMC,AIDE,20152,0,0,1832.0,0.001,0.001,0.001,0.001,0.001,1,0,0,0,0,0,gpt-4o,No,multiclass,classification,0
 oml_dataset_4_rnc,Credit-g,CatDB,16490,0,0,3298.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,gemini-1.5-pro-latest,No,binary,classification,0
 oml_dataset_4_rnc,Credit-g,CatDBChain,36485,19390,26080,2651.0,1939.0,2608.0,0.0,0.0,0.0,0,0,0,0,0,0,gemini-1.5-pro-latest,No,binary,classification,0
 oml_dataset_4_rnc,Credit-g,CAAFETabPFN,23408,0,0,2067.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,gemini-1.5-pro-latest,No,binary,classification,0
@@ -139,6 +149,8 @@ oml_dataset_5_rnc,Diabetes,CatDB,9410,0,0,1882.0,0.0,0.0,3521.0,0.0,0.0,0,0,0,0,
 oml_dataset_5_rnc,Diabetes,CatDBChain,19540,9480,14400,1383.0,948.0,1440.0,0.0,0.0,0.0,0,0,0,0,0,0,gpt-4o,No,binary,classification,0
 oml_dataset_5_rnc,Diabetes,CAAFETabPFN,19434,0,0,1136.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,gpt-4o,No,binary,classification,0
 oml_dataset_5_rnc,Diabetes,CAAFERandomForest,18236,0,0,1136.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,gpt-4o,No,binary,classification,0
+oml_dataset_5_rnc,Diabetes,AutoGen,9877,0,0,983.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,gpt-4o,No,binary,classification,0
+oml_dataset_5_rnc,Diabetes,AIDE,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,gpt-4o,No,binary,classification,0
 oml_dataset_6_rnc,Tic-Tac-Toe,CatDB,27900,0,0,2790.0,0.001,0.001,0.001,0.001,0.001,0,0,0,0,0,0,gemini-1.5-pro-latest,No,binary,classification,0
 oml_dataset_6_rnc,Tic-Tac-Toe,CatDBChain,50600,13950,17320,1933.0,1395.0,1732.0,0.001,0.001,0.001,0,0,0,0,0,0,gemini-1.5-pro-latest,No,binary,classification,0
 oml_dataset_6_rnc,Tic-Tac-Toe,CAAFETabPFN,24610,0,0,2622.0,0.001,0.001,0.001,0.001,0.001,0,0,0,0,0,0,gemini-1.5-pro-latest,No,binary,classification,0
@@ -155,6 +167,8 @@ oml_dataset_6_rnc,Tic-Tac-Toe,CatDB,14500,0,0,1450.0,0.001,0.001,0.001,0.001,0.0
 oml_dataset_6_rnc,Tic-Tac-Toe,CatDBChain,38370,30480,14050,1625.0,807.0,1405.0,0.001,2241.0,0.001,2,2,0,0,0,0,gpt-4o,No,binary,classification,0
 oml_dataset_6_rnc,Tic-Tac-Toe,CAAFETabPFN,19420,0,0,1204.0,0.001,0.001,0.001,0.001,0.001,0,0,0,0,0,0,gpt-4o,No,binary,classification,0
 oml_dataset_6_rnc,Tic-Tac-Toe,CAAFERandomForest,19085,0,0,1204.0,0.001,0.001,0.001,0.001,0.001,0,0,0,0,0,0,gpt-4o,No,binary,classification,0
+oml_dataset_6_rnc,Tic-Tac-Toe,AutoGen,9710,0,0,2853.0,0.001,0.001,0.001,0.001,0.001,1,0,0,0,0,0,gpt-4o,No,binary,classification,0
+oml_dataset_6_rnc,Tic-Tac-Toe,AIDE,0,0,0,0.001,0.001,0.001,0.001,0.001,0.001,0,0,0,0,0,0,gpt-4o,No,binary,classification,0
 oml_dataset_33_rnc,Nomao,CatDB,38460,0,0,7692.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,gemini-1.5-pro-latest,No,binary,classification,0
 oml_dataset_33_rnc,Nomao,CatDBChain,101842,62870,73300,6645.0,6287.0,7330.0,0.0,0.0,0.0,0,0,0,0,0,0,gemini-1.5-pro-latest,No,binary,classification,0
 oml_dataset_33_rnc,Nomao,CAAFETabPFN,100424,0,0,9375.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,gemini-1.5-pro-latest,No,binary,classification,0
@@ -186,6 +200,8 @@ oml_dataset_34_rnc,Gas-Drift,CatDB,37170,0,0,7434.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,
 oml_dataset_34_rnc,Gas-Drift,CatDBChain,95708,67280,79990,3716.0,6728.0,7999.0,0.0,0.0,0.0,0,0,0,0,0,0,gpt-4o,No,multiclass,classification,0
 oml_dataset_34_rnc,Gas-Drift,CAAFETabPFN,129049,0,0,11699.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,gpt-4o,No,multiclass,classification,0
 oml_dataset_34_rnc,Gas-Drift,CAAFERandomForest,104044,0,0,9462.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,gpt-4o,No,multiclass,classification,0
+oml_dataset_34_rnc,Gas-Drift,AutoGen,12445,0,0,1179.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,gpt-4o,No,multiclass,classification,0
+oml_dataset_34_rnc,Gas-Drift,AIDE,18484,0,0,1866.0,0.0,0.0,0.0,0.0,0.0,1,0,0,0,0,0,gpt-4o,No,multiclass,classification,0
 oml_dataset_20_rnc,Walking-Activity,CatDB,30380,0,0,3038.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,gemini-1.5-pro-latest,No,multiclass,classification,0
 oml_dataset_20_rnc,Walking-Activity,CatDBChain,57060,53390,60950,2286.0,1499.0,1921.0,2311.0,3840.0,4174.0,4,2,2,0,0,0,gemini-1.5-pro-latest,No,multiclass,classification,0
 oml_dataset_20_rnc,Walking-Activity,CAAFERandomForest,10714,0,0,974.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,gemini-1.5-pro-latest,No,multiclass,classification,0
@@ -199,6 +215,8 @@ oml_dataset_20_rnc,Walking-Activity,AIDE,533060,0,0,48460.0,0.0,0.0,0.0,0.0,0.0,
 oml_dataset_20_rnc,Walking-Activity,CatDB,15680,0,0,1568.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,gpt-4o,No,multiclass,classification,0
 oml_dataset_20_rnc,Walking-Activity,CatDBChain,34700,8620,12400,1368.0,862.0,1240.0,0.0,0.0,0.0,0,0,0,0,0,0,gpt-4o,No,multiclass,classification,0
 oml_dataset_20_rnc,Walking-Activity,CAAFERandomForest,9801,0,0,891.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,gpt-4o,No,multiclass,classification,0
+oml_dataset_20_rnc,Walking-Activity,AutoGen,11680,0,0,1168.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,gpt-4o,No,multiclass,classification,0
+oml_dataset_20_rnc,Walking-Activity,AIDE,20603,0,0,1873.0,0.0,0.0,0.0,0.0,0.0,1,0,0,0,0,0,gpt-4o,No,multiclass,classification,0
 oml_dataset_22_rnc,Bike-Sharing,CatDB,29910,0,0,2991.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,gemini-1.5-pro-latest,No,regression,regression,0
 oml_dataset_22_rnc,Bike-Sharing,CatDBChain,62972,16860,22650,2152.0,1686.0,2265.0,0.0,0.0,0.0,0,0,0,0,0,0,gemini-1.5-pro-latest,No,regression,regression,0
 oml_dataset_22_rnc,Bike-Sharing,AutoGen,11860,0,0,18272.0,0.0,0.0,0.0,0.0,0.0,8,0,0,0,0,0,gemini-1.5-pro-latest,No,regression,regression,0
@@ -209,6 +227,8 @@ oml_dataset_22_rnc,Bike-Sharing,AutoGen,8820,0,0,882.0,0.0,0.0,0.0,0.0,0.0,0,0,0
 oml_dataset_22_rnc,Bike-Sharing,AIDE,205130,0,0,18658.0,0.0,0.0,0.0,0.0,0.0,1,0,0,0,0,0,llama-3.1-70b-versatile,No,regression,regression,0
 oml_dataset_22_rnc,Bike-Sharing,CatDB,16490,0,0,1649.0,0.0,0.0,2569.0,0.0,0.0,0,0,0,0,0,0,gpt-4o,No,regression,regression,0
 oml_dataset_22_rnc,Bike-Sharing,CatDBChain,38610,19270,14500,1378.0,1033.0,1450.0,0.0,894.0,0.0,1,1,0,0,0,0,gpt-4o,No,regression,regression,0
+oml_dataset_22_rnc,Bike-Sharing,AutoGen,8590,0,0,859.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,gpt-4o,No,regression,regression,0
+oml_dataset_22_rnc,Bike-Sharing,AIDE,16126,0,0,1466.0,0.0,0.0,0.0,0.0,0.0,1,0,0,0,0,0,gpt-4o,No,regression,regression,0
 oml_dataset_23_rnc,House-Sales,CatDB,33920,0,0,3392.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,gemini-1.5-pro-latest,No,regression,regression,0
 oml_dataset_23_rnc,House-Sales,CatDBChain,74120,20850,27510,2556.0,2085.0,2751.0,0.0,0.0,0.0,0,0,0,0,0,0,gemini-1.5-pro-latest,No,regression,regression,0
 oml_dataset_23_rnc,House-Sales,AutoGen,11070,0,0,1107.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,gemini-1.5-pro-latest,No,regression,regression,0
@@ -219,6 +239,8 @@ oml_dataset_23_rnc,House-Sales,AutoGen,8890,0,0,889.0,0.0,0.0,0.0,0.0,0.0,0,0,0,
 oml_dataset_23_rnc,House-Sales,AIDE,204690,0,0,18602.0,0.0,0.0,0.0,0.0,0.0,1,0,0,0,0,0,llama-3.1-70b-versatile,No,regression,regression,0
 oml_dataset_23_rnc,House-Sales,CatDB,19060,0,0,1906.0,0.0,0.0,8777.0,0.0,0.0,0,0,0,0,0,0,gpt-4o,No,regression,regression,0
 oml_dataset_23_rnc,House-Sales,CatDBChain,48670,60040,18240,1753.0,1290.0,1824.0,0.0,4714.0,0.0,3,3,0,0,0,0,gpt-4o,No,regression,regression,0
+oml_dataset_23_rnc,House-Sales,AutoGen,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,gpt-4o,No,regression,regression,0
+oml_dataset_23_rnc,House-Sales,AIDE,16148,0,0,1468.0,0.0,0.0,0.0,0.0,0.0,1,0,0,0,0,0,gpt-4o,No,regression,regression,0
 oml_dataset_24_rnc,NYC,CatDB,31080,0,0,3108.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,gemini-1.5-pro-latest,No,regression,regression,0
 oml_dataset_24_rnc,NYC,CatDBChain,68110,18010,24260,2447.0,1801.0,2426.0,0.0,0.0,0.0,0,0,0,0,0,0,gemini-1.5-pro-latest,No,regression,regression,0
 oml_dataset_24_rnc,NYC,AutoGen,11410,0,0,2938.0,0.0,0.0,0.0,0.0,0.0,1,0,0,0,0,0,gemini-1.5-pro-latest,No,regression,regression,0
@@ -229,6 +251,8 @@ oml_dataset_24_rnc,NYC,AutoGen,8660,0,0,2228.0,0.0,0.0,0.0,0.0,0.0,1,0,0,0,0,0,l
 oml_dataset_24_rnc,NYC,AIDE,212311,0,0,19301.0,0.0,0.0,0.0,0.0,0.0,1,0,0,0,0,0,llama-3.1-70b-versatile,No,regression,regression,0
 oml_dataset_24_rnc,NYC,CatDB,17450,0,0,1745.0,0.0,0.0,1506.0,0.0,0.0,0,0,0,0,0,0,gpt-4o,No,regression,regression,0
 oml_dataset_24_rnc,NYC,CatDBChain,46120,29230,17190,1764.0,1129.0,1719.0,1484.0,1794.0,0.0,3,3,0,0,0,0,gpt-4o,No,regression,regression,0
+oml_dataset_24_rnc,NYC,AutoGen,9830,0,0,983.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,gpt-4o,No,regression,regression,0
+oml_dataset_24_rnc,NYC,AIDE,16313,0,0,1483.0,0.0,0.0,0.0,0.0,0.0,1,0,0,0,0,0,gpt-4o,No,regression,regression,0
 oml_dataset_35_rnc,Volkert,CatDB,58210,0,0,11642.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,gemini-1.5-pro-latest,No,multiclass,classification,0
 oml_dataset_35_rnc,Volkert,CatDBChain,137938,100990,109870,5874.0,10099.0,10987.0,0.0,0.0,0.0,0,0,0,0,0,0,gemini-1.5-pro-latest,No,multiclass,classification,0
 oml_dataset_35_rnc,Volkert,CAAFERandomForest,118351,0,0,14355.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,gemini-1.5-pro-latest,No,multiclass,classification,0
@@ -242,3 +266,5 @@ oml_dataset_35_rnc,Volkert,AIDE,455225,0,0,23775.0,0.0,0.0,0.0,0.0,0.0,1,0,0,0,0
 oml_dataset_35_rnc,Volkert,CatDB,39380,0,0,7876.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,gpt-4o,No,multiclass,classification,0
 oml_dataset_35_rnc,Volkert,CatDBChain,99340,71700,78160,4726.0,7170.0,7816.0,0.0,0.0,0.0,0,0,0,0,0,0,gpt-4o,No,multiclass,classification,0
 oml_dataset_35_rnc,Volkert,CAAFERandomForest,135413,0,0,12834.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,gpt-4o,No,multiclass,classification,0
+oml_dataset_35_rnc,Volkert,AutoGen,9055,0,0,516.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0,0,0,gpt-4o,No,multiclass,classification,0
+oml_dataset_35_rnc,Volkert,AIDE,18562,0,0,1802.0,0.0,0.0,0.0,0.0,0.0,1,0,0,0,0,0,gpt-4o,No,multiclass,classification,0

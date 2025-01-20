@@ -1,9 +1,9 @@
 PyYAML==6.0.1
 pandas
 scikit-learn
-autogen-agentchat[gemini]~=0.2
-autogen-agentchat[groq]~=0.2
-autogen-agentchat[openai]~=0.2
+autogen-agentchat[gemini]==0.2.40
+autogen-agentchat[groq]==0.2.40
+autogen-agentchat[openai]==0.2.40
 chromadb
 markdownify
 PyPDF

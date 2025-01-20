@@ -1,5 +1,5 @@
 import pandas as pd
-from MergeResults import load_merge_all_results, get_top_k_binary, get_top_k_multiclass, replace_comma, mergse_dfs, get_top_k_all, dataset_corr
+from MergeResults import load_merge_all_results, get_top_k_binary, get_top_k_multiclass, replace_comma, mergse_dfs, get_top_k_all, dataset_corr, dataset_corr_clean
 import warnings
 
 warnings.filterwarnings('ignore')
@@ -18,11 +18,11 @@ if __name__ == '__main__':
                                        "AutoSklearn_train_auc","AutoSklearn_test_auc",
                                        "H2O_train_auc","H2O_test_auc",
                                        "Flaml_train_auc","Flaml_test_auc",
-                                       "Autogluon_train_auc","Autogluon_test_auc",
-                                       "AutoSklearn_SAGA_train_auc","AutoSklearn_SAGA_test_auc",
-                                       "H2O_SAGA_train_auc","H2O_SAGA_test_auc",
-                                       "Flaml_SAGA_train_auc","Flaml_SAGA_test_auc",
-                                       "Autogluon_SAGA_train_auc","Autogluon_SAGA_test_auc",
+                                       "Autogluon_train_auc","Autogluon_test_auc","Cleaning",
+                                       "AutoSklearn_Cleaning_train_auc","AutoSklearn_Cleaning_test_auc",
+                                       "H2O_Cleaning_train_auc","H2O_Cleaning_test_auc",
+                                       "Flaml_Cleaning_train_auc","Flaml_Cleaning_test_auc",
+                                       "Autogluon_Cleaning_train_auc","Autogluon_Cleaning_test_auc",
                                        ]
     df_micro = pd.DataFrame(columns = micor_tbl_cols)   
 
@@ -55,10 +55,10 @@ if __name__ == '__main__':
                         "H2O_train_auc":0,"H2O_test_auc":0,
                         "Flaml_train_auc":0,"Flaml_test_auc":0,
                         "Autogluon_train_auc":0,"Autogluon_test_auc":0,
-                        "AutoSklearn_SAGA_train_auc":0,"AutoSklearn_SAGA_test_auc":0,
-                        "H2O_SAGA_train_auc":0,"H2O_SAGA_test_auc":0,
-                        "Flaml_SAGA_train_auc":0,"Flaml_SAGA_test_auc":0,
-                        "Autogluon_SAGA_train_auc":0,"Autogluon_SAGA_test_auc":0
+                        "AutoSklearn_Cleaning_train_auc":0,"AutoSklearn_Cleaning_test_auc":0,
+                        "H2O_Cleaning_train_auc":0,"H2O_Cleaning_test_auc":0,
+                        "Flaml_Cleaning_train_auc":0,"Flaml_Cleaning_test_auc":0,
+                        "Autogluon_Cleaning_train_auc":0,"Autogluon_Cleaning_test_auc":0
                         },
             "llama-3.1-70b-versatile":{"CatDB_train_auc":0,"CatDB_test_auc":0,
                         "CatDBChain_train_auc":0,"CatDBChain_test_auc":0,
@@ -70,10 +70,10 @@ if __name__ == '__main__':
                         "H2O_train_auc":0,"H2O_test_auc":0,
                         "Flaml_train_auc":0,"Flaml_test_auc":0,
                         "Autogluon_train_auc":0,"Autogluon_test_auc":0,
-                        "AutoSklearn_SAGA_train_auc":0,"AutoSklearn_SAGA_test_auc":0,
-                        "H2O_SAGA_train_auc":0,"H2O_SAGA_test_auc":0,
-                        "Flaml_SAGA_train_auc":0,"Flaml_SAGA_test_auc":0,
-                        "Autogluon_SAGA_train_auc":0,"Autogluon_SAGA_test_auc":0},
+                        "AutoSklearn_Cleaning_train_auc":0,"AutoSklearn_Cleaning_test_auc":0,
+                        "H2O_Cleaning_train_auc":0,"H2O_Cleaning_test_auc":0,
+                        "Flaml_Cleaning_train_auc":0,"Flaml_Cleaning_test_auc":0,
+                        "Autogluon_Cleaning_train_auc":0,"Autogluon_Cleaning_test_auc":0},
             "gpt-4o":{"CatDB_train_auc":0,"CatDB_test_auc":0,
                         "CatDBChain_train_auc":0,"CatDBChain_test_auc":0,
                         "CAAFETabPFN_train_auc":0,"CAAFETabPFN_test_auc":0,
@@ -83,10 +83,10 @@ if __name__ == '__main__':
                         "H2O_train_auc":0,"H2O_test_auc":0,
                         "Flaml_train_auc":0,"Flaml_test_auc":0,
                         "Autogluon_train_auc":0,"Autogluon_test_auc":0,
-                        "AutoSklearn_SAGA_train_auc":0,"AutoSklearn_SAGA_test_auc":0,
-                        "H2O_SAGA_train_auc":0,"H2O_SAGA_test_auc":0,
-                        "Flaml_SAGA_train_auc":0,"Flaml_SAGA_test_auc":0,
-                        "Autogluon_SAGA_train_auc":0,"Autogluon_SAGA_test_auc":0},            
+                        "AutoSklearn_Cleaning_train_auc":0,"AutoSklearn_Cleaning_test_auc":0,
+                        "H2O_Cleaning_train_auc":0,"H2O_Cleaning_test_auc":0,
+                        "Flaml_Cleaning_train_auc":0,"Flaml_Cleaning_test_auc":0,
+                        "Autogluon_Cleaning_train_auc":0,"Autogluon_Cleaning_test_auc":0},            
                         }
     
     wins2 = dict()
@@ -97,7 +97,7 @@ if __name__ == '__main__':
         wins2[llm] = llm_key    
     
     classifier = ["Auto", "TabPFN", "RandomForest"]
-
+    sub_tasks = ["","SAGA", "Learn2Clean"]
     llms_shorname = {"gemini-1.5-pro-latest":"Gemini-1.5","llama-3.1-70b-versatile":"Llama3.1-70b", "gpt-4o": "GPT-4o"}
 
     configs = ["CatDB", "CatDBChain", "CAAFE", "AIDE", "AutoGen","AutoSklearn","H2O","Flaml","Autogluon"]    
@@ -114,13 +114,15 @@ if __name__ == '__main__':
                         "H2O_train_auc":0,"H2O_test_auc":0,
                         "Flaml_train_auc":0,"Flaml_test_auc":0,
                         "Autogluon_train_auc":0,"Autogluon_test_auc":0,
-                        "AutoSklearn_SAGA_train_auc":0,"AutoSklearn_SAGA_test_auc":0,
-                        "H2O_SAGA_train_auc":0,"H2O_SAGA_test_auc":0,
-                        "Flaml_SAGA_train_auc":0,"Flaml_SAGA_test_auc":0,
-                        "Autogluon_SAGA_train_auc":0,"Autogluon_SAGA_test_auc":0}
+                        "AutoSklearn_Cleaning_train_auc":0,"AutoSklearn_Cleaning_test_auc":0,
+                        "H2O_Cleaning_train_auc":0,"H2O_Cleaning_test_auc":0,
+                        "Flaml_Cleaning_train_auc":0,"Flaml_Cleaning_test_auc":0,
+                        "Autogluon_Cleaning_train_auc":0,"Autogluon_Cleaning_test_auc":0}
             for des in {"Yes", "No"}:                
                 for config in configs:
-                    for cls in classifier:                    
+                    for cls in classifier: 
+                        for st in sub_tasks:       
+                            corr_clean = dataset_corr_clean[ds]                 
                             df = df_pip_gen.loc[(df_pip_gen['dataset_name'] == ds) & 
                                                 (df_pip_gen['config'] == config) &
                                                 (df_pip_gen['llm_model'] == llm) &
@@ -135,7 +137,15 @@ if __name__ == '__main__':
                             if config not in {"AutoSklearn","H2O","Flaml","Autogluon"}:
                                 df = df.loc[df['classifier'] == cls]
                             else:
-                               df = df.loc[df['number_iteration'] == 1].head(1)     
+                               df = df.loc[df['number_iteration'] == 1].head(1)  
+
+                            if config in {"AutoSklearn","H2O","Flaml","Autogluon"} and st in {"SAGA", "Learn2Clean"}: 
+                                df = df.loc[df['sub_task'] == corr_clean]
+                                if len(df) == 0:
+                                    continue
+
+                            if config not in {"AutoSklearn","H2O","Flaml","Autogluon"} and st in {"SAGA", "Learn2Clean"}:
+                                continue         
 
                             if len(df) > 0:   
                                 df_sort = pd.DataFrame(columns = df_pip_gen.columns)                                                        
@@ -163,9 +173,13 @@ if __name__ == '__main__':
                                     elif cls == "RandomForest":
                                         config_title = "CAAFERandomForest" 
                                 
-                                saga_df = df.loc[df['sub_task'] == "SAGA"]
-                                if len(saga_df) > 0:
-                                    config_title = f"{config}_SAGA"
+                                # saga_df = df.loc[df['sub_task'] == "SAGA"]
+                                # if len(saga_df) > 0:
+                                #     config_title = f"{config}_SAGA"
+
+                                elif config in {"AutoSklearn","H2O","Flaml","Autogluon"}:
+                                    if st in {"SAGA", "Learn2Clean"}:
+                                        config_title = f"{config}_Cleaning"    
                                
                                 task_type = df_ds.iloc[0]['task_type']
                                 col_train = "train_auc"
@@ -203,11 +217,16 @@ if __name__ == '__main__':
             # else:
             #      df_micro.at[cindex,"Metric"] = "&"
 
+            if corr_clean == "Learn2Clean":
+                corr_clean = "L2C"
+
             tbl_line = "" 
             if llm == "gpt-4o":
-             df_micro.at[cindex,"dataset_name"] = "\multirow{3}{*}{"+ds_title+"}"         
+             df_micro.at[cindex,"dataset_name"] = "\multirow{3}{*}{"+ds_title+"}"  
+             df_micro.at[cindex,"Cleaning"] = "& \multirow{3}{*}{"+corr_clean+"}"        
             else:
                 df_micro.at[cindex,"dataset_name"] = "" 
+                df_micro.at[cindex,"Cleaning"] = "&"           
 
             if llm == "llama-3.1-70b-versatile":    
                 tbl_line = "\\chline"
@@ -219,7 +238,7 @@ if __name__ == '__main__':
                 htext = ""
                 corr_config = dataset_corr[ds]
                 line_text = ""
-                if k == "Autogluon_SAGA_test_auc":
+                if k == "Autogluon_Cleaning_test_auc":
                     line_text = f"\\\\ {tbl_line}"
                
                 if (corr_config in {"CatDB"} and k in {"CatDB_train_auc", "CatDB_test_auc"}) or (corr_config in {"CatDBChain"} and k in {"CatDBChain_train_auc", "CatDBChain_test_auc"}):
@@ -231,7 +250,7 @@ if __name__ == '__main__':
                     df_micro.at[cindex,k] = "&"+htext+"\\textbf{"+f"{tbl_data[k]/100}"+"}" + line_text
                 elif "train" in k and tbl_data[k] >= max_train:
                     df_micro.at[cindex,k] = "& "+htext+" \\textbf{"+f"{tbl_data[k]/100}"+"}" + line_text
-                     
+
                 elif tbl_data[k] == 0:                  
                     df_micro.at[cindex,k] = "&--" + line_text
                 else:

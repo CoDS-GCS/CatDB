@@ -21,7 +21,7 @@ if __name__ == '__main__':
                                        "AutoGen_train_auc","AutoGen_test_auc",
                                        "H2O_train_auc","H2O_test_auc",
                                        "Flaml_train_auc","Flaml_test_auc",
-                                       "Autogluon_train_auc","Autogluon_test_auc",
+                                       "Autogluon_train_auc","Autogluon_test_auc","Cleaning",
                                        "H2O_Cleaning_train_auc","H2O_Cleaning_test_auc",
                                        "Flaml_Cleaning_train_auc","Flaml_Cleaning_test_auc",
                                        "Autogluon_Cleaning_train_auc","Autogluon_Cleaning_test_auc"]
@@ -100,12 +100,10 @@ if __name__ == '__main__':
                                                 (df_pip_gen['operation']=='Run-CAAFE') |
                                                 (df_pip_gen['operation']=='Run-AutoML'))]                   
                                                        
-                            if config in {"AutoSklearn","H2O","Flaml","Autogluon"} and st in {"SAGA", "Learn2Clean"}:
-                                
+                            if config in {"AutoSklearn","H2O","Flaml","Autogluon"} and st in {"SAGA", "Learn2Clean"}: 
                                 df = df.loc[df['sub_task'] == corr_clean]
                                 if len(df) == 0:
                                     continue
-                                print(f"{ds_title} >> {corr_clean} >> {len(df)}")
 
                             if config not in {"AutoSklearn","H2O","Flaml","Autogluon"} and st in {"SAGA", "Learn2Clean"}:
                                 continue   
@@ -196,12 +194,12 @@ if __name__ == '__main__':
             sch = "\\ding{86}"
             if corr_config == "CatDBChain":
                 sch = "\\ding{59}"
-
-            if corr_clean == "SAGA":
-                sch = f"{sch}\\ding{{61}}"
-            else:
-                sch = f"{sch}\\S"        
-            df_micro.at[cindex,"dataset_name"] =ds_title+"$^{\\text{"+sch+"}}$"  
+    
+            df_micro.at[cindex,"dataset_name"] =ds_title+"$^{\\text{"+sch+"}}$" 
+            if corr_clean == "Learn2Clean":
+                corr_clean = "L2C"
+            df_micro.at[cindex,"Cleaning"] =f"& {corr_clean}" 
+             
             #df_micro.at[cindex,"Selected_Method"] = f" & {corr_config} "  
 
             # if ds in {"WiFi"}:

@@ -103,7 +103,7 @@
   \addboxplot{AIDE}{Diabetes}{llama-3.1-70b-versatile}{}{dred2}{white};
   \addboxplot{AIDE}{Diabetes}{llama-3.1-70b-versatile}{}{teal2}{teal1};
 
-  \addboxplot{AutoGen}{Diabetes}{gemini-1.5-pro-latest}{}{dblue2}{white};
+  \addboxplot{AutoGen}{Diabetes}{gpt-4o}{}{dblue2}{dblue1};
   \addboxplot{AutoGen}{Diabetes}{gemini-1.5-pro-latest}{}{dred2}{dred1};
   \addboxplot{AutoGen}{Diabetes}{llama-3.1-70b-versatile}{}{teal2}{teal1};
   
@@ -127,6 +127,8 @@
   \draw[black, densely dotted, thick] (top3) -- (bot3);
   \draw[black, densely dotted, thick] (top4) -- (bot4);
   \draw[black, densely dotted, thick] (top5) -- (bot5);
+
+  \node [draw=none,inner sep=0, font=\footnotesize, anchor=west, rotate=90, xshift=20pt, text=dblue1] at (axis cs:12.99,\pgfkeysvalueof{/pgfplots/ymin}) {w/ GPT-4o Failed};
 
   \node [draw=none,inner sep=0, font=\footnotesize, anchor=west, rotate=90, xshift=20pt, text=dred1] at (axis cs:13.99,\pgfkeysvalueof{/pgfplots/ymin}) {w/ Gemini Failed};
 

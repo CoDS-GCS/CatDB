@@ -15,31 +15,31 @@
     {../archive/VLDB2025/results/CostResults.csv};
     \label{#1_prompt}  
 
-    % \addplot+[xshift=#4,fill=#7, draw=black,line width=0.3pt] 
-    % table[y=token_count_err_it1, col sep=comma, x=llm_model, discard if singlconfig={No}{#2}{#1}{#5}{#6}]
-    % {../archive/VLDB2025/results/CostResults.csv};
-    % \label{#1_err}  
+    \addplot+[xshift=#4,fill=#7, draw=black,line width=0.3pt] 
+    table[y=token_count_err_it1, col sep=comma, x=llm_model, discard if singlconfig={No}{#2}{#1}{#5}{#6}]
+    {../archive/VLDB2025/results/CostResults.csv};
+    \label{#1_err}  
 
       
-    % \addplot+[xshift=#4,fill=dblue2, draw=black,line width=0.3pt] 
-    % table[y=pp_token_count_it1, col sep=comma, x=llm_model, discard if singlconfig={No}{#2}{#1}{#5}{#6}]
-    % {../archive/VLDB2025/results/CostResults.csv};
-    % \label{#1_pp_prompt}  
+    \addplot+[xshift=#4,fill=dblue2, draw=black,line width=0.3pt] 
+    table[y=pp_token_count_it1, col sep=comma, x=llm_model, discard if singlconfig={No}{#2}{#1}{#5}{#6}]
+    {../archive/VLDB2025/results/CostResults.csv};
+    \label{#1_pp_prompt}  
       
-    % \addplot+[xshift=#4,fill=dred2, draw=black,line width=0.3pt] 
-    % table[y=pp_token_count_err_it1, col sep=comma, x=llm_model, discard if singlconfig={No}{#2}{#1}{#5}{#6}]
-    % {../archive/VLDB2025/results/CostResults.csv};
-    % \label{#1_pp_err}  
+    \addplot+[xshift=#4,fill=dred2, draw=black,line width=0.3pt] 
+    table[y=pp_token_count_err_it1, col sep=comma, x=llm_model, discard if singlconfig={No}{#2}{#1}{#5}{#6}]
+    {../archive/VLDB2025/results/CostResults.csv};
+    \label{#1_pp_err}  
 
-    % \addplot+[xshift=#4,fill=dblue3, draw=black,line width=0.3pt] 
-    % table[y=fe_token_count_it1, col sep=comma, x=llm_model, discard if singlconfig={No}{#2}{#1}{#5}{#6}]
-    % {../archive/VLDB2025/results/CostResults.csv};
-    % \label{#1_fe_prompt}  
+    \addplot+[xshift=#4,fill=dblue3, draw=black,line width=0.3pt] 
+    table[y=fe_token_count_it1, col sep=comma, x=llm_model, discard if singlconfig={No}{#2}{#1}{#5}{#6}]
+    {../archive/VLDB2025/results/CostResults.csv};
+    \label{#1_fe_prompt}  
 
-    % \addplot+[xshift=#4,fill=dred3, draw=black,line width=0.3pt] 
-    % table[y=fe_token_count_err_it1, col sep=comma, x=llm_model, discard if singlconfig={No}{#2}{#1}{#5}{#6}]
-    % {../archive/VLDB2025/results/CostResults.csv};
-    % \label{#1_fe_err}         
+    \addplot+[xshift=#4,fill=dred3, draw=black,line width=0.3pt] 
+    table[y=fe_token_count_err_it1, col sep=comma, x=llm_model, discard if singlconfig={No}{#2}{#1}{#5}{#6}]
+    {../archive/VLDB2025/results/CostResults.csv};
+    \label{#1_fe_err}         
   };
 
   % \newcommand{\myaddplotds}[6]{
@@ -153,10 +153,11 @@
 
 \myaddplotds{gemini-1.5-pro-latest}{Tic-Tac-Toe}{-5.7pt}{2.6pt}{10.9pt}{19.2pt}{27.5pt}{35.8pt}
 \myaddplotds{llama-3.1-70b-versatile}{Tic-Tac-Toe}{-24pt}{-15.7pt}{-7.4pt}{0.9pt}{9.2pt}{17.5pt}
-\myaddplotds{gpt-4o}{Tic-Tac-Toe}{-34pt}{-25.7pt}{-17.4pt}{-9.1pt}{-0.8pt}{7.5pt}
+\myaddplotds{gpt-4o}{Tic-Tac-Toe}{-35.5pt}{-27.2pt}{-18.9pt}{-10.6pt}{-2.3pt}{-2.3pt}
 
-\node [draw=black,inner sep=1mm, font=\normalsize, anchor=east] at (rel axis cs:1,0.94) {Tic-Tac-Toe};
+\node [draw=black,inner sep=1mm, font=\large, anchor=east] at (rel axis cs:1,0.92) {Tic-Tac-Toe};
 
 \end{axis}
+\node [draw=none,inner sep=0, font=\normalsize, anchor=west, rotate=90] (leg1) at (rel axis cs: 1.035,-0.97) {$\times$ AIDE};
 
 \end{tikzpicture}

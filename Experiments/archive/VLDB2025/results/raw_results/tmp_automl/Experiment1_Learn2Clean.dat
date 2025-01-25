@@ -3,7 +3,7 @@ EU-IT,multiclass,True,3,WR->Log10->MICE->IQR->AD->LDA,23,5,872,203,Timestamp#Gen
 Etailing,multiclass,True,3,LC -> MF -> LDA,44,38,307,307,WebseriesMovies#Theitemismadeupofhighquality#ReviewsandRatings#NumberofdaysofDelivery#HomeandFurnishing#Grocery,7.08945894241333
 Midwest-Survey,multiclass,True,3,VAR->ZS->EM->IQR->ED->LDA,29,3,1745,1630,Inyourownwordswhatwouldyoucallthepartofthecountryyouliveinnow#PersonallyidentificationasaMidwesterner#IllinoisinMW#IndianainMW#IowainMW#KansasinMW#MichiganinMW#MinnesotainMW#MissouriinMW#NebraskainMW#NorthDakotainMW#OhioinMW#SouthDakotainMW#WisconsininMW#ArkansasinMW#ColoradoinMW#KentuckyinMW#OklahomainMW#PennsylvaniainMW#WestVirginiainMW#MontanainMW#WyominginMW#Gender#Age#HouseholdIncome#Education,0.07753515243530273
 WiFi,binary,True,3,VAR->MM->MICE->IQR->METRIC->NB,9,2,68,1,Dorm#HotspotFrequency#HotspotUse#Problem#Inhibit#DataPlan#Locations,5.668030738830566
-
+Yelp,multiclass,True,3,ZS->RAND->IQR->ED->LDA,194,194,161418,160851,,29.035670042037964
 #########################################################
 oml_dataset_20_rnc,multiclass,True,3,MM->DROP->IQR->ED->NB,5,5,104532,103275,,0.1855545043945312
 

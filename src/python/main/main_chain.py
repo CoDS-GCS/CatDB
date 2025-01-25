@@ -1,5 +1,5 @@
 from argparse import ArgumentParser
-from catalog.Catalog import load_data_source_profile
+from catalog.Catalog import load_data_source_profile_as_chunck
 from catalog.Dependency import load_dependency_info
 from pipegen.GeneratePipeLine import generate_and_verify_pipeline, run_pipeline, clean_categorical_data
 from util.FileHandler import read_text_file_line_by_line
@@ -101,54 +101,19 @@ if __name__ == '__main__':
         __sub_task_feature_engineering, __sub_task_model_selection
 
     args = parse_arguments()
-
-    if args.run_code == False:
-        operation = generate_and_verify_pipeline
-        begin_iteration = 1
-        end_iteration = 1
-    else:
-        operation = run_pipeline
-        begin_iteration = args.prompt_number_iteration
-        end_iteration = 1
+    begin_iteration = 1
+    end_iteration = 1
 
     data_profile_path = f"{args.catalog_path}/data_profile"
-    catalog = []
     time_start = time.time()
     dependency_file = f"{args.catalog_path}/dependency.yaml"
     dependencies = load_dependency_info(dependency_file=dependency_file, datasource_name=args.dataset_name)
-
-    if args.multi_table:
-        load_config(system_log=args.system_log, llm_model=args.llm_model, rules_path="RulesMultiTable.yaml", evaluation_acc=args.dataset_name=="EU-IT")
-        for tbl in dependencies.keys():
-            tbl_dp_path = f"{data_profile_path}/{tbl}"
-            enable_reduction = False
-            if tbl == args.target_table:
-                enable_reduction = True
-            cat = load_data_source_profile(data_source_path=tbl_dp_path,
-                                           file_format="JSON",
-                                           target_attribute=args.target_attribute,
-                                           enable_reduction=enable_reduction,
-                                           dependency=dependencies[tbl],
-                                           categorical_values_restricted_size=-1)
-            cat.table_name = tbl
-            catalog.append(cat)
-    else:
-        load_config(system_log=args.system_log, llm_model=args.llm_model, rules_path="Rules.yaml", evaluation_acc=args.dataset_name=="EU-IT")
-        # check the data clean is available:
-        if os.path.isfile(args.data_source_train_clean_path):
-            args.data_source_train_path = args.data_source_train_clean_path
-
-        if os.path.isfile(args.data_source_test_clean_path):
-            args.data_source_test_path = args.data_source_test_clean_path
-
-        if os.path.isfile(args.data_source_verify_clean_path):
-            args.data_source_verify_path = args.data_source_verify_clean_path
-
-        catalog.append(load_data_source_profile(data_source_path=data_profile_path,
+    load_config(system_log=args.system_log, llm_model=args.llm_model, rules_path="Rules.yaml", evaluation_acc=False)
+    catalogs = load_data_source_profile_as_chunck(data_source_path=data_profile_path,
                                                 file_format="JSON",
                                                 target_attribute=args.target_attribute,
                                                 enable_reduction=args.enable_reduction,
-                                                categorical_values_restricted_size=-1))
+                                                categorical_values_restricted_size=-1, chunk_size=10)
 
     time_end = time.time()
     time_catalog = time_end - time_start
@@ -158,26 +123,28 @@ if __name__ == '__main__':
     prompt_representation_type_orig = args.prompt_representation_type
     while begin_iteration < args.prompt_number_iteration + end_iteration:
         if args.prompt_representation_type == "CatDBChain":
-            final_status, code = operation(args=args, catalog=catalog, run_mode=__gen_verify_mode, sub_task=__sub_task_data_preprocessing, time_catalog=time_catalog, iteration=begin_iteration, dependency=dependencies)
+            code = None
+            for cat in catalogs:
+                final_status, code = generate_and_verify_pipeline(args=args, catalog=[cat], run_mode=__gen_verify_mode,
+                                                                  sub_task=__sub_task_data_preprocessing, time_catalog=time_catalog,
+                                                                  iteration=begin_iteration, dependency=dependencies, previous_result=code)
+                if final_status == False:
+                    break
+
             if final_status:
-                final_status, code = operation(args=args, catalog=catalog, run_mode=__gen_verify_mode, sub_task=__sub_task_feature_engineering, previous_result=code, time_catalog=time_catalog, iteration=begin_iteration, dependency=dependencies)
+                for cat in catalogs:
+                    final_status, code = generate_and_verify_pipeline(args=args, catalog=[cat], run_mode=__gen_verify_mode,
+                                                                      sub_task=__sub_task_feature_engineering, previous_result=code,
+                                                                      time_catalog=time_catalog, iteration=begin_iteration, dependency=dependencies)
+                    if final_status == False:
+                        break
                 if final_status:
-                    final_status, code = operation(args=args, catalog=catalog, run_mode=__execute_mode, sub_task=__sub_task_model_selection, previous_result=code, time_catalog=time_catalog, iteration=begin_iteration, dependency=dependencies)
+                    for cat in catalogs:
+                        final_status, code = generate_and_verify_pipeline(args=args, catalog=catalog, run_mode=__execute_mode, sub_task=__sub_task_model_selection, previous_result=code, time_catalog=time_catalog, iteration=begin_iteration, dependency=dependencies)
+                        if final_status == False:
+                            break
                     if final_status:
                         begin_iteration += 1
-        elif args.prompt_representation_type == "AUTO":
-            combinations = Metadata(catalog=catalog[0]).get_combinations()
-            for cmb in combinations:
-                args.prompt_representation_type = cmb
-                final_status, code = operation(args=args, catalog=catalog, run_mode=__execute_mode, time_catalog=time_catalog, iteration=begin_iteration)
-                if final_status:
-                    begin_iteration += 1
-            args.prompt_representation_type = prompt_representation_type_orig
-        else:
-            final_status, code = operation(args=args, catalog=catalog, run_mode=__execute_mode, time_catalog=time_catalog, iteration=begin_iteration, dependency=dependencies)
-            if final_status:
-                begin_iteration += 1
-
         ti += 1
         if ti > t:
             break

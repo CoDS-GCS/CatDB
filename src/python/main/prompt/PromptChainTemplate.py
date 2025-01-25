@@ -31,8 +31,11 @@ class DataPreprocessingChainPrompt(BasicPrompt):
                       f'#10 : {_catdb_chain_DP_rules["Rule_10"]}',
                       f'#11 : {_CODE_BLOCK}',
                       f'#12 : {_CHAIN_RULE}']
-
-        self.question = "Provide a pipeline code that do data preprocessing in a multi-threaded environment."
+        if self.previous_result is not None:
+            self.previous_result_format = f"<CODE>\n{self.previous_result}\n</CODE>"
+            self.question = "Provide a pipeline code hat modify the Data Preprocessing code of privious chunk in a multi-threaded environment."
+        else:
+            self.question = "Provide a pipeline code that do data preprocessing in a multi-threaded environment."
 
 
 class FeatureEngineeringChainPrompt(BasicPrompt):

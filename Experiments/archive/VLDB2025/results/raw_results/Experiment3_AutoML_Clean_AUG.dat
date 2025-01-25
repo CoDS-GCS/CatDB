@@ -65,3 +65,4 @@ oml_dataset_22_rnc,Autogluon,Learn2Clean,llama-3.1-70b-versatile,,regression,Tru
 oml_dataset_22_rnc,H2O,Learn2Clean,gpt-4o,,regression,True,1,0,No,0,0,12,21.81396126747132,-2,-2,-2,-2,-2,-2,-0.0961554582352548,191.48472778565468,-2,-2,-2,-2,-2,-2,-0.0923179272040195,185.7612491990465,0,0,Run-AutoML,0
 oml_dataset_22_rnc,Flaml,Learn2Clean,gpt-4o,,regression,True,1,0,No,0,0,12,12.27333641052246,-2,-2,-2,-2,-2,-2,0.965753632316135,-2.0,-2,-2,-2,-2,-2,-2,0.9422917367495532,-2.0,0,0,Run-AutoML,0
 oml_dataset_22_rnc,Autogluon,Learn2Clean,gpt-4o,,regression,True,1,0,No,0,0,12,12.727881908416748,-2,-2,-2,-2,-2,-2,0.968778669834137,32.31644752569503,-2,-2,-2,-2,-2,-2,0.9406976699829102,43.28290198143775,0,0,Run-AutoML,0
+

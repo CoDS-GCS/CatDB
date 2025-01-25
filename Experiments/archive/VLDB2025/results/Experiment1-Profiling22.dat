@@ -1,0 +1,24 @@
+ID,dataset,task_type,platform,time
+1,Wifi,binary,kglidsplus,36675
+2,Diabetes,binary,kglidsplus,33465
+3,Breast-w,binary,kglidsplus,36878
+4,Tic-Tac-Toe,binary,kglidsplus,40132
+5,IMDB,binary,kglidsplus,386291
+6,Credit-g,binary,kglidsplus,47857
+7,Nomao,binary,kglidsplus,42229
+8,Walking,multiclass,kglidsplus,31601
+9,CMC,multiclass,kglidsplus,31442
+10,EU IT,multiclass,kglidsplus,49439
+11,Survey,multiclass,kglidsplus,51398
+12,Etailing,multiclass,kglidsplus,56235
+13,Accidents,multiclass,kglidsplus,157146
+14,Financial,multiclass,kglidsplus,122365
+15,Airline,multiclass,kglidsplus,188330
+16,Gas-Drift,multiclass,kglidsplus,40742
+17,Volkert,multiclass,kglidsplus,51428
+18,Yelp,multiclass,kglidsplus,192449
+19,Bike-Sharing,regression,kglidsplus,31855
+20,Utility,regression,kglidsplus,38992
+21,NYC,regression,kglidsplus,35863
+22,House-Sales,regression,kglidsplus,31660
+

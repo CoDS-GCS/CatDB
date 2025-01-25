@@ -38,7 +38,7 @@
     ytick pos=left,
     yticklabel style = {font=\normalsize},
     ylabel style = {font=\normalsize, yshift=-1pt, xshift=-2pt},
-    xticklabel style = {font=\footnotesize, xshift=-1pt, yshift=4pt, rotate=30, anchor=north east},
+    xticklabel style = {font=\footnotesize, xshift=0pt, yshift=4pt, rotate=35, anchor=north east},
     height=0.4\columnwidth,      
     ymajorgrids=true,
     grid style=dotted,   
@@ -58,7 +58,7 @@
   xtick = data,
   enlarge x limits=0.035,
   width=\columnwidth,   
-  symbolic x coords={Wifi, Diabetes, Tic-Tac-Toe, IMDB, Walking, CMC, EU IT,Survey, Etailing, Accidents, Bike-Sharing, Utility, NYC, House-Sales}
+  symbolic x coords={WiFi, Diabetes, Breast-w, Tic-Tac-Toe, IMDB, Credit-g, Walking, CMC, EU IT,Survey, Etailing, Accidents, Bike-Sharing, Utility, NYC, House-Sales}
 ]
 \addplotStatistics{../archive/VLDB2025/statistics/dataset_overview_small.dat}
 %
@@ -70,8 +70,8 @@
   %xlabel style = {yshift=-6pt, xshift=0pt},
   xlabel={},%{|Features| > 100},  
   xtick = data,
-  width=0.48\columnwidth,   
-  symbolic x coords={Financial, Airline, Gas-Drift,Volkert,Yelp}
+  width=0.47\columnwidth,   
+  symbolic x coords={Nomao, Financial, Airline, Gas-Drift,Volkert,Yelp}
 ]
 \addplotStatistics{../archive/VLDB2025/statistics/dataset_overview_large.dat}
 \end{groupplot}
@@ -80,6 +80,6 @@
 	}};
 
   \node [draw=none,inner sep=0, font=\small, anchor=west] at (rel axis cs: 0.4,0.85) {|Features|<50};
-  \node [draw=none,inner sep=0, font=\small, anchor=west] at (rel axis cs: 3.15,0.85) {|Features|>50};
+  \node [draw=none,inner sep=0, font=\small, anchor=west] at (rel axis cs: 3.27,0.85) {|Features|>50};
 
 \end{tikzpicture}

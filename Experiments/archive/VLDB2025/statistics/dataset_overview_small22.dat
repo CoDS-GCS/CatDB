@@ -1,8 +1,10 @@
 dataset_name,number_bool,number_int,number_float,number_string
-Wifi,0,1,0,8
+WiFi,0,1,0,8
 Diabetes,0,6,2,1
+Breast-w,0,9,0,1
 Tic-Tac-Toe,0,0,0,10
 IMDB,0,4,2,9
+Credit-g,0,7,0,14
 Walking,0,1,4,0
 CMC,3,7,0,0
 EU IT,0,2,2,18

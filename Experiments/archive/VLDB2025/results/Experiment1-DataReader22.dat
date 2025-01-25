@@ -1,0 +1,24 @@
+ID,dataset,time
+1,Wifi,614
+2,Diabetes,650
+3,Breast-w,660
+4,Tic-Tac-Toe,816
+5,IMDB,88732
+6,Credit-g,761
+7,Nomao,1253
+8,Walking,756
+9,CMC,763
+10,EU IT,668
+11,Survey,844
+12,Etailing,717
+13,Accidents,6329
+14,Financial,4591
+15,Airline,11503
+16,Gas-Drift,1037
+17,Volkert,2114
+18,Yelp,8213
+19,Bike-Sharing,736
+20,Utility,708
+21,NYC,1324
+22,House-Sales,786
+

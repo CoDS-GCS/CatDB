@@ -81,12 +81,12 @@ cd $path
 
 
 ## Setup AutoML
-automl_path="${path}/Baselines/AutoML/"
-rm -rf ${automl_path}
-mkdir -p ${automl_path}
+# automl_path="${path}/Baselines/AutoML/"
+# rm -rf ${automl_path}
+# mkdir -p ${automl_path}
 
-cd ${root_path}
-cp -r baselines/* "${automl_path}/"
+# cd ${root_path}
+# cp -r baselines/* "${automl_path}/"
 
 
 # # Install Auto Sklearn
@@ -129,14 +129,14 @@ cp -r baselines/* "${automl_path}/"
 # python3.10 -m pip install --upgrade pip
 # python3.10 -m pip install -r requirements.txt
 
-# Install AutoGen
-cd ${automl_path}
-cd AutoGenAutoML
-rm -rf venv 
-python3.10 -m venv venv
-source venv/bin/activate
-pip install --upgrade pip
-pip install -r requirements.txt
+# # Install AutoGen
+# cd ${automl_path}
+# cd AutoGenAutoML
+# rm -rf venv 
+# python3.10 -m venv venv
+# source venv/bin/activate
+# pip install --upgrade pip
+# pip install -r requirements.txt
 
 
 # # Setup AIDE
@@ -153,7 +153,7 @@ pip install -r requirements.txt
 # pip install -e .
 
 
-# # # Setup SAGA
+### Setup SAGA
 # baselines_path="${path}/Baselines"
 # cd ${baselines_path}
 # rm -rf SAGA
@@ -201,18 +201,18 @@ pip install -r requirements.txt
 # python setup.py install
 # pip install -r requirements.txt
 
-# # # Setup Augmentation
-# baselines_path="${path}/Baselines"
-# cd ${baselines_path}
-# rm -rf Augmentation
+# # Setup Augmentation
+baselines_path="${path}/Baselines"
+cd ${baselines_path}
+rm -rf Augmentation
 
-# cd ${root_path}
-# cp -r baselines/Augmentation "${baselines_path}/"
+cd ${root_path}
+cp -r baselines/Augmentation "${baselines_path}/"
 
-# cd "${baselines_path}/Augmentation"
+cd "${baselines_path}/Augmentation"
 
-# rm -rf venv
-# python3.10 -m venv venv
-# source venv/bin/activate
-# pip install --upgrade pip
-# pip install -r requirements.txt
+rm -rf venv
+python3.10 -m venv venv
+source venv/bin/activate
+pip install --upgrade pip
+pip install -r requirements.txt

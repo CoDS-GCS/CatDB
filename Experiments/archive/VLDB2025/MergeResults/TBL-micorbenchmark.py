@@ -102,6 +102,7 @@ if __name__ == '__main__':
 
     configs = ["CatDB", "CatDBChain", "CAAFE", "AIDE", "AutoGen","AutoSklearn","H2O","Flaml","Autogluon"]    
     ds_id = None
+    
     for (ds,ds_title, index) in datasets:
         for llm in llms:
             tbl_data = {"CatDB_train_auc":0,"CatDB_test_auc":0,
@@ -137,12 +138,18 @@ if __name__ == '__main__':
                             if config not in {"AutoSklearn","H2O","Flaml","Autogluon"}:
                                 df = df.loc[df['classifier'] == cls]
                             else:
-                               df = df.loc[df['number_iteration'] == 1].head(1)  
-
-                            if config in {"AutoSklearn","H2O","Flaml","Autogluon"} and st in {"SAGA", "Learn2Clean"}: 
+                               if st in {"SAGA", "Learn2Clean"}: 
                                 df = df.loc[df['sub_task'] == corr_clean]
                                 if len(df) == 0:
                                     continue
+                               else:             
+                                df = df.loc[df['number_iteration'] == 1].head(1)  
+
+                            # if config in {"AutoSklearn","H2O","Flaml","Autogluon"} and st in {"SAGA", "Learn2Clean"}: 
+                            #     df = df.loc[df['sub_task'] == corr_clean]
+                            #     if len(df) == 0:
+                            #         continue
+                            #     print(f"{ds_title} >> {len(df)}")
 
                             if config not in {"AutoSklearn","H2O","Flaml","Autogluon"} and st in {"SAGA", "Learn2Clean"}:
                                 continue         

@@ -11,7 +11,7 @@ class DataPreprocessingChainPrompt(BasicPrompt):
                              flag_distinct_value_count=True,
                              flag_statistical_number=True,
                              flag_samples=True,
-                             flag_previous_result=False,
+                             flag_previous_result=True,
                              *args, **kwargs)
         self.ds_attribute_prefix = "Schema, and Data Profiling Info"
         self.ds_attribute_prefix_label = "Schema, and Data Profiling Info:"
@@ -33,7 +33,7 @@ class DataPreprocessingChainPrompt(BasicPrompt):
                       f'#12 : {_CHAIN_RULE}']
         if self.previous_result is not None:
             self.previous_result_format = f"<CODE>\n{self.previous_result}\n</CODE>"
-            self.question = "Provide a pipeline code hat modify the Data Preprocessing code of privious chunk in a multi-threaded environment."
+            self.question = "Provide a pipeline code hat modify the Data Preprocessing code of privious chunk (you have apply new features to the proviouse code) in a multi-threaded environment."
         else:
             self.question = "Provide a pipeline code that do data preprocessing in a multi-threaded environment."
 

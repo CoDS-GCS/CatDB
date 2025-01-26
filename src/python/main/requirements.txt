@@ -15,3 +15,4 @@ feature_engine
 unidecode
 flair
 bokeh
+lightgbm

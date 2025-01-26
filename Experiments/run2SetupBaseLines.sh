@@ -28,27 +28,36 @@ cd $path
 # pip install -r requirements.txt
 
 # cp "${root_path}/setup/config/kglidsplus_main.py"  "${path}/Baselines/kglidsplus/kg_governor/data_profiling/src/"
-
-
-# Setup CatDB
-#############
-# catdb_path="${path}/Baselines/CatDB/"
-# rm -rf ${catdb_path}
-# mkdir -p ${catdb_path}
-
-# cd ${root_path}
-# cd ..
-# cp -r src/python/main/* ${catdb_path}
-# cd ${catdb_path}
+########################
+# profiling_path="${path}/baselines/Profiling"
+# rm -rf ${profiling_path}
+# cp -r $profiling_path "${path}/Baselines"
+# cp $profiling_path
 
 # rm -rf venv 
 # python3.10 -m venv venv
 # source venv/bin/activate
+# pip install -U git+https://github.com/CoDS-GCS/CatDB.git@dataprofiling --quiet
 
-# # Then install the dependencies:
-# python3.10 -m pip install --upgrade pip
-# # pip install torchvision 
-# pip install -r requirements.txt
+# Setup CatDB
+#############
+catdb_path="${path}/Baselines/CatDB/"
+rm -rf ${catdb_path}
+mkdir -p ${catdb_path}
+
+cd ${root_path}
+cd ..
+cp -r src/python/main/* ${catdb_path}
+cd ${catdb_path}
+
+rm -rf venv 
+python3.10 -m venv venv
+source venv/bin/activate
+
+# Then install the dependencies:
+python3.10 -m pip install --upgrade pip
+# pip install torchvision 
+pip install -r requirements.txt
 
 
 # Prepare Config
@@ -57,12 +66,12 @@ cd $path
 # cd ${config_path}
 # rm -rf venv
 
-# python -m venv venv
+# python3.10 -m venv venv
 # source venv/bin/activate
 
 # #Then install the dependencies:
-# python -m pip install --upgrade pip
-# python -m pip install --no-cache-dir -r requirements.txt
+# python3.10 -m pip install --upgrade pip
+# pip install -r requirements.txt
 
 # Setup CAAFE
 #############
@@ -154,32 +163,32 @@ cd $path
 
 
 ### Setup SAGA
-baselines_path="${path}/Baselines"
-cd ${baselines_path}
-rm -rf SAGA
+# baselines_path="${path}/Baselines"
+# cd ${baselines_path}
+# rm -rf SAGA
 
-cd ${root_path}
-cp -r baselines/SAGA "${baselines_path}/"
+# cd ${root_path}
+# cp -r baselines/SAGA "${baselines_path}/"
 
-cd "${baselines_path}/SAGA"
+# cd "${baselines_path}/SAGA"
 
-rm -rf venv
-python3.10 -m venv venv
-source venv/bin/activate
-pip install --upgrade pip
-pip install -r requirements.txt
+# rm -rf venv
+# python3.10 -m venv venv
+# source venv/bin/activate
+# pip install --upgrade pip
+# pip install -r requirements.txt
 
- rm -rf systemds
- git clone https://github.com/apache/systemds.git
+#  rm -rf systemds
+#  git clone https://github.com/apache/systemds.git
 
-cd systemds
-mvn clean package -P distribution
-cd ..
+# cd systemds
+# mvn clean package -P distribution
+# cd ..
 
-rm -rf SystemDS.jar
-mv systemds/target/SystemDS.jar "${baselines_path}/SAGA"
-rm -rf lib
-mv systemds/target/lib/ "${baselines_path}/SAGA/"
+# rm -rf SystemDS.jar
+# mv systemds/target/SystemDS.jar "${baselines_path}/SAGA"
+# rm -rf lib
+# mv systemds/target/lib/ "${baselines_path}/SAGA/"
 
 
 # ## Setup Learn2Clean

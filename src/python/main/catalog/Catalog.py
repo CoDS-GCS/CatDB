@@ -190,7 +190,7 @@ def load_data_source_profile_as_chunck(data_source_path: str, file_format: str, 
     columns_bool_missing_values = []
     columns_others = []
     columns_others_missing_values = []
-    all_ols = []
+    all_cols = []
     table_name = None
 
     for d in os.listdir(data_source_path):
@@ -270,14 +270,19 @@ def load_data_source_profile_as_chunck(data_source_path: str, file_format: str, 
                 if dk in columns_others_missing_values:
                     columns_others_missing_values.remove(dk)
 
-    all_ols.extend(columns_categorical)
-    all_ols.extend(columns_numerical)
-    all_ols.extend(columns_bool)
-    all_ols.extend(columns_others)
+    all_cols.extend(columns_categorical)
+    all_cols.extend(columns_numerical)
+    all_cols.extend(columns_bool)
+    all_cols.extend(columns_others)
 
-    chuncks = [all_ols[i:i + chunk_size] for i in range(0, len(all_ols), chunk_size)]
+    chuncks = []
+    for i in range(0, len(all_cols), chunk_size):
+       chuncks.append(all_cols[i: min(i + chunk_size, len(all_cols))])
+
+    for index, ch in enumerate(chuncks):
+        if target_attribute not in ch:
+            chuncks[index].append(target_attribute)
     catalog_chuncks = []
-
     for ch in chuncks:
         profile_info_ch = dict()
         schema_info_ch = dict()
@@ -296,7 +301,8 @@ def load_data_source_profile_as_chunck(data_source_path: str, file_format: str, 
         for col in ch:
             schema_info_ch[col] = schema_info[col]
             profile_info_ch[col] = profile_info[col]
-            schema_info_group_ch[col_group_name[col]] = col
+            if col in col_group_name.keys():
+                schema_info_group_ch[col_group_name[col]] = col
             if col in drop_schema_info.keys():
                 drop_schema_info_ch[col] = drop_schema_info[col]
 
@@ -317,17 +323,17 @@ def load_data_source_profile_as_chunck(data_source_path: str, file_format: str, 
                 if col in columns_others_missing_values:
                     columns_others_missing_values_ch.append(col)
 
-            catalog_chuncks.append(CatalogInfo(nrows=nrows,
+        catalog_chuncks.append(CatalogInfo(nrows=nrows,
                            ncols=ncols,
                            file_format="csv",
                            dataset_name=dataset_name,
                            table_name=table_name,
-                           schema_info=schema_info,
-                           profile_info=profile_info,
+                           schema_info=schema_info_ch,
+                           profile_info=profile_info_ch,
                            data_source_path=source_path,
                            drop_schema_info=drop_schema_info_ch,
                            schema_info_group=schema_info_group_ch,
-                           columns_categorical=columns_categorica_chl,
+                           columns_categorical=columns_categorical_ch,
                            columns_categorical_missing_values=columns_categorical_missing_values_ch,
                            columns_numerical=columns_numerical_ch,
                            columns_numerical_missing_values=columns_numerical_missing_values_ch,
@@ -338,4 +344,4 @@ def load_data_source_profile_as_chunck(data_source_path: str, file_format: str, 
                            dependency=dependency
                            ))
 
-        return catalog_chuncks
+    return catalog_chuncks

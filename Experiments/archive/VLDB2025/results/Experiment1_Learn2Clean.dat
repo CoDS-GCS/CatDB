@@ -6,5 +6,6 @@ WiFi,binary,True,3,VAR->MM->MICE->IQR->METRIC->NB,9,2,68,1,Dorm#HotspotFrequency
 
 
 
-
+EU-IT,multiclass,True,3,ZS->IQR->ED->NB,23,23,872,855,,0.0387115478515625
+Etailing,multiclass,True,3,LOF -> NB,44,44,307,219,,7.074610948562622
 Yelp,multiclass,True,3,ZS->IQR->ED->NB,194,194,161418,147020,,16.782953023910522

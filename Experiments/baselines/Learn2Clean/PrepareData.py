@@ -51,14 +51,17 @@ class PrepareData(object):
         plan = None
         max_result = 0
         total_time = 0
-        time_flag = False
 
         if self.dataset_name == "EU-IT":
             plan="ZS->IQR->ED->NB"
         elif self.dataset_name == "Etailing":
             plan="LOF -> NB"
         elif self.dataset_name == "Yelp":
-            plan="ZS->IQR->ED->NB"
+            plan = "ZS->IQR->ED->NB"
+        elif self.dataset_name == "Airline":
+            plan = "DS->MEDIAN->AD->NB"
+        elif self.dataset_name == "IMDB-IJS":
+            plan = "DS->ED->LDA"
         else:
             for i in range(1, 2):
                 for goal in goals:
@@ -81,7 +84,6 @@ class PrepareData(object):
                 DD = ['ED', 'AD', 'METRIC']
                 plan = [random.choice(FEC), random.choice(NC), random.choice(IM), random.choice(OD), random.choice(DD), random.choice(goals)]
                 plan = "->".join(plan)
-                time_flag = True
 
         if plan is None:
             lr = LogResults(self.dataset_name, self.task_type, "False", 3, plan, -1, -1, len(df_train), -1,
@@ -145,8 +147,7 @@ class PrepareData(object):
                     rf = "#".join(d).replace(",", ";").replace('"', '')
                 else:
                     rf = None
-                if time_flag:
-                    total_time += time_end - time_start
+                total_time += time_end - time_start
                 lr = LogResults(self.dataset_name, self.task_type, "True", 3, plan, of, cf, len(df_train),
                                 len(clean_data_train), rf, total_time)
                 lr.save_results(self.result_output_path)

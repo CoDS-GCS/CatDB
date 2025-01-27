@@ -94,27 +94,27 @@ def load_data_source_profile(data_source_path: str, file_format: str, target_att
                 dataset_name = profile.dataset_name
                 source_path = profile.path
 
-            if profile.short_data_type == 'list' and profile.column_name == target_attribute:
+            if profile.short_data_type == 'list':
                 continue
 
             if profile.is_categorical and profile.short_data_type != 'bool':
                 columns_categorical.append(profile.column_name)
-                if profile.missing_values_count > 0:
+                if profile.missing_values_count > 0 and profile.column_name != target_attribute:
                     columns_categorical_missing_values.append(profile.column_name)
 
             elif profile.short_data_type in {"int", "float"}:
                 columns_numerical.append(profile.column_name)
-                if profile.missing_values_count > 0:
+                if profile.missing_values_count > 0 and profile.column_name != target_attribute:
                     columns_numerical_missing_values.append(profile.column_name)
 
             elif profile.short_data_type == "bool":
                 columns_bool.append(profile.column_name)
-                if profile.missing_values_count > 0:
+                if profile.missing_values_count > 0 and profile.column_name != target_attribute:
                     columns_bool_missing_values.append(profile.column_name)
 
             else:
                 columns_others.append(profile.column_name)
-                if profile.missing_values_count > 0:
+                if profile.missing_values_count > 0 and profile.column_name != target_attribute:
                     columns_others_missing_values.append(profile.column_name)
 
     orig_profile_size = len(schema_info)
@@ -218,7 +218,7 @@ def load_data_source_profile_as_chunck(data_source_path: str, file_format: str, 
                 dataset_name = profile.dataset_name
                 source_path = profile.path
 
-            if profile.short_data_type == 'list' and profile.column_name == target_attribute:
+            if profile.short_data_type == 'list':
                 continue
 
             if profile.is_categorical and profile.short_data_type != 'bool':

@@ -170,7 +170,7 @@ class BasicPrompt(object):
     def get_scaler_rules_zero_shot(self):
         transfer_columns = []
         for cc in self.catalog.columns_numerical:
-            if cc in self.catalog.columns_categorical or cc in self.catalog.columns_categorical:
+            if cc in self.catalog.columns_categorical or cc in self.catalog.columns_categorical and cc == self.target_attribute:
                 continue
             else:
                 transfer_columns.append(cc)

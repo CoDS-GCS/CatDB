@@ -150,7 +150,7 @@ if __name__ == '__main__':
                                                 file_format="JSON",
                                                 target_attribute=args.target_attribute,
                                                 enable_reduction=args.enable_reduction,
-                                                categorical_values_restricted_size=-1, chunk_size=100)
+                                                categorical_values_restricted_size=-1, chunk_size=25)
     time_end = time.time()
     time_catalog = time_end - time_start
 

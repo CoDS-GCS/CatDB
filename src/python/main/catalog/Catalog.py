@@ -94,7 +94,7 @@ def load_data_source_profile(data_source_path: str, file_format: str, target_att
                 dataset_name = profile.dataset_name
                 source_path = profile.path
 
-            if profile.short_data_type == 'list':
+            if profile.short_data_type == 'list' and profile.column_name == target_attribute:
                 continue
 
             if profile.is_categorical and profile.short_data_type != 'bool':
@@ -218,7 +218,7 @@ def load_data_source_profile_as_chunck(data_source_path: str, file_format: str, 
                 dataset_name = profile.dataset_name
                 source_path = profile.path
 
-            if profile.short_data_type == 'list':
+            if profile.short_data_type == 'list' and profile.column_name == target_attribute:
                 continue
 
             if profile.is_categorical and profile.short_data_type != 'bool':

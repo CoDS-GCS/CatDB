@@ -145,7 +145,7 @@ if __name__ == '__main__':
     dependency_file = f"{args.catalog_path}/dependency.yaml"
     dependencies = load_dependency_info(dependency_file=dependency_file, datasource_name=args.dataset_name)
     load_config(system_log=args.system_log, llm_model=args.llm_model, rules_path="Rules.yaml", evaluation_acc=False,
-                api_config_path="APIKeys.yaml")
+                api_config_path="APIKeys.yaml", enable_cache=True)
     catalogs = load_data_source_profile_as_chunck(data_source_path=data_profile_path,
                                                 file_format="JSON",
                                                 target_attribute=args.target_attribute,

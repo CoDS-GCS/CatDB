@@ -40,17 +40,16 @@ if __name__ == '__main__':
                     # (42438,"Titanic","binary",36),
                     # (45068,"Adult","binary",37),
                     # (42031,"Iris","multiclass",38),
-                    (1457,"Amazon","multiclass",200),
-                    (4139,"Wikidata","binary",201),
-                    (42775,"KDDCup09","binary",202),
-                    (1594,"News","binary",203),
-                    (41165,"Robert","multiclass",204),
-                    (41161,"Riccardo","binary",205),
-                    (41163,"Dilbert","multiclass",206),
+                    #(1457,"Amazon","multiclass",200),
+                    #(4139,"Wikidata","binary",201),
+                    #(42775,"KDDCup09","binary",202),
+                    #(1594,"News","binary",203),
+                    # (41165,"Robert","multiclass",204),
+                    # (41161,"Riccardo","binary",205),
+                    # (41163,"Dilbert","multiclass",206),
                     (42570,"Mercedes","regression",207),
                     (422,"Topo","regression",208),
-                    (42571,"Allstate","regression",209),
-                    
+                    (42571,"Allstate","regression",209),                  
                     
                 ]
    
@@ -75,15 +74,15 @@ if __name__ == '__main__':
         save_config(dataset_name=dataset_name, target=target_attribute, task_type=task_type, data_out_path=args.data_out_path, description=dataset_description)
         dataset_out_name = dataset_name
 
-        # # Split and rename dataset-name, then save  
+        # Split and rename dataset-name, then save  
         # dataset_out_name = f"oml_dataset_{dataset_index}"
         # split_data_save(data=data, ds_name=dataset_out_name, out_path= args.data_out_path)
         # save_config(dataset_name=dataset_out_name, target=target_attribute, task_type=task_type, data_out_path=args.data_out_path, setting_out_path=args.setting_out_path)
 
         # Rename cols and dataset name, then split and save it
-        dataset_out_name = f"oml_dataset_{dataset_index}_rnc"
-        target_attribute, nrows, ncols, number_classes = rename_col_names(data=data, ds_name=dataset_out_name, target_attribute=target_attribute, out_path=args.data_out_path)
-        save_config(dataset_name=dataset_out_name, target=target_attribute, task_type=task_type, data_out_path=args.data_out_path, description=dataset_description) 
+        # dataset_out_name = f"oml_dataset_{dataset_index}_rnc"
+        # target_attribute, nrows, ncols, number_classes = rename_col_names(data=data, ds_name=dataset_out_name, target_attribute=target_attribute, out_path=args.data_out_path)
+        # save_config(dataset_name=dataset_out_name, target=target_attribute, task_type=task_type, data_out_path=args.data_out_path, description=dataset_description) 
 
         dataset_list.loc[len(dataset_list)] = [dataset_index, dataset_id, dataset_out_name, dataset_name, nrows, ncols, number_classes, target_attribute]
         dataset_list.to_csv(f"{args.data_out_path}/dataset_list.csv") 

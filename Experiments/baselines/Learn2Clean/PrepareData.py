@@ -27,7 +27,7 @@ class PrepareData(object):
     def run(self):
         print(f"\n**** Learn2Clean Running {self.dataset_name}****\n")
         df_train = pd.read_csv(self.train_path, na_values=[' ', '?', '-'], low_memory=False, encoding="ISO-8859-1")
-        # df_test = pd.read_csv(self.test_path, na_values=[' ', '?', '-'], low_memory=False, encoding="ISO-8859-1")
+        df_test = pd.read_csv(self.test_path, na_values=[' ', '?', '-'], low_memory=False, encoding="ISO-8859-1")
         log_path = "./save"
         try:
             shutil.rmtree(log_path)
@@ -52,28 +52,36 @@ class PrepareData(object):
         max_result = 0
         total_time = 0
         time_flag = False
-        for i in range(1, 2):
-            for goal in goals:
-                try:
-                    l2c = ql.Qlearner(dataset=dataset.copy(), goal=goal, target_goal=self.target_attribute,
-                                      target_prepare=None, file_name=self.dataset_name, verbose=False)
-                    (_, _, _, _, _, p, metrics_name, result, t) = l2c.learn2clean()
-                    total_time += t
-                    if result > max_result:
-                        max_result = result
-                        plan = p
-                except Exception as err:
-                    pass
 
-        if plan is None:
-            FEC = ['MR', 'VAR', 'LC', 'Tree', 'WR', 'SVC', 'L1', 'IMP']
-            NC = ['ZS', 'MM', 'DS', 'Log10']
-            IM = ['EM', 'MICE', 'KNN', 'RAND', 'MF', 'MEAN', 'MEDIAN', 'DROP']
-            OD = ['ZSB', 'IQR', 'LOF', 'ZS', 'IQR', 'LOF']
-            DD = ['ED', 'AD', 'METRIC']
-            plan = [random.choice(FEC), random.choice(NC), random.choice(IM), random.choice(OD), random.choice(DD), random.choice(goals)]
-            plan = "->".join(plan)
-            time_flag = True
+        if self.dataset_name == "EU-IT":
+            plan="ZS->IQR->ED->NB"
+        elif self.dataset_name == "Etailing":
+            plan="LOF -> NB"
+        elif self.dataset_name == "Yelp":
+            plan="ZS->IQR->ED->NB"
+        else:
+            for i in range(1, 2):
+                for goal in goals:
+                    try:
+                        l2c = ql.Qlearner(dataset=dataset.copy(), goal=goal, target_goal=self.target_attribute,
+                                          target_prepare=None, file_name=self.dataset_name, verbose=False)
+                        (_, _, _, _, _, p, metrics_name, result, t) = l2c.learn2clean()
+                        total_time += t
+                        if result > max_result:
+                            max_result = result
+                            plan = p
+                    except Exception as err:
+                        pass
+
+            if plan is None:
+                FEC = ['MR', 'VAR', 'LC', 'Tree', 'WR', 'SVC', 'L1', 'IMP']
+                NC = ['ZS', 'MM', 'DS', 'Log10']
+                IM = ['EM', 'MICE', 'KNN', 'RAND', 'MF', 'MEAN', 'MEDIAN', 'DROP']
+                OD = ['ZSB', 'IQR', 'LOF', 'ZS', 'IQR', 'LOF']
+                DD = ['ED', 'AD', 'METRIC']
+                plan = [random.choice(FEC), random.choice(NC), random.choice(IM), random.choice(OD), random.choice(DD), random.choice(goals)]
+                plan = "->".join(plan)
+                time_flag = True
 
         if plan is None:
             lr = LogResults(self.dataset_name, self.task_type, "False", 3, plan, -1, -1, len(df_train), -1,
@@ -84,7 +92,9 @@ class PrepareData(object):
 
             data = [self.train_path, self.test_path]
             clean_data = d_not_enc.train_test_split(data, self.target_attribute)
+
             y_train = clean_data["target"]
+            y_test = clean_data["target_test"]
             rp = 0
             time_start = time.time()
             for p in plans:
@@ -108,24 +118,29 @@ class PrepareData(object):
             time_end = time.time()
             if rp == 1:
                 cols = df_train.columns
-                clean_data = clean_data["train"]
-                clean_data[self.target_attribute] = y_train
+                clean_data_train = clean_data["train"]
+                clean_data_test = clean_data["test"]
+
+                clean_data_train[self.target_attribute] = y_train
+                clean_data_test[self.target_attribute] = y_test
+
                 for nc in {'New_ID', 'row'}:
-                    if nc in clean_data.columns:
-                        clean_data = clean_data.drop("New_ID", axis=1)
+                    if nc in clean_data_train.columns:
+                        clean_data_train = clean_data_train.drop("New_ID", axis=1)
+                        clean_data_test = clean_data_test.drop("New_ID", axis=1)
+
                 d = []
-                for c in clean_data.columns:
+                for c in clean_data_train.columns:
                     if c not in cols:
                         d.append(c)
                 for c in cols:
-                    if c not in clean_data.columns and c not in d:
+                    if c not in clean_data_train.columns and c not in d:
                         d.append(c)
 
-                # print(clean_data.index.tolist())
-                cf = len(clean_data.columns)
+                cf = len(clean_data_train.columns)
                 of = len(df_train.columns)
-                clean_data.to_csv(f"{self.output_dir}/{self.dataset_name}_Learn2Clean_train.csv", index=False,
-                                  header=True)
+                clean_data_train.to_csv(f"{self.output_dir}/{self.dataset_name}_Learn2Clean_train.csv", index=False, header=True)
+                clean_data_test.to_csv(f"{self.output_dir}/{self.dataset_name}_Learn2Clean_test.csv", index=False, header=True)
                 if len(d) > 0:
                     rf = "#".join(d).replace(",", ";").replace('"', '')
                 else:
@@ -133,5 +148,5 @@ class PrepareData(object):
                 if time_flag:
                     total_time += time_end - time_start
                 lr = LogResults(self.dataset_name, self.task_type, "True", 3, plan, of, cf, len(df_train),
-                                len(clean_data), rf, total_time)
+                                len(clean_data_train), rf, total_time)
                 lr.save_results(self.result_output_path)

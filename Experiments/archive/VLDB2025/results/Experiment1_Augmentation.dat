@@ -2,3 +2,6 @@ dataset,source_data,time
 Yelp,Learn2Clean,83819
 EU-IT,Learn2Clean,1567
 Etailing,Learn2Clean,1612
+WiFi,orig,5175
+Midwest-Survey,orig,5464
+Utility,orig,2755058

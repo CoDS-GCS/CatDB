@@ -1,14 +1,12 @@
 from argparse import ArgumentParser
 from catalog.Catalog import load_data_source_profile_as_chunck
 from catalog.Dependency import load_dependency_info
-from pipegen.GeneratePipeLine import generate_and_verify_pipeline, run_pipeline, clean_categorical_data
-from util.FileHandler import read_text_file_line_by_line
+from pipegen.GeneratePipeLine import generate_and_verify_pipeline
+from runcode.RunLocalPipeLine import run_local_pipeline_code
 from util.Config import load_config
 from util.FileHandler import read_text_file_line_by_line
-from pipegen.Metadata import Metadata
 import time
 import yaml
-import os
 
 # def install(package):
 #     subprocess.check_call([sys.executable, "-m", "pip", "install", package])
@@ -99,6 +97,7 @@ def parse_arguments():
 
     return args
 
+
 def load_privious_codes(chain_length: int, llm_model: str, class_name: str, path: str, extention: str):
     codes = [None for i in range(0, chain_length)]
     for i in range(0, chain_length):
@@ -174,17 +173,19 @@ if __name__ == '__main__':
 
     # Create Model Selection Chain:
     class_name = f"{args.prompt_representation_type}{__sub_task_model_selection}-{args.prompt_samples_type}-{args.prompt_number_samples}-SHOT"
-    ms_codes = load_privious_codes(chain_length=len(catalogs),llm_model=args.llm_model, class_name=class_name,path=args.output_path, extention='.py')
+    ms_codes = load_privious_codes(chain_length=len(catalogs),llm_model=args.llm_model, class_name=class_name,path=args.output_path, extention='-RUN.py')
     for i in range(0, len(catalogs)):
         if ms_codes[i] is not None:
-            continue
-        privious_task_code = fe_codes[i]
-        ms_codes_tmp = [None for k in range(0, i + 1)]
-        for j in range(0, i + 1):
-            if j == i:
+            run_local_pipeline_code(args=args, code=ms_codes[i], run_mode=__execute_mode)
+        else:
+            privious_task_code = fe_codes[i]
+            ms_codes_tmp = [None for k in range(0, i + 1)]
+            for j in range(0, i + 1):
                 run_mode = __execute_mode
-            else:
-                run_mode =  __gen_verify_mode
-            ms_codes_tmp = merge_chains(codes=ms_codes_tmp, privious_task_code=privious_task_code,
-                                            task=__sub_task_model_selection, base_index=i + 1, run_mode=run_mode)
-        ms_codes[i] = ms_codes_tmp[i]
+                # if j == i:
+                #     run_mode = __execute_mode
+                # else:
+                #     run_mode = __gen_verify_mode
+                ms_codes_tmp = merge_chains(codes=ms_codes_tmp, privious_task_code=privious_task_code,
+                                                task=__sub_task_model_selection, base_index=i + 1, run_mode=run_mode)
+            ms_codes[i] = ms_codes_tmp[i]

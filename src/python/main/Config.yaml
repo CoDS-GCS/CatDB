@@ -51,7 +51,20 @@
     top_p: 0.95
     top_k: 64
 
+- llm_platform: DeepSeek
+  deepseek-chat:
+    token_limit: 131072
+    system_delimiter: '### '
+    user_delimiter: '### '
+    delay: 50
+    temperature: 1.0
 
+  deepseek-reasoner:
+    token_limit: 131072
+    system_delimiter: '### '
+    user_delimiter: '### '
+    delay: 50
+    temperature: 1.0
 
 
 

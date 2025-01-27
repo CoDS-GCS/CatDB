@@ -32,3 +32,29 @@ def run_local_pipeline(args, file_name, run_mode):
                  run_mode=run_mode, results_verified=results_verified, results=results, final_status=final_status)
 
     return final_status
+
+
+def run_local_pipeline_code(args, code, run_mode):
+    time_execute = 0
+    final_status = False
+
+    iteration_error = 0
+    results_verified = False
+    results = None
+    time_start_1 = time.time()
+    result = RunCode.execute_code(src=code, parse=None, run_mode=run_mode)
+    time_end_1 = time.time()
+    if result.get_status():
+        results_verified, results = result.parse_results()
+        if results_verified:
+            time_execute = time_end_1 - time_start_1
+            final_status = True
+
+    if final_status:
+        args.dataset_name = f"{args.dataset_name}"
+        save_log(args=args, sub_task='', iteration=1, iteration_error=iteration_error, time_catalog=0,
+                 time_generate=0, time_total=time_execute, time_execute=time_execute,
+                 prompt_token_count=0, all_token_count=0, operation_tag=f'Run-Local-Pipeline',
+                 run_mode=run_mode, results_verified=results_verified, results=results, final_status=final_status)
+
+    return final_status

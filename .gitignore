@@ -61,3 +61,10 @@ Experiments/data/Utility/*
 Experiments/data/WiFi/*
 Experiments/data/SAGA/*
 Experiments/data/data_space/*
+Experiments/data/Mercedes/Mercedes_test.csv
+Experiments/data/Mercedes/Mercedes_train.csv
+Experiments/data/Mercedes/Mercedes_verify.csv
+Experiments/data/Mercedes/Mercedes.csv
+Experiments/data/Mercedes/Mercedes.txt
+Experiments/data/Mercedes/Mercedes.yaml
+Experiments/data/Mercedes.zip

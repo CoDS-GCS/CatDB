@@ -60,6 +60,7 @@ CATEGORICAL_VALUES_RESTRICTED_SIZE = 50
 _OPENAI = "OpenAI"
 _META = "Meta"
 _GOOGLE = "Google"
+_DEEPSEEK = "DeepSeek"
 
 _llm_model = None
 _llm_platform = None
@@ -74,6 +75,7 @@ _top_k = None
 _last_API_Key = None
 _LLM_API_Key = None
 _system_log_file = None
+_enable_cache = False
 
 _catdb_rules = dict()
 _catdb_chain_DP_rules = dict()
@@ -98,7 +100,7 @@ _DATASET_DESCRIPTION = None
 
 def load_config(system_log: str, llm_model: str = None, config_path: str = "Config.yaml",
                 api_config_path: str = None, rules_path: str = "Rules.yaml",
-                data_cleaning_rules_path="RulesDataCleaning.yaml", evaluation_acc: bool = False):
+                data_cleaning_rules_path="RulesDataCleaning.yaml", evaluation_acc: bool = False, enable_cache: bool= False):
     if api_config_path is None:
         api_config_path = os.environ.get("APIKeys_File")
     global _llm_model
@@ -114,8 +116,9 @@ def load_config(system_log: str, llm_model: str = None, config_path: str = "Conf
     global _temperature
     global _top_k
     global _top_p
+    global _enable_cache
     _system_log_file = system_log
-
+    _enable_cache = enable_cache
     with open(config_path, "r") as f:
         try:
             configs = yaml.load(f, Loader=yaml.FullLoader)

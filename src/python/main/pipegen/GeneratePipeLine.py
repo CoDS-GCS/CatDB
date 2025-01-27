@@ -17,6 +17,9 @@ import pandas as pd
 
 
 def clean_up(args, prompt_file_name):
+    from util.Config import _enable_cache
+    if _enable_cache:
+        return
     file_names = []
     file_name = f'{args.output_path}/{prompt_file_name}'
     prompt_fname = f"{file_name}.prompt"

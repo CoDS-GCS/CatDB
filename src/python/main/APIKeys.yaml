@@ -8,3 +8,6 @@
 
 - llm_platform: Google
   key_1 : 'AIzaSyDbtOYtZJpxaMOlPS1ZNdo97HLVSnZ_5SI'
+
+- llm_platform: DeepSeek
+  key_1 : 'sk-fd39aca7df664d8ea2d2216214beef43'

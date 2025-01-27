@@ -33,6 +33,7 @@ CMDChain=./explocal/exp2_catdb/runExperiment2_LLM_Pipe_Gen_Chain.sh
 # $CMD ${dataset} ${catalog_path} CatDBChain Random 0 ${task_type} gemini-1.5-pro-latest No
 
 $CMDChain ${dataset} ${catalog_path} CatDBChain Random 0 ${task_type} gemini-1.5-pro-latest No
+#$CMDChain ${dataset} ${catalog_path} CatDBChain Random 0 ${task_type} deepseek-chat No
 
 # Run Pipeline Localy
 # $CMDRunPipeline ${dataset} CatDB Random 0 ${task_type} gemini-1.5-pro-latest No 1 "${dataset}_train" "${dataset}_test" "M"

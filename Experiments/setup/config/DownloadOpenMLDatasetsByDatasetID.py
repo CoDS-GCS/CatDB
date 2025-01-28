@@ -40,16 +40,16 @@ if __name__ == '__main__':
                     # (42438,"Titanic","binary",36),
                     # (45068,"Adult","binary",37),
                     # (42031,"Iris","multiclass",38),
-                    #(1457,"Amazon","multiclass",200),
+                    (1457,"Amazon","multiclass",200),
                     #(4139,"Wikidata","binary",201),
                     #(42775,"KDDCup09","binary",202),
                     #(1594,"News","binary",203),
                     # (41165,"Robert","multiclass",204),
                     # (41161,"Riccardo","binary",205),
                     # (41163,"Dilbert","multiclass",206),
-                    (42570,"Mercedes","regression",207),
-                    (422,"Topo","regression",208),
-                    (42571,"Allstate","regression",209),                  
+                    #(42570,"Mercedes","regression",207),
+                    #(422,"Topo","regression",208),
+                    #(42571,"Allstate","regression",209),                  
                     
                 ]
    

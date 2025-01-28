@@ -53,9 +53,9 @@ oml_dataset_24_rnc,NYC,0,0,0.0,191.91,32.83,0,0,40.00,262.17,3.20,0.55,0.001,0.0
 oml_dataset_35_rnc,Volkert,0,0,0.0,67.15,70.23,0,2607.28,98.08,71.03,1.12,1.17,0.001,43.45,1.63,1.18,11.19,11.71,0.001,434.55,1.63,11.84,2.189,gemini-1.5-pro-latest,No,multiclass,classification,0
 oml_dataset_35_rnc,Volkert,0,0,0.0,73.92,970.57,0,3163.36,4100.76,11303.87,1.23,16.18,0.001,52.72,68.35,188.40,12.32,161.76,0.001,527.23,68.35,1883.98,2.189,llama-3.1-70b-versatile,No,multiclass,classification,0
 oml_dataset_35_rnc,Volkert,0,0,0.0,77.25,970.57,0,2772.43,61.17,37.29,1.29,16.18,0.001,46.21,1.02,0.62,12.87,161.76,0.001,462.07,1.02,6.21,2.189,gpt-4o,No,multiclass,classification,0
-Yelp,Yelp-MG,584.4,2477.4,132937511.0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-1,-1,0,0,-1.0,gemini-1.5-pro-latest,No,multiclass,classification,0
-EU-IT,EU-IT-MG,4.5,1.4,3406070.0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-1,-1,0,0,-1.0,gemini-1.5-pro-latest,No,multiclass,classification,0
-Etailing,Etailing-MG,1.6,1.7,265084.0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-1,-1,0,0,-1.0,gemini-1.5-pro-latest,No,multiclass,classification,0
-Midwest-Survey,Midwest-Survey-MG,1.8,1.4,2058849.0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-1,-1,0,0,-1.0,gemini-1.5-pro-latest,No,multiclass,classification,0
-WiFi,WiFi-MG,0.8,0.8,138210.0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-1,-1,0,0,-1.0,gemini-1.5-pro-latest,No,binary,classification,0
-Utility,Utility-MG,4.2,3.8,2397505.0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-1,-1,0,0,-1.0,gemini-1.5-pro-latest,No,regression,regression,0
+Yelp,Yelp-MG,584.4,2477.4,41400593.812465675,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-1,-1,0,0,-1.0,gemini-1.5-pro-latest,No,multiclass,classification,0
+EU-IT,EU-IT-MG,4.5,1.4,203620.06831169128,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-1,-1,0,0,-1.0,gemini-1.5-pro-latest,No,multiclass,classification,0
+Etailing,Etailing-MG,1.6,1.7,330024.72162246704,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-1,-1,0,0,-1.0,gemini-1.5-pro-latest,No,multiclass,classification,0
+Midwest-Survey,Midwest-Survey-MG,1.8,1.4,2086848.0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-1,-1,0,0,-1.0,gemini-1.5-pro-latest,No,multiclass,classification,0
+WiFi,WiFi-MG,0.8,0.8,200446.0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-1,-1,0,0,-1.0,gemini-1.5-pro-latest,No,binary,classification,0
+Utility,Utility-MG,4.2,3.8,863614.0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-1,-1,0,0,-1.0,gemini-1.5-pro-latest,No,regression,regression,0

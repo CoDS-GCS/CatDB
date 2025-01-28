@@ -1,11 +1,7 @@
 dataset_name,task_type,status,number_iteration,cleaning_plan,orig_feature_count,clean_feature_count,orig_samples,clean_samples,removed_features,total_time
-EU-IT,multiclass,True,3,WR->Log10->MICE->IQR->AD->LDA,23,5,872,203,Timestamp#Gender#City#Totalyearsofexperience#YearsofexperienceinGermany#Senioritylevel#Yourmaintechnologyprogramminglanguage#Othertechnologiesprogramminglanguagesyouuseoften#YearlybonusstocksinEUR#AnnualbonusstocksoneyearagoOnlyanswerifstayinginsamecountry#Numberofvacationdays#Employmentstatus#ontractduration#Mainlanguageatwork#Companysize#Companytype#Haveyoulostyourjobduetothecoronavirusoutbreak#HaveyoureceivedadditionalmonetarysupportfromyouremployerduetoWorkFromHomeIfyeshowmuchin2020inEUR,1.6200683116912842
-Etailing,multiclass,True,3,LC -> MF -> LDA,44,38,307,307,WebseriesMovies#Theitemismadeupofhighquality#ReviewsandRatings#NumberofdaysofDelivery#HomeandFurnishing#Grocery,7.08945894241333
-Midwest-Survey,multiclass,True,3,VAR->ZS->EM->IQR->ED->LDA,29,3,1745,1630,Inyourownwordswhatwouldyoucallthepartofthecountryyouliveinnow#PersonallyidentificationasaMidwesterner#IllinoisinMW#IndianainMW#IowainMW#KansasinMW#MichiganinMW#MinnesotainMW#MissouriinMW#NebraskainMW#NorthDakotainMW#OhioinMW#SouthDakotainMW#WisconsininMW#ArkansasinMW#ColoradoinMW#KentuckyinMW#OklahomainMW#PennsylvaniainMW#WestVirginiainMW#MontanainMW#WyominginMW#Gender#Age#HouseholdIncome#Education,0.07753515243530273
-WiFi,binary,True,3,VAR->MM->MICE->IQR->METRIC->NB,9,2,68,1,Dorm#HotspotFrequency#HotspotUse#Problem#Inhibit#DataPlan#Locations,5.668030738830566
-
-
-
-EU-IT,multiclass,True,3,ZS->IQR->ED->NB,23,23,872,855,,0.0387115478515625
-Etailing,multiclass,True,3,LOF -> NB,44,44,307,219,,7.074610948562622
-Yelp,multiclass,True,3,ZS->IQR->ED->NB,194,194,161418,147020,,16.782953023910522
+Airline,multiclass,True,3,DROP->AD->NB,115,115,303294,303294,,11.401859998703003
+IMDB-IJS,binary,True,3,DS->ED->LDA,15,15,21371219,21371219,,155.69685125350952
+Financial,multiclass,True,3,MR->DS->DROP->LOF->ED->LDA,62,56,386411,260067,card_id#card.type#issued#trans.k_symbol#bank#account,40.41260528564453
+EU-IT,multiclass,True,3,ZS->IQR->ED->NB,23,23,872,840,,203.6200683116912842
+Etailing,multiclass,True,3,LOF -> NB,44,44,307,219,,330.024721622467041
+Yelp,multiclass,True,3,ZS->IQR->ED->NB,194,194,161418,147020,,41400.593812465667725

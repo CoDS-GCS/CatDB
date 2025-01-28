@@ -1,7 +1,7 @@
 configfaile_geminiavg_geminisum_geminifaile_llamaavg_llamasum_llamafaile_gpt-4oavg_gpt-4osum_gpt-4o
-CatDB& 0& 6.1& 61.3 & 0& 6.2& 62.1 & 0& 15.8& 157.8 \\ \chline
-CatDBChain& 0& 6.6& 66.2 & 0& 6.1& 61.2 & 0& 12.1& 120.9 \\ \chline
-CAAFETabPFN& 8& 5.9& 11.9 & 8& 2.8& 5.6 & 8& 5.6& 11.2 \\ \chline
-CAAFERandomForest& 5& 33.3& 166.7 & 5& 15.4& 77.2 & 5& 15.1& 75.5 \\ \chline
-AIDE& 3& 0.8& 5.9 & 4& 17.2& 103.2 & 5& 0.7& 3.5 \\ \chline
-AutoGen& 0& 9.6& 95.7 & 0& 73.6& 736.1 & 1& 38.0& 341.9 \\ \chline
+CatDB& 0& 7.5& 60.1 & 0& 7.4& 58.9 & 0& 19.6& 156.5 \\ \chline
+CatDBChain& 0& 8.1& 65.1 & 0& 7.4& 59.5 & 0& 14.5& 116.1 \\ \chline
+CAAFETabPFN& 7& 7.4& 7.4 & 7& 1.3& 1.3 & 7& 7.4& 7.4 \\ \chline
+CAAFERandomForest& 5& 34.2& 102.7 & 5& 22.7& 68.0 & 5& 22.6& 67.9 \\ \chline
+AIDE& 3& 0.8& 4.2 & 4& 17.3& 69.3 & 4& 0.7& 2.7 \\ \chline
+AutoGen& 0& 11.8& 94.4 & 0& 7.4& 58.9 & 1& 48.7& 340.7 \\ \chline

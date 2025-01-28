@@ -62,6 +62,13 @@ class PrepareData(object):
             plan = "DS->MEDIAN->AD->NB"
         elif self.dataset_name == "IMDB-IJS":
             plan = "DS->ED->LDA"
+        elif self.dataset_name == "oml_dataset_24_rnc":
+            plan = "IQR->ED->LASSO"
+        elif self.dataset_name == "oml_dataset_23_rnc":
+            plan = "IQR->OLS"
+        elif self.dataset_name == "oml_dataset_22_rnc":
+            plan = "AD -> OLS"
+
         else:
             for i in range(1, 2):
                 for goal in goals:

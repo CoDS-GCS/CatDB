@@ -341,7 +341,7 @@ if __name__ == '__main__':
     # Add Local Execution Time
     df_local = load_results(f"{root_path}/raw_results/Experiment1_Local_Pipeline.dat")
     df_AUG_runtime = load_results(f"{root_path}/Experiment1_Augmentation.dat")
-    df_SAGA_runtime = load_results(f"{root_path}/Experiment1_SAGA_Cleaning.dat")
+    df_Cleaning_runtime = load_results(f"{root_path}/Experiment1_Cleaning_Time.dat")
     df_micro = pd.DataFrame(columns = df_cleaning_runtime.columns)
     
 
@@ -364,7 +364,7 @@ if __name__ == '__main__':
                                 (df_local['has_description'] == "No") &
                                 (df_local['operation'] == f"Run-Local-Pipeline-{run_mod}")]
             
-            df_saga = df_SAGA_runtime.loc[(df_SAGA_runtime['dataset'] == ds)]
+            df_saga = df_Cleaning_runtime.loc[(df_Cleaning_runtime['dataset'] == ds)]
             df_aug = df_AUG_runtime.loc[(df_AUG_runtime['dataset'] == ds)]
             tmp_time_saga = 0
             tmp_time_aug = 0
@@ -398,7 +398,7 @@ if __name__ == '__main__':
     # find AVG, SUM, number of failed
     
     df_ten_runtime = pd.DataFrame(columns = ["config", "faile_gemini", "avg_gemini", "sum_gemini", "faile_llama", "avg_llama", "sum_llama", "faile_gpt-4o", "avg_gpt-4o", "sum_gpt-4o"])
-    df_exe_tmp = df_exe[df_exe['dataset_name_orig'].isin(["Airline", "IMDB-IJS", "Accidents", "Financial", "CMC", "Tic-Tac-Toe", "Walking-Activity","Bike-Sharing", "House-Sales", "NYC"])]
+    df_exe_tmp = df_exe[df_exe['dataset_name_orig'].isin(["Airline", "IMDB-IJS", "Accidents", "Financial", "CMC", "Bike-Sharing", "House-Sales", "NYC"])]
 
     for config in ["CatDB_min", "CatDBChain_min", "CAAFETabPFN_min", "CAAFERandomForest_min", "AIDE_min","AutoGen_min"]:
         str_row = [f"{config.replace('_min', '')}"]

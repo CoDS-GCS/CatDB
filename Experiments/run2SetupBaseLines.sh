@@ -41,14 +41,14 @@ cd $path
 
 # Setup CatDB
 #############
-catdb_path="${path}/Baselines/CatDB/"
-#rm -rf ${catdb_path}
-mkdir -p ${catdb_path}
+# catdb_path="${path}/Baselines/CatDB/"
+# rm -rf ${catdb_path}
+# mkdir -p ${catdb_path}
 
-cd ${root_path}
-cd ..
-cp -r src/python/main/* ${catdb_path}
-cd ${catdb_path}
+# cd ${root_path}
+# cd ..
+# cp -r src/python/main/* ${catdb_path}
+# cd ${catdb_path}
 
 # rm -rf venv 
 # python3.10 -m venv venv
@@ -192,35 +192,35 @@ cd ${catdb_path}
 
 # ## Setup Learn2Clean
 # ###################
-# baselines_path="${path}/Baselines"
-# cd ${baselines_path}
-# rm -rf Learn2Clean
+baselines_path="${path}/Baselines"
+cd ${baselines_path}
+rm -rf Learn2Clean
 
-# cd ${root_path}
-# cp -r baselines/Learn2Clean "${baselines_path}/"
+cd ${root_path}
+cp -r baselines/Learn2Clean "${baselines_path}/"
 
-# cd "${baselines_path}/Learn2Clean"
-# rm -rf venv
-# python3.8 -m venv venv
-# source venv/bin/activate
+cd "${baselines_path}/Learn2Clean"
+rm -rf venv
+python3.8 -m venv venv
+source venv/bin/activate
 
-# git clone -b CatDB https://github.com/fathollahzadeh/Learn2Clean.git
-# cd Learn2Clean/python-package
-# python setup.py install
-# pip install -r requirements.txt
+git clone -b CatDB https://github.com/fathollahzadeh/Learn2Clean.git
+cd Learn2Clean/python-package
+python setup.py install
+pip install -r requirements.txt
 
-# # # Setup Augmentation
-# baselines_path="${path}/Baselines"
-# cd ${baselines_path}
-# rm -rf Augmentation
+# # Setup Augmentation
+baselines_path="${path}/Baselines"
+cd ${baselines_path}
+rm -rf Augmentation
 
-# cd ${root_path}
-# cp -r baselines/Augmentation "${baselines_path}/"
+cd ${root_path}
+cp -r baselines/Augmentation "${baselines_path}/"
 
-# cd "${baselines_path}/Augmentation"
+cd "${baselines_path}/Augmentation"
 
-# rm -rf venv
-# python3.10 -m venv venv
-# source venv/bin/activate
-# pip install --upgrade pip
-# pip install -r requirements.txt
+rm -rf venv
+python3.10 -m venv venv
+source venv/bin/activate
+pip install --upgrade pip
+pip install -r requirements.txt

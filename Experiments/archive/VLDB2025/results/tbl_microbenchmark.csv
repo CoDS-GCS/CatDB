@@ -10,15 +10,15 @@
 \multirow{3}{*}{Financial}& GPT-4o&\cellcolor{lightgray!50}\textbf{100.0}&  99.9&--&  85.24&--&\textbf{100.0}&--&\textbf{100.0}&\textbf{100.0}&  99.99& \multirow{3}{*}{L2C}&--&  99.01&\textbf{100.0}&\textbf{100.0}\\ 
 & Gemini-1.5&\cellcolor{lightgray!50}\textbf{100.0}&\textbf{100.0}&--&  84.9&--&\textbf{100.0}&--&\textbf{100.0}&\textbf{100.0}&  99.99&&--&\textbf{100.0}&\textbf{100.0}&\textbf{100.0}\\ 
 & Llama3.1-70b&\cellcolor{lightgray!50}\textbf{100.0}&\textbf{100.0}&--&  85.94&--&\textbf{100.0}&--&\textbf{100.0}&\textbf{100.0}&  99.99&&--&  99.01&\textbf{100.0}&\textbf{100.0}\\ \chline
-\multirow{3}{*}{CMC}& GPT-4o&  68.66& \cellcolor{lightgray!50} 73.81&  73.13&  67.91&  71.56&  71.61&--&\textbf{76.39}&\textbf{76.39}&  27.22& \multirow{3}{*}{L2C}&--&  72.55&  74.28&  73.69\\ 
-& Gemini-1.5&  68.84& \cellcolor{lightgray!50} 74.33&  73.13&  67.95&  72.02&  71.61&--&  75.17&\textbf{77.23}&  25.71&&--&  75.6&  74.26&  74.6\\ 
-& Llama3.1-70b&  73.15& \cellcolor{lightgray!50} 71.03&  75.7&  74.29&  71.56&  71.53&--&\textbf{75.96}&  75.89&  27.22&&--&  73.72&  74.26&  73.58\\ \chline
-\multirow{3}{*}{Bike-Sharing}& GPT-4o&  76.83& \cellcolor{lightgray!50} 86.89&--&--&  39.46&  39.46&--&--&  90.97&  60.0& \multirow{3}{*}{L2C}&--&--&\textbf{94.22}&  94.06\\ 
-& Gemini-1.5&  92.06& \cellcolor{lightgray!50} 92.12&--&--&  94.27&  93.55&  94.32&--&  93.82&  64.29&&--&--&  94.5&\textbf{94.84}\\ 
-& Llama3.1-70b&  79.54& \cellcolor{lightgray!50} 88.04&--&--&  93.47&  93.5&  94.39&--&  93.82&  72.15&&--&--&  94.72&\textbf{94.84}\\ \chline
-\multirow{3}{*}{House-Sales}& GPT-4o& \cellcolor{lightgray!50} 87.48&  86.34&--&--&  75.41&--&\textbf{89.81}&  15.68&  87.99&  86.69& \multirow{3}{*}{L2C}&--&--&  86.56&  86.74\\ 
-& Gemini-1.5&\cellcolor{lightgray!50}\textbf{99.99}&  87.98&--&--&  75.41&  87.9&  89.86&--&  89.94&  90.34&&--&--&  85.74&  86.87\\ 
-& Llama3.1-70b& \cellcolor{lightgray!50} 87.96&  89.0&--&--&  87.87&  87.9&  89.89&--&  89.39&\textbf{90.36}&&--&--&  86.59&  86.93\\ \chline
-\multirow{3}{*}{NYC}& GPT-4o&  48.58& \cellcolor{lightgray!50} 55.17&--&--&  32.64&\textbf{68.74}&  10.14&--&  56.38&  43.25& \multirow{3}{*}{L2C}&--&  14.7&  51.69&  42.42\\ 
-& Gemini-1.5&  67.22& \cellcolor{lightgray!50} 65.53&--&--&\textbf{69.25}&  68.74&  62.41&--&  68.82&  45.16&&--&--&  54.43&  47.71\\ 
-& Llama3.1-70b&  48.58& \cellcolor{lightgray!50} 48.58&--&--&  68.71&\textbf{68.75}&  56.67&  35.28&  65.88&  45.56&&--&  24.69&  56.48&  48.04\\ \chline
+\multirow{3}{*}{CMC}& GPT-4o&  68.66& \cellcolor{lightgray!50} 73.81&  73.13&  67.91&  71.56&  71.61&--&\textbf{76.39}&\textbf{76.39}&  27.22& \multirow{3}{*}{L2C}&--&  74.15&  73.62&  72.81\\ 
+& Gemini-1.5&  68.84& \cellcolor{lightgray!50} 74.33&  73.13&  67.95&  72.02&  71.61&--&  75.17&\textbf{77.23}&  25.71&&--&  74.43&  75.65&  71.11\\ 
+& Llama3.1-70b&  73.15& \cellcolor{lightgray!50} 71.03&  75.7&  74.29&  71.56&  71.53&--&\textbf{75.96}&  75.89&  27.22&&--&  75.71&  74.24&  71.11\\ \chline
+\multirow{3}{*}{Bike-Sharing}& GPT-4o&  76.83& \cellcolor{lightgray!50} 86.89&--&--&  39.46&  39.46&--&--&  90.97&  60.0& \multirow{3}{*}{L2C}&--&--&  92.27&\textbf{92.3}\\ 
+& Gemini-1.5&  92.06& \cellcolor{lightgray!50} 92.12&--&--&  94.27&  93.55&\textbf{94.32}&--&  93.82&  64.29&&  93.17&--&  93.29&  93.18\\ 
+& Llama3.1-70b&  79.54& \cellcolor{lightgray!50} 88.04&--&--&  93.47&  93.5&\textbf{94.39}&--&  93.82&  72.15&&  93.17&--&  92.81&  92.15\\ \chline
+\multirow{3}{*}{House-Sales}& GPT-4o& \cellcolor{lightgray!50} 87.48&  86.34&--&--&  75.41&--&\textbf{89.81}&  15.68&  87.99&  86.69& \multirow{3}{*}{L2C}&  83.57&  26.5&  77.7&  84.19\\ 
+& Gemini-1.5&\cellcolor{lightgray!50}\textbf{99.99}&  87.98&--&--&  75.41&  87.9&  89.86&--&  89.94&  90.34&&  84.07&  15.91&  77.7&  83.6\\ 
+& Llama3.1-70b& \cellcolor{lightgray!50} 87.96&  89.0&--&--&  87.87&  87.9&  89.89&--&  89.39&\textbf{90.36}&&  84.13&--&  83.62&  84.19\\ \chline
+\multirow{3}{*}{NYC}& GPT-4o&  48.58& \cellcolor{lightgray!50} 55.17&--&--&  32.64&\textbf{68.74}&  10.14&--&  56.38&  43.25& \multirow{3}{*}{L2C}&  9.56&  31.56&  62.85&  41.24\\ 
+& Gemini-1.5&  67.22& \cellcolor{lightgray!50} 65.53&--&--&\textbf{69.25}&  68.74&  62.41&--&  68.82&  45.16&&  33.72&--&  68.91&  51.97\\ 
+& Llama3.1-70b&  48.58& \cellcolor{lightgray!50} 48.58&--&--&  68.71&  68.75&  56.67&  35.28&  65.88&  45.56&&  57.04&  31.57&\textbf{69.42}&  55.59\\ \chline

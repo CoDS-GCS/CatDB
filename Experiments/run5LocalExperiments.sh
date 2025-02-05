@@ -65,9 +65,12 @@ CMD=./explocal/exp2_catdb/runExperiment2.sh
 # $CMD Topo regression
 # $CMD Allstate regression
 
-$CMD KDD98 binary
+# $CMD KDD98 binary
 # $CMD KDDCup09 binary
 
+# $CMD ML2017-challenge-3 multiclass
+# $CMD Bioresponse binary
+# $CMD gina_agnostic binary
 
 # End to End Datasets
 # $CMD Volkert-out-0.01-np-0-nc-0-mv-0 multiclass # Volkert

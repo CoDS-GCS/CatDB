@@ -63,7 +63,10 @@ CMD=./explocal/exp2_catdb/runExperiment2.sh
 # $CMD Dilbert multiclass
 # $CMD Mercedes regression
 # $CMD Topo regression
-$CMD Allstate regression
+# $CMD Allstate regression
+
+$CMD KDD98 binary
+$CMD KDDCup09 binary
 
 
 # End to End Datasets

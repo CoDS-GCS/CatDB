@@ -294,69 +294,91 @@ def load_data_source_profile_TopK(data_source_path: str, file_format: str, targe
     columns_others_topk = []
     columns_others_missing_values_topk = []
 
-    ck = 0
-    if len(columns_categorical) < k:
-        columns_categorical_topk = columns_categorical
-        columns_categorical_missing_values_topk = columns_categorical_missing_values
+    if ncols <= k:
+        return CatalogInfo(nrows=nrows,
+                           ncols=ncols,
+                           file_format="csv",
+                           dataset_name=dataset_name,
+                           table_name=table_name,
+                           schema_info=schema_info,
+                           profile_info=profile_info,
+                           data_source_path=source_path,
+                           drop_schema_info=drop_schema_info,
+                           schema_info_group=schema_info_group,
+                           columns_categorical=columns_categorical,
+                           columns_categorical_missing_values=columns_categorical_missing_values,
+                           columns_numerical=columns_numerical,
+                           columns_numerical_missing_values=columns_numerical_missing_values,
+                           columns_bool=columns_bool,
+                           columns_bool_missing_values=columns_bool_missing_values,
+                           columns_others=columns_others,
+                           columns_others_missing_values=columns_others_missing_values,
+                           dependency=dependency
+                           )
     else:
-        ck = min(k, len(columns_categorical))
-        for col in calc_corrolation(cols=columns_categorical, k = ck, embedding=embedding):
-            columns_categorical_topk.append(col)
-            if col in columns_categorical_missing_values:
-                columns_categorical_missing_values_topk.append(ch)
-    # if ck < k:
-    #     for col in columns_bool:
-    #         columns_bool_topk.append(col)
-    #         if col in columns_bool_missing_values:
-    #             columns_bool_missing_values_topk.append(col)
-    #         ck += 1
-    #         if ck > k:
-    #             break
-    if ck < k:
-        ck = min(k-ck, len(columns_others)+len(columns_numerical))
-        cols = []
-        cols.extend(columns_numerical)
-        cols.extend(columns_others)
-        for col in calc_corrolation(cols=cols, k=ck, embedding=embedding):
-            if col in columns_numerical:
-                columns_numerical_topk.append(col)
+        ck = 0
+        if len(columns_categorical) < k:
+            columns_categorical_topk = columns_categorical
+            columns_categorical_missing_values_topk = columns_categorical_missing_values
+        else:
+            ck = min(k, len(columns_categorical))
+            for col in calc_corrolation(cols=columns_categorical, k = ck, embedding=embedding):
+                columns_categorical_topk.append(col)
                 if col in columns_categorical_missing_values:
-                    columns_numerical_missing_values_topk.append(ch)
-            else:
-                for col in columns_others:
-                    columns_others_topk.append(col)
-                    if col in columns_others_missing_values:
-                        columns_others_missing_values_topk.append(col)
-    topk_cols = [target_attribute]
-    topk_cols.extend(columns_bool_topk)
-    topk_cols.extend(columns_numerical_topk)
-    topk_cols.extend(columns_others_topk)
-    topk_cols.extend(columns_categorical_topk)
-    for col in topk_cols:
-        schema_info_group_topk[col_group_name[col]] = col
-        schema_info_topk[col] = schema_info[col]
-        profile_info_topk[col] = profile_info[col]
+                    columns_categorical_missing_values_topk.append(ch)
+        if ck < k:
+            ck = min(k-ck, len(columns_others)+len(columns_numerical))
+            cols = []
+            cols.extend(columns_numerical)
+            cols.extend(columns_others)
+            for col in calc_corrolation(cols=cols, k=ck, embedding=embedding):
+                if col in columns_numerical:
+                    columns_numerical_topk.append(col)
+                    if col in columns_categorical_missing_values:
+                        columns_numerical_missing_values_topk.append(ch)
+                else:
+                    for col in columns_others:
+                        columns_others_topk.append(col)
+                        if col in columns_others_missing_values:
+                            columns_others_missing_values_topk.append(col)
+        if ck < k:
+            for col in columns_bool:
+                columns_bool_topk.append(col)
+                if col in columns_bool_missing_values:
+                    columns_bool_missing_values_topk.append(col)
+                ck += 1
+                if ck > k:
+                    break
+        topk_cols = [target_attribute]
+        topk_cols.extend(columns_bool_topk)
+        topk_cols.extend(columns_numerical_topk)
+        topk_cols.extend(columns_others_topk)
+        topk_cols.extend(columns_categorical_topk)
+        for col in topk_cols:
+            schema_info_group_topk[col_group_name[col]] = col
+            schema_info_topk[col] = schema_info[col]
+            profile_info_topk[col] = profile_info[col]
 
-    return CatalogInfo(nrows=nrows,
-                       ncols=ncols,
-                       file_format="csv",
-                       dataset_name=dataset_name,
-                       table_name=table_name,
-                       schema_info=schema_info_topk,
-                       profile_info=profile_info_topk,
-                       data_source_path=source_path,
-                       drop_schema_info=drop_schema_info,
-                       schema_info_group=schema_info_group_topk,
-                       columns_categorical=columns_categorical_topk,
-                       columns_categorical_missing_values=columns_categorical_missing_values_topk,
-                       columns_numerical=columns_numerical_topk,
-                       columns_numerical_missing_values=columns_numerical_missing_values_topk,
-                       columns_bool=columns_bool_topk,
-                       columns_bool_missing_values=columns_bool_missing_values_topk,
-                       columns_others=columns_others_topk,
-                       columns_others_missing_values=columns_others_missing_values_topk,
-                       dependency=dependency
-                       )
+        return CatalogInfo(nrows=nrows,
+                           ncols=ncols,
+                           file_format="csv",
+                           dataset_name=dataset_name,
+                           table_name=table_name,
+                           schema_info=schema_info_topk,
+                           profile_info=profile_info_topk,
+                           data_source_path=source_path,
+                           drop_schema_info=drop_schema_info,
+                           schema_info_group=schema_info_group_topk,
+                           columns_categorical=columns_categorical_topk,
+                           columns_categorical_missing_values=columns_categorical_missing_values_topk,
+                           columns_numerical=columns_numerical_topk,
+                           columns_numerical_missing_values=columns_numerical_missing_values_topk,
+                           columns_bool=columns_bool_topk,
+                           columns_bool_missing_values=columns_bool_missing_values_topk,
+                           columns_others=columns_others_topk,
+                           columns_others_missing_values=columns_others_missing_values_topk,
+                           dependency=dependency
+                           )
 
 
 def calc_euclidean_distance(list1, list2):

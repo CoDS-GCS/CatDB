@@ -19,17 +19,20 @@ def parse_arguments():
     
     if args.data_out_path is None:
         raise Exception("--data-out-path is a required parameter!")    
-    
-    if args.setting_out_path is None:
-        raise Exception("--setting-out-path is a required parameter!")
-    
+      
     return args
 
 
 if __name__ == '__main__':
-    args = parse_arguments()    
+    args = parse_arguments() 
 
-    taskIDs = [50] # [11, 15, 23, 31, 37, 50] # 188, 1068,1169,41027
+    # ML2017-challenge-3, 146545
+    # Bioresponse, 145677  
+    # gina_agnostic, 4596
+    # KDDCup09_appetency, 4650  , good
+    # 
+
+    taskIDs = [4650] # [11, 15, 23, 31, 37, 50] # 188, 1068,1169,41027
     datasetIDs = []
 
     dataset_index = 1
@@ -65,25 +68,8 @@ if __name__ == '__main__':
         data, y, categorical_indicator, attribute_names = dataset.get_data()
         target_attribute = dataset.default_target_attribute        
 
-
-
-         # Split and save original dataset
+        # Split and save original dataset
         nrows, ncols, number_classes = get_metadata(data=data, target_attribute=target_attribute)
         split_data_save(data=data, ds_name=dataset_name,out_path= args.data_out_path)
-        save_config(dataset_name=dataset_name, target=target_attribute, task_type=task_type, data_out_path=args.data_out_path, setting_out_path=args.setting_out_path)
-        dataset_out_name = dataset_name
-
-        # # Split and rename dataset-name, then save  
-        # dataset_out_name = f"oml_dataset_{dataset_index}"
-        # split_data_save(data=data, ds_name=dataset_out_name, out_path= args.data_out_path)
-        # save_config(dataset_name=dataset_out_name, target=target_attribute, task_type=task_type, data_out_path=args.data_out_path, setting_out_path=args.setting_out_path)
-
-        # # Rename cols and dataset name, then split and save it
-        # dataset_out_name = f"oml_dataset_{dataset_index}_rnc"
-        # target_attribute, nrows, ncols, number_classes = rename_col_names(data=data, ds_name=dataset_out_name, target_attribute=target_attribute, out_path=args.data_out_path)
-        # save_config(dataset_name=dataset_out_name, target=target_attribute, task_type=task_type, data_out_path=args.data_out_path, setting_out_path=args.setting_out_path) 
-
-        # "Row","ID","dataset_name", "orig_name","nrows","ncols","nclasses","target"
-        dataset_list.loc[len(dataset_list)] = [dataset_index, dataset_id, dataset_out_name, dataset_name, nrows, ncols, number_classes, target_attribute]
-
-        dataset_list.to_csv(f"{args.data_out_path}/dataset_list.csv", index=False) 
+        save_config(dataset_name=dataset_name, target=target_attribute, task_type=task_type, data_out_path=args.data_out_path, description="")
+        

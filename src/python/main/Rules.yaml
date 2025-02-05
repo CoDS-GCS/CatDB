@@ -4,56 +4,63 @@
   task: 'Task: Generate a data science pipeline in Python 3.10 that answers a question based on a given dataset, {}.'
   input: 'Input: A dataset in CSV format, a schema that describes the columns and data types of the dataset, and a data profiling info that summarizes the statistics and quality of the dataset. A question that requires data analysis or modeling to answer.'
   output: 'Output: A Python 3.10 code that performs the following steps:'
-  Rule_1: 'Import the necessary libraries and modules.'
-  Rule_2: 'Load the training and test datasets. For the training data, utilize the variable """train_data={}""", and for the test data, employ the variable """test_data={}""". Utilize pandas CSV readers to load the datasets.'
-  Rule_3: 'Do not split the train_data into train and test sets. Use only the given datasets.'
-  Rule_4: 'The user will provide the {} of the dataset with columns appropriately named as attributes, enclosed in triple quotes, and preceded by the prefix "{}".'
-  Rule_5: 'Explicitly analyze feature based on the provided data profiling information and implement data preprocessing tasks: i) handel missing values, ii) select appropriate data transfer for each column specifically (categorical values and numerical values based on min, max, mean, median values), iii) apply data cleaning based on data profiling information.'
-  Rule_6: 'Explicitly implement Outlier removal for Train and Test data based on the provided data profiling information.'
-  Rule_7: 'Explicitly do data augmentation techniques based on the data profiling information (use your knowledge to chose best technique).'
-  Rule_8: 'Explicitly analyze feature based on the provided data profiling information and implement feature engineering task.'
-  Rule_9: 'Do not use ""select_dtypes(include=[\"object\"]).columns"" for extracting categorical features. Use only the Schema Info to infer the categorical columns.'
-  Rule_10: 'Explicitly select a best model based on the data profiling information.'
-  Rule_11: 'Select the appropriate features and target variables for the question. Additional columns add new semantic information, additional columns that are useful for a downstream algorithm predicting "{}". They can e.g. be feature combinations, transformations, aggregations where the new column is a function of the existing columns. Use appropriate scale factor for columns are need to transfer.'
-  Rule_12: 'Perform drops columns, if these may be redundant and hurt the predictive performance of the downstream {} (Feature selection). Dropping columns may help as the chance of overfitting is lower, especially if the dataset is small. The {} will be trained on the dataset with the generated columns and evaluated on a holdout set.'
-  Rule_13: 'In order to avoid runtime error for unseen value on the target feature, do preprocessing based on union of train and test dataset.'
-  Rule_14: 'If the question is not relevant to the dataset or the task, the output should be: "Insufficient information."'
-  Rule_15: 'Do not report validation evaluation. We do not need it.'
+  Rule_1: "**Library Importation**: Always start by importing the necessary libraries and modules required for data manipulation, analysis, and modeling. This includes libraries like `pandas`, `numpy`, `scikit-learn`, and any other specific libraries needed for the task."
+  Rule_2: "**Data Loading**: Load the datasets using `pandas` CSV readers. Assign the training data to the variable `train_data={}` and the test data to `test_data={}`. Ensure that the datasets are loaded exactly as specified without any modifications or splits."
+  Rule_3: "**Dataset Integrity**: Do not split the `train_data` into additional train and test sets. Use only the provided datasets for all analyses and modeling tasks."
+  Rule_4: "**Schema Utilization**: The user will provide the schema of the dataset with columns named as attributes, enclosed in triple quotes, and preceded by a specific prefix. Use this schema to guide data processing."
+  Rule_5: "**Feature Type Adherence**: Use the feature types specified in the schema information strictly. Avoid generalizing Python processing for extracting categorical and numerical values; adhere to the defined feature types."
+  Rule_6: "**Data Preprocessing**: Analyze features based on the provided data profiling information. Implement data preprocessing tasks such as handling missing values, selecting appropriate data transformations for each column (categorical and numerical), and applying data cleaning based on the profiling information."
+  Rule_7: "**Outlier Removal**: Implement outlier removal for both train and test data based on the provided data profiling information."
+  Rule_8: "**Data Augmentation**: Apply data augmentation techniques based on the data profiling information. Use your knowledge to choose the best technique for the given dataset."
+  Rule_9: "**Feature Engineering**: Analyze features based on the provided data profiling information and implement feature engineering tasks to enhance the dataset."
+  Rule_10: "**Categorical Feature Extraction**: Do not use `select_dtypes(include=['object']).columns` for extracting categorical features. Use only the schema information to infer the categorical columns."
+  Rule_11: "**Model Selection**: Select the best model based on the data profiling information. Ensure that the model choice is justified by the dataset characteristics."
+  Rule_12: "**Feature and Target Selection**: Select appropriate features and target variables for the question. Consider additional columns that add new semantic information or are useful for downstream algorithms. Use appropriate scaling for columns that require transformation."
+  Rule_13: "**Feature Selection**: Drop columns that may be redundant and hurt predictive performance. This helps reduce overfitting, especially in small datasets. Train the model on the dataset with the generated columns and evaluate on a holdout set."
+  Rule_14: "**Preprocessing for Unseen Values**: To avoid runtime errors for unseen values in the target feature, perform preprocessing based on the union of train and test datasets."
+  Rule_15: "**Relevance Check**: If the question is not relevant to the dataset or the task, output \"Insufficient information\"."
+  1Rule_6: "**Validation Evaluation**: Do not report validation evaluation results. They are not required for this task."
 
 - Config: CatDBChainDP
   task: 'Task: Generate list of tasks are required for data preprocessing in Python 3.10.'
   input: 'Input: A dataset in CSV format, a schema that describes the columns and data types of the dataset, and a data profiling info that summarizes the statistics and quality of the dataset.'
   output: 'Output: A Python 3.10 code that performs the following steps:'
-  Rule_1: 'Import the necessary libraries and modules.'
-  Rule_2: 'Load the training and test datasets. For the training data, utilize the variable """train_data={}""", and for the test data, employ the variable """test_data={}""". Utilize pandas CSV readers to load the datasets.'
-  Rule_3: 'Explicitly do not split the train_data into train and test sets. Use only the given datasets.'
-  Rule_4: 'The user will provide the {} of the dataset with columns appropriately named as attributes, enclosed in triple quotes, and preceded by the prefix "{}".'
-  Rule_5: 'Explicitly analyze feature based on the provided data profiling information and implement data preprocessing tasks: i) handel missing values by LLM knowledge, ii) select appropriate data transfer for each column specifically (categorical values and numerical values based on min, max, mean, median values) by LLM knowledge, iii) and apply data cleaning based on data profiling information by LLM knowledge.'
-  Rule_6: 'Explicitly implement Outlier removal for Train and Test data based on the provided data profiling information.'
-  Rule_7: 'Explicitly do data augmentation techniques based on the data profiling information (use LLM knowledge to chose best technique).'
-  Rule_8: 'The target feature in the dataset is "{}".'
-  Rule_9: 'Do not display the first few rows of the datasets.'
-  Rule_10: 'If the question is not relevant to the dataset or the task, the output should be: "Insufficient information."'
+  Rule_1: "**Library Importation**: Begin by importing all necessary libraries and modules required for data preprocessing, such as `pandas`, `numpy`, and any other specific libraries needed for handling data."
+  Rule_2: "**Data Loading**: Load the datasets using `pandas` CSV readers. Assign the training data to the variable `train_data={}` and the test data to `test_data={}`. Ensure that the datasets are loaded exactly as specified without any modifications or splits."
+  Rule_3: "**Dataset Integrity**: Do not split the `train_data` into additional train and test sets. Use only the provided datasets for all preprocessing tasks."
+  Rule_4: "**Feature Type Adherence**: Use the feature types specified in the schema information strictly. Avoid generalizing Python processing for extracting categorical and numerical values; adhere to the defined feature types."
+  Rule_5: "**Schema Utilization**: The user will provide the schema of the dataset with columns named as attributes, enclosed in triple quotes, and preceded by a specific prefix. Use this schema to guide data processing."
+  Rule_6: |
+    **Data Preprocessing Tasks**:
+    - **Handle Missing Values**: Use LLM knowledge to determine the best approach for handling missing values based on the data profiling information.
+    - **Data Transformation**: Select appropriate data transformations for each column, specifically for categorical and numerical values, using LLM knowledge. Consider transformations based on min, max, mean, and median values.
+    - **Data Cleaning**: Apply data cleaning techniques based on the data profiling information using LLM knowledge.
+    - **Normalization/Scaling** : Apply normalization or scaling to numerical values to ensure they are on a similar scale.
+  Rule_7: "**Outlier Removal**: Implement outlier removal for both train and test data based on the provided data profiling information."
+  Rule_8: "**Data Augmentation**: Apply data augmentation techniques based on the data profiling information. Use LLM knowledge to choose the best technique for the given dataset."
+  Rule_9: "**Target Feature Identification**: Identify the target feature in the dataset as specified by the user."
+  Rule_10: "**Data Display**: Do not display the first few rows of the datasets. Focus on the preprocessing tasks without visual inspection."
+  Rule_11: "**Relevance Check**: If the question is not relevant to the dataset or the task, output \"Insufficient information\"."
 
 - Config: CatDBChainFE
   task: 'Task: Select the appropriate features and target variables for the question (Feature Engineering Task). Additional columns add new semantic information, additional columns that are useful for a downstream algorithm predicting "{}". They can e.g. be feature combinations, transformations, aggregations where the new column is a function of the existing columns. Use appropriate scale factor for columns are need to transfer.'
   input: 'Input: first draft version of pipline with a Data Preprocessing task enclosed in "<CODE> pipline code will be here. </CODE>", and a schema that describes the columns and data types of the dataset, and a data profiling info that summarizes the statistics and quality of the dataset.'
   output: 'Output: A modified Python 3.10 code with additional feature engineering tasks that performs the following steps:'
-  Rule_1: 'Load the training and test datasets. For the training data, utilize the variable """train_data={}""", and for the test data, employ the variable """test_data={}""". Utilize pandas CSV readers to load the datasets.'
-  Rule_2: 'Explicitly analyze feature based on the provided data profiling information and implement feature engineering task bases on  LLM knowledge.'
-  Rule_3: 'The target feature in the dataset is "{}".'
-  Rule_4: 'Perform drops columns, if these may be redundant and hurt the predictive performance of the downstream {} (Feature selection). Dropping columns may help as the chance of overfitting is lower, especially if the dataset is small. The {} will be trained on the dataset with the generated columns and evaluated on a holdout set.'
-  Rule_5: 'If the question is not relevant to the dataset or the task, the output should be: "Insufficient information."'
-  Rule_6: 'Do not display the first few rows of the datasets.'
+  Rule_1: "**Data Loading**: Load the datasets using `pandas` CSV readers. Assign the training data to the variable `train_data={}` and the test data to `test_data={}`. Ensure that the datasets are loaded exactly as specified without any modifications or splits."
+  Rule_2: "**Feature Engineering Analysis**: Analyze the features based on the provided data profiling information. Use LLM knowledge to identify opportunities for feature engineering, such as creating new features through combinations, transformations, or aggregations of existing columns."
+  Rule_3: "**Target Feature Identification**: Clearly identify the target feature in the dataset as specified by the user. This will guide the feature engineering process to ensure that the new features are relevant to the prediction task."
+  Rule_4: "**Feature Selection**: Evaluate the existing and newly engineered features to identify any that may be redundant or detrimental to the predictive performance of the downstream model. Drop such columns to reduce the risk of overfitting, especially in small datasets. The model will be trained on the dataset with the selected features and evaluated on a holdout set."
+  Rule_5: "**Relevance Check**: If the question is not relevant to the dataset or the task, output \"Insufficient information.\""
+  Rule_6: "**Data Display**: Do not display the first few rows of the datasets. Focus on the feature engineering tasks without visual inspection."
 
 - Config: CatDBChainMS
   task: 'Task: Select an appropriate {} Machine Learning model for the question.'
   input: 'Input: first draft version of pipline with a Data Preprocessing and Feature Engineering task enclosed in "<CODE> pipline code will be here. </CODE>", and a schema that describes the columns and data types of the dataset, and a data profiling info that summarizes the statistics and quality of the dataset.'
   output: 'Output: A modified Python 3.10 code with a Machine Learning algorithm task that performs the following steps:'
-  Rule_1: 'Load the training and test datasets. For the training data, utilize the variable """train_data={}""", and for the test data, employ the variable """test_data={}""". Utilize pandas CSV readers to load the datasets.'
-  Rule_2: 'Explicitly select a best {} model based on the data profiling information for  predicting "{}".'
-  Rule_3: 'Select a suitable hyperparameters for the selected algorithm by LLM knowledge.'
-  Rule_4: 'Do not report validation evaluation. We do not need it.'
+  Rule_1: "**Data Loading**: Load the datasets using `pandas` CSV readers. Assign the training data to the variable `train_data={}` and the test data to `test_data={}`. Ensure that the datasets are loaded exactly as specified without any modifications or splits."
+  Rule_2: "**Model Selection**: Analyze the data profiling information to select the most appropriate machine learning model for the task. Consider the characteristics of the dataset, such as the size, feature types, and target variable, to choose a model that is well-suited for predicting the specified target."
+  Rule_3: "**Hyperparameter Selection**: Use LLM knowledge to select suitable hyperparameters for the chosen algorithm. This involves understanding the model's parameters and how they can be tuned to optimize performance."
+  Rule_4: "**Validation Evaluation**: Do not report validation evaluation results. Focus on selecting and configuring the model without providing validation metrics."
 
 - Config: CodeFormat
   CODE_FORMATTING_IMPORT: |
@@ -87,12 +94,12 @@
     # Calculate the model accuracy, represented by a value between 0 and 1, where 0 indicates low accuracy and 1 signifies higher accuracy. Store the accuracy value in a variable labeled as "Train_Accuracy=..." and "Test_Accuracy=...".
     # Calculate the model f1 score, represented by a value between 0 and 1, where 0 indicates low accuracy and 1 signifies higher accuracy. Store the f1 score value in a variable labeled as "Train_F1_score=..." and "Test_F1_score=...".
     # Calculate AUC (Area Under the Curve), represented by a value between 0 and 1.
-    print(f"Train_AUC:{{Train_AUC}}")
-    print(f"Train_Accuracy:{{Train_Accuracy}}")   
-    print(f"Train_F1_score:{{Train_F1_score}}")
-    print(f"Test_AUC:{{Test_AUC}}")
-    print(f"Test_Accuracy:{{Test_Accuracy}}")   
-    print(f"Test_F1_score:{{Test_F1_score}}")
+    # print(f"Train_AUC:{{Train_AUC}}")
+    # print(f"Train_Accuracy:{{Train_Accuracy}}")   
+    # print(f"Train_F1_score:{{Train_F1_score}}")
+    # print(f"Test_AUC:{{Test_AUC}}")
+    # print(f"Test_Accuracy:{{Test_Accuracy}}")   
+    # print(f"Test_F1_score:{{Test_F1_score}}")
 
   CODE_FORMATTING_MULTICLASS_EVALUATION: | 
     Code formatting for multiclass classification evaluation:

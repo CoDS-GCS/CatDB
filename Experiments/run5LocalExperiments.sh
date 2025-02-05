@@ -66,7 +66,7 @@ CMD=./explocal/exp2_catdb/runExperiment2.sh
 # $CMD Allstate regression
 
 $CMD KDD98 binary
-$CMD KDDCup09 binary
+# $CMD KDDCup09 binary
 
 
 # End to End Datasets

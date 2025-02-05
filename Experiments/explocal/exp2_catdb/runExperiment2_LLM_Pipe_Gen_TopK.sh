@@ -23,7 +23,7 @@ system_log="${exp_path}/system-log-${date}.dat"
 output_path="${exp_path}/catdb-results/${dataset}"
 mkdir -p ${output_path}
 
-result_output_path="${exp_path}/results/Experiment2_LLM_Pipe_Gen_TopK_${topk}_${prompt_representation_type}.dat"
+result_output_path="${exp_path}/results/Experiment2_LLM_Pipe_Gen_TopK_${prompt_representation_type}.dat"
 error_output_path="${exp_path}/LLM_Pipe_Error.dat"
 
 cd "${exp_path}/setup/Baselines/CatDB/"

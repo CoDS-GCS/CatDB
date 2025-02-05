@@ -10,6 +10,7 @@ prompt_number_samples=$5
 task_type=$6
 llm_model=$7
 with_dataset_description=$8
+chain_size=$9
 
 metadata_path="${data_path}/${dataset}/${dataset}.yaml"
 number_iteration=5
@@ -41,6 +42,7 @@ SCRIPT="python -Wignore main_chain.py --metadata-path ${metadata_path} \
         --result-output-path ${result_output_path} \
         --dataset-description ${with_dataset_description} \
         --error-output-path ${error_output_path} \
+        --chain-size ${chain_size} \
         --system-log ${system_log}"
 
 

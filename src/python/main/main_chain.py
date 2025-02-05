@@ -31,6 +31,7 @@ def parse_arguments():
     parser.add_argument('--error-output-path', type=str, default="/tmp/catdb_error.csv")
     parser.add_argument('--run-code', type=bool, default=False)
     parser.add_argument('--system-log', type=str, default="/tmp/catdb-system-log.dat")
+    parser.add_argument('--chain-size', type=int, default=10)
     parser.add_argument('--categorical-values-restricted-size', type=int, default=CATEGORICAL_VALUES_RESTRICTED_SIZE)
 
     args = parser.parse_args()
@@ -150,7 +151,7 @@ if __name__ == '__main__':
                                                 file_format="JSON",
                                                 target_attribute=args.target_attribute,
                                                 enable_reduction=args.enable_reduction,
-                                                categorical_values_restricted_size=-1, chunk_size=25)
+                                                categorical_values_restricted_size=-1, chunk_size=args.chain_size)
     time_end = time.time()
     time_catalog = time_end - time_start
 

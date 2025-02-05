@@ -33,34 +33,10 @@ CMDTopK=./explocal/exp2_catdb/runExperiment2_LLM_Pipe_Gen_TopK.sh
 # $CMD ${dataset} ${catalog_path} CatDBChain Random 0 ${task_type} llama-3.1-70b-versatile No
 # $CMD ${dataset} ${catalog_path} CatDBChain Random 0 ${task_type} gemini-1.5-pro-latest No
 
-#$CMDChain ${dataset} ${catalog_path} CatDBChain Random 0 ${task_type} gemini-1.5-pro-latest No
+#$CMDChain ${dataset} ${catalog_path} CatDBChain Random 0 ${task_type} gemini-1.5-pro-latest No 20
 #$CMDChain ${dataset} ${catalog_path} CatDBChain Random 0 ${task_type} deepseek-chat No
 
 $CMDTopK ${dataset} ${catalog_path} CatDB Random 0 ${task_type} gemini-1.5-pro-latest No 20
-$CMDTopK ${dataset} ${catalog_path} CatDB Random 0 ${task_type} gemini-1.5-pro-latest No 40
-$CMDTopK ${dataset} ${catalog_path} CatDB Random 0 ${task_type} gemini-1.5-pro-latest No 60
-$CMDTopK ${dataset} ${catalog_path} CatDB Random 0 ${task_type} gemini-1.5-pro-latest No 80
-$CMDTopK ${dataset} ${catalog_path} CatDB Random 0 ${task_type} gemini-1.5-pro-latest No 100
-$CMDTopK ${dataset} ${catalog_path} CatDB Random 0 ${task_type} gemini-1.5-pro-latest No 120
-$CMDTopK ${dataset} ${catalog_path} CatDB Random 0 ${task_type} gemini-1.5-pro-latest No 140
-$CMDTopK ${dataset} ${catalog_path} CatDB Random 0 ${task_type} gemini-1.5-pro-latest No 160
-$CMDTopK ${dataset} ${catalog_path} CatDB Random 0 ${task_type} gemini-1.5-pro-latest No 180
-$CMDTopK ${dataset} ${catalog_path} CatDB Random 0 ${task_type} gemini-1.5-pro-latest No 200
-$CMDTopK ${dataset} ${catalog_path} CatDB Random 0 ${task_type} gemini-1.5-pro-latest No 220
-$CMDTopK ${dataset} ${catalog_path} CatDB Random 0 ${task_type} gemini-1.5-pro-latest No 240
-$CMDTopK ${dataset} ${catalog_path} CatDB Random 0 ${task_type} gemini-1.5-pro-latest No 260
-$CMDTopK ${dataset} ${catalog_path} CatDB Random 0 ${task_type} gemini-1.5-pro-latest No 280
-$CMDTopK ${dataset} ${catalog_path} CatDB Random 0 ${task_type} gemini-1.5-pro-latest No 300
-$CMDTopK ${dataset} ${catalog_path} CatDB Random 0 ${task_type} gemini-1.5-pro-latest No 320
-$CMDTopK ${dataset} ${catalog_path} CatDB Random 0 ${task_type} gemini-1.5-pro-latest No 340
-$CMDTopK ${dataset} ${catalog_path} CatDB Random 0 ${task_type} gemini-1.5-pro-latest No 360
-$CMDTopK ${dataset} ${catalog_path} CatDB Random 0 ${task_type} gemini-1.5-pro-latest No 380
-$CMDTopK ${dataset} ${catalog_path} CatDB Random 0 ${task_type} gemini-1.5-pro-latest No 400
-$CMDTopK ${dataset} ${catalog_path} CatDB Random 0 ${task_type} gemini-1.5-pro-latest No 420
-$CMDTopK ${dataset} ${catalog_path} CatDB Random 0 ${task_type} gemini-1.5-pro-latest No 440
-$CMDTopK ${dataset} ${catalog_path} CatDB Random 0 ${task_type} gemini-1.5-pro-latest No 460
-$CMDTopK ${dataset} ${catalog_path} CatDB Random 0 ${task_type} gemini-1.5-pro-latest No 480
-
 
 # Run Pipeline Localy
 # $CMDRunPipeline ${dataset} CatDB Random 0 ${task_type} gemini-1.5-pro-latest No 1 "${dataset}_train" "${dataset}_test" "M"

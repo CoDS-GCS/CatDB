@@ -57,7 +57,7 @@ def parse_arguments():
                 args.data_source_path = f"{args.root_data_path}/{args.dataset_name}/{args.dataset_name}.csv"
                 args.data_source_train_path = f"{args.root_data_path}/{config_data[0].get('dataset').get('train')}"
                 args.data_source_test_path = f"{args.root_data_path}/{config_data[0].get('dataset').get('test')}"
-                args.data_source_verify_path = f"{args.root_data_path}/{config_data[0].get('dataset').get('train')}"
+                args.data_source_verify_path = f"{args.root_data_path}/{config_data[0].get('dataset').get('verify')}"
                 args.data_source_train_clean_path = f"{args.data_source_train_path.replace('.csv','')}_clean.csv"
                 args.data_source_test_clean_path = f"{args.data_source_test_path.replace('.csv','')}_clean.csv"
                 args.data_source_verify_clean_path = f"{args.data_source_verify_path.replace('.csv','')}_clean.csv"
@@ -110,21 +110,31 @@ if __name__ == '__main__':
     dependencies = load_dependency_info(dependency_file=dependency_file, datasource_name=args.dataset_name)
     load_config(system_log=args.system_log, llm_model=args.llm_model, rules_path="Rules.yaml", evaluation_acc=False,
                 api_config_path="APIKeys.yaml", enable_cache=False)
-    catalog = load_data_source_profile_TopK(data_source_path=data_profile_path,
-                                                file_format="JSON",
-                                                target_attribute=args.target_attribute,
-                                                enable_reduction=args.enable_reduction,
-                                                categorical_values_restricted_size=-1, k=args.topk)
-    time_end = time.time()
-    time_catalog = time_end - time_start
-    ti = 0
-    t = args.prompt_number_iteration * 2
-    while begin_iteration < args.prompt_number_iteration + end_iteration:
-        final_status, code = generate_and_verify_pipeline(args=args, catalog=[catalog], run_mode=__execute_mode,
-                            time_catalog=time_catalog, iteration=begin_iteration, dependency=dependencies)
-        if final_status:
-            begin_iteration += 1
 
-        ti += 1
-        if ti > t:
+    k = args.topk
+    flag = True
+    while True:
+        catalog = load_data_source_profile_TopK(data_source_path=data_profile_path,
+                                                    file_format="JSON",
+                                                    target_attribute=args.target_attribute,
+                                                    enable_reduction=args.enable_reduction,
+                                                    categorical_values_restricted_size=-1, k=k)
+        time_end = time.time()
+        time_catalog = time_end - time_start
+        ti = 0
+        t = args.prompt_number_iteration * 2
+        while begin_iteration < args.prompt_number_iteration + end_iteration:
+            final_status, code = generate_and_verify_pipeline(args=args, catalog=[catalog], run_mode=__execute_mode,
+                                time_catalog=time_catalog, iteration=k, dependency=dependencies)
+            if final_status:
+                begin_iteration += 1
+
+            ti += 1
+            if ti > t:
+                break
+        k += args.topk
+        if k >= catalog.ncols and flag:
+            k = catalog.ncols
+            flag = False
+        elif flag == False:
             break

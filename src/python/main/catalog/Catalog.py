@@ -325,7 +325,7 @@ def load_data_source_profile_TopK(data_source_path: str, file_format: str, targe
             for col in calc_corrolation(cols=columns_categorical, k = ck, embedding=embedding):
                 columns_categorical_topk.append(col)
                 if col in columns_categorical_missing_values:
-                    columns_categorical_missing_values_topk.append(ch)
+                    columns_categorical_missing_values_topk.append(col)
         if ck < k:
             ck = min(k-ck, len(columns_others)+len(columns_numerical))
             cols = []
@@ -335,7 +335,7 @@ def load_data_source_profile_TopK(data_source_path: str, file_format: str, targe
                 if col in columns_numerical:
                     columns_numerical_topk.append(col)
                     if col in columns_categorical_missing_values:
-                        columns_numerical_missing_values_topk.append(ch)
+                        columns_numerical_missing_values_topk.append(col)
                 else:
                     for col in columns_others:
                         columns_others_topk.append(col)

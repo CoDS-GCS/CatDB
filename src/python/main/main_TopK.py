@@ -101,11 +101,7 @@ if __name__ == '__main__':
         __sub_task_feature_engineering, __sub_task_model_selection
 
     args = parse_arguments()
-    begin_iteration = 1
-    end_iteration = 1
-
     data_profile_path = f"{args.catalog_path}/data_profile"
-    time_start = time.time()
     dependency_file = f"{args.catalog_path}/dependency.yaml"
     dependencies = load_dependency_info(dependency_file=dependency_file, datasource_name=args.dataset_name)
     load_config(system_log=args.system_log, llm_model=args.llm_model, rules_path="Rules.yaml", evaluation_acc=False,
@@ -114,6 +110,7 @@ if __name__ == '__main__':
     k = args.topk
     flag = True
     while True:
+        time_start = time.time()
         catalog = load_data_source_profile_TopK(data_source_path=data_profile_path,
                                                     file_format="JSON",
                                                     target_attribute=args.target_attribute,
@@ -122,7 +119,9 @@ if __name__ == '__main__':
         time_end = time.time()
         time_catalog = time_end - time_start
         ti = 0
-        t = args.prompt_number_iteration * 2
+        t = args.prompt_number_iteration * 5
+        begin_iteration = 1
+        end_iteration = 1
         while begin_iteration < args.prompt_number_iteration + end_iteration:
             final_status, code = generate_and_verify_pipeline(args=args, catalog=[catalog], run_mode=__execute_mode,
                                 time_catalog=time_catalog, iteration=k, dependency=dependencies)

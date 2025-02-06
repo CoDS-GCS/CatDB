@@ -554,7 +554,7 @@ def load_data_source_profile_as_chunck(data_source_path: str, file_format: str, 
             if col in columns_categorical:
                 columns_categorical_ch.append(col)
                 if col in columns_categorical_missing_values:
-                    columns_categorical_missing_values_ch.append(ch)
+                    columns_categorical_missing_values_ch.append(col)
             elif col in columns_numerical:
                 columns_numerical_ch.append(col)
                 if col in columns_numerical_missing_values:

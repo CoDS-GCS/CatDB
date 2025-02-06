@@ -86,7 +86,7 @@ def parse_arguments():
         args.prompt_number_iteration = 1
 
     if args.prompt_representation_type in {"CatDB", "CatDBChain"}:
-        args.enable_reduction = True
+        args.enable_reduction = False
 
     if args.dataset_description.lower() == "yes":
         dataset_description_path = args.metadata_path.replace(".yaml", ".txt")

@@ -65,7 +65,7 @@ CMD=./explocal/exp2_catdb/runExperiment2.sh
 # $CMD Topo regression
 # $CMD Allstate regression
 
-# $CMD KDD98 binary
+$CMD KDD98 binary
 # $CMD KDDCup09 binary
 
 # $CMD ML2017-challenge-3 multiclass

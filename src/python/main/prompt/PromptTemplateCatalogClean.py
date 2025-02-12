@@ -17,7 +17,7 @@ class CatalogCleaningPrompt(BasicPrompt):
             return None, None
         prompt_items.append(schema_data)
         prompt_items.append(f'Question: {self.question}')
-        return f"\n\n{_user_delimiter}".join(prompt_items), None
+        return f"\n\n{_user_delimiter}".join(prompt_items), None, None, None
 
     def format_schema_none_categorical_data(self):
         content = []

@@ -1,0 +1,51 @@
+# ```python
+import pandas as pd
+original_data = pd.read_csv('/home/saeed/Documents/Github/CatDB/Experiments/data/KDD98/KDD98.csv')
+clean_data_path = '/home/saeed/Documents/Github/CatDB/Experiments/data/KDD98/KDD98_Google_clean.csv'
+
+original_data['HOMEOWNR'] = original_data['HOMEOWNR'].replace('_', None)
+original_data['AGEFLAG'] = original_data['AGEFLAG'].replace('_', None)
+original_data['PVASTATE'] = original_data['PVASTATE'].replace('_', None)
+original_data['NOEXCH'] = original_data['NOEXCH'].replace('_', None)
+original_data['DATASRCE'] = original_data['DATASRCE'].replace('_', None)
+original_data['CHILD18'] = original_data['CHILD18'].replace('_', None)
+original_data['LIFESRC'] = original_data['LIFESRC'].replace('_', None)
+original_data['CHILD03'] = original_data['CHILD03'].replace('_', None)
+original_data['CHILD07'] = original_data['CHILD07'].replace('_', None)
+original_data['CHILD12'] = original_data['CHILD12'].replace('_', None)
+original_data['GEOCODE2'] = original_data['GEOCODE2'].replace('_', None)
+original_data['GENDER'] = original_data['GENDER'].replace('_', None)
+original_data['SOLP3'] = original_data['SOLP3'].replace('_', None)
+original_data['GEOCODE'] = original_data['GEOCODE'].replace('_', None)
+original_data['SOLIH'] = original_data['SOLIH'].replace('_', None)
+original_data['DOMAIN'] = original_data['DOMAIN'].replace('_', None)
+original_data['RFA_15'] = original_data['RFA_15'].replace('_', None)
+original_data['CLUSTER'] = original_data['CLUSTER'].replace('_', None)
+original_data['RFA_5'] = original_data['RFA_5'].replace('_', None)
+original_data['RFA_4'] = original_data['RFA_4'].replace('_', None)
+original_data['RFA_3'] = original_data['RFA_3'].replace('_', None)
+original_data['RFA_20'] = original_data['RFA_20'].replace('_', None)
+original_data['RFA_23'] = original_data['RFA_23'].replace('_', None)
+original_data['RFA_13'] = original_data['RFA_13'].replace('_', None)
+original_data['RFA_10'] = original_data['RFA_10'].replace('_', None)
+original_data['RFA_24'] = original_data['RFA_24'].replace('_', None)
+original_data['RFA_14'] = original_data['RFA_14'].replace('_', None)
+original_data['RFA_21'] = original_data['RFA_21'].replace('_', None)
+original_data['RFA_11'] = original_data['RFA_11'].replace('_', None)
+original_data['RFA_7'] = original_data['RFA_7'].replace('_', None)
+original_data['RFA_9'] = original_data['RFA_9'].replace('_', None)
+original_data['RFA_8'] = original_data['RFA_8'].replace('_', None)
+original_data['RFA_19'] = original_data['RFA_19'].replace('_', None)
+original_data['RFA_12'] = original_data['RFA_12'].replace('_', None)
+original_data['RFA_6'] = original_data['RFA_6'].replace('_', None)
+original_data['RFA_22'] = original_data['RFA_22'].replace('_', None)
+original_data['RFA_17'] = original_data['RFA_17'].replace('_', None)
+original_data['RFA_18'] = original_data['RFA_18'].replace('_', None)
+original_data['RFA_16'] = original_data['RFA_16'].replace('_', None)
+original_data['OSOURCE'] = original_data['OSOURCE'].replace('_', None)
+
+
+
+
+original_data.to_csv(clean_data_path, index=False)
+# ```end

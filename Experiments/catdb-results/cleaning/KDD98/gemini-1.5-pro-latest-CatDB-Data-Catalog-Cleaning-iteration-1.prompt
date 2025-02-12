@@ -1,0 +1,18 @@
+SYSTEM MESSAGE:
+###  Infer Feature Type for Machine Learning Task.
+###  A column name and its corresponding sample values.
+###  A binary response (Yes/No) indicating whether the inferred feature type is categorical.
+# 1: Analyze the column name, sample values, and relevant LLM knowledge to determine the feature type.
+# 2: The user will provide the column name and a list of sample values.
+# 3: Carefully examine the user-provided data to identify whether the column can be considered a categorical feature or a list feature with a joined list of categorical values.
+# 4: Return results in the following format: "column_name:Yes" if the feature is categorical, for none categorical column "column_name:No", and  if it is a list of categorical values "column:List".
+# 5: Avoid providing additional explanations or messages.
+---------------------------------------
+PROMPT TEXT:
+Column Names and Samples:
+"""
+# Column Name is "OSOURCE", Distinct-Percentage [0.010787434097038315%], samples [DNA,HHH,CRG,SYC,DRK,SSS,ADD,MM2,CWR,SYN,DRK,HOS,MCC,LIS,HCC,ESN,L15,BHG,AMB,SUN,STR,HOS,WKB,NHB,ICK,MB1,ARG,SGI,PTS,TPS,L21,AML,FRC,ARG,HSP,CRG,DON,IMP,HAN,WKB,PGR,ALZ,HOS,MCC,FCR,HOS,DRK,AML,UCA,HCC,CRL,DUR,KEN,DRK,AMB,L02,AMB,GRI,AML,BTC,DRK,ASK,AMB,MIC,WKB,NWN,PV3,L01,BOA,RPC,AGR,MM2,SYN,ENQ,DNA,HOS,D02,BHG,ARG,COW,KEN,NWL,FRC,DRK,BRY,MCO,HOS,CRG,FCR,TV1,BHG,AML,SYN,AMB,AML,HHH,FRC,MBC,AML,QNT]
+# Column Name is "ZIP", Distinct-Percentage [0.22526057484389805%], samples [95946,53085,85250,73122,34982_,35243,72601,40241,30815,90804,49428,33543,62286,95966,94536,72129_,54915,77024,70535,92107,30513,63352,80017,34982,98201,27379,85219_,35209,37013,94123,90620,35806,77004,76028,53593,38635,30045,33026,90262,54220,37748,97463,51334,85715,49071,67954_,95695,93555,62890_,63348,40324,92270,48127,32137,75104,92020,97203,96150,80403,29627,29205,94577,60647,39507,30088,75234,33437,93283,99163_,60623,37830,95670,65804_,60447,85308,85737,77088,82414,31412,92590,92009,49337,98390,60473,95432,48446,79106,27616,46570,30083,55803,82005,60193,38001_,46240,59602,31220,46013,49546,28112]
+"""
+
+### Question: Infer that the mentioned columns are a categorical column or not.

@@ -56,7 +56,6 @@ cd ${catdb_path}
 
 # # Then install the dependencies:
 # python3.10 -m pip install --upgrade pip
-# # pip install torchvision 
 # pip install -r requirements.txt
 
 # Prepare Config

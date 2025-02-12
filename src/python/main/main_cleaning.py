@@ -74,9 +74,9 @@ if __name__ == '__main__':
     dependency_file = f"{args.catalog_path}/dependency.yaml"
     dependencies = load_dependency_info(dependency_file=dependency_file, datasource_name=args.dataset_name)
 
-    load_config(system_log=args.system_log, llm_model=args.llm_model, rules_path="Rules.yaml")
+    load_config(system_log=args.system_log, llm_model=args.llm_model, rules_path="Rules.yaml", api_config_path="APIKeys.yaml")
 
-    # clean_data_catalog(args=args, data_profile_path=data_profile_path, time_catalog=0, iteration=begin_iteration)
+    clean_data_catalog(args=args, data_profile_path=data_profile_path, time_catalog=0, iteration=begin_iteration)
 
     # check the data clean is available:
-    clean_categorical_data(args=args, data_profile_path=data_profile_path, time_catalog=0, iteration=begin_iteration)
+    #clean_categorical_data(args=args, data_profile_path=data_profile_path, time_catalog=0, iteration=begin_iteration)

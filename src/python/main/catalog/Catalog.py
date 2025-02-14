@@ -102,7 +102,7 @@ def load_data_source_profile(data_source_path: str, file_format: str, target_att
             if profile.short_data_type == 'list':
                 continue
 
-            if profile.is_categorical and profile.short_data_type != 'bool':
+            if profile.is_categorical and profile.short_data_type not in {'bool', 'float'}:
                 columns_categorical.append(profile.column_name)
                 if profile.missing_values_count > 0 and profile.column_name != target_attribute:
                     columns_categorical_missing_values.append(profile.column_name)
@@ -228,7 +228,8 @@ def load_data_source_profile_TopK(data_source_path: str, file_format: str, targe
             if profile.short_data_type == 'list':
                 continue
 
-            if profile.is_categorical and profile.short_data_type != 'bool':
+
+            if profile.is_categorical and profile.short_data_type not in {'bool', 'float', 'int'}:
                 columns_categorical.append(profile.column_name)
                 if profile.missing_values_count > 0 and profile.column_name != target_attribute:
                     columns_categorical_missing_values.append(profile.column_name)
@@ -466,7 +467,7 @@ def load_data_source_profile_as_chunck(data_source_path: str, file_format: str, 
             if profile.short_data_type == 'list':
                 continue
 
-            if profile.is_categorical and profile.short_data_type != 'bool':
+            if profile.is_categorical and profile.short_data_type not in {'bool', 'float'}:
                 columns_categorical.append(profile.column_name)
                 if profile.missing_values_count > 0:
                     columns_categorical_missing_values.append(profile.column_name)

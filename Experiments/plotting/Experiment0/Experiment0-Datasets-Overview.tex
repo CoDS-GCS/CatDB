@@ -64,14 +64,15 @@
 %
 \nextgroupplot[
   ymin=0,
-  ymax=200,
+  ymax=478,
   enlarge x limits=0.1,
   ylabel={},%{Attribute's Count},
   %xlabel style = {yshift=-6pt, xshift=0pt},
-  xlabel={},%{|Features| > 100},  
+  xlabel={},%{|Features| > 100}, 
+  ytick={0,100,200,300,400,500}, 
   xtick = data,
   width=0.48\columnwidth,   
-  symbolic x coords={Financial, Airline, Gas-Drift,Volkert,Yelp}
+  symbolic x coords={Financial, Airline, Gas-Drift,Volkert,Yelp, KDD98}
 ]
 \addplotStatistics{../archive/VLDB2025/statistics/dataset_overview_large.dat}
 \end{groupplot}
@@ -80,6 +81,6 @@
 	}};
 
   \node [draw=none,inner sep=0, font=\small, anchor=west] at (rel axis cs: 0.4,0.85) {|Features|<50};
-  \node [draw=none,inner sep=0, font=\small, anchor=west] at (rel axis cs: 3.15,0.85) {|Features|>50};
+  \node [draw=none,inner sep=0, font=\small, anchor=west] at (rel axis cs: 3.25,0.85) {|Features|>50};
 
 \end{tikzpicture}

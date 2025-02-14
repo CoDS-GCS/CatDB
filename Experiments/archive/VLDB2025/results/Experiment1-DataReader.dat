@@ -3,19 +3,20 @@ ID,dataset,time
 2,Diabetes,650
 3,Tic-Tac-Toe,816
 4,IMDB,88732
-5,Walking,756
-6,CMC,763
-7,EU IT,668
-8,Survey,844
-9,Etailing,717
-10,Accidents,6329
-11,Financial,4591
-12,Airline,11503
-13,Gas-Drift,1037
-14,Volkert,2114
-15,Yelp,8213
-16,Bike-Sharing,736
-17,Utility,708
-18,NYC,1324
-19,House-Sales,786
+5,KDD98,4788
+6,Walking,756
+7,CMC,763
+9,EU IT,668
+9,Survey,844
+10,Etailing,717
+11,Accidents,6329
+12,Financial,4591
+13,Airline,11503
+14,Gas-Drift,1037
+15,Volkert,2114
+16,Yelp,8213
+17,Bike-Sharing,736
+18,Utility,708
+19,NYC,1324
+20,House-Sales,786
 

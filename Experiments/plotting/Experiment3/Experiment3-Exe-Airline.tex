@@ -81,8 +81,8 @@
   ytick pos=left,
   yticklabel style = {font=\large},
   ylabel style = {font=\large, yshift=0pt, xshift=-5pt},
-  height=.5\columnwidth,
-  width=.79\columnwidth,
+  height=.50\columnwidth,
+  width=.87\columnwidth,
   ymajorgrids=true,
   grid style=dotted,
   minor grid style={gray!70},
@@ -91,7 +91,7 @@
   every axis plot/.append style={line width=0.4pt,mark options={scale=1.5,solid}},  
   xticklabel style = {font=\normalsize, xshift=0pt, yshift=3pt},
   legend image post style={line width=.5pt},          
-  bar width=7pt,         
+  bar width=8.3pt,         
   ytick={0,2,4,6,8,10},
   yticklabels={0,2,4,6,8,10},              
   every x tick/.style={ draw=none},
@@ -100,16 +100,17 @@
   xticklabels={\hspace{0.6cm}Gemini-1.5, \hspace{0.1cm}Llama3.1-70b, \hspace{-0.64cm}GPT-4o},
   legend image code/.code={\draw [#1] (0cm,-0.1cm) rectangle (0.25cm,0.1cm); }, 
 ]
-\myaddplotds{gemini-1.5-pro-latest}{Airline}{-5.5pt}{1.5pt}{8.5pt}{15.5pt}{8.5pt}{15.5pt}
-\myaddplotds{llama-3.1-70b-versatile}{Airline}{-20pt}{-13pt}{-6pt}{0pt}{-6pt}{1pt}
-\myaddplotds{gpt-4o}{Airline}{-30pt}{-23pt}{-16pt}{-9pt}{-16pt}{-9pt}
 
-\node [draw=black,inner sep=1mm, font=\normalsize, anchor=east] at (rel axis cs:1,0.94) {Runtime};
+\myaddplotds{gemini-1.5-pro-latest}{Airline}{-5.7pt}{2.6pt}{11pt}{19pt}{10.9pt}{19.2pt}
+\myaddplotds{llama-3.1-70b-versatile}{Airline}{-25.3pt}{-17pt}{-8.7pt}{0pt}{0pt}{-8.7pt}
+\myaddplotds{gpt-4o}{Airline}{-30.3pt}{-22pt}{-13.7pt}{-5pt}{-13.7pt}{-13.7pt}
 
 \end{axis}
 
-\node [draw=none,inner sep=0, font=\normalsize, anchor=west, rotate=90] (leg1) at (rel axis cs: 0.28,0.02) {$\times$ CAAFE};
-\node [draw=none,inner sep=0, font=\normalsize, anchor=west, rotate=90] (leg1) at (rel axis cs: 0.62,0.02) {$\times$ CAAFE};
-\node [draw=none,inner sep=0, font=\normalsize, anchor=west, rotate=90] (leg1) at (rel axis cs: 1,0.02) {$\times$ CAAFE};
+\node [draw=none,inner sep=0, font=\normalsize, anchor=west, rotate=90] (leg1) at (rel axis cs: 0.3,0.02) {$\times$ CAAFE};
+\node [draw=none,inner sep=0, font=\normalsize, anchor=west, rotate=90] (leg1) at (rel axis cs: 0.56,0.02) {$\times$ AIDE};
+\node [draw=none,inner sep=0, font=\normalsize, anchor=west, rotate=90] (leg1) at (rel axis cs: 0.61,0.02) {$\times$ CAAFE};
+\node [draw=none,inner sep=0, font=\normalsize, anchor=west, rotate=90] (leg1) at (rel axis cs: 0.97,0.02) {$\times$ AIDE};
+\node [draw=none,inner sep=0, font=\normalsize, anchor=west, rotate=90] (leg1) at (rel axis cs: 1.02,0.02) {$\times$ CAAFE};
 
 \end{tikzpicture}

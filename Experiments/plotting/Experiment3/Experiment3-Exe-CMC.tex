@@ -71,7 +71,7 @@
   x tick label style={/pgf/number format/1000 sep={}},  
   scaled y ticks=false,
   axis line style={black, line width=0.3pt},
-  enlarge y limits={0.19,upper},
+  enlarge y limits={0.05,upper},
   enlarge x limits=0.07,
   ylabel={Execution Time [m]},
   xlabel={},
@@ -81,8 +81,8 @@
   ytick pos=left,
   yticklabel style = {font=\large},
   ylabel style = {font=\large, yshift=0pt, xshift=-5pt},
-  height=.5\columnwidth,
-  width=.79\columnwidth,
+  height=.50\columnwidth,
+  width=.87\columnwidth,
   ymajorgrids=true,
   grid style=dotted,
   minor grid style={gray!70},
@@ -91,20 +91,18 @@
   every axis plot/.append style={line width=0.4pt,mark options={scale=1.5,solid}},  
   xticklabel style = {font=\normalsize, xshift=0pt, yshift=3pt},
   legend image post style={line width=.5pt},          
-  bar width=7pt,         
-  ytick={0,2,4,6,8,10},
-  yticklabels={0,2,4,6,8,10},              
+  bar width=8.3pt,         
+  ytick={0,2,4,6,8,10,12,14,16},
+  yticklabels={0,2,4,6,8,10,12,14,16},              
   every x tick/.style={ draw=none},
   xtick = data,
   symbolic x coords={gemini-1.5-pro-latest, llama-3.1-70b-versatile, gpt-4o},
   xticklabels={\hspace{0.6cm}Gemini-1.5, \hspace{0.1cm}Llama3.1-70b, \hspace{-0.64cm}GPT-4o},
   legend image code/.code={\draw [#1] (0cm,-0.1cm) rectangle (0.25cm,0.1cm); }, 
 ]
-\myaddplotds{gemini-1.5-pro-latest}{CMC}{-5.5pt}{1.5pt}{8.5pt}{15.5pt}{22.5pt}{29.5pt}
-\myaddplotds{llama-3.1-70b-versatile}{CMC}{-20pt}{-13pt}{-6pt}{1pt}{8pt}{15pt}
-\myaddplotds{gpt-4o}{CMC}{-30pt}{-23pt}{-16pt}{-9pt}{-3pt}{-3pt}
-
-\node [draw=black,inner sep=1mm, font=\normalsize, anchor=east] at (rel axis cs:1,0.94) {Runtime};
+\myaddplotds{gemini-1.5-pro-latest}{CMC}{-5.7pt}{2.6pt}{10.9pt}{19.2pt}{27.5pt}{35.8pt}
+\myaddplotds{llama-3.1-70b-versatile}{CMC}{-24pt}{-15.7pt}{-7.4pt}{0.9pt}{9.2pt}{17.5pt}
+\myaddplotds{gpt-4o}{CMC}{-35.5pt}{-27.2pt}{-18.9pt}{-10.6pt}{-2.3pt}{6pt}
 
 \end{axis}
 

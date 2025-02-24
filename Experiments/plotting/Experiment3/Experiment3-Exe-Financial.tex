@@ -74,7 +74,7 @@
   axis line style={black, line width=0.3pt},
   enlarge y limits={0.19,upper},
   enlarge x limits=0.07,
-  ylabel={Execution Time [m]},
+  ylabel={},%{Execution Time [m]},
   xlabel={},
   log ticks with fixed point,
   xtick align=outside,
@@ -83,7 +83,7 @@
   yticklabel style = {font=\large},
   ylabel style = {font=\large, yshift=0pt, xshift=-5pt},
   height=.5\columnwidth,
-  width=.79\columnwidth,
+  width=.87\columnwidth,
   ymajorgrids=true,
   grid style=dotted,
   minor grid style={gray!70},
@@ -92,7 +92,7 @@
   every axis plot/.append style={line width=0.4pt,mark options={scale=1.5,solid}},  
   xticklabel style = {font=\normalsize, xshift=0pt, yshift=3pt},
   legend image post style={line width=.5pt},          
-  bar width=7pt,         
+  bar width=8.3pt,         
   ytick={0.11,1,10,100,1000,10000},
   yticklabels={0,1,10,$10^2$,$10^3$,$10^4$},             
   every x tick/.style={ draw=none},
@@ -101,21 +101,20 @@
   xticklabels={\hspace{0.6cm}Gemini-1.5, \hspace{0.1cm}Llama3.1-70b, \hspace{-0.64cm}GPT-4o},
   legend image code/.code={\draw [#1] (0cm,-0.1cm) rectangle (0.25cm,0.1cm); }, 
 ]
-\myaddplotds{gemini-1.5-pro-latest}{Financial}{-5.5pt}{1.5pt}{8.5pt}{15.5pt}{8.5pt}{15.5pt}
-\myaddplotds{llama-3.1-70b-versatile}{Financial}{-20pt}{-13pt}{-6pt}{0pt}{-6pt}{1pt}
-\myaddplotds{gpt-4o}{Financial}{-30pt}{-23pt}{-16pt}{-9pt}{-16pt}{-9pt}
-
-\node [draw=black,inner sep=1mm, font=\normalsize, anchor=east] at (rel axis cs:1,0.94) {Runtime};
+\myaddplotds{gemini-1.5-pro-latest}{Financial}{-5.7pt}{2.6pt}{10.9pt}{19.2pt}{27.5pt}{19.2pt}
+\myaddplotds{llama-3.1-70b-versatile}{Financial}{-24pt}{-15.7pt}{-7.4pt}{0.9pt}{9.2pt}{0.9pt}
+\myaddplotds{gpt-4o}{Financial}{-34pt}{-25.7pt}{-17.4pt}{-9.1pt}{-0.8pt}{-9.1pt}
 
 \end{axis}
 
-\node [draw=none,inner sep=0, font=\normalsize, anchor=west, rotate=90] (leg1) at (rel axis cs: 0.28,0.33) {$\times$ AIDE};
-\node [draw=none,inner sep=0, font=\normalsize, anchor=west, rotate=90] (leg1) at (rel axis cs: 0.33,0.33) {$\times$ TabPFN};
+\node [draw=none,inner sep=0, font=\normalsize, anchor=west, rotate=90] (leg1) at (rel axis cs: 0.29,0.32) {$\times$ AIDE};
+\node [draw=none,inner sep=0, font=\normalsize, anchor=west, rotate=90] (leg1) at (rel axis cs: 0.34,0.32) {$\times$ TabPFN};
 
-\node [draw=none,inner sep=0, font=\normalsize, anchor=west, rotate=90] (leg1) at (rel axis cs: 0.62,0.33) {$\times$ AIDE};
-\node [draw=none,inner sep=0, font=\normalsize, anchor=west, rotate=90] (leg1) at (rel axis cs: 0.67,0.33) {$\times$ TabPFN};
+\node [draw=none,inner sep=0, font=\normalsize, anchor=west, rotate=90] (leg1) at (rel axis cs: 0.62,0.32) {$\times$ AIDE};
+\node [draw=none,inner sep=0, font=\normalsize, anchor=west, rotate=90] (leg1) at (rel axis cs: 0.67,0.32) {$\times$ TabPFN};
 
-\node [draw=none,inner sep=0, font=\normalsize, anchor=west, rotate=90] (leg1) at (rel axis cs: 0.98,0.33) {$\times$ AIDE};
-\node [draw=none,inner sep=0, font=\normalsize, anchor=west, rotate=90] (leg1) at (rel axis cs: 1.03,0.33) {$\times$ TabPFN};
+
+\node [draw=none,inner sep=0, font=\normalsize, anchor=west, rotate=90] (leg1) at (rel axis cs: 0.995,0.32) {$\times$ AIDE};
+\node [draw=none,inner sep=0, font=\normalsize, anchor=west, rotate=90] (leg1) at (rel axis cs: 1.035,0.32) {$\times$ TabPFN};
 
 \end{tikzpicture}

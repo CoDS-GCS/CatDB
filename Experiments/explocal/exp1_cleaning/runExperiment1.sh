@@ -16,7 +16,7 @@ CMDL2C=./explocal/exp1_cleaning/runExperiment1_Learn2Clean.sh
 CMDAugmentation=./explocal/exp1_cleaning/runExperiment1_Augmentation.sh
 
 $CMD ${dataset} ${catalog_path} gemini-1.5-pro-latest
-#$CMDAugmentation ${dataset} orig
-#$CMDL2C ${dataset} ${task_type}
-#$CMDAugmentation ${dataset} Learn2Clean
-# $CMDSAGA ${dataset} ${task_type}
+$CMDAugmentation ${dataset} orig
+$CMDL2C ${dataset} ${task_type}
+$CMDAugmentation ${dataset} Learn2Clean
+$CMDSAGA ${dataset} ${task_type}

@@ -18,7 +18,7 @@ cd ${exp_path}
 # CMD=./explocal/exp0_statistics/runExperiment0.sh
 # CMD=./explocal/exp1_cleaning/runExperiment1.sh
 # CMDPatch=./explocal/exp1_cleaning/runPatch.sh
-CMD=./explocal/exp2_catdb/runExperiment2.sh
+# CMD=./explocal/exp2_catdb/runExperiment2.sh
 # CMD=./explocal/exp3_baselines/runExperiment3.sh
 
 # $CMDPatch
@@ -49,28 +49,7 @@ CMD=./explocal/exp2_catdb/runExperiment2.sh
 #$CMD Utility regression # OK
 #$CMD Yelp multiclass
 
-# Demo Datasets
-# $CMD Titanic binary 
-# $CMD Adult binary 
-# $CMD Iris multiclass 
-
-# $CMD Amazon multiclass
-# $CMD Wikidata binary
-# $CMD KDDCup09 binary
-# $CMD News binary
-# $CMD Robert multiclass
-# $CMD Riccardo binary
-# $CMD Dilbert multiclass
-# $CMD Mercedes regression
-# $CMD Topo regression
-# $CMD Allstate regression
-
-$CMD KDD98 binary
-# $CMD KDDCup09 binary
-
-# $CMD ML2017-challenge-3 multiclass
-# $CMD Bioresponse binary
-# $CMD gina_agnostic binary
+# $CMD KDD98 binary
 
 # End to End Datasets
 # $CMD Volkert-out-0.01-np-0-nc-0-mv-0 multiclass # Volkert

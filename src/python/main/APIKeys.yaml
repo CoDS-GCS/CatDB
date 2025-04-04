@@ -1,13 +1,13 @@
 ---
 
 - llm_platform: OpenAI
-  key_1: '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'
+  key_1: ''
 
 - llm_platform: Meta
-  key_1: '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'
+  key_1: ''
 
 - llm_platform: Google
-  key_1 : 'AIzaSyDbtOYtZJpxaMOlPS1ZNdo97HLVSnZ_5SI'
+  key_1 : ''
 
 - llm_platform: DeepSeek
-  key_1 : 'sk-fd39aca7df664d8ea2d2216214beef43'
+  key_1 : ''

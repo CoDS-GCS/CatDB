@@ -58,7 +58,6 @@
     top_p: 0.95
     top_k: 64
 
-- llm_platform: Google
   gemini-2.0-flash:
     token_limit: 1600000
     max_output_tokens: 1600000

@@ -8,7 +8,7 @@
 Resource        | Links
 ----------------|------
 **Quick Start** | [Install and Quick Start](#Installation)
-**Benchmark:** | [Execute experiments with a range of datasets and compare the results to baselines](https://github.com/CoDS-GCS/CatDB/tree/main/Experiments)
+**PVLDB v18 2025 Reproducibility:** | [Execute experiments with a range of datasets and compare the results to baselines](https://github.com/CoDS-GCS/CatDB/tree/main/Experiments)
 
 
 ## Installation

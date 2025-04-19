@@ -7,20 +7,20 @@ mkdir -p "$path/Baselines"
 
 cd $path
 
-# Setup kglidsplus
-#################
-cd "${path}/Baselines"
-rm -rf kglidsplus
-git clone git@github.com:CoDS-GCS/kglidsplus.git
+# # Setup kglidsplus
+# #################
+# cd "${path}/Baselines"
+# rm -rf kglidsplus
+# git clone git@github.com:CoDS-GCS/kglidsplus.git
 
-cd kglidsplus
-conda create -n kglidsplus python=3.8 -y
-eval "$(conda shell.bash hook)"
-conda activate kglidsplus
-python3.8 -m pip install --upgrade pip
-pip install -r requirements.txt
+# cd kglidsplus
+# conda create -n kglidsplus python=3.8 -y
+# eval "$(conda shell.bash hook)"
+# conda activate kglidsplus
+# python3.8 -m pip install --upgrade pip
+# pip install -r requirements.txt
 
-cp "${root_path}/setup/config/kglidsplus_main.py"  "${path}/Baselines/kglidsplus/kg_governor/data_profiling/src/"
+# cp "${root_path}/setup/config/kglidsplus_main.py"  "${path}/Baselines/kglidsplus/kg_governor/data_profiling/src/"
 
 # Setup CatDB
 #############
@@ -76,7 +76,7 @@ rm -rf ${automl_path}
 mkdir -p ${automl_path}
 
 cd ${root_path}
-# cp -r baselines/* "${automl_path}/"
+cp -r baselines/* "${automl_path}/"
 
 
 # ## Install Auto Sklearn

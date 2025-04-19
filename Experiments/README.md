@@ -143,7 +143,7 @@ Since we run experiments five times in the `./run6PlotResults.sh` script, we fol
 
 * Plot the averaged results using LaTeX's tikzpicture and store the plots in the `plots` directory.
 
-### All Scripts:
+### All Scripts: ```./runAll.sh```
 --- 
 
 ```

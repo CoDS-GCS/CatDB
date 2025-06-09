@@ -1,0 +1,70 @@
+% \usepackage{xcolor}
+
+
+\begin{tikzpicture} 
+  \begin{axis}[%
+  hide axis,
+  xmin=10,
+  xmax=50,
+  ymin=0,
+  ymax=0.4, 
+  legend columns=15,
+  legend style={draw=none,legend cell align=left},
+  legend style={ nodes={scale=1, transform shape,}, font=\huge},    
+  legend image post style={line width=0.5pt,scale=1},
+  legend cell align={left},   
+  /tikz/every even column/.append style={column sep=1.5em, row sep=0.9em},
+  %legend image code/.code={\draw [#1] (-0.4cm,-0.2cm) rectangle (0.4cm,0.2cm); }, 
+  ]
+  %
+  \addlegendimage{tug,mark=diamond*,line cap=round, mark options={scale=3.5,solid},only marks}
+  \addlegendentry{\ CatDB};
+
+  \addlegendimage{tugb,mark=diamond*,line cap=round, mark options={scale=3.5,solid},only marks}
+  \addlegendentry{\ AIDE};
+  
+  \addlegendimage{black,mark=diamond*,line cap=round, mark options={scale=3.5,solid},only marks}
+  \addlegendentry{\ AutoGen};
+
+  \addlegendimage{green!50!red,mark=diamond*,line cap=round, mark options={scale=3.5,solid},only marks}
+  \addlegendentry{\ CAAFE};
+
+  % \addlegendimage{white,mark=diamond*,line cap=round, mark options={scale=0.1,solid},only marks}
+  % \addlegendentry{Defult AutoML:};
+
+  \addlegendimage{black!60!green,mark=square,line cap=round, mark options={scale=3.5,solid},only marks}
+  \addlegendentry{\ FLAML};
+
+  \addlegendimage{color01,mark=triangle,line cap=round, mark options={scale=3.5,solid},only marks}
+  \addlegendentry{\ Autogluon};
+
+  \addlegendimage{color02,mark=diamond,line cap=round, mark options={scale=3.5,solid},only marks}
+  \addlegendentry{\ H2O};
+
+  \addlegendimage{gray,mark=o,line cap=round, mark options={scale=3.5,solid},only marks}
+  \addlegendentry{\ Auto-Sklearn};
+
+  % \addlegendimage{white,mark=diamond*,line cap=round, mark options={scale=0.1,solid},only marks}
+  % \addlegendentry{AutoML w/ Preprocessing:};
+
+  \addlegendimage{black!60!green,mark=square*,line cap=round, mark options={scale=3.5,solid},only marks}
+  \addlegendentry{\ FLAML};
+
+  \addlegendimage{color01,mark=triangle*,line cap=round, mark options={scale=3.5,solid},only marks}
+  \addlegendentry{\ Autogluon};
+
+  \addlegendimage{color02,mark=diamond*,line cap=round, mark options={scale=3.5,solid},only marks}
+  \addlegendentry{\ H2O};
+
+  \addlegendimage{gray,mark=*,line cap=round, mark options={scale=3.5,solid},only marks}
+  \addlegendentry{\ Auto-Sklearn};
+
+  \end{axis}
+
+    \node[draw=gray, fill=none, xshift=0pt, minimum width=340pt, minimum height=33pt, line width=1pt] at (rel axis cs: -1.68,0.94){}; 
+    \node[black, fill=white, xshift=0pt, line width=1pt, font=\huge] at (rel axis cs: -1.68,1.04){\textbf{AutoML w/ Default Settings}}; 
+
+    \node[draw=gray, fill=none, xshift=0pt, minimum width=340pt, minimum height=33pt, line width=1pt] at (rel axis cs: 0.1,0.94){}; 
+    \node[black, fill=white, xshift=0pt, line width=1pt, font=\huge] at (rel axis cs: 0.1,1.04){\textbf{AutoML w/ Preprocessing}}; 
+\end{tikzpicture}
+

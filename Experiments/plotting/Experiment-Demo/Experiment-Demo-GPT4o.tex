@@ -44,10 +44,10 @@
  % xtick align=outside,
  % xtick pos=left,
   ytick pos=left,
-  yticklabel style = {font=\Large},
+  yticklabel style = {font=\LARGE},
   ylabel style = {font=\Large, yshift=-4pt, xshift=3pt},
-  height=\columnwidth,
-  width=1\columnwidth,
+  height=0.85\columnwidth,
+  width=1.3\columnwidth,
   grid=both,
   grid style=dotted,
   minor grid style={gray!70},
@@ -55,7 +55,7 @@
   xticklabel style = {font=\Large, xshift=2pt, yshift=-2pt, rotate=35, anchor=east},
   legend image post style={line width=.5pt},          
   %bar width=8pt,         
-  ytick={-15,0,20, 40, 60,80, 100},
+  ytick={-20,0,20, 40, 60,80, 100},
   yticklabels={\hspace{-15pt}\rotatebox[origin=c]{90}{Fail},0, 20, 40, 60, 80, 100}, 
   xtick = data, 
   symbolic x coords={Airline,Financial,IMDB,Accidents,House-Sales,Bike-Sharing,CMC,NYC},               
@@ -80,7 +80,7 @@
 \draw[black, thick, densely dotted] (rel axis cs:-0.1,0.27) -- (rel axis cs:2,0.27);
 \end{axis}
 
-% \node [draw=gray,inner sep=0.5mm, font=\footnotesize, anchor=west, fill=white] (leg1) at (rel axis cs: 0.06,0.3) {\shortstack[l]{
-%   \ref{CatDB} CatDB\ \ \ref{AIDE} AIDE\ \ \ref{CAAFE} CAAFE\ \ \ref{Autogluon} Autogluon\ \ \ref{Flaml} Flaml \ \ \ref{H2O} H2O}};
+\node [draw=none,inner sep=0.5mm, font=\LARGE, anchor=west, fill=white] (leg1) at (rel axis cs: 0.1,0.5) {GPT-4o};
+
 
 \end{tikzpicture}

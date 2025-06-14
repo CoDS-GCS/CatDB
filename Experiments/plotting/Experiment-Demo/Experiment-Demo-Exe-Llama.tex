@@ -1,0 +1,84 @@
+\begin{tikzpicture}
+  \newcommand{\myaddplotds}[7]{ 
+    \addplot[xshift=#7,color=black, fill=#2,line width=0.3pt] 
+    table[y=time, col sep=comma, x=dataset_name, discard if singlconfig={#6}{#1}]
+    {../archive/SIGMOD2025/results/PerformanceExeResults.csv};
+    % \label{#1}  
+   
+  };
+
+\pgfplotsset{
+    discard if singlconfig/.style n args={2}{
+        x filter/.code={
+            \edef\tempa{\thisrow{llm}}
+            \edef\tempb{#1}
+            \ifx\tempa\tempb 
+            %%%%%%%%%%%
+                  \edef\tempc{\thisrow{baseline}}
+                  \edef\tempd{#2}
+                  \ifx\tempc\tempd                       
+                  \else
+                  \def\pgfmathresult{inf}
+                  \fi			
+            %%%%%%%%%%%             
+            \else
+            \def\pgfmathresult{inf}
+            \fi			
+        }
+    },
+};   
+
+\begin{axis}[
+  ymin=5,
+  ybar,
+  ymode=log,
+  y tick label style={/pgf/number format/1000 sep={}},
+  %x tick label style={/pgf/number format/1000 sep={}},  
+  scaled x ticks=false,
+  axis line style={black, line width=0.3pt},
+  enlarge y limits={0.03,upper},
+  enlarge x limits=0.06,
+  ylabel={Execution Time [s]},
+  xlabel={Llama-3.1-70b},
+  log ticks with fixed point,
+  xtick align=inside,
+ % xtick pos=left,
+  ytick pos=left,
+  yticklabel style = {font=\large},
+  xlabel style = {font=\Large},
+  ylabel style = {font=\large, yshift=-4pt, xshift=3pt},
+  height=0.54\columnwidth,
+  width=\columnwidth,
+  grid=both,
+  grid style=dotted,
+  minor grid style={gray!70},
+  every axis plot/.append style={line width=0.7pt,mark options={scale=1,solid, line width=0.7pt}},  
+  xticklabel style = {font=\normalsize, xshift=2pt, yshift=-2pt, rotate=35, anchor=east},
+  legend image post style={line width=.5pt},          
+  bar width=5pt,         
+  ytick={1,10,100,1000,10000},
+  yticklabels={0,10,$10^2$,$10^3$,$10^4$}, 
+  xtick = data, 
+  symbolic x coords={Airline,Financial,IMDB,Accidents,House-Sales,Bike-Sharing,CMC,NYC},               
+]
+\myaddplotds{CatDB}{tug}{diamond*}{2}{1}{Llama-3.1-70b}{3pt};
+\myaddplotds{AIDE}{tugb}{diamond*}{2}{1}{Llama-3.1-70b}{1pt};
+\myaddplotds{AutoGen}{black}{diamond*}{2}{1}{Llama-3.1-70b}{-1pt};
+\myaddplotds{CAAFE}{{green!50!red}}{diamond*}{2}{1}{Llama-3.1-70b}{-3pt};
+
+\end{axis}
+
+\node [draw=none,inner sep=0, font=\small, anchor=west, rotate=90, text={green!50!red}] (leg1) at (rel axis cs: 0.148,-0.2) {\ding{54}};
+\node [draw=none,inner sep=0, font=\small, anchor=west, rotate=90, text={green!50!red}] (leg1) at (rel axis cs: 0.275,-0.2) {\ding{54}};
+\node [draw=none,inner sep=0, font=\small, anchor=west, rotate=90, text={green!50!red}] (leg1) at (rel axis cs: 0.402,-0.2) {\ding{54}};
+\node [draw=none,inner sep=0, font=\small, anchor=west, rotate=90, text={green!50!red}] (leg1) at (rel axis cs: 0.533,-0.2) {\ding{54}};
+\node [draw=none,inner sep=0, font=\small, anchor=west, rotate=90, text={green!50!red}] (leg1) at (rel axis cs: 0.660,-0.2) {\ding{54}};
+\node [draw=none,inner sep=0, font=\small, anchor=west, rotate=90, text={green!50!red}] (leg1) at (rel axis cs: 0.788,-0.2) {\ding{54}};
+\node [draw=none,inner sep=0, font=\small, anchor=west, rotate=90, text={green!50!red}] (leg1) at (rel axis cs: 1.041,-0.2) {\ding{54}};
+
+\node [draw=none,inner sep=0, font=\small, anchor=west, rotate=90, text=tugb] (leg1) at (rel axis cs: 0.095,-0.2) {\ding{54}};
+\node [draw=none,inner sep=0, font=\small, anchor=west, rotate=90, text=tugb] (leg1) at (rel axis cs: 0.222,-0.2) {\ding{54}};
+\node [draw=none,inner sep=0, font=\small, anchor=west, rotate=90, text=tugb] (leg1) at (rel axis cs: 0.3495,-0.2) {\ding{54}};
+\node [draw=none,inner sep=0, font=\small, anchor=west, rotate=90, text=tugb] (leg1) at (rel axis cs: 0.478,-0.2) {\ding{54}};
+
+\end{tikzpicture}

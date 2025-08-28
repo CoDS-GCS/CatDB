@@ -43,6 +43,41 @@ pipeline = generate_pipeline(catalog, cfg)
 
 ```
 
+## Quickstart on Colab Notebook and Demo Video
+Try out our [Colab Notebook](https://colab.research.google.com/drive/1L7UgxX4AbMvp8N4BwofymA54NuuxOM1C) and [Demo Video](https://youtu.be/6Cl7B6ZHAOM?si=L4o6IJB3mmwYEnNr) that demonstrates our APIs!
+
+## Publications
+
+```bibtex
+@article{DBLP:journals/pvldb/FathollahzadehMB25,
+  author       = {Saeed Fathollahzadeh and
+                  Essam Mansour and
+                  Matthias Boehm},
+  title        = {CatDB: Data-catalog-guided, LLM-based Generation of Data-centric {ML} Pipelines},
+  journal      = {Proc. {VLDB} Endow.},
+  volume       = {18},
+  number       = {8},
+  pages        = {2639--2652},
+  year         = {2025},
+  url          = {https://www.vldb.org/pvldb/vol18/p2639-fathollahzadeh.pdf}
+}
+```
+
+```bibtex
+@inproceedings{DBLP:conf/sigmod/Fathollahzadeh025,
+  author       = {Saeed Fathollahzadeh and
+                  Essam Mansour and
+                  Matthias Boehm},
+  title        = {Demonstrating CatDB: LLM-based Generation of Data-centric {ML} Pipelines},
+  booktitle    = {{SIGMOD/PODS} 2025, Berlin, Germany, June 22-27, 2025},
+  pages        = {87--90},
+  publisher    = {{ACM}},
+  year         = {2025},
+  url          = {https://doi.org/10.1145/3722212.3725097},
+  doi          = {10.1145/3722212.3725097}
+}
+```
+
 ## Contributions
 We encourage contributions and bug fixes, please don't hesitate to open a PR or create an issue if you face any bugs.
 

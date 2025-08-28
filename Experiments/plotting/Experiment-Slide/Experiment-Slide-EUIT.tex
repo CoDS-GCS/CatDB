@@ -1,0 +1,95 @@
+\begin{tikzpicture}
+  \newcommand{\myaddplotds}[5]{ 
+    \addplot[xshift=#4,color=black, fill=#3,line width=0.3pt,postaction={#5}] 
+    table[y=accuracy, col sep=comma, x=id, discard if singlconfig={#2}{#1}]
+    {../archive/VLDB2025/results/Experiment1_Cleaning2.dat};
+    % \label{#1}  
+   
+  };
+
+\pgfplotsset{
+    discard if singlconfig/.style n args={2}{
+        x filter/.code={
+            \edef\tempa{\thisrow{dataset_name}}
+            \edef\tempb{#1}
+            \ifx\tempa\tempb 
+            %%%%%%%%%%%
+                  \edef\tempc{\thisrow{baseline}}
+                  \edef\tempd{#2}
+                  \ifx\tempc\tempd                       
+                  \else
+                  \def\pgfmathresult{inf}
+                  \fi			
+            %%%%%%%%%%%             
+            \else
+            \def\pgfmathresult{inf}
+            \fi			
+        }
+    },
+};    
+
+\begin{axis}[
+  ymin=0,
+  ybar,
+  % ymode=log,
+  y tick label style={/pgf/number format/1000 sep={}},
+  %x tick label style={/pgf/number format/1000 sep={}},  
+  scaled x ticks=false,
+  axis line style={black, line width=0.3pt},
+  enlarge y limits={0.03,upper},
+  enlarge x limits=0.01,
+  ylabel={Accuracy [\%]},
+  xlabel={},
+  log ticks with fixed point,
+  xtick align=inside,
+ % xtick pos=left,
+  ytick pos=left,
+  yticklabel style = {font=\large},
+  xlabel style = {font=\Large},
+  ylabel style = {font=\large, yshift=-4pt, xshift=3pt},
+  height=0.65\columnwidth,
+  width=0.8\columnwidth,
+  grid=both,
+  grid style=dotted,
+  minor grid style={gray!70},
+  every axis plot/.append style={line width=0.7pt},  
+  xticklabel style = {font=\normalsize, xshift=0pt, yshift=-2pt, rotate=0, anchor=east},
+  legend image post style={line width=.5pt},          
+  bar width=10pt,         
+  ytick={0,20,40,60,80,100},
+  yticklabels={0,20,40,60,80,100},
+  xtick={0,1,2,3,4,5,6,7,8,9,10,11}, 
+  xticklabels={}
+  %xticklabels={CAAFE,,\vspace{-10.5cm}AIDE, AutoGen, ,H2O,Flaml,,Autogluon,,CatDB,}
+  % xticklabels={TabPFN,RandomForest,AIDE, AutoGen,H2O,Flaml,Autogluon,H2O,Flaml,Autogluon,CatDBOrig,CatDB}    
+]
+
+\myaddplotds{TabPFN}{EU-IT}{black}{72pt}{};
+\myaddplotds{RandomForest}{EU-IT}{color4}{57pt}{};
+\myaddplotds{AIDE}{EU-IT}{dblue3}{46pt}{};
+\myaddplotds{AutoGen}{EU-IT}{color7}{33pt}{};
+
+\myaddplotds{H2O}{EU-IT}{dred3}{21pt}{};
+\myaddplotds{H2OClean}{EU-IT}{dred3}{6pt}{pattern=north east lines,pattern color=black};
+
+\myaddplotds{Flaml}{EU-IT}{color6}{-5pt}{};
+\myaddplotds{FlamlClean}{EU-IT}{color6}{-20pt}{pattern=north east lines,pattern color=white};
+
+\myaddplotds{Autogluon}{EU-IT}{teal1}{-31pt}{};
+\myaddplotds{AutogluonClean}{EU-IT}{teal1}{-46pt}{pattern=north east lines,pattern color=white};
+
+\myaddplotds{CatDBOrig}{EU-IT}{tugb}{-56pt}{};
+\myaddplotds{CatDB}{EU-IT}{tug}{-71pt}{};
+
+\end{axis}
+
+\node [draw=none,inner sep=0, font=\small, anchor=west, rotate=0] (leg1) at (rel axis cs: 0,-0.05) {CAAFE};
+\node [draw=none,inner sep=0, font=\small, anchor=west, rotate=90] (leg1) at (rel axis cs: 0.22,-0.2) {AIDE};
+\node [draw=none,inner sep=0, font=\small, anchor=west, rotate=90] (leg1) at (rel axis cs: 0.3,-0.3) {AutoGen};
+\node [draw=none,inner sep=0, font=\small, anchor=west, rotate=0] (leg1) at (rel axis cs: 0.38,-0.05) {H2O};
+\node [draw=none,inner sep=0, font=\small, anchor=west, rotate=0] (leg1) at (rel axis cs: 0.53,-0.05) {Flaml};
+\node [draw=none,inner sep=0, font=\small, anchor=west, rotate=0] (leg1) at (rel axis cs: 0.68,-0.1) {\shortstack[c]{Auto\\gluon}};
+\node [draw=none,inner sep=0, font=\small, anchor=west, rotate=0] (leg1) at (rel axis cs: 0.85,-0.05) {CatDB};
+
+
+\end{tikzpicture}

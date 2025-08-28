@@ -1,0 +1,33 @@
+\begin{tikzpicture} 
+  \begin{axis}[%
+  hide axis,
+  xmin=10,
+  xmax=50,
+  ymin=0,
+  ymax=0.4, 
+  legend columns=6,
+  legend style={draw=white!15!black,legend cell align=left},
+  legend style={draw=none, nodes={scale=1, inner ysep=0.2mm, transform shape,}, font=\normalsize},    
+  legend image post style={line width=0.5pt,scale=1},
+  legend cell align={left},   
+  /tikz/every even column/.append style={column sep=1em, row sep=0.5em},
+  legend image code/.code={\draw [#1] (0cm,-0.15cm) rectangle (0.4cm,0.15cm); }, 
+  ]
+  \addlegendimage{tugb,draw=black, fill=tugb,line width=0.3pt}
+  \addlegendentry{CatDB (Orig Data)};
+
+  \addlegendimage{tug,draw=black, fill=tug,line width=0.3pt}
+  \addlegendentry{CatDB (Refined Catalog)};
+
+    \addlegendimage{black,draw=black, fill=black,line width=0.3pt}
+  \addlegendentry{CAAFE TabPFN};
+
+  \addlegendimage{color4,draw=black, fill=color4,line width=0.3pt}
+  \addlegendentry{CAAFE RandomForest};
+
+  \addlegendimage{black,draw=black, fill=none,line width=0.3pt, postaction={pattern=north east lines,pattern color=black}}
+  \addlegendentry{AutoML w/Preprocessing};
+
+  
+  \end{axis}  
+\end{tikzpicture}

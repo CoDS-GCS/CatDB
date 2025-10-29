@@ -1,0 +1,153 @@
+SYSTEM MESSAGE:
+###  Task: Generate a data science pipeline in Python 3.10 that answers a question based on a given dataset, Schema, and Data Profiling Info.
+###  Input: A dataset in CSV format, a schema that describes the columns and data types of the dataset, and a data profiling info that summarizes the statistics and quality of the dataset. A question that requires data analysis or modeling to answer.
+###  Output: A Python 3.10 code that performs the following steps:
+# 1. **Library Importation**: Always start by importing the necessary libraries and modules required for data manipulation, analysis, and modeling. This includes libraries like `pandas`, `numpy`, `scikit-learn`, and any other specific libraries needed for the task.
+# 2. **Data Loading**: Load the datasets using `pandas` CSV readers. Assign the training data to the variable `train_data=/home/ubuntu/CatDB/Experiments/data/Financial/Financial_train.csv` and the test data to `test_data=/home/ubuntu/CatDB/Experiments/data/Financial/Financial_test.csv`. Ensure that the datasets are loaded exactly as specified without any modifications or splits.
+# 3. **Dataset Integrity**: Do not split the `train_data` into additional train and test sets. Use only the provided datasets for all analyses and modeling tasks.
+# 4. **Schema Utilization**: The user will provide the schema of the dataset with columns named as attributes, enclosed in triple quotes, and preceded by a specific prefix. Use this schema to guide data processing.
+# 5. **Feature Type Adherence**: Use the feature types specified in the schema information strictly. Avoid generalizing Python processing for extracting categorical and numerical values; adhere to the defined feature types.
+# 6. **Data Preprocessing**: Analyze features based on the provided data profiling information. Implement data preprocessing tasks such as handling missing values, selecting appropriate data transformations for each column (categorical and numerical), and applying data cleaning based on the profiling information.
+# 7. **Outlier Removal**: Implement outlier removal for both train and test data based on the provided data profiling information.
+# 8. **Data Augmentation**: Apply data augmentation techniques based on the data profiling information. Use your knowledge to choose the best technique for the given dataset.
+# 9. **Feature Engineering**: Analyze features based on the provided data profiling information and implement feature engineering tasks to enhance the dataset.
+# 10. **Categorical Feature Extraction**: Do not use `select_dtypes(include=['object']).columns` for extracting categorical features. Use only the schema information to infer the categorical columns.
+# 11. **Model Selection**: Select the best model based on the data profiling information. Ensure that the model choice is justified by the dataset characteristics.
+# 12. **Feature and Target Selection**: Select appropriate features and target variables for the question. Consider additional columns that add new semantic information or are useful for downstream algorithms. Use appropriate scaling for columns that require transformation.
+# 13. **Feature Selection**: Drop columns that may be redundant and hurt predictive performance. This helps reduce overfitting, especially in small datasets. Train the model on the dataset with the generated columns and evaluate on a holdout set.
+# 14. Code formatting for all required packages and pipeline format:
+# Import all required packages  
+# Do not use "if __name__ == __main__:" style, use only flat mode.
+
+# 15. Code formatting for each added column:
+# (Feature name and description)
+# Usefulness: (Description why this adds useful real world knowledge to classify "status" according to dataset description and attributes.) (Some pandas code using "trans.k_symbol", "operation", ... to add a new column for each row in df)
+
+# 16. Code formatting for dropping columns:
+# Explanation why the column XX is dropped
+# df.drop(columns=['XX'], inplace=True)
+
+# 17. 'Code formatting for training technique:
+# Choose the suitable machine learning algorithm or technique (classifier).
+# Explanation why the solution is selected.
+trn = ... 
+
+# 18. **Code formatting for multiclass classification evaluation**:
+# Report evaluation based on train and test dataset
+# Calculate the model accuracy, represented by a value between 0 and 1, where 0 indicates low accuracy and 1 signifies higher accuracy. Store the accuracy value in a variable labeled as "Train_Accuracy=..." and "Test_Accuracy=...".
+# Calculate the model log loss, a lower log-loss value means better predictions. Store the  log loss value in a variable labeled as "Train_Log_loss=..." and "Test_Log_loss=...".
+# Calculate AUC_OVO (Area Under the Curve One-vs-One), represented by a value between 0 and 1.
+# Calculate AUC_OVR (Area Under the Curve One-vs-Rest), represented by a value between 0 and 1.
+# print(f"Train_AUC_OVO:{{Train_AUC_OVO}}")
+# print(f"Train_AUC_OVR:{{Train_AUC_OVR}}")
+# print(f"Train_Accuracy:{{Train_Accuracy}}")   
+# print(f"Train_Log_loss:{{Train_Log_loss}}") 
+# print(f"Test_AUC_OVO:{{Test_AUC_OVO}}")
+# print(f"Test_AUC_OVR:{{Test_AUC_OVR}}")
+# print(f"Test_Accuracy:{{Test_Accuracy}}")   
+# print(f"Test_Log_loss:{{Test_Log_loss}}")
+
+# 19. **Preprocessing for Unseen Values**: To avoid runtime errors for unseen values in the target feature, perform preprocessing based on the union of train and test datasets.
+# 20. **Relevance Check**: If the question is not relevant to the dataset or the task, output "Insufficient information".
+# 21. Each codeblock ends with "```end" and starts with "```python".
+---------------------------------------
+PROMPT TEXT:
+Schema, and Data Profiling Info:
+"""
+# "trans.k_symbol" (str), categorical-values [UVER,SIPO,SLUZBY,and 3 more]
+# "operation" (str), categorical-values [VKLAD,PREVOD Z UCTU,VYBER,and 2 more]
+# "order.k_symbol" (str), categorical-values [UVER,SIPO,POJISTNE]
+# "frequency" (str), categorical-values [POPLATEK MESICNE,POPLATEK TYDNE,POPLATEK PO OBRATU]
+# "trans.type" (str), categorical-values [PRIJEM,VYDAJ,VYBER]
+# "trans_id" (int), distinct-count [191556], min-value [276], max-value [3682987], median-value [2243088], mean-value [2049195.163]
+# "client.A16" (int), categorical-values [99107,2354,5887,and 73 more]
+# "client.A14" (int), categorical-values [167,123,96,and 41 more]
+# "client.A11" (int), categorical-values [12541,9104,9893,and 73 more]
+# "loan_id" (int), distinct-count [682], min-value [4959], max-value [7308], median-value [6232], mean-value [6204.5]
+# "amount" (int), distinct-count [645], min-value [4980], max-value [590820], median-value [100800], mean-value [141026.476]
+# "client_id" (int), distinct-count [827], min-value [2], max-value [13971], median-value [7311], mean-value [7314.55]
+# "A5" (int), categorical-values [0,87,15,and 50 more]
+# "balance" (int), distinct-count [79919], min-value [-19310], max-value [209637], median-value [39222], mean-value [43733.75]
+# "A11" (int), categorical-values [12541,9104,9893,and 73 more]
+# "account" (int), distinct-count [1694], min-value [0], max-value [99994199], median-value [41536575], mean-value [42796676.579]
+# "A14" (int), categorical-values [167,123,96,and 41 more]
+# "client.A8" (int), categorical-values [1,2,3,and 3 more]
+# "district_id" (int), categorical-values [1,21,68,and 74 more]
+# "client.A9" (int), categorical-values [1,7,6,and 8 more]
+# "order_id" (int), distinct-count [1513], min-value [29402], max-value [46338], median-value [38359], mean-value [38253.806]
+# "client.A5" (int), categorical-values [0,87,15,and 50 more]
+# "A8" (int), categorical-values [1,2,3,and 3 more]
+# "card_id" (int), distinct-count [170], min-value [16], max-value [1247], median-value [882], mean-value [812.491]
+# "trans.amount" (int), distinct-count [18300], min-value [0], max-value [87300], median-value [3040], mean-value [7418.003]
+# "client.A4" (int), categorical-values [1204953,103347,228848,and 74 more]
+# "client.A6" (int), categorical-values [0,16,40,and 33 more]
+# "A16" (int), categorical-values [99107,2354,5887,and 73 more]
+# "A7" (int), categorical-values [0,7,18,and 14 more]
+# "account_to" (int), distinct-count [1489], min-value [399], max-value [99994199], median-value [51036828], mean-value [50172711.339]
+# "duration" (int), categorical-values [24,12,60,and 2 more]
+# "client.A15" (int), categorical-values [85677,2299,5623,and 72 more]
+# "A9" (int), categorical-values [1,7,6,and 8 more]
+# "disp_id" (int), distinct-count [827], min-value [2], max-value [13663], median-value [7311], mean-value [7184.588]
+# "A6" (int), categorical-values [0,16,40,and 33 more]
+# "account_id" (int), distinct-count [682], min-value [2], max-value [11362], median-value [6051], mean-value [5977.516]
+# "A15" (int), categorical-values [85677,2299,5623,and 72 more]
+# "payments" (int), distinct-count [577], min-value [304], max-value [9910], median-value [3703], mean-value [4098.861]
+# "client.A7" (int), categorical-values [0,7,18,and 14 more]
+# "A4" (int), categorical-values [1204953,103347,228848,and 74 more]
+# "A3" (str), categorical-values [Prague,south Bohemia,north Moravia,and 5 more]
+# "bank_to" (str), categorical-values [ST,QR,YZ,and 10 more]
+# "gender" (str), categorical-values [M,F]
+# "client.A2" (str), categorical-values [Hl.m. Praha,Tabor,Frydek - Mistek,and 74 more]
+# "bank" (str), categorical-values [ST,QR,OP,and 10 more]
+# "A2" (str), categorical-values [Hl.m. Praha,Tabor,Frydek - Mistek,and 74 more]
+# "card.type" (str), categorical-values [classic,gold,junior]
+# "client.A3" (str), categorical-values [Prague,south Bohemia,north Moravia,and 5 more]
+# "disp.type" (str), categorical-values [OWNER,DISPONENT]
+# "issued" (date), distinct-count [160]
+# "birth_date" (date), distinct-count [792]
+# "trans.date" (date), distinct-count [2156]
+# "account.date" (date), distinct-count [557]
+# "date" (date), distinct-count [559]
+# "A10" (float), distinct-count [70], min-value [33.9], max-value [100], median-value [61.9], mean-value [68.734]
+# "order.amount" (float), distinct-count [1340], min-value [2], max-value [14882], median-value [3491.5], mean-value [3972.407]
+# "client.A13" (float), distinct-count [73], min-value [0.43], max-value [9.4], median-value [3.47], mean-value [3.482]
+# "client.A10" (float), distinct-count [70], min-value [33.9], max-value [100], median-value [61.4], mean-value [67.584]
+# "A12" (float), distinct-count [41], min-value [0.2], max-value [7.3], median-value [2.7], mean-value [2.838]
+# "client.A12" (float), distinct-count [41], min-value [0.2], max-value [7.3], median-value [2.6], mean-value [2.817]
+# "A13" (float), distinct-count [73], min-value [0.43], max-value [9.4], median-value [3.49], mean-value [3.506]
+# "status" (str, **This is a target column**), categorical-values [A,B,D,and 1 more]
+"""
+
+### The dataset is a multitable dataset with 8 tables. The tables have their schema and following relationships are between Tables. This relation define by Primary Keys and Forigin Keys.
+# Table "account" (account_id,district_id,frequency,date). (district_id) references district (district_id) is foreign key.
+# Table "card" (card_id,disp_id,type,issued). (disp_id) references disp (disp_id) is foreign key.
+# Table "client" (client_id,gender,birth_date,district_id). (district_id) references district (district_id) is foreign key.
+# Table "disp" (disp_id,client_id,account_id,type). (account_id) references account (account_id),(client_id) references client (client_id) are foreign key.
+# Table "district" (district_id,A2,A3,A4,A5,A6,A7,A8,A9,A10,A11,A12,A13,A14,A15,A16).
+# Table "loan" (loan_id,account_id,date,amount,duration,payments,status). (account_id) references account (account_id) is foreign key.
+# Table "order" (order_id,account_id,bank_to,account_to,amount,k_symbol). (account_id) references account (account_id) is foreign key.
+# Table "trans" (trans_id,account_id,date,type,operation,amount,balance,k_symbol,bank,account). (account_id) references account (account_id) is foreign key.
+
+### Do missing values imputation semantically for the following numerical columns:
+	Columns: "account","card_id","A12","client.A12"
+
+
+### Predict the missing values semantically for the following categorical columns:
+	Columns: "trans.k_symbol","operation","order.k_symbol","client.A15","A15","bank","card.type"
+
+
+### Predict the missing values semantically for the following string/object columns:
+	Columns: "issued"
+
+### Transformer the following columns by Adaptive Binning or Scaler method (do it base on the min-max, mean, and median values are in the "Schema, and Data Profiling Info"):
+ 	# Columns: "trans_id","loan_id","amount","client_id","balance","account","order_id","card_id","trans.amount","account_to","disp_id","account_id","payments","A10","order.amount","client.A13","client.A10","A12","client.A12","A13"
+
+### Transformer the categorical data for the following (e.g., One-Hot Encoding, Ordinal Encoder, Polynomial Encoder, Count Encoder, ... ) columns:
+	# Columns: "trans.k_symbol","operation","order.k_symbol","frequency","trans.type","client.A16","client.A14","client.A11","A5","A11","A14","client.A8","district_id","client.A9","client.A5","A8","client.A4","client.A6","A16","A7","duration","client.A15","A9","A6","A15","client.A7","A4","A3","bank_to","gender","client.A2","bank","A2","card.type","client.A3","disp.type"
+
+### Dataset Attribute:
+# Number of samples (rows) in training dataset: 552017
+
+### Dataset is a structured/tabular data, select a high performance ML model. For example, Gradient Boosting Machines (e.g., XGBoost, LightGBM, ...), RandomForest, ...
+
+### Question: Provide a complete pipeline code that can be executed in a multi-threaded environment.

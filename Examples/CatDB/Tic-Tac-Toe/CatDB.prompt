@@ -1,0 +1,74 @@
+SYSTEM MESSAGE:
+###  Task: Generate a data science pipeline in Python 3.10 that answers a question based on a given dataset, Schema, and Data Profiling Info.
+###  Input: A dataset in CSV format, a schema that describes the columns and data types of the dataset, and a data profiling info that summarizes the statistics and quality of the dataset. A question that requires data analysis or modeling to answer.
+###  Output: A Python 3.10 code that performs the following steps:
+# 1. **Library Importation**: Always start by importing the necessary libraries and modules required for data manipulation, analysis, and modeling. This includes libraries like `pandas`, `numpy`, `scikit-learn`, and any other specific libraries needed for the task.
+# 2. **Data Loading**: Load the datasets using `pandas` CSV readers. Assign the training data to the variable `train_data=/home/ubuntu/CatDB/Experiments/data/oml_dataset_6_rnc/oml_dataset_6_rnc_train.csv` and the test data to `test_data=/home/ubuntu/CatDB/Experiments/data/oml_dataset_6_rnc/oml_dataset_6_rnc_test.csv`. Ensure that the datasets are loaded exactly as specified without any modifications or splits.
+# 3. **Dataset Integrity**: Do not split the `train_data` into additional train and test sets. Use only the provided datasets for all analyses and modeling tasks.
+# 4. **Schema Utilization**: The user will provide the schema of the dataset with columns named as attributes, enclosed in triple quotes, and preceded by a specific prefix. Use this schema to guide data processing.
+# 5. **Feature Type Adherence**: Use the feature types specified in the schema information strictly. Avoid generalizing Python processing for extracting categorical and numerical values; adhere to the defined feature types.
+# 6. **Data Preprocessing**: Analyze features based on the provided data profiling information. Implement data preprocessing tasks such as handling missing values, selecting appropriate data transformations for each column (categorical and numerical), and applying data cleaning based on the profiling information.
+# 7. **Outlier Removal**: Implement outlier removal for both train and test data based on the provided data profiling information.
+# 8. **Data Augmentation**: Apply data augmentation techniques based on the data profiling information. Use your knowledge to choose the best technique for the given dataset.
+# 9. **Feature Engineering**: Analyze features based on the provided data profiling information and implement feature engineering tasks to enhance the dataset.
+# 10. **Categorical Feature Extraction**: Do not use `select_dtypes(include=['object']).columns` for extracting categorical features. Use only the schema information to infer the categorical columns.
+# 11. **Model Selection**: Select the best model based on the data profiling information. Ensure that the model choice is justified by the dataset characteristics.
+# 12. **Feature and Target Selection**: Select appropriate features and target variables for the question. Consider additional columns that add new semantic information or are useful for downstream algorithms. Use appropriate scaling for columns that require transformation.
+# 13. **Feature Selection**: Drop columns that may be redundant and hurt predictive performance. This helps reduce overfitting, especially in small datasets. Train the model on the dataset with the generated columns and evaluate on a holdout set.
+# 14. Code formatting for all required packages and pipeline format:
+# Import all required packages  
+# Do not use "if __name__ == __main__:" style, use only flat mode.
+
+# 15. Code formatting for each added column:
+# (Feature name and description)
+# Usefulness: (Description why this adds useful real world knowledge to classify "c_10" according to dataset description and attributes.) (Some pandas code using "c_3", "c_8", ... to add a new column for each row in df)
+
+# 16. Code formatting for dropping columns:
+# Explanation why the column XX is dropped
+# df.drop(columns=['XX'], inplace=True)
+
+# 17. 'Code formatting for training technique:
+# Choose the suitable machine learning algorithm or technique (classifier).
+# Explanation why the solution is selected.
+trn = ... 
+
+# 18. **Code formatting for binary classification evaluation**:
+# Report evaluation based on train and test dataset
+# Calculate the model accuracy, represented by a value between 0 and 1, where 0 indicates low accuracy and 1 signifies higher accuracy. Store the accuracy value in a variable labeled as "Train_Accuracy=..." and "Test_Accuracy=...".
+# Calculate the model f1 score, represented by a value between 0 and 1, where 0 indicates low accuracy and 1 signifies higher accuracy. Store the f1 score value in a variable labeled as "Train_F1_score=..." and "Test_F1_score=...".
+# Calculate AUC (Area Under the Curve), represented by a value between 0 and 1.
+# print(f"Train_AUC:{{Train_AUC}}")
+# print(f"Train_Accuracy:{{Train_Accuracy}}")   
+# print(f"Train_F1_score:{{Train_F1_score}}")
+# print(f"Test_AUC:{{Test_AUC}}")
+# print(f"Test_Accuracy:{{Test_Accuracy}}")   
+# print(f"Test_F1_score:{{Test_F1_score}}")
+
+# 19. **Preprocessing for Unseen Values**: To avoid runtime errors for unseen values in the target feature, perform preprocessing based on the union of train and test datasets.
+# 20. **Relevance Check**: If the question is not relevant to the dataset or the task, output "Insufficient information".
+# 21. Each codeblock ends with "```end" and starts with "```python".
+---------------------------------------
+PROMPT TEXT:
+Schema, and Data Profiling Info:
+"""
+# "c_3" (str), categorical-values [x,o,b]
+# "c_8" (str), categorical-values [o,x,b]
+# "c_1" (str), categorical-values [x,o,b]
+# "c_7" (str), categorical-values [x,o,b]
+# "c_4" (str), categorical-values [x,o,b]
+# "c_9" (str), categorical-values [o,x,b]
+# "c_6" (str), categorical-values [o,b,x]
+# "c_5" (str), categorical-values [o,b,x]
+# "c_2" (str), categorical-values [x,o,b]
+# "c_10" (str, **This is a target column**), categorical-values [positive,negative]
+"""
+
+### Transformer the categorical data for the following (e.g., One-Hot Encoding, Ordinal Encoder, Polynomial Encoder, Count Encoder, ... ) columns:
+	# Columns: "c_3","c_8","c_1","c_7","c_4","c_9","c_6","c_5","c_2"
+
+### Dataset Attribute:
+# Number of samples (rows) in training dataset: 958
+
+### Dataset is a structured/tabular data, select a high performance ML model. For example, Gradient Boosting Machines (e.g., XGBoost, LightGBM, ...), RandomForest, ...
+
+### Question: Provide a complete pipeline code that can be executed in a multi-threaded environment.

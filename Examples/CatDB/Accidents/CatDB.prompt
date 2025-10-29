@@ -1,0 +1,132 @@
+SYSTEM MESSAGE:
+###  Task: Generate a data science pipeline in Python 3.10 that answers a question based on a given dataset, Schema, and Data Profiling Info.
+###  Input: A dataset in CSV format, a schema that describes the columns and data types of the dataset, and a data profiling info that summarizes the statistics and quality of the dataset. A question that requires data analysis or modeling to answer.
+###  Output: A Python 3.10 code that performs the following steps:
+# 1. **Library Importation**: Always start by importing the necessary libraries and modules required for data manipulation, analysis, and modeling. This includes libraries like `pandas`, `numpy`, `scikit-learn`, and any other specific libraries needed for the task.
+# 2. **Data Loading**: Load the datasets using `pandas` CSV readers. Assign the training data to the variable `train_data=/home/ubuntu/CatDB/Experiments/data/Accidents/Accidents_train.csv` and the test data to `test_data=/home/ubuntu/CatDB/Experiments/data/Accidents/Accidents_test.csv`. Ensure that the datasets are loaded exactly as specified without any modifications or splits.
+# 3. **Dataset Integrity**: Do not split the `train_data` into additional train and test sets. Use only the provided datasets for all analyses and modeling tasks.
+# 4. **Schema Utilization**: The user will provide the schema of the dataset with columns named as attributes, enclosed in triple quotes, and preceded by a specific prefix. Use this schema to guide data processing.
+# 5. **Feature Type Adherence**: Use the feature types specified in the schema information strictly. Avoid generalizing Python processing for extracting categorical and numerical values; adhere to the defined feature types.
+# 6. **Data Preprocessing**: Analyze features based on the provided data profiling information. Implement data preprocessing tasks such as handling missing values, selecting appropriate data transformations for each column (categorical and numerical), and applying data cleaning based on the profiling information.
+# 7. **Outlier Removal**: Implement outlier removal for both train and test data based on the provided data profiling information.
+# 8. **Data Augmentation**: Apply data augmentation techniques based on the data profiling information. Use your knowledge to choose the best technique for the given dataset.
+# 9. **Feature Engineering**: Analyze features based on the provided data profiling information and implement feature engineering tasks to enhance the dataset.
+# 10. **Categorical Feature Extraction**: Do not use `select_dtypes(include=['object']).columns` for extracting categorical features. Use only the schema information to infer the categorical columns.
+# 11. **Model Selection**: Select the best model based on the data profiling information. Ensure that the model choice is justified by the dataset characteristics.
+# 12. **Feature and Target Selection**: Select appropriate features and target variables for the question. Consider additional columns that add new semantic information or are useful for downstream algorithms. Use appropriate scaling for columns that require transformation.
+# 13. **Feature Selection**: Drop columns that may be redundant and hurt predictive performance. This helps reduce overfitting, especially in small datasets. Train the model on the dataset with the generated columns and evaluate on a holdout set.
+# 14. Code formatting for all required packages and pipeline format:
+# Import all required packages  
+# Do not use "if __name__ == __main__:" style, use only flat mode.
+
+# 15. Code formatting for each added column:
+# (Feature name and description)
+# Usefulness: (Description why this adds useful real world knowledge to classify "klas_nesreca" according to dataset description and attributes.) (Some pandas code using "oznaka_cesta_ali_naselje", "tekst_odsek_ali_ulica", ... to add a new column for each row in df)
+
+# 16. Code formatting for dropping columns:
+# Explanation why the column XX is dropped
+# df.drop(columns=['XX'], inplace=True)
+
+# 17. 'Code formatting for training technique:
+# Choose the suitable machine learning algorithm or technique (classifier).
+# Explanation why the solution is selected.
+trn = ... 
+
+# 18. **Code formatting for multiclass classification evaluation**:
+# Report evaluation based on train and test dataset
+# Calculate the model accuracy, represented by a value between 0 and 1, where 0 indicates low accuracy and 1 signifies higher accuracy. Store the accuracy value in a variable labeled as "Train_Accuracy=..." and "Test_Accuracy=...".
+# Calculate the model log loss, a lower log-loss value means better predictions. Store the  log loss value in a variable labeled as "Train_Log_loss=..." and "Test_Log_loss=...".
+# Calculate AUC_OVO (Area Under the Curve One-vs-One), represented by a value between 0 and 1.
+# Calculate AUC_OVR (Area Under the Curve One-vs-Rest), represented by a value between 0 and 1.
+# print(f"Train_AUC_OVO:{{Train_AUC_OVO}}")
+# print(f"Train_AUC_OVR:{{Train_AUC_OVR}}")
+# print(f"Train_Accuracy:{{Train_Accuracy}}")   
+# print(f"Train_Log_loss:{{Train_Log_loss}}") 
+# print(f"Test_AUC_OVO:{{Test_AUC_OVO}}")
+# print(f"Test_AUC_OVR:{{Test_AUC_OVR}}")
+# print(f"Test_Accuracy:{{Test_Accuracy}}")   
+# print(f"Test_Log_loss:{{Test_Log_loss}}")
+
+# 19. **Preprocessing for Unseen Values**: To avoid runtime errors for unseen values in the target feature, perform preprocessing based on the union of train and test datasets.
+# 20. **Relevance Check**: If the question is not relevant to the dataset or the task, output "Insufficient information".
+# 21. Each codeblock ends with "```end" and starts with "```python".
+---------------------------------------
+PROMPT TEXT:
+Schema, and Data Profiling Info:
+"""
+# "oznaka_cesta_ali_naselje" (str), distinct-count [7781]
+# "tekst_odsek_ali_ulica" (str), categorical-values [NI ULIC,NI ODSEKOV,MARIBOR(TEZNO)-HAJDINA,and 6843 more]
+# "tekst_cesta_ali_naselje" (str), categorical-values [PERNICA,IDRIJA-KOÄEVÅ E-KODER-VOJS,MEJA A-VIÄ-ORMOÅ½-MEJA RH,and 8722 more]
+# "vozniski_staz_MM" (int), categorical-values [0,7,2,and 9 more]
+# "oseba.povrsina" (int), categorical-values [105,0,425,and 56 more]
+# "oseba.st_prebivalcev" (int), categorical-values [8766,0,16976,and 53 more]
+# "id_nesreca" (int), distinct-count [507604], min-value [36738], max-value [549805], median-value [285540], mean-value [286393.844]
+# "id_upravna_enota_x" (int), categorical-values [5507,5599,5511,and 60 more]
+# "stacionazna_ali_hisna_st" (int), distinct-count [4217], min-value [0], max-value [100000], median-value [45], mean-value [1519.426]
+# "y" (int), distinct-count [89978], min-value [32190], max-value [192709], median-value [116760], mean-value [116063.005]
+# "vozniski_staz_LL" (int), categorical-values [6,10,0,and 81 more]
+# "nesreca.st_prebivalcev" (int), categorical-values [145678,16976,326525,and 53 more]
+# "upravna_enota_x" (int), categorical-values [5507,5599,5511,and 60 more]
+# "drzavljanstvo" (int), categorical-values [5,211,120,and 113 more]
+# "upravna_enota_y" (int), categorical-values [5564,5511,5524,and 56 more]
+# "id_upravna_enota_y" (int), categorical-values [5564,5511,5524,and 56 more]
+# "spol" (int), categorical-values [1,2,0]
+# "x" (int), distinct-count [109882], min-value [378087], max-value [617552], median-value [497373], mean-value [495964.467]
+# "nesreca.povrsina" (int), categorical-values [356,425,904,and 56 more]
+# "starost" (int), categorical-values [38,28,12,and 97 more]
+# "poskodba" (str), categorical-values [L,P,H,and 3 more]
+# "oseba.ime_upravna_enota" (str), categorical-values [Dravograd,Neznana,Idrija,and 60 more]
+# "strokovni_pregled_d" (str), categorical-values [B,A,N,and 8 more]
+# "alkotest_d" (str), categorical-values [B,A,N,and 8 more]
+# "stanje_povrsina_vozisce" (str), categorical-values [A,O,M]
+# "kategorija_cesta" (str), categorical-values [V,L,M,and 11 more]
+# "stanje_promet" (str), categorical-values [R,N,G,and 2 more]
+# "tip_nesreca" (str), categorical-values [BT,ÃT,TO,and 7 more]
+# "povzrocitelj_ali_udelezenec" (str), categorical-values [D,N]
+# "naselje_ali_izven" (str), categorical-values [D,N]
+# "opis_prizorisce" (str), categorical-values [C,K,R,and 6 more]
+# "starost_d" (str), categorical-values [D,C,B,and 8 more]
+# "stanje_vozisce" (str), categorical-values [MO,PN,SP,and 6 more]
+# "nesreca.ime_upravna_enota" (str), categorical-values [Maribor,Idrija,Ljubljana BeÅ¾igrad,and 56 more]
+# "vreme_nesreca" (str), categorical-values [O,J,M,and 5 more]
+# "vozniski_staz_d" (str), categorical-values [B,A,D,and 8 more]
+# "varnostni_pas_ali_celada" (str), categorical-values [N,0,D,and 7 more]
+# "vzrok_nesreca" (str), categorical-values [PR,HI,SV,and 8 more]
+# "vrsta_udelezenca" (str), categorical-values [TV,OA,PT,and 20 more]
+# "oznaka_odsek_ali_ulica" (str), distinct-count [5986]
+# "cas_nesreca" (date), distinct-count [229026]
+# "strokovni_pregled" (float), distinct-count [383], min-value [0], max-value [9.1], median-value [0], mean-value [0.035]
+# "alkotest" (float), distinct-count [436], min-value [0], max-value [9.83], median-value [0], mean-value [0.115]
+# "y_wgs84" (float), distinct-count [159776], min-value [45.43], max-value [46.871], median-value [46.194], mean-value [46.187]
+# "x_wgs84" (float), distinct-count [168381], min-value [13.414], max-value [16.527], median-value [14.961], mean-value [14.946]
+# "klas_nesreca" (str, **This is a target column**), categorical-values [H,B,L,and 3 more]
+"""
+
+### The dataset is a multitable dataset with 3 tables. The tables have their schema and following relationships are between Tables. This relation define by Primary Keys and Forigin Keys.
+# Table "upravna_enota" (id_upravna_enota,ime_upravna_enota,st_prebivalcev,povrsina).
+# Table "nesreca" (id_nesreca,klas_nesreca,upravna_enota,cas_nesreca,naselje_ali_izven,kategorija_cesta,oznaka_cesta_ali_naselje,tekst_cesta_ali_naselje,oznaka_odsek_ali_ulica,tekst_odsek_ali_ulica,stacionazna_ali_hisna_st,opis_prizorisce,vzrok_nesreca,tip_nesreca,vreme_nesreca,stanje_promet,stanje_vozisce,stanje_povrsina_vozisce,x,y,x_wgs84,y_wgs84). (upravna_enota) references upravna_enota (id_upravna_enota) is foreign key.
+# Table "oseba" (id_nesreca,povzrocitelj_ali_udelezenec,starost,spol,upravna_enota,drzavljanstvo,poskodba,vrsta_udelezenca,varnostni_pas_ali_celada,vozniski_staz_LL,vozniski_staz_MM,alkotest,strokovni_pregled,starost_d,vozniski_staz_d,alkotest_d,strokovni_pregled_d).
+
+### Do missing values imputation semantically for the following numerical columns:
+	Columns: "stacionazna_ali_hisna_st","y","x","strokovni_pregled","alkotest","y_wgs84","x_wgs84"
+
+
+### Predict the missing values semantically for the following categorical columns:
+	Columns: "tekst_odsek_ali_ulica","tekst_cesta_ali_naselje","vozniski_staz_MM","vozniski_staz_LL","starost","poskodba","kategorija_cesta","povzrocitelj_ali_udelezenec","vrsta_udelezenca"
+
+
+### Predict the missing values semantically for the following string/object columns:
+	Columns: "oznaka_cesta_ali_naselje"
+
+### Transformer the following columns by Adaptive Binning or Scaler method (do it base on the min-max, mean, and median values are in the "Schema, and Data Profiling Info"):
+ 	# Columns: "id_nesreca","stacionazna_ali_hisna_st","y","x","strokovni_pregled","alkotest","y_wgs84","x_wgs84"
+
+### Transformer the categorical data for the following (e.g., One-Hot Encoding, Ordinal Encoder, Polynomial Encoder, Count Encoder, ... ) columns:
+	# Columns: "tekst_odsek_ali_ulica","tekst_cesta_ali_naselje","vozniski_staz_MM","oseba.povrsina","oseba.st_prebivalcev","id_upravna_enota_x","vozniski_staz_LL","nesreca.st_prebivalcev","upravna_enota_x","drzavljanstvo","upravna_enota_y","id_upravna_enota_y","spol","nesreca.povrsina","starost","poskodba","oseba.ime_upravna_enota","strokovni_pregled_d","alkotest_d","stanje_povrsina_vozisce","kategorija_cesta","stanje_promet","tip_nesreca","povzrocitelj_ali_udelezenec","naselje_ali_izven","opis_prizorisce","starost_d","stanje_vozisce","nesreca.ime_upravna_enota","vreme_nesreca","vozniski_staz_d","varnostni_pas_ali_celada","vzrok_nesreca","vrsta_udelezenca"
+
+### Dataset Attribute:
+# Number of samples (rows) in training dataset: 954036
+
+### Dataset is a structured/tabular data, select a high performance ML model. For example, Gradient Boosting Machines (e.g., XGBoost, LightGBM, ...), RandomForest, ...
+
+### Question: Provide a complete pipeline code that can be executed in a multi-threaded environment.

@@ -81,11 +81,11 @@ def config(model: str, API_key: str, iteration: int = 1, error_iteration: int = 
         cfg["root_catalog_path"] = get_root_catalog_path()
 
     platform = None
-    if model in {"gpt-4o", " gpt-4-turbo"}:
+    if 'gpt' in model.lower():
         platform = "OpenAI"
-    elif model in {"llama3-70b-8192", "llama-3.1-70b-versatile"}:
+    elif 'llama' in model.lower():
         platform = "Meta"
-    elif model in {"gemini-1.5-pro-latest"}:
+    elif 'gemini' in model.lower():
         platform = "Google"
 
     ak = API_key_template.format(platform, API_key)
